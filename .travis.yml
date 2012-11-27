@@ -5,12 +5,14 @@ php:
   - 5.4
 
 script:
- - php bin/phpunit 
+ - vendor/phpunit/phpunit/composer/bin/phpunit
 
 before_script:
+ - sudo apt-get -qq update > /dev/null
+ - phpenv rehash > /dev/null
  - composer selfupdate --quiet
  - composer install --dev 
- - php bin/phpunit
+ - vendor/phpunit/phpunit/composer/bin/phpunit
  - composer update --dev 
 
 notifications:
