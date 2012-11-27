@@ -16,68 +16,6 @@ use phpDocumentor\Reflection\DocBlock\Context;
 /**
  * Class for testing base reflector.
  *
- * Extends the baseReflector so properties and abstract methods can be mocked,
- * and therefore tested.
- *
- * @author    Erik Baars <baarserik@hotmail.com>
- * @copyright 2010-2011 Mike van Riel / Naenius (http://www.naenius.com)
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      http://phpdoc.org
- */
-class BaseReflectorMock extends BaseReflector
-{
-    /**
-     * Overload method so we can test the protected method
-     *
-     * @param $value
-     *
-     * @return string
-     */
-    public function getValueRepresentation($value)
-    {
-        return parent::getRepresentationOfValue($value);
-    }
-
-    /**
-     * @param $val
-     * 
-     * @return void
-     */
-    public function setPrettyPrinter($val)
-    {
-        self::$prettyPrinter = $val;
-    }
-}
-
-/**
- * Class for testing PHPParser_Node_Stmt.
- *
- * Extends the PHPParser_Node_Stmt so properties and abstract methods can be mocked,
- * and therefore tested.
- *
- * @author    Erik Baars <baarserik@hotmail.com>
- * @copyright 2010-2011 Mike van Riel / Naenius (http://www.naenius.com)
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      http://phpdoc.org
- */
-class NodeMock extends \PHPParser_Node_Stmt
-{
-    public $name = null;
-
-    public function setName($val)
-    {
-        $this->name = $val;
-    }
-
-    public function __toString()
-    {
-        return 'testNodeMock';
-    }
-}
-
-/**
- * Class for testing base reflector.
- *
  * @author    Erik Baars <baarserik@hotmail.com>
  * @copyright 2010-2011 Mike van Riel / Naenius (http://www.naenius.com)
  * @license   http://www.opensource.org/licenses/mit-license.php MIT

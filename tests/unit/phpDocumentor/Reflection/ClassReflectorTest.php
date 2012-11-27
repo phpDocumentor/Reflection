@@ -14,45 +14,6 @@ namespace phpDocumentor\Reflection;
 use phpDocumentor\Reflection\DocBlock\Context;
 
 /**
- * Class for testing PHPParser_Node_Stmt.
- *
- * Extends the PHPParser_Node_Stmt so properties and abstract methods can be mocked,
- * and therefore tested.
- *
- * @author    Erik Baars <baarserik@hotmail.com>
- * @copyright 2010-2011 Mike van Riel / Naenius (http://www.naenius.com)
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      http://phpdoc.org
- */
-class NodeMock2 extends \PHPParser_Node_Stmt
-{
-    public $type = null;
-
-    public $implements = array();
-
-    public $extends = null;
-}
-
-/**
- * Class for testing ClassReflector.
- *
- * Extends the ClassReflector so properties and abstract methods can be mocked,
- * and therefore tested.
- *
- * @author    Erik Baars <baarserik@hotmail.com>
- * @copyright 2010-2011 Mike van Riel / Naenius (http://www.naenius.com)
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      http://phpdoc.org
- */
-class ClassReflectorMock extends ClassReflector
-{
-    public function setTraits(array $val)
-    {
-        $this->traits = $val;
-    }
-}
-
-/**
  * Class for testing ClassReflector.
  *
  * @author    Erik Baars <baarserik@hotmail.com>
