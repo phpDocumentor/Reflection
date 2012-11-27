@@ -4,6 +4,7 @@
  *
  * PHP Version 5.3
  *
+ * @author    Mike van Riel <mike.vanriel@naenius.com>
  * @copyright 2010-2012 Mike van Riel / Naenius (http://www.naenius.com)
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
@@ -11,13 +12,44 @@
 
 namespace phpDocumentor\Reflection;
 
-use phpDocumentor\Reflection\DocBlock\Location;
+use Exception;
+use phpDocumentor\Event\Dispatcher;
+use phpDocumentor\Parser\Event\LogEvent;
+use phpDocumentor\Plugin\Core\Log;
+use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlock\Context;
+use phpDocumentor\Reflection\DocBlock\Location;
+use phpDocumentor\Reflection\Event\PostDocBlockExtractionEvent;
+use phpDocumentor\Reflection\Exception as Exception2;
+use PHPParser_Comment_Doc;
+use PHPParser_Node;
+use PHPParser_Node_Const;
+use PHPParser_Node_Expr_FuncCall;
+use PHPParser_Node_Expr_Include;
+use PHPParser_Node_Name;
+use PHPParser_Node_Stmt_Class;
+use PHPParser_Node_Stmt_ClassConst;
+use PHPParser_Node_Stmt_ClassMethod;
+use PHPParser_Node_Stmt_Const;
+use PHPParser_Node_Stmt_Function;
+use PHPParser_Node_Stmt_InlineHTML;
+use PHPParser_Node_Stmt_Interface;
+use PHPParser_Node_Stmt_Property;
+use PHPParser_Node_Stmt_PropertyProperty;
+use PHPParser_Node_Stmt_Trait;
+use PHPParser_Node_Stmt_UseUse;
+use PHPParser_NodeVisitor;
+use PHPParser_PrettyPrinter_Zend;
 
 /**
  * Reflection class for a full file.
+ *
+ * @author    Mike van Riel <mike.vanriel@naenius.com>
+ * @copyright 2010-2012 Mike van Riel / Naenius (http://www.naenius.com)
+ * @license   http://www.opensource.org/licenses/mit-license.php MIT
+ * @link      http://phpdoc.org
  */
-class FileReflector extends ReflectionAbstract implements \PHPParser_NodeVisitor
+class FileReflector extends ReflectionAbstract implements PHPParser_NodeVisitor
 {
     protected $hash;
     protected $contents = 1;
@@ -50,16 +82,17 @@ class FileReflector extends ReflectionAbstract implements \PHPParser_NodeVisitor
      * if the $validate argument is true a PHP Lint action is executed to
      * check whether the there are no parse errors.
      *
-     * By default the Lint check is disable because of the performance hit
+     * By default the Lint check is disabled because of the performance hit
      * introduced by this action.
      *
-     * If the validation checks out the file's contents are read; converted to
-     * UTF-8 and the has is created from those contents.
+     * If the validation checks out, the file's contents are read, converted to
+     * UTF-8 and the object is created from those contents.
      *
      * @param string  $file     Name of the file.
      * @param boolean $validate Whether to check the file using PHP Lint.
+     * @param string  $encoding The encoding of the file.
      *
-     * @throws \phpDocumentor\Reflection\Exception when the filename is incorrect or
+     * @throws Exception\UnredableFile when the filename is incorrect or
      *   the file can not be opened
      */
     public function __construct($file, $validate = false, $encoding = 'utf-8')
@@ -74,7 +107,8 @@ class FileReflector extends ReflectionAbstract implements \PHPParser_NodeVisitor
             exec('php -l ' . escapeshellarg($file), $output, $result);
             if ($result != 0) {
                 throw new Exception\UnparsableFile(
-                    'The given file could not be interpreted as it contains errors: ' . implode(PHP_EOL, $output)
+                    'The given file could not be interpreted as it contains errors: '
+                    . implode(PHP_EOL, $output)
                 );
             }
         }
@@ -84,11 +118,16 @@ class FileReflector extends ReflectionAbstract implements \PHPParser_NodeVisitor
         $this->context = new Context();
 
         if (strtolower($encoding) !== 'utf-8') {
-            $this->contents = iconv(strtolower($encoding), 'utf-8//IGNORE//TRANSLIT', $this->contents);
+            $this->contents = iconv(
+                strtolower($encoding),
+                'utf-8//IGNORE//TRANSLIT',
+                $this->contents
+            );
         }
 
-        // filemtime($file) is sometimes between 0.00001 and 0.00005 seconds faster but md5 is more accurate.
-        // it can also result in false positives or false negatives after copying or checking out a codebase.
+        // filemtime($file) is sometimes between 0.00001 and 0.00005 seconds
+        // faster but md5 is more accurate. It can also result in false
+        // positives or false negatives after copying or checking out a codebase.
         $this->hash = md5($this->contents);
     }
 
@@ -140,7 +179,7 @@ class FileReflector extends ReflectionAbstract implements \PHPParser_NodeVisitor
         $node = null;
         $key = 0;
         foreach ($nodes as $k => $n) {
-            if (!$n instanceof \PHPParser_Node_Stmt_InlineHTML) {
+            if (!$n instanceof PHPParser_Node_Stmt_InlineHTML) {
                 $node = $n;
                 $key = $k;
                 break;
@@ -155,14 +194,14 @@ class FileReflector extends ReflectionAbstract implements \PHPParser_NodeVisitor
                 array_filter(
                     $comments,
                     function ($comment) {
-                        return $comment instanceof \PHPParser_Comment_Doc;
+                        return $comment instanceof PHPParser_Comment_Doc;
                     }
                 )
             );
 
             if (!empty($comments)) {
                 try {
-                    $docblock = new \phpDocumentor\Reflection\DocBlock(
+                    $docblock = new DocBlock(
                         (string) $comments[0],
                         null,
                         new Location($comments[0]->getLine())
@@ -175,8 +214,8 @@ class FileReflector extends ReflectionAbstract implements \PHPParser_NodeVisitor
                     // * it precedes a non-documentable element (thus no include,
                     //   require, class, function, define, const)
                     if (count($comments) > 1
-                        || (!$node instanceof \PHPParser_Node_Stmt_Class
-                        && !$node instanceof \PHPParser_Node_Stmt_Interface
+                        || (!$node instanceof PHPParser_Node_Stmt_Class
+                        && !$node instanceof PHPParser_Node_Stmt_Interface
                         && $docblock->hasTag('package'))
                         || !$this->isNodeDocumentable($node)
                     ) {
@@ -185,8 +224,8 @@ class FileReflector extends ReflectionAbstract implements \PHPParser_NodeVisitor
                         // remove the file level DocBlock from the node's comments
                         array_shift($comments);
                     }
-                } catch (\Exception $e) {
-                    $this->log($e->getMessage(), \phpDocumentor\Plugin\Core\Log::CRIT);
+                } catch (Exception $e) {
+                    $this->log($e->getMessage(), Log::CRIT);
                 }
             }
 
@@ -196,9 +235,9 @@ class FileReflector extends ReflectionAbstract implements \PHPParser_NodeVisitor
             $nodes[$key] = $node;
         }
 
-        \phpDocumentor\Event\Dispatcher::getInstance()->dispatch(
+        Dispatcher::getInstance()->dispatch(
             'reflection.docblock-extraction.post',
-            \phpDocumentor\Reflection\Event\PostDocBlockExtractionEvent
+            PostDocBlockExtractionEvent
             ::createInstance($this)->setDocblock($this->doc_block)
         );
 
@@ -221,34 +260,34 @@ class FileReflector extends ReflectionAbstract implements \PHPParser_NodeVisitor
      * - Constant, both const and define
      * - Function
      *
-     * @param \PHPParser_Node $node
+     * @param PHPParser_Node $node
      *
      * @return bool
      */
-    protected function isNodeDocumentable(\PHPParser_Node $node)
+    protected function isNodeDocumentable(PHPParser_Node $node)
     {
-        return ($node instanceof \PHPParser_Node_Stmt_Class)
-            || ($node instanceof \PHPParser_Node_Stmt_Interface)
-            || ($node instanceof \PHPParser_Node_Stmt_ClassConst)
-            || ($node instanceof \PHPParser_Node_Stmt_ClassMethod)
-            || ($node instanceof \PHPParser_Node_Stmt_Const)
-            || ($node instanceof \PHPParser_Node_Stmt_Function)
-            || ($node instanceof \PHPParser_Node_Stmt_Property)
-            || ($node instanceof \PHPParser_Node_Stmt_PropertyProperty)
-            || ($node instanceof \PHPParser_Node_Stmt_Trait)
-            || ($node instanceof \PHPParser_Node_Expr_Include)
-            || ($node instanceof \PHPParser_Node_Expr_FuncCall
-            && ($node->name instanceof \PHPParser_Node_Name)
+        return ($node instanceof PHPParser_Node_Stmt_Class)
+            || ($node instanceof PHPParser_Node_Stmt_Interface)
+            || ($node instanceof PHPParser_Node_Stmt_ClassConst)
+            || ($node instanceof PHPParser_Node_Stmt_ClassMethod)
+            || ($node instanceof PHPParser_Node_Stmt_Const)
+            || ($node instanceof PHPParser_Node_Stmt_Function)
+            || ($node instanceof PHPParser_Node_Stmt_Property)
+            || ($node instanceof PHPParser_Node_Stmt_PropertyProperty)
+            || ($node instanceof PHPParser_Node_Stmt_Trait)
+            || ($node instanceof PHPParser_Node_Expr_Include)
+            || ($node instanceof PHPParser_Node_Expr_FuncCall
+            && ($node->name instanceof PHPParser_Node_Name)
             && $node->name == 'define');
     }
 
-    public function enterNode(\PHPParser_Node $node)
+    public function enterNode(PHPParser_Node $node)
     {
-        $prettyPrinter = new \PHPParser_PrettyPrinter_Zend;
+        $prettyPrinter = new PHPParser_PrettyPrinter_Zend;
 
         switch(get_class($node)) {
             case 'PHPParser_Node_Stmt_Use':
-                /** @var \PHPParser_Node_Stmt_UseUse $use */
+                /** @var PHPParser_Node_Stmt_UseUse $use */
                 foreach ($node->uses as $use) {
                     $this->context->setNamespaceAlias(
                         $use->alias,
@@ -288,19 +327,19 @@ class FileReflector extends ReflectionAbstract implements \PHPParser_NodeVisitor
                 }
                 break;
             case 'PHPParser_Node_Expr_FuncCall':
-                if ($node->name instanceof \PHPParser_Node_Name
+                if ($node->name instanceof PHPParser_Node_Name
                     && $node->name == 'define'
                 ) {
                     $name = trim(
                         $prettyPrinter->prettyPrintExpr($node->args[0]->value),
                         '\''
                     );
-                    $constant = new \PHPParser_Node_Const(
+                    $constant = new PHPParser_Node_Const(
                         $name,
                         $node->args[1]->value,
                         $node->getAttributes()
                     );
-                    $constant->namespacedName = new \PHPParser_Node_Name(
+                    $constant->namespacedName = new PHPParser_Node_Name(
                         ($this->current_namespace
                             ? $this->current_namespace.'\\' : '')
                         .$name
@@ -310,7 +349,7 @@ class FileReflector extends ReflectionAbstract implements \PHPParser_NodeVisitor
                     // FuncCall, which combines properties that are otherwise
                     // split over 2 objects
                     $reflector = new ConstantReflector(
-                        $constant, 
+                        $constant,
                         $this->context,
                         $constant
                     );
@@ -357,7 +396,7 @@ class FileReflector extends ReflectionAbstract implements \PHPParser_NodeVisitor
     /**
      * Adds a marker to scan the contents of this file for.
      *
-     * @param string $name The Marker term, i.e. FIXME or TODO.
+     * @param string $name The Marker term, e.g. FIXME or TODO.
      *
      * @return void
      */
@@ -392,7 +431,7 @@ class FileReflector extends ReflectionAbstract implements \PHPParser_NodeVisitor
     /**
      * Adds a parse error to the system
      *
-     * @param \phpDocumentor\Parser\Event\LogEvent $data Contains the type,
+     * @param LogEvent $data Contains the type,
      *     message, line and code element.
      *
      * @return void
@@ -477,7 +516,7 @@ class FileReflector extends ReflectionAbstract implements \PHPParser_NodeVisitor
         $this->filename = $filename;
     }
 
-    public function leaveNode(\PHPParser_Node $node)
+    public function leaveNode(PHPParser_Node $node)
     {
     }
 

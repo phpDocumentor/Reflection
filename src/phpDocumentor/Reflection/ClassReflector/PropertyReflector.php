@@ -28,7 +28,7 @@ class PropertyReflector extends BaseReflector
     protected $node;
 
     public function __construct(
-        PHPParser_Node_Stmt_Property $property, 
+        PHPParser_Node_Stmt_Property $property,
         Context $context,
         PHPParser_Node_Stmt_PropertyProperty $node
     ) {

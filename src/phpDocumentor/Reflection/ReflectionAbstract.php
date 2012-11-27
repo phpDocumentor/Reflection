@@ -12,6 +12,10 @@
 
 namespace phpDocumentor\Reflection;
 
+use phpDocumentor\Event\DebugEvent;
+use phpDocumentor\Event\Dispatcher;
+use phpDocumentor\Event\LogEvent;
+
 /**
  * Provides basic event logging and dispatching for every reflection class.
  *
@@ -39,9 +43,9 @@ abstract class ReflectionAbstract
      */
     public function log($message, $priority = 6)
     {
-        \phpDocumentor\Event\Dispatcher::getInstance()->dispatch(
+        Dispatcher::getInstance()->dispatch(
             'system.log',
-            \phpDocumentor\Event\LogEvent::createInstance($this)
+            LogEvent::createInstance($this)
             ->setMessage($message)->setPriority($priority)
         );
     }
@@ -55,9 +59,9 @@ abstract class ReflectionAbstract
      */
     public function debug($message)
     {
-        \phpDocumentor\Event\Dispatcher::getInstance()->dispatch(
+        Dispatcher::getInstance()->dispatch(
             'system.debug',
-            \phpDocumentor\Event\DebugEvent::createInstance($this)
+            DebugEvent::createInstance($this)
             ->setMessage($message)
         );
     }

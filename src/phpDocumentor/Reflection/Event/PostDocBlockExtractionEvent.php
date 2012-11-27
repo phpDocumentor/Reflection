@@ -8,6 +8,8 @@ class PostDocBlockExtractionEvent extends \phpDocumentor\Event\EventAbstract
 
     /**
      * @param \phpDocumentor\Reflection\DocBlock $docblock
+     * 
+     * @return $this
      */
     public function setDocblock($docblock)
     {

@@ -58,10 +58,10 @@ abstract class BaseReflector extends ReflectionAbstract
      * Initializes this reflector with the correct node as produced by
      * PHP-Parser.
      *
-     * @link http://github.com/nikic/PHP-Parser
-     *
      * @param PHPParser_NodeAbstract $node
      * @param Context                $context
+     *
+     * @link http://github.com/nikic/PHP-Parser
      */
     public function __construct(PHPParser_NodeAbstract $node, Context $context)
     {

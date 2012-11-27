@@ -4,10 +4,10 @@
  *
  * PHP Version 5
  *
- * @author     Erik Baars <baarserik@hotmail.com>
- * @copyright  2010-2011 Mike van Riel / Naenius (http://www.naenius.com)
- * @license    http://www.opensource.org/licenses/mit-license.php MIT
- * @link       http://phpdoc.org
+ * @author    Erik Baars <baarserik@hotmail.com>
+ * @copyright 2010-2011 Mike van Riel / Naenius (http://www.naenius.com)
+ * @license   http://www.opensource.org/licenses/mit-license.php MIT
+ * @link      http://phpdoc.org
  */
 namespace phpDocumentor\Reflection;
 
@@ -16,7 +16,13 @@ use phpDocumentor\Reflection\DocBlock\Context;
 /**
  * Class for testing base reflector.
  *
- * Extends the baseReflector so properties and abstract methods can be mocked, and therefor tested.
+ * Extends the baseReflector so properties and abstract methods can be mocked,
+ * and therefore tested.
+ *
+ * @author    Erik Baars <baarserik@hotmail.com>
+ * @copyright 2010-2011 Mike van Riel / Naenius (http://www.naenius.com)
+ * @license   http://www.opensource.org/licenses/mit-license.php MIT
+ * @link      http://phpdoc.org
  */
 class BaseReflectorMock extends BaseReflector
 {
@@ -33,38 +39,34 @@ class BaseReflectorMock extends BaseReflector
     }
 
     /**
-     * @param $v
+     * @param $val
+     * 
+     * @return void
      */
-    public function setPrettyPrinter($v)
+    public function setPrettyPrinter($val)
     {
-        self::$prettyPrinter = $v;
+        self::$prettyPrinter = $val;
     }
 }
 
 /**
  * Class for testing PHPParser_Node_Stmt.
  *
- * Extends the PHPParser_Node_Stmt so properties and abstract methods can be mocked, and therefor tested.
+ * Extends the PHPParser_Node_Stmt so properties and abstract methods can be mocked,
+ * and therefore tested.
+ *
+ * @author    Erik Baars <baarserik@hotmail.com>
+ * @copyright 2010-2011 Mike van Riel / Naenius (http://www.naenius.com)
+ * @license   http://www.opensource.org/licenses/mit-license.php MIT
+ * @link      http://phpdoc.org
  */
 class NodeMock extends \PHPParser_Node_Stmt
 {
     public $name = null;
 
-    public $line_number = null;
-
-    public function setName($v)
+    public function setName($val)
     {
-        $this->name = $v;
-    }
-
-    public function setLineNumber($v)
-    {
-        $this->line_number = $v;
-    }
-
-    public function getLine()
-    {
-        return $this->line_number;
+        $this->name = $val;
     }
 
     public function __toString()
@@ -75,6 +77,11 @@ class NodeMock extends \PHPParser_Node_Stmt
 
 /**
  * Class for testing base reflector.
+ *
+ * @author    Erik Baars <baarserik@hotmail.com>
+ * @copyright 2010-2011 Mike van Riel / Naenius (http://www.naenius.com)
+ * @license   http://www.opensource.org/licenses/mit-license.php MIT
+ * @link      http://phpdoc.org
  */
 class BaseReflectorTest extends \PHPUnit_Framework_TestCase
 {
@@ -247,7 +254,7 @@ class BaseReflectorTest extends \PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function TestGetLinenumber()
+    public function testGetLinenumber()
     {
         $node = new NodeMock();
         
@@ -280,7 +287,10 @@ class BaseReflectorTest extends \PHPUnit_Framework_TestCase
             new Context()
         );
 
-        $this->assertInternalType('string', $base_reflector->getDefaultPackageName());
+        $this->assertInternalType(
+            'string',
+            $base_reflector->getDefaultPackageName()
+        );
         $this->assertEquals('', $base_reflector->getDefaultPackageName());
 
         $base_reflector->setDefaultPackageName('test_name');
@@ -307,8 +317,14 @@ class BaseReflectorTest extends \PHPUnit_Framework_TestCase
 
         $pretty_printer = $this->getMock('prettyPrinter', array('prettyPrintExpr'));
         $base_reflector->setPrettyPrinter($pretty_printer);
-        $pretty_printer->expects($this->once())->method('prettyPrintExpr')->will($this->returnValue('test_output'));
+        $pretty_printer
+            ->expects($this->once())
+            ->method('prettyPrintExpr')
+            ->will($this->returnValue('test_output'));
 
-        $this->assertEquals('test_output', $base_reflector->getValueRepresentation('test_input'));
+        $this->assertEquals(
+            'test_output',
+            $base_reflector->getValueRepresentation('test_input')
+        );
     }
 }

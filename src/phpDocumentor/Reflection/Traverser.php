@@ -12,6 +12,13 @@
 
 namespace phpDocumentor\Reflection;
 
+use PHPParser_Error;
+use PHPParser_NodeTraverser;
+use PHPParser_NodeVisitor;
+use PHPParser_NodeVisitor_NameResolver;
+use PHPParser_NodeVisitorAbstract;
+use PHPParser_Parser;
+
 /**
  * The source code traverser that scans the given source code and transforms
  * it into tokens.
@@ -27,7 +34,7 @@ class Traverser
      *
      * @see traverse()
      *
-     * @var \PHPParser_NodeVisitorAbstract[]
+     * @var PHPParser_NodeVisitorAbstract[]
      */
     public $visitors = array();
 
@@ -44,7 +51,7 @@ class Traverser
             $this->createTraverser()->traverse(
                 $this->createParser()->parse($contents)
             );
-        } catch (\PHPParser_Error $e) {
+        } catch (PHPParser_Error $e) {
             echo 'Parse Error: ', $e->getMessage();
         }
     }
@@ -55,11 +62,11 @@ class Traverser
      * With visitors it is possible to extend the traversal process and
      * modify the found tokens.
      *
-     * @param \PHPParser_NodeVisitor $visitor
+     * @param PHPParser_NodeVisitor $visitor
      *
      * @return void
      */
-    public function addVisitor(\PHPParser_NodeVisitor $visitor)
+    public function addVisitor(PHPParser_NodeVisitor $visitor)
     {
         $this->visitors[] = $visitor;
     }
@@ -67,22 +74,22 @@ class Traverser
     /**
      * Creates a parser object using our own Lexer.
      *
-     * @return \PHPParser_Parser
+     * @return PHPParser_Parser
      */
     protected function createParser()
     {
-        return new \PHPParser_Parser(new Lexer());
+        return new PHPParser_Parser(new Lexer());
     }
 
     /**
      * Creates a new traverser object and adds visitors.
      *
-     * @return \PHPParser_NodeTraverser
+     * @return PHPParser_NodeTraverser
      */
     protected function createTraverser()
     {
-        $node_traverser = new \PHPParser_NodeTraverser();
-        $node_traverser->addVisitor(new \PHPParser_NodeVisitor_NameResolver());
+        $node_traverser = new PHPParser_NodeTraverser();
+        $node_traverser->addVisitor(new PHPParser_NodeVisitor_NameResolver());
 
         foreach ($this->visitors as $visitor) {
             $node_traverser->addVisitor($visitor);

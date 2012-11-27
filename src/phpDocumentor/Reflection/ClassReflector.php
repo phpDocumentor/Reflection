@@ -12,6 +12,10 @@
 
 namespace phpDocumentor\Reflection;
 
+use PHPParser_Node_Name;
+use PHPParser_Node_Stmt_Class;
+use PHPParser_Node_Stmt_TraitUse;
+
 /**
  * Provides static reflection for a class.
  *
@@ -21,7 +25,7 @@ namespace phpDocumentor\Reflection;
  */
 class ClassReflector extends InterfaceReflector
 {
-    /** @var \PHPParser_Node_Stmt_Class */
+    /** @var PHPParser_Node_Stmt_Class */
     protected $node;
 
     /** @var string[] */
@@ -29,9 +33,9 @@ class ClassReflector extends InterfaceReflector
 
     public function parseSubElements()
     {
-        /** @var \PHPParser_Node_Stmt_TraitUse $stmt  */
+        /** @var PHPParser_Node_Stmt_TraitUse $stmt  */
         foreach ($this->node->stmts as $stmt) {
-            if ($stmt instanceof \PHPParser_Node_Stmt_TraitUse) {
+            if ($stmt instanceof PHPParser_Node_Stmt_TraitUse) {
                 foreach ($stmt->traits as $trait) {
                     $this->traits[] = (string)$trait;
                 }
@@ -48,7 +52,7 @@ class ClassReflector extends InterfaceReflector
      */
     public function isAbstract()
     {
-        return (bool)($this->node->type & \PHPParser_Node_Stmt_Class::MODIFIER_ABSTRACT);
+        return (bool)($this->node->type & PHPParser_Node_Stmt_Class::MODIFIER_ABSTRACT);
     }
 
     /**
@@ -58,7 +62,7 @@ class ClassReflector extends InterfaceReflector
      */
     public function isFinal()
     {
-        return (bool)($this->node->type & \PHPParser_Node_Stmt_Class::MODIFIER_FINAL);
+        return (bool)($this->node->type & PHPParser_Node_Stmt_Class::MODIFIER_FINAL);
     }
 
     /**
@@ -78,12 +82,14 @@ class ClassReflector extends InterfaceReflector
 
     /**
      * BC Break: used to be getParentInterfaces
+     * 
+     * @return string[] Names of interfaces the class implements.
      */
     public function getInterfaces()
     {
         $names = array();
         if ($this->node->implements) {
-            /** @var \PHPParser_Node_Name */
+            /** @var PHPParser_Node_Name */
             foreach ($this->node->implements as $node) {
                 $names[] = '\\'.(string)$node;
             }

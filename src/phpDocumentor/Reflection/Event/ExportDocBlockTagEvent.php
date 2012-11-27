@@ -27,6 +27,7 @@ class ExportDocBlockTagEvent extends \phpDocumentor\Event\EventAbstract
 
     /**
      * @param $object
+     * 
      * @return ExportDocBlockTagEvent
      */
     public function setObject($object)
@@ -37,6 +38,7 @@ class ExportDocBlockTagEvent extends \phpDocumentor\Event\EventAbstract
 
     /**
      * @param $xml
+     * 
      * @return ExportDocBlockTagEvent
      */
     public function setXml($xml)

@@ -37,8 +37,11 @@ class Lexer extends \PHPParser_Lexer
      *
      * @return int
      */
-    public function getNextToken(&$value = null, &$startAttributes = null, &$endAttributes = null)
-    {
+    public function getNextToken(
+        &$value = null,
+        &$startAttributes = null,
+        &$endAttributes = null
+    ) {
         $tokenId = parent::getNextToken($value, $startAttributes, $endAttributes);
 
         if ($this->isTokenScalar($tokenId)) {
