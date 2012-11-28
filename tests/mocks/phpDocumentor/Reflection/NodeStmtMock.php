@@ -11,6 +11,8 @@
  */
 namespace phpDocumentor\Reflection;
 
+use PHPParser_Node_Stmt;
+
 /**
  * Class for testing PHPParser_Node_Stmt.
  *
@@ -22,11 +24,17 @@ namespace phpDocumentor\Reflection;
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
-class NodeMock2 extends \PHPParser_Node_Stmt
+class NodeStmtMock extends PHPParser_Node_Stmt
 {
-    public $type = null;
+    public $name = null;
 
-    public $implements = array();
+    public function setName($val)
+    {
+        $this->name = $val;
+    }
 
-    public $extends = null;
+    public function __toString()
+    {
+        return 'testNodeMock';
+    }
 }

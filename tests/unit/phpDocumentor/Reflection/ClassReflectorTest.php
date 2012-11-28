@@ -12,6 +12,8 @@
 namespace phpDocumentor\Reflection;
 
 use phpDocumentor\Reflection\DocBlock\Context;
+use PHPParser_Node_Stmt_Class;
+use PHPUnit_Framework_TestCase;
 
 /**
  * Class for testing ClassReflector.
@@ -21,12 +23,12 @@ use phpDocumentor\Reflection\DocBlock\Context;
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
-class ClassReflectorTest extends \PHPUnit_Framework_TestCase
+class ClassReflectorTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Tests the parseSubElements method
      *
-     * @covers phpDocumentor\Reflection\ClassReflector::parseSubElements
+     * @covers \phpDocumentor\Reflection\ClassReflector::parseSubElements
      *
      * @return void
      */
@@ -38,14 +40,14 @@ class ClassReflectorTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests the parseSubElements method
      *
-     * @covers phpDocumentor\Reflection\ClassReflector::isAbstract
+     * @covers \phpDocumentor\Reflection\ClassReflector::isAbstract
      *
      * @return void
      */
     public function testIsAbstract()
     {
         //$this->markTestSkipped();
-        $node = new NodeMock2();
+        $node = new NodeStmtMock2();
         $class_reflector = new ClassReflector(
             $node,
             new Context()
@@ -53,20 +55,20 @@ class ClassReflectorTest extends \PHPUnit_Framework_TestCase
 
         $this->assertFalse($class_reflector->isAbstract());
 
-        $node->type = \PHPParser_Node_Stmt_Class::MODIFIER_ABSTRACT;
+        $node->type = PHPParser_Node_Stmt_Class::MODIFIER_ABSTRACT;
         $this->assertTrue($class_reflector->isAbstract());
     }
 
     /**
      * Tests the parseSubElements method
      *
-     * @covers phpDocumentor\Reflection\ClassReflector::isFinal
+     * @covers \phpDocumentor\Reflection\ClassReflector::isFinal
      *
      * @return void
      */
     public function testIsFinal()
     {
-        $node = new NodeMock2();
+        $node = new NodeStmtMock2();
         $class_reflector = new ClassReflector(
             $node,
             new Context()
@@ -74,20 +76,20 @@ class ClassReflectorTest extends \PHPUnit_Framework_TestCase
 
         $this->assertFalse($class_reflector->isFinal());
 
-        $node->type = \PHPParser_Node_Stmt_Class::MODIFIER_FINAL;
+        $node->type = PHPParser_Node_Stmt_Class::MODIFIER_FINAL;
         $this->assertTrue($class_reflector->isFinal());
     }
 
     /**
      * Tests the parseSubElements method
      *
-     * @covers phpDocumentor\Reflection\ClassReflector::getTraits
+     * @covers \phpDocumentor\Reflection\ClassReflector::getTraits
      *
      * @return void
      */
     public function testGetTraits()
     {
-        $node = new NodeMock();
+        $node = new NodeStmtMock();
         $class_reflector = new ClassReflectorMock(
             $node,
             new Context()
@@ -107,13 +109,13 @@ class ClassReflectorTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests the parseSubElements method
      *
-     * @covers phpDocumentor\Reflection\ClassReflector::getParentClass
+     * @covers \phpDocumentor\Reflection\ClassReflector::getParentClass
      *
      * @return void
      */
     public function testGetParentClass()
     {
-        $node = new NodeMock();
+        $node = new NodeStmtMock();
         $class_reflector = new ClassReflectorMock(
             $node,
             new Context()
@@ -129,13 +131,13 @@ class ClassReflectorTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests the parseSubElements method
      *
-     * @covers phpDocumentor\Reflection\ClassReflector::getInterfaces
+     * @covers \phpDocumentor\Reflection\ClassReflector::getInterfaces
      *
      * @return void
      */
     public function testGetInterfaces()
     {
-        $node = new NodeMock();
+        $node = new NodeStmtMock();
         $class_reflector = new ClassReflectorMock(
             $node,
             new Context()

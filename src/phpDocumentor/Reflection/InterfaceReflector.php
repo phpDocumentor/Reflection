@@ -12,9 +12,13 @@
 
 namespace phpDocumentor\Reflection;
 
+use PHPParser_Node_Name;
+use PHPParser_Node_Stmt_Class;
+use PHPParser_Node_Stmt_Interface;
+
 class InterfaceReflector extends BaseReflector
 {
-    /** @var \PHPParser_Node_Stmt_Interface|\PHPParser_Node_Stmt_Class */
+    /** @var PHPParser_Node_Stmt_Interface|PHPParser_Node_Stmt_Class */
     protected $node;
 
     protected $constants = array();
@@ -56,10 +60,10 @@ class InterfaceReflector extends BaseReflector
     public function getParentInterfaces()
     {
         $names = array();
-        if ($this->node instanceof \PHPParser_Node_Stmt_Interface
+        if ($this->node instanceof PHPParser_Node_Stmt_Interface
             && $this->node->extends
         ) {
-            /** @var \PHPParser_Node_Name */
+            /** @var PHPParser_Node_Name */
             foreach ($this->node->extends as $node) {
                 $names[] = '\\'.(string)$node;
             }

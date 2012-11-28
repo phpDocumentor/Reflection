@@ -1,16 +1,20 @@
 <?php
 namespace phpDocumentor\Reflection\Event;
 
-class ExportDocBlockTagEvent extends \phpDocumentor\Event\EventAbstract
+use DOMNode;
+use phpDocumentor\Event\EventAbstract;
+use phpDocumentor\Reflection\DocBlock\Tag;
+
+class ExportDocBlockTagEvent extends EventAbstract
 {
-    /** @var \SimpleXmlElement */
+    /** @var DOMNode */
     protected $xml = null;
 
-    /** @var \phpDocumentor\Reflection\DocBlock\Tag */
+    /** @var Tag */
     protected $object = null;
 
     /**
-     * @return \SimpleXmlElement|null
+     * @return DOMNode|null
      */
     public function getXml()
     {
@@ -18,7 +22,7 @@ class ExportDocBlockTagEvent extends \phpDocumentor\Event\EventAbstract
     }
 
     /**
-     * @return \phpDocumentor\Reflection\DocBlock\Tag|null
+     * @return Tag|null
      */
     public function getObject()
     {
@@ -26,22 +30,22 @@ class ExportDocBlockTagEvent extends \phpDocumentor\Event\EventAbstract
     }
 
     /**
-     * @param $object
+     * @param Tag $object
      * 
      * @return ExportDocBlockTagEvent
      */
-    public function setObject($object)
+    public function setObject(Tag $object = null)
     {
         $this->object = $object;
         return $this;
     }
 
     /**
-     * @param $xml
+     * @param DOMNode $xml
      * 
      * @return ExportDocBlockTagEvent
      */
-    public function setXml($xml)
+    public function setXml(DOMNode $xml = null)
     {
         $this->xml = $xml;
         return $this;

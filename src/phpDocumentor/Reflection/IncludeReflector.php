@@ -12,9 +12,12 @@
 
 namespace phpDocumentor\Reflection;
 
+use Exception;
+use PHPParser_Node_Expr_Include;
+
 class IncludeReflector extends BaseReflector
 {
-    /** @var \PHPParser_Node_Expr_Include */
+    /** @var PHPParser_Node_Expr_Include */
     protected $node;
 
     /**
@@ -26,23 +29,23 @@ class IncludeReflector extends BaseReflector
      * - Require
      * - Require Once
      *
-     * @throws \Exception if the include is of an unknown type
+     * @throws Exception if the include is of an unknown type
      *
      * @return string
      */
     public function getType()
     {
         switch ($this->node->type) {
-            case \PHPParser_Node_Expr_Include::TYPE_INCLUDE:
+            case PHPParser_Node_Expr_Include::TYPE_INCLUDE:
                 return 'Include';
-            case \PHPParser_Node_Expr_Include::TYPE_INCLUDE_ONCE:
+            case PHPParser_Node_Expr_Include::TYPE_INCLUDE_ONCE:
                 return 'Include Once';
-            case \PHPParser_Node_Expr_Include::TYPE_REQUIRE:
+            case PHPParser_Node_Expr_Include::TYPE_REQUIRE:
                 return 'Require';
-            case \PHPParser_Node_Expr_Include::TYPE_REQUIRE_ONCE:
+            case PHPParser_Node_Expr_Include::TYPE_REQUIRE_ONCE:
                 return 'Require Once';
             default:
-                throw new \Exception(
+                throw new Exception(
                     'Unknown include type detected: '.$this->node->type
                 );
         }

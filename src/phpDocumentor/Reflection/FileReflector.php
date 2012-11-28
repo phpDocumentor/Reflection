@@ -20,7 +20,6 @@ use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlock\Context;
 use phpDocumentor\Reflection\DocBlock\Location;
 use phpDocumentor\Reflection\Event\PostDocBlockExtractionEvent;
-use phpDocumentor\Reflection\Exception as Exception2;
 use PHPParser_Comment_Doc;
 use PHPParser_Node;
 use PHPParser_Node_Const;

@@ -281,9 +281,10 @@ abstract class BaseReflector extends ReflectionAbstract
      *
      * @return string
      */
-    protected function getRepresentationOfValue($value)
-    {
-        if (!$value) {
+    protected function getRepresentationOfValue(
+        PHPParser_Node_Expr $value = null
+    ) {
+        if (null === $value) {
             return '';
         }
 

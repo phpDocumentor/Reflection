@@ -11,6 +11,8 @@
  */
 namespace phpDocumentor\Reflection;
 
+use PHPParser_Node_Expr;
+
 /**
  * Class for testing base reflector.
  *
@@ -27,12 +29,13 @@ class BaseReflectorMock extends BaseReflector
     /**
      * Overload method so we can test the protected method
      *
-     * @param $value
+     * @param PHPParser_Node_Expr $value
      *
      * @return string
      */
-    public function getValueRepresentation($value)
-    {
+    public function getRepresentationOfValueMock(
+        PHPParser_Node_Expr $value = null
+    ) {
         return parent::getRepresentationOfValue($value);
     }
 

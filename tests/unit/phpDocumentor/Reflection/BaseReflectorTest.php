@@ -12,6 +12,7 @@
 namespace phpDocumentor\Reflection;
 
 use phpDocumentor\Reflection\DocBlock\Context;
+use PHPUnit_Framework_TestCase;
 
 /**
  * Class for testing base reflector.
@@ -21,13 +22,13 @@ use phpDocumentor\Reflection\DocBlock\Context;
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
-class BaseReflectorTest extends \PHPUnit_Framework_TestCase
+class BaseReflectorTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Tests the setNameSpace method
      *
-     * @covers phpDocumentor\Reflection\BaseReflector::setNameSpace
-     * @covers phpDocumentor\Reflection\BaseReflector::getNameSpace
+     * @covers \phpDocumentor\Reflection\BaseReflector::setNameSpace
+     * @covers \phpDocumentor\Reflection\BaseReflector::getNameSpace
      *
      * @return void
      */
@@ -46,9 +47,9 @@ class BaseReflectorTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests the setNameSpace method when an invalid argument is passed
      *
-     * @covers phpDocumentor\Reflection\BaseReflector::setNameSpace
+     * @covers \phpDocumentor\Reflection\BaseReflector::setNameSpace
      *
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      *
      * @return void
      */
@@ -65,7 +66,7 @@ class BaseReflectorTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests the getDocblock method
      *
-     * @covers phpDocumentor\Reflection\BaseReflector::getDocBlock
+     * @covers \phpDocumentor\Reflection\BaseReflector::getDocBlock
      *
      * @return void
      */
@@ -77,7 +78,7 @@ class BaseReflectorTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests the getName method
      *
-     * @covers phpDocumentor\Reflection\BaseReflector::getName
+     * @covers \phpDocumentor\Reflection\BaseReflector::getName
      *
      * @return void
      */
@@ -89,13 +90,13 @@ class BaseReflectorTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests the getShortName method
      *
-     * @covers phpDocumentor\Reflection\BaseReflector::getShortName
+     * @covers \phpDocumentor\Reflection\BaseReflector::getShortName
      *
      * @return void
      */
     public function testGetShortName()
     {
-        $node = new NodeMock();
+        $node = new NodeStmtMock();
         $base_reflector = new BaseReflectorMock(
             $node,
             new Context()
@@ -111,14 +112,14 @@ class BaseReflectorTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests the getNameSpaceAlias method
      *
-     * @covers phpDocumentor\Reflection\BaseReflector::getNamespaceAliases
-     * @covers phpDocumentor\Reflection\BaseReflector::setNamespaceAliases
+     * @covers \phpDocumentor\Reflection\BaseReflector::getNamespaceAliases
+     * @covers \phpDocumentor\Reflection\BaseReflector::setNamespaceAliases
      *
      * @return void
      */
     public function testGetNamespaceAliases()
     {
-        $node = new NodeMock();
+        $node = new NodeStmtMock();
         $base_reflector = new BaseReflectorMock(
             $node,
             new Context()
@@ -145,14 +146,14 @@ class BaseReflectorTest extends \PHPUnit_Framework_TestCase
      * - overwrite the current namespace alias
      * - add another namespace alias without overwriting the already set alias
      *
-     * @covers phpDocumentor\Reflection\BaseReflector::getNamespaceAliases
-     * @covers phpDocumentor\Reflection\BaseReflector::setNamespaceAlias
+     * @covers \phpDocumentor\Reflection\BaseReflector::getNamespaceAliases
+     * @covers \phpDocumentor\Reflection\BaseReflector::setNamespaceAlias
      *
      * @return void
      */
     public function testsetNamespaceAlias()
     {
-        $node = new NodeMock();
+        $node = new NodeStmtMock();
         
         $base_reflector = new BaseReflectorMock(
             $node,
@@ -188,13 +189,13 @@ class BaseReflectorTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests the getLinenumber method
      *
-     * @covers phpDocumentor\Reflection\BaseReflector::getLinenumber
+     * @covers \phpDocumentor\Reflection\BaseReflector::getLinenumber
      *
      * @return void
      */
     public function testGetLinenumber()
     {
-        $node = new NodeMock();
+        $node = new NodeStmtMock();
         
         $base_reflector = new BaseReflectorMock(
             $node,
@@ -211,14 +212,14 @@ class BaseReflectorTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests the setDefaultPackageName method
      *
-     * @covers phpDocumentor\Reflection\BaseReflector::setDefaultPackageName
-     * @covers phpDocumentor\Reflection\BaseReflector::getDefaultPackageName
+     * @covers \phpDocumentor\Reflection\BaseReflector::setDefaultPackageName
+     * @covers \phpDocumentor\Reflection\BaseReflector::getDefaultPackageName
      *
      * @return void
      */
     public function testSetDefaultPackageName()
     {
-        $node = new NodeMock();
+        $node = new NodeStmtMock();
         
         $base_reflector = new BaseReflectorMock(
             $node,
@@ -239,21 +240,24 @@ class BaseReflectorTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests the setDefaultPackageName method
      *
-     * @covers phpDocumentor\Reflection\BaseReflector::getRepresentationOfValue
+     * @covers \phpDocumentor\Reflection\BaseReflector::getRepresentationOfValue
      *
      * @return void
      */
     public function testGetRepresentationOfValue()
     {
-        $node = new NodeMock();
+        $node = new NodeStmtMock();
         $base_reflector = new BaseReflectorMock(
             $node,
             new Context()
         );
 
-        $this->assertEquals('', $base_reflector->getValueRepresentation(null));
+        $this->assertEquals('', $base_reflector->getRepresentationOfValueMock(null));
 
-        $pretty_printer = $this->getMock('prettyPrinter', array('prettyPrintExpr'));
+        $pretty_printer = $this->getMock(
+            '\phpDocumentor\Reflection\PrettyPrinter',
+            array('prettyPrintExpr')
+        );
         $base_reflector->setPrettyPrinter($pretty_printer);
         $pretty_printer
             ->expects($this->once())
@@ -262,7 +266,7 @@ class BaseReflectorTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             'test_output',
-            $base_reflector->getValueRepresentation('test_input')
+            $base_reflector->getRepresentationOfValueMock(new NodeExprMock())
         );
     }
 }

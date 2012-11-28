@@ -1,24 +1,27 @@
 <?php
 namespace phpDocumentor\Reflection\Event;
 
-class PostDocBlockExtractionEvent extends \phpDocumentor\Event\EventAbstract
+use phpDocumentor\Event\EventAbstract;
+use phpDocumentor\Reflection\DocBlock;
+
+class PostDocBlockExtractionEvent extends EventAbstract
 {
-    /** @var \phpDocumentor\Reflection\DocBlock */
-    protected $docblock;
+    /** @var DocBlock */
+    protected $docblock = null;
 
     /**
-     * @param \phpDocumentor\Reflection\DocBlock $docblock
+     * @param DocBlock $docblock
      * 
      * @return $this
      */
-    public function setDocblock($docblock)
+    public function setDocblock(DocBlock $docblock = null)
     {
         $this->docblock = $docblock;
         return $this;
     }
 
     /**
-     * @return \phpDocumentor\Reflection\DocBlock
+     * @return DocBlock|null
      */
     public function getDocblock()
     {

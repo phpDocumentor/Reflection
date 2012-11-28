@@ -31,11 +31,11 @@ use PHPParser_PrettyPrinter_Zend;
 class PrettyPrinter extends PHPParser_PrettyPrinter_Zend
 {
     /**
-     * Converts the string into it's original presentation without converting
+     * Converts the string into it's original representation without converting
      * the special character combinations.
      *
      * This method is overridden from the original Zend Pretty Printer because
-     * that returns the strings as interpreted by PHP-Parser.
+     * the original returns the strings as interpreted by PHP-Parser.
      * Since we do not want such conversions we take the original that is
      * injected by our own custom Lexer.
      *
