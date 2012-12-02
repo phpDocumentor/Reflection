@@ -344,11 +344,8 @@ class FileReflector extends ReflectionAbstract implements PHPParser_NodeVisitor
                         .$name
                     );
 
-                    // we use $constant here both times since this is a
-                    // FuncCall, which combines properties that are otherwise
-                    // split over 2 objects
                     $reflector = new ConstantReflector(
-                        $constant,
+                        new \PHPParser_Node_Stmt_Const(array($constant)),
                         $this->context,
                         $constant
                     );
