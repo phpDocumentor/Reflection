@@ -226,7 +226,11 @@ class FileReflector extends ReflectionAbstract implements PHPParser_NodeVisitor
                         array_shift($comments);
                     }
                 } catch (\Exception $e) {
-                    $this->log($e->getMessage(), Log::CRIT);
+                    if (class_exists('phpDocumentor\Plugin\Core\Log')) {
+                        $this->log($e->getMessage(), Log::CRIT);
+                    } else {
+                        $this->log($e->getMessage(), 2);
+                    }
                 }
             }
 
