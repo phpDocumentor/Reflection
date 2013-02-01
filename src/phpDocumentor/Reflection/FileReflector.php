@@ -12,7 +12,6 @@
 
 namespace phpDocumentor\Reflection;
 
-use Exception;
 use phpDocumentor\Event\Dispatcher;
 use phpDocumentor\Parser\Event\LogEvent;
 use phpDocumentor\Plugin\Core\Log;
@@ -20,6 +19,7 @@ use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlock\Context;
 use phpDocumentor\Reflection\DocBlock\Location;
 use phpDocumentor\Reflection\Event\PostDocBlockExtractionEvent;
+use phpDocumentor\Reflection\Exception;
 use PHPParser_Comment_Doc;
 use PHPParser_Node;
 use PHPParser_Node_Const;
@@ -91,8 +91,10 @@ class FileReflector extends ReflectionAbstract implements PHPParser_NodeVisitor
      * @param boolean $validate Whether to check the file using PHP Lint.
      * @param string  $encoding The encoding of the file.
      *
-     * @throws Exception\UnredableFile when the filename is incorrect or
-     *   the file can not be opened
+     * @throws Exception\UnreadableFile If the filename is incorrect or
+     *   the file cannot be opened
+     * @throws Exception\UnparsableFile If the file fails PHP lint checking
+     *   (this can only happen when $validate is set to true)
      */
     public function __construct($file, $validate = false, $encoding = 'utf-8')
     {
@@ -223,7 +225,7 @@ class FileReflector extends ReflectionAbstract implements PHPParser_NodeVisitor
                         // remove the file level DocBlock from the node's comments
                         array_shift($comments);
                     }
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     $this->log($e->getMessage(), Log::CRIT);
                 }
             }
