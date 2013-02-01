@@ -124,11 +124,13 @@ abstract class BaseReflector extends ReflectionAbstract
             }
         }
         
-        Dispatcher::getInstance()->dispatch(
-            'reflection.docblock-extraction.post',
-            PostDocBlockExtractionEvent
-            ::createInstance($this)->setDocblock($doc_block)
-        );
+        if (class_exists('phpDocumentor\Event\Dispatcher')) {
+            Dispatcher::getInstance()->dispatch(
+                'reflection.docblock-extraction.post',
+                PostDocBlockExtractionEvent
+                ::createInstance($this)->setDocblock($doc_block)
+            );
+        }
         return $doc_block;
     }
 
