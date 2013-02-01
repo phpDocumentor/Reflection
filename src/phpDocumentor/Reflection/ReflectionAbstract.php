@@ -43,11 +43,13 @@ abstract class ReflectionAbstract
      */
     public function log($message, $priority = 6)
     {
-        Dispatcher::getInstance()->dispatch(
-            'system.log',
-            LogEvent::createInstance($this)
-            ->setMessage($message)->setPriority($priority)
-        );
+        if (class_exists('phpDocumentor\Event\Dispatcher')) {
+            Dispatcher::getInstance()->dispatch(
+                'system.log',
+                LogEvent::createInstance($this)
+                ->setMessage($message)->setPriority($priority)
+            );
+        }
     }
 
     /**
@@ -59,10 +61,12 @@ abstract class ReflectionAbstract
      */
     public function debug($message)
     {
-        Dispatcher::getInstance()->dispatch(
-            'system.debug',
-            DebugEvent::createInstance($this)
-            ->setMessage($message)
-        );
+        if (class_exists('phpDocumentor\Event\Dispatcher')) {
+            Dispatcher::getInstance()->dispatch(
+                'system.debug',
+                DebugEvent::createInstance($this)
+                ->setMessage($message)
+            );
+        }
     }
 }
