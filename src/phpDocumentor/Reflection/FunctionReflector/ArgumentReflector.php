@@ -18,6 +18,16 @@ class ArgumentReflector extends BaseReflector
 {
     /** @var \PHPParser_Node_Param */
     protected $node;
+    
+    /**
+     * Checks whether the argument is passed by reference.
+     * 
+     * @return bool TRUE if the argument is by reference, FALSE otherwise.
+     */
+    public function isByRef()
+    {
+        return $this->node->byRef;
+    }
 
     /**
      * Returns the default value or null is none is set.

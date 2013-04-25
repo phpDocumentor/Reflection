@@ -53,6 +53,16 @@ class FunctionReflector extends BaseReflector
             $this->arguments[$reflector->getName()] = $reflector;
         }
     }
+    
+    /**
+     * Checks whether the function returns a value by reference.
+     * 
+     * @return bool TRUE if the return value is by reference, FALSE otherwise.
+     */
+    public function isByRef()
+    {
+        return $this->node->byRef;
+    }
 
     /**
      * Returns a list of Argument objects.
