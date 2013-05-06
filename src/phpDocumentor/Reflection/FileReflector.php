@@ -335,11 +335,16 @@ class FileReflector extends ReflectionAbstract implements PHPParser_NodeVisitor
                 break;
             case 'PHPParser_Node_Expr_FuncCall':
                 if ($node->name instanceof PHPParser_Node_Name && $node->name == 'define') {
-                    $name = trim($prettyPrinter->prettyPrintExpr($node->args[0]->value), '\'');
-                    $constant = new PHPParser_Node_Const($name, $node->args[1]->value, $node->getAttributes());
-                    $constant->namespacedName = new PHPParser_Node_Name(
-                        ($this->current_namespace ? $this->current_namespace.'\\' : '') . $name
+                    // transform the first argument of the define function call into a constant name
+                    $name = str_replace(
+                        '\\\\',
+                        '\\',
+                        trim($prettyPrinter->prettyPrintExpr($node->args[0]->value), '\'')
                     );
+                    $shortName = end(explode('\\', $name));
+
+                    $constant = new PHPParser_Node_Const($shortName, $node->args[1]->value, $node->getAttributes());
+                    $constant->namespacedName = new PHPParser_Node_Name($name);
 
                     $constant_statement = new \PHPParser_Node_Stmt_Const(array($constant));
                     $constant_statement->setAttribute('comments', array($node->getDocComment()));
