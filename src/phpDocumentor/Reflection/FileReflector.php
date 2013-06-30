@@ -341,7 +341,8 @@ class FileReflector extends ReflectionAbstract implements PHPParser_NodeVisitor
                         '\\',
                         trim($prettyPrinter->prettyPrintExpr($node->args[0]->value), '\'')
                     );
-                    $shortName = end(explode('\\', $name));
+                    $nameParts = explode('\\', $name);
+                    $shortName = end($nameParts);
 
                     $constant = new PHPParser_Node_Const($shortName, $node->args[1]->value, $node->getAttributes());
                     $constant->namespacedName = new PHPParser_Node_Name($name);
