@@ -290,7 +290,7 @@ class FileReflector extends ReflectionAbstract implements PHPParser_NodeVisitor
 
     public function enterNode(PHPParser_Node $node)
     {
-        $prettyPrinter = new PHPParser_PrettyPrinter_Zend;
+        $prettyPrinter = new PrettyPrinter;
 
         switch(get_class($node)) {
             case 'PHPParser_Node_Stmt_Use':
