@@ -58,7 +58,7 @@ class PrettyPrinter extends PHPParser_PrettyPrinter_Zend
      */
     public function __construct()
     {
-        $this->noIndentToken = microtime(true);
+        $this->noIndentToken = mt_rand(true);
     }
 
 
