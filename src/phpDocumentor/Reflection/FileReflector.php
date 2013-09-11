@@ -312,6 +312,7 @@ class FileReflector extends ReflectionAbstract implements PHPParser_NodeVisitor
                 break;
             case 'PHPParser_Node_Stmt_Trait':
                 $trait = new TraitReflector($node, $this->context);
+                $trait->parseSubElements();
                 $this->traits[] = $trait;
                 break;
             case 'PHPParser_Node_Stmt_Interface':
