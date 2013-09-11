@@ -337,8 +337,8 @@ class FileReflector extends ReflectionAbstract implements PHPParser_NodeVisitor
                 if ($node->name instanceof PHPParser_Node_Name && $node->name == 'define') {
                     // transform the first argument of the define function call into a constant name
                     $name = str_replace(
-                        '\\\\',
-                        '\\',
+                        array('\\\\', '"', "'"),
+                        array('\\', '', ''),
                         trim($prettyPrinter->prettyPrintExpr($node->args[0]->value), '\'')
                     );
                     $nameParts = explode('\\', $name);
