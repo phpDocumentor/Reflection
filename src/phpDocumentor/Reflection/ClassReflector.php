@@ -25,7 +25,7 @@ use PHPParser_Node_Stmt_TraitUse;
  */
 class ClassReflector extends InterfaceReflector
 {
-    /** @var PHPParser_Node_Stmt_Class */
+    /** @var \PHPParser_Node_Stmt_Class */
     protected $node;
 
     /** @var string[] */
@@ -33,11 +33,11 @@ class ClassReflector extends InterfaceReflector
 
     public function parseSubElements()
     {
-        /** @var PHPParser_Node_Stmt_TraitUse $stmt  */
+        /** @var \PHPParser_Node_Stmt_TraitUse $stmt  */
         foreach ($this->node->stmts as $stmt) {
-            if ($stmt instanceof PHPParser_Node_Stmt_TraitUse) {
+            if ($stmt instanceof \PHPParser_Node_Stmt_TraitUse) {
                 foreach ($stmt->traits as $trait) {
-                    $this->traits[] = (string)$trait;
+                    $this->traits[] = '\\' . (string)$trait;
                 }
             }
         }
@@ -82,7 +82,7 @@ class ClassReflector extends InterfaceReflector
 
     /**
      * BC Break: used to be getParentInterfaces
-     * 
+     *
      * @return string[] Names of interfaces the class implements.
      */
     public function getInterfaces()

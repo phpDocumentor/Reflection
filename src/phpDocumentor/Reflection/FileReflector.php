@@ -290,74 +290,6 @@ class FileReflector extends ReflectionAbstract implements PHPParser_NodeVisitor
 
     public function enterNode(PHPParser_Node $node)
     {
-        $prettyPrinter = new PrettyPrinter;
-
-        switch(get_class($node)) {
-            case 'PHPParser_Node_Stmt_Use':
-                /** @var PHPParser_Node_Stmt_UseUse $use */
-                foreach ($node->uses as $use) {
-                    $this->context->setNamespaceAlias(
-                        $use->alias,
-                        implode('\\', $use->name->parts)
-                    );
-                }
-                break;
-            case 'PHPParser_Node_Stmt_Namespace':
-                $this->context->setNamespace(implode('\\', $node->name->parts));
-                break;
-            case 'PHPParser_Node_Stmt_Class':
-                $class = new ClassReflector($node, $this->context);
-                $class->parseSubElements();
-                $this->classes[] = $class;
-                break;
-            case 'PHPParser_Node_Stmt_Trait':
-                $trait = new TraitReflector($node, $this->context);
-                $trait->parseSubElements();
-                $this->traits[] = $trait;
-                break;
-            case 'PHPParser_Node_Stmt_Interface':
-                $interface = new InterfaceReflector($node, $this->context);
-                $interface->parseSubElements();
-                $this->interfaces[] = $interface;
-                break;
-            case 'PHPParser_Node_Stmt_Function':
-                $function = new FunctionReflector($node, $this->context);
-                $this->functions[] = $function;
-                break;
-            case 'PHPParser_Node_Stmt_Const':
-                foreach ($node->consts as $constant) {
-                    $reflector = new ConstantReflector(
-                        $node,
-                        $this->context,
-                        $constant
-                    );
-                    $this->constants[] = $reflector;
-                }
-                break;
-            case 'PHPParser_Node_Expr_FuncCall':
-                if ($node->name instanceof PHPParser_Node_Name && $node->name == 'define') {
-                    // transform the first argument of the define function call into a constant name
-                    $name = str_replace(
-                        array('\\\\', '"', "'"),
-                        array('\\', '', ''),
-                        trim($prettyPrinter->prettyPrintExpr($node->args[0]->value), '\'')
-                    );
-                    $nameParts = explode('\\', $name);
-                    $shortName = end($nameParts);
-
-                    $constant = new PHPParser_Node_Const($shortName, $node->args[1]->value, $node->getAttributes());
-                    $constant->namespacedName = new PHPParser_Node_Name($name);
-
-                    $constant_statement = new \PHPParser_Node_Stmt_Const(array($constant));
-                    $constant_statement->setAttribute('comments', array($node->getDocComment()));
-                    $this->constants[] = new ConstantReflector($constant_statement, $this->context, $constant);
-                }
-                break;
-            case 'PHPParser_Node_Expr_Include':
-                $include = new IncludeReflector($node, $this->context);
-                $this->includes[] = $include;
-                break;
-        }
     }
 
     public function getName()
@@ -515,6 +447,74 @@ class FileReflector extends ReflectionAbstract implements PHPParser_NodeVisitor
 
     public function leaveNode(PHPParser_Node $node)
     {
+        $prettyPrinter = new PrettyPrinter;
+
+        switch(get_class($node)) {
+            case 'PHPParser_Node_Stmt_Use':
+                /** @var PHPParser_Node_Stmt_UseUse $use */
+                foreach ($node->uses as $use) {
+                    $this->context->setNamespaceAlias(
+                        $use->alias,
+                        implode('\\', $use->name->parts)
+                    );
+                }
+                break;
+            case 'PHPParser_Node_Stmt_Namespace':
+                $this->context->setNamespace(implode('\\', $node->name->parts));
+                break;
+            case 'PHPParser_Node_Stmt_Class':
+                $class = new ClassReflector($node, $this->context);
+                $class->parseSubElements();
+                $this->classes[] = $class;
+                break;
+            case 'PHPParser_Node_Stmt_Trait':
+                $trait = new TraitReflector($node, $this->context);
+                $trait->parseSubElements();
+                $this->traits[] = $trait;
+                break;
+            case 'PHPParser_Node_Stmt_Interface':
+                $interface = new InterfaceReflector($node, $this->context);
+                $interface->parseSubElements();
+                $this->interfaces[] = $interface;
+                break;
+            case 'PHPParser_Node_Stmt_Function':
+                $function = new FunctionReflector($node, $this->context);
+                $this->functions[] = $function;
+                break;
+            case 'PHPParser_Node_Stmt_Const':
+                foreach ($node->consts as $constant) {
+                    $reflector = new ConstantReflector(
+                        $node,
+                        $this->context,
+                        $constant
+                    );
+                    $this->constants[] = $reflector;
+                }
+                break;
+            case 'PHPParser_Node_Expr_FuncCall':
+                if ($node->name instanceof PHPParser_Node_Name && $node->name == 'define') {
+                    // transform the first argument of the define function call into a constant name
+                    $name = str_replace(
+                        array('\\\\', '"', "'"),
+                        array('\\', '', ''),
+                        trim($prettyPrinter->prettyPrintExpr($node->args[0]->value), '\'')
+                    );
+                    $nameParts = explode('\\', $name);
+                    $shortName = end($nameParts);
+
+                    $constant = new PHPParser_Node_Const($shortName, $node->args[1]->value, $node->getAttributes());
+                    $constant->namespacedName = new PHPParser_Node_Name($name);
+
+                    $constant_statement = new \PHPParser_Node_Stmt_Const(array($constant));
+                    $constant_statement->setAttribute('comments', array($node->getDocComment()));
+                    $this->constants[] = new ConstantReflector($constant_statement, $this->context, $constant);
+                }
+                break;
+            case 'PHPParser_Node_Expr_Include':
+                $include = new IncludeReflector($node, $this->context);
+                $this->includes[] = $include;
+                break;
+        }
     }
 
     public function afterTraverse(array $nodes)
