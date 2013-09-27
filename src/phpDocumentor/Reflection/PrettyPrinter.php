@@ -61,6 +61,4 @@ class PrettyPrinter extends PHPParser_PrettyPrinter_Zend
         $this->noIndentToken = mt_rand();
     }
 
-
-
 }

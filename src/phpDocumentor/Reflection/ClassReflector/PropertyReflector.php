@@ -55,6 +55,7 @@ class PropertyReflector extends BaseReflector
         if ($this->node->default) {
             $result = $this->getRepresentationOfValue($this->node->default);
         }
+
         return $result;
     }
 
@@ -65,7 +66,7 @@ class PropertyReflector extends BaseReflector
      */
     public function isAbstract()
     {
-        return (bool)($this->property->type & PHPParser_Node_Stmt_Class::MODIFIER_ABSTRACT);
+        return (bool) ($this->property->type & PHPParser_Node_Stmt_Class::MODIFIER_ABSTRACT);
     }
 
     /**
@@ -101,7 +102,7 @@ class PropertyReflector extends BaseReflector
      */
     public function isStatic()
     {
-        return (bool)($this->property->type & PHPParser_Node_Stmt_Class::MODIFIER_STATIC);
+        return (bool) ($this->property->type & PHPParser_Node_Stmt_Class::MODIFIER_STATIC);
     }
 
     /**
@@ -111,7 +112,7 @@ class PropertyReflector extends BaseReflector
      */
     public function isFinal()
     {
-        return (bool)($this->property->type & PHPParser_Node_Stmt_Class::MODIFIER_FINAL);
+        return (bool) ($this->property->type & PHPParser_Node_Stmt_Class::MODIFIER_FINAL);
     }
 
     /**

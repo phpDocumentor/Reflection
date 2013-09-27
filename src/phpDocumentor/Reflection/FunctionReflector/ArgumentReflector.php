@@ -18,10 +18,10 @@ class ArgumentReflector extends BaseReflector
 {
     /** @var \PHPParser_Node_Param */
     protected $node;
-    
+
     /**
      * Checks whether the argument is passed by reference.
-     * 
+     *
      * @return bool TRUE if the argument is by reference, FALSE otherwise.
      */
     public function isByRef()
@@ -40,6 +40,7 @@ class ArgumentReflector extends BaseReflector
         if ($this->node->default) {
             $result = $this->getRepresentationOfValue($this->node->default);
         }
+
         return $result;
     }
 
@@ -50,7 +51,7 @@ class ArgumentReflector extends BaseReflector
      */
     public function getType()
     {
-        $type = (string)$this->node->type;
+        $type = (string) $this->node->type;
 
         // in case of the callable of array keyword; do not prefix with a \
         if ($type == 'callable' || $type == 'array'

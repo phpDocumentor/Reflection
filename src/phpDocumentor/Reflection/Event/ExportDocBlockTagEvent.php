@@ -31,23 +31,25 @@ class ExportDocBlockTagEvent extends EventAbstract
 
     /**
      * @param Tag $object
-     * 
+     *
      * @return ExportDocBlockTagEvent
      */
     public function setObject(Tag $object = null)
     {
         $this->object = $object;
+
         return $this;
     }
 
     /**
      * @param DOMNode $xml
-     * 
+     *
      * @return ExportDocBlockTagEvent
      */
     public function setXml(DOMNode $xml = null)
     {
         $this->xml = $xml;
+
         return $this;
     }
 }

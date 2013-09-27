@@ -100,12 +100,12 @@ abstract class BaseReflector extends ReflectionAbstract
     {
         return $this->extractDocBlock($this->node);
     }
-    
+
     /**
      * Extracts a parsed DocBlock from an object.
-     * 
+     *
      * @param object $node Any object with a "getDocComment()" method.
-     * 
+     *
      * @return DocBlock|null
      */
     protected function extractDocBlock($node)
@@ -115,7 +115,7 @@ abstract class BaseReflector extends ReflectionAbstract
         if ($comment) {
             try {
                 $doc_block = new DocBlock(
-                    (string)$comment,
+                    (string) $comment,
                     $this->context,
                     new Location($comment->getLine())
                 );
@@ -123,7 +123,7 @@ abstract class BaseReflector extends ReflectionAbstract
                 $this->log($e->getMessage(), 2);
             }
         }
-        
+
         if (class_exists('phpDocumentor\Event\Dispatcher')) {
             Dispatcher::getInstance()->dispatch(
                 'reflection.docblock-extraction.post',
@@ -131,6 +131,7 @@ abstract class BaseReflector extends ReflectionAbstract
                 ::createInstance($this)->setDocblock($doc_block)
             );
         }
+
         return $doc_block;
     }
 
@@ -157,18 +158,18 @@ abstract class BaseReflector extends ReflectionAbstract
     {
         return isset($this->node->name)
             ? $this->node->name
-            : (string)$this->node;
+            : (string) $this->node;
     }
-    
+
     /**
      * Gets the LSEN.
-     * 
+     *
      * Returns this element's Local Structural Element Name (LSEN). This name
      * consistents of the element's short name, along with punctuation that
      * hints at the kind of structural element. If the structural element is
      * part of a type (i.e. an interface/trait/class' property/method/constant),
      * it also contains the name of the owning type.
-     * 
+     *
      * @return string
      */
     public function getLSEN()
@@ -194,6 +195,7 @@ abstract class BaseReflector extends ReflectionAbstract
         array_pop($parts);
 
         $namespace = implode('\\', $parts);
+
         return $namespace ? $namespace : 'global';
     }
 

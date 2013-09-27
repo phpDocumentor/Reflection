@@ -37,7 +37,7 @@ class ClassReflector extends InterfaceReflector
         foreach ($this->node->stmts as $stmt) {
             if ($stmt instanceof \PHPParser_Node_Stmt_TraitUse) {
                 foreach ($stmt->traits as $trait) {
-                    $this->traits[] = '\\' . (string)$trait;
+                    $this->traits[] = '\\' . (string) $trait;
                 }
             }
         }
@@ -52,7 +52,7 @@ class ClassReflector extends InterfaceReflector
      */
     public function isAbstract()
     {
-        return (bool)($this->node->type & PHPParser_Node_Stmt_Class::MODIFIER_ABSTRACT);
+        return (bool) ($this->node->type & PHPParser_Node_Stmt_Class::MODIFIER_ABSTRACT);
     }
 
     /**
@@ -62,7 +62,7 @@ class ClassReflector extends InterfaceReflector
      */
     public function isFinal()
     {
-        return (bool)($this->node->type & PHPParser_Node_Stmt_Class::MODIFIER_FINAL);
+        return (bool) ($this->node->type & PHPParser_Node_Stmt_Class::MODIFIER_FINAL);
     }
 
     /**
@@ -77,7 +77,7 @@ class ClassReflector extends InterfaceReflector
 
     public function getParentClass()
     {
-        return $this->node->extends ? '\\'.(string)$this->node->extends : '';
+        return $this->node->extends ? '\\'.(string) $this->node->extends : '';
     }
 
     /**
@@ -91,9 +91,10 @@ class ClassReflector extends InterfaceReflector
         if ($this->node->implements) {
             /** @var PHPParser_Node_Name */
             foreach ($this->node->implements as $node) {
-                $names[] = '\\'.(string)$node;
+                $names[] = '\\'.(string) $node;
             }
         }
+
         return $names;
     }
 }

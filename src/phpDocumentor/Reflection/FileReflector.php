@@ -38,7 +38,6 @@ use PHPParser_Node_Stmt_PropertyProperty;
 use PHPParser_Node_Stmt_Trait;
 use PHPParser_Node_Stmt_UseUse;
 use PHPParser_NodeVisitor;
-use PHPParser_PrettyPrinter_Zend;
 
 /**
  * Reflection class for a full file.
@@ -449,7 +448,7 @@ class FileReflector extends ReflectionAbstract implements PHPParser_NodeVisitor
     {
         $prettyPrinter = new PrettyPrinter;
 
-        switch(get_class($node)) {
+        switch (get_class($node)) {
             case 'PHPParser_Node_Stmt_Use':
                 /** @var PHPParser_Node_Stmt_UseUse $use */
                 foreach ($node->uses as $use) {
