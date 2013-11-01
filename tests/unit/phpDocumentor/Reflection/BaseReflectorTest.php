@@ -154,7 +154,7 @@ class BaseReflectorTest extends PHPUnit_Framework_TestCase
     public function testsetNamespaceAlias()
     {
         $node = new NodeStmtMock();
-        
+
         $base_reflector = new BaseReflectorMock(
             $node,
             new Context()
@@ -196,7 +196,7 @@ class BaseReflectorTest extends PHPUnit_Framework_TestCase
     public function testGetLinenumber()
     {
         $node = new NodeStmtMock();
-        
+
         $base_reflector = new BaseReflectorMock(
             $node,
             new Context()
@@ -220,7 +220,7 @@ class BaseReflectorTest extends PHPUnit_Framework_TestCase
     public function testSetDefaultPackageName()
     {
         $node = new NodeStmtMock();
-        
+
         $base_reflector = new BaseReflectorMock(
             $node,
             new Context()

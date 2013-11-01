@@ -27,7 +27,7 @@ abstract class ReflectionAbstract
 {
     /**
      * The context (namespace, aliases) for the reflection.
-     * 
+     *
      * @var \phpDocumentor\Reflection\DocBlock\Context
      */
     protected $context = null;

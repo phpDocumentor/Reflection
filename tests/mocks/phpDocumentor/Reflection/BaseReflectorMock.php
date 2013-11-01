@@ -41,7 +41,7 @@ class BaseReflectorMock extends BaseReflector
 
     /**
      * @param $val
-     * 
+     *
      * @return void
      */
     public function setPrettyPrinter($val)

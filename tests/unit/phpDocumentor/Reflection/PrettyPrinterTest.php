@@ -26,7 +26,7 @@ class PrettyPrinterTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @covers \phpDocumentor\Reflection\PrettyPrinter::pScalar_String
-     * 
+     *
      * @return void
      */
     public function testScalarStringPrinting()

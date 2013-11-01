@@ -37,8 +37,8 @@ class FunctionReflector extends BaseReflector
      * Initializes the reflector using the function statement object of
      * PHP-Parser.
      *
-     * @param PHPParser_Node_Stmt  $node    Function object coming from PHP-Parser.
-     * @param Context              $context The context in which the node occurs.
+     * @param PHPParser_Node_Stmt $node    Function object coming from PHP-Parser.
+     * @param Context             $context The context in which the node occurs.
      */
     public function __construct(PHPParser_Node_Stmt $node, Context $context)
     {
@@ -53,10 +53,10 @@ class FunctionReflector extends BaseReflector
             $this->arguments[$reflector->getName()] = $reflector;
         }
     }
-    
+
     /**
      * Checks whether the function returns a value by reference.
-     * 
+     *
      * @return bool TRUE if the return value is by reference, FALSE otherwise.
      */
     public function isByRef()

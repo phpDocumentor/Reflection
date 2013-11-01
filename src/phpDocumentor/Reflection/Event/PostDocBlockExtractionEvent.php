@@ -11,12 +11,13 @@ class PostDocBlockExtractionEvent extends EventAbstract
 
     /**
      * @param DocBlock $docblock
-     * 
+     *
      * @return $this
      */
     public function setDocblock(DocBlock $docblock = null)
     {
         $this->docblock = $docblock;
+
         return $this;
     }
 
