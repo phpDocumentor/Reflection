@@ -14,7 +14,6 @@ namespace phpDocumentor\Reflection;
 
 use phpDocumentor\Event\Dispatcher;
 use phpDocumentor\Parser\Event\LogEvent;
-use phpDocumentor\Plugin\Core\Log;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlock\Context;
 use phpDocumentor\Reflection\DocBlock\Location;
@@ -225,11 +224,7 @@ class FileReflector extends ReflectionAbstract implements PHPParser_NodeVisitor
                         array_shift($comments);
                     }
                 } catch (\Exception $e) {
-                    if (class_exists('phpDocumentor\Plugin\Core\Log')) {
-                        $this->log($e->getMessage(), Log::CRIT);
-                    } else {
-                        $this->log($e->getMessage(), 2);
-                    }
+                    $this->log($e->getMessage(), LogLevel::CRITICAL);
                 }
             }
 
