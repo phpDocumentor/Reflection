@@ -19,6 +19,7 @@ use phpDocumentor\Reflection\DocBlock\Context;
 use phpDocumentor\Reflection\DocBlock\Location;
 use phpDocumentor\Reflection\Event\PostDocBlockExtractionEvent;
 use phpDocumentor\Reflection\Exception;
+use Psr\Log\LogLevel;
 use PHPParser_Comment_Doc;
 use PHPParser_Node;
 use PHPParser_Node_Const;
