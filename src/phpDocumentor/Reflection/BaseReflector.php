@@ -72,6 +72,14 @@ abstract class BaseReflector extends ReflectionAbstract
     }
 
     /**
+     * @return PHPParser_Node_Stmt|PHPParser_NodeAbstract
+     */
+    public function getNode()
+    {
+        return $this->node;
+    }
+
+    /**
      * Sets the name for the namespace.
      *
      * @param string $namespace
