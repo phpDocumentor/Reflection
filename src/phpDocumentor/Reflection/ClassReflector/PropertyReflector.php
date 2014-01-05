@@ -96,7 +96,7 @@ class PropertyReflector extends BaseReflector
     }
 
     /**
-     * Returns whether this method is static.
+     * Returns whether this property is static.
      *
      * @return bool
      */
