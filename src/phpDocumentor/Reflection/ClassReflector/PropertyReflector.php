@@ -60,16 +60,6 @@ class PropertyReflector extends BaseReflector
     }
 
     /**
-     * Returns whether this method is static.
-     *
-     * @return bool
-     */
-    public function isAbstract()
-    {
-        return (bool) ($this->property->type & PHPParser_Node_Stmt_Class::MODIFIER_ABSTRACT);
-    }
-
-    /**
      * Returns the visibility for this item.
      *
      * The returned value should match either of the following:
@@ -96,23 +86,13 @@ class PropertyReflector extends BaseReflector
     }
 
     /**
-     * Returns whether this method is static.
+     * Returns whether this property is static.
      *
      * @return bool
      */
     public function isStatic()
     {
         return (bool) ($this->property->type & PHPParser_Node_Stmt_Class::MODIFIER_STATIC);
-    }
-
-    /**
-     * Returns whether this method is final.
-     *
-     * @return bool
-     */
-    public function isFinal()
-    {
-        return (bool) ($this->property->type & PHPParser_Node_Stmt_Class::MODIFIER_FINAL);
     }
 
     /**

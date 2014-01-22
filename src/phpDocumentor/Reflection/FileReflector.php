@@ -51,11 +51,29 @@ class FileReflector extends ReflectionAbstract implements PHPParser_NodeVisitor
 {
     protected $hash;
     protected $contents = 1;
+    /**
+     * @var IncludeReflector[]
+     */
     protected $includes = array();
+    /**
+     * @var ConstantReflector[]
+     */
     protected $constants = array();
+    /**
+     * @var ClassReflector[]
+     */
     protected $classes = array();
+    /**
+     * @var TraitReflector[]
+     */
     protected $traits = array();
+    /**
+     * @var InterfaceReflector[]
+     */
     protected $interfaces = array();
+    /**
+     * @var FunctionReflector[]
+     */
     protected $functions = array();
     protected $filename = '';
     protected $doc_block;
@@ -134,7 +152,7 @@ class FileReflector extends ReflectionAbstract implements PHPParser_NodeVisitor
     public function process()
     {
         // with big fluent interfaces it can happen that PHP-Parser's Traverser
-        // exceeds the 100 recursions limit; we set it to 5000 to be sure.
+        // exceeds the 100 recursions limit; we set it to 10000 to be sure.
         ini_set('xdebug.max_nesting_level', 10000);
 
         $traverser = new Traverser();
@@ -144,31 +162,49 @@ class FileReflector extends ReflectionAbstract implements PHPParser_NodeVisitor
         $this->scanForMarkers();
     }
 
+    /**
+     * @return ClassReflector[]
+     */
     public function getClasses()
     {
         return $this->classes;
     }
 
+    /**
+     * @return TraitReflector[]
+     */
     public function getTraits()
     {
         return $this->traits;
     }
 
+    /**
+     * @return ConstantReflector[]
+     */
     public function getConstants()
     {
         return $this->constants;
     }
 
+    /**
+     * @return FunctionReflector[]
+     */
     public function getFunctions()
     {
         return $this->functions;
     }
 
+    /**
+     * @return IncludeReflector[]
+     */
     public function getIncludes()
     {
         return $this->includes;
     }
 
+    /**
+     * @return InterfaceReflector[]
+     */
     public function getInterfaces()
     {
         return $this->interfaces;
