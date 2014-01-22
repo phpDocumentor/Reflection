@@ -72,6 +72,8 @@ abstract class BaseReflector extends ReflectionAbstract
     }
 
     /**
+     * Returns the current PHP-Parser node that holds more detailed information
+     * about the reflected object. e.g. position in the file and further attributes.
      * @return PHPParser_Node_Stmt|PHPParser_NodeAbstract
      */
     public function getNode()
