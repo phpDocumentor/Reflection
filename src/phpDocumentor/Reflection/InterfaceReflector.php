@@ -21,8 +21,17 @@ class InterfaceReflector extends BaseReflector
     /** @var PHPParser_Node_Stmt_Interface|PHPParser_Node_Stmt_Class */
     protected $node;
 
+    /**
+     * @var ClassReflector\ConstantReflector[]
+     */
     protected $constants = array();
+    /**
+     * @var ClassReflector\PropertyReflector[]
+     */
     protected $properties = array();
+    /**
+     * @var ClassReflector\MethodReflector[]
+     */
     protected $methods = array();
 
     public function parseSubElements()
@@ -72,21 +81,34 @@ class InterfaceReflector extends BaseReflector
         return $names;
     }
 
+    /**
+     * @return ClassReflector\ConstantReflector[]
+     */
     public function getConstants()
     {
         return $this->constants;
     }
 
+    /**
+     * @return ClassReflector\PropertyReflector[]
+     */
     public function getProperties()
     {
         return $this->properties;
     }
 
+    /**
+     * @return ClassReflector\MethodReflector[]
+     */
     public function getMethods()
     {
         return $this->methods;
     }
 
+    /**
+     * @param string $name the method name
+     * @return ClassReflector\MethodReflector
+     */
     public function getMethod($name)
     {
         return $this->methods[$name];
