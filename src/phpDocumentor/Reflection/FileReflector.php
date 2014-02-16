@@ -487,7 +487,11 @@ class FileReflector extends ReflectionAbstract implements PHPParser_NodeVisitor
                 }
                 break;
             case 'PHPParser_Node_Expr_FuncCall':
-                if ($node->name instanceof PHPParser_Node_Name && $node->name == 'define') {
+                if (($node->name instanceof PHPParser_Node_Name)
+                    && ($node->name == 'define')
+                    && isset($node->args[0])
+                    && isset($node->args[1])
+                ) {
                     // transform the first argument of the define function call into a constant name
                     $name = str_replace(
                         array('\\\\', '"', "'"),
