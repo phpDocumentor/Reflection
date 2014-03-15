@@ -55,14 +55,4 @@ class PrettyPrinter extends PHPParser_PrettyPrinter_Zend
         return $this->pNoIndent($node->getAttribute('originalValue'));
     }
 
-    /**
-     * Work around PHPParser_PrettyPrinterAbstract::__construct's call to
-     * uniqid() until https://github.com/nikic/PHP-Parser/pull/65 has been
-     * merged in.
-     */
-    public function __construct()
-    {
-        $this->noIndentToken = mt_rand();
-    }
-
 }
