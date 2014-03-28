@@ -491,7 +491,9 @@ class FileReflector extends ReflectionAbstract implements PHPParser_NodeVisitor
                 }
                 break;
             case 'PHPParser_Node_Stmt_Namespace':
-                $this->context->setNamespace(implode('\\', $node->name->parts));
+                $this->context->setNamespace(
+                    isset($node->name) && ($node->name) ? implode('\\', $node->name->parts) : ''
+                );
                 break;
             case 'PHPParser_Node_Stmt_Class':
                 $class = new ClassReflector($node, $this->context);
