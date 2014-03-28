@@ -13,7 +13,7 @@
         "php": ">=5.3.3",
         "psr/log": "~1.0",
         "nikic/php-parser": "0.9.4",
-        "phpdocumentor/reflection-docblock": "2.*@dev"
+        "phpdocumentor/reflection-docblock": "2.*"
     },
     "suggests": {
         "symfony/event-dispatcher": "~2.1"
