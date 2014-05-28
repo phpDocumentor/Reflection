@@ -48,7 +48,7 @@ class InterfaceReflector extends BaseReflector
                     }
                     break;
                 case 'PHPParser_Node_Stmt_ClassMethod':
-                    $this->methods[] = new ClassReflector\MethodReflector(
+                    $this->methods[$stmt->name] = new ClassReflector\MethodReflector(
                         $stmt,
                         $this->context
                     );
@@ -102,7 +102,7 @@ class InterfaceReflector extends BaseReflector
      */
     public function getMethods()
     {
-        return $this->methods;
+        return array_values($this->methods);
     }
 
     /**
