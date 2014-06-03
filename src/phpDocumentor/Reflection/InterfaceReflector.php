@@ -107,10 +107,12 @@ class InterfaceReflector extends BaseReflector
 
     /**
      * @param string $name the method name
-     * @return ClassReflector\MethodReflector
+     * @return ClassReflector\MethodReflector|null
      */
     public function getMethod($name)
     {
-        return $this->methods[strtolower($name)];
+        $name = strtolower($name);
+
+        return isset($this->methods[$name]) ? $this->methods[$name] : null;
     }
 }

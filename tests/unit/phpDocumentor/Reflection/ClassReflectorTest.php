@@ -149,4 +149,33 @@ class ClassReflectorTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(array('\dummy'), $class_reflector->getInterfaces());
     }
+
+    /**
+     * Tests the getMethod method
+     *
+     * @covers \phpDocumentor\Reflection\ClassReflector::getMethod
+     *
+     * @return void
+     */
+    public function testGetMethod()
+    {
+        $node = new NodeStmtMock();
+        $node->stmts = array(new \PHPParser_Node_Stmt_ClassMethod('someMethod'));
+        $class_reflector = new ClassReflectorMock(
+            $node,
+            new Context()
+        );
+
+        // Before parseSubElements
+        $this->assertNull($class_reflector->getMethod('someMethod'));
+
+        $class_reflector->parseSubElements();
+
+        // After parseSubElements
+        $this->assertInstanceOf(
+            '\phpDocumentor\Reflection\ClassReflector\MethodReflector',
+            $class_reflector->getMethod('someMethod')
+        );
+        $this->assertNull($class_reflector->getMethod('someOtherMethod'));
+    }
 }
