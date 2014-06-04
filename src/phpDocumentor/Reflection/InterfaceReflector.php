@@ -102,7 +102,7 @@ class InterfaceReflector extends BaseReflector
      */
     public function getMethods()
     {
-        return array_values($this->methods);
+        return $this->methods;
     }
 
     /**
