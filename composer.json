@@ -22,5 +22,10 @@
         "behat/behat": "~2.4",
         "phpunit/phpunit": "~3.7",
         "mockery/mockery": ">=0.7.0"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
     }
 }
