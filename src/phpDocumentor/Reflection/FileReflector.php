@@ -49,34 +49,37 @@ use PHPParser_NodeVisitor;
  */
 class FileReflector extends ReflectionAbstract implements PHPParser_NodeVisitor
 {
+    /** @var string An MD5 hashed representation of the contents of this file */
     protected $hash;
-    protected $contents = 1;
-    /**
-     * @var IncludeReflector[]
-     */
+
+    /** @var string The contents of this file. */
+    protected $contents = '';
+
+    /** @var IncludeReflector[] */
     protected $includes = array();
-    /**
-     * @var ConstantReflector[]
-     */
+
+    /** @var ConstantReflector[] */
     protected $constants = array();
-    /**
-     * @var ClassReflector[]
-     */
+
+    /** @var ClassReflector[] */
     protected $classes = array();
-    /**
-     * @var TraitReflector[]
-     */
+
+    /** @var TraitReflector[] */
     protected $traits = array();
-    /**
-     * @var InterfaceReflector[]
-     */
+
+    /** @var InterfaceReflector[] */
     protected $interfaces = array();
-    /**
-     * @var FunctionReflector[]
-     */
+
+    /** @var FunctionReflector[] */
     protected $functions = array();
+
+    /** @var string The name of the file associated with this reflection object. */
     protected $filename = '';
+
+    /** @var DocBlock */
     protected $doc_block;
+
+    /** @var string The package name that should be used if none is present in the file */
     protected $default_package_name = 'Default';
 
     /** @var string[] A list of markers contained in this file. */
@@ -88,8 +91,8 @@ class FileReflector extends ReflectionAbstract implements PHPParser_NodeVisitor
     /** @var string[] A list of all marker types to search for in this file. */
     protected $marker_terms = array('TODO', 'FIXME');
 
-    protected $namespace_aliases = array();
-    protected $current_namespace = '';
+    /** @var Context */
+    protected $context;
 
     /**
      * Opens the file and retrieves its contents.
@@ -453,12 +456,12 @@ class FileReflector extends ReflectionAbstract implements PHPParser_NodeVisitor
 
     public function getNamespace()
     {
-        return $this->current_namespace;
+        return $this->context->getNamespace();
     }
 
     public function getNamespaceAliases()
     {
-        return $this->namespace_aliases;
+        return $this->context->getNamespaceAliases();
     }
 
     public function getContents()
