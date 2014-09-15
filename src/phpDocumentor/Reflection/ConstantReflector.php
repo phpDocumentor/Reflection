@@ -14,35 +14,27 @@ namespace phpDocumentor\Reflection;
 
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlock\Context;
-use PHPParser_Node_Const;
-use PHPParser_Node_Stmt_Const;
+use PhpParser\Node\Stmt\Const_;
 
 /**
  * Provides Static Reflection for file-level constants.
- *
- * @author  Mike van Riel <mike.vanriel@naenius.com>
- * @license http://www.opensource.org/licenses/mit-license.php MIT
- * @link    http://phpdoc.org
  */
 class ConstantReflector extends BaseReflector
 {
-    /** @var PHPParser_Node_Stmt_Const */
+    /** @var Const_ */
     protected $constant;
 
-    /** @var PHPParser_Node_Const */
+    /** @var \PhpParser\Node\Const_ */
     protected $node;
 
     /**
      * Registers the Constant Statement and Node with this reflector.
      *
-     * @param PHPParser_Node_Stmt_Const $stmt
-     * @param PHPParser_Node_Const      $node
+     * @param Const_                 $stmt
+     * @param \PhpParser\Node\Const_ $node
      */
-    public function __construct(
-        PHPParser_Node_Stmt_Const $stmt,
-        Context $context,
-        PHPParser_Node_Const $node
-    ) {
+    public function __construct(Const_ $stmt, Context $context, \PhpParser\Node\Const_ $node)
+    {
         parent::__construct($node, $context);
         $this->constant = $stmt;
     }

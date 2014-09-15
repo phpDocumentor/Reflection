@@ -4,28 +4,21 @@
  *
  * PHP Version 5.3
  *
- * @author    Mike van Riel <mike.vanriel@naenius.com>
- * @copyright 2010-2012 Mike van Riel / Naenius (http://www.naenius.com)
+ * @copyright 2010-2014 Mike van Riel / Naenius (http://www.naenius.com)
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
 
 namespace phpDocumentor\Reflection;
 
-use PHPParser_Error;
-use PHPParser_NodeTraverser;
-use PHPParser_NodeVisitor;
-use PHPParser_NodeVisitor_NameResolver;
-use PHPParser_NodeVisitorAbstract;
-use PHPParser_Parser;
+use PhpParser\Error;
+use PhpParser\NodeTraverser;
+use PhpParser\NodeVisitor;
+use PhpParser\Parser;
 
 /**
  * The source code traverser that scans the given source code and transforms
  * it into tokens.
- *
- * @author  Mike van Riel <mike.vanriel@naenius.com>
- * @license http://www.opensource.org/licenses/mit-license.php MIT
- * @link    http://phpdoc.org
  */
 class Traverser
 {
@@ -34,7 +27,7 @@ class Traverser
      *
      * @see traverse()
      *
-     * @var PHPParser_NodeVisitorAbstract[]
+     * @var NodeVisitor[]
      */
     public $visitors = array();
 
@@ -51,7 +44,7 @@ class Traverser
             $this->createTraverser()->traverse(
                 $this->createParser()->parse($contents)
             );
-        } catch (PHPParser_Error $e) {
+        } catch (Error $e) {
             echo 'Parse Error: ', $e->getMessage();
         }
     }
@@ -62,11 +55,11 @@ class Traverser
      * With visitors it is possible to extend the traversal process and
      * modify the found tokens.
      *
-     * @param PHPParser_NodeVisitor $visitor
+     * @param NodeVisitor $visitor
      *
      * @return void
      */
-    public function addVisitor(PHPParser_NodeVisitor $visitor)
+    public function addVisitor(NodeVisitor $visitor)
     {
         $this->visitors[] = $visitor;
     }
@@ -74,22 +67,22 @@ class Traverser
     /**
      * Creates a parser object using our own Lexer.
      *
-     * @return PHPParser_Parser
+     * @return Parser
      */
     protected function createParser()
     {
-        return new PHPParser_Parser(new Lexer());
+        return new Parser(new Lexer());
     }
 
     /**
      * Creates a new traverser object and adds visitors.
      *
-     * @return PHPParser_NodeTraverser
+     * @return NodeTraverser
      */
     protected function createTraverser()
     {
-        $node_traverser = new PHPParser_NodeTraverser();
-        $node_traverser->addVisitor(new PHPParser_NodeVisitor_NameResolver());
+        $node_traverser = new NodeTraverser();
+        $node_traverser->addVisitor(new NodeVisitor\NameResolver());
 
         foreach ($this->visitors as $visitor) {
             $node_traverser->addVisitor($visitor);

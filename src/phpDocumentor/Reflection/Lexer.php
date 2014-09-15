@@ -4,7 +4,6 @@
  *
  * PHP Version 5.3
  *
- * @author    Mike van Riel <mike.vanriel@naenius.com>
  * @copyright 2010-2011 Mike van Riel / Naenius (http://www.naenius.com)
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
@@ -12,8 +11,8 @@
 
 namespace phpDocumentor\Reflection;
 
-use PHPParser_Lexer;
-use PHPParser_Parser;
+use PhpParser\Lexer as PhpParserLexer;
+use PhpParser\Parser;
 
 /**
  * Custom lexer for phpDocumentor.
@@ -23,12 +22,8 @@ use PHPParser_Parser;
  *
  * If the interpreted version was to be used then the XML interpretation would
  * fail because of special characters.
- *
- * @author  Mike van Riel <mike.vanriel@naenius.com>
- * @license http://www.opensource.org/licenses/mit-license.php MIT
- * @link    http://phpdoc.org
  */
-class Lexer extends PHPParser_Lexer
+class Lexer extends PhpParserLexer
 {
     /**
      * Retrieves the next token and determines the associated attributes and
@@ -57,18 +52,16 @@ class Lexer extends PHPParser_Lexer
     }
 
     /**
-     * Returns whether the given token id is a scalar that will be interpreted
-     * by PHP-Parser.
+     * Returns whether the given token id is a scalar that will be interpreted by PHP-Parser.
      *
-     * @param int $tokenId The id to check, must match a \PHPParser_Parser::T_*
-     *     constant.
+     * @param int $tokenId The id to check, must match a \PHPParser\Parser::T_* constant.
      *
      * @return bool
      */
     protected function isTokenScalar($tokenId)
     {
-        return $tokenId == PHPParser_Parser::T_CONSTANT_ENCAPSED_STRING
-            || $tokenId == PHPParser_Parser::T_LNUMBER
-            || $tokenId == PHPParser_Parser::T_DNUMBER;
+        return $tokenId == Parser::T_CONSTANT_ENCAPSED_STRING
+            || $tokenId == Parser::T_LNUMBER
+            || $tokenId == Parser::T_DNUMBER;
     }
 }
