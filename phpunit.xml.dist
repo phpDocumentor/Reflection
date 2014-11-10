@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<phpunit bootstrap="vendor/autoload.php" colors="true" strict="true">
+<phpunit bootstrap="vendor/autoload.php" colors="true" forceCoversAnnotation="true" checkForUnintentionallyCoveredCode="false">
     <testsuites>
-        <testsuite name="phpDocumentor">
+        <testsuite name="unit">
             <directory>./tests/unit/</directory>
+        </testsuite>
+        <testsuite name="component">
+            <directory>./tests/component/</directory>
         </testsuite>
     </testsuites>
     <filter>
