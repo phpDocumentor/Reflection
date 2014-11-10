@@ -228,11 +228,9 @@ PHP;
         $exampleFile = $this->givenFileContents();
         $fileName    = $this->givenAFilename();
         $fileObject  = $this->givenAFileObjectWithContents($fileName, $exampleFile);
-
         $result = $this->fixture->create($fileObject);
 
-        $this->assertInstanceOf('phpDocumentor\Descriptor\PackageDescriptor', $result->getPackage());
-        $this->assertSame(self::DEFAULT_PACKAGE_NAME, $result->getPackage()->getName());
+        $this->assertNull($result->getPackage());
         $this->assertInstanceOf('phpDocumentor\Descriptor\TagDescriptor', $result->getTags()->get('package')->get(0));
         $this->assertSame(self::DEFAULT_PACKAGE_NAME, $result->getTags()->get('package')->get(0)->getDescription());
     }
@@ -242,10 +240,8 @@ PHP;
      * @covers phpDocumentor\Descriptor\Builder\PhpParser\FileAssembler::isDefineFunctionCallWithBothArguments
      * @covers phpDocumentor\Descriptor\Builder\PhpParser\FileAssembler::createConstantNodeFromDefineFunction
      * @covers phpDocumentor\Descriptor\Builder\PhpParser\FileAssembler::createDescriptorFromNodeAndAddToCollection
-     * @covers phpDocumentor\Descriptor\Builder\PhpParser\FileAssembler::getNamespaceFromNode
      * @covers phpDocumentor\Descriptor\Builder\PhpParser\FileAssembler::inheritPackageFromFileDescriptor
      * @covers phpDocumentor\Descriptor\Builder\PhpParser\FileAssembler::createDescriptorFromNodeAndAddToCollection
-     * @covers phpDocumentor\Descriptor\Builder\PhpParser\FileAssembler::getNamespaceFromNode
      * @covers phpDocumentor\Descriptor\Builder\PhpParser\FileAssembler::inheritPackageFromFileDescriptor
      */
     public function testConstantsAreRegisteredWhenCreatingAFileDescriptor()
@@ -277,7 +273,6 @@ PHP;
     /**
      * @covers phpDocumentor\Descriptor\Builder\PhpParser\FileAssembler::create
      * @covers phpDocumentor\Descriptor\Builder\PhpParser\FileAssembler::createDescriptorFromNodeAndAddToCollection
-     * @covers phpDocumentor\Descriptor\Builder\PhpParser\FileAssembler::getNamespaceFromNode
      * @covers phpDocumentor\Descriptor\Builder\PhpParser\FileAssembler::inheritPackageFromFileDescriptor
      */
     public function testFunctionsAreRegisteredWhenCreatingAFileDescriptor()
@@ -303,7 +298,6 @@ PHP;
     /**
      * @covers phpDocumentor\Descriptor\Builder\PhpParser\FileAssembler::create
      * @covers phpDocumentor\Descriptor\Builder\PhpParser\FileAssembler::createDescriptorFromNodeAndAddToCollection
-     * @covers phpDocumentor\Descriptor\Builder\PhpParser\FileAssembler::getNamespaceFromNode
      * @covers phpDocumentor\Descriptor\Builder\PhpParser\FileAssembler::inheritPackageFromFileDescriptor
      */
     public function testClassesAreRegisteredWhenCreatingAFileDescriptor()
@@ -329,7 +323,6 @@ PHP;
     /**
      * @covers phpDocumentor\Descriptor\Builder\PhpParser\FileAssembler::create
      * @covers phpDocumentor\Descriptor\Builder\PhpParser\FileAssembler::createDescriptorFromNodeAndAddToCollection
-     * @covers phpDocumentor\Descriptor\Builder\PhpParser\FileAssembler::getNamespaceFromNode
      * @covers phpDocumentor\Descriptor\Builder\PhpParser\FileAssembler::inheritPackageFromFileDescriptor
      */
     public function testTraitsAreRegisteredWhenCreatingAFileDescriptor()
@@ -355,7 +348,6 @@ PHP;
     /**
      * @covers phpDocumentor\Descriptor\Builder\PhpParser\FileAssembler::create
      * @covers phpDocumentor\Descriptor\Builder\PhpParser\FileAssembler::createDescriptorFromNodeAndAddToCollection
-     * @covers phpDocumentor\Descriptor\Builder\PhpParser\FileAssembler::getNamespaceFromNode
      * @covers phpDocumentor\Descriptor\Builder\PhpParser\FileAssembler::inheritPackageFromFileDescriptor
      */
     public function testInterfacesAreRegisteredWhenCreatingAFileDescriptor()
@@ -455,6 +447,7 @@ PHP;
         $descriptor->setFullyQualifiedStructuralElementName(
             '\\' . self::EXAMPLE_NAMESPACE . '\\' . self::EXAMPLE_FUNCTION_NAME . '()'
         );
+        $descriptor->setNamespace('\\' . self::EXAMPLE_NAMESPACE);
 
         $this->builderMock->shouldReceive('buildDescriptor')
             ->once()
@@ -473,6 +466,7 @@ PHP;
         $descriptor->setFullyQualifiedStructuralElementName(
             '\\' . self::EXAMPLE_NAMESPACE . '\\' . self::EXAMPLE_CONSTANT_NAME
         );
+        $descriptor->setNamespace('\\' . self::EXAMPLE_NAMESPACE);
 
         $this->builderMock->shouldReceive('buildDescriptor')
             ->once()
@@ -492,6 +486,7 @@ PHP;
         $descriptor->setFullyQualifiedStructuralElementName(
             '\\' . self::EXAMPLE_NAMESPACE . '\\' . self::EXAMPLE_DEFINE_NAME
         );
+        $descriptor->setNamespace('\\' . self::EXAMPLE_NAMESPACE);
 
         $this->builderMock->shouldReceive('buildDescriptor')
             ->once()
@@ -510,6 +505,7 @@ PHP;
         $descriptor->setFullyQualifiedStructuralElementName(
             '\\' . self::EXAMPLE_NAMESPACE . '\\' . self::EXAMPLE_CLASS_NAME
         );
+        $descriptor->setNamespace('\\' . self::EXAMPLE_NAMESPACE);
 
         $this->builderMock->shouldReceive('buildDescriptor')
             ->once()
@@ -528,6 +524,7 @@ PHP;
         $descriptor->setFullyQualifiedStructuralElementName(
             '\\' . self::EXAMPLE_NAMESPACE . '\\' . self::EXAMPLE_INTERFACE_NAME
         );
+        $descriptor->setNamespace('\\' . self::EXAMPLE_NAMESPACE);
 
         $this->builderMock->shouldReceive('buildDescriptor')
             ->once()
@@ -546,6 +543,7 @@ PHP;
         $descriptor->setFullyQualifiedStructuralElementName(
             '\\' . self::EXAMPLE_NAMESPACE . '\\' . self::EXAMPLE_TRAIT_NAME
         );
+        $descriptor->setNamespace('\\' . self::EXAMPLE_NAMESPACE);
 
         $this->builderMock->shouldReceive('buildDescriptor')
             ->once()

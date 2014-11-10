@@ -28,6 +28,10 @@ class ArgumentDescriptorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @uses phpDocumentor\Descriptor\DescriptorAbstract::__construct
+     * @uses phpDocumentor\Descriptor\DescriptorAbstract::setTags
+     * @uses phpDocumentor\Descriptor\DescriptorAbstract::setErrors
+     * @uses phpDocumentor\Descriptor\Collection
      * @covers phpDocumentor\Descriptor\ArgumentDescriptor::getTypes
      * @covers phpDocumentor\Descriptor\ArgumentDescriptor::setTypes
      */

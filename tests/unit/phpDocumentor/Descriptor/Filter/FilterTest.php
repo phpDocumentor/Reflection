@@ -16,6 +16,7 @@ use \Zend\Filter\FilterChain;
 
 /**
  * Tests the functionality for the Filter class.
+ * @group broken
  */
 class FilterTest extends \PHPUnit_Framework_TestCase
 {

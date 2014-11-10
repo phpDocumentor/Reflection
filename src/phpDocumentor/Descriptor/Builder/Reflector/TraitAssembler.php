@@ -11,6 +11,7 @@
 
 namespace phpDocumentor\Descriptor\Builder\Reflector;
 
+use phpDocumentor\Descriptor\Collection;
 use phpDocumentor\Descriptor\TraitDescriptor;
 use phpDocumentor\Reflection\ClassReflector\MethodReflector;
 use phpDocumentor\Reflection\ClassReflector\PropertyReflector;
@@ -46,6 +47,7 @@ class TraitAssembler extends AssemblerAbstract
 
         $this->addProperties($data->getProperties(), $traitDescriptor);
         $this->addMethods($data->getMethods(), $traitDescriptor);
+        $this->addUses($data->getTraits(), $traitDescriptor);
 
         return $traitDescriptor;
     }
@@ -86,5 +88,18 @@ class TraitAssembler extends AssemblerAbstract
                 $traitDescriptor->getMethods()->set($methodDescriptor->getName(), $methodDescriptor);
             }
         }
+    }
+
+    /**
+     * Registers the used traits with the generated Class Descriptor.
+     *
+     * @param string[]        $traits
+     * @param TraitDescriptor $traitDescriptor
+     *
+     * @return void
+     */
+    protected function addUses(array $traits, TraitDescriptor $traitDescriptor)
+    {
+        $traitDescriptor->setUsedTraits(new Collection($traits));
     }
 }

@@ -13,6 +13,7 @@
 namespace phpDocumentor\Reflection;
 
 use PhpParser\Node\Scalar\String;
+use PhpParser\PrettyPrinter\Standard;
 
 /**
  * Custom PrettyPrinter for phpDocumentor.
@@ -27,7 +28,7 @@ use PhpParser\Node\Scalar\String;
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link    http://phpdoc.org
  */
-class PrettyPrinter extends \PHPParser_PrettyPrinter_Default
+class PrettyPrinter extends Standard
 {
     /**
      * Converts the string into it's original representation without converting
@@ -46,10 +47,14 @@ class PrettyPrinter extends \PHPParser_PrettyPrinter_Default
      */
     public function pScalar_String(String $node)
     {
+        if(! $node->getAttribute('originalValue')) {
+            return $node->value;
+        }
+
         if (method_exists($this, 'pSafe')) {
             return $this->pSafe($node->getAttribute('originalValue'));
         }
-        
+
         return $this->pNoIndent($node->getAttribute('originalValue'));
     }
 

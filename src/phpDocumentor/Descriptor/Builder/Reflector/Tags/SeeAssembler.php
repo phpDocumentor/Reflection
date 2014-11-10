@@ -11,7 +11,6 @@
 
 namespace phpDocumentor\Descriptor\Builder\Reflector\Tags;
 
-use phpDocumentor\Compiler\Linker\Linker;
 use phpDocumentor\Descriptor\Builder\Reflector\AssemblerAbstract;
 use phpDocumentor\Descriptor\Tag\SeeDescriptor;
 use phpDocumentor\Reflection\DocBlock\Tag\SeeTag;
@@ -55,7 +54,8 @@ class SeeAssembler extends AssemblerAbstract
                 );
                 $referenceParts[0] = $type;
             } elseif (isset($reference[0]) && $reference[0] != '\\') {
-                array_unshift($referenceParts, Linker::CONTEXT_MARKER);
+                // @context is used in the Linker and is resolved to the current class or namespace
+                array_unshift($referenceParts, '@context');
             }
 
             $reference = implode('::', $referenceParts);

@@ -9,12 +9,15 @@
  * @link      http://phpdoc.org
  */
 
-namespace phpDocumentor\Descriptor\Builder\Reflector;
+namespace phpDocumentor\Descriptor\Builder\PhpParser;
 
 use phpDocumentor\Descriptor\ConstantDescriptor;
 use phpDocumentor\Descriptor\Tag\VarDescriptor;
 use phpDocumentor\Reflection\ConstantReflector;
 use phpDocumentor\Reflection\DocBlock;
+use PhpParser\Node\Const_;
+use PhpParser\Node\Name;
+use PhpParser\Node;
 
 /**
  * Assembles a ConstantDescriptor from a ConstantReflector.
@@ -24,27 +27,24 @@ class ConstantAssembler extends AssemblerAbstract
     /**
      * Creates a Descriptor from the provided data.
      *
-     * @param ConstantReflector $data
+     * @param Const_ $data
      *
      * @return ConstantDescriptor
      */
     public function create($data)
     {
         $constantDescriptor = new ConstantDescriptor();
-        $constantDescriptor->setName($data->getShortName());
-        $constantDescriptor->setValue($data->getValue());
-        // Reflection library formulates namespace as global but this is not wanted for phpDocumentor itself
-        $constantDescriptor->setNamespace(
-            '\\' . (strtolower($data->getNamespace()) == 'global' ? '' :$data->getNamespace())
-        );
+        $this->assembleDocBlock($data->docBlock, $constantDescriptor);
+        $value = $this->getRepresentationOfValue($data->value);
+        $constantDescriptor->setName((string)$data->name);
+        $constantDescriptor->setValue($value);
+        $constantDescriptor->setNamespace('\\' . $this->extractNamespace($data));
         $constantDescriptor->setFullyQualifiedStructuralElementName(
-            (trim($constantDescriptor->getNamespace(), '\\') ? $constantDescriptor->getNamespace() : '')
-            . '\\' . $data->getShortName()
+            isset($data->namespacedName)
+                ? '\\' . $data->namespacedName->toString()
+                : $data->name
         );
-
-        $this->assembleDocBlock($data->getDocBlock(), $constantDescriptor);
-
-        $constantDescriptor->setLine($data->getLinenumber());
+        $constantDescriptor->setLine($data->getLine());
 
         if ($constantDescriptor->getSummary() === '') {
             $this->extractSummaryAndDescriptionFromVarTag($constantDescriptor);

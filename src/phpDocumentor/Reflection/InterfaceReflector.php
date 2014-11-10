@@ -14,6 +14,7 @@ namespace phpDocumentor\Reflection;
 
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
+use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\Interface_;
 
 class InterfaceReflector extends BaseReflector
@@ -38,8 +39,15 @@ class InterfaceReflector extends BaseReflector
     {
         foreach ($this->node->stmts as $stmt) {
             switch (get_class($stmt)) {
-                case 'PHPParser\Node\Stmt\Property':
+                case 'PhpParser\Node\Stmt\Property':
                     foreach ($stmt->props as $property) {
+                        // the $stmt is actually a collection of constants but is the one who has the DocBlock
+                        if (! $stmt->getDocComment()) {
+                            $comments = $stmt->getAttribute('comments');
+                            $comments[] = $property->getDocComment();
+                            $stmt->setAttribute('comments', $comments);
+                        }
+
                         $this->properties[] = new ClassReflector\PropertyReflector(
                             $stmt,
                             $this->context,
@@ -47,14 +55,22 @@ class InterfaceReflector extends BaseReflector
                         );
                     }
                     break;
-                case 'PHPParser\Node\Stmt\ClassMethod':
+                case 'PhpParser\Node\Stmt\ClassMethod':
                     $this->methods[strtolower($stmt->name)] = new ClassReflector\MethodReflector(
                         $stmt,
                         $this->context
                     );
                     break;
-                case 'PHPParser\Node\Stmt\ClassConst':
+                case 'PhpParser\Node\Stmt\ClassConst':
+                    /** @var ClassConst $stmt */
                     foreach ($stmt->consts as $constant) {
+                        // the $stmt is actually a collection of constants but is the one who has the DocBlock
+                        if (! $stmt->getDocComment()) {
+                            $comments = $stmt->getAttribute('comments');
+                            $comments[] = $constant->getDocComment();
+                            $stmt->setAttribute('comments', $comments);
+                        }
+
                         $this->constants[] = new ClassReflector\ConstantReflector(
                             $stmt,
                             $this->context,

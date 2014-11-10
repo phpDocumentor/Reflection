@@ -36,7 +36,9 @@ class ClassAssembler extends AssemblerAbstract
         $classDescriptor->setName($data->getShortName());
         $classDescriptor->setPackage($this->extractPackageFromDocBlock($data->getDocBlock()) ?: '');
         $classDescriptor->setLine($data->getLinenumber());
-        $classDescriptor->setParent($data->getParentClass());
+        if ($data->getParentClass()) {
+            $classDescriptor->setParent($data->getParentClass());
+        }
         $classDescriptor->setAbstract($data->isAbstract());
         $classDescriptor->setFinal($data->isFinal());
 
@@ -77,6 +79,7 @@ class ClassAssembler extends AssemblerAbstract
             $constantDescriptor = $this->getBuilder()->buildDescriptor($constant);
             if ($constantDescriptor) {
                 $constantDescriptor->setParent($classDescriptor);
+                $this->inheritPackageFromParentDescriptor($constantDescriptor, $classDescriptor);
                 $classDescriptor->getConstants()->set($constantDescriptor->getName(), $constantDescriptor);
             }
         }
@@ -96,6 +99,7 @@ class ClassAssembler extends AssemblerAbstract
             $propertyDescriptor = $this->getBuilder()->buildDescriptor($property);
             if ($propertyDescriptor) {
                 $propertyDescriptor->setParent($classDescriptor);
+                $this->inheritPackageFromParentDescriptor($propertyDescriptor, $classDescriptor);
                 $classDescriptor->getProperties()->set($propertyDescriptor->getName(), $propertyDescriptor);
             }
         }
@@ -115,6 +119,7 @@ class ClassAssembler extends AssemblerAbstract
             $methodDescriptor = $this->getBuilder()->buildDescriptor($method);
             if ($methodDescriptor) {
                 $methodDescriptor->setParent($classDescriptor);
+                $this->inheritPackageFromParentDescriptor($methodDescriptor, $classDescriptor);
                 $classDescriptor->getMethods()->set($methodDescriptor->getName(), $methodDescriptor);
             }
         }

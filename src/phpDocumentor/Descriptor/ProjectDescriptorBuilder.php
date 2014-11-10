@@ -13,27 +13,40 @@ namespace phpDocumentor\Descriptor;
 
 use phpDocumentor\Descriptor\Builder\AssemblerFactory;
 use phpDocumentor\Descriptor\Builder\Reflector\AssemblerAbstract;
+use phpDocumentor\Descriptor\Example\Finder;
+use phpDocumentor\Descriptor\Filter\ClassFactory;
 use phpDocumentor\Descriptor\Filter\Filter;
 use phpDocumentor\Descriptor\Filter\Filterable;
+use phpDocumentor\Descriptor\ProjectDescriptor\InitializerChain;
+use phpDocumentor\Descriptor\ProjectDescriptor\InitializerCommand\DefaultFilters;
+use phpDocumentor\Descriptor\ProjectDescriptor\InitializerCommand\DefaultValidators;
+use phpDocumentor\Descriptor\ProjectDescriptor\InitializerCommand\PhpParserAssemblers;
+use phpDocumentor\Descriptor\ProjectDescriptor\InitializerCommand\ReflectionAssemblers;
 use phpDocumentor\Descriptor\ProjectDescriptor\Settings;
 use phpDocumentor\Descriptor\Validator\Error;
 use Psr\Log\LogLevel;
 use Symfony\Component\Stopwatch\Stopwatch;
 use Symfony\Component\Validator\ConstraintViolation;
-use Symfony\Component\Validator\Validator;
+use Symfony\Component\Validator\Validation;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * Builds a Project Descriptor and underlying tree.
  */
 class ProjectDescriptorBuilder
 {
+    const OPTION_VALIDATOR = 'validator';
+    const OPTION_EXAMPLE_FINDER = 'example.finder';
+    const OPTION_INITIALIZERS = 'descriptor.builder.initializers';
+    const OPTION_ASSEMBLER_FACTORY = 'descriptor.assembler.factory';
+    const OPTION_DESCRIPTOR_FILTER = 'descriptor.filter';
     /** @var string */
     const DEFAULT_PROJECT_NAME = 'Untitled project';
 
     /** @var AssemblerFactory $assemblerFactory */
     protected $assemblerFactory;
 
-    /** @var Validator $validator */
+    /** @var ValidatorInterface $validator */
     protected $validator;
 
     /** @var Filter $filter */
@@ -45,11 +58,47 @@ class ProjectDescriptorBuilder
     /** @var Stopwatch */
     private $stopwatch;
 
-    public function __construct(AssemblerFactory $assemblerFactory, Filter $filterManager, Validator $validator)
-    {
+    public function __construct(
+        AssemblerFactory $assemblerFactory,
+        Filter $filterManager,
+        $validator
+    ) {
         $this->assemblerFactory = $assemblerFactory;
         $this->validator        = $validator;
         $this->filter           = $filterManager;
+    }
+
+    public static function create($options = array())
+    {
+        $validator = isset($options[self::OPTION_VALIDATOR])
+            ? $options[self::OPTION_VALIDATOR]
+            : Validation::createValidator();
+        $exampleFinder = isset($options[self::OPTION_EXAMPLE_FINDER])
+            ? $options[self::OPTION_EXAMPLE_FINDER]
+            : new Finder();
+        $assemblerFactory = isset($options[self::OPTION_ASSEMBLER_FACTORY])
+            ? $options[self::OPTION_ASSEMBLER_FACTORY]
+            : new AssemblerFactory();
+        $filterManager = isset($options[self::OPTION_DESCRIPTOR_FILTER])
+            ? $options[self::OPTION_DESCRIPTOR_FILTER]
+            : new Filter(new ClassFactory());
+
+        if (! isset($options[self::OPTION_INITIALIZERS])) {
+            $initializerChain = new InitializerChain();
+            $initializerChain->addInitializer(new DefaultFilters());
+            $initializerChain->addInitializer(new PhpParserAssemblers($exampleFinder));
+            $initializerChain->addInitializer(new ReflectionAssemblers($exampleFinder));
+            $initializerChain->addInitializer(new DefaultValidators($validator));
+        } else {
+            $initializerChain = $options[self::OPTION_INITIALIZERS];
+        }
+
+        $builder = new static($assemblerFactory, $filterManager, $validator);
+
+        $builder->createProjectDescriptor();
+        $initializerChain->initialize($builder);
+
+        return $builder;
     }
 
     public function createProjectDescriptor()
@@ -70,6 +119,30 @@ class ProjectDescriptorBuilder
     public function getProjectDescriptor()
     {
         return $this->project;
+    }
+
+    /**
+     * @return AssemblerFactory
+     */
+    public function getAssemblerFactory()
+    {
+        return $this->assemblerFactory;
+    }
+
+    /**
+     * @return Filter
+     */
+    public function getFilterManager()
+    {
+        return $this->filter;
+    }
+
+    /**
+     * @return ValidatorInterface
+     */
+    public function getValidator()
+    {
+        return $this->validator;
     }
 
     public function setStopWatch(Stopwatch $stopwatch)
@@ -126,7 +199,6 @@ class ProjectDescriptorBuilder
 
         if ($this->stopwatch){
             $event = $this->stopwatch->stop($data->getFilename());
-            var_dump('Descriptor conversion time ' . $event->getDuration() . ' ms');
         }
     }
 

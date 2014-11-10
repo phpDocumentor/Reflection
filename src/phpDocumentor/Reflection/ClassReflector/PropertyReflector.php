@@ -15,24 +15,25 @@ namespace phpDocumentor\Reflection\ClassReflector;
 use phpDocumentor\Reflection\BaseReflector;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlock\Context;
+use PhpParser\Node\Stmt\Class_;
+use PhpParser\Node\Stmt\Property;
+use PhpParser\Node\Stmt\PropertyProperty;
 use PHPParser_Node_Stmt_Class;
 use PHPParser_Node_Stmt_Property;
 use PHPParser_Node_Stmt_PropertyProperty;
 
 class PropertyReflector extends BaseReflector
 {
-    /** @var PHPParser_Node_Stmt_Property */
+    /** @var Property */
     protected $property;
 
-    /** @var PHPParser_Node_Stmt_PropertyProperty */
+    /** @var PropertyProperty */
     protected $node;
 
-    public function __construct(
-        PHPParser_Node_Stmt_Property $property,
-        Context $context,
-        PHPParser_Node_Stmt_PropertyProperty $node
-    ) {
+    public function __construct(Property $property, Context $context, PropertyProperty $node)
+    {
         parent::__construct($node, $context);
+
         $this->property = $property;
     }
 
@@ -75,10 +76,10 @@ class PropertyReflector extends BaseReflector
      */
     public function getVisibility()
     {
-        if ($this->property->type & PHPParser_Node_Stmt_Class::MODIFIER_PROTECTED) {
+        if ($this->property->type & Class_::MODIFIER_PROTECTED) {
             return 'protected';
         }
-        if ($this->property->type & PHPParser_Node_Stmt_Class::MODIFIER_PRIVATE) {
+        if ($this->property->type & Class_::MODIFIER_PRIVATE) {
             return 'private';
         }
 
@@ -92,7 +93,7 @@ class PropertyReflector extends BaseReflector
      */
     public function isStatic()
     {
-        return (bool) ($this->property->type & PHPParser_Node_Stmt_Class::MODIFIER_STATIC);
+        return (bool) ($this->property->type & Class_::MODIFIER_STATIC);
     }
 
     /**

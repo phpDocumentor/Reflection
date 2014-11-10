@@ -11,7 +11,6 @@
 
 namespace phpDocumentor\Descriptor\Builder\PhpParser;
 
-use phpDocumentor\Descriptor\Builder\Reflector\AssemblerAbstract;
 use phpDocumentor\Descriptor\Collection;
 use phpDocumentor\Descriptor\DescriptorAbstract;
 use phpDocumentor\Descriptor\FileDescriptor;
@@ -121,6 +120,15 @@ final class FileAssembler extends AssemblerAbstract implements NodeVisitor
             );
         }
 
+        /** @var Collection $packages */
+        $packages = $this->fileDescriptor->getTags()->get('package', new Collection());
+
+        if (! $packages->offsetExists(0)) {
+            $tag = new TagDescriptor('package');
+            $tag->setDescription($this->defaultPackageName);
+            $packages->set(0, $tag);
+        }
+
         return $nodes;
     }
 
@@ -134,19 +142,6 @@ final class FileAssembler extends AssemblerAbstract implements NodeVisitor
     public function afterTraverse(array $nodes)
     {
         $this->fileDescriptor->setNamespaceAliases(new Collection($this->context->getNamespaceAliases()));
-
-        /** @var Collection $packages */
-        $packages = $this->fileDescriptor->getTags()->get('package', new Collection());
-
-        if (! $packages->offsetExists(0)) {
-            $tag = new TagDescriptor('package');
-            $tag->setDescription($this->defaultPackageName);
-            $packages->set(0, $tag);
-        }
-
-        $package = new PackageDescriptor();
-        $package->setName($packages->get(0)->getDescription());
-        $this->fileDescriptor->setPackage($package);
     }
 
     /**
@@ -173,7 +168,8 @@ final class FileAssembler extends AssemblerAbstract implements NodeVisitor
      */
     public function leaveNode(Node $node)
     {
-        switch (get_class($node)) {
+        $className = get_class($node);
+        switch ($className) {
             case 'PhpParser\Node\Stmt\Use_':
                 /** @var Node\Stmt\Use_ $node */
                 foreach ($node->uses as $use) {
@@ -196,8 +192,15 @@ final class FileAssembler extends AssemblerAbstract implements NodeVisitor
             case 'PhpParser\Node\Stmt\Function_':
                 $this->createDescriptorFromNodeAndAddToCollection($node, $this->fileDescriptor->getFunctions());
                 break;
-            case 'PhpParser\Node\Const_':
-                $this->createDescriptorFromNodeAndAddToCollection($node, $this->fileDescriptor->getConstants());
+            case 'PhpParser\Node\Stmt\Const_':
+                /** @var \PhpParser\Node\Stmt\Const_ $node */
+                foreach ($node->consts as $const) {
+                    // the $node is actually a collection of constants but is the one who has the DocBlock
+                    $comments = $const->getAttribute('comments');
+                    $comments[] = $node->getDocComment();
+                    $const->setAttribute('comments', $comments);
+                    $this->createDescriptorFromNodeAndAddToCollection($const, $this->fileDescriptor->getConstants());
+                }
                 break;
             case 'PhpParser\Node\Expr\FuncCall':
                 if ($this->isDefineFunctionCallWithBothArguments($node)) {
@@ -492,31 +495,20 @@ final class FileAssembler extends AssemblerAbstract implements NodeVisitor
      */
     private function createDescriptorFromNodeAndAddToCollection(Node $node, Collection $collection)
     {
+        $node->docBlock = $node->getDocComment()
+            ? new DocBlock($node->getDocComment()->getText(), $this->context)
+            : null;
+
+        /** @var DescriptorAbstract $descriptor */
         $descriptor = $this->getBuilder()->buildDescriptor($node);
-
-        if ($descriptor) {
-            $descriptor->setNamespace($this->getNamespaceFromNode($node));
-            $descriptor->setLocation($this->fileDescriptor, $node->getLine());
-            $this->inheritPackageFromFileDescriptor($descriptor);
-
-            $collection->set($descriptor->getFullyQualifiedStructuralElementName(), $descriptor);
+        if (!$descriptor) {
+            return;
         }
-    }
 
-    /**
-     * Extracts the namespace's FQNN from the given Node's FQCN.
-     *
-     * @param Node $node
-     *
-     * @return string
-     */
-    private function getNamespaceFromNode(Node $node)
-    {
-        /** @var Name $namespaceParts */
-        $namespaceParts = clone $node->namespacedName;
-        unset($namespaceParts->parts[count($namespaceParts->parts) - 1]);
+        $descriptor->setLocation($this->fileDescriptor, $node->getLine());
+        $this->inheritPackageFromFileDescriptor($descriptor);
 
-        return '\\' . $namespaceParts->toString();
+        $collection->set($descriptor->getFullyQualifiedStructuralElementName(), $descriptor);
     }
 
     /**

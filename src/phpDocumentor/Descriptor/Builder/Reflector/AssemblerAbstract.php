@@ -69,4 +69,16 @@ abstract class AssemblerAbstract extends BaseAssembler
 
         return trim($tag->getContent());
     }
+
+    protected function inheritPackageFromParentDescriptor(
+        DescriptorAbstract $descriptor,
+        DescriptorAbstract $parentDescriptor
+    ) {
+        if (count($descriptor->getTags()->get('package', new Collection())) == 0) {
+            $descriptor->getTags()->set(
+                'package',
+                $parentDescriptor->getTags()->get('package', new Collection())
+            );
+        }
+    }
 }

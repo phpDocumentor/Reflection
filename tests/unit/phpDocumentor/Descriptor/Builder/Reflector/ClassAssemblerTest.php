@@ -12,6 +12,7 @@
  */
 namespace phpDocumentor\Descriptor\Builder\Reflector;
 
+use phpDocumentor\Descriptor\Collection;
 use phpDocumentor\Reflection\DocBlock;
 use Mockery as m;
 
@@ -114,20 +115,21 @@ DOCBLOCK;
 
             switch ($param) {
                 case 'Properties':
-                    $mock = m::mock('phpDocumentor\Descriptor\PropertiesDescriptor');
+                    $mock = m::mock('phpDocumentor\Descriptor\PropertyDescriptor');
                     $mock->shouldReceive('getName')->once()->andReturn('Mock');
+                    $mock->shouldReceive('getTags')->twice()->andReturn(new Collection());
                     $mock->shouldReceive('setParent')->once()->andReturn();
                     break;
-
                 case 'Method':
                     $mock = m::mock('phpDocumentor\Descriptor\MethodDescriptor');
                     $mock->shouldReceive('getName')->once()->andReturn('Mock');
+                    $mock->shouldReceive('getTags')->twice()->andReturn(new Collection());
                     $mock->shouldReceive('setParent')->once()->andReturn();
                     break;
-
                 case 'Constant':
                     $mock = m::mock('phpDocumentor\Descriptor\ConstantDescriptor');
                     $mock->shouldReceive('getName')->once()->andReturn('Mock');
+                    $mock->shouldReceive('getTags')->twice()->andReturn(new Collection());
                     $mock->shouldReceive('setParent')->once()->andReturn();
                     break;
             }
