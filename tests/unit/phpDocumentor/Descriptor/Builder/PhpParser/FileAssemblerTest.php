@@ -8,7 +8,7 @@ use phpDocumentor\Descriptor\ClassDescriptor;
 use phpDocumentor\Descriptor\ConstantDescriptor;
 use phpDocumentor\Descriptor\FunctionDescriptor;
 use phpDocumentor\Descriptor\InterfaceDescriptor;
-use phpDocumentor\Descriptor\ProjectDescriptorBuilder;
+use phpDocumentor\Descriptor\Analyzer;
 use phpDocumentor\Descriptor\Tag\AuthorDescriptor;
 use phpDocumentor\Descriptor\TraitDescriptor;
 use phpDocumentor\Reflection\IncludeReflector;
@@ -77,8 +77,8 @@ PHP;
     /** @var FileAssembler */
     private $fixture;
 
-    /** @var ProjectDescriptorBuilder|m\MockInterface */
-    private $builderMock;
+    /** @var Analyzer|m\MockInterface */
+    private $analyzerMock;
 
     /**
      * Initializes the fixture and its dependencies.
@@ -87,10 +87,10 @@ PHP;
     {
         vfsStream::setup('tests');
 
-        $this->builderMock = m::mock('phpDocumentor\Descriptor\ProjectDescriptorBuilder');
+        $this->analyzerMock = m::mock('phpDocumentor\Descriptor\Analyzer');
 
         $this->fixture = new FileAssembler();
-        $this->fixture->setBuilder($this->builderMock);
+        $this->fixture->setAnalyzer($this->analyzerMock);
 
         $this->thenAnAuthorTagShouldBeFound();
         $this->thenAConstantShouldBeAdded();
@@ -431,7 +431,7 @@ PHP;
         $authorDescriptor = new AuthorDescriptor(self::EXAMPLE_TAG_NAME);
         $authorDescriptor->setDescription(self::EXAMPLE_TAG_DESCRIPTION);
 
-        $this->builderMock->shouldReceive('buildDescriptor')
+        $this->analyzerMock->shouldReceive('analyze')
             ->with(m::type('phpDocumentor\Reflection\DocBlock\Tag'))
             ->andReturn($authorDescriptor);
     }
@@ -449,7 +449,7 @@ PHP;
         );
         $descriptor->setNamespace('\\' . self::EXAMPLE_NAMESPACE);
 
-        $this->builderMock->shouldReceive('buildDescriptor')
+        $this->analyzerMock->shouldReceive('analyze')
             ->once()
             ->with(m::type('PhpParser\Node\Stmt\Function_'))
             ->andReturn($descriptor);
@@ -468,7 +468,7 @@ PHP;
         );
         $descriptor->setNamespace('\\' . self::EXAMPLE_NAMESPACE);
 
-        $this->builderMock->shouldReceive('buildDescriptor')
+        $this->analyzerMock->shouldReceive('analyze')
             ->once()
             ->with(m::type('PhpParser\Node\Const_'))
             ->andReturn($descriptor);
@@ -488,7 +488,7 @@ PHP;
         );
         $descriptor->setNamespace('\\' . self::EXAMPLE_NAMESPACE);
 
-        $this->builderMock->shouldReceive('buildDescriptor')
+        $this->analyzerMock->shouldReceive('analyze')
             ->once()
             ->with(m::type('PhpParser\Node\Const_'))
             ->andReturn($descriptor);
@@ -507,7 +507,7 @@ PHP;
         );
         $descriptor->setNamespace('\\' . self::EXAMPLE_NAMESPACE);
 
-        $this->builderMock->shouldReceive('buildDescriptor')
+        $this->analyzerMock->shouldReceive('analyze')
             ->once()
             ->with(m::type('PhpParser\Node\Stmt\Class_'))
             ->andReturn($descriptor);
@@ -526,7 +526,7 @@ PHP;
         );
         $descriptor->setNamespace('\\' . self::EXAMPLE_NAMESPACE);
 
-        $this->builderMock->shouldReceive('buildDescriptor')
+        $this->analyzerMock->shouldReceive('analyze')
             ->once()
             ->with(m::type('PhpParser\Node\Stmt\Interface_'))
             ->andReturn($descriptor);
@@ -545,7 +545,7 @@ PHP;
         );
         $descriptor->setNamespace('\\' . self::EXAMPLE_NAMESPACE);
 
-        $this->builderMock->shouldReceive('buildDescriptor')
+        $this->analyzerMock->shouldReceive('analyze')
             ->once()
             ->with(m::type('PhpParser\Node\Stmt\Trait_'))
             ->andReturn($descriptor);

@@ -37,7 +37,7 @@ abstract class AssemblerAbstract extends BaseAssembler
 
         /** @var DocBlock\Tag $tag */
         foreach ($docBlock->getTags() as $tag) {
-            $tagDescriptor = $this->builder->buildDescriptor($tag);
+            $tagDescriptor = $this->analyzer->analyze($tag);
 
             // allow filtering of tags
             if (!$tagDescriptor) {

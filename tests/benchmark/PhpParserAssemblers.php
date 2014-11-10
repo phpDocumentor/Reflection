@@ -1,32 +1,32 @@
 <?php
 include __DIR__ . '/../../vendor/autoload.php';
 
-use phpDocumentor\Descriptor\ProjectDescriptorBuilder;
+use phpDocumentor\Descriptor\Analyzer;
 
 $start = microtime(true);
-$builder = ProjectDescriptorBuilder::create();
+$analyzer = Analyzer::create();
 
 /**
  * @param $filename
  */
-function process($builder, $filename)
+function process(Analyzer $analyzer, $filename)
 {
     if (!$filename) {
         return;
     }
     $splFileObject = new \SplFileObject($filename);
-    $builder->buildFileUsingSourceData($splFileObject);
+    $analyzer->buildFileUsingSourceData($splFileObject);
 }
 
 /**
  * @return int
  */
-function runSimpleTest($builder, $iterations)
+function runSimpleTest(Analyzer $analyzer, $iterations)
 {
     $filename = __DIR__ . '/../example.file.php';
     echo 'Performing ' . $iterations . ' iterations using the PhpParser Assemblers' . PHP_EOL;
     for ($i = 0; $i < $iterations; $i++) {
-        process($builder, $filename);
+        process($analyzer, $filename);
 
         // run once first to lazy load all classes
         if ($i == 0) {
@@ -44,7 +44,7 @@ if ($argc > 1) {
     echo 'Performing ' . $iterations . ' iterations using the PhpParser Assemblers on ' . $argv[1] . PHP_EOL;
 
     foreach ($files as $key => $file) {
-        process($builder, $file);
+        process($analyzer, $file);
 
         // run once first to lazy load all classes
         if ($key == 0) {
@@ -54,7 +54,7 @@ if ($argc > 1) {
     }
 } else {
     $iterations = 100;
-    $memoryStart = runSimpleTest($builder, $iterations);
+    $memoryStart = runSimpleTest($analyzer, $iterations);
 }
 
 $memoryUsage = xdebug_peak_memory_usage();

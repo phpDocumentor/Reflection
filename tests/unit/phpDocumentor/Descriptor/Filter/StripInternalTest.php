@@ -12,15 +12,15 @@
 namespace phpDocumentor\Descriptor\Filter;
 
 use \Mockery as m;
-use phpDocumentor\Descriptor\ProjectDescriptorBuilder;
+use phpDocumentor\Descriptor\Analyzer;
 
 /**
  * Tests the functionality for the StripInternal class.
  */
 class StripInternalTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var ProjectDescriptorBuilder|m\Mock */
-    protected $builderMock;
+    /** @var Analyzer|m\Mock */
+    protected $analyzerMock;
 
     /** @var StripInternal $fixture */
     protected $fixture;
@@ -30,16 +30,16 @@ class StripInternalTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->builderMock = m::mock('phpDocumentor\Descriptor\ProjectDescriptorBuilder');
-        $this->fixture = new StripInternal($this->builderMock);
+        $this->analyzerMock = m::mock('phpDocumentor\Descriptor\Analyzer');
+        $this->fixture = new StripInternal($this->analyzerMock);
     }
 
     /**
      * @covers phpDocumentor\Descriptor\Filter\StripInternal::__construct
      */
-    public function testProjectDescriptorBuilderIsSetUponConstruction()
+    public function testAnalyzerIsSetUponConstruction()
     {
-        $this->assertAttributeSame($this->builderMock, 'builder', $this->fixture);
+        $this->assertAttributeSame($this->analyzerMock, 'analyzer', $this->fixture);
     }
 
     /**
@@ -47,7 +47,7 @@ class StripInternalTest extends \PHPUnit_Framework_TestCase
      */
     public function testStripsInternalTagFromDescription()
     {
-        $this->builderMock->shouldReceive('isVisibilityAllowed')->andReturn(false);
+        $this->analyzerMock->shouldReceive('isVisibilityAllowed')->andReturn(false);
         $descriptor = m::mock('phpDocumentor\Descriptor\DescriptorAbstract');
         $descriptor->shouldReceive('getTags->get')->with('internal')->andReturn(null);
 
@@ -62,7 +62,7 @@ class StripInternalTest extends \PHPUnit_Framework_TestCase
      */
     public function testStripsInternalTagFromDescriptionIfTagDescriptionContainsBraces()
     {
-        $this->builderMock->shouldReceive('isVisibilityAllowed')->andReturn(false);
+        $this->analyzerMock->shouldReceive('isVisibilityAllowed')->andReturn(false);
         $descriptor = m::mock('phpDocumentor\Descriptor\DescriptorAbstract');
         $descriptor->shouldReceive('getTags->get')->with('internal')->andReturn(null);
 
@@ -77,7 +77,7 @@ class StripInternalTest extends \PHPUnit_Framework_TestCase
      */
     public function testResolvesInternalTagFromDescriptionIfParsePrivateIsTrue()
     {
-        $this->builderMock->shouldReceive('isVisibilityAllowed')->andReturn(true);
+        $this->analyzerMock->shouldReceive('isVisibilityAllowed')->andReturn(true);
         $descriptor = m::mock('phpDocumentor\Descriptor\DescriptorAbstract');
 
         $descriptor->shouldReceive('getDescription')->andReturn('without {@internal blabla }}internal tag');
@@ -91,7 +91,7 @@ class StripInternalTest extends \PHPUnit_Framework_TestCase
      */
     public function testRemovesDescriptorIfTaggedAsInternal()
     {
-        $this->builderMock->shouldReceive('isVisibilityAllowed')->andReturn(false);
+        $this->analyzerMock->shouldReceive('isVisibilityAllowed')->andReturn(false);
 
         $descriptor = m::mock('phpDocumentor\Descriptor\DescriptorAbstract');
         $descriptor->shouldReceive('getDescription');
@@ -106,7 +106,7 @@ class StripInternalTest extends \PHPUnit_Framework_TestCase
      */
     public function testKeepsDescriptorIfTaggedAsInternalAndParsePrivateIsTrue()
     {
-        $this->builderMock->shouldReceive('isVisibilityAllowed')->andReturn(true);
+        $this->analyzerMock->shouldReceive('isVisibilityAllowed')->andReturn(true);
 
         $descriptor = m::mock('phpDocumentor\Descriptor\DescriptorAbstract');
         $descriptor->shouldReceive('getDescription');
@@ -121,7 +121,7 @@ class StripInternalTest extends \PHPUnit_Framework_TestCase
      */
     public function testDescriptorIsUnmodifiedIfThereIsNoInternalTag()
     {
-        $this->builderMock->shouldReceive('isVisibilityAllowed')->andReturn(true);
+        $this->analyzerMock->shouldReceive('isVisibilityAllowed')->andReturn(true);
 
         $descriptor = m::mock('phpDocumentor\Descriptor\DescriptorAbstract');
         $descriptor->shouldReceive('getDescription');

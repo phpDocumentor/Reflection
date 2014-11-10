@@ -17,7 +17,7 @@ use phpDocumentor\Reflection\DocBlock;
 use Mockery as m;
 
 /**
- * Test class for \phpDocumentor\Descriptor\Builder
+ * Test class for \phpDocumentor\Descriptor\ClassAssembler
  *
  * @covers \phpDocumentor\Descriptor\Builder\Reflector\ClassAssembler
  */
@@ -32,7 +32,7 @@ class ClassAssemblerTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->fixture = new ClassAssembler();
-        $this->fixture->setBuilder($this->getProjectDescriptorBuilderMock());
+        $this->fixture->setAnalyzer($this->getAnalyzerMock());
     }
 
     /**
@@ -102,15 +102,15 @@ DOCBLOCK;
     }
 
     /**
-     * Create a descriptor builder mock
+     * Create a analyzer mock
      *
      * @return m\MockInterface
      */
-    protected function getProjectDescriptorBuilderMock()
+    protected function getAnalyzerMock()
     {
-        $projectDescriptorBuilderMock = m::mock('phpDocumentor\Descriptor\ProjectDescriptorBuilder');
+        $analyzerMock = m::mock('phpDocumentor\Descriptor\Analyzer');
 
-        $projectDescriptorBuilderMock->shouldReceive('buildDescriptor')->andReturnUsing(function ($param) {
+        $analyzerMock->shouldReceive('analyze')->andReturnUsing(function ($param) {
             $mock = null;
 
             switch ($param) {
@@ -137,7 +137,7 @@ DOCBLOCK;
             return $mock;
         });
 
-        return $projectDescriptorBuilderMock;
+        return $analyzerMock;
     }
 
 }

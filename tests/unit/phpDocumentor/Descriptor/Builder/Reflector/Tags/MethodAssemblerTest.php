@@ -14,7 +14,7 @@ namespace phpDocumentor\Descriptor\Builder\Reflector\Tags;
 use Mockery as m;
 use phpDocumentor\Descriptor\Collection;
 use phpDocumentor\Reflection\DocBlock\Type\Collection as TypeCollection;
-use phpDocumentor\Descriptor\ProjectDescriptorBuilder;
+use phpDocumentor\Descriptor\Analyzer;
 use phpDocumentor\Reflection\DocBlock\Tag\MethodTag;
 
 class MethodAssemblerTest extends \PHPUnit_Framework_TestCase
@@ -22,17 +22,17 @@ class MethodAssemblerTest extends \PHPUnit_Framework_TestCase
     /** @var MethodAssembler */
     private $fixture;
 
-    /** @var m\MockInterface|ProjectDescriptorBuilder */
-    protected $builder;
+    /** @var m\MockInterface|Analyzer */
+    protected $analyzer;
 
     /**
      * Initialize fixture with its dependencies.
      */
     protected function setUp()
     {
-        $this->builder = m::mock('phpDocumentor\Descriptor\ProjectDescriptorBuilder');
+        $this->analyzer = m::mock('phpDocumentor\Descriptor\Analyzer');
         $this->fixture = new MethodAssembler();
-        $this->fixture->setBuilder($this->builder);
+        $this->fixture->setAnalyzer($this->analyzer);
     }
 
     /**
@@ -53,7 +53,7 @@ class MethodAssemblerTest extends \PHPUnit_Framework_TestCase
         $arguments = array(),
         $description = ''
     ) {
-        $this->builder->shouldReceive('buildDescriptor')
+        $this->analyzer->shouldReceive('analyze')
             ->with(
                 m::on(
                     function (TypeCollection $value) use ($returnType) {
@@ -65,7 +65,7 @@ class MethodAssemblerTest extends \PHPUnit_Framework_TestCase
 
         foreach ($arguments as $argument) {
             list($argumentType, $argumentName, $argumentDefault) = $argument;
-            $this->builder->shouldReceive('buildDescriptor')
+            $this->analyzer->shouldReceive('analyze')
                 ->with(
                     m::on(
                         function (TypeCollection $value) use ($argumentType) {

@@ -40,7 +40,7 @@ class MethodAssembler extends AssemblerAbstract
         $descriptor->setMethodName($data->getMethodName());
 
         $response = new ReturnDescriptor('return');
-        $response->setTypes($this->builder->buildDescriptor(new Collection($data->getTypes())));
+        $response->setTypes($this->analyzer->analyze(new Collection($data->getTypes())));
         $descriptor->setResponse($response);
 
         foreach ($data->getArguments() as $argument) {
@@ -98,7 +98,7 @@ class MethodAssembler extends AssemblerAbstract
         }
 
         $argumentDescriptor = new ArgumentDescriptor();
-        $argumentDescriptor->setTypes($this->builder->buildDescriptor(new Collection(array($argumentType))));
+        $argumentDescriptor->setTypes($this->analyzer->analyze(new Collection(array($argumentType))));
         $argumentDescriptor->setName($argumentName[0] == '$' ? $argumentName : '$' . $argumentName);
         $argumentDescriptor->setDefault($argumentDefault);
         return $argumentDescriptor;

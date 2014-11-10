@@ -13,7 +13,7 @@ namespace phpDocumentor\Descriptor\TransformFileTo;
 
 use phpDocumentor\Descriptor\FileDescriptor;
 use phpDocumentor\Descriptor\BaseComponentTestCase;
-use phpDocumentor\Descriptor\ProjectDescriptorBuilder;
+use phpDocumentor\Descriptor\Analyzer;
 
 class CreateTraitTest extends BaseComponentTestCase
 {

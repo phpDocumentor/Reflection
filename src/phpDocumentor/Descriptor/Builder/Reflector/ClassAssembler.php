@@ -76,7 +76,7 @@ class ClassAssembler extends AssemblerAbstract
     protected function addConstants($constants, $classDescriptor)
     {
         foreach ($constants as $constant) {
-            $constantDescriptor = $this->getBuilder()->buildDescriptor($constant);
+            $constantDescriptor = $this->getAnalyzer()->analyze($constant);
             if ($constantDescriptor) {
                 $constantDescriptor->setParent($classDescriptor);
                 $this->inheritPackageFromParentDescriptor($constantDescriptor, $classDescriptor);
@@ -96,7 +96,7 @@ class ClassAssembler extends AssemblerAbstract
     protected function addProperties($properties, $classDescriptor)
     {
         foreach ($properties as $property) {
-            $propertyDescriptor = $this->getBuilder()->buildDescriptor($property);
+            $propertyDescriptor = $this->getAnalyzer()->analyze($property);
             if ($propertyDescriptor) {
                 $propertyDescriptor->setParent($classDescriptor);
                 $this->inheritPackageFromParentDescriptor($propertyDescriptor, $classDescriptor);
@@ -116,7 +116,7 @@ class ClassAssembler extends AssemblerAbstract
     protected function addMethods($methods, $classDescriptor)
     {
         foreach ($methods as $method) {
-            $methodDescriptor = $this->getBuilder()->buildDescriptor($method);
+            $methodDescriptor = $this->getAnalyzer()->analyze($method);
             if ($methodDescriptor) {
                 $methodDescriptor->setParent($classDescriptor);
                 $this->inheritPackageFromParentDescriptor($methodDescriptor, $classDescriptor);

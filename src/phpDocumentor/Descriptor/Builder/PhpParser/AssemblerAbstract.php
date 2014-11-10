@@ -48,7 +48,7 @@ abstract class AssemblerAbstract extends BaseAssembler
 
         /** @var DocBlock\Tag $tag */
         foreach ($docBlock->getTags() as $tag) {
-            $tagDescriptor = $this->builder->buildDescriptor($tag);
+            $tagDescriptor = $this->analyzer->analyze($tag);
 
             // allow filtering of tags
             if (!$tagDescriptor) {
@@ -92,7 +92,7 @@ abstract class AssemblerAbstract extends BaseAssembler
             : null;
 
         /** @var ConstantDescriptor $constantDescriptor */
-        $constantDescriptor = $this->getBuilder()->buildDescriptor($constant);
+        $constantDescriptor = $this->getAnalyzer()->analyze($constant);
         if (! $constantDescriptor) {
             return;
         }
@@ -115,7 +115,7 @@ abstract class AssemblerAbstract extends BaseAssembler
             : null;
 
         /** @var MethodDescriptor $methodDescriptor */
-        $methodDescriptor = $this->getBuilder()->buildDescriptor($stmt);
+        $methodDescriptor = $this->getAnalyzer()->analyze($stmt);
         if (!$methodDescriptor) {
             return;
         }
@@ -153,7 +153,7 @@ abstract class AssemblerAbstract extends BaseAssembler
         }
 
         /** @var PropertyDescriptor $propertyDescriptor */
-        $propertyDescriptor = $this->getBuilder()->buildDescriptor($property);
+        $propertyDescriptor = $this->getAnalyzer()->analyze($property);
         if (! $propertyDescriptor) {
             return;
         }

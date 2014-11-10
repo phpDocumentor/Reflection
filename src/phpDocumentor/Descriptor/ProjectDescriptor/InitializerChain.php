@@ -11,7 +11,7 @@
 
 namespace phpDocumentor\Descriptor\ProjectDescriptor;
 
-use phpDocumentor\Descriptor\ProjectDescriptorBuilder;
+use phpDocumentor\Descriptor\Analyzer;
 
 final class InitializerChain
 {
@@ -22,10 +22,10 @@ final class InitializerChain
         $this->initializers[] = $callable;
     }
 
-    public function initialize(ProjectDescriptorBuilder $projectDescriptorBuilder)
+    public function initialize(Analyzer $analyzer)
     {
         foreach ($this->initializers as $initializer) {
-            call_user_func($initializer, $projectDescriptorBuilder);
+            call_user_func($initializer, $analyzer);
         }
     }
 } 

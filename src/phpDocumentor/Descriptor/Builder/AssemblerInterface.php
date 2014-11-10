@@ -13,7 +13,7 @@ namespace phpDocumentor\Descriptor\Builder;
 
 use phpDocumentor\Descriptor\Collection;
 use phpDocumentor\Descriptor\DescriptorAbstract;
-use phpDocumentor\Descriptor\ProjectDescriptorBuilder;
+use phpDocumentor\Descriptor\Analyzer;
 
 /**
  * Interface for Assembler classes that transform data to specific Descriptor types.
@@ -29,5 +29,5 @@ interface AssemblerInterface
      */
     public function create($data);
 
-    public function setBuilder(ProjectDescriptorBuilder $builder);
+    public function setAnalyzer(Analyzer $analyzer);
 }

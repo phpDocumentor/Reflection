@@ -33,7 +33,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 /**
  * Builds a Project Descriptor and underlying tree.
  */
-class ProjectDescriptorBuilder
+class Analyzer
 {
     const OPTION_VALIDATOR = 'validator';
     const OPTION_EXAMPLE_FINDER = 'example.finder';
@@ -93,12 +93,12 @@ class ProjectDescriptorBuilder
             $initializerChain = $options[self::OPTION_INITIALIZERS];
         }
 
-        $builder = new static($assemblerFactory, $filterManager, $validator);
+        $analyzer = new static($assemblerFactory, $filterManager, $validator);
 
-        $builder->createProjectDescriptor();
-        $initializerChain->initialize($builder);
+        $analyzer->createProjectDescriptor();
+        $initializerChain->initialize($analyzer);
 
-        return $builder;
+        return $analyzer;
     }
 
     public function createProjectDescriptor()
@@ -190,7 +190,7 @@ class ProjectDescriptorBuilder
             $this->stopwatch->start($data->getFilename());
         }
 
-        $descriptor = $this->buildDescriptor($data);
+        $descriptor = $this->analyze($data);
         if (!$descriptor) {
             return;
         }
@@ -211,7 +211,7 @@ class ProjectDescriptorBuilder
      *
      * @return DescriptorAbstract|Collection|null
      */
-    public function buildDescriptor($data)
+    public function analyze($data)
     {
         $assembler = $this->getAssembler($data);
         if (!$assembler) {
@@ -221,7 +221,7 @@ class ProjectDescriptorBuilder
         }
 
         if ($assembler instanceof Builder\AssemblerAbstract) {
-            $assembler->setBuilder($this);
+            $assembler->setAnalyzer($this);
         }
 
         // create Descriptor and populate with the provided data
@@ -234,6 +234,7 @@ class ProjectDescriptorBuilder
             ? $this->filterAndValidateDescriptor($descriptor)
             : $this->filterAndValidateEachDescriptor($descriptor);
 
+        if ($file)
         return $descriptor;
     }
 

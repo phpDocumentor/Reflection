@@ -12,15 +12,15 @@
 namespace phpDocumentor\Descriptor\Filter;
 
 use \Mockery as m;
-use phpDocumentor\Descriptor\ProjectDescriptorBuilder;
+use phpDocumentor\Descriptor\Analyzer;
 
 /**
  * Tests the functionality for the StripOnVisibility class.
  */
 class StripOnVisibilityTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var ProjectDescriptorBuilder|m\Mock */
-    protected $builderMock;
+    /** @var Analyzer|m\Mock */
+    protected $analyzerMock;
 
     /** @var StripOnVisibility $fixture */
     protected $fixture;
@@ -30,16 +30,16 @@ class StripOnVisibilityTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->builderMock = m::mock('phpDocumentor\Descriptor\ProjectDescriptorBuilder');
-        $this->fixture = new StripOnVisibility($this->builderMock);
+        $this->analyzerMock = m::mock('phpDocumentor\Descriptor\Analyzer');
+        $this->fixture = new StripOnVisibility($this->analyzerMock);
     }
 
     /**
      * @covers phpDocumentor\Descriptor\Filter\StripOnVisibility::__construct
      */
-    public function testProjectDescriptorBuilderIsSetUponConstruction()
+    public function testAnalyzerIsSetUponConstruction()
     {
-        $this->assertAttributeSame($this->builderMock, 'builder', $this->fixture);
+        $this->assertAttributeSame($this->analyzerMock, 'analyzer', $this->fixture);
     }
 
     /**
@@ -47,7 +47,7 @@ class StripOnVisibilityTest extends \PHPUnit_Framework_TestCase
      */
     public function testStripsTagFromDescriptionIfVisibilityIsNotAllowed()
     {
-        $this->builderMock->shouldReceive('isVisibilityAllowed')->andReturn(false);
+        $this->analyzerMock->shouldReceive('isVisibilityAllowed')->andReturn(false);
 
         $descriptor = m::mock('phpDocumentor\Descriptor\Interfaces\VisibilityInterface');
         $descriptor->shouldReceive('getVisibility');
@@ -60,7 +60,7 @@ class StripOnVisibilityTest extends \PHPUnit_Framework_TestCase
      */
     public function testKeepsDescriptorIfVisibilityIsAllowed()
     {
-        $this->builderMock->shouldReceive('isVisibilityAllowed')->andReturn(true);
+        $this->analyzerMock->shouldReceive('isVisibilityAllowed')->andReturn(true);
 
         $descriptor = m::mock('phpDocumentor\Descriptor\Interfaces\VisibilityInterface');
         $descriptor->shouldReceive('getVisibility');
@@ -73,7 +73,7 @@ class StripOnVisibilityTest extends \PHPUnit_Framework_TestCase
      */
     public function testKeepsDescriptorIfDescriptorNotInstanceOfVisibilityInterface()
     {
-        $this->builderMock->shouldReceive('isVisibilityAllowed')->andReturn(false);
+        $this->analyzerMock->shouldReceive('isVisibilityAllowed')->andReturn(false);
 
         $descriptor = m::mock('\phpDocumentor\Descriptor\DescriptorAbstract');
 

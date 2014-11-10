@@ -5,18 +5,18 @@ namespace phpDocumentor\Descriptor\ProjectDescriptor\InitializerCommand;
 use phpDocumentor\Descriptor\Filter\StripIgnore;
 use phpDocumentor\Descriptor\Filter\StripInternal;
 use phpDocumentor\Descriptor\Filter\StripOnVisibility;
-use phpDocumentor\Descriptor\ProjectDescriptorBuilder;
+use phpDocumentor\Descriptor\Analyzer;
 
 class DefaultFilters
 {
-    public function __invoke(ProjectDescriptorBuilder $projectDescriptorBuilder)
+    public function __invoke(Analyzer $analyzer)
     {
-        $filterManager = $projectDescriptorBuilder->getFilterManager();
+        $filterManager = $analyzer->getFilterManager();
 
-        $stripOnVisibility = new StripOnVisibility($projectDescriptorBuilder);
+        $stripOnVisibility = new StripOnVisibility($analyzer);
         $filtersOnAllDescriptors = array(
-            new StripInternal($projectDescriptorBuilder),
-            new StripIgnore($projectDescriptorBuilder)
+            new StripInternal($analyzer),
+            new StripIgnore($analyzer)
         );
 
         foreach ($filtersOnAllDescriptors as $filter) {

@@ -35,7 +35,7 @@ class ArgumentAssembler extends AssemblerAbstract
         $argumentDescriptor = new ArgumentDescriptor();
         $argumentDescriptor->setName('$' . $data->name);
         $argumentDescriptor->setTypes(
-            $this->builder->buildDescriptor(
+            $this->analyzer->analyze(
                 $data->type ? new Collection(array($data->type->toString())) : new Collection()
             )
         );
@@ -70,7 +70,7 @@ class ArgumentAssembler extends AssemblerAbstract
 
         $argumentDescriptor->setDescription($paramDescriptor->getDescription());
         $argumentDescriptor->setTypes(
-            $paramDescriptor->getTypes() ?: $this->builder->buildDescriptor(
+            $paramDescriptor->getTypes() ?: $this->analyzer->analyze(
                 new Collection(array($argument->getType() ?: 'mixed'))
             )
         );

@@ -12,7 +12,7 @@
 namespace phpDocumentor\Descriptor\Builder\PhpParser;
 
 use Mockery as m;
-use phpDocumentor\Descriptor\ProjectDescriptorBuilder;
+use phpDocumentor\Descriptor\Analyzer;
 use phpDocumentor\Reflection\DocBlock;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
@@ -40,18 +40,18 @@ DOCBLOCK;
     /** @var ClassAssembler */
     private $fixture;
 
-    /** @var ProjectDescriptorBuilder|m\MockInterface */
-    private $builderMock;
+    /** @var Analyzer|m\MockInterface */
+    private $analyzerMock;
 
     /**
      * Creates the fixture and its dependencies.
      */
     protected function setUp()
     {
-        $this->builderMock = m::mock('phpDocumentor\Descriptor\ProjectDescriptorBuilder');
+        $this->analyzerMock = m::mock('phpDocumentor\Descriptor\Analyzer');
 
         $this->fixture = new ClassAssembler();
-        $this->fixture->setBuilder($this->builderMock);
+        $this->fixture->setAnalyzer($this->analyzerMock);
     }
 
     /**
@@ -139,11 +139,11 @@ DOCBLOCK;
         $packageTagMock = m::mock('phpDocumentor\Descriptor\Tag');
         $packageTagMock->shouldReceive('getDescription')->andReturn(self::EXAMPLE_PACKAGE_NAME);
 
-        $this->builderMock->shouldReceive('buildDescriptor')
+        $this->analyzerMock->shouldReceive('analyze')
             ->once()
             ->with(m::type('phpDocumentor\Reflection\DocBlock\Tag'))
             ->andReturn($packageTagMock);
-        $this->builderMock->shouldReceive('buildDescriptor')
+        $this->analyzerMock->shouldReceive('analyze')
             ->with(m::type('phpDocumentor\Reflection\DocBlock\Tag\AuthorTag'))
             ->andReturn($authorTagMock);
 

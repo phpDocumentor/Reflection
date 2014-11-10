@@ -37,7 +37,7 @@ class VarAssembler extends AssemblerAbstract
         $descriptor->setDescription($data->getDescription());
         $descriptor->setVariableName($data->getVariableName());
 
-        $types = $this->builder->buildDescriptor(
+        $types = $this->analyzer->analyze(
             new Collection($data->getVariableName() == '$this' ? array('$this') : $data->getTypes())
         );
         $descriptor->setTypes($types);

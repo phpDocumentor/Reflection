@@ -178,7 +178,7 @@ class ServiceProvider implements ServiceProviderInterface
 
         $app['descriptor.builder'] = $app->share(
             function ($container) {
-                $builder = new ProjectDescriptorBuilder(
+                $analyzer = new Analyzer(
                     $container['descriptor.builder.assembler.factory'],
                     $container['descriptor.filter'],
                     $container['validator'],
@@ -186,10 +186,10 @@ class ServiceProvider implements ServiceProviderInterface
                 );
 
                 if (isset($container['kernel.stopwatch'])) {
-                    $builder->setStopWatch($container['kernel.stopwatch']);
+                    $analyzer->setStopWatch($container['kernel.stopwatch']);
                 }
 
-                return $builder;
+                return $analyzer;
             }
         );
     }

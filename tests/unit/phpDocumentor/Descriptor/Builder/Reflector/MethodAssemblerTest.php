@@ -13,7 +13,7 @@
 namespace phpDocumentor\Descriptor\Builder\Reflector;
 
 use phpDocumentor\Descriptor\ArgumentDescriptor;
-use phpDocumentor\Descriptor\ProjectDescriptorBuilder;
+use phpDocumentor\Descriptor\Analyzer;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\ClassReflector\MethodReflector;
 use Mockery as m;
@@ -26,22 +26,22 @@ class MethodAssemblerTest extends \PHPUnit_Framework_TestCase
     /** @var ArgumentAssembler|m\MockInterface */
     protected $argumentAssemblerMock;
 
-    /** @var ProjectDescriptorBuilder|m\MockInterface */
-    protected $builderMock;
+    /** @var Analyzer|m\MockInterface */
+    protected $analyzerMock;
 
     /**
      * Creates a new fixture to test with.
      */
     protected function setUp()
     {
-        $this->builderMock = m::mock('phpDocumentor\Descriptor\ProjectDescriptorBuilder');
-        $this->builderMock->shouldReceive('buildDescriptor')->andReturn(null);
+        $this->analyzerMock = m::mock('phpDocumentor\Descriptor\Analyzer');
+        $this->analyzerMock->shouldReceive('analyze')->andReturn(null);
 
         $this->argumentAssemblerMock = m::mock('phpDocumentor\Descriptor\Builder\Reflector\ArgumentAssembler');
-        $this->argumentAssemblerMock->shouldReceive('getBuilder')->andReturn($this->builderMock);
+        $this->argumentAssemblerMock->shouldReceive('getAnalyzer')->andReturn($this->analyzerMock);
 
         $this->fixture = new MethodAssembler($this->argumentAssemblerMock);
-        $this->fixture->setBuilder($this->builderMock);
+        $this->fixture->setAnalyzer($this->analyzerMock);
     }
 
     /**

@@ -159,7 +159,7 @@ final class FileAssembler extends AssemblerAbstract implements NodeVisitor
     }
 
     /**
-     * Registers all discovered children on this FileDescriptor and calls the Descriptor Builder to construct all
+     * Registers all discovered children on this FileDescriptor and calls the Analyzer to construct all
      * child Descriptors.
      *
      * @param Node $node
@@ -460,7 +460,7 @@ final class FileAssembler extends AssemblerAbstract implements NodeVisitor
 
     /**
      * Creates a Node\Const_ object from a `define` function call so that they are valid constants and can be passed to
-     * the Descriptor Builder.
+     * the Descriptor Analyzer.
      *
      * @param Node $node
      *
@@ -500,7 +500,7 @@ final class FileAssembler extends AssemblerAbstract implements NodeVisitor
             : null;
 
         /** @var DescriptorAbstract $descriptor */
-        $descriptor = $this->getBuilder()->buildDescriptor($node);
+        $descriptor = $this->getAnalyzer()->analyze($node);
         if (!$descriptor) {
             return;
         }

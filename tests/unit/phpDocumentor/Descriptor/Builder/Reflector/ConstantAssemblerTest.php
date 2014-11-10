@@ -17,7 +17,7 @@ use phpDocumentor\Reflection\DocBlock;
 use Mockery as m;
 
 /**
- * Test class for \phpDocumentor\Descriptor\Builder
+ * Test class for \phpDocumentor\Descriptor\ConstantAssembler
  *
  * @covers \phpDocumentor\Descriptor\Builder\Reflector\ConstantAssembler
  */

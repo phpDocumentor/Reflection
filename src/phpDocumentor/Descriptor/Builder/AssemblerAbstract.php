@@ -11,38 +11,38 @@
 
 namespace phpDocumentor\Descriptor\Builder;
 
-use phpDocumentor\Descriptor\ProjectDescriptorBuilder;
+use phpDocumentor\Descriptor\Analyzer;
 
 /**
  * Base class for all assemblers.
  */
 abstract class AssemblerAbstract implements AssemblerInterface
 {
-    /** @var ProjectDescriptorBuilder|null $builder */
-    protected $builder;
+    /** @var Analyzer|null $analyzer */
+    protected $analyzer;
 
     /**
-     * Returns the builder for this Assembler or null if none is set.
+     * Returns the analyzer for this Assembler or null if none is set.
      *
-     * @return null|ProjectDescriptorBuilder
+     * @return null|Analyzer
      */
-    public function getBuilder()
+    public function getAnalyzer()
     {
-        return $this->builder;
+        return $this->analyzer;
     }
 
     /**
-     * Registers the Builder with this Assembler.
+     * Registers the Analyzer with this Assembler.
      *
-     * The Builder may be used to recursively assemble Descriptors using
-     * the {@link ProjectDescriptorBuilder::buildDescriptor()} method.
+     * The Analyzer may be used to recursively assemble Descriptors using
+     * the {@link Analyzer::analyze()} method.
      *
-     * @param ProjectDescriptorBuilder $builder
+     * @param Analyzer $analyzer
      *
      * @return void
      */
-    public function setBuilder(ProjectDescriptorBuilder $builder)
+    public function setAnalyzer(Analyzer $analyzer)
     {
-        $this->builder = $builder;
+        $this->analyzer = $analyzer;
     }
 }

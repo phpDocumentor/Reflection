@@ -13,7 +13,7 @@ namespace phpDocumentor\Descriptor\Filter;
 
 use phpDocumentor\Descriptor\DescriptorAbstract;
 use phpDocumentor\Descriptor\ProjectDescriptor\Settings;
-use phpDocumentor\Descriptor\ProjectDescriptorBuilder;
+use phpDocumentor\Descriptor\Analyzer;
 use Zend\Filter\AbstractFilter;
 
 /**
@@ -29,17 +29,17 @@ use Zend\Filter\AbstractFilter;
  */
 class StripInternal extends AbstractFilter
 {
-    /** @var ProjectDescriptorBuilder $builder */
-    protected $builder;
+    /** @var Analyzer $analyzer */
+    protected $analyzer;
 
     /**
-     * Initializes this filter with an instance of the builder to retrieve the latest ProjectDescriptor from.
+     * Initializes this filter with an instance of the analyzer to retrieve the latest ProjectDescriptor from.
      *
-     * @param ProjectDescriptorBuilder $builder
+     * @param Analyzer $analyzer
      */
-    public function __construct(ProjectDescriptorBuilder $builder)
+    public function __construct(Analyzer $analyzer)
     {
-        $this->builder = $builder;
+        $this->analyzer = $analyzer;
     }
 
     /**
@@ -51,7 +51,7 @@ class StripInternal extends AbstractFilter
      */
     public function filter($value)
     {
-        $isInternalAllowed = $this->builder->isVisibilityAllowed(Settings::VISIBILITY_INTERNAL);
+        $isInternalAllowed = $this->analyzer->isVisibilityAllowed(Settings::VISIBILITY_INTERNAL);
         if ($isInternalAllowed) {
             $value->setDescription(preg_replace('/\{@internal\s(.+?)\}\}/', '$1', $value->getDescription()));
 

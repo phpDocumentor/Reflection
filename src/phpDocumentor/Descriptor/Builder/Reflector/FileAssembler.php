@@ -80,7 +80,7 @@ class FileAssembler extends AssemblerAbstract
     protected function addConstants($constants, $fileDescriptor)
     {
         foreach ($constants as $constant) {
-            $constantDescriptor = $this->getBuilder()->buildDescriptor($constant);
+            $constantDescriptor = $this->getAnalyzer()->analyze($constant);
             if ($constantDescriptor) {
                 $constantDescriptor->setLocation($fileDescriptor, $constant->getLineNumber());
                 if (count($constantDescriptor->getTags()->get('package', new Collection())) == 0) {
@@ -107,7 +107,7 @@ class FileAssembler extends AssemblerAbstract
     protected function addFunctions($functions, $fileDescriptor)
     {
         foreach ($functions as $function) {
-            $functionDescriptor = $this->getBuilder()->buildDescriptor($function);
+            $functionDescriptor = $this->getAnalyzer()->analyze($function);
             if ($functionDescriptor) {
                 $functionDescriptor->setLocation($fileDescriptor, $function->getLineNumber());
                 if (count($functionDescriptor->getTags()->get('package', new Collection())) == 0) {
@@ -134,7 +134,7 @@ class FileAssembler extends AssemblerAbstract
     protected function addClasses($classes, $fileDescriptor)
     {
         foreach ($classes as $class) {
-            $classDescriptor = $this->getBuilder()->buildDescriptor($class);
+            $classDescriptor = $this->getAnalyzer()->analyze($class);
             if ($classDescriptor) {
                 $classDescriptor->setLocation($fileDescriptor, $class->getLineNumber());
                 if (count($classDescriptor->getTags()->get('package', new Collection())) == 0) {
@@ -163,7 +163,7 @@ class FileAssembler extends AssemblerAbstract
     protected function addInterfaces($interfaces, $fileDescriptor)
     {
         foreach ($interfaces as $interface) {
-            $interfaceDescriptor = $this->getBuilder()->buildDescriptor($interface);
+            $interfaceDescriptor = $this->getAnalyzer()->analyze($interface);
             if ($interfaceDescriptor) {
                 $interfaceDescriptor->setLocation($fileDescriptor, $interface->getLineNumber());
                 if (count($interfaceDescriptor->getTags()->get('package', new Collection())) == 0) {
@@ -190,7 +190,7 @@ class FileAssembler extends AssemblerAbstract
     protected function addTraits($traits, $fileDescriptor)
     {
         foreach ($traits as $trait) {
-            $traitDescriptor = $this->getBuilder()->buildDescriptor($trait);
+            $traitDescriptor = $this->getAnalyzer()->analyze($trait);
             if ($traitDescriptor) {
                 $traitDescriptor->setLocation($fileDescriptor, $trait->getLineNumber());
                 if (count($traitDescriptor->getTags()->get('package', new Collection())) == 0) {

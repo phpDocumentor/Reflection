@@ -63,7 +63,7 @@ class TraitAssembler extends AssemblerAbstract
     protected function addProperties($properties, $traitDescriptor)
     {
         foreach ($properties as $property) {
-            $propertyDescriptor = $this->getBuilder()->buildDescriptor($property);
+            $propertyDescriptor = $this->getAnalyzer()->analyze($property);
             if ($propertyDescriptor) {
                 $propertyDescriptor->setParent($traitDescriptor);
                 $traitDescriptor->getProperties()->set($propertyDescriptor->getName(), $propertyDescriptor);
@@ -82,7 +82,7 @@ class TraitAssembler extends AssemblerAbstract
     protected function addMethods($methods, $traitDescriptor)
     {
         foreach ($methods as $method) {
-            $methodDescriptor = $this->getBuilder()->buildDescriptor($method);
+            $methodDescriptor = $this->getAnalyzer()->analyze($method);
             if ($methodDescriptor) {
                 $methodDescriptor->setParent($traitDescriptor);
                 $traitDescriptor->getMethods()->set($methodDescriptor->getName(), $methodDescriptor);

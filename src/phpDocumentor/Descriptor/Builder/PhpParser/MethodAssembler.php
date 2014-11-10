@@ -112,8 +112,8 @@ class MethodAssembler extends AssemblerAbstract
     {
         $params = $descriptor->getTags()->get('param', array());
 
-        if (!$this->argumentAssembler->getBuilder()) {
-            $this->argumentAssembler->setBuilder($this->builder);
+        if (!$this->argumentAssembler->getAnalyzer()) {
+            $this->argumentAssembler->setAnalyzer($this->analyzer);
         }
         $argumentDescriptor = $this->argumentAssembler->create($argument, $params);
 
@@ -146,7 +146,7 @@ class MethodAssembler extends AssemblerAbstract
         if ($lastParamTag->isVariadic()
             && !in_array($lastParamTag->getVariableName(), array_keys($methodDescriptor->getArguments()->getAll()))
         ) {
-            $types = $this->builder->buildDescriptor(new Collection($lastParamTag->getTypes()));
+            $types = $this->analyzer->analyze(new Collection($lastParamTag->getTypes()));
 
             $argument = new ArgumentDescriptor();
             $argument->setName($lastParamTag->getVariableName());

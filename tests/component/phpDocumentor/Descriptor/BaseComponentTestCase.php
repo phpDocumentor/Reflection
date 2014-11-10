@@ -21,24 +21,24 @@ abstract class BaseComponentTestCase extends \PHPUnit_Framework_TestCase
     /** @var string */
     protected $filename;
 
-    /** @var ProjectDescriptorBuilder $fixture */
+    /** @var Analyzer $fixture */
     protected $fixture;
 
     public function switchBetweenStrategies()
     {
         return array(
-            'PhpParser' => $this->createProjectDescriptorUsingBuilder('phpparser'),
-            'Reflector' => $this->createProjectDescriptorUsingBuilder('reflector')
+            'PhpParser' => $this->createProjectDescriptorUsingAnalyzer('phpparser'),
+            'Reflector' => $this->createProjectDescriptorUsingAnalyzer('reflector')
         );
     }
 
     /**
      * @return string
      */
-    protected function createProjectDescriptorUsingBuilder($strategy = 'phpparser')
+    protected function createProjectDescriptorUsingAnalyzer($strategy = 'phpparser')
     {
         $this->filename = __DIR__ . '/../../../example.file.php';
-        $this->fixture = ProjectDescriptorBuilder::create();
+        $this->fixture = Analyzer::create();
 
         switch ($strategy) {
             case 'phpparser':

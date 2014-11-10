@@ -64,7 +64,7 @@ class InterfaceAssembler extends AssemblerAbstract
     protected function addConstants($constants, $interfaceDescriptor)
     {
         foreach ($constants as $constant) {
-            $constantDescriptor = $this->getBuilder()->buildDescriptor($constant);
+            $constantDescriptor = $this->getAnalyzer()->analyze($constant);
             if ($constantDescriptor) {
                 $constantDescriptor->setParent($interfaceDescriptor);
                 $interfaceDescriptor->getConstants()->set($constantDescriptor->getName(), $constantDescriptor);
@@ -83,7 +83,7 @@ class InterfaceAssembler extends AssemblerAbstract
     protected function addMethods($methods, $interfaceDescriptor)
     {
         foreach ($methods as $method) {
-            $methodDescriptor = $this->getBuilder()->buildDescriptor($method);
+            $methodDescriptor = $this->getAnalyzer()->analyze($method);
             if ($methodDescriptor) {
                 $methodDescriptor->setParent($interfaceDescriptor);
                 $interfaceDescriptor->getMethods()->set($methodDescriptor->getName(), $methodDescriptor);

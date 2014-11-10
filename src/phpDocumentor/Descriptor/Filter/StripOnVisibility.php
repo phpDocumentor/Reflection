@@ -13,25 +13,25 @@ namespace phpDocumentor\Descriptor\Filter;
 
 use phpDocumentor\Descriptor\DescriptorAbstract;
 use phpDocumentor\Descriptor\Interfaces\VisibilityInterface;
-use phpDocumentor\Descriptor\ProjectDescriptorBuilder;
+use phpDocumentor\Descriptor\Analyzer;
 use Zend\Filter\AbstractFilter;
 
 /**
- * Strips any Descriptor if their visibility is allowed according to the ProjectDescriptorBuilder.
+ * Strips any Descriptor if their visibility is allowed according to the Analyzer.
  */
 class StripOnVisibility extends AbstractFilter
 {
-    /** @var ProjectDescriptorBuilder $builder */
-    protected $builder;
+    /** @var Analyzer $analyzer */
+    protected $analyzer;
 
     /**
-     * Initializes this filter with an instance of the builder to retrieve the latest ProjectDescriptor from.
+     * Initializes this filter with an instance of the analyzer to retrieve the latest ProjectDescriptor from.
      *
-     * @param ProjectDescriptorBuilder $builder
+     * @param Analyzer $analyzer
      */
-    public function __construct(ProjectDescriptorBuilder $builder)
+    public function __construct(Analyzer $analyzer)
     {
-        $this->builder = $builder;
+        $this->analyzer = $analyzer;
     }
 
     /**
@@ -44,7 +44,7 @@ class StripOnVisibility extends AbstractFilter
     public function filter($value)
     {
         if ($value instanceof VisibilityInterface
-            && !$this->builder->isVisibilityAllowed($value->getVisibility())
+            && !$this->analyzer->isVisibilityAllowed($value->getVisibility())
         ) {
             return null;
         }

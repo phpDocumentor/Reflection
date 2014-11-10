@@ -15,11 +15,11 @@ use \Mockery as m;
 use phpDocumentor\Descriptor\ProjectDescriptor\Settings;
 
 /**
- * Tests the functionality for the ProjectDescriptorBuilder class.
+ * Tests the functionality for the Analyzer class.
  */
-class ProjectDescriptorBuilderTest extends \PHPUnit_Framework_TestCase
+class AnalyzerTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \phpDocumentor\Descriptor\ProjectDescriptorBuilder $fixture */
+    /** @var \phpDocumentor\Descriptor\Analyzer $fixture */
     protected $fixture;
 
     /**
@@ -38,20 +38,20 @@ class ProjectDescriptorBuilderTest extends \PHPUnit_Framework_TestCase
         $filterMock = m::mock('phpDocumentor\Descriptor\Filter\Filter');
         $validatorMock = m::mock('Symfony\Component\Validator\Validator');
 
-        $this->fixture = new ProjectDescriptorBuilder($this->assemblerFactory, $filterMock, $validatorMock);
+        $this->fixture = new Analyzer($this->assemblerFactory, $filterMock, $validatorMock);
     }
 
     /**
-     * Demonstrates the basic usage the the ProjectDescriptorBuilder.
+     * Demonstrates the basic usage the the Analyzer.
      *
-     * This test scenario demonstrates how a ProjectDescriptorBuilder can be used to create a new ProjectDescriptor
+     * This test scenario demonstrates how the Analyzer can be used to create a new ProjectDescriptor
      * and populate it with a single FileDescriptor using a FileReflector as source.
      *
-     * @covers phpDocumentor\Descriptor\ProjectDescriptorBuilder::createProjectDescriptor
-     * @covers phpDocumentor\Descriptor\ProjectDescriptorBuilder::buildFileUsingSourceData
-     * @covers phpDocumentor\Descriptor\ProjectDescriptorBuilder::getProjectDescriptor
+     * @covers phpDocumentor\Descriptor\Analyzer::createProjectDescriptor
+     * @covers phpDocumentor\Descriptor\Analyzer::buildFileUsingSourceData
+     * @covers phpDocumentor\Descriptor\Analyzer::getProjectDescriptor
      *
-     * @see self::setUp on how to create an instance of the builder.
+     * @see self::setUp on how to create an instance of the analyzer.
      *
      * @return void
      */
@@ -63,7 +63,7 @@ class ProjectDescriptorBuilderTest extends \PHPUnit_Framework_TestCase
 
         $this->createFileDescriptorCreationMock();
 
-        // usage example, see the setup how to instantiate the builder.
+        // usage example, see the setup how to instantiate the analyzer.
         $this->fixture->createProjectDescriptor();
         $this->fixture->buildFileUsingSourceData($data);
         $projectDescriptor = $this->fixture->getProjectDescriptor();
@@ -74,8 +74,8 @@ class ProjectDescriptorBuilderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers phpDocumentor\Descriptor\ProjectDescriptorBuilder::createProjectDescriptor
-     * @covers phpDocumentor\Descriptor\ProjectDescriptorBuilder::getProjectDescriptor
+     * @covers phpDocumentor\Descriptor\Analyzer::createProjectDescriptor
+     * @covers phpDocumentor\Descriptor\Analyzer::getProjectDescriptor
      */
     public function testCreatesAnEmptyProjectDescriptorWhenCalledFor()
     {
@@ -83,14 +83,14 @@ class ProjectDescriptorBuilderTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('phpDocumentor\Descriptor\ProjectDescriptor', $this->fixture->getProjectDescriptor());
         $this->assertEquals(
-            ProjectDescriptorBuilder::DEFAULT_PROJECT_NAME,
+            Analyzer::DEFAULT_PROJECT_NAME,
             $this->fixture->getProjectDescriptor()->getName()
         );
     }
 
     /**
-     * @covers phpDocumentor\Descriptor\ProjectDescriptorBuilder::setProjectDescriptor
-     * @covers phpDocumentor\Descriptor\ProjectDescriptorBuilder::getProjectDescriptor
+     * @covers phpDocumentor\Descriptor\Analyzer::setProjectDescriptor
+     * @covers phpDocumentor\Descriptor\Analyzer::getProjectDescriptor
      */
     public function testProvidingAPreExistingDescriptorToBuildOn()
     {
@@ -103,7 +103,7 @@ class ProjectDescriptorBuilderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers phpDocumentor\Descriptor\ProjectDescriptorBuilder::isVisibilityAllowed
+     * @covers phpDocumentor\Descriptor\Analyzer::isVisibilityAllowed
      */
     public function testDeterminesWhetherASpecificVisibilityIsAllowedToBeIncluded()
     {
@@ -117,7 +117,7 @@ class ProjectDescriptorBuilderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Creates a new FileReflector mock that can be used as input for the builder.
+     * Creates a new FileReflector mock that can be used as input for the analyzer.
      *
      * @return m\MockInterface|\phpDocumentor\Reflection\FileReflector
      */
@@ -133,7 +133,7 @@ class ProjectDescriptorBuilderTest extends \PHPUnit_Framework_TestCase
         $fileDescriptor->shouldReceive('getPath')->andReturn('abc');
 
         $fileAssembler = m::mock('stdClass');
-        $fileAssembler->shouldReceive('setBuilder')->withAnyArgs();
+        $fileAssembler->shouldReceive('setAnalyzer')->withAnyArgs();
         $fileAssembler->shouldReceive('create')
             ->with('phpDocumentor\Reflection\FileReflector')
             ->andReturn($fileDescriptor);

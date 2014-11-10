@@ -14,7 +14,7 @@ namespace phpDocumentor\Descriptor\Builder\Reflector;
 
 use Mockery as m;
 use phpDocumentor\Reflection\DocBlock\Type\Collection;
-use phpDocumentor\Descriptor\ProjectDescriptorBuilder;
+use phpDocumentor\Descriptor\Analyzer;
 
 /**
  * Test class for phpDocumentor\Descriptor\Builder\Reflector\ArgumentAssembler
@@ -24,17 +24,17 @@ class ArgumentAssemblerTest extends \PHPUnit_Framework_TestCase
     /** @var ArgumentAssembler $fixture */
     protected $fixture;
 
-    /** @var ProjectDescriptorBuilder|m\MockInterface */
-    protected $builderMock;
+    /** @var Analyzer|m\MockInterface */
+    protected $analyzerMock;
 
     /**
      * Creates a new fixture to test with.
      */
     protected function setUp()
     {
-        $this->builderMock = m::mock('phpDocumentor\Descriptor\ProjectDescriptorBuilder');
+        $this->analyzerMock = m::mock('phpDocumentor\Descriptor\Analyzer');
         $this->fixture = new ArgumentAssembler();
-        $this->fixture->setBuilder($this->builderMock);
+        $this->fixture->setAnalyzer($this->analyzerMock);
     }
 
     /**
@@ -111,7 +111,7 @@ class ArgumentAssemblerTest extends \PHPUnit_Framework_TestCase
     protected function thenProjectBuilderShouldSetCollectionOfExpectedTypes($expected)
     {
         $types = new Collection($expected);
-        $this->builderMock->shouldReceive('buildDescriptor')
+        $this->analyzerMock->shouldReceive('analyze')
             ->with(
                 m::on(
                     function ($value) use ($expected) {

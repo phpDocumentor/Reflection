@@ -12,7 +12,7 @@
 namespace phpDocumentor\Descriptor\Builder\PhpParser;
 
 use Mockery as m;
-use phpDocumentor\Descriptor\ProjectDescriptorBuilder;
+use phpDocumentor\Descriptor\Analyzer;
 use phpDocumentor\Reflection\DocBlock;
 use PhpParser\Node\Const_;
 use PhpParser\Node\Name;
@@ -36,18 +36,18 @@ DOCBLOCK;
     /** @var ConstantAssembler */
     private $fixture;
 
-    /** @var ProjectDescriptorBuilder|m\MockInterface */
-    private $builderMock;
+    /** @var Analyzer|m\MockInterface */
+    private $analyzerMock;
 
     /**
      * Creates the fixture and its dependencies.
      */
     protected function setUp()
     {
-        $this->builderMock = m::mock('phpDocumentor\Descriptor\ProjectDescriptorBuilder');
+        $this->analyzerMock = m::mock('phpDocumentor\Descriptor\Analyzer');
 
         $this->fixture = new ConstantAssembler();
-        $this->fixture->setBuilder($this->builderMock);
+        $this->fixture->setAnalyzer($this->analyzerMock);
     }
 
     /**
@@ -115,7 +115,7 @@ DOCBLOCK;
     {
         $docBlock = new DocBlock(self::EXAMPLE_DOCBLOCK);
         $varTagMock = m::mock('phpDocumentor\Descriptor\Tag\VarDescriptor');
-        $this->builderMock->shouldReceive('buildDescriptor')
+        $this->analyzerMock->shouldReceive('analyze')
             ->with(m::type('phpDocumentor\Reflection\DocBlock\Tag\VarTag'))
             ->andReturn($varTagMock);
 

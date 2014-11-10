@@ -12,15 +12,15 @@
 namespace phpDocumentor\Descriptor\Filter;
 
 use \Mockery as m;
-use phpDocumentor\Descriptor\ProjectDescriptorBuilder;
+use phpDocumentor\Descriptor\Analyzer;
 
 /**
  * Tests the functionality for the StripIgnore class.
  */
 class StripIgnoreTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var ProjectDescriptorBuilder|m\Mock */
-    protected $builderMock;
+    /** @var Analyzer|m\Mock */
+    protected $analyzerMock;
 
     /** @var StripIgnore $fixture */
     protected $fixture;
@@ -30,16 +30,16 @@ class StripIgnoreTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->builderMock = m::mock('phpDocumentor\Descriptor\ProjectDescriptorBuilder');
-        $this->fixture = new StripIgnore($this->builderMock);
+        $this->analyzerMock = m::mock('phpDocumentor\Descriptor\Analyzer');
+        $this->fixture = new StripIgnore($this->analyzerMock);
     }
 
     /**
      * @covers phpDocumentor\Descriptor\Filter\StripIgnore::__construct
      */
-    public function testProjectDescriptorBuilderIsSetUponConstruction()
+    public function testAnalyzerIsSetUponConstruction()
     {
-        $this->assertAttributeSame($this->builderMock, 'builder', $this->fixture);
+        $this->assertAttributeSame($this->analyzerMock, 'analyzer', $this->fixture);
     }
 
     /**

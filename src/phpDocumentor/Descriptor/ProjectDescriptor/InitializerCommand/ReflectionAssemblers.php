@@ -12,7 +12,7 @@
 namespace phpDocumentor\Descriptor\ProjectDescriptor\InitializerCommand;
 
 use phpDocumentor\Descriptor\Example\Finder;
-use phpDocumentor\Descriptor\ProjectDescriptorBuilder;
+use phpDocumentor\Descriptor\Analyzer;
 
 use phpDocumentor\Reflection\ClassReflector\ConstantReflector as ClassConstant;
 use phpDocumentor\Reflection\ClassReflector;
@@ -73,9 +73,9 @@ class ReflectionAssemblers
         $this->exampleFinder = $exampleFinder;
     }
 
-    public function __invoke(ProjectDescriptorBuilder $projectDescriptorBuilder)
+    public function __invoke(Analyzer $analyzer)
     {
-        $factory = $projectDescriptorBuilder->getAssemblerFactory();
+        $factory = $analyzer->getAssemblerFactory();
 
         // @codingStandardsIgnoreStart because we limit the verbosity by making all closures single-line
         $fileMatcher      = function ($criteria) { return $criteria instanceof FileReflector; };

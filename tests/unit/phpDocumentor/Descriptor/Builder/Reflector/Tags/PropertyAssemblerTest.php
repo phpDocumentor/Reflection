@@ -4,7 +4,7 @@ namespace phpDocumentor\Descriptor\Builder\Reflector\Tags;
 
 use Mockery as m;
 use phpDocumentor\Descriptor\Collection;
-use phpDocumentor\Descriptor\ProjectDescriptorBuilder;
+use phpDocumentor\Descriptor\Analyzer;
 use phpDocumentor\Reflection\DocBlock\Tag\PropertyTag;
 use phpDocumentor\Reflection\DocBlock\Type\Collection as TypeCollection;
 
@@ -13,17 +13,17 @@ class PropertyAssemblerTest extends \PHPUnit_Framework_TestCase
     /** @var PropertyAssembler */
     private $fixture;
 
-    /** @var m\MockInterface|ProjectDescriptorBuilder */
-    private $builder;
+    /** @var m\MockInterface|Analyzer */
+    private $analyzer;
 
     /**
      * Initializes the fixture for this test.
      */
     public function setUp()
     {
-        $this->builder = m::mock('phpDocumentor\Descriptor\ProjectDescriptorBuilder');
+        $this->analyzer = m::mock('phpDocumentor\Descriptor\Analyzer');
         $this->fixture = new PropertyAssembler();
-        $this->fixture->setBuilder($this->builder);
+        $this->fixture->setAnalyzer($this->analyzer);
     }
 
     /**
@@ -32,7 +32,7 @@ class PropertyAssemblerTest extends \PHPUnit_Framework_TestCase
     public function testCreatingPropertyDescriptorFromReflector()
     {
         $types = new Collection();
-        $this->builder->shouldReceive('buildDescriptor')
+        $this->analyzer->shouldReceive('analyze')
             ->with(
                 m::on(
                     function ($value) {

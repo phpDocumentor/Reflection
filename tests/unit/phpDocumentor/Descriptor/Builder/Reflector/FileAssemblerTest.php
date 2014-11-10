@@ -18,7 +18,7 @@ use phpDocumentor\Descriptor\Collection;
 use Mockery as m;
 
 /**
- * Test class for \phpDocumentor\Descriptor\Builder
+ * Test class for \phpDocumentor\Descriptor\FileAssembler
  *
  * @covers \phpDocumentor\Descriptor\Builder\Reflector\FileAssembler
  */
@@ -33,7 +33,7 @@ class FileAssemblerTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->fixture = new FileAssembler();
-        $this->fixture->setBuilder($this->getProjectDescriptorBuilderMock());
+        $this->fixture->setAnalyzer($this->getAnalyzerMock());
     }
 
     /**
@@ -108,15 +108,15 @@ DOCBLOCK
     }
 
     /**
-     * Create a descriptor builder mock
+     * Create a analyzer mock
      *
      * @return m\MockInterface
      */
-    protected function getProjectDescriptorBuilderMock()
+    protected function getAnalyzerMock()
     {
-        $projectDescriptorBuilderMock = m::mock('phpDocumentor\Descriptor\ProjectDescriptorBuilder');
+        $analyzerMock = m::mock('phpDocumentor\Descriptor\Analyzer');
 
-        $projectDescriptorBuilderMock->shouldReceive('buildDescriptor')->andReturnUsing(function ($param) {
+        $analyzerMock->shouldReceive('analyze')->andReturnUsing(function ($param) {
             $mock = m::mock('phpDocumentor\Descriptor\DescriptorAbstract');
             $mock->shouldReceive('setLocation')->atLeast()->once();
             $mock->shouldReceive('getTags')->atLeast()->once()->andReturn(new Collection);
@@ -125,6 +125,6 @@ DOCBLOCK
             return $mock;
         });
 
-        return $projectDescriptorBuilderMock;
+        return $analyzerMock;
     }
 }

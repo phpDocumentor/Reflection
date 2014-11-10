@@ -122,8 +122,8 @@ class FunctionAssembler extends AssemblerAbstract
     {
         $params = $functionDescriptor->getTags()->get('param', array());
 
-        if (!$this->argumentAssembler->getBuilder()) {
-            $this->argumentAssembler->setBuilder($this->builder);
+        if (!$this->argumentAssembler->getAnalyzer()) {
+            $this->argumentAssembler->setAnalyzer($this->analyzer);
         }
 
         return $this->argumentAssembler->create($argument, $params);
