@@ -224,6 +224,21 @@ class Analyzer
     }
 
     /**
+     * The finalize method will perform all actions that require a complete project.
+     *
+     * In this method we create all namespaces, link descriptors together if elements share the same project and do
+     * anything that requires us to inspect and alter descriptors and their relations.
+     *
+     * @return ProjectDescriptor
+     */
+    public function finalize()
+    {
+        // TODO: move compiler stuff from phpDocumentor here
+
+        return $this->project;
+    }
+
+    /**
      * Attempts to find an assembler matching the given data.
      *
      * @param mixed $data

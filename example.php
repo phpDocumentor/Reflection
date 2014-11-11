@@ -16,10 +16,8 @@
 // use Composer's autoloader to allow the application to automatically load all classes on request.
 include 'vendor/autoload.php';
 
-use phpDocumentor\Descriptor\Analyzer;
-
 // Create a new Analyzer with which we can analyze a PHP source file
-$analyzer = Analyzer::create();
+$analyzer = phpDocumentor\Descriptor\Analyzer::create();
 
 // Load a file that is to be analyzed
 $splFileObject = new \SplFileObject('tests/example.file.php');
@@ -28,12 +26,9 @@ $splFileObject = new \SplFileObject('tests/example.file.php');
 // `\phpDocumentor\Descriptor\FileDescriptor` class and populate a project descriptor object in the Analyzer.
 $analyzer->analyze($splFileObject);
 
-// The analyzer collects all data from the analyzed files into a Project that can be retrieved using the
-// `getProjectDescriptor()` method.
-//
 // The returned Project object is of class `phpDocumentor\Descriptor\ProjectDescriptor`, see its DocBlock for more
 // information on it.
-$project = $analyzer->getProjectDescriptor();
+$project = $analyzer->finalize();
 
 // As an example of what you can do, let's list all class names in the file 'tests/example.file.php'.
 echo 'List all classes in the example source file: ' . PHP_EOL;
