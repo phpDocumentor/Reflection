@@ -184,24 +184,6 @@ class Analyzer
         return $this->getProjectDescriptor()->isVisibilityAllowed($visibility);
     }
 
-    public function buildFileUsingSourceData($data)
-    {
-        if ($this->stopwatch) {
-            $this->stopwatch->start($data->getFilename());
-        }
-
-        $descriptor = $this->analyze($data);
-        if (!$descriptor) {
-            return;
-        }
-
-        $this->getProjectDescriptor()->getFiles()->set($descriptor->getPath(), $descriptor);
-
-        if ($this->stopwatch){
-            $event = $this->stopwatch->stop($data->getFilename());
-        }
-    }
-
     /**
      * Takes the given data and attempts to build a Descriptor from it.
      *
@@ -234,7 +216,10 @@ class Analyzer
             ? $this->filterAndValidateDescriptor($descriptor)
             : $this->filterAndValidateEachDescriptor($descriptor);
 
-        if ($file)
+        if ($descriptor instanceof FileDescriptor) {
+            $this->getProjectDescriptor()->getFiles()->set($descriptor->getPath(), $descriptor);
+        }
+
         return $descriptor;
     }
 
