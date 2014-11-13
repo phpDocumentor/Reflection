@@ -14,12 +14,12 @@ namespace phpDocumentor\Descriptor\Filter;
 use phpDocumentor\Descriptor\DescriptorAbstract;
 use phpDocumentor\Descriptor\Interfaces\VisibilityInterface;
 use phpDocumentor\Descriptor\Analyzer;
-use Zend\Filter\AbstractFilter;
+use phpDocumentor\SimpleFilter\FilterInterface;
 
 /**
  * Strips any Descriptor if their visibility is allowed according to the Analyzer.
  */
-class StripOnVisibility extends AbstractFilter
+class StripOnVisibility implements FilterInterface
 {
     /** @var Analyzer $analyzer */
     protected $analyzer;

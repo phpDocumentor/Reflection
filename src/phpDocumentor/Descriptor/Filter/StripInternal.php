@@ -14,7 +14,7 @@ namespace phpDocumentor\Descriptor\Filter;
 use phpDocumentor\Descriptor\DescriptorAbstract;
 use phpDocumentor\Descriptor\ProjectDescriptor\Settings;
 use phpDocumentor\Descriptor\Analyzer;
-use Zend\Filter\AbstractFilter;
+use phpDocumentor\SimpleFilter\FilterInterface;
 
 /**
  * Filters a Descriptor when the @internal inline tag, or normal tag, is used.
@@ -27,7 +27,7 @@ use Zend\Filter\AbstractFilter;
  *
  * @link http://www.phpdoc.org/docs/latest/for-users/phpdoc/tags/internal.html
  */
-class StripInternal extends AbstractFilter
+class StripInternal implements FilterInterface
 {
     /** @var Analyzer $analyzer */
     protected $analyzer;

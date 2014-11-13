@@ -15,7 +15,6 @@
         "nikic/php-parser":                  "~1.0",
         "phpdocumentor/reflection-docblock": "~2.0",
         "symfony/validator":                 "~2.2",
-        "zendframework/zend-filter":         "~2.1",
         "symfony/filesystem":                "~2.3"
     },
     "suggests": {

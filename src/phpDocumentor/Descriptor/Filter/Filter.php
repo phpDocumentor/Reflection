@@ -10,8 +10,7 @@
  */
 
 namespace phpDocumentor\Descriptor\Filter;
-
-use Zend\Filter\FilterInterface;
+use phpDocumentor\SimpleFilter\FilterInterface;
 
 /**
  * Filter used to manipulate a descriptor after being build.
@@ -46,7 +45,7 @@ class Filter
      *
      * @return void
      */
-    public function attach($fqcn, $filter, $priority = self::DEFAULT_PRIORITY)
+    public function attach($fqcn, FilterInterface $filter, $priority = self::DEFAULT_PRIORITY)
     {
         $chain = $this->factory->getChainFor($fqcn);
         $chain->attach($filter, $priority);

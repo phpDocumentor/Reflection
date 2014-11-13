@@ -16,6 +16,8 @@ namespace phpDocumentor\SimpleFilter;
  */
 final class Chain implements FilterInterface, \Countable, \IteratorAggregate
 {
+    const DEFAULT_PRIORITY = 1000;
+
     /** @var \SplPriorityQueue  */
     private $innerQueue;
 
@@ -38,7 +40,7 @@ final class Chain implements FilterInterface, \Countable, \IteratorAggregate
      *
      * @return $this
      */
-    public function attach($filter, $priority = 1000)
+    public function attach($filter, $priority = self::DEFAULT_PRIORITY)
     {
         if ($filter instanceof FilterInterface) {
             $filter = array($filter, 'filter');
