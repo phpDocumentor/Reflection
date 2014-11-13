@@ -52,7 +52,7 @@ abstract class BaseComponentTestCase extends \PHPUnit_Framework_TestCase
                 throw new \InvalidArgumentException("Strategy '$strategy' is not supported");
         }
 
-        $this->fixture->buildFileUsingSourceData($data);
+        $this->fixture->analyze($data);
         $this->projectDescriptor = $this->fixture->getProjectDescriptor();
         return array($this->projectDescriptor, $this->filename);
     }
