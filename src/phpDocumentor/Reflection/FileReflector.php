@@ -138,7 +138,7 @@ class FileReflector extends ReflectionAbstract implements PHPParser_NodeVisitor
         $this->contents = file_get_contents($file);
         $this->context = new Context();
 
-        if (strtolower($encoding) !== 'utf-8') {
+        if (strtolower($encoding) !== 'utf-8' && extension_loaded('iconv')) {
             $this->contents = iconv(
                 strtolower($encoding),
                 'utf-8//IGNORE//TRANSLIT',
