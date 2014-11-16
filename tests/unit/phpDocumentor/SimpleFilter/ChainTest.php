@@ -57,9 +57,7 @@ class ChainTest extends \PHPUnit_Framework_TestCase
         $innerQueue = $chain->getProperty('innerQueue');
         $innerQueue->setAccessible(true);
         $innerQueue = null;
-$foo = new Foo;
-        $a = $this->chain->filter($foo);
-        var_dump($a);
+        $this->chain->filter('string');
     }
 
     public function testCountIncreasesAfterAttach()
