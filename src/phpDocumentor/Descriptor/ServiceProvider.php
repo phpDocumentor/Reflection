@@ -117,9 +117,9 @@ class ServiceProvider implements ServiceProviderInterface
         );
 
         $this->addCache($app);
-        $this->addBuilder($app);
+        $this->addAnalyzer($app);
 
-        $app['descriptor.analyzer'] = function () {
+        $app['descriptor.project.analyzer'] = function () {
             return new ProjectAnalyzer();
         };
     }
@@ -168,7 +168,7 @@ class ServiceProvider implements ServiceProviderInterface
      *
      * @return void
      */
-    protected function addBuilder(Application $app)
+    protected function addAnalyzer(Application $app)
     {
         if (extension_loaded('igbinary')) {
             $app['descriptor.builder.serializer'] = 'IgBinary';
@@ -176,7 +176,7 @@ class ServiceProvider implements ServiceProviderInterface
             $app['descriptor.builder.serializer'] = 'PhpSerialize';
         }
 
-        $app['descriptor.builder'] = $app->share(
+        $app['descriptor.analyzer'] = $app->share(
             function ($container) {
                 $analyzer = new Analyzer(
                     $container['descriptor.builder.assembler.factory'],
