@@ -96,6 +96,13 @@ namespace Luigi\Pizza
         {
         }
 
+        /**
+         * Calculates the price for this specific component.
+         *
+         * @param float[] $...additionalPrices Additional costs may be passed
+         *
+         * @return float
+         */
         abstract protected function calculatePrice();
     }
 
@@ -254,6 +261,10 @@ namespace Luigi
         final public function addTopping(Pizza\Topping $topping)
         {
             $this->toppings[] = $topping;
+        }
+
+        public function setSize(&$size = \Luigi\Pizza\SIZE_20CM)
+        {
         }
 
         public function getPrice()

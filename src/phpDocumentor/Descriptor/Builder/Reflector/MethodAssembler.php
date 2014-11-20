@@ -132,14 +132,15 @@ class MethodAssembler extends AssemblerAbstract
             return;
         }
 
+        // convert ParamTag into ParamDescriptor
+        $lastParamTag = $this->analyzer->analyze($lastParamTag);
+
         if ($lastParamTag->isVariadic()
             && !in_array($lastParamTag->getVariableName(), array_keys($methodDescriptor->getArguments()->getAll()))
         ) {
-            $types = $this->analyzer->analyze(new Collection($lastParamTag->getTypes()));
-
             $argument = new ArgumentDescriptor();
             $argument->setName($lastParamTag->getVariableName());
-            $argument->setTypes($types);
+            $argument->setTypes($lastParamTag->getTypes());
             $argument->setDescription($lastParamTag->getDescription());
             $argument->setLine($methodDescriptor->getLine());
             $argument->setVariadic(true);

@@ -33,3 +33,9 @@ Project2: \Luigi\Pizza\Valued::BASE_PRICE his namespace is set to \Luigi
 Checks to add to example:
 
 1. Variadic arguments
+2. Arguments are not checked in component tests
+3. Check why the MethodAssembler has to set the analyzer; shouldn't that be somewhere else?
+
+Things to refactor:
+
+- Caching
