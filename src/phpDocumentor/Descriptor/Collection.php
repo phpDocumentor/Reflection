@@ -196,4 +196,9 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
     {
         return new Collection(array_merge($this->items, $collection->getAll()));
     }
+
+    public function end()
+    {
+        return end($this->items);
+    }
 }

@@ -14,62 +14,12 @@ namespace phpDocumentor\Descriptor;
 use Cilex\Application;
 use Cilex\ServiceProviderInterface;
 use phpDocumentor\Descriptor\Builder\AssemblerFactory;
-use phpDocumentor\Descriptor\Builder\Reflector\ArgumentAssembler;
-use phpDocumentor\Descriptor\Builder\Reflector\ClassAssembler;
-use phpDocumentor\Descriptor\Builder\Reflector\ConstantAssembler;
-use phpDocumentor\Descriptor\Builder\Reflector\FileAssembler;
-use phpDocumentor\Descriptor\Builder\Reflector\FunctionAssembler;
-use phpDocumentor\Descriptor\Builder\Reflector\InterfaceAssembler;
-use phpDocumentor\Descriptor\Builder\Reflector\MethodAssembler;
-use phpDocumentor\Descriptor\Builder\Reflector\PropertyAssembler;
-use phpDocumentor\Descriptor\Builder\Reflector\Tags\AuthorAssembler;
-use phpDocumentor\Descriptor\Builder\Reflector\Tags\DeprecatedAssembler;
-use phpDocumentor\Descriptor\Builder\Reflector\Tags\ExampleAssembler;
-use phpDocumentor\Descriptor\Builder\Reflector\Tags\GenericTagAssembler;
-use phpDocumentor\Descriptor\Builder\Reflector\Tags\LinkAssembler;
-use phpDocumentor\Descriptor\Builder\Reflector\Tags\MethodAssembler as MethodTagAssembler;
-use phpDocumentor\Descriptor\Builder\Reflector\Tags\ParamAssembler;
-use phpDocumentor\Descriptor\Builder\Reflector\Tags\PropertyAssembler as PropertyTagAssembler;
-use phpDocumentor\Descriptor\Builder\Reflector\Tags\ReturnAssembler;
-use phpDocumentor\Descriptor\Builder\Reflector\Tags\SeeAssembler;
-use phpDocumentor\Descriptor\Builder\Reflector\Tags\SinceAssembler;
-use phpDocumentor\Descriptor\Builder\Reflector\Tags\ThrowsAssembler;
-use phpDocumentor\Descriptor\Builder\Reflector\Tags\TypeCollectionAssembler;
-use phpDocumentor\Descriptor\Builder\Reflector\Tags\UsesAssembler;
-use phpDocumentor\Descriptor\Builder\Reflector\Tags\VarAssembler;
-use phpDocumentor\Descriptor\Builder\Reflector\Tags\VersionAssembler;
-use phpDocumentor\Descriptor\Builder\Reflector\TraitAssembler;
 use phpDocumentor\Descriptor\Filter\ClassFactory;
 use phpDocumentor\Descriptor\Filter\Filter;
-use phpDocumentor\Descriptor\Filter\StripIgnore;
-use phpDocumentor\Descriptor\Filter\StripInternal;
-use phpDocumentor\Descriptor\Filter\StripOnVisibility;
 use phpDocumentor\Descriptor\ProjectDescriptor\InitializerChain;
 use phpDocumentor\Descriptor\ProjectDescriptor\InitializerCommand\DefaultFilters;
 use phpDocumentor\Descriptor\ProjectDescriptor\InitializerCommand\DefaultValidators;
 use phpDocumentor\Descriptor\ProjectDescriptor\InitializerCommand\ReflectionAssemblers;
-use phpDocumentor\Reflection\ClassReflector\ConstantReflector as ClassConstant;
-use phpDocumentor\Reflection\ClassReflector;
-use phpDocumentor\Reflection\ConstantReflector;
-use phpDocumentor\Reflection\DocBlock\Tag\AuthorTag;
-use phpDocumentor\Reflection\DocBlock\Tag\DeprecatedTag;
-use phpDocumentor\Reflection\DocBlock\Tag\ExampleTag;
-use phpDocumentor\Reflection\DocBlock\Tag\LinkTag;
-use phpDocumentor\Reflection\DocBlock\Tag\MethodTag;
-use phpDocumentor\Reflection\DocBlock\Tag\ParamTag;
-use phpDocumentor\Reflection\DocBlock\Tag\PropertyTag;
-use phpDocumentor\Reflection\DocBlock\Tag\ReturnTag;
-use phpDocumentor\Reflection\DocBlock\Tag\SeeTag;
-use phpDocumentor\Reflection\DocBlock\Tag\SinceTag;
-use phpDocumentor\Reflection\DocBlock\Tag\ThrowsTag;
-use phpDocumentor\Reflection\DocBlock\Tag\UsesTag;
-use phpDocumentor\Reflection\DocBlock\Tag\VarTag;
-use phpDocumentor\Reflection\DocBlock\Tag;
-use phpDocumentor\Reflection\DocBlock\Type\Collection as TypeCollection;
-use phpDocumentor\Reflection\FileReflector;
-use phpDocumentor\Reflection\FunctionReflector;
-use phpDocumentor\Reflection\InterfaceReflector;
-use phpDocumentor\Reflection\TraitReflector;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Validator;
 use Zend\Cache\Storage\Adapter\Filesystem;
@@ -117,9 +67,9 @@ class ServiceProvider implements ServiceProviderInterface
         );
 
         $this->addCache($app);
-        $this->addBuilder($app);
+        $this->addAnalyzer($app);
 
-        $app['descriptor.analyzer'] = function () {
+        $app['descriptor.project.analyzer'] = function () {
             return new ProjectAnalyzer();
         };
     }
@@ -168,7 +118,7 @@ class ServiceProvider implements ServiceProviderInterface
      *
      * @return void
      */
-    protected function addBuilder(Application $app)
+    protected function addAnalyzer(Application $app)
     {
         if (extension_loaded('igbinary')) {
             $app['descriptor.builder.serializer'] = 'IgBinary';
@@ -176,7 +126,7 @@ class ServiceProvider implements ServiceProviderInterface
             $app['descriptor.builder.serializer'] = 'PhpSerialize';
         }
 
-        $app['descriptor.builder'] = $app->share(
+        $app['descriptor.analyzer'] = $app->share(
             function ($container) {
                 $analyzer = new Analyzer(
                     $container['descriptor.builder.assembler.factory'],

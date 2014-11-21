@@ -35,7 +35,12 @@ class ParamAssembler extends AssemblerAbstract
     {
         $descriptor = new ParamDescriptor($data->getName());
         $descriptor->setDescription($data->getDescription());
-        $descriptor->setVariableName($data->getVariableName());
+        $variableName = $data->getVariableName();
+        if (substr($variableName, 1, 3) == '...') {
+            $variableName = '$' . substr($variableName, 4);
+            $descriptor->setIsVariadic(true);
+        }
+        $descriptor->setVariableName($variableName);
 
         /** @var Collection $types */
         $types = $this->analyzer->analyze(new Collection($data->getTypes()));

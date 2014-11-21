@@ -88,7 +88,6 @@ class Analyzer
             $initializerChain->addInitializer(new DefaultFilters());
             $initializerChain->addInitializer(new PhpParserAssemblers($exampleFinder));
             $initializerChain->addInitializer(new ReflectionAssemblers($exampleFinder));
-            $initializerChain->addInitializer(new DefaultValidators($validator));
         } else {
             $initializerChain = $options[self::OPTION_INITIALIZERS];
         }
