@@ -48,7 +48,6 @@ class ServiceProvider implements ServiceProviderInterface
                 $initializerChain = new InitializerChain();
                 $initializerChain->addInitializer(new DefaultFilters());
                 $initializerChain->addInitializer(new ReflectionAssemblers($app['parser.example.finder']));
-                $initializerChain->addInitializer(new DefaultValidators($app['validator']));
 
                 return $initializerChain;
             }
