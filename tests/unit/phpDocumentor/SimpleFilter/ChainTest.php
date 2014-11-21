@@ -4,7 +4,6 @@ namespace phpDocumentor\SimpleFilter;
 
 use \Mockery as m;
 
-class Foo {}
 class ChainTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -44,8 +43,8 @@ class ChainTest extends \PHPUnit_Framework_TestCase
     public function testFilterCallable()
     {
         $value = function () {};
-        $a = $this->chain->filter($value);
-        $this->assertInstanceOf('phpDocumentor\SimpleFilter\Chain', $a);
+        $filter = $this->chain->filter($value);
+        $this->assertInstanceOf('phpDocumentor\SimpleFilter\Chain', $filter);
     }
 
     /**
@@ -56,8 +55,8 @@ class ChainTest extends \PHPUnit_Framework_TestCase
         $chain = new \ReflectionClass($this->chain);
         $innerQueue = $chain->getProperty('innerQueue');
         $innerQueue->setAccessible(true);
-        $innerQueue = null;
-        $this->chain->filter('string');
+        $innerQueue->setValue($innerQueue, m::mock('phpDocumentor\SimpleFilter\eisgwjhgasd'));
+        $this->chain->filter($innerQueue);
     }
 
     public function testCountIncreasesAfterAttach()
