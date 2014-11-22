@@ -16,7 +16,7 @@ class ChainTest extends \PHPUnit_Framework_TestCase
         $this->chain = new Chain();
     }
 
-    public function testAttachFilter()
+    public function testAttachFilterProperty()
     {
         /** @var FilterInterface $filterMock */
         $filterMock = m::mock('phpDocumentor\SimpleFilter\FilterInterface');
@@ -25,41 +25,52 @@ class ChainTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('phpDocumentor\SimpleFilter\Chain', $filter);
     }
 
-    public function testAttachCallback()
+    public function testAttachCallbackProperty()
     {
         $callback = $this->chain->attach(function () {});
         $filter = $this->chain->attach($callback);
+
         $this->assertInstanceOf('phpDocumentor\SimpleFilter\Chain', $filter);
     }
 
     /**
      * @expectedException \InvalidArgumentException
      */
-    public function testAttachInvalidArgument()
+    public function testAttachInvalidProperty()
     {
         $this->chain->attach(null);
     }
 
-    public function testFilterCallable()
+    /**
+     * @covers \phpDocumentor\SimpleFilter\Chain::filter
+     */
+    public function testFilterCallableProperty()
     {
-        $value = function () {};
-        $filter = $this->chain->filter($value);
-        $this->assertInstanceOf('phpDocumentor\SimpleFilter\Chain', $filter);
+        $value = function ($input) { return 'foo' . $input; };
+
+        $this->chain->attach($value);
+        $filter = $this->chain->filter('bar');
+
+        $this->assertSame('foobar', $filter);
     }
 
     /**
      * @expectedException \RuntimeException
      */
-    public function testFilterInvalidArgument()
+    public function testFilterInvalidProperty()
     {
         $chain = new \ReflectionClass($this->chain);
+        $mockedQueue = new \SplPriorityQueue();
+        $mockedQueue->insert('foo', 1000);
+
         $innerQueue = $chain->getProperty('innerQueue');
         $innerQueue->setAccessible(true);
-        $innerQueue->setValue($innerQueue, m::mock('phpDocumentor\SimpleFilter\eisgwjhgasd'));
+        $innerQueue->setValue($this->chain, $mockedQueue);
+
         $this->chain->filter($innerQueue);
     }
 
-    public function testCountIncreasesAfterAttach()
+    public function testCountIncreasesAfterEachAttach()
     {
         $this->assertCount(0, $this->chain);
 
