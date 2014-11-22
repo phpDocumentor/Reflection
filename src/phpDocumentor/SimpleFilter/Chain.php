@@ -14,7 +14,7 @@ namespace phpDocumentor\SimpleFilter;
 /**
  * A chain of filters that can be used to store and order a series of filters based on a given priority.
  */
-class Chain implements FilterInterface, \Countable, \IteratorAggregate
+final class Chain implements FilterInterface, \Countable, \IteratorAggregate
 {
     const DEFAULT_PRIORITY = 1000;
 
