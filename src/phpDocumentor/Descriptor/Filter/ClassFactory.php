@@ -11,14 +11,14 @@
 
 namespace phpDocumentor\Descriptor\Filter;
 
-use Zend\Filter\FilterChain;
+use phpDocumentor\SimpleFilter\Chain;
 
 /**
  * Retrieves a series of filters to manipulate a specific Descriptor with during building.
  */
 class ClassFactory
 {
-    /** @var FilterChain[]  */
+    /** @var Chain[]  */
     protected $chains = array();
 
     /**
@@ -26,12 +26,12 @@ class ClassFactory
      *
      * @param string $fqcn
      *
-     * @return FilterChain
+     * @return Chain
      */
     public function getChainFor($fqcn)
     {
         if (!isset($this->chains[$fqcn])) {
-            $this->chains[$fqcn] = new FilterChain();
+            $this->chains[$fqcn] = new Chain();
         }
 
         return $this->chains[$fqcn];

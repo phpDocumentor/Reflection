@@ -12,6 +12,8 @@
 namespace phpDocumentor\Descriptor\Builder\PhpParser;
 
 use phpDocumentor\Descriptor\ArgumentDescriptor;
+use phpDocumentor\Descriptor\Collection as DescriptorCollection;
+use phpDocumentor\Descriptor\Tag\ParamDescriptor;
 use phpDocumentor\Reflection\DocBlock\Type\Collection;
 use phpDocumentor\Descriptor\MethodDescriptor;
 use phpDocumentor\Reflection\ClassReflector\MethodReflector;
@@ -52,8 +54,13 @@ class MethodAssembler extends AssemblerAbstract
 
         $this->mapNodeToDescriptor($data, $methodDescriptor);
 
+        if ($methodDescriptor->getName() == 'calculatePrice') {
+//            var_dump($methodDescriptor->getName());
+//            var_dump($data->params);
+        }
+
         $this->addArguments($data, $methodDescriptor);
-//        $this->addVariadicArgument($data, $methodDescriptor);
+        $this->addVariadicArgument($methodDescriptor);
 
         return $methodDescriptor;
     }
@@ -124,21 +131,17 @@ class MethodAssembler extends AssemblerAbstract
      * Checks if there is a variadic argument in the `@param` tags and adds it to the list of Arguments in
      * the Descriptor unless there is already one present.
      *
-     * @param MethodReflector  $data
      * @param MethodDescriptor $methodDescriptor
      *
      * @return void
      */
-    protected function addVariadicArgument($data, $methodDescriptor)
+    protected function addVariadicArgument($methodDescriptor)
     {
-        if (!$data->getDocBlock()) {
-            return;
-        }
+        /** @var DescriptorCollection $paramTags */
+        $paramTags = $methodDescriptor->getParam();
 
-        $paramTags = $data->getDocBlock()->getTagsByName('param');
-
-        /** @var ParamTag $lastParamTag */
-        $lastParamTag = end($paramTags);
+        /** @var ParamDescriptor $lastParamTag */
+        $lastParamTag = $paramTags->end();
         if (!$lastParamTag) {
             return;
         }
@@ -146,11 +149,9 @@ class MethodAssembler extends AssemblerAbstract
         if ($lastParamTag->isVariadic()
             && !in_array($lastParamTag->getVariableName(), array_keys($methodDescriptor->getArguments()->getAll()))
         ) {
-            $types = $this->analyzer->analyze(new Collection($lastParamTag->getTypes()));
-
             $argument = new ArgumentDescriptor();
             $argument->setName($lastParamTag->getVariableName());
-            $argument->setTypes($types);
+            $argument->setTypes($lastParamTag->getTypes());
             $argument->setDescription($lastParamTag->getDescription());
             $argument->setLine($methodDescriptor->getLine());
             $argument->setVariadic(true);

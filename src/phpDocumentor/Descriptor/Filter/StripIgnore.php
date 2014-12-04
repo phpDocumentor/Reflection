@@ -13,12 +13,12 @@ namespace phpDocumentor\Descriptor\Filter;
 
 use phpDocumentor\Descriptor\DescriptorAbstract;
 use phpDocumentor\Descriptor\Analyzer;
-use Zend\Filter\AbstractFilter;
+use phpDocumentor\SimpleFilter\FilterInterface;
 
 /**
  * Strips any Descriptor if the ignore tag is present with that element.
  */
-class StripIgnore extends AbstractFilter
+class StripIgnore implements FilterInterface
 {
     /** @var Analyzer $analyzer */
     protected $analyzer;

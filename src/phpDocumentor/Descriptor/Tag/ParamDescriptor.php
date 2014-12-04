@@ -16,4 +16,28 @@ namespace phpDocumentor\Descriptor\Tag;
  */
 class ParamDescriptor extends BaseTypes\TypedVariableAbstract
 {
+    /** @var bool */
+    private $isVariadic = false;
+
+    /**
+     * Returns whether this is a variadic parameter.
+     *
+     * @return boolean
+     */
+    public function isVariadic()
+    {
+        return $this->isVariadic;
+    }
+
+    /**
+     * Registers whether this is a variadic parameter.
+     *
+     * @param boolean $isVariadic
+     *
+     * @return void
+     */
+    public function setIsVariadic($isVariadic)
+    {
+        $this->isVariadic = $isVariadic;
+    }
 }

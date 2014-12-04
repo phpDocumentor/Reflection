@@ -34,6 +34,6 @@ class ClassFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $filterChain = $this->fixture->getChainFor('foo');
 
-        $this->assertInstanceOf('Zend\Filter\FilterChain', $filterChain);
+        $this->assertInstanceOf('phpDocumentor\SimpleFilter\Chain', $filterChain);
     }
 }

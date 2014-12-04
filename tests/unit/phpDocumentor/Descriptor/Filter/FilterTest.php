@@ -12,11 +12,10 @@
 namespace phpDocumentor\Descriptor\Filter;
 
 use \Mockery as m;
-use \Zend\Filter\FilterChain;
+use phpDocumentor\SimpleFilter\Chain;
 
 /**
  * Tests the functionality for the Filter class.
- * @group broken
  */
 class FilterTest extends \PHPUnit_Framework_TestCase
 {
@@ -25,8 +24,8 @@ class FilterTest extends \PHPUnit_Framework_TestCase
     /** @var ClassFactory|m\Mock */
     protected $classFactoryMock;
 
-    /** @var FilterChain|m\Mock */
-    protected $filterChainMock;
+    /** @var Chain|m\Mock */
+    protected $chainMock;
 
     /** @var Filter $fixture */
     protected $fixture;
@@ -37,7 +36,7 @@ class FilterTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->classFactoryMock = m::mock('phpDocumentor\Descriptor\Filter\ClassFactory');
-        $this->filterChainMock  = m::mock('Zend\Filter\FilterChain');
+        $this->chainMock        = m::mock(new Chain());
         $this->fixture          = new Filter($this->classFactoryMock);
     }
 
@@ -54,10 +53,10 @@ class FilterTest extends \PHPUnit_Framework_TestCase
      */
     public function testAttach()
     {
-        $filterMock = m::mock('Zend\Filter\FilterInterface');
+        $filterMock = m::mock('phpDocumentor\SimpleFilter\FilterInterface');
 
-        $this->filterChainMock->shouldReceive('attach')->with($filterMock, FilterChain::DEFAULT_PRIORITY);
-        $this->classFactoryMock->shouldReceive('getChainFor')->with(self::FQCN)->andReturn($this->filterChainMock);
+        $this->chainMock->shouldReceive('attach')->with($filterMock, Chain::DEFAULT_PRIORITY);
+        $this->classFactoryMock->shouldReceive('getChainFor')->with(self::FQCN)->andReturn($this->chainMock);
 
         $this->fixture->attach(self::FQCN, $filterMock);
     }
@@ -69,9 +68,9 @@ class FilterTest extends \PHPUnit_Framework_TestCase
     {
         $filterableMock = m::mock('phpDocumentor\Descriptor\Filter\Filterable');
 
-        $this->filterChainMock->shouldReceive('filter')->with($filterableMock)->andReturn($filterableMock);
+        $this->chainMock->shouldReceive('filter')->with($filterableMock)->andReturn($filterableMock);
         $this->classFactoryMock
-            ->shouldReceive('getChainFor')->with(get_class($filterableMock))->andReturn($this->filterChainMock);
+            ->shouldReceive('getChainFor')->with(get_class($filterableMock))->andReturn($this->chainMock);
 
         $this->assertSame($filterableMock, $this->fixture->filter($filterableMock));
     }
