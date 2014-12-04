@@ -15,6 +15,7 @@ use phpDocumentor\Descriptor\ArgumentDescriptor;
 use phpDocumentor\Reflection\DocBlock\Type\Collection;
 use phpDocumentor\Descriptor\Tag\ParamDescriptor;
 use phpDocumentor\Reflection\FunctionReflector\ArgumentReflector;
+use PhpParser\Node\Name;
 use PhpParser\Node\Param;
 
 /**
@@ -25,7 +26,7 @@ class ArgumentAssembler extends AssemblerAbstract
     /**
      * Creates a Descriptor from the provided data.
      *
-     * @param Param             $data
+     * @param Param|string|null $data
      * @param ParamDescriptor[] $params
      *
      * @return ArgumentDescriptor
@@ -36,7 +37,9 @@ class ArgumentAssembler extends AssemblerAbstract
         $argumentDescriptor->setName('$' . $data->name);
         $argumentDescriptor->setTypes(
             $this->analyzer->analyze(
-                $data->type ? new Collection(array($data->type->toString())) : new Collection()
+                $data->type
+                ? new Collection(array($data->type instanceof Name ? $data->type->toString() : $data->type))
+                : new Collection()
             )
         );
 
