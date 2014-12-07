@@ -11,7 +11,7 @@
 
 namespace phpDocumentor\Descriptor\Cache;
 
-use Desarrolla2\Cache\Adapter\AdapterInterface;
+use Desarrolla2\Cache\CacheInterface;
 use phpDocumentor\Descriptor\FileDescriptor;
 use phpDocumentor\Descriptor\ProjectDescriptor;
 use phpDocumentor\Descriptor\ProjectDescriptor\Settings;
@@ -25,15 +25,15 @@ class ProjectDescriptorMapper
     const KEY_SETTINGS = 'settings';
     const KEY_FILES    = 'files';
 
-    /** @var AdapterInterface */
+    /** @var CacheInterface */
     protected $cache;
 
     /**
      * Initializes this mapper with the given cache instance.
      *
-     * @param AdapterInterface $cache
+     * @param CacheInterface $cache
      */
-    public function __construct(AdapterInterface $cache)
+    public function __construct(CacheInterface $cache)
     {
         $this->cache = $cache;
     }
@@ -41,7 +41,7 @@ class ProjectDescriptorMapper
     /**
      * Returns the Cache instance for this Mapper.
      *
-     * @return AdapterInterface
+     * @return CacheInterface
      */
     public function getCache()
     {
