@@ -54,6 +54,7 @@ final class FileAssembler extends AssemblerAbstract implements NodeVisitor
 {
     const XDEBUG_MAX_NESTING_LEVEL = 10000;
 
+    /** @var string */
     private $defaultPackageName = 'Default';
 
     /** @var FileDescriptor */
@@ -62,7 +63,10 @@ final class FileAssembler extends AssemblerAbstract implements NodeVisitor
     /** @var Context */
     private $context;
 
-    /** @var string[]  */
+    /** @var string */
+    private $encoding = 'utf-8';
+
+    /** @var string[] */
     private $markerTerms = array('FIXME', 'TODO');
 
     /**
@@ -74,6 +78,54 @@ final class FileAssembler extends AssemblerAbstract implements NodeVisitor
     public function __construct()
     {
         ini_set('xdebug.max_nesting_level', self::XDEBUG_MAX_NESTING_LEVEL);
+    }
+
+    /**
+     * Changes the name of the default package.
+     *
+     * @param string $defaultPackageName
+     *
+     * @return void
+     */
+    public function setDefaultPackageName($defaultPackageName)
+    {
+        $this->defaultPackageName = $defaultPackageName;
+    }
+
+    /**
+     * Registers what the expected encoding of the files in a project.
+     *
+     * The default is UTF-8, please note that changing the encoding will have a negative impact on performance because
+     * all files need to be converted using iconv to utf-8.
+     *
+     * @param string $encoding
+     *
+     * @return void
+     */
+    public function setEncoding($encoding)
+    {
+        if (strtolower($encoding) !== 'utf-8' && !extension_loaded('iconv')) {
+            throw new \InvalidArgumentException(
+                'The iconv extension of PHP is required when dealing with an encoding other than UTF-8'
+            );
+        }
+
+        $this->encoding = $encoding;
+    }
+
+    /**
+     * Registers which 'markers' are to be collected from a given file.
+     *
+     * Markers are inline comments that start with a special keyword, such as `// TODO` and that may optionally be
+     * followed by a colon. These markers are indexed by phpDocumentor and shown in a special report.
+     *
+     * @param string[] $markerTerms
+     *
+     * @return void
+     */
+    public function setMarkerTerms(array $markerTerms)
+    {
+        $this->markerTerms = $markerTerms;
     }
 
     /**
@@ -438,6 +490,11 @@ final class FileAssembler extends AssemblerAbstract implements NodeVisitor
         $contents = '';
         foreach ($data as $line) {
             $contents .= $line;
+        }
+
+        $encoding = strtolower($this->encoding);
+        if ($encoding !== 'utf-8') {
+            $contents = iconv($encoding, 'utf-8//IGNORE//TRANSLIT', $contents);
         }
 
         return $contents;
