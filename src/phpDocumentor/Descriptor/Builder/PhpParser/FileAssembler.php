@@ -69,6 +69,9 @@ final class FileAssembler extends AssemblerAbstract implements NodeVisitor
     /** @var string[] */
     private $markerTerms = array('FIXME', 'TODO');
 
+    /** @var string */
+    private $projectRoot = '';
+
     /**
      * Initializes XDebug with a higher nesting level.
      *
@@ -129,6 +132,28 @@ final class FileAssembler extends AssemblerAbstract implements NodeVisitor
     }
 
     /**
+     * Registers the root folder for the files collected by this assembler.
+     *
+     * If you register the project root with this assembler than all files that are passed to this assembler will have
+     * this part of the file's path removed. This mechanism ensures that it does not matter where you project is, the
+     * file names will always be relative to the projct root.
+     *
+     * For example:
+     *
+     *   Suppose you have a file `/home/mvriel/myProject/index.php` that you want to parse then when you set the project
+     *   root to `/home/mvriel/myProject` then the reflection library will only register `index.php` as the
+     *   complete path.
+     *
+     * @param string $path
+     *
+     * @return void
+     */
+    public function setProjectRoot($path)
+    {
+        $this->projectRoot = $path;
+    }
+
+    /**
      * Creates a Descriptor from the provided data.
      *
      * @param \SplFileObject $data The contents of a file
@@ -142,7 +167,7 @@ final class FileAssembler extends AssemblerAbstract implements NodeVisitor
 
         $this->fileDescriptor = new FileDescriptor(md5($contents));
         $this->fileDescriptor->setName($data->getBasename());
-        $this->fileDescriptor->setPath($data->getPathname());
+        $this->fileDescriptor->setPath(substr($data->getPathname(), strlen($this->projectRoot)));
         $this->fileDescriptor->setSource($contents);
 
         $this->createTraverser()->traverse($contents);
