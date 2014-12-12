@@ -422,8 +422,8 @@ final class FileAssembler extends AssemblerAbstract implements NodeVisitor
                 $docblock = new DocBlock((string)$docblockNode, null, new DocBlock\Location($docblockNode->getLine()));
             }
 
-            if (!$this->isFileDocBlock($docblock, $node)) {
-                return array(null, $comments);
+            if (! $this->isFileDocBlock($docblock, $node)) {
+                return null;
             }
 
             // remove the file level DocBlock from the node's comments
@@ -446,8 +446,7 @@ final class FileAssembler extends AssemblerAbstract implements NodeVisitor
      */
     private function isFileDocBlock(DocBlock $docblock, Node $fileNode)
     {
-        return $docblock
-            || (!$fileNode instanceof Class_
+        return (!$fileNode instanceof Class_
             && !$fileNode instanceof Interface_
             && $docblock->hasTag('package'))
             || !$this->isNodeDocumentable($fileNode);
