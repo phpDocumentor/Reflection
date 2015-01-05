@@ -16,6 +16,9 @@ class ChainTest extends \PHPUnit_Framework_TestCase
         $this->chain = new Chain();
     }
 
+    /**
+     * @covers \phpDocumentor\SimpleFilter\Chain::attach
+     */
     public function testAttachFilterProperty()
     {
         /** @var FilterInterface $filterMock */
@@ -25,6 +28,9 @@ class ChainTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('phpDocumentor\SimpleFilter\Chain', $filter);
     }
 
+    /**
+     * @covers \phpDocumentor\SimpleFilter\Chain::attach
+     */
     public function testAttachCallbackProperty()
     {
         $callback = $this->chain->attach(function () {});
@@ -34,6 +40,8 @@ class ChainTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers \phpDocumentor\SimpleFilter\Chain::attach
+     *
      * @expectedException \InvalidArgumentException
      */
     public function testAttachInvalidProperty()
@@ -55,6 +63,8 @@ class ChainTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers \phpDocumentor\SimpleFilter\Chain::filter
+     *
      * @expectedException \RuntimeException
      */
     public function testFilterInvalidProperty()
@@ -70,6 +80,9 @@ class ChainTest extends \PHPUnit_Framework_TestCase
         $this->chain->filter($innerQueue);
     }
 
+    /**
+     * @covers \phpDocumentor\SimpleFilter\Chain::count
+     */
     public function testCountIncreasesAfterEachAttach()
     {
         $this->assertCount(0, $this->chain);
@@ -80,6 +93,9 @@ class ChainTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * @covers \phpDocumentor\SimpleFilter\Chain::getIterator
+     */
     public function testGetIterator()
     {
         $iterator = $this->chain->getIterator();
