@@ -39,7 +39,9 @@ abstract class AssemblerAbstract extends BaseAssembler
      */
     protected function assembleDocBlock($docBlock, $target)
     {
-        if (!$docBlock) {
+        // TODO: Symfony 2 sometimes sends a PhpParser\Node\Doc object instead of a DocBlock or null; there is a bug
+        // there that should be investigated
+        if (!$docBlock instanceof DocBlock) {
             return;
         }
 

@@ -12,32 +12,32 @@
 namespace phpDocumentor\Descriptor;
 
 use phpDocumentor\Descriptor\ProjectDescriptor\Settings;
+use Traversable;
 
 /**
  * Represents the entire project with its files, namespaces and indexes.
  */
-class ProjectDescriptor implements Interfaces\ProjectInterface
+final class ProjectDescriptor implements Interfaces\ProjectInterface, \IteratorAggregate
 {
     /** @var string $name */
-    protected $name = '';
+    private $name = '';
 
     /** @var NamespaceDescriptor $namespace */
-    protected $namespace;
-
-    /** @var Collection $files*/
-    protected $files;
-
-    /** @var Collection $indexes */
-    protected $indexes;
+    private $namespace;
 
     /** @var Settings $settings */
-    protected $settings;
+    private $settings;
 
-    /** @var Collection $partials */
-    protected $partials;
+    /** @var Collection[] */
+    private $data = array();
+
+    /** @var Collection $indexes */
+    private $indexes;
 
     /**
      * Initializes this descriptor.
+     *
+     * @param string $name Name of the current project.
      */
     public function __construct($name)
     {
@@ -84,19 +84,19 @@ class ProjectDescriptor implements Interfaces\ProjectInterface
      *
      * @return void
      */
-    public function setFiles($files)
+    public function setFiles(Collection $files)
     {
-        $this->files = $files;
+        $this->set('files', $files);
     }
 
     /**
      * Returns all files with their sub-elements.
      *
-     * @return Collection|FileDescriptor[]
+     * @return Collection<FileDescriptor>
      */
     public function getFiles()
     {
-        return $this->files;
+        return $this->get('files');
     }
 
     /**
@@ -183,7 +183,7 @@ class ProjectDescriptor implements Interfaces\ProjectInterface
      */
     public function setPartials(Collection $partials)
     {
-        $this->partials = $partials;
+        $this->set('partials', $partials);
     }
 
     /**
@@ -195,7 +195,7 @@ class ProjectDescriptor implements Interfaces\ProjectInterface
      */
     public function getPartials()
     {
-        return $this->partials;
+        return $this->get('partials');
     }
 
     /**
@@ -214,5 +214,69 @@ class ProjectDescriptor implements Interfaces\ProjectInterface
             : Settings::VISIBILITY_DEFAULT;
 
         return (bool) ($visibilityAllowed & $visibility);
+    }
+
+    /**
+     * Retrieves data that can be cached such as all the structure of all files or documents.
+     *
+     * @return Collection
+     */
+    public function get($index)
+    {
+        if (! isset($this->data[$index])) {
+            $this->data[$index] = new Collection();
+        }
+
+        return $this->data[$index];
+    }
+
+    /**
+     * Sets a piece of data, such as a listing of files, that can be cached and retrieved later.
+     *
+     * @param string     $index
+     * @param Collection $collection
+     *
+     * @return void
+     */
+    public function set($index, Collection $collection)
+    {
+        $this->data[$index] = $collection;
+    }
+
+    /**
+     * Provides a magic interface to get and set cachable data.
+     *
+     * If the method name starts with 'get' than the requested cached data is returned using the provided index name or
+     * null if it doesn't exist.
+     * If the method name starts with 'set' than the cached data is set using the given index and data.
+     *
+     * @param string $name
+     * @param array  $arguments {
+     *   @element string      'name'
+     *   @element Collection? 'data'
+     * }
+     *
+     * @return Collection|null|void
+     */
+    public function __call($name, $arguments)
+    {
+        switch (substr($name, 3)) {
+            case 'get':
+                return $this->get(strtolower($arguments[0]));
+                break;
+            case 'set':
+                $this->set(strtolower($arguments[0]), $arguments[1]);
+                break;
+        }
+    }
+
+    /**
+     * Returns an iterator with which you can loop through the data that can be cached.
+     *
+     * @return \ArrayIterator
+     */
+    public function getIterator()
+    {
+        return new \ArrayIterator($this->data);
     }
 }
