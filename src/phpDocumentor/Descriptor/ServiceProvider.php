@@ -13,6 +13,8 @@ namespace phpDocumentor\Descriptor;
 
 use Cilex\Application;
 use Cilex\ServiceProviderInterface;
+use Desarrolla2\Cache\Adapter\File;
+use Desarrolla2\Cache\Cache;
 use phpDocumentor\Descriptor\Builder\AssemblerFactory;
 use phpDocumentor\Descriptor\Filter\ClassFactory;
 use phpDocumentor\Descriptor\Filter\Filter;
@@ -22,10 +24,6 @@ use phpDocumentor\Descriptor\ProjectDescriptor\InitializerCommand\DefaultValidat
 use phpDocumentor\Descriptor\ProjectDescriptor\InitializerCommand\ReflectionAssemblers;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Validator;
-use Zend\Cache\Storage\Adapter\Filesystem;
-use Zend\Cache\Storage\Plugin\Serializer as SerializerPlugin;
-use Zend\Cache\Storage\Plugin\PluginOptions;
-use Zend\Cache\Storage\Plugin\Serializer;
 
 /**
  * This provider is responsible for registering the Descriptor component with the given Application.
@@ -84,23 +82,8 @@ class ServiceProvider implements ServiceProviderInterface
     {
         $app['descriptor.cache'] = $app->share(
             function () {
-                $cache = new Filesystem();
-                $cache->setOptions(
-                    array(
-                        'namespace' => 'phpdoc-cache',
-                        'cache_dir' => sys_get_temp_dir(),
-                    )
-                );
-                $plugin = new Serializer();
-
-                if (extension_loaded('igbinary')) {
-                    $options = new PluginOptions();
-                    $options->setSerializer('igbinary');
-
-                    $plugin->setOptions($options);
-                }
-
-                $cache->addPlugin($plugin);
+                $adapter = new File(sys_get_temp_dir());
+                $cache = new Cache($adapter);
 
                 return $cache;
             }
@@ -110,21 +93,12 @@ class ServiceProvider implements ServiceProviderInterface
     /**
      * Adds the Building mechanism using the key 'descriptor.builder'.
      *
-     * Please note that the type of serializer can be configured using the parameter 'descriptor.builder.serializer'; it
-     * accepts any parameter that Zend\Serializer supports.
-     *
      * @param Application $app
      *
      * @return void
      */
     protected function addAnalyzer(Application $app)
     {
-        if (extension_loaded('igbinary')) {
-            $app['descriptor.builder.serializer'] = 'IgBinary';
-        } else {
-            $app['descriptor.builder.serializer'] = 'PhpSerialize';
-        }
-
         $app['descriptor.analyzer'] = $app->share(
             function ($container) {
                 $analyzer = new Analyzer(

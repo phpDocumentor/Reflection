@@ -54,6 +54,7 @@ final class FileAssembler extends AssemblerAbstract implements NodeVisitor
 {
     const XDEBUG_MAX_NESTING_LEVEL = 10000;
 
+    /** @var string */
     private $defaultPackageName = 'Default';
 
     /** @var FileDescriptor */
@@ -62,8 +63,14 @@ final class FileAssembler extends AssemblerAbstract implements NodeVisitor
     /** @var Context */
     private $context;
 
-    /** @var string[]  */
+    /** @var string */
+    private $encoding = 'utf-8';
+
+    /** @var string[] */
     private $markerTerms = array('FIXME', 'TODO');
+
+    /** @var string */
+    private $projectRoot = '';
 
     /**
      * Initializes XDebug with a higher nesting level.
@@ -74,6 +81,76 @@ final class FileAssembler extends AssemblerAbstract implements NodeVisitor
     public function __construct()
     {
         ini_set('xdebug.max_nesting_level', self::XDEBUG_MAX_NESTING_LEVEL);
+    }
+
+    /**
+     * Changes the name of the default package.
+     *
+     * @param string $defaultPackageName
+     *
+     * @return void
+     */
+    public function setDefaultPackageName($defaultPackageName)
+    {
+        $this->defaultPackageName = $defaultPackageName;
+    }
+
+    /**
+     * Registers what the expected encoding of the files in a project.
+     *
+     * The default is UTF-8, please note that changing the encoding will have a negative impact on performance because
+     * all files need to be converted using iconv to utf-8.
+     *
+     * @param string $encoding
+     *
+     * @return void
+     */
+    public function setEncoding($encoding)
+    {
+        if (strtolower($encoding) !== 'utf-8' && !extension_loaded('iconv')) {
+            throw new \InvalidArgumentException(
+                'The iconv extension of PHP is required when dealing with an encoding other than UTF-8'
+            );
+        }
+
+        $this->encoding = $encoding;
+    }
+
+    /**
+     * Registers which 'markers' are to be collected from a given file.
+     *
+     * Markers are inline comments that start with a special keyword, such as `// TODO` and that may optionally be
+     * followed by a colon. These markers are indexed by phpDocumentor and shown in a special report.
+     *
+     * @param string[] $markerTerms
+     *
+     * @return void
+     */
+    public function setMarkerTerms(array $markerTerms)
+    {
+        $this->markerTerms = $markerTerms;
+    }
+
+    /**
+     * Registers the root folder for the files collected by this assembler.
+     *
+     * If you register the project root with this assembler than all files that are passed to this assembler will have
+     * this part of the file's path removed. This mechanism ensures that it does not matter where you project is, the
+     * file names will always be relative to the projct root.
+     *
+     * For example:
+     *
+     *   Suppose you have a file `/home/mvriel/myProject/index.php` that you want to parse then when you set the project
+     *   root to `/home/mvriel/myProject` then the reflection library will only register `index.php` as the
+     *   complete path.
+     *
+     * @param string $path
+     *
+     * @return void
+     */
+    public function setProjectRoot($path)
+    {
+        $this->projectRoot = $path;
     }
 
     /**
@@ -90,7 +167,7 @@ final class FileAssembler extends AssemblerAbstract implements NodeVisitor
 
         $this->fileDescriptor = new FileDescriptor(md5($contents));
         $this->fileDescriptor->setName($data->getBasename());
-        $this->fileDescriptor->setPath($data->getPathname());
+        $this->fileDescriptor->setPath(substr($data->getPathname(), strlen($this->projectRoot)));
         $this->fileDescriptor->setSource($contents);
 
         $this->createTraverser()->traverse($contents);
@@ -345,8 +422,8 @@ final class FileAssembler extends AssemblerAbstract implements NodeVisitor
                 $docblock = new DocBlock((string)$docblockNode, null, new DocBlock\Location($docblockNode->getLine()));
             }
 
-            if (!$this->isFileDocBlock($docblock, $node)) {
-                return array(null, $comments);
+            if (! $this->isFileDocBlock($docblock, $node)) {
+                return null;
             }
 
             // remove the file level DocBlock from the node's comments
@@ -369,8 +446,7 @@ final class FileAssembler extends AssemblerAbstract implements NodeVisitor
      */
     private function isFileDocBlock(DocBlock $docblock, Node $fileNode)
     {
-        return $docblock
-            || (!$fileNode instanceof Class_
+        return (!$fileNode instanceof Class_
             && !$fileNode instanceof Interface_
             && $docblock->hasTag('package'))
             || !$this->isNodeDocumentable($fileNode);
@@ -438,6 +514,11 @@ final class FileAssembler extends AssemblerAbstract implements NodeVisitor
         $contents = '';
         foreach ($data as $line) {
             $contents .= $line;
+        }
+
+        $encoding = strtolower($this->encoding);
+        if ($encoding !== 'utf-8') {
+            $contents = iconv($encoding, 'utf-8//IGNORE//TRANSLIT', $contents);
         }
 
         return $contents;
