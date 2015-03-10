@@ -23,9 +23,10 @@ class ChainTest extends \PHPUnit_Framework_TestCase
     {
         /** @var FilterInterface $filterMock */
         $filterMock = m::mock('phpDocumentor\SimpleFilter\FilterInterface');
+        $chain = $this->chain->attach($filterMock);
 
-        $filter = $this->chain->attach($filterMock);
-        $this->assertInstanceOf('phpDocumentor\SimpleFilter\Chain', $filter);
+        $this->assertInstanceOf('phpDocumentor\SimpleFilter\Chain', $chain);
+        $this->assertSame(1, $chain->count());
     }
 
     /**
@@ -33,10 +34,11 @@ class ChainTest extends \PHPUnit_Framework_TestCase
      */
     public function testAttachCallbackProperty()
     {
-        $callback = $this->chain->attach(function () {});
-        $filter = $this->chain->attach($callback);
+        $callback = $this->chain->attach(function () {
+        });
+        $chain = $this->chain->attach($callback);
 
-        $this->assertInstanceOf('phpDocumentor\SimpleFilter\Chain', $filter);
+        $this->assertInstanceOf('phpDocumentor\SimpleFilter\Chain', $chain);
     }
 
     /**
@@ -54,7 +56,9 @@ class ChainTest extends \PHPUnit_Framework_TestCase
      */
     public function testFilterCallableProperty()
     {
-        $value = function ($input) { return 'foo' . $input; };
+        $value = function ($input) {
+            return 'foo' . $input;
+        };
 
         $this->chain->attach($value);
         $filter = $this->chain->filter('bar');
@@ -66,6 +70,7 @@ class ChainTest extends \PHPUnit_Framework_TestCase
      * @covers \phpDocumentor\SimpleFilter\Chain::filter
      *
      * @expectedException \RuntimeException
+     * @expectedExceptionMessage Unable to process filter, one of the filters is not a FilterInterface or callback
      */
     public function testFilterInvalidProperty()
     {
@@ -88,7 +93,8 @@ class ChainTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(0, $this->chain);
 
         for ($i = 1; $i < 5; $i++) {
-            $this->chain->attach(function () {});
+            $this->chain->attach(function () {
+            });
             $this->assertCount($i, $this->chain);
         }
     }
