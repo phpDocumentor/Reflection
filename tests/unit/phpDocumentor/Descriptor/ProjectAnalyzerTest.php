@@ -3,6 +3,7 @@
 namespace phpDocumentor\Descriptor;
 
 use Mockery as m;
+use phpDocumentor\Descriptor\Interfaces\ProjectInterface;
 
 /**
  * Tests for the \phpDocumentor\Descriptor\ProjectAnalyzer class.
@@ -182,18 +183,18 @@ TEXT;
     /**
      * Returns a mocked ProjectDescriptor object.
      *
-     * @return m\Mock|ProjectDescriptor
+     * @return m\Mock|ProjectInterface
      */
     protected function givenAProjectMock()
     {
-        return m::mock('phpDocumentor\Descriptor\ProjectDescriptor')->shouldIgnoreMissing();
+        return m::mock('phpDocumentor\Descriptor\Interfaces\ProjectInterface')->shouldIgnoreMissing();
     }
 
     /**
-     * Ensures that the ProjectDescriptor contains and returns the provided files.
+     * Ensures that the ProjectInterface contains and returns the provided files.
      *
-     * @param m\Mock|ProjectDescriptor $projectDescriptor
-     * @param array                    $files
+     * @param m\Mock|ProjectInterface $projectDescriptor
+     * @param array                   $files
      *
      * @return void
      */
@@ -203,7 +204,7 @@ TEXT;
     }
 
     /**
-     * Ensures that the ProjectDescriptor has an index 'elements' with the provided elements.
+     * Ensures that the ProjectInterface has an index 'elements' with the provided elements.
      *
      * @param m\Mock|ProjectDescriptor $projectDescriptor
      * @param array                    $elements
@@ -219,7 +220,7 @@ TEXT;
     /**
      * Ensures that the ProjectDescriptor has a root namespace with the provided array as children of that namespace.
      *
-     * @param m\Mock|ProjectDescriptor $projectDescriptor
+     * @param m\Mock|ProjectInterface $projectDescriptor
      * @param array $rootNamespaceChildren
      *
      * @return void

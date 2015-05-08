@@ -69,7 +69,7 @@ class AnalyzerTest extends \PHPUnit_Framework_TestCase
         $projectDescriptor = $this->fixture->getProjectDescriptor();
 
         // assert functioning
-        $this->assertInstanceOf('phpDocumentor\Descriptor\ProjectDescriptor', $projectDescriptor);
+        $this->assertInstanceOf('phpDocumentor\Descriptor\Interfaces\ProjectInterface', $projectDescriptor);
         $this->assertCount(1, $projectDescriptor->getFiles());
     }
 
@@ -81,7 +81,7 @@ class AnalyzerTest extends \PHPUnit_Framework_TestCase
     {
         $this->fixture->createProjectDescriptor();
 
-        $this->assertInstanceOf('phpDocumentor\Descriptor\ProjectDescriptor', $this->fixture->getProjectDescriptor());
+        $this->assertInstanceOf('phpDocumentor\Descriptor\Interfaces\ProjectInterface', $this->fixture->getProjectDescriptor());
         $this->assertEquals(
             Analyzer::DEFAULT_PROJECT_NAME,
             $this->fixture->getProjectDescriptor()->getName()
