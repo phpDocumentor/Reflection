@@ -11,6 +11,8 @@
 
 namespace phpDocumentor\Descriptor;
 
+use phpDocumentor\Descriptor\Interfaces\ProjectInterface;
+
 /**
  * Analyzes a Project Descriptor and collects key information.
  *
@@ -38,11 +40,11 @@ class ProjectAnalyzer
     /**
      * Analyzes the given project descriptor and populates this object's properties.
      *
-     * @param ProjectDescriptor $projectDescriptor
+     * @param ProjectInterface $projectDescriptor
      *
      * @return void
      */
-    public function analyze(ProjectDescriptor $projectDescriptor)
+    public function analyze(ProjectInterface $projectDescriptor)
     {
         $this->unresolvedParentClassesCount = 0;
 
@@ -120,11 +122,11 @@ TEXT;
     /**
      * Returns all elements from the project descriptor.
      *
-     * @param ProjectDescriptor $projectDescriptor
+     * @param ProjectInterface $projectDescriptor
      *
      * @return DescriptorAbstract[]
      */
-    protected function findAllElements(ProjectDescriptor $projectDescriptor)
+    protected function findAllElements(ProjectInterface $projectDescriptor)
     {
         return $projectDescriptor->getIndexes()->get('elements', new Collection());
     }
