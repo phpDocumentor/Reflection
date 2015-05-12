@@ -25,7 +25,6 @@ use phpDocumentor\Descriptor\ProjectDescriptor\InitializerCommand\ReflectionAsse
 use phpDocumentor\Descriptor\ProjectDescriptor\Settings;
 use phpDocumentor\Descriptor\Validator\Error;
 use Psr\Log\LogLevel;
-use Symfony\Component\Stopwatch\Stopwatch;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -54,9 +53,6 @@ class Analyzer
 
     /** @var ProjectDescriptor $project */
     protected $project;
-
-    /** @var Stopwatch */
-    private $stopwatch;
 
     public function __construct(
         AssemblerFactory $assemblerFactory,
@@ -142,11 +138,6 @@ class Analyzer
     public function getValidator()
     {
         return $this->validator;
-    }
-
-    public function setStopWatch(Stopwatch $stopwatch)
-    {
-        $this->stopwatch = $stopwatch;
     }
 
     /**

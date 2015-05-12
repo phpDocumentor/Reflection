@@ -108,10 +108,6 @@ class ServiceProvider implements ServiceProviderInterface
                     $container['descriptor.builder.initializers']
                 );
 
-                if (isset($container['kernel.stopwatch'])) {
-                    $analyzer->setStopWatch($container['kernel.stopwatch']);
-                }
-
                 return $analyzer;
             }
         );
