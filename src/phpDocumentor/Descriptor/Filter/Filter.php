@@ -31,7 +31,7 @@ class Filter
      *
      * @param ClassFactory $factory
      */
-    public function __construct($factory)
+    public function __construct(ClassFactory $factory)
     {
         $this->factory = $factory;
     }

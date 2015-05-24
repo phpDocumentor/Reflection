@@ -57,7 +57,7 @@ class Analyzer
     public function __construct(
         AssemblerFactory $assemblerFactory,
         Filter $filterManager,
-        $validator
+        ValidatorInterface $validator
     ) {
         $this->assemblerFactory = $assemblerFactory;
         $this->validator        = $validator;
