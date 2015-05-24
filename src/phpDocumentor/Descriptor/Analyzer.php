@@ -27,7 +27,7 @@ use phpDocumentor\Descriptor\Validator\Error;
 use Psr\Log\LogLevel;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\Validation;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\Validator\ValidatorInterface;
 
 /**
  * Builds a Project Descriptor and underlying tree.
