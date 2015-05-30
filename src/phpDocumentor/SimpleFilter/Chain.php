@@ -26,7 +26,7 @@ final class Chain implements FilterInterface, \Countable, \IteratorAggregate
      */
     public function __construct()
     {
-        $this->innerQueue = new \SplPriorityQueue;
+        $this->innerQueue = new \SplPriorityQueue();
     }
 
     /**
