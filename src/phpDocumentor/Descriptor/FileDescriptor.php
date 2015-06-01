@@ -14,7 +14,7 @@ namespace phpDocumentor\Descriptor;
 /**
  * Represents a file in the project.
  */
-class FileDescriptor extends DescriptorAbstract implements Interfaces\FileInterface
+class FileDescriptor extends DescriptorAbstract
 {
     /** @var string $hash */
     protected $hash;
@@ -298,61 +298,6 @@ class FileDescriptor extends DescriptorAbstract implements Interfaces\FileInterf
     public function setMarkers(Collection $markers)
     {
         $this->markers = $markers;
-    }
-
-    /**
-     * Returns a list of all errors in this file and all its child elements.
-     *
-     * @return Collection
-     */
-    public function getAllErrors()
-    {
-        $errors = $this->getErrors();
-
-        $types = $this->getClasses()->merge($this->getInterfaces())->merge($this->getTraits());
-
-        $elements = $this->getFunctions()->merge($this->getConstants())->merge($types);
-
-        foreach ($elements as $element) {
-            if (!$element) {
-                continue;
-            }
-
-            $errors = $errors->merge($element->getErrors());
-        }
-
-        foreach ($types as $element) {
-            if (!$element) {
-                continue;
-            }
-
-            foreach ($element->getMethods() as $item) {
-                if (!$item) {
-                    continue;
-                }
-                $errors = $errors->merge($item->getErrors());
-            }
-
-            if (method_exists($element, 'getConstants')) {
-                foreach ($element->getConstants() as $item) {
-                    if (!$item) {
-                        continue;
-                    }
-                    $errors = $errors->merge($item->getErrors());
-                }
-            }
-
-            if (method_exists($element, 'getProperties')) {
-                foreach ($element->getProperties() as $item) {
-                    if (!$item) {
-                        continue;
-                    }
-                    $errors = $errors->merge($item->getErrors());
-                }
-            }
-        }
-
-        return $errors;
     }
 
     /**

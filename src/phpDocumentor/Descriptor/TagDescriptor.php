@@ -11,12 +11,10 @@
 
 namespace phpDocumentor\Descriptor;
 
-use phpDocumentor\Descriptor\Filter\Filterable;
-
 /**
  * Base class for any tag descriptor and used when a tag has no specific descriptor.
  */
-class TagDescriptor implements Filterable
+class TagDescriptor
 {
     /** @var string $name Name of the tag. */
     protected $name;
@@ -80,27 +78,5 @@ class TagDescriptor implements Filterable
     public function getDescription()
     {
         return $this->description;
-    }
-
-    /**
-     * Sets a list of errors found on the usage of this tag.
-     *
-     * @param Collection $errors
-     *
-     * @return void
-     */
-    public function setErrors(Collection $errors)
-    {
-        $this->errors = $errors;
-    }
-
-    /**
-     * Returns all errors associated with this tag.
-     *
-     * @return Collection
-     */
-    public function getErrors()
-    {
-        return $this->errors;
     }
 }
