@@ -135,7 +135,7 @@ class MethodAssembler extends AssemblerAbstract
         // convert ParamTag into ParamDescriptor
         $lastParamTag = $this->analyzer->analyze($lastParamTag);
 
-        if ($lastParamTag->isVariadic()
+        if (is_object($lastParamTag) && $lastParamTag->isVariadic()
             && !in_array($lastParamTag->getVariableName(), array_keys($methodDescriptor->getArguments()->getAll()))
         ) {
             $argument = new ArgumentDescriptor();
