@@ -28,32 +28,6 @@ class TagDescriptorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers phpDocumentor\Descriptor\TagDescriptor::__construct
-     * @covers phpDocumentor\Descriptor\TagDescriptor::getErrors
-     */
-    public function testIfErrorsAreInitializedToAnEmptyCollectionOnInstantiation()
-    {
-        $this->assertInstanceOf('phpDocumentor\Descriptor\Collection', $this->fixture->getErrors());
-        $this->assertEmpty($this->fixture->getErrors()->getAll());
-    }
-
-    /**
-     * @covers phpDocumentor\Descriptor\TagDescriptor::setErrors
-     * @covers phpDocumentor\Descriptor\TagDescriptor::getErrors
-     */
-    public function testOverridingErrorsCollectionWithNewCollection()
-    {
-        // Arrange
-        $collection = new \phpDocumentor\Descriptor\Collection();
-
-        // Act
-        $this->fixture->setErrors($collection);
-
-        // Assert
-        $this->assertSame($collection, $this->fixture->getErrors());
-    }
-
-    /**
      * @covers phpDocumentor\Descriptor\TagDescriptor::setDescription
      * @covers phpDocumentor\Descriptor\TagDescriptor::getDescription
      */

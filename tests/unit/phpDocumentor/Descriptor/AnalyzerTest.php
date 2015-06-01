@@ -129,7 +129,6 @@ class AnalyzerTest extends \PHPUnit_Framework_TestCase
     protected function createFileDescriptorCreationMock()
     {
         $fileDescriptor = m::mock('phpDocumentor\Descriptor\FileDescriptor');
-        $fileDescriptor->shouldReceive('setErrors');
         $fileDescriptor->shouldReceive('getPath')->andReturn('abc');
 
         $fileAssembler = m::mock('stdClass');

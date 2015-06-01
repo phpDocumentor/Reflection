@@ -39,7 +39,6 @@ class DescriptorAbstractTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $mock->expects($this->once())->method('setTags')->with(new Collection());
-        $mock->expects($this->once())->method('setErrors')->with(new Collection());
         $mock->__construct();
     }
 
@@ -250,21 +249,6 @@ class DescriptorAbstractTest extends \PHPUnit_Framework_TestCase
         $this->fixture->setTags(new Collection(array('deprecated' => 'deprecated')));
 
         $this->assertTrue($this->fixture->isDeprecated());
-    }
-
-    /**
-     * @covers phpDocumentor\Descriptor\DescriptorAbstract::setErrors
-     * @covers phpDocumentor\Descriptor\DescriptorAbstract::getErrors
-     */
-    public function testSettingAndGettingErrors()
-    {
-        $this->assertNull($this->fixture->getErrors());
-
-        /** @var Collection $mock */
-        $mock = m::mock('phpDocumentor\Descriptor\Collection');
-        $this->fixture->setErrors($mock);
-
-        $this->assertSame($mock, $this->fixture->getErrors());
     }
 
     /**

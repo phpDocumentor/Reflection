@@ -14,81 +14,54 @@ namespace phpDocumentor\Descriptor;
 use phpDocumentor\Descriptor\Builder\AssemblerFactory;
 use phpDocumentor\Descriptor\Builder\Reflector\AssemblerAbstract;
 use phpDocumentor\Descriptor\Example\Finder;
-use phpDocumentor\Descriptor\Filter\ClassFactory;
-use phpDocumentor\Descriptor\Filter\Filter;
-use phpDocumentor\Descriptor\Filter\Filterable;
 use phpDocumentor\Descriptor\ProjectDescriptor\InitializerChain;
-use phpDocumentor\Descriptor\ProjectDescriptor\InitializerCommand\DefaultFilters;
-use phpDocumentor\Descriptor\ProjectDescriptor\InitializerCommand\DefaultValidators;
 use phpDocumentor\Descriptor\ProjectDescriptor\InitializerCommand\PhpParserAssemblers;
 use phpDocumentor\Descriptor\ProjectDescriptor\InitializerCommand\ReflectionAssemblers;
 use phpDocumentor\Descriptor\ProjectDescriptor\Settings;
-use phpDocumentor\Descriptor\Validator\Error;
 use Psr\Log\LogLevel;
-use Symfony\Component\Validator\ConstraintViolation;
-use Symfony\Component\Validator\Validation;
-use Symfony\Component\Validator\ValidatorInterface;
 
 /**
  * Builds a Project Descriptor and underlying tree.
  */
 class Analyzer
 {
-    const OPTION_VALIDATOR = 'validator';
     const OPTION_EXAMPLE_FINDER = 'example.finder';
     const OPTION_INITIALIZERS = 'descriptor.builder.initializers';
     const OPTION_ASSEMBLER_FACTORY = 'descriptor.assembler.factory';
-    const OPTION_DESCRIPTOR_FILTER = 'descriptor.filter';
+
     /** @var string */
     const DEFAULT_PROJECT_NAME = 'Untitled project';
 
     /** @var AssemblerFactory $assemblerFactory */
     protected $assemblerFactory;
 
-    /** @var ValidatorInterface $validator */
-    protected $validator;
-
-    /** @var Filter $filter */
-    protected $filter;
-
     /** @var ProjectDescriptor $project */
     protected $project;
 
     public function __construct(
-        AssemblerFactory $assemblerFactory,
-        Filter $filterManager,
-        ValidatorInterface $validator
+        AssemblerFactory $assemblerFactory
     ) {
         $this->assemblerFactory = $assemblerFactory;
-        $this->validator        = $validator;
-        $this->filter           = $filterManager;
     }
 
     public static function create($options = array())
     {
-        $validator = isset($options[self::OPTION_VALIDATOR])
-            ? $options[self::OPTION_VALIDATOR]
-            : Validation::createValidator();
         $exampleFinder = isset($options[self::OPTION_EXAMPLE_FINDER])
             ? $options[self::OPTION_EXAMPLE_FINDER]
             : new Finder();
         $assemblerFactory = isset($options[self::OPTION_ASSEMBLER_FACTORY])
             ? $options[self::OPTION_ASSEMBLER_FACTORY]
             : new AssemblerFactory();
-        $filterManager = isset($options[self::OPTION_DESCRIPTOR_FILTER])
-            ? $options[self::OPTION_DESCRIPTOR_FILTER]
-            : new Filter(new ClassFactory());
 
         if (! isset($options[self::OPTION_INITIALIZERS])) {
             $initializerChain = new InitializerChain();
-            $initializerChain->addInitializer(new DefaultFilters());
             $initializerChain->addInitializer(new PhpParserAssemblers($exampleFinder));
             $initializerChain->addInitializer(new ReflectionAssemblers($exampleFinder));
         } else {
             $initializerChain = $options[self::OPTION_INITIALIZERS];
         }
 
-        $analyzer = new static($assemblerFactory, $filterManager, $validator);
+        $analyzer = new static($assemblerFactory);
 
         $analyzer->createProjectDescriptor();
         $initializerChain->initialize($analyzer);
@@ -122,22 +95,6 @@ class Analyzer
     public function getAssemblerFactory()
     {
         return $this->assemblerFactory;
-    }
-
-    /**
-     * @return Filter
-     */
-    public function getFilterManager()
-    {
-        return $this->filter;
-    }
-
-    /**
-     * @return ValidatorInterface
-     */
-    public function getValidator()
-    {
-        return $this->validator;
     }
 
     /**
@@ -202,10 +159,6 @@ class Analyzer
             return null;
         }
 
-        $descriptor = (!is_array($descriptor) && (!$descriptor instanceof Collection))
-            ? $this->filterAndValidateDescriptor($descriptor)
-            : $this->filterAndValidateEachDescriptor($descriptor);
-
         if ($descriptor instanceof FileDescriptor) {
             $this->getProjectDescriptor()->getFiles()->set($descriptor->getPath(), $descriptor);
         }
@@ -238,93 +191,5 @@ class Analyzer
     public function getAssembler($data)
     {
         return $this->assemblerFactory->get($data);
-    }
-
-    /**
-     * Analyzes a Descriptor and alters its state based on its state or even removes the descriptor.
-     *
-     * @param Filterable $descriptor
-     *
-     * @return Filterable
-     */
-    public function filter(Filterable $descriptor)
-    {
-        return $this->filter->filter($descriptor);
-    }
-
-    /**
-     * Validates the contents of the Descriptor and outputs warnings and error if something is amiss.
-     *
-     * @param DescriptorAbstract $descriptor
-     *
-     * @return Collection
-     */
-    public function validate($descriptor)
-    {
-        $violations = $this->validator->validate($descriptor);
-        $errors = new Collection();
-
-        /** @var ConstraintViolation $violation */
-        foreach ($violations as $violation) {
-            $errors->add(
-                new Error(
-                    LogLevel::ERROR, // TODO: Make configurable
-                    $violation->getMessageTemplate(),
-                    $descriptor->getLine(),
-                    $violation->getMessageParameters() + array($descriptor->getFullyQualifiedStructuralElementName())
-                )
-            );
-        }
-
-        return $errors;
-    }
-
-    /**
-     * Filters each descriptor, validates them, stores the validation results and returns a collection of transmuted
-     * objects.
-     *
-     * @param DescriptorAbstract[] $descriptor
-     *
-     * @return Collection
-     */
-    private function filterAndValidateEachDescriptor($descriptor)
-    {
-        $descriptors = new Collection();
-        foreach ($descriptor as $key => $item) {
-            $item = $this->filterAndValidateDescriptor($item);
-            if (!$item) {
-                continue;
-            }
-
-            $descriptors[$key] = $item;
-        }
-
-        return $descriptors;
-    }
-
-    /**
-     * Filters a descriptor, validates it, stores the validation results and returns the transmuted object or null
-     * if it is supposed to be removed.
-     *
-     * @param DescriptorAbstract $descriptor
-     *
-     * @return DescriptorAbstract|null
-     */
-    protected function filterAndValidateDescriptor($descriptor)
-    {
-        if (!$descriptor instanceof Filterable) {
-            return $descriptor;
-        }
-
-        // filter the descriptor; this may result in the descriptor being removed!
-        $descriptor = $this->filter($descriptor);
-        if (!$descriptor) {
-            return null;
-        }
-
-        // Validate the descriptor and store any errors
-        $descriptor->setErrors($this->validate($descriptor));
-
-        return $descriptor;
     }
 }

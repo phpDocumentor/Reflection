@@ -11,12 +11,10 @@
 
 namespace phpDocumentor\Descriptor;
 
-use phpDocumentor\Descriptor\Filter\Filterable;
-
 /**
  * Base class for descriptors containing the most used options.
  */
-abstract class DescriptorAbstract implements Filterable
+abstract class DescriptorAbstract
 {
     /**
      * @var string $fqsen Fully Qualified Structural Element Name; the FQCN including method, property of constant name
@@ -386,26 +384,6 @@ abstract class DescriptorAbstract implements Filterable
     public function isDeprecated()
     {
         return isset($this->tags['deprecated']);
-    }
-
-    /**
-     * Sets a list of all errors associated with this element.
-     *
-     * @param Collection $errors
-     */
-    public function setErrors(Collection $errors)
-    {
-        $this->errors = $errors;
-    }
-
-    /**
-     * Returns all errors that occur in this element.
-     *
-     * @return Collection
-     */
-    public function getErrors()
-    {
-        return $this->errors;
     }
 
     /**
