@@ -19,7 +19,7 @@ use phpDocumentor\Descriptor\DescriptorAbstract;
 use phpDocumentor\Descriptor\InterfaceDescriptor;
 use phpDocumentor\Descriptor\Method;
 use phpDocumentor\Descriptor\Property;
-use phpDocumentor\Descriptor\TraitDescriptor;
+use phpDocumentor\Descriptor\Trait_;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\PrettyPrinter;
 use PhpParser\Node;
@@ -105,7 +105,7 @@ abstract class AssemblerAbstract extends BaseAssembler
     }
 
     /**
-     * @param TraitDescriptor|InterfaceDescriptor|ClassDescriptor $descriptor
+     * @param Trait_|InterfaceDescriptor|ClassDescriptor $descriptor
      * @param Node\Stmt\ClassMethod $stmt
      *
      * @return void
@@ -128,7 +128,7 @@ abstract class AssemblerAbstract extends BaseAssembler
     }
 
     /**
-     * @param TraitDescriptor|ClassDescriptor $descriptor
+     * @param Trait_|ClassDescriptor $descriptor
      * @param Node\Stmt\Property $propertyStatement
      * @param Node\Stmt\PropertyProperty $property
      *
@@ -168,7 +168,7 @@ abstract class AssemblerAbstract extends BaseAssembler
     /**
      * Registers the used traits with the generated Descriptor.
      *
-     * @param ClassDescriptor|TraitDescriptor $descriptor
+     * @param ClassDescriptor|Trait_ $descriptor
      * @param Node\Stmt\TraitUse              $trait
      *
      * @return void

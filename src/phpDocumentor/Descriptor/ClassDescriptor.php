@@ -173,7 +173,7 @@ class ClassDescriptor extends DescriptorAbstract implements Interfaces\ClassInte
         $inheritedMethods = new Collection();
 
         foreach ($this->getUsedTraits() as $trait) {
-            if (!$trait instanceof TraitDescriptor) {
+            if (!$trait instanceof Trait_) {
                 continue;
             }
 
@@ -241,7 +241,7 @@ class ClassDescriptor extends DescriptorAbstract implements Interfaces\ClassInte
         $inheritedProperties = new Collection();
 
         foreach ($this->getUsedTraits() as $trait) {
-            if (!$trait instanceof TraitDescriptor) {
+            if (!$trait instanceof Trait_) {
                 continue;
             }
 
@@ -331,7 +331,7 @@ class ClassDescriptor extends DescriptorAbstract implements Interfaces\ClassInte
     /**
      * Returns the traits used by this class.
      *
-     * Returned values may either be a string (when the Trait is not in this project) or a TraitDescriptor.
+     * Returned values may either be a string (when the Trait is not in this project) or a Trait_.
      *
      * @return Collection
      */

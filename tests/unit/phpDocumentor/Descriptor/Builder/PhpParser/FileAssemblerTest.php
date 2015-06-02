@@ -10,7 +10,7 @@ use phpDocumentor\Descriptor\Function_;
 use phpDocumentor\Descriptor\InterfaceDescriptor;
 use phpDocumentor\Descriptor\Analyzer;
 use phpDocumentor\Descriptor\Tag\AuthorDescriptor;
-use phpDocumentor\Descriptor\TraitDescriptor;
+use phpDocumentor\Descriptor\Trait_;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\IncludeReflector;
 
@@ -335,14 +335,11 @@ PHP;
 
         $traitFqcn = '\\' . self::EXAMPLE_NAMESPACE . '\\' . self::EXAMPLE_TRAIT_NAME;
         $this->assertCount(1, $result->getTraits()->getAll());
-        $this->assertInstanceOf('phpDocumentor\Descriptor\TraitDescriptor', $result->getTraits()->get($traitFqcn));
+        $this->assertInstanceOf(Trait_::class, $result->getTraits()->get($traitFqcn));
         $this->assertSame(
             $traitFqcn,
-            $result->getTraits()->get($traitFqcn)->getFullyQualifiedStructuralElementName()
+            (string)$result->getTraits()->get($traitFqcn)->getFqsen()
         );
-        $this->assertSame('\\' . self::EXAMPLE_NAMESPACE, current($result->getTraits()->getAll())->getNamespace());
-        $this->assertSame($result, current($result->getTraits()->getAll())->getFile());
-        $this->assertSame(self::EXAMPLE_TRAIT_LINE, current($result->getTraits()->getAll())->getLine());
     }
 
     /**
@@ -535,12 +532,7 @@ PHP;
      */
     private function thenATraitShouldBeAdded()
     {
-        $descriptor = new TraitDescriptor();
-        $descriptor->setFullyQualifiedStructuralElementName(
-            '\\' . self::EXAMPLE_NAMESPACE . '\\' . self::EXAMPLE_TRAIT_NAME
-        );
-        $descriptor->setNamespace('\\' . self::EXAMPLE_NAMESPACE);
-
+        $descriptor = new Trait_(new Fqsen('\\' . self::EXAMPLE_NAMESPACE . '\\' . self::EXAMPLE_TRAIT_NAME));
         $this->analyzerMock->shouldReceive('analyze')
             ->once()
             ->with(m::type('PhpParser\Node\Stmt\Trait_'))

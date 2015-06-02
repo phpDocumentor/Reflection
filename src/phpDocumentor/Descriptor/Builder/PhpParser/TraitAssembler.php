@@ -13,7 +13,7 @@ namespace phpDocumentor\Descriptor\Builder\PhpParser;
 
 use phpDocumentor\Descriptor\Collection;
 use phpDocumentor\Descriptor\Property;
-use phpDocumentor\Descriptor\TraitDescriptor;
+use phpDocumentor\Descriptor\Trait_;
 use phpDocumentor\Reflection\ClassReflector\MethodReflector;
 use phpDocumentor\Reflection\ClassReflector\PropertyReflector;
 use phpDocumentor\Reflection\TraitReflector;
@@ -21,7 +21,7 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\Trait_;
 
 /**
- * Assembles an TraitDescriptor using an TraitReflector.
+ * Assembles an Trait_ using an TraitReflector.
  */
 class TraitAssembler extends AssemblerAbstract
 {
@@ -30,11 +30,11 @@ class TraitAssembler extends AssemblerAbstract
      *
      * @param Trait_ $data
      *
-     * @return TraitDescriptor
+     * @return Trait_
      */
     public function create($data)
     {
-        $traitDescriptor = new TraitDescriptor();
+        $traitDescriptor = new Trait_();
 
         $this->assembleDocBlock($data->docBlock, $traitDescriptor);
 
@@ -48,7 +48,7 @@ class TraitAssembler extends AssemblerAbstract
         return $traitDescriptor;
     }
 
-    private function addMembers(Trait_ $node, TraitDescriptor $traitDescriptor)
+    private function addMembers(Trait_ $node, Trait_ $traitDescriptor)
     {
         foreach ($node->stmts as $stmt) {
             switch (get_class($stmt)) {

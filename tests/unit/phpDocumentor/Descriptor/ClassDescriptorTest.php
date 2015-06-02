@@ -159,44 +159,6 @@ class ClassDescriptorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers phpDocumentor\Descriptor\ClassDescriptor::getInheritedMethods
-     */
-    public function testRetrievingInheritedMethodsReturnsTraitMethods()
-    {
-        // Arrange
-        $expected = array('methods');
-        $traitDescriptorMock = m::mock('phpDocumentor\Descriptor\TraitDescriptor');
-        $traitDescriptorMock->shouldReceive('getMethods')->andReturn(new Collection(array('methods')));
-        $this->fixture->setUsedTraits(new Collection(array($traitDescriptorMock)));
-
-        // Act
-        $result = $this->fixture->getInheritedMethods();
-
-        // Assert
-        $this->assertInstanceOf('phpDocumentor\Descriptor\Collection', $result);
-        $this->assertSame($expected, $result->getAll());
-    }
-
-    /**
-     * @covers phpDocumentor\Descriptor\ClassDescriptor::getInheritedMethods
-     * @ticket https://github.com/phpDocumentor/phpDocumentor2/issues/1307
-     */
-    public function testRetrievingInheritedMethodsDoesNotCrashWhenUsedTraitIsNotInProject()
-    {
-        // Arrange
-        $expected = array();
-        // unknown traits are not converted to TraitDescriptors but kept as strings
-        $this->fixture->setUsedTraits(new Collection(array('unknownTrait')));
-
-        // Act
-        $result = $this->fixture->getInheritedMethods();
-
-        // Assert
-        $this->assertInstanceOf('phpDocumentor\Descriptor\Collection', $result);
-        $this->assertSame($expected, $result->getAll());
-    }
-
-    /**
      * @covers phpDocumentor\Descriptor\ClassDescriptor::isAbstract
      * @covers phpDocumentor\Descriptor\ClassDescriptor::setAbstract
      */
@@ -318,44 +280,6 @@ class ClassDescriptorTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('phpDocumentor\Descriptor\Collection', $result);
 
         $expected = array('properties', 'inherited');
-        $this->assertSame($expected, $result->getAll());
-    }
-
-    /**
-     * @covers phpDocumentor\Descriptor\ClassDescriptor::getInheritedProperties
-     */
-    public function testRetrievingInheritedPropertiesReturnsTraitProperties()
-    {
-        // Arrange
-        $expected = array('properties');
-        $traitDescriptorMock = m::mock('phpDocumentor\Descriptor\TraitDescriptor');
-        $traitDescriptorMock->shouldReceive('getProperties')->andReturn(new Collection(array('properties')));
-        $this->fixture->setUsedTraits(new Collection(array($traitDescriptorMock)));
-
-        // Act
-        $result = $this->fixture->getInheritedProperties();
-
-        // Assert
-        $this->assertInstanceOf('phpDocumentor\Descriptor\Collection', $result);
-        $this->assertSame($expected, $result->getAll());
-    }
-
-    /**
-     * @covers phpDocumentor\Descriptor\ClassDescriptor::getInheritedProperties
-     * @ticket https://github.com/phpDocumentor/phpDocumentor2/issues/1307
-     */
-    public function testRetrievingInheritedPropertiesDoesNotCrashWhenUsedTraitIsNotInProject()
-    {
-        // Arrange
-        $expected = array();
-        // unknown traits are not converted to TraitDescriptors but kept as strings
-        $this->fixture->setUsedTraits(new Collection(array('unknownTrait')));
-
-        // Act
-        $result = $this->fixture->getInheritedProperties();
-
-        // Assert
-        $this->assertInstanceOf('phpDocumentor\Descriptor\Collection', $result);
         $this->assertSame($expected, $result->getAll());
     }
 
