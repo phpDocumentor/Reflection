@@ -17,7 +17,7 @@ use phpDocumentor\Descriptor\Collection;
 use phpDocumentor\Descriptor\ConstantDescriptor;
 use phpDocumentor\Descriptor\DescriptorAbstract;
 use phpDocumentor\Descriptor\InterfaceDescriptor;
-use phpDocumentor\Descriptor\MethodDescriptor;
+use phpDocumentor\Descriptor\Method;
 use phpDocumentor\Descriptor\PropertyDescriptor;
 use phpDocumentor\Descriptor\TraitDescriptor;
 use phpDocumentor\Reflection\DocBlock;
@@ -116,7 +116,7 @@ abstract class AssemblerAbstract extends BaseAssembler
             ? new DocBlock($stmt->getDocComment()->getText())
             : null;
 
-        /** @var MethodDescriptor $methodDescriptor */
+        /** @var Method $methodDescriptor */
         $methodDescriptor = $this->getAnalyzer()->analyze($stmt);
         if (!$methodDescriptor) {
             return;

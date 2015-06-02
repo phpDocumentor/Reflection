@@ -241,7 +241,7 @@ class InterfaceDescriptorTest extends \PHPUnit_Framework_TestCase
      */
     public function testRetrievingInheritedMethodsReturnsCollectionWithParent()
     {
-        $parentDescriptor = new MethodDescriptor();
+        $parentDescriptor = new Method();
         $parentDescriptor->setName('parent');
         $parentDescriptorCollection = new Collection();
         $parentDescriptorCollection->add($parentDescriptor);
@@ -250,7 +250,7 @@ class InterfaceDescriptorTest extends \PHPUnit_Framework_TestCase
         $parentCollection = new Collection();
         $parentCollection->add($parent);
 
-        $grandParentDescriptor = new MethodDescriptor();
+        $grandParentDescriptor = new Method();
         $grandParentDescriptor->setName('grandparent');
         $grandParentDescriptorCollection = new Collection();
         $grandParentDescriptorCollection->add($grandParentDescriptor);

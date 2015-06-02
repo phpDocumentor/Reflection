@@ -14,7 +14,7 @@ namespace phpDocumentor\Descriptor\Tag;
 use phpDocumentor\Descriptor\Collection;
 
 /**
- * Tests the functionality for the MethodDescriptor class.
+ * Tests the functionality for the Method class.
  */
 class MethodDescriptorTest extends \PHPUnit_Framework_TestCase
 {

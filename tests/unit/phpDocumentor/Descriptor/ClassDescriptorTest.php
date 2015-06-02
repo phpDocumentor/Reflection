@@ -383,7 +383,7 @@ class ClassDescriptorTest extends \PHPUnit_Framework_TestCase
 
         $this->assertCount(1, $magicMethods);
 
-        /** @var MethodDescriptor $magicMethod */
+        /** @var Method $magicMethod */
         $magicMethod = current($magicMethods->getAll());
         $this->assertEquals($methodName, $magicMethod->getName());
         $this->assertEquals($description, $magicMethod->getDescription());

@@ -15,7 +15,7 @@ use phpDocumentor\Descriptor\Argument;
 use phpDocumentor\Descriptor\Collection as DescriptorCollection;
 use phpDocumentor\Descriptor\Tag\ParamDescriptor;
 use phpDocumentor\Reflection\DocBlock\Type\Collection;
-use phpDocumentor\Descriptor\MethodDescriptor;
+use phpDocumentor\Descriptor\Method;
 use phpDocumentor\Reflection\ClassReflector\MethodReflector;
 use phpDocumentor\Reflection\DocBlock\Tag\ParamTag;
 use phpDocumentor\Reflection\FunctionReflector\ArgumentReflector;
@@ -23,7 +23,7 @@ use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\ClassMethod;
 
 /**
- * Assembles a MethodDescriptor from a PHP-Parser ClassMethod.
+ * Assembles a Method from a PHP-Parser ClassMethod.
  */
 class MethodAssembler extends AssemblerAbstract
 {
@@ -45,11 +45,11 @@ class MethodAssembler extends AssemblerAbstract
      *
      * @param ClassMethod $data
      *
-     * @return MethodDescriptor
+     * @return Method
      */
     public function create($data)
     {
-        $methodDescriptor = new MethodDescriptor();
+        $methodDescriptor = new Method();
         $this->assembleDocBlock($data->docBlock, $methodDescriptor);
 
         $this->mapNodeToDescriptor($data, $methodDescriptor);
@@ -69,7 +69,7 @@ class MethodAssembler extends AssemblerAbstract
      * Maps the fields to the reflector to the descriptor.
      *
      * @param ClassMethod      $node
-     * @param MethodDescriptor $descriptor
+     * @param Method $descriptor
      *
      * @return void
      */
@@ -96,7 +96,7 @@ class MethodAssembler extends AssemblerAbstract
      * Adds the reflected Arguments to the Descriptor.
      *
      * @param ClassMethod      $data
-     * @param MethodDescriptor $descriptor
+     * @param Method $descriptor
      *
      * @return void
      */
@@ -111,11 +111,11 @@ class MethodAssembler extends AssemblerAbstract
      * Adds a single reflected Argument to the Method Descriptor.
      *
      * @param Param             $argument
-     * @param MethodDescriptor  $descriptor
+     * @param Method  $descriptor
      *
      * @return void
      */
-    protected function addArgument(Param $argument, MethodDescriptor $descriptor)
+    protected function addArgument(Param $argument, Method $descriptor)
     {
         $params = $descriptor->getTags()->get('param', array());
 
@@ -131,7 +131,7 @@ class MethodAssembler extends AssemblerAbstract
      * Checks if there is a variadic argument in the `@param` tags and adds it to the list of Arguments in
      * the Descriptor unless there is already one present.
      *
-     * @param MethodDescriptor $methodDescriptor
+     * @param Method $methodDescriptor
      *
      * @return void
      */
