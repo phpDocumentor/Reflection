@@ -6,7 +6,7 @@ use Mockery as m;
 use org\bovigo\vfs\vfsStream;
 use phpDocumentor\Descriptor\ClassDescriptor;
 use phpDocumentor\Descriptor\ConstantDescriptor;
-use phpDocumentor\Descriptor\FunctionDescriptor;
+use phpDocumentor\Descriptor\Function_;
 use phpDocumentor\Descriptor\InterfaceDescriptor;
 use phpDocumentor\Descriptor\Analyzer;
 use phpDocumentor\Descriptor\Tag\AuthorDescriptor;
@@ -443,7 +443,7 @@ PHP;
      */
     private function thenAFunctionShouldBeAdded()
     {
-        $descriptor = new FunctionDescriptor();
+        $descriptor = new Function_();
         $descriptor->setFullyQualifiedStructuralElementName(
             '\\' . self::EXAMPLE_NAMESPACE . '\\' . self::EXAMPLE_FUNCTION_NAME . '()'
         );
