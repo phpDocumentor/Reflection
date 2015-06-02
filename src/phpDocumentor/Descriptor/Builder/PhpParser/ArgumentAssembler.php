@@ -11,7 +11,7 @@
 
 namespace phpDocumentor\Descriptor\Builder\PhpParser;
 
-use phpDocumentor\Descriptor\ArgumentDescriptor;
+use phpDocumentor\Descriptor\Argument;
 use phpDocumentor\Reflection\DocBlock\Type\Collection;
 use phpDocumentor\Descriptor\Tag\ParamDescriptor;
 use phpDocumentor\Reflection\FunctionReflector\ArgumentReflector;
@@ -19,7 +19,7 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Param;
 
 /**
- * Assembles an ArgumentDescriptor using an ArgumentReflector and ParamDescriptors.
+ * Assembles an Argument using an ArgumentReflector and ParamDescriptors.
  */
 class ArgumentAssembler extends AssemblerAbstract
 {
@@ -29,11 +29,11 @@ class ArgumentAssembler extends AssemblerAbstract
      * @param Param|string|null $data
      * @param ParamDescriptor[] $params
      *
-     * @return ArgumentDescriptor
+     * @return Argument
      */
     public function create($data, $params = array())
     {
-        $argumentDescriptor = new ArgumentDescriptor();
+        $argumentDescriptor = new Argument();
         $argumentDescriptor->setName('$' . $data->name);
         $argumentDescriptor->setTypes(
             $this->analyzer->analyze(
@@ -58,14 +58,14 @@ class ArgumentAssembler extends AssemblerAbstract
      *
      * @param Param              $argument
      * @param ParamDescriptor    $paramDescriptor
-     * @param ArgumentDescriptor $argumentDescriptor
+     * @param Argument $argumentDescriptor
      *
      * @return void
      */
     protected function overwriteTypeAndDescriptionFromParamTag(
         Param              $argument,
         ParamDescriptor    $paramDescriptor,
-        ArgumentDescriptor $argumentDescriptor
+        Argument $argumentDescriptor
     ) {
         if ($paramDescriptor->getVariableName() != '$' . $argument->name) {
             return;

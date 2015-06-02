@@ -11,7 +11,7 @@
 
 namespace phpDocumentor\Descriptor\Builder\PhpParser;
 
-use phpDocumentor\Descriptor\ArgumentDescriptor;
+use phpDocumentor\Descriptor\Argument;
 use phpDocumentor\Descriptor\Collection as DescriptorCollection;
 use phpDocumentor\Descriptor\Tag\ParamDescriptor;
 use phpDocumentor\Reflection\DocBlock\Type\Collection;
@@ -149,7 +149,7 @@ class MethodAssembler extends AssemblerAbstract
         if ($lastParamTag->isVariadic()
             && !in_array($lastParamTag->getVariableName(), array_keys($methodDescriptor->getArguments()->getAll()))
         ) {
-            $argument = new ArgumentDescriptor();
+            $argument = new Argument();
             $argument->setName($lastParamTag->getVariableName());
             $argument->setTypes($lastParamTag->getTypes());
             $argument->setDescription($lastParamTag->getDescription());
