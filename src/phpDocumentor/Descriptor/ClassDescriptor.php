@@ -271,11 +271,11 @@ class ClassDescriptor extends DescriptorAbstract implements Interfaces\ClassInte
 
         /** @var Tag\PropertyDescriptor $propertyTag */
         foreach ($propertyTags as $propertyTag) {
-            $property = new Property();
-            $property->setName(ltrim($propertyTag->getVariableName(), '$'));
-            $property->setDescription($propertyTag->getDescription());
-            $property->setTypes($propertyTag->getTypes());
-            $property->setParent($this);
+            $property = new Property(new Fqsen($this->getFullyQualifiedStructuralElementName() . '::' . $propertyTag->getVariableName()));
+
+            foreach ($propertyTag->getTypes() as $type) {
+                $property->addType($type);
+            }
 
             $properties->add($property);
         }

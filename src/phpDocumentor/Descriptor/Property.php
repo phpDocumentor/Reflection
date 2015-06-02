@@ -11,6 +11,7 @@
 
 namespace phpDocumentor\Descriptor;
 
+use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\Visibility;
@@ -25,6 +26,11 @@ final class Property implements Element
      */
     private $fqsen;
 
+    /**
+     * @var DocBlock
+     */
+    private $docBlock;
+
     /** @var string[] $types */
     protected $types = array();
 
@@ -37,10 +43,11 @@ final class Property implements Element
     /** @var string $visibility */
     protected $visibility = 'public';
 
-    public function __construct(Fqsen $fqsen, Visibility $visibility = null, $default = null, $static = false)
+    public function __construct(Fqsen $fqsen, Visibility $visibility = null, DocBlock $docBlock = null, $default = null, $static = false)
     {
         $this->fqsen = $fqsen;
         $this->visibility = $visibility;
+        $this->docBlock = $docBlock;
         $this->default = $default;
         $this->static = $static;
     }
@@ -108,5 +115,15 @@ final class Property implements Element
     public function getName()
     {
         return $this->fqsen->getName();
+    }
+
+    /**
+     * Returns the docblock of this property.
+     *
+     * @return DocBlock
+     */
+    public function getDocBlock()
+    {
+        return $this->docBlock;
     }
 }

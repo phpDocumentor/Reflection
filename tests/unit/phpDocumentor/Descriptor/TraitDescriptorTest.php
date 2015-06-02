@@ -155,10 +155,7 @@ class TraitDescriptorTest extends \PHPUnit_Framework_TestCase
         $magicPropertiesCollection = $this->fixture->getMagicProperties();
         $this->assertSame(1, $magicPropertiesCollection->count());
         $this->assertSame('Sample', $magicPropertiesCollection[0]->getName());
-        $this->assertSame('Sample description', $magicPropertiesCollection[0]->getDescription());
-        $this->assertInstanceOf('phpDocumentor\Descriptor\Collection', $magicPropertiesCollection[0]->getTypes());
-        $this->assertSame(0, $magicPropertiesCollection[0]->getTypes()->count());
-        $this->assertSame($this->fixture, $magicPropertiesCollection[0]->getParent());
+        $this->assertCount(0, $magicPropertiesCollection[0]->getTypes());
     }
 
     /**

@@ -229,7 +229,7 @@ class ClassDescriptorTest extends \PHPUnit_Framework_TestCase
     {
         $variableName = 'variableName';
         $description  = 'description';
-        $types        = new Collection(array('string'));
+        $types        = array('string');
 
         $this->assertEquals(0, $this->fixture->getMagicProperties()->count());
 
@@ -247,7 +247,6 @@ class ClassDescriptorTest extends \PHPUnit_Framework_TestCase
         /** @var Property $magicProperty */
         $magicProperty = current($magicProperties->getAll());
         $this->assertEquals($variableName, $magicProperty->getName());
-        $this->assertEquals($description, $magicProperty->getDescription());
         $this->assertEquals($types, $magicProperty->getTypes());
 
         $mock = m::mock('phpDocumentor\Descriptor\ClassDescriptor');

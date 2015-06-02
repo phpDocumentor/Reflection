@@ -15,6 +15,7 @@ use \Mockery as m;
 use phpDocumentor\Descriptor\Tag\AuthorDescriptor;
 use phpDocumentor\Descriptor\Tag\VarDescriptor;
 use phpDocumentor\Descriptor\Tag\VersionDescriptor;
+use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\Visibility;
 
@@ -35,10 +36,16 @@ class PropertyTest extends \PHPUnit_Framework_TestCase
      */
     private $visibility;
 
+    /**
+     * @var DocBlock
+     */
+    private $docBlock;
+
     protected function setUp()
     {
         $this->fqsen = new Fqsen('\My\Class::$property');
         $this->visibility = new Visibility('private');
+        $this->docBlock = new DocBlock('');
     }
 
     /**
@@ -60,10 +67,10 @@ class PropertyTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingWhetherPropertyIsStatic()
     {
-        $property = new Property($this->fqsen, $this->visibility, null, false);
+        $property = new Property($this->fqsen, $this->visibility, $this->docBlock, null, false);
         $this->assertFalse($property->isStatic());
 
-        $property = new Property($this->fqsen, $this->visibility, null, true);
+        $property = new Property($this->fqsen, $this->visibility, $this->docBlock, null, true);
         $this->assertTrue($property->isStatic());
     }
 
@@ -73,17 +80,18 @@ class PropertyTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingVisibility()
     {
-        $property = new Property($this->fqsen, $this->visibility, null, true);
+        $property = new Property($this->fqsen, $this->visibility, $this->docBlock, null, true);
 
         $this->assertSame($this->visibility, $property->getVisibility());
     }
 
     /**
      * @covers ::getTypes
+     * @covers ::addType
      */
     public function testSetAndGetTypes()
     {
-        $property = new Property($this->fqsen, $this->visibility, null, true);
+        $property = new Property($this->fqsen, $this->visibility, $this->docBlock, null, true);
         $this->assertEquals(array(), $property->getTypes());
 
         $property->addType('a');
@@ -96,10 +104,20 @@ class PropertyTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDefault()
     {
-        $property = new Property($this->fqsen, $this->visibility, null, false);
+        $property = new Property($this->fqsen, $this->visibility, $this->docBlock, null, false);
         $this->assertNull($property->getDefault());
 
-        $property = new Property($this->fqsen, $this->visibility, 'a', true);
+        $property = new Property($this->fqsen, $this->visibility, $this->docBlock, 'a', true);
         $this->assertEquals('a', $property->getDefault());
+    }
+
+    /**
+     * @covers ::getDocBlock
+     * @covers ::__construct
+     */
+    public function testGetDocBlock()
+    {
+        $property = new Property($this->fqsen, $this->visibility, $this->docBlock, null, false);
+        $this->assertSame($this->docBlock, $property->getDocBlock());
     }
 }
