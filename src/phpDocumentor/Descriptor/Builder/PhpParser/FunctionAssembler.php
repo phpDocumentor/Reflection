@@ -11,7 +11,7 @@
 
 namespace phpDocumentor\Descriptor\Builder\PhpParser;
 
-use phpDocumentor\Descriptor\ArgumentDescriptor;
+use phpDocumentor\Descriptor\Argument;
 use phpDocumentor\Descriptor\Collection;
 use phpDocumentor\Descriptor\FunctionDescriptor;
 use phpDocumentor\Reflection\FunctionReflector;
@@ -101,7 +101,7 @@ class FunctionAssembler extends AssemblerAbstract
      * Adds the given argument to the function.
      *
      * @param FunctionDescriptor $functionDescriptor
-     * @param ArgumentDescriptor $argumentDescriptor
+     * @param Argument $argumentDescriptor
      *
      * @return void
      */
@@ -111,12 +111,12 @@ class FunctionAssembler extends AssemblerAbstract
     }
 
     /**
-     * Creates a new ArgumentDescriptor from the given Reflector and Param.
+     * Creates a new Argument from the given Reflector and Param.
      *
      * @param FunctionDescriptor $functionDescriptor
      * @param Param              $argument
      *
-     * @return ArgumentDescriptor
+     * @return Argument
      */
     protected function createArgumentDescriptor($functionDescriptor, $argument)
     {

@@ -13,26 +13,39 @@ namespace phpDocumentor\Descriptor;
 /**
  * Descriptor representing a single Argument of a method or function.
  */
-class ArgumentDescriptor extends DescriptorAbstract implements Interfaces\ArgumentInterface
+final class Argument
 {
+    /**
+     * @var string name of the Argument
+     */
+    private $name = null;
+
     /** @var string[] $type an array of normalized types that should be in this Argument */
-    protected $types = array();
+    private $types = array();
 
     /** @var string|null $default the default value for an argument or null if none is provided */
-    protected $default;
+    private $default = null;
 
     /** @var bool $byReference whether the argument passes the parameter by reference instead of by value */
-    protected $byReference = false;
+    private $byReference = false;
 
     /** @var boolean Determines if this Argument represents a variadic argument */
-    protected $isVariadic = false;
+    private $isVariadic = false;
 
     /**
-     * {@inheritDoc}
+     * Initializes the object.
+     *
+     * @param string $name
+     * @param string $default
+     * @param bool $byReference
+     * @param bool $isVariadic
      */
-    public function setTypes($types)
+    public function __construct($name, $default = null, $byReference = false, $isVariadic = false)
     {
-        $this->types = $types;
+        $this->name = $name;
+        $this->default = $default;
+        $this->byReference = $byReference;
+        $this->isVariadic = $isVariadic;
     }
 
     /**
@@ -44,11 +57,12 @@ class ArgumentDescriptor extends DescriptorAbstract implements Interfaces\Argume
     }
 
     /**
-     * {@inheritDoc}
+     * Add a type.
+     * @param string $type
      */
-    public function setDefault($value)
+    public function addType($type)
     {
-        $this->default = $value;
+        $this->types[] = $type;
     }
 
     /**
@@ -62,29 +76,9 @@ class ArgumentDescriptor extends DescriptorAbstract implements Interfaces\Argume
     /**
      * {@inheritDoc}
      */
-    public function setByReference($byReference)
-    {
-        $this->byReference = $byReference;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function isByReference()
     {
         return $this->byReference;
-    }
-
-    /**
-     * Sets whether this argument represents a variadic argument.
-     *
-     * @param boolean $isVariadic
-     *
-     * @return false
-     */
-    public function setVariadic($isVariadic)
-    {
-        $this->isVariadic = $isVariadic;
     }
 
     /**

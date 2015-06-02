@@ -5,8 +5,17 @@
     "homepage": "http://www.phpdoc.org",
     "license": "MIT",
     "autoload": {
-        "psr-0": {
-            "phpDocumentor": ["src/", "tests/component/", "tests/unit/", "tests/mocks/"]
+        "psr-4": {
+            "phpDocumentor\\": ["src/phpDocumentor"]
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "phpDocumentor\\": [
+                "tests/component/",
+                "tests/unit/phpDocumentor",
+                "tests/mocks/"
+            ]
         }
     },
     "require": {
@@ -14,6 +23,7 @@
         "psr/log":                           "~1.0",
         "nikic/php-parser":                  "~1.0",
         "phpdocumentor/reflection-docblock": "~2.0",
+        "phpdocumentor/reflectioncommon":    "dev-feature/getName@dev",
         "symfony/validator":                 "~2.2",
         "symfony/filesystem":                "~2.3"
     },
@@ -31,5 +41,11 @@
         "branch-alias": {
             "dev-master": "2.0.x-dev"
         }
-    }
+    },
+    "repositories" : [
+      {
+        "type": "vcs",
+        "url": "https://github.com/jaapio/ReflectionCommon.git"
+      }
+    ]
 }
