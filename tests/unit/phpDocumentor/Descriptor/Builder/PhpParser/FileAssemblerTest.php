@@ -11,6 +11,7 @@ use phpDocumentor\Descriptor\InterfaceDescriptor;
 use phpDocumentor\Descriptor\Analyzer;
 use phpDocumentor\Descriptor\Tag\AuthorDescriptor;
 use phpDocumentor\Descriptor\TraitDescriptor;
+use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\IncludeReflector;
 
 class FileAssemblerTest extends \PHPUnit_Framework_TestCase
@@ -285,14 +286,13 @@ PHP;
 
         $fqcn = '\\' . self::EXAMPLE_NAMESPACE . '\\' . self::EXAMPLE_FUNCTION_NAME . '()';
         $this->assertCount(1, $result->getFunctions()->getAll());
-        $this->assertInstanceOf('phpDocumentor\Descriptor\FunctionDescriptor', $result->getFunctions()->get($fqcn));
+        $this->assertInstanceOf(Function_::class, $result->getFunctions()->get($fqcn));
         $this->assertSame(
             $fqcn,
-            $result->getFunctions()->get($fqcn)->getFullyQualifiedStructuralElementName()
+            (string)$result->getFunctions()->get($fqcn)->getFqsen()
         );
-        $this->assertSame('\\' . self::EXAMPLE_NAMESPACE, current($result->getFunctions()->getAll())->getNamespace());
-        $this->assertSame($result, current($result->getFunctions()->getAll())->getFile());
-        $this->assertSame(self::EXAMPLE_FUNCTION_LINE, current($result->getFunctions()->getAll())->getLine());
+        //$this->assertSame($result, current($result->getFunctions()->getAll())->getFile());
+        //$this->assertSame(self::EXAMPLE_FUNCTION_LINE, current($result->getFunctions()->getAll())->getLine());
     }
 
     /**
@@ -443,11 +443,7 @@ PHP;
      */
     private function thenAFunctionShouldBeAdded()
     {
-        $descriptor = new Function_();
-        $descriptor->setFullyQualifiedStructuralElementName(
-            '\\' . self::EXAMPLE_NAMESPACE . '\\' . self::EXAMPLE_FUNCTION_NAME . '()'
-        );
-        $descriptor->setNamespace('\\' . self::EXAMPLE_NAMESPACE);
+        $descriptor = new Function_(new Fqsen('\\' . self::EXAMPLE_NAMESPACE . '\\' . self::EXAMPLE_FUNCTION_NAME . '()'));
 
         $this->analyzerMock->shouldReceive('analyze')
             ->once()

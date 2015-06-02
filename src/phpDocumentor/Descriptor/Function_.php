@@ -26,16 +26,16 @@ final class Function_ implements Element
     private $fqsen;
 
     /** @var Argument[] $arguments */
-    private $arguments;
+    private $arguments = array();
 
     /**
-     * @var DocBlock
+     * @var DocBlock | Null
      */
     private $docBlock;
     /**
      * Initializes the all properties representing a collection with a new Collection object.
      */
-    public function __construct(Fqsen $fqsen, DocBlock $docBlock)
+    public function __construct(Fqsen $fqsen, DocBlock $docBlock = null)
     {
         $this->fqsen = $fqsen;
         $this->docBlock = $docBlock;
@@ -80,9 +80,9 @@ final class Function_ implements Element
     }
 
     /**
-     * Returns the DocBlock of the element.
+     * Returns the DocBlock of the element if available
      *
-     * @return DocBlock
+     * @return NUll|DocBlock
      */
     public function getDocBlock()
     {

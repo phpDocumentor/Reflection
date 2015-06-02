@@ -586,10 +586,19 @@ final class FileAssembler extends AssemblerAbstract implements NodeVisitor
             return;
         }
 
-        $descriptor->setLocation($this->fileDescriptor, $node->getLine());
-        $this->inheritPackageFromFileDescriptor($descriptor);
+        if (method_exists($descriptor, 'setLocation')) {
+            $descriptor->setLocation($this->fileDescriptor, $node->getLine());
+        }
 
-        $collection->set($descriptor->getFullyQualifiedStructuralElementName(), $descriptor);
+        if (method_exists($descriptor, 'getTags')) {
+            $this->inheritPackageFromFileDescriptor($descriptor);
+        }
+
+        if (method_exists($descriptor, 'getFqsen')) {
+            $collection->set((string)$descriptor->getFqsen(), $descriptor);
+        } else {
+            $collection->set($descriptor->getFullyQualifiedStructuralElementName(), $descriptor);
+        }
     }
 
     /**
