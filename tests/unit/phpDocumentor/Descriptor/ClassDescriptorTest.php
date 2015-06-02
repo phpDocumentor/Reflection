@@ -27,6 +27,7 @@ class ClassDescriptorTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->fixture = new ClassDescriptor();
+        $this->fixture->setFullyQualifiedStructuralElementName('\SomeClass');
     }
 
     /**
@@ -386,8 +387,6 @@ class ClassDescriptorTest extends \PHPUnit_Framework_TestCase
         /** @var Method $magicMethod */
         $magicMethod = current($magicMethods->getAll());
         $this->assertEquals($methodName, $magicMethod->getName());
-        $this->assertEquals($description, $magicMethod->getDescription());
-        $this->assertEquals($response, $magicMethod->getResponse());
 
         $mock = m::mock('phpDocumentor\Descriptor\ClassDescriptor');
         $mock->shouldReceive('getMagicMethods')->andReturn(new Collection(array('magicMethods')));

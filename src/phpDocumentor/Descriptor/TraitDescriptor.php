@@ -10,6 +10,7 @@
  */
 
 namespace phpDocumentor\Descriptor;
+use phpDocumentor\Reflection\Fqsen;
 
 /**
  * Descriptor representing a Trait.
@@ -73,10 +74,7 @@ class TraitDescriptor extends DescriptorAbstract implements Interfaces\TraitInte
 
         /** @var Tag\MethodDescriptor $methodTag */
         foreach ($methodTags as $methodTag) {
-            $method = new Method();
-            $method->setName($methodTag->getMethodName());
-            $method->setDescription($methodTag->getDescription());
-            $method->setParent($this);
+            $method = new Method(new Fqsen($this->getFullyQualifiedStructuralElementName() . '::' . $methodTag->getMethodName()));
 
             $methods->add($method);
         }

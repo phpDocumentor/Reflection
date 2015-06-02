@@ -27,6 +27,7 @@ class TraitDescriptorTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->fixture = new TraitDescriptor();
+        $this->fixture->setFullyQualifiedStructuralElementName('\My\Trait');
     }
 
     /**
@@ -110,8 +111,6 @@ class TraitDescriptorTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('phpDocumentor\Descriptor\Collection', $magicMethodsCollection);
         $this->assertSame(1, $magicMethodsCollection->count());
         $this->assertSame('Sample', $magicMethodsCollection[0]->getName());
-        $this->assertSame('Sample description', $magicMethodsCollection[0]->getDescription());
-        $this->assertSame($this->fixture, $magicMethodsCollection[0]->getParent());
     }
 
     /**

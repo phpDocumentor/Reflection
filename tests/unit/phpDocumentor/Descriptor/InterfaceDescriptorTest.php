@@ -14,6 +14,7 @@ namespace phpDocumentor\Descriptor;
 use Mockery as m;
 use phpDocumentor\Descriptor\Tag\AuthorDescriptor;
 use phpDocumentor\Descriptor\Tag\VersionDescriptor;
+use phpDocumentor\Reflection\Fqsen;
 
 /**
  * Tests the functionality for the InterfaceDescriptor class.
@@ -241,8 +242,7 @@ class InterfaceDescriptorTest extends \PHPUnit_Framework_TestCase
      */
     public function testRetrievingInheritedMethodsReturnsCollectionWithParent()
     {
-        $parentDescriptor = new Method();
-        $parentDescriptor->setName('parent');
+        $parentDescriptor = new Method(new Fqsen('\MyClass::MyMethod()'));
         $parentDescriptorCollection = new Collection();
         $parentDescriptorCollection->add($parentDescriptor);
         $parent = new InterfaceDescriptor();
@@ -250,8 +250,7 @@ class InterfaceDescriptorTest extends \PHPUnit_Framework_TestCase
         $parentCollection = new Collection();
         $parentCollection->add($parent);
 
-        $grandParentDescriptor = new Method();
-        $grandParentDescriptor->setName('grandparent');
+        $grandParentDescriptor = new Method(new Fqsen('\MyClass::MyMethod()'));
         $grandParentDescriptorCollection = new Collection();
         $grandParentDescriptorCollection->add($grandParentDescriptor);
         $grandParent = new InterfaceDescriptor();

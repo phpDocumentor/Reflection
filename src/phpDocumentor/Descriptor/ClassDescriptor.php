@@ -10,6 +10,7 @@
  */
 
 namespace phpDocumentor\Descriptor;
+use phpDocumentor\Reflection\Fqsen;
 
 /**
  * Descriptor representing a Class.
@@ -200,16 +201,10 @@ class ClassDescriptor extends DescriptorAbstract implements Interfaces\ClassInte
 
         /** @var Tag\MethodDescriptor $methodTag */
         foreach ($methodTags as $methodTag) {
-            $method = new Method();
-            $method->setName($methodTag->getMethodName());
-            $method->setDescription($methodTag->getDescription());
-            $method->setParent($this);
-
-            $returnTags = $method->getTags()->get('return', new Collection());
-            $returnTags->add($methodTag->getResponse());
+            $method = new Method(new Fqsen($this->getFullyQualifiedStructuralElementName() . '::' . $methodTag->getMethodName()));
 
             foreach ($methodTag->getArguments() as $name => $argument) {
-                $method->getArguments()->set($name, $argument);
+                $method->addArgument(new Argument($name));
             }
 
             $methods->add($method);
