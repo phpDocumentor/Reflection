@@ -12,7 +12,7 @@
 namespace phpDocumentor\Descriptor\Builder\PhpParser;
 
 use phpDocumentor\Descriptor\Collection;
-use phpDocumentor\Descriptor\PropertyDescriptor;
+use phpDocumentor\Descriptor\Property;
 use phpDocumentor\Descriptor\TraitDescriptor;
 use phpDocumentor\Reflection\ClassReflector\MethodReflector;
 use phpDocumentor\Reflection\ClassReflector\PropertyReflector;

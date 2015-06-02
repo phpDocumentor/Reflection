@@ -244,7 +244,7 @@ class ClassDescriptorTest extends \PHPUnit_Framework_TestCase
 
         $this->assertCount(1, $magicProperties);
 
-        /** @var PropertyDescriptor $magicProperty */
+        /** @var Property $magicProperty */
         $magicProperty = current($magicProperties->getAll());
         $this->assertEquals($variableName, $magicProperty->getName());
         $this->assertEquals($description, $magicProperty->getDescription());

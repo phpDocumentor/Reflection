@@ -18,7 +18,7 @@ use phpDocumentor\Descriptor\ConstantDescriptor;
 use phpDocumentor\Descriptor\DescriptorAbstract;
 use phpDocumentor\Descriptor\InterfaceDescriptor;
 use phpDocumentor\Descriptor\Method;
-use phpDocumentor\Descriptor\PropertyDescriptor;
+use phpDocumentor\Descriptor\Property;
 use phpDocumentor\Descriptor\TraitDescriptor;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\PrettyPrinter;
@@ -154,7 +154,7 @@ abstract class AssemblerAbstract extends BaseAssembler
             $property->visibility = 'public';
         }
 
-        /** @var PropertyDescriptor $propertyDescriptor */
+        /** @var Property $propertyDescriptor */
         $propertyDescriptor = $this->getAnalyzer()->analyze($property);
         if (! $propertyDescriptor) {
             return;

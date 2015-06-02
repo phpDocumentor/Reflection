@@ -120,7 +120,7 @@ class TraitDescriptor extends DescriptorAbstract implements Interfaces\TraitInte
 
         /** @var Tag\PropertyDescriptor $propertyTag */
         foreach ($propertyTags as $propertyTag) {
-            $property = new PropertyDescriptor();
+            $property = new Property();
             $property->setName($propertyTag->getVariableName());
             $property->setDescription($propertyTag->getDescription());
             $property->setTypes($propertyTag->getTypes());
