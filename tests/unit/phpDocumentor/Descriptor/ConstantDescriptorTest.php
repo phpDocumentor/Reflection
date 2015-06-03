@@ -243,24 +243,6 @@ class ConstantDescriptorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers phpDocumentor\Descriptor\DescriptorAbstract::getPackage
-     */
-    public function testPackageInheritWhenNoneArePresent()
-    {
-        // Arrange
-        $packageTagDescriptor = new PackageDescriptor();
-        $this->fixture->setPackage('');
-        $parentProperty = $this->whenFixtureHasConstantInParentClassWithSameName($this->fixture->getName());
-        $parentProperty->setPackage($packageTagDescriptor);
-
-        // Act
-        $result = $this->fixture->getPackage();
-
-        // Assert
-        $this->assertSame($packageTagDescriptor, $result);
-    }
-
-    /**
      * @covers phpDocumentor\Descriptor\DescriptorAbstract::getAuthor
      */
     public function testAuthorTagsInheritWhenNoneArePresent()

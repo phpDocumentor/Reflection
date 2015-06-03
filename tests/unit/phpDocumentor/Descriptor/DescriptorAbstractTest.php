@@ -110,20 +110,6 @@ class DescriptorAbstractTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers phpDocumentor\Descriptor\DescriptorAbstract::setPackage
-     * @covers phpDocumentor\Descriptor\DescriptorAbstract::getPackage
-     */
-    public function testSettingAndGettingPackage()
-    {
-        $package = new PackageDescriptor();
-        $this->assertSame(null, $this->fixture->getPackage());
-
-        $this->fixture->setPackage($package);
-
-        $this->assertSame($package, $this->fixture->getPackage());
-    }
-
-    /**
      * @covers phpDocumentor\Descriptor\DescriptorAbstract::getAuthor
      */
     public function testGetAuthor()
