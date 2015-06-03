@@ -16,7 +16,7 @@ use phpDocumentor\Descriptor\ClassDescriptor;
 use phpDocumentor\Descriptor\Collection;
 use phpDocumentor\Descriptor\ConstantDescriptor;
 use phpDocumentor\Descriptor\DescriptorAbstract;
-use phpDocumentor\Descriptor\InterfaceDescriptor;
+use phpDocumentor\Descriptor\Interface_;
 use phpDocumentor\Descriptor\Method;
 use phpDocumentor\Descriptor\Property;
 use phpDocumentor\Descriptor\Trait_;
@@ -84,7 +84,7 @@ abstract class AssemblerAbstract extends BaseAssembler
     }
 
     /**
-     * @param ClassDescriptor|InterfaceDescriptor $descriptor
+     * @param ClassDescriptor|Interface_ $descriptor
      * @param Node\Stmt\Const_ $constant
      */
     protected function addClassConstantToDescriptor($descriptor, $constant)
@@ -105,7 +105,7 @@ abstract class AssemblerAbstract extends BaseAssembler
     }
 
     /**
-     * @param Trait_|InterfaceDescriptor|ClassDescriptor $descriptor
+     * @param Trait_|Interface_|ClassDescriptor $descriptor
      * @param Node\Stmt\ClassMethod $stmt
      *
      * @return void

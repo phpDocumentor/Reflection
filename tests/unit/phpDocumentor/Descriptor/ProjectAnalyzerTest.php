@@ -4,6 +4,7 @@ namespace phpDocumentor\Descriptor;
 
 use Mockery as m;
 use phpDocumentor\Descriptor\Interfaces\ProjectInterface;
+use phpDocumentor\Reflection\Fqsen;
 
 /**
  * Tests for the \phpDocumentor\Descriptor\ProjectAnalyzer class.
@@ -110,7 +111,7 @@ class ProjectAnalyzerTest extends \PHPUnit_Framework_TestCase
         $this->assertAttributeSame(
             array(
                 'phpDocumentor\Descriptor\ClassDescriptor'     => 2,
-                'phpDocumentor\Descriptor\InterfaceDescriptor' => 1,
+                'phpDocumentor\Descriptor\Interface_' => 1,
             ),
             'descriptorCountByType',
             $this->fixture
@@ -143,7 +144,7 @@ In the ProjectDescriptor are:
          3 top-level namespaces
          1 unresolvable parent classes
          2 phpDocumentor\Descriptor\ClassDescriptor elements
-         1 phpDocumentor\Descriptor\InterfaceDescriptor elements
+         1 phpDocumentor\Descriptor\Interface_ elements
 
 TEXT;
 
@@ -170,12 +171,11 @@ TEXT;
 
     /**
      * @param $interfaceParent
-     * @return InterfaceDescriptor
+     * @return Interface_
      */
     protected function givenAnInterfaceWithParent($interfaceParent)
     {
-        $classDescriptor3 = new InterfaceDescriptor();
-        $classDescriptor3->setParent($interfaceParent);
+        $classDescriptor3 = new Interface_(new Fqsen('\My\Interface'));
 
         return $classDescriptor3;
     }

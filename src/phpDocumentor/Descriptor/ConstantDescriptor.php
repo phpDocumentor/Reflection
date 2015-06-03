@@ -18,7 +18,7 @@ use phpDocumentor\Descriptor\Tag\VarDescriptor;
  */
 class ConstantDescriptor extends DescriptorAbstract implements Interfaces\ConstantInterface
 {
-    /** @var ClassDescriptor|InterfaceDescriptor|null $parent */
+    /** @var ClassDescriptor|Interface_|null $parent */
     protected $parent;
 
     /** @var string[]|null $type */
@@ -30,7 +30,7 @@ class ConstantDescriptor extends DescriptorAbstract implements Interfaces\Consta
     /**
      * Registers a parent class or interface with this constant.
      *
-     * @param ClassDescriptor|InterfaceDescriptor|null $parent
+     * @param ClassDescriptor|Interface_|null $parent
      *
      * @throws \InvalidArgumentException if anything other than a class, interface or null was passed.
      *
@@ -38,7 +38,8 @@ class ConstantDescriptor extends DescriptorAbstract implements Interfaces\Consta
      */
     public function setParent($parent)
     {
-        if (!$parent instanceof ClassDescriptor && !$parent instanceof InterfaceDescriptor && $parent !== null) {
+
+        if (!$parent instanceof ClassDescriptor && !$parent instanceof Interface_ && $parent !== null) {
             throw new \InvalidArgumentException('Constants can only have an interface or class as parent');
         }
 
@@ -52,7 +53,7 @@ class ConstantDescriptor extends DescriptorAbstract implements Interfaces\Consta
     }
 
     /**
-     * @return null|ClassDescriptor|InterfaceDescriptor
+     * @return null|ClassDescriptor|Interface_
      */
     public function getParent()
     {
@@ -137,15 +138,15 @@ class ConstantDescriptor extends DescriptorAbstract implements Interfaces\Consta
      */
     public function getInheritedElement()
     {
-        /** @var ClassDescriptor|InterfaceDescriptor|null $associatedClass */
+        /** @var ClassDescriptor|Interface_|null $associatedClass */
         $associatedClass = $this->getParent();
 
-        if (($associatedClass instanceof ClassDescriptor || $associatedClass instanceof InterfaceDescriptor)
+        if (($associatedClass instanceof ClassDescriptor || $associatedClass instanceof Interface_)
             && ($associatedClass->getParent() instanceof ClassDescriptor
-                || $associatedClass->getParent() instanceof InterfaceDescriptor
+                || $associatedClass->getParent() instanceof Interface_
             )
         ) {
-            /** @var ClassDescriptor|InterfaceDescriptor $parentClass */
+            /** @var ClassDescriptor|Interface_ $parentClass */
             $parentClass = $associatedClass->getParent();
             return $parentClass->getConstants()->get($this->getName());
         }

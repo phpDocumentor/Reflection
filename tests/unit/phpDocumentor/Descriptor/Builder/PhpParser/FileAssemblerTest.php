@@ -7,7 +7,7 @@ use org\bovigo\vfs\vfsStream;
 use phpDocumentor\Descriptor\ClassDescriptor;
 use phpDocumentor\Descriptor\ConstantDescriptor;
 use phpDocumentor\Descriptor\Function_;
-use phpDocumentor\Descriptor\InterfaceDescriptor;
+use phpDocumentor\Descriptor\Interface_;
 use phpDocumentor\Descriptor\Analyzer;
 use phpDocumentor\Descriptor\Tag\AuthorDescriptor;
 use phpDocumentor\Descriptor\Trait_;
@@ -358,16 +358,13 @@ PHP;
         $fcqn = '\\' . self::EXAMPLE_NAMESPACE . '\\' . self::EXAMPLE_INTERFACE_NAME;
         $this->assertCount(1, $result->getInterfaces()->getAll());
         $this->assertInstanceOf(
-            'phpDocumentor\Descriptor\InterfaceDescriptor',
+            'phpDocumentor\Descriptor\Interface_',
             $result->getInterfaces()->get($fcqn)
         );
         $this->assertSame(
             $fcqn,
-            $result->getInterfaces()->get($fcqn)->getFullyQualifiedStructuralElementName()
+            (string)$result->getInterfaces()->get($fcqn)->getFqsen()
         );
-        $this->assertSame('\\' . self::EXAMPLE_NAMESPACE, current($result->getInterfaces()->getAll())->getNamespace());
-        $this->assertSame($result, current($result->getInterfaces()->getAll())->getFile());
-        $this->assertSame(self::EXAMPLE_INTERFACE_LINE, current($result->getInterfaces()->getAll())->getLine());
     }
 
     /**
@@ -513,11 +510,7 @@ PHP;
      */
     private function thenAnInterfaceShouldBeAdded()
     {
-        $descriptor = new InterfaceDescriptor();
-        $descriptor->setFullyQualifiedStructuralElementName(
-            '\\' . self::EXAMPLE_NAMESPACE . '\\' . self::EXAMPLE_INTERFACE_NAME
-        );
-        $descriptor->setNamespace('\\' . self::EXAMPLE_NAMESPACE);
+        $descriptor = new Interface_(new Fqsen('\\' . self::EXAMPLE_NAMESPACE . '\\' . self::EXAMPLE_INTERFACE_NAME));
 
         $this->analyzerMock->shouldReceive('analyze')
             ->once()

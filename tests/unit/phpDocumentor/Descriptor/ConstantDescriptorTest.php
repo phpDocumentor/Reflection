@@ -59,21 +59,6 @@ class ConstantDescriptorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers phpDocumentor\Descriptor\ConstantDescriptor::getParent
-     * @covers phpDocumentor\Descriptor\ConstantDescriptor::setParent
-     */
-    public function testSetAndGetParentInterface()
-    {
-        $this->assertSame(null, $this->fixture->getParent());
-
-        $parentMock = m::mock('phpDocumentor\Descriptor\InterfaceDescriptor');
-        $parentMock->shouldReceive('getFullyQualifiedStructuralElementName')->andReturn('TestInterface');
-        $this->fixture->setParent($parentMock);
-
-        $this->assertSame($parentMock, $this->fixture->getParent());
-    }
-
-    /**
      * @covers phpDocumentor\Descriptor\ConstantDescriptor::getTypes
      * @covers phpDocumentor\Descriptor\ConstantDescriptor::setTypes
      */

@@ -11,7 +11,7 @@
 
 namespace phpDocumentor\Descriptor\Builder\PhpParser;
 
-use phpDocumentor\Descriptor\InterfaceDescriptor;
+use phpDocumentor\Descriptor\Interface_;
 use phpDocumentor\Reflection\ClassReflector\MethodReflector;
 use phpDocumentor\Reflection\ConstantReflector;
 use phpDocumentor\Reflection\InterfaceReflector;
@@ -19,7 +19,7 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\Interface_;
 
 /**
- * Assembles an InterfaceDescriptor using an InterfaceReflector.
+ * Assembles an Interface_ using an InterfaceReflector.
  */
 class InterfaceAssembler extends AssemblerAbstract
 {
@@ -28,11 +28,11 @@ class InterfaceAssembler extends AssemblerAbstract
      *
      * @param Interface_ $data
      *
-     * @return InterfaceDescriptor
+     * @return Interface_
      */
     public function create($data)
     {
-        $interfaceDescriptor = new InterfaceDescriptor();
+        $interfaceDescriptor = new Interface_();
 
         $this->assembleDocBlock($data->docBlock, $interfaceDescriptor);
 
@@ -53,7 +53,7 @@ class InterfaceAssembler extends AssemblerAbstract
         return $interfaceDescriptor;
     }
 
-    private function addMethodsAndConstants(Interface_ $node, InterfaceDescriptor $interfaceDescriptor)
+    private function addMethodsAndConstants(Interface_ $node, Interface_ $interfaceDescriptor)
     {
         foreach ($node->stmts as $stmt) {
             switch (get_class($stmt)) {
