@@ -5,7 +5,7 @@ namespace phpDocumentor\Descriptor\Builder\PhpParser;
 use Mockery as m;
 use org\bovigo\vfs\vfsStream;
 use phpDocumentor\Descriptor\ClassDescriptor;
-use phpDocumentor\Descriptor\ConstantDescriptor;
+use phpDocumentor\Descriptor\Constant;
 use phpDocumentor\Descriptor\Function_;
 use phpDocumentor\Descriptor\Interface_;
 use phpDocumentor\Descriptor\Analyzer;
@@ -256,19 +256,16 @@ PHP;
         $fqcn = '\\' . self::EXAMPLE_NAMESPACE . '\\' . self::EXAMPLE_CONSTANT_NAME;
         $fqcn2 = '\\' . self::EXAMPLE_NAMESPACE . '\\' . self::EXAMPLE_DEFINE_NAME;
         $this->assertCount(2, $result->getConstants()->getAll());
-        $this->assertInstanceOf('phpDocumentor\Descriptor\ConstantDescriptor', $result->getConstants()->get($fqcn));
-        $this->assertInstanceOf('phpDocumentor\Descriptor\ConstantDescriptor', $result->getConstants()->get($fqcn2));
+        $this->assertInstanceOf(Constant::class, $result->getConstants()->get($fqcn));
+        $this->assertInstanceOf(Constant::class, $result->getConstants()->get($fqcn2));
         $this->assertSame(
             $fqcn,
-            $result->getConstants()->get($fqcn)->getFullyQualifiedStructuralElementName()
+            (string)$result->getConstants()->get($fqcn)->getFqsen()
         );
         $this->assertSame(
             $fqcn2,
-            $result->getConstants()->get($fqcn2)->getFullyQualifiedStructuralElementName()
+            (string)$result->getConstants()->get($fqcn2)->getFqsen()
         );
-        $this->assertSame('\\' . self::EXAMPLE_NAMESPACE, current($result->getConstants()->getAll())->getNamespace());
-        $this->assertSame($result, current($result->getConstants()->getAll())->getFile());
-        $this->assertSame(self::EXAMPLE_CONSTANT_LINE, current($result->getConstants()->getAll())->getLine());
     }
 
     /**
@@ -452,11 +449,7 @@ PHP;
      */
     private function thenAConstantShouldBeAdded()
     {
-        $descriptor = new ConstantDescriptor();
-        $descriptor->setFullyQualifiedStructuralElementName(
-            '\\' . self::EXAMPLE_NAMESPACE . '\\' . self::EXAMPLE_CONSTANT_NAME
-        );
-        $descriptor->setNamespace('\\' . self::EXAMPLE_NAMESPACE);
+        $descriptor = new Constant(new Fqsen('\\' . self::EXAMPLE_NAMESPACE . '\\' . self::EXAMPLE_CONSTANT_NAME));
 
         $this->analyzerMock->shouldReceive('analyze')
             ->once()
@@ -472,11 +465,7 @@ PHP;
      */
     private function thenAConstantUsingDefineShouldBeAdded()
     {
-        $descriptor = new ConstantDescriptor();
-        $descriptor->setFullyQualifiedStructuralElementName(
-            '\\' . self::EXAMPLE_NAMESPACE . '\\' . self::EXAMPLE_DEFINE_NAME
-        );
-        $descriptor->setNamespace('\\' . self::EXAMPLE_NAMESPACE);
+        $descriptor = new Constant(new Fqsen('\\' . self::EXAMPLE_NAMESPACE . '\\' . self::EXAMPLE_DEFINE_NAME));
 
         $this->analyzerMock->shouldReceive('analyze')
             ->once()

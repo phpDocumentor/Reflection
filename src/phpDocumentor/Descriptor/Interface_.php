@@ -29,7 +29,7 @@ final class Interface_ implements Element
      */
     private $docBlock;
 
-    /** @var ConstantDescriptor[] $constants */
+    /** @var Constant[] $constants */
     protected $constants = array();
 
     /** @var Method[] $methods */
@@ -47,7 +47,7 @@ final class Interface_ implements Element
     /**
      * Returns the constants of this interface.
      *
-     * @return ConstantDescriptor[]
+     * @return Constant[]
      */
     public function getConstants()
     {
@@ -57,11 +57,11 @@ final class Interface_ implements Element
     /**
      * Add constant to this interface.
      *
-     * @param ConstantDescriptor $constant
+     * @param Constant $constant
      */
-    public function addConstant(ConstantDescriptor $constant)
+    public function addConstant(Constant $constant)
     {
-        $this->constants[$constant->getFullyQualifiedStructuralElementName()] = $constant;
+        $this->constants[(string)$constant->getFqsen()] = $constant;
     }
 
 

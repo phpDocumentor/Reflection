@@ -14,7 +14,7 @@ namespace phpDocumentor\Descriptor\Builder\PhpParser;
 use phpDocumentor\Descriptor\Builder\AssemblerAbstract as BaseAssembler;
 use phpDocumentor\Descriptor\ClassDescriptor;
 use phpDocumentor\Descriptor\Collection;
-use phpDocumentor\Descriptor\ConstantDescriptor;
+use phpDocumentor\Descriptor\Constant;
 use phpDocumentor\Descriptor\DescriptorAbstract;
 use phpDocumentor\Descriptor\Interface_;
 use phpDocumentor\Descriptor\Method;
@@ -93,7 +93,7 @@ abstract class AssemblerAbstract extends BaseAssembler
             ? new DocBlock($constant->getDocComment()->getText())
             : null;
 
-        /** @var ConstantDescriptor $constantDescriptor */
+        /** @var Constant $constantDescriptor */
         $constantDescriptor = $this->getAnalyzer()->analyze($constant);
         if (! $constantDescriptor) {
             return;

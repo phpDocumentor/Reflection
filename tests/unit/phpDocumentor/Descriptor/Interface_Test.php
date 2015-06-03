@@ -73,8 +73,7 @@ class Interface_Test extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(array(), $this->fixture->getConstants());
 
-        $constant = new ConstantDescriptor();
-        $constant->setFullyQualifiedStructuralElementName('\MySpace\MyInterface::MY_CONSTANT');
+        $constant = new Constant(new Fqsen('\MySpace\MyInterface::MY_CONSTANT'));
 
         $this->fixture->addConstant($constant);
 

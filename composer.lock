@@ -106,12 +106,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jaapio/ReflectionCommon.git",
-                "reference": "e954007f09a05890d064eabe4034b903477e9ab9"
+                "reference": "1471308ffb00b73c63dd6826e2b8aa5c01d15540"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jaapio/ReflectionCommon/zipball/e954007f09a05890d064eabe4034b903477e9ab9",
-                "reference": "e954007f09a05890d064eabe4034b903477e9ab9",
+                "url": "https://api.github.com/repos/jaapio/ReflectionCommon/zipball/1471308ffb00b73c63dd6826e2b8aa5c01d15540",
+                "reference": "1471308ffb00b73c63dd6826e2b8aa5c01d15540",
                 "shasum": ""
             },
             "require-dev": {
@@ -151,7 +151,7 @@
             "support": {
                 "source": "https://github.com/jaapio/ReflectionCommon/tree/feature/getName"
             },
-            "time": "2015-06-02 12:08:41"
+            "time": "2015-06-03 07:40:08"
         },
         {
             "name": "psr/log",
