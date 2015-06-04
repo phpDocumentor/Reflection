@@ -29,12 +29,12 @@ final class Project
     /**
      * @var File[]
      */
-    private $files;
+    private $files = array();
 
     /**
      * @var Namespace_[]
      */
-    private $namespaces;
+    private $namespaces = array();
 
     /**
      * Initializes this descriptor.
