@@ -49,6 +49,16 @@ final class Argument
     }
 
     /**
+     * Returns the name of this argument.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function getTypes()

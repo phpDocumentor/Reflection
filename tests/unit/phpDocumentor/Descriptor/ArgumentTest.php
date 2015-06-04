@@ -17,8 +17,6 @@ namespace phpDocumentor\Descriptor;
  */
 class ArgumentTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Argument $fixture */
-    private $fixture;
 
     /**
      * @covers ::getTypes
@@ -32,6 +30,16 @@ class ArgumentTest extends \PHPUnit_Framework_TestCase
         $argument->addType(1);
 
         $this->assertSame(array(1), $argument->getTypes());
+    }
+
+    /**
+     * @covers ::__construct
+     * @covers ::getName
+     */
+    public function testGetName()
+    {
+        $argument = new Argument('myArgument', null, true, true);
+        $this->assertEquals('myArgument', $argument->getName());
     }
 
     /**
@@ -62,7 +70,7 @@ class ArgumentTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers ::__construct
-     * @covers ::isByReference
+     * @covers ::isVariadic
      */
     public function testGetWhetherArgumentisVariadic()
     {
