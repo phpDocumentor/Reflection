@@ -26,7 +26,7 @@ $splFileObject = new \SplFileObject('tests/example.file.php');
 // `\phpDocumentor\Descriptor\File` class and populate a project descriptor object in the Analyzer.
 $analyzer->analyze($splFileObject);
 
-// The returned Project object is of class `phpDocumentor\Descriptor\ProjectDescriptor`, see its DocBlock for more
+// The returned Project object is of class `phpDocumentor\Descriptor\Project`, see its DocBlock for more
 // information on it.
 $project = $analyzer->finalize();
 

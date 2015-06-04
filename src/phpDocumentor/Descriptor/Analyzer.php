@@ -35,7 +35,7 @@ class Analyzer
     /** @var AssemblerFactory $assemblerFactory */
     protected $assemblerFactory;
 
-    /** @var ProjectDescriptor $project */
+    /** @var Project $project */
     protected $project;
 
     public function __construct(
@@ -71,10 +71,10 @@ class Analyzer
 
     public function createProjectDescriptor()
     {
-        $this->project = new ProjectDescriptor(self::DEFAULT_PROJECT_NAME);
+        $this->project = new Project(self::DEFAULT_PROJECT_NAME);
     }
 
-    public function setProjectDescriptor(ProjectDescriptor $projectDescriptor)
+    public function setProjectDescriptor(Project $projectDescriptor)
     {
         $this->project = $projectDescriptor;
     }
@@ -82,7 +82,7 @@ class Analyzer
     /**
      * Returns the project descriptor that is being built.
      *
-     * @return ProjectDescriptor
+     * @return Project
      */
     public function getProjectDescriptor()
     {
@@ -104,7 +104,7 @@ class Analyzer
      * to determine whether the visibility of that element is matches what the user has specified when it ran
      * phpDocumentor.
      *
-     * @param string|integer $visibility One of the visibility constants of the ProjectDescriptor class or the words
+     * @param string|integer $visibility One of the visibility constants of the Project class or the words
      *     'public', 'protected', 'private' or 'internal'.
      *
      * @see ProjectDescriptor where the visibility is stored and that declares the constants to use.
@@ -172,7 +172,7 @@ class Analyzer
      * In this method we create all namespaces, link descriptors together if elements share the same project and do
      * anything that requires us to inspect and alter descriptors and their relations.
      *
-     * @return ProjectDescriptor
+     * @return Project
      */
     public function finalize()
     {

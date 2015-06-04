@@ -64,13 +64,13 @@ The step above can be repeated for as many files as you have. When you are done 
 method of the analyzer. This method will do another analysis pass. This pass will connect the dots and do any processing
 that relies the structure to be complete, such as adding linkage between all elements.
 
-When the finalization is ready a new object of type `phpDocumentor\Descriptor\ProjectDescriptor` will be returned that
+When the finalization is ready a new object of type `phpDocumentor\Descriptor\Project` will be returned that
 contains a complete hierarchy of all files with their classes, traits and interfaces (and everything in there), but also
 all namespaces and packages as a hierarchical tree.
 
     $project = $analyzer->finalize();
     
-When the finalization is ready a new object of type `phpDocumentor\Descriptor\ProjectDescriptor` will be returned that
+When the finalization is ready a new object of type `phpDocumentor\Descriptor\Project` will be returned that
 contains a complete hierarchy of all files with their classes, traits and interfaces (and everything in there), but also
 all namespaces and packages as a hierarchical tree.
 

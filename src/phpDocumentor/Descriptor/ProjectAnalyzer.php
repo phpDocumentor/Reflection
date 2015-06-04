@@ -67,7 +67,7 @@ class ProjectAnalyzer
     public function __toString()
     {
         $logString = <<<TEXT
-In the ProjectDescriptor are:
+In the Project are:
   %8d files
   %8d top-level namespaces
   %8d unresolvable parent classes

@@ -139,7 +139,7 @@ class ProjectAnalyzerTest extends \PHPUnit_Framework_TestCase
         $this->fixture->analyze($projectDescriptor);
 
         $expected = <<<TEXT
-In the ProjectDescriptor are:
+In the Project are:
          4 files
          3 top-level namespaces
          0 unresolvable parent classes
@@ -180,7 +180,7 @@ TEXT;
     }
 
     /**
-     * Returns a mocked ProjectDescriptor object.
+     * Returns a mocked Project object.
      *
      * @return m\Mock|ProjectInterface
      */
@@ -205,7 +205,7 @@ TEXT;
     /**
      * Ensures that the ProjectInterface has an index 'elements' with the provided elements.
      *
-     * @param m\Mock|ProjectDescriptor $projectDescriptor
+     * @param m\Mock|Project $projectDescriptor
      * @param array                    $elements
      *
      * @return void
@@ -217,7 +217,7 @@ TEXT;
     }
 
     /**
-     * Ensures that the ProjectDescriptor has a root namespace with the provided array as children of that namespace.
+     * Ensures that the Project has a root namespace with the provided array as children of that namespace.
      *
      * @param m\Mock|ProjectInterface $projectDescriptor
      * @param array $rootNamespaceChildren
