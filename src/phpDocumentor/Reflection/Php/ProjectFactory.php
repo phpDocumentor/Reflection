@@ -55,7 +55,9 @@ final class ProjectFactory
         $project = new Project('MyProject');
 
         foreach ($files as $filePath) {
-            $project->addFile(new File('some-hash', $filePath));
+            foreach ($this->strategies as $strategy) {
+                $project->addFile($strategy->create($filePath, $this));
+            }
         }
 
         return $project;
