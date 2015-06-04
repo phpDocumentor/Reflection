@@ -45,8 +45,12 @@ class ProjectFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $projectFactory = new ProjectFactory(array());
 
-        $project = $projectFactory->create(array());
+        $files = array('some/file.php', 'some/other.php');
+        $project = $projectFactory->create($files);
 
         $this->assertInstanceOf(Project::class, $project);
+
+        $projectFilePaths = array_keys($project->getFiles());
+        $this->assertEquals($projectFilePaths, $files);
     }
 }

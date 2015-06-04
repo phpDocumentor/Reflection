@@ -12,6 +12,7 @@
 namespace phpDocumentor\Reflection\Php;
 
 
+use phpDocumentor\Descriptor\File;
 use phpDocumentor\Descriptor\Project;
 
 final class ProjectFactory
@@ -52,6 +53,10 @@ final class ProjectFactory
     public function create($files)
     {
         $project = new Project('MyProject');
+
+        foreach ($files as $filePath) {
+            $project->addFile(new File('some-hash', $filePath));
+        }
 
         return $project;
     }
