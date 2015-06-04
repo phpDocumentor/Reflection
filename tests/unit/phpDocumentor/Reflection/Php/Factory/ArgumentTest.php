@@ -25,11 +25,11 @@ class ArgumentTest extends \PHPUnit_Framework_TestCase
     /**
      * @var Argument
      */
-    private $fixure;
+    private $fixture;
 
     protected function setUp()
     {
-        $this->fixure = new Argument();
+        $this->fixture = new Argument();
     }
 
     /**
@@ -37,8 +37,8 @@ class ArgumentTest extends \PHPUnit_Framework_TestCase
      */
     public function testMatches()
     {
-        $this->assertFalse($this->fixure->matches(new \stdClass()));
-        $this->assertTrue($this->fixure->matches(m::mock(Param::class)));
+        $this->assertFalse($this->fixture->matches(new \stdClass()));
+        $this->assertTrue($this->fixture->matches(m::mock(Param::class)));
     }
 
     /**
@@ -54,7 +54,7 @@ class ArgumentTest extends \PHPUnit_Framework_TestCase
         $argMock->byRef = true;
         $argMock->variadic = true;
 
-        $argument = $this->fixure->create($argMock, $factory);
+        $argument = $this->fixture->create($argMock, $factory);
 
         $this->assertInstanceOf(ArgumentDescriptor::class, $argument);
         $this->assertEquals('myArgument', $argument->getName());
