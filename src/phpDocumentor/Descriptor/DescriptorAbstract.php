@@ -36,7 +36,7 @@ abstract class DescriptorAbstract
     /** @var string $description A more extensive description of this element. */
     protected $description = '';
 
-    /** @var FileDescriptor|null $file The file to which this element belongs; if applicable */
+    /** @var File|null $file The file to which this element belongs; if applicable */
     protected $fileDescriptor;
 
     /** @var int $line The line number on which this element occurs. */
@@ -196,12 +196,12 @@ abstract class DescriptorAbstract
     /**
      * Sets the file and linenumber where this element is at.
      *
-     * @param FileDescriptor $file
+     * @param File $file
      * @param int            $line
      *
      * @return void
      */
-    public function setLocation(FileDescriptor $file, $line = 0)
+    public function setLocation(File $file, $line = 0)
     {
         $this->setFile($file);
         $this->line = $line;
@@ -220,7 +220,7 @@ abstract class DescriptorAbstract
     /**
      * Returns the file in which this element resides or null in case the element is not bound to a file..
      *
-     * @return FileDescriptor|null
+     * @return File|null
      */
     public function getFile()
     {
@@ -230,11 +230,11 @@ abstract class DescriptorAbstract
     /**
      * Sets the file to which this element is associated.
      *
-     * @param FileDescriptor $file
+     * @param File $file
      *
      * @return false
      */
-    public function setFile(FileDescriptor $file)
+    public function setFile(File $file)
     {
         $this->fileDescriptor = $file;
     }

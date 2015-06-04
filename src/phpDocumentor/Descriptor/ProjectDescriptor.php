@@ -91,7 +91,7 @@ final class ProjectDescriptor implements Interfaces\ProjectInterface, \IteratorA
     /**
      * Returns all files with their sub-elements.
      *
-     * @return Collection<FileDescriptor>
+     * @return Collection<File>
      */
     public function getFiles()
     {

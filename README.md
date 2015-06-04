@@ -53,7 +53,7 @@ pre-configure it with sensible defaults.
 
 At this point we are ready to analyze files, one at a time. By loading the file using an `SplFileObject` class and 
 feeding that to the `analyze` of the `Analyzer` method we convert the PHP code in that file into an object of type 
-`phpDocumentor\Descriptor\FileDescriptor`. 
+`phpDocumentor\Descriptor\File`.
 
 This object describing a file is returned to us but also added to another object that describes your entire project.
 

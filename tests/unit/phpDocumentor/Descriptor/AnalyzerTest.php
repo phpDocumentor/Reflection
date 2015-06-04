@@ -45,7 +45,7 @@ class AnalyzerTest extends \PHPUnit_Framework_TestCase
      * Demonstrates the basic usage the the Analyzer.
      *
      * This test scenario demonstrates how the Analyzer can be used to create a new ProjectDescriptor
-     * and populate it with a single FileDescriptor using a FileReflector as source.
+     * and populate it with a single File using a FileReflector as source.
      *
      * @covers phpDocumentor\Descriptor\Analyzer::createProjectDescriptor
      * @covers phpDocumentor\Descriptor\Analyzer::buildFileUsingSourceData
@@ -146,7 +146,7 @@ class AnalyzerTest extends \PHPUnit_Framework_TestCase
      * Creates a Mock of an AssemblerFactory.
      *
      * When a FileReflector (or mock thereof) is passed to the 'get' method this mock will return an
-     * empty instance of the FileDescriptor class.
+     * empty instance of the File class.
      *
      * @return m\MockInterface|\phpDocumentor\Descriptor\Builder\AssemblerFactory
      */

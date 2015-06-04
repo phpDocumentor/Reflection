@@ -159,7 +159,7 @@ class Analyzer
             return null;
         }
 
-        if ($descriptor instanceof FileDescriptor) {
+        if ($descriptor instanceof File) {
             $this->getProjectDescriptor()->getFiles()->set($descriptor->getPath(), $descriptor);
         }
 

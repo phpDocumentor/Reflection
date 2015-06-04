@@ -13,7 +13,7 @@ namespace phpDocumentor\Descriptor\Builder\PhpParser;
 
 use phpDocumentor\Descriptor\Collection;
 use phpDocumentor\Descriptor\DescriptorAbstract;
-use phpDocumentor\Descriptor\FileDescriptor;
+use phpDocumentor\Descriptor\File;
 use phpDocumentor\Descriptor\PackageDescriptor;
 use phpDocumentor\Descriptor\TagDescriptor;
 use phpDocumentor\Event\Dispatcher;
@@ -48,7 +48,7 @@ use PhpParser\NodeVisitor;
 use Psr\Log\LogLevel;
 
 /**
- * Assembles an FileDescriptor using an FileReflector and ParamDescriptors.
+ * Assembles an File using an FileReflector and ParamDescriptors.
  */
 final class FileAssembler extends AssemblerAbstract implements NodeVisitor
 {
@@ -57,7 +57,7 @@ final class FileAssembler extends AssemblerAbstract implements NodeVisitor
     /** @var string */
     private $defaultPackageName = 'Default';
 
-    /** @var FileDescriptor */
+    /** @var File */
     private $fileDescriptor;
 
     /** @var Context */
@@ -158,27 +158,23 @@ final class FileAssembler extends AssemblerAbstract implements NodeVisitor
      *
      * @param \SplFileObject $data The contents of a file
      *
-     * @return FileDescriptor
+     * @return File
      */
     public function create($data)
     {
         $this->context = new Context();
         $contents = $this->getFileContents($data);
 
-        $this->fileDescriptor = new FileDescriptor(md5($contents));
-        $this->fileDescriptor->setName($data->getBasename());
-        $this->fileDescriptor->setPath(substr($data->getPathname(), strlen($this->projectRoot)));
-        $this->fileDescriptor->setSource($contents);
+        $path = substr($data->getPathname(), strlen($this->projectRoot));
+        $this->fileDescriptor = new File(md5($contents), $path, $contents);
 
         $this->createTraverser()->traverse($contents);
-
-        $this->scanForMarkers($contents, $this->fileDescriptor);
 
         return $this->fileDescriptor;
     }
 
     /**
-     * Extracts the file DocBlock and register its member on the FileDescriptor.
+     * Extracts the file DocBlock and register its member on the File.
      *
      * @param Node[] $nodes
      *
@@ -186,31 +182,31 @@ final class FileAssembler extends AssemblerAbstract implements NodeVisitor
      */
     public function beforeTraverse(array $nodes)
     {
-        $docblock = $this->extractFileDocBlock($nodes);
-
-        $this->assembleDocBlock($docblock, $this->fileDescriptor);
-
-        if ($docblock && class_exists('phpDocumentor\Event\Dispatcher')) {
-            Dispatcher::getInstance()->dispatch(
-                'reflection.docblock-extraction.post',
-                PostDocBlockExtractionEvent::createInstance($this)->setDocblock($docblock)
-            );
-        }
-
-        /** @var Collection $packages */
-        $packages = $this->fileDescriptor->getTags()->get('package', new Collection());
-
-        if (! $packages->offsetExists(0)) {
-            $tag = new TagDescriptor('package');
-            $tag->setDescription($this->defaultPackageName);
-            $packages->set(0, $tag);
-        }
-
+//        $docblock = $this->extractFileDocBlock($nodes);
+//
+//        $this->assembleDocBlock($docblock, $this->fileDescriptor);
+//
+//        if ($docblock && class_exists('phpDocumentor\Event\Dispatcher')) {
+//            Dispatcher::getInstance()->dispatch(
+//                'reflection.docblock-extraction.post',
+//                PostDocBlockExtractionEvent::createInstance($this)->setDocblock($docblock)
+//            );
+//        }
+//
+//        /** @var Collection $packages */
+//        $packages = $this->fileDescriptor->getTags()->get('package', new Collection());
+//
+//        if (! $packages->offsetExists(0)) {
+//            $tag = new TagDescriptor('package');
+//            $tag->setDescription($this->defaultPackageName);
+//            $packages->set(0, $tag);
+//        }
+//
         return $nodes;
     }
 
     /**
-     * Registers the Namespace Aliases and Package on the FileDescriptor after they have been discovered.
+     * Registers the Namespace Aliases and Package on the File after they have been discovered.
      *
      * @param Node[] $nodes
      *
@@ -236,7 +232,7 @@ final class FileAssembler extends AssemblerAbstract implements NodeVisitor
     }
 
     /**
-     * Registers all discovered children on this FileDescriptor and calls the Analyzer to construct all
+     * Registers all discovered children on this File and calls the Analyzer to construct all
      * child Descriptors.
      *
      * @param Node $node
@@ -267,7 +263,7 @@ final class FileAssembler extends AssemblerAbstract implements NodeVisitor
                 $this->createDescriptorFromNodeAndAddToCollection($node, $this->fileDescriptor->getInterfaces());
                 break;
             case 'PhpParser\Node\Stmt\Function_':
-                $this->createDescriptorFromNodeAndAddToCollection($node, $this->fileDescriptor->getFunctions());
+                $this->createDescriptorFromNodeAndAddToCollection($node, $this->fileDescriptor);
                 break;
             case 'PhpParser\Node\Stmt\Const_':
                 /** @var \PhpParser\Node\Stmt\Const_ $node */
@@ -288,7 +284,8 @@ final class FileAssembler extends AssemblerAbstract implements NodeVisitor
                 }
                 break;
             case 'PhpParser\Node\Expr\Include_':
-                $this->fileDescriptor->getIncludes()->add(new IncludeReflector($node, $this->context));
+                //TODO: fix this.
+                //$this->fileDescriptor->addInclude(new IncludeReflector($node, $this->context));
                 break;
         }
 
@@ -296,14 +293,14 @@ final class FileAssembler extends AssemblerAbstract implements NodeVisitor
     }
 
     /**
-     * Scans the file for markers and stores them in the FileDescriptor.
+     * Scans the file for markers and stores them in the File.
      *
      * @param string         $fileContents
-     * @param FileDescriptor $fileDescriptor
+     * @param File $fileDescriptor
      *
      * @return void
      */
-    private function scanForMarkers($fileContents, FileDescriptor $fileDescriptor)
+    private function scanForMarkers($fileContents, File $fileDescriptor)
     {
         $markerCollection = $fileDescriptor->getMarkers();
 
@@ -602,7 +599,7 @@ final class FileAssembler extends AssemblerAbstract implements NodeVisitor
     }
 
     /**
-     * Takes the FileDescriptor's `@package` tag and applies it on the given Descriptor if it has no package of its own.
+     * Takes the File's `@package` tag and applies it on the given Descriptor if it has no package of its own.
      *
      * @param DescriptorAbstract $descriptor
      *

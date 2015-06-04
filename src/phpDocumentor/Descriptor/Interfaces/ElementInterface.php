@@ -12,7 +12,7 @@
 namespace phpDocumentor\Descriptor\Interfaces;
 
 use phpDocumentor\Descriptor\Collection;
-use phpDocumentor\Descriptor\FileDescriptor;
+use phpDocumentor\Descriptor\File;
 
 /**
  * Represents the public interface to which all descriptors should be held.
@@ -86,12 +86,12 @@ interface ElementInterface
     /**
      * Sets the file and location for this element.
      *
-     * @param FileDescriptor $file
+     * @param File $file
      * @param int            $line
      *
      * @return void
      */
-    public function setLocation(FileDescriptor $file, $line = 0);
+    public function setLocation(File $file, $line = 0);
 
     /**
      * Returns the file location for this element relative to the project root.
