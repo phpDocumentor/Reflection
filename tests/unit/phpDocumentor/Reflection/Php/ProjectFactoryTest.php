@@ -43,6 +43,7 @@ class ProjectFactoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers ::create
+     * @covers ::<private>
      */
     public function testCreate()
     {
@@ -70,5 +71,17 @@ class ProjectFactoryTest extends \PHPUnit_Framework_TestCase
 
         $projectFilePaths = array_keys($project->getFiles());
         $this->assertEquals($files, $projectFilePaths);
+    }
+
+    /**
+     * @covers ::create
+     * @covers ::<private>
+     *
+     * @expectedException \phpDocumentor\Reflection\Exception
+     */
+    public function testCreateThrowsExceptionWhenStrategyNotFound()
+    {
+        $projectFactory = new ProjectFactory(array());
+        $projectFactory->create(array('aa'));
     }
 }

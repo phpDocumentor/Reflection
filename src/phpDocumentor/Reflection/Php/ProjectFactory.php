@@ -14,6 +14,7 @@ namespace phpDocumentor\Reflection\Php;
 
 use phpDocumentor\Descriptor\File;
 use phpDocumentor\Descriptor\Project;
+use phpDocumentor\Reflection\Exception;
 
 final class ProjectFactory
 {
@@ -49,6 +50,7 @@ final class ProjectFactory
      *
      * @param string[] $files
      * @return Project
+     * @throws Exception when no matching strategy was found.
      */
     public function create($files)
     {
@@ -67,6 +69,7 @@ final class ProjectFactory
      *
      * @param mixed $object
      * @return ProjectFactoryStrategy
+     * @throws Exception when no matching strategy was found.
      */
     private function findMatchingStrategy($object)
     {
@@ -75,5 +78,12 @@ final class ProjectFactory
                 return $strategy;
             }
         }
+
+        throw new Exception(
+            sprintf(
+                'No matching factory found for %s',
+                is_object($object) ? get_class($object) : gettype($object)
+            )
+        );
     }
 }
