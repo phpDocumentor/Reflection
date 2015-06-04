@@ -12,6 +12,7 @@
 namespace phpDocumentor\Descriptor;
 
 use phpDocumentor\Descriptor\ProjectDescriptor\Settings;
+use phpDocumentor\Reflection\Fqsen;
 use Traversable;
 
 /**
@@ -22,7 +23,7 @@ final class ProjectDescriptor implements Interfaces\ProjectInterface, \IteratorA
     /** @var string $name */
     private $name = '';
 
-    /** @var NamespaceDescriptor $namespace */
+    /** @var Namespace_ $namespace */
     private $namespace;
 
     /** @var Settings $settings */
@@ -44,9 +45,7 @@ final class ProjectDescriptor implements Interfaces\ProjectInterface, \IteratorA
         $this->setName($name);
         $this->setSettings(new Settings());
 
-        $namespace = new NamespaceDescriptor();
-        $namespace->setName('\\');
-        $namespace->setFullyQualifiedStructuralElementName('\\');
+        $namespace = new Namespace_(new Fqsen('\\'));
         $this->setNamespace($namespace);
 
         $this->setFiles(new Collection());
@@ -130,7 +129,7 @@ final class ProjectDescriptor implements Interfaces\ProjectInterface, \IteratorA
     /**
      * Sets the root namespace for this project together with all sub-namespaces.
      *
-     * @param NamespaceDescriptor $namespace
+     * @param Namespace_ $namespace
      *
      * @return void
      */
@@ -142,7 +141,7 @@ final class ProjectDescriptor implements Interfaces\ProjectInterface, \IteratorA
     /**
      * Returns the root (global) namespace.
      *
-     * @return NamespaceDescriptor
+     * @return Namespace_
      */
     public function getNamespace()
     {

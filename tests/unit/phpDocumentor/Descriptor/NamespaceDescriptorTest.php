@@ -11,131 +11,147 @@
 
 namespace phpDocumentor\Descriptor;
 
+use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\DocBlock;
+
 /**
- * Tests the functionality for the NamespaceDescriptor class.
+ * Tests the functionality for the Namespace_ class.
+ *
+ * @coversDefaultClass phpDocumentor\Descriptor\Namespace_
  */
 class NamespaceDescriptorTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var NamespaceDescriptor $fixture */
+    /** @var Namespace_ $fixture */
     protected $fixture;
 
     /**
-     * Creates a new (empty) fixture object.
+     * @var Fqsen
+     */
+    private $fqsen;
+
+    /**
+     * @var DocBlock
+     */
+    private $docBlock;
+
+    /**
+     * Creates a new (emoty) fixture object.
      */
     protected function setUp()
     {
-        $this->fixture = new NamespaceDescriptor();
+        $this->fqsen = new Fqsen('\MySpace');
+        $this->docBlock = new DocBlock('');
+
+        $this->fixture = new Namespace_($this->fqsen, $this->docBlock);
     }
 
     /**
-     * @covers phpDocumentor\Descriptor\NamespaceDescriptor::__construct
-     * @covers phpDocumentor\Descriptor\NamespaceDescriptor::getParent
-     * @covers phpDocumentor\Descriptor\NamespaceDescriptor::setParent
+     * @covers ::__construct
+     * @covers ::getClasses
+     * @covers ::AddClass
      */
-    public function testSetAndGetParent()
+    public function testAddAndGetClasses()
     {
-        $parent = new NamespaceDescriptor();
+        $this->assertEmpty($this->fixture->getClasses());
 
-        $this->assertSame(null, $this->fixture->getParent());
+        $class = new Class_(new Fqsen('\MySpace\MyClass'));
+        $this->fixture->addClass($class);
 
-        $this->fixture->setParent($parent);
-
-        $this->assertSame($parent, $this->fixture->getParent());
+        $this->assertEquals(array('\MySpace\MyClass' => $class), $this->fixture->getClasses());
     }
 
     /**
-     * @covers phpDocumentor\Descriptor\NamespaceDescriptor::__construct
-     * @covers phpDocumentor\Descriptor\NamespaceDescriptor::getClasses
-     * @covers phpDocumentor\Descriptor\NamespaceDescriptor::setClasses
+     * @covers ::__construct
+     * @covers ::getConstants
+     * @covers ::addConstant
      */
-    public function testSetAndGetClasses()
+    public function testAddAndGetConstants()
     {
-        $collection = new Collection();
+        $this->assertEmpty($this->fixture->getConstants());
 
-        $this->assertInstanceOf('phpDocumentor\Descriptor\Collection', $this->fixture->getClasses());
+        $constant = new Constant(new Fqsen('\MySpace::MY_CONSTANT'));
+        $this->fixture->addConstant($constant);
 
-        $this->fixture->setClasses($collection);
-
-        $this->assertSame($collection, $this->fixture->getClasses());
+        $this->assertEquals(array('\MySpace::MY_CONSTANT' => $constant), $this->fixture->getConstants());
     }
 
     /**
-     * @covers phpDocumentor\Descriptor\NamespaceDescriptor::__construct
-     * @covers phpDocumentor\Descriptor\NamespaceDescriptor::getConstants
-     * @covers phpDocumentor\Descriptor\NamespaceDescriptor::setConstants
+     * @covers ::__construct
+     * @covers ::getFunctions
+     * @covers ::addFunction
      */
-    public function testSetAndGetConstants()
+    public function testAddAndGetFunctions()
     {
-        $collection = new Collection();
+        $this->assertEmpty($this->fixture->getFunctions());
 
-        $this->assertInstanceOf('phpDocumentor\Descriptor\Collection', $this->fixture->getConstants());
+        $function = new Function_(new Fqsen('\MySpace::MyFunction()'));
+        $this->fixture->addFunction($function);
 
-        $this->fixture->setConstants($collection);
-
-        $this->assertSame($collection, $this->fixture->getConstants());
+        $this->assertEquals(array('\MySpace::MyFunction()' => $function), $this->fixture->getFunctions());
     }
 
     /**
-     * @covers phpDocumentor\Descriptor\NamespaceDescriptor::__construct
-     * @covers phpDocumentor\Descriptor\NamespaceDescriptor::getFunctions
-     * @covers phpDocumentor\Descriptor\NamespaceDescriptor::setFunctions
+     * @covers ::__construct
+     * @covers ::getInterfaces
+     * @covers ::addInterface
      */
-    public function testSetAndGetFunctions()
+    public function testAddAndGetInterfaces()
     {
-        $collection = new Collection();
+        $this->assertEmpty($this->fixture->getInterfaces());
 
-        $this->assertInstanceOf('phpDocumentor\Descriptor\Collection', $this->fixture->getFunctions());
+        $interface = new Interface_(new Fqsen('\MySpace\MyInterface'));
+        $this->fixture->addInterface($interface);
 
-        $this->fixture->setFunctions($collection);
-
-        $this->assertSame($collection, $this->fixture->getFunctions());
+        $this->assertEquals(array('\MySpace\MyInterface' => $interface), $this->fixture->getInterfaces());
     }
 
     /**
-     * @covers phpDocumentor\Descriptor\NamespaceDescriptor::__construct
-     * @covers phpDocumentor\Descriptor\NamespaceDescriptor::getInterfaces
-     * @covers phpDocumentor\Descriptor\NamespaceDescriptor::setInterfaces
+     * @covers ::__construct
+     * @covers ::getChildren
+     * @covers ::AddChild
      */
-    public function testSetAndGetInterfaces()
+    public function testAddAndGetChildren()
     {
-        $collection = new Collection();
+        $this->assertEmpty($this->fixture->getChildren());
 
-        $this->assertInstanceOf('phpDocumentor\Descriptor\Collection', $this->fixture->getInterfaces());
+        $namespace = new Namespace_(new Fqsen('\MySpace\MySubSpace'));
+        $this->fixture->addChild($namespace);
 
-        $this->fixture->setInterfaces($collection);
-
-        $this->assertSame($collection, $this->fixture->getInterfaces());
+        $this->assertEquals(array('\MySpace\MySubSpace' => $namespace), $this->fixture->getChildren());
     }
 
     /**
-     * @covers phpDocumentor\Descriptor\NamespaceDescriptor::__construct
-     * @covers phpDocumentor\Descriptor\NamespaceDescriptor::getChildren
-     * @covers phpDocumentor\Descriptor\NamespaceDescriptor::setChildren
+     * @covers ::__construct
+     * @covers ::getTraits
+     * @covers ::addTrait
      */
-    public function testSetAndGetChildren()
+    public function testAddAndGetTraits()
     {
-        $collection = new Collection();
+        $this->assertEmpty($this->fixture->getTraits());
 
-        $this->assertInstanceOf('phpDocumentor\Descriptor\Collection', $this->fixture->getChildren());
+        $trait = new Trait_(new Fqsen('\MySpace\MyTrait'));
+        $this->fixture->addTrait($trait);
 
-        $this->fixture->setChildren($collection);
-
-        $this->assertSame($collection, $this->fixture->getChildren());
+        $this->assertEquals(array('\MySpace\MyTrait' => $trait), $this->fixture->getTraits());
     }
 
     /**
-     * @covers phpDocumentor\Descriptor\NamespaceDescriptor::__construct
-     * @covers phpDocumentor\Descriptor\NamespaceDescriptor::getTraits
-     * @covers phpDocumentor\Descriptor\NamespaceDescriptor::setTraits
+     * @covers ::__construct
+     * @covers ::getFqsen
+     * @covers ::getName
      */
-    public function testSetAndGetTraits()
+    public function testGetFqsen()
     {
-        $collection = new Collection();
+        $this->assertSame($this->fqsen, $this->fixture->getFqsen());
+        $this->assertEquals($this->fqsen->getName(), $this->fixture->getName());
+    }
 
-        $this->assertInstanceOf('phpDocumentor\Descriptor\Collection', $this->fixture->getTraits());
-
-        $this->fixture->setTraits($collection);
-
-        $this->assertSame($collection, $this->fixture->getTraits());
+    /**
+     * @covers ::__construct
+     * @covers ::getDocBlock
+     */
+    public function testGetDocblock()
+    {
+        $this->assertSame($this->docBlock, $this->fixture->getDocBlock());
     }
 }

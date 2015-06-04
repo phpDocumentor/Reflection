@@ -24,7 +24,7 @@ abstract class DescriptorAbstract
     /** @var string $name The local name for this element */
     protected $name = '';
 
-    /** @var NamespaceDescriptor $namespace The namespace for this element */
+    /** @var Namespace_ $namespace The namespace for this element */
     protected $namespace;
 
     /** @var string $package The package with which this element is associated */
@@ -107,7 +107,7 @@ abstract class DescriptorAbstract
     /**
      * Sets the namespace (name) for this element.
      *
-     * @param NamespaceDescriptor|string $namespace
+     * @param Namespace_|string $namespace
      */
     public function setNamespace($namespace)
     {
@@ -117,7 +117,7 @@ abstract class DescriptorAbstract
     /**
      * Returns the namespace for this element or null if none is attached.
      *
-     * @return NamespaceDescriptor|string|null
+     * @return Namespace_|string|null
      */
     public function getNamespace()
     {

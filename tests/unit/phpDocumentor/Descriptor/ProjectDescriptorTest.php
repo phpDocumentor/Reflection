@@ -12,6 +12,7 @@
 namespace phpDocumentor\Descriptor;
 
 use phpDocumentor\Descriptor\ProjectDescriptor\Settings;
+use phpDocumentor\Reflection\Fqsen;
 
 /**
  * Tests the functionality for the ProjectDescriptor class.
@@ -83,9 +84,9 @@ class ProjectDescriptorTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetSetNamespace()
     {
-        $this->assertInstanceOf('phpDocumentor\Descriptor\NamespaceDescriptor', $this->fixture->getNamespace());
+        $this->assertInstanceOf(Namespace_::class, $this->fixture->getNamespace());
 
-        $namespaceDescriptor = new NamespaceDescriptor();
+        $namespaceDescriptor = new Namespace_(new Fqsen('\MySpace'));
         $this->fixture->setNamespace($namespaceDescriptor);
 
         $this->assertSame($namespaceDescriptor, $this->fixture->getNamespace());
