@@ -4,7 +4,7 @@ namespace phpDocumentor\Descriptor\Builder\PhpParser;
 
 use Mockery as m;
 use org\bovigo\vfs\vfsStream;
-use phpDocumentor\Descriptor\ClassDescriptor;
+use phpDocumentor\Descriptor\Class_;
 use phpDocumentor\Descriptor\Constant;
 use phpDocumentor\Descriptor\Function_;
 use phpDocumentor\Descriptor\Interface_;
@@ -307,14 +307,11 @@ PHP;
 
         $fqcn = '\\' . self::EXAMPLE_NAMESPACE . '\\' . self::EXAMPLE_CLASS_NAME;
         $this->assertCount(1, $result->getClasses()->getAll());
-        $this->assertInstanceOf('phpDocumentor\Descriptor\ClassDescriptor', $result->getClasses()->get($fqcn));
+        $this->assertInstanceOf(Class_::class, $result->getClasses()->get($fqcn));
         $this->assertSame(
             $fqcn,
-            $result->getClasses()->get($fqcn)->getFullyQualifiedStructuralElementName()
+            (string)$result->getClasses()->get($fqcn)->getFqsen()
         );
-        $this->assertSame('\\' . self::EXAMPLE_NAMESPACE, current($result->getClasses()->getAll())->getNamespace());
-        $this->assertSame($result, current($result->getClasses()->getAll())->getFile());
-        $this->assertSame(self::EXAMPLE_CLASS_LINE, current($result->getClasses()->getAll())->getLine());
     }
 
     /**
@@ -356,7 +353,7 @@ PHP;
         $this->assertCount(1, $result->getInterfaces()->getAll());
         $this->assertInstanceOf(
             'phpDocumentor\Descriptor\Interface_',
-            $result->getInterfaces()->get($fcqn)
+            $result->getInterfaces()[$fcqn]
         );
         $this->assertSame(
             $fcqn,
@@ -480,11 +477,7 @@ PHP;
      */
     private function thenAClassShouldBeAdded()
     {
-        $descriptor = new ClassDescriptor();
-        $descriptor->setFullyQualifiedStructuralElementName(
-            '\\' . self::EXAMPLE_NAMESPACE . '\\' . self::EXAMPLE_CLASS_NAME
-        );
-        $descriptor->setNamespace('\\' . self::EXAMPLE_NAMESPACE);
+        $descriptor = new Class_(new Fqsen('\\' . self::EXAMPLE_NAMESPACE . '\\' . self::EXAMPLE_CLASS_NAME));
 
         $this->analyzerMock->shouldReceive('analyze')
             ->once()

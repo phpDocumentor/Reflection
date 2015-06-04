@@ -33,7 +33,7 @@ $project = $analyzer->finalize();
 // As an example of what you can do, let's list all class names in the file 'tests/example.file.php'.
 echo 'List all classes in the example source file: ' . PHP_EOL;
 
-/** @var \phpDocumentor\Descriptor\ClassDescriptor $class */
+/** @var \phpDocumentor\Descriptor\Class_ $class */
 foreach ($project->getFiles()->get('tests/example.file.php')->getClasses() as $class) {
     echo '- ' . $class->getFullyQualifiedStructuralElementName() . PHP_EOL;
 }

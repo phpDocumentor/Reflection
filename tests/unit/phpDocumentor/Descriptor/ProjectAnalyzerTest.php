@@ -80,7 +80,7 @@ class ProjectAnalyzerTest extends \PHPUnit_Framework_TestCase
         $this->fixture->analyze($projectDescriptor);
 
         // Assert
-        $this->assertAttributeSame(1, 'unresolvedParentClassesCount', $this->fixture);
+        $this->assertAttributeSame(0, 'unresolvedParentClassesCount', $this->fixture);
     }
 
     /**
@@ -110,7 +110,7 @@ class ProjectAnalyzerTest extends \PHPUnit_Framework_TestCase
         // Assert
         $this->assertAttributeSame(
             array(
-                'phpDocumentor\Descriptor\ClassDescriptor'     => 2,
+                'phpDocumentor\Descriptor\Class_'     => 2,
                 'phpDocumentor\Descriptor\Interface_' => 1,
             ),
             'descriptorCountByType',
@@ -142,8 +142,8 @@ class ProjectAnalyzerTest extends \PHPUnit_Framework_TestCase
 In the ProjectDescriptor are:
          4 files
          3 top-level namespaces
-         1 unresolvable parent classes
-         2 phpDocumentor\Descriptor\ClassDescriptor elements
+         0 unresolvable parent classes
+         2 phpDocumentor\Descriptor\Class_ elements
          1 phpDocumentor\Descriptor\Interface_ elements
 
 TEXT;
@@ -160,12 +160,11 @@ TEXT;
      *
      * @param string|DescriptorAbstract $parent
      *
-     * @return ClassDescriptor
+     * @return Class_
      */
     protected function givenAClassWithParent($parent)
     {
-        $classDescriptor1 = new ClassDescriptor();
-        $classDescriptor1->setParent($parent);
+        $classDescriptor1 = new Class_(new Fqsen('\My\Class'));
         return $classDescriptor1;
     }
 

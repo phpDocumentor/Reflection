@@ -110,7 +110,7 @@ TEXT;
      */
     protected function incrementUnresolvedParentCounter($element)
     {
-        if (!$element instanceof ClassDescriptor) {
+        if (!$element instanceof Class_) {
             return;
         }
 
