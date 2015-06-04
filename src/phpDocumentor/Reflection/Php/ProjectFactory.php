@@ -55,11 +55,25 @@ final class ProjectFactory
         $project = new Project('MyProject');
 
         foreach ($files as $filePath) {
-            foreach ($this->strategies as $strategy) {
-                $project->addFile($strategy->create($filePath, $this));
-            }
+            $strategy = $this->findMatchingStrategy($filePath);
+            $project->addFile($strategy->create($filePath, $this));
         }
 
         return $project;
+    }
+
+    /**
+     * Find the ProjectFactoryStrategy that matches $object.
+     *
+     * @param mixed $object
+     * @return ProjectFactoryStrategy
+     */
+    private function findMatchingStrategy($object)
+    {
+        foreach ($this->strategies as $strategy) {
+            if ($strategy->matches($object)) {
+                return $strategy;
+            }
+        }
     }
 }

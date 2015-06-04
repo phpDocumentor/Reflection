@@ -46,7 +46,12 @@ class ProjectFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreate()
     {
+        $someOtherStrategy = m::mock(ProjectFactoryStrategy::class);
+        $someOtherStrategy->shouldReceive('matches')->twice()->andReturn(false);
+        $someOtherStrategy->shouldReceive('create')->never();
+
         $fileStrategyMock = m::mock(ProjectFactoryStrategy::class);
+        $fileStrategyMock->shouldReceive('matches')->twice()->andReturn(true);
         $fileStrategyMock->shouldReceive('create')
             ->twice()
             ->andReturnValues(
@@ -56,7 +61,7 @@ class ProjectFactoryTest extends \PHPUnit_Framework_TestCase
                 )
             );
 
-        $projectFactory = new ProjectFactory(array($fileStrategyMock));
+        $projectFactory = new ProjectFactory(array($someOtherStrategy, $fileStrategyMock));
 
         $files = array('some/file.php', 'some/other.php');
         $project = $projectFactory->create($files);
