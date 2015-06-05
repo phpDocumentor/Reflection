@@ -52,7 +52,7 @@ final class Class_ implements Element
     /** @var Method[] $methods References to methods defined in this class. */
     private $methods = array();
 
-    /** @var Trait_[] $usedTraits References to traits consumed by this class */
+    /** @var Fqsen[] $usedTraits References to traits consumed by this class */
     private $usedTraits = array();
 
     /**
@@ -190,9 +190,7 @@ final class Class_ implements Element
     /**
      * Returns the traits used by this class.
      *
-     * Returned values may either be a string (when the Trait is not in this project) or a Trait_.
-     *
-     * @return Trait_
+     * @return Fqsen[]
      */
     public function getUsedTraits()
     {
