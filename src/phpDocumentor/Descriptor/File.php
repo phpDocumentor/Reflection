@@ -16,10 +16,10 @@ use phpDocumentor\Reflection\DocBlock;
 /**
  * Represents a file in the project.
  */
-Final class File
+final class File
 {
     /**
-     * @var DocBlock | Null
+     * @var DocBlock|null
      */
     private $docBlock = null;
 
@@ -38,7 +38,7 @@ Final class File
     /** @var Collection $namespaceAliases */
     private $namespaceAliases;
 
-    /** @var File[] $includes */
+    /** @var string[] $includes */
     private $includes = array();
 
     /** @var Function_[] $functions */
@@ -60,6 +60,9 @@ Final class File
      * Initializes a new file descriptor with the given hash of its contents.
      *
      * @param string $hash An MD5 hash of the contents if this file.
+     * @param string $path
+     * @param string|null $source
+     * @param DocBlock $docBlock
      */
     public function __construct($hash, $path, $source = null, DocBlock $docBlock = null)
     {
@@ -103,7 +106,7 @@ Final class File
     /**
      * Returns a list of all includes that have been declared in this file.
      *
-     * @return File[]
+     * @return string[]
      */
     public function getIncludes()
     {
@@ -111,11 +114,12 @@ Final class File
     }
 
     /**
-     * @param File $include
+     * @param string $include
+     * @return void
      */
-    public function addInclude(File $include)
+    public function addInclude($include)
     {
-        $this->includes[$include->getPath()] = $include;
+        $this->includes[$include] = $include;
     }
 
     /**
@@ -132,6 +136,7 @@ Final class File
      * Add constant to this file.
      *
      * @param Constant $constant
+     * @return void
      */
     public function addConstant(Constant $constant)
     {
@@ -141,7 +146,7 @@ Final class File
     /**
      * Returns a list of function descriptors contained in this file.
      *
-     * @return Funtion_[]
+     * @return Function_[]
      */
     public function getFunctions()
     {
@@ -152,6 +157,7 @@ Final class File
      * Add function to this file.
      *
      * @param Function_ $function
+     * @return void
      */
     public function addFunction(Function_ $function)
     {
@@ -172,6 +178,7 @@ Final class File
      * Add Class to this file.
      *
      * @param Class_ $class
+     * @return void
      */
     public function addClass(Class_ $class)
     {
@@ -192,6 +199,7 @@ Final class File
      * Add interface to this file.
      *
      * @param Interface_ $interface
+     * @return void
      */
     public function addInterface(Interface_ $interface)
     {
@@ -209,9 +217,10 @@ Final class File
     }
 
     /**
-     * Add trait to this class.
+     * Add trait to this file.
      *
      * @param Trait_ $trait
+     * @return void
      */
     public function addTrait(Trait_ $trait)
     {
@@ -230,7 +239,7 @@ Final class File
     /**
      * Returns the DocBlock of the element if available
      *
-     * @return NUll|DocBlock
+     * @return null|DocBlock
      */
     public function getDocBlock()
     {

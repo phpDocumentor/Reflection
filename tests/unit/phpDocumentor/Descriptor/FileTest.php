@@ -178,9 +178,9 @@ class FileTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEmpty($this->fixture->getIncludes());
 
-        $include = new File(static::EXAMPLE_HASH, static::EXAMPLE_PATH);
+        $include = static::EXAMPLE_PATH;
         $this->fixture->addInclude($include);
 
-        $this->assertSame(array(static::EXAMPLE_PATH => $include), $this->fixture->getIncludes());
+        $this->assertSame(array(static::EXAMPLE_PATH => static::EXAMPLE_PATH), $this->fixture->getIncludes());
     }
 }
