@@ -25,7 +25,7 @@ final class Interface_ implements Element
     private $fqsen;
 
     /**
-     * @var DocBlock | Null
+     * @var DocBlock|null
      */
     private $docBlock;
 
@@ -36,7 +36,10 @@ final class Interface_ implements Element
     protected $methods = array();
 
     /**
-     * Initializes the all properties representing a collection with a new Collection object.
+     * Initializes the object.
+     *
+     * @param Fqsen $fqsen
+     * @param DocBlock $docBlock
      */
     public function __construct(Fqsen $fqsen, DocBlock $docBlock = null)
     {
@@ -58,12 +61,12 @@ final class Interface_ implements Element
      * Add constant to this interface.
      *
      * @param Constant $constant
+     * @return void
      */
     public function addConstant(Constant $constant)
     {
         $this->constants[(string)$constant->getFqsen()] = $constant;
     }
-
 
     /**
      * Returns the methods in this interface.
@@ -79,6 +82,7 @@ final class Interface_ implements Element
      * Add method to this interface.
      *
      * @param Method $method
+     * @return void
      */
     public function addMethod(Method $method)
     {
@@ -106,7 +110,9 @@ final class Interface_ implements Element
     }
 
     /**
-     * @return Null|DocBlock
+     * Returns the DocBlock of this interface if available.
+     *
+     * @return null|DocBlock
      */
     public function getDocBlock()
     {

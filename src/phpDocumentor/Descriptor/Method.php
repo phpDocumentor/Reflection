@@ -22,7 +22,7 @@ use phpDocumentor\Reflection\Php\Visibility;
 final class Method implements Element
 {
     /**
-     * @var DocBlock documentation of this method.
+     * @var DocBlock|null documentation of this method.
      */
     private $docBlock = null;
 
@@ -48,8 +48,10 @@ final class Method implements Element
 
     /**
      * Initializes the all properties.
+     *
      * @param Fqsen $fqsen
-     * @param Visibility $visibility
+     * @param Visibility|null $visibility when null is provided a default 'public' is set.
+     * @param DocBlock|null $docBlock
      * @param bool $abstract
      * @param bool $static
      * @param bool $final
@@ -131,6 +133,7 @@ final class Method implements Element
      * Add new argument to this method.
      *
      * @param Argument $argument
+     * @return void
      */
     public function addArgument(Argument $argument)
     {
@@ -158,7 +161,9 @@ final class Method implements Element
     }
 
     /**
-     * @returns Null|DocBlock
+     * Returns the DocBlock of this method if available.
+     *
+     * @returns null|DocBlock
      */
     public function getDocblock()
     {

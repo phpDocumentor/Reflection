@@ -25,11 +25,6 @@ final class Namespace_ implements Element
      */
     private $fqsen;
 
-    /**
-     * @var DocBlock | Null
-     */
-    private $docBlock = null;
-
     /** @var Namespace_[] $namespaces */
     private $children = array();
 
@@ -52,12 +47,10 @@ final class Namespace_ implements Element
      * Initializes the namespace.
      *
      * @param Fqsen $fqsen
-     * @param DocBlock $docBlock
      */
-    public function __construct(Fqsen $fqsen, DocBlock $docBlock = null)
+    public function __construct(Fqsen $fqsen)
     {
         $this->fqsen = $fqsen;
-        $this->docBlock = $docBlock;
     }
 
     /**
@@ -197,14 +190,5 @@ final class Namespace_ implements Element
     public function getName()
     {
         return $this->fqsen->getName();
-    }
-    /**
-     * Returns the DocBlock of the element if available
-     *
-     * @return NUll|DocBlock
-     */
-    public function getDocBlock()
-    {
-        return $this->docBlock;
     }
 }

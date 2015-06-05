@@ -29,11 +29,15 @@ final class Function_ implements Element
     private $arguments = array();
 
     /**
-     * @var DocBlock | Null
+     * @var DocBlock|null
      */
     private $docBlock;
+
     /**
-     * Initializes the all properties representing a collection with a new Collection object.
+     * Initializes the object.
+     *
+     * @param Fqsen $fqsen
+     * @param DocBlock|null $docBlock
      */
     public function __construct(Fqsen $fqsen, DocBlock $docBlock = null)
     {
@@ -42,7 +46,9 @@ final class Function_ implements Element
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the arguments of this function.
+     *
+     * @return Argument[]
      */
     public function getArguments()
     {
@@ -82,7 +88,7 @@ final class Function_ implements Element
     /**
      * Returns the DocBlock of the element if available
      *
-     * @return NUll|DocBlock
+     * @return null|DocBlock
      */
     public function getDocBlock()
     {

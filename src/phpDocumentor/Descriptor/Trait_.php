@@ -26,7 +26,7 @@ final class Trait_ implements Element
     private $fqsen;
 
     /**
-     * @var DocBlock | Null
+     * @var DocBlock|null
      */
     private $docBlock;
 
@@ -40,7 +40,7 @@ final class Trait_ implements Element
      * Initializes the all properties
      *
      * @param Fqsen $fqsen
-     * @param DocBlock $docBlock
+     * @param DocBlock|null $docBlock
      */
     public function __construct(Fqsen $fqsen, DocBlock $docBlock = null)
     {
@@ -62,6 +62,7 @@ final class Trait_ implements Element
      * Add a method to this Trait
      *
      * @param Method $method
+     * @return void
      */
     public function addMethod(Method $method)
     {
@@ -69,7 +70,9 @@ final class Trait_ implements Element
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the properties of this trait.
+     *
+     * @return Property[]
      */
     public function getProperties()
     {
@@ -80,6 +83,7 @@ final class Trait_ implements Element
      * Add a property to this Trait.
      *
      * @param Property $property
+     * @return void
      */
     public function addProperty(Property $property)
     {

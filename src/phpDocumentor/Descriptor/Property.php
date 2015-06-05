@@ -27,22 +27,29 @@ final class Property implements Element
     private $fqsen;
 
     /**
-     * @var DocBlock
+     * @var DocBlock|null
      */
     private $docBlock;
 
     /** @var string[] $types */
-    protected $types = array();
+    private $types = array();
 
     /** @var string $default */
-    protected $default = array();
+    private $default = null;
 
     /** @var bool $static */
-    protected $static = false;
+    private $static = false;
 
-    /** @var string $visibility */
-    protected $visibility = 'public';
+    /** @var Visibility $visibility */
+    private $visibility;
 
+    /**
+     * @param Fqsen $fqsen
+     * @param Visibility|null $visibility when null is provided a default 'public' is set.
+     * @param DocBlock|null $docBlock
+     * @param null|string $default
+     * @param bool $static
+     */
     public function __construct(Fqsen $fqsen, Visibility $visibility = null, DocBlock $docBlock = null, $default = null, $static = false)
     {
         $this->fqsen = $fqsen;
@@ -50,10 +57,16 @@ final class Property implements Element
         $this->docBlock = $docBlock;
         $this->default = $default;
         $this->static = $static;
+
+        if ($this->visibility === null) {
+            $this->visibility = new Visibility('public');
+        }
     }
 
     /**
-     * {@inheritDoc}
+     * returns the default value of this property.
+     *
+     * @return string
      */
     public function getDefault()
     {
@@ -61,7 +74,9 @@ final class Property implements Element
     }
 
     /**
-     * {@inheritDoc}
+     * Returns true when this method is static. Otherwise returns false.
+     *
+     * @return bool
      */
     public function isStatic()
     {
@@ -80,7 +95,9 @@ final class Property implements Element
 
     /**
      * Add a type to this property
+     *
      * @param string $type
+     * @return void
      */
     public function addType($type)
     {
@@ -118,9 +135,9 @@ final class Property implements Element
     }
 
     /**
-     * Returns the docblock of this property.
+     * Returns the DocBlock of this property.
      *
-     * @return DocBlock
+     * @return DocBlock|null
      */
     public function getDocBlock()
     {
