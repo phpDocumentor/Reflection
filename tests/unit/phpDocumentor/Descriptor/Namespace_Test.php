@@ -145,13 +145,4 @@ class Namespace_Test extends \PHPUnit_Framework_TestCase
         $this->assertSame($this->fqsen, $this->fixture->getFqsen());
         $this->assertEquals($this->fqsen->getName(), $this->fixture->getName());
     }
-
-    /**
-     * @covers ::__construct
-     * @covers ::getDocBlock
-     */
-    public function testGetDocblock()
-    {
-        $this->assertSame($this->docBlock, $this->fixture->getDocBlock());
-    }
 }
