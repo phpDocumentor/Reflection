@@ -26,29 +26,31 @@ final class Constant implements Element
     private $fqsen;
 
     /**
-     * @var Null|DocBlock
+     * @var null|DocBlock
      */
-    private $dockBlock;
+    private $docBlock;
 
-    /** @var string $value */
+    /** @var null|string $value */
     protected $value;
 
     /**
      * Initializes the object.
      *
      * @param Fqsen $fqsen
-     * @param DocBlock $docBlock
-     * @param null $value
+     * @param DocBlock|null $docBlock
+     * @param null|string $value
      */
     public function __construct(Fqsen $fqsen, DocBlock $docBlock = null, $value = null)
     {
         $this->fqsen = $fqsen;
-        $this->dockBlock = $docBlock;
+        $this->docBlock = $docBlock;
         $this->value = $value;
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the value of this constant.
+     *
+     * @return null|string
      */
     public function getValue()
     {
@@ -76,12 +78,12 @@ final class Constant implements Element
     }
 
     /**
-     * Returns Docblock of this constant if available.
+     * Returns DocBlock of this constant if available.
      *
-     * @return Null|DocBlock
+     * @return null|DocBlock
      */
     public function getDocBlock()
     {
-        return $this->dockBlock;
+        return $this->docBlock;
     }
 }
