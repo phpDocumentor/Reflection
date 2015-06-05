@@ -56,15 +56,15 @@ final class Class_ implements Element
     private $usedTraits = array();
 
     /**
-     * Initializes the all properties representing a collection with a new Collection object.
+     * Initializes a number of properties with the given values. Others are initialized by definition.
      *
      * @param Fqsen $fqsen
      * @param DocBlock $docBlock
-     * @param Class_ $parent
+     * @param Fqsen $parent
      * @param bool $abstract
      * @param bool $final
      */
-    public function __construct(Fqsen $fqsen, DocBlock $docBlock = null, Class_ $parent = null, $abstract = false, $final = false)
+    public function __construct(Fqsen $fqsen, DocBlock $docBlock = null, Fqsen $parent = null, $abstract = false, $final = false)
     {
         $this->fqsen = $fqsen;
         $this->parent = $parent;
@@ -74,7 +74,7 @@ final class Class_ implements Element
     }
 
     /**
-     * Returns true when this method is final. Otherwise returns false.
+     * Returns true when this class is final. Otherwise returns false.
      *
      * @return bool
      */
@@ -84,7 +84,7 @@ final class Class_ implements Element
     }
 
     /**
-     * Returns true when this method is abstract. Otherwise returns false.
+     * Returns true when this class is abstract. Otherwise returns false.
      *
      * @return bool
      */
@@ -94,9 +94,9 @@ final class Class_ implements Element
     }
 
     /**
-     * Returns the Class_ this class is extending if available.
+     * Returns the superclass this class is extending if available.
      *
-     * @return NUll|Class_
+     * @return NUll|Fqsen
      */
     public function getParent()
     {
@@ -117,6 +117,7 @@ final class Class_ implements Element
      * Add a interface Fqsen this class is implementing.
      *
      * @param Fqsen $interface
+     * @return void
      */
     public function addInterface(Fqsen $interface)
     {
@@ -137,6 +138,7 @@ final class Class_ implements Element
      * Add Constant to this class.
      *
      * @param Constant $constant
+     * @return void
      */
     public function addConstant(Constant $constant)
     {
@@ -157,6 +159,7 @@ final class Class_ implements Element
      * Add a method to this class.
      *
      * @param Method $method
+     * @return void
      */
     public function addMethod(Method $method)
     {
@@ -177,11 +180,13 @@ final class Class_ implements Element
      * Add a property to this class.
      *
      * @param Property $property
+     * @return void
      */
     public function addProperty(Property $property)
     {
         $this->properties[(string)$property->getFqsen()] = $property;
     }
+
     /**
      * Returns the traits used by this class.
      *

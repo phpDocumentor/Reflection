@@ -27,7 +27,7 @@ class Class_Test extends \PHPUnit_Framework_TestCase
     private $fixture;
 
     /**
-     * @var Class_
+     * @var Fqsen
      */
     private $parent;
 
@@ -45,7 +45,7 @@ class Class_Test extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->parent = new Class_(new Fqsen('\MyParentClass'));
+        $this->parent = new Fqsen('\MyParentClass');
         $this->fqsen = new Fqsen('\MyClass');
         $this->docBlock = new DocBlock('');
 

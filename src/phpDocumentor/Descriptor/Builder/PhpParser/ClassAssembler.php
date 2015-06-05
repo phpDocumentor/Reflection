@@ -34,7 +34,7 @@ class ClassAssembler extends AssemblerAbstract
         $classDescriptor = new ClassDescriptor(
             new Fqsen('\\' . $data->namespacedName->toString()),
             $data->docBlock,
-            $data->extends ? new ClassDescriptor(new Fqsen('\\' . $data->extends)) : null,
+            $data->extends ? new Fqsen('\\' . $data->extends) : null,
             $data->isAbstract(),
             $data->isFinal()
         );

@@ -71,7 +71,7 @@ DOCBLOCK;
         $fqsen = '\\' . self::EXAMPLE_NAMESPACE . '\\' . self::EXAMPLE_NAME;
         $this->assertSame(self::EXAMPLE_NAME, $descriptor->getName());
         $this->assertSame($fqsen, (string)$descriptor->getFqsen());
-        $this->assertSame('\\' . self::EXAMPLE_PARENT, (string)$descriptor->getParent()->getFqsen());
+        $this->assertSame('\\' . self::EXAMPLE_PARENT, (string)$descriptor->getParent());
         $this->assertEquals(
             array(
                 '\\' . self::EXAMPLE_IMPLEMENTS1 => new Fqsen('\\' . self::EXAMPLE_IMPLEMENTS1),
