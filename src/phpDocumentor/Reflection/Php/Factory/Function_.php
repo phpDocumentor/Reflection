@@ -9,22 +9,31 @@
  * @link      http://phpdoc.org
  */
 
-namespace phpDocumentor\Reflection\Php;
+namespace phpDocumentor\Reflection\Php\Factory;
 
 use phpDocumentor\Reflection\Element;
+use phpDocumentor\Reflection\Php\Factory;
+use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 
 /**
- * Interface for strategies used by the project factory to build Elements out of nodes.
+ * Strategy to convert Function_ to FunctionDescriptor
+ *
+ * @see \phpDocumentor\Descriptor\Funtion_
+ * @see \PhpParser\Node\
  */
-interface ProjectFactoryStrategy
+final class Function_ implements ProjectFactoryStrategy
 {
+
     /**
      * Returns true when the strategy is able to handle the object.
      *
      * @param object $object object to check.
      * @return boolean
      */
-    public function matches($object);
+    public function matches($object)
+    {
+        return $object instanceof \PhpParser\Node\Stmt\Function_;
+    }
 
     /**
      * Creates an Element out of the given object.
@@ -35,5 +44,7 @@ interface ProjectFactoryStrategy
      * @param Factory $factory used to convert nested objects.
      * @return Element
      */
-    public function create($object, Factory $factory);
+    public function create($object, Factory $factory)
+    {
+    }
 }

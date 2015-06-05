@@ -12,7 +12,7 @@
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use phpDocumentor\Reflection\Element;
-use phpDocumentor\Reflection\Php\ProjectFactory;
+use phpDocumentor\Reflection\Php\Factory;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 
 /**
@@ -38,10 +38,10 @@ final class DummyFactoryStrategy implements ProjectFactoryStrategy
      * used to create nested Elements.
      *
      * @param object $object object to convert to an Element
-     * @param ProjectFactory $factory used to convert nested objects.
+     * @param Factory $factory used to convert nested objects.
      * @return Element
      */
-    public function create($object, ProjectFactory $factory)
+    public function create($object, Factory $factory)
     {
     }
 }
