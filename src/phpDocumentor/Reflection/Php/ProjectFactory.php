@@ -16,7 +16,10 @@ use phpDocumentor\Descriptor\File;
 use phpDocumentor\Descriptor\Project;
 use phpDocumentor\Reflection\Exception;
 
-final class ProjectFactory
+/**
+ * Factory class to transform files into a project description.
+ */
+final class ProjectFactory implements Factory
 {
     /**
      * @var ProjectFactoryStrategy[]
