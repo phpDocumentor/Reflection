@@ -41,7 +41,7 @@ class ClassAssembler extends AssemblerAbstract
 
         foreach ($data->implements as $interfaceClassName) {
             $classDescriptor->addInterface(
-                new Interface_(new Fqsen($interfaceFqcn = '\\' . $interfaceClassName->toString()))
+                new Fqsen($interfaceFqcn = '\\' . $interfaceClassName->toString())
             );
         }
 

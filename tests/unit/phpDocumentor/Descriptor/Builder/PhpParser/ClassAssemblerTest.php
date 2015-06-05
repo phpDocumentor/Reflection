@@ -74,8 +74,8 @@ DOCBLOCK;
         $this->assertSame('\\' . self::EXAMPLE_PARENT, (string)$descriptor->getParent()->getFqsen());
         $this->assertEquals(
             array(
-                '\\' . self::EXAMPLE_IMPLEMENTS1 => new Interface_(new Fqsen('\\' . self::EXAMPLE_IMPLEMENTS1)),
-                '\\' . self::EXAMPLE_IMPLEMENTS2 => new Interface_(new Fqsen('\\' . self::EXAMPLE_IMPLEMENTS2)),
+                '\\' . self::EXAMPLE_IMPLEMENTS1 => new Fqsen('\\' . self::EXAMPLE_IMPLEMENTS1),
+                '\\' . self::EXAMPLE_IMPLEMENTS2 => new Fqsen('\\' . self::EXAMPLE_IMPLEMENTS2),
             ),
             $descriptor->getInterfaces()
         );

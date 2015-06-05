@@ -73,7 +73,7 @@ class Class_Test extends \PHPUnit_Framework_TestCase
     {
         $this->assertEmpty($this->fixture->getInterfaces());
 
-        $interface = new Interface_(new Fqsen('\MyInterface'));
+        $interface = new Fqsen('\MyInterface');
 
         $this->fixture->addInterface($interface);
 

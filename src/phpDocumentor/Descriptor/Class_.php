@@ -25,7 +25,7 @@ final class Class_ implements Element
     private $fqsen;
 
     /**
-     * @var DocBlock | Null
+     * @var DocBlock|null
      */
     private $docBlock = null;
 
@@ -40,7 +40,7 @@ final class Class_ implements Element
      */
     private $parent = null;
 
-    /** @var Interface_[] $implements References to interfaces that are implemented by this class. */
+    /** @var Fqsen[] $implements References to interfaces that are implemented by this class. */
     private $implements = array();
 
     /** @var Constant[] $constants References to constants defined in this class. */
@@ -60,6 +60,7 @@ final class Class_ implements Element
      *
      * @param Fqsen $fqsen
      * @param DocBlock $docBlock
+     * @param Class_ $parent
      * @param bool $abstract
      * @param bool $final
      */
@@ -105,7 +106,7 @@ final class Class_ implements Element
     /**
      * Returns the interfaces this class is implementing.
      *
-     * @return Interface_[]
+     * @return Fqsen[]
      */
     public function getInterfaces()
     {
@@ -113,13 +114,13 @@ final class Class_ implements Element
     }
 
     /**
-     * Add interface this class is implementing.
+     * Add a interface Fqsen this class is implementing.
      *
-     * @param Interface_ $interface
+     * @param Fqsen $interface
      */
-    public function addInterface(Interface_ $interface)
+    public function addInterface(Fqsen $interface)
     {
-        $this->implements[(string)$interface->getFqsen()] = $interface;
+        $this->implements[(string)$interface] = $interface;
     }
 
     /**
@@ -214,7 +215,7 @@ final class Class_ implements Element
     }
 
     /**
-     * @returns Null|DocBlock
+     * @returns null|DocBlock
      */
     public function getDocblock()
     {
