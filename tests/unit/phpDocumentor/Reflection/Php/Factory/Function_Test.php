@@ -47,9 +47,13 @@ class Function_Test extends \PHPUnit_Framework_TestCase
     public function testCreateWithoutParameters()
     {
         $functionMock = m::mock(\PhpParser\Node\Stmt\Function_::class);
-        $factoryMock = m::mock(ProjectFactory::class);
+        $functionMock->name = '\SomeSpace::function()';
+        $factoryMock = m::mock(Factory::class);
         $factoryMock->shouldReceive('create')->never();
 
-        $this->fixture->create($functionMock, $factoryMock);
+        /** @var FunctionDescriptor $function */
+        $function = $this->fixture->create($functionMock, $factoryMock);
+
+        $this->assertEquals('\SomeSpace::function()', (string)$function->getFqsen());
     }
 }

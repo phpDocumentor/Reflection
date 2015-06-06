@@ -12,6 +12,7 @@
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use phpDocumentor\Reflection\Element;
+use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\Factory;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 
@@ -46,5 +47,6 @@ final class Function_ implements ProjectFactoryStrategy
      */
     public function create($object, Factory $factory)
     {
+        return new \phpDocumentor\Descriptor\Function_(new Fqsen($object->name));
     }
 }
