@@ -23,7 +23,7 @@ use PhpParser\Node\Param;
  * @see \phpDocumentor\Descriptor\Argument
  * @see \PhpParser\Node\Arg
  */
-class Argument implements ProjectFactoryStrategy
+final class Argument implements ProjectFactoryStrategy
 {
 
     /**
