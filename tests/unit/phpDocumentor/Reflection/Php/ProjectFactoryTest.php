@@ -32,16 +32,6 @@ class ProjectFactoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::__construct
-     *
-     * @expectedException \InvalidArgumentException
-     */
-    public function testOnlyAcceptsStrategies()
-    {
-        new ProjectFactory(array(new \stdClass()));
-    }
-
-    /**
      * @covers ::create
      * @covers ::<private>
      */
@@ -77,7 +67,7 @@ class ProjectFactoryTest extends \PHPUnit_Framework_TestCase
      * @covers ::create
      * @covers ::<private>
      *
-     * @expectedException \phpDocumentor\Reflection\Exception
+     * @expectedException \OutOfBoundsException
      */
     public function testCreateThrowsExceptionWhenStrategyNotFound()
     {

@@ -11,7 +11,6 @@
 
 namespace phpDocumentor\Reflection\Php;
 
-use phpDocumentor\Reflection\Exception;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 
 final class ProjectFactoryStrategyContainer implements StrategyContainer
@@ -26,18 +25,10 @@ final class ProjectFactoryStrategyContainer implements StrategyContainer
      *
      * @param ProjectFactoryStrategy[] $strategies
      */
-    public function __construct($strategies)
+    public function __construct(array $strategies)
     {
         foreach ($strategies as $strategy) {
-            if (!$strategy instanceof ProjectFactoryStrategy) {
-                throw new \InvalidArgumentException(
-                    sprintf(
-                        '%s is not implementing %s',
-                        get_class($strategy),
-                        ProjectFactoryStrategy::class
-                    )
-                );
-            }
+            $this->addStrategy($strategy);
         }
 
         $this->strategies = $strategies;
@@ -59,11 +50,21 @@ final class ProjectFactoryStrategyContainer implements StrategyContainer
             }
         }
 
-        throw new Exception(
+        throw new \OutOfBoundsException(
             sprintf(
                 'No matching factory found for %s',
                 is_object($object) ? get_class($object) : gettype($object)
             )
         );
+    }
+
+    /**
+     * Add a strategy to this container.
+     *
+     * @param ProjectFactoryStrategy $strategy
+     */
+    public function addStrategy(ProjectFactoryStrategy $strategy)
+    {
+        $this->strategies[] = $strategy;
     }
 }

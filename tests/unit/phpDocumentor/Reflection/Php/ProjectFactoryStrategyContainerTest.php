@@ -21,20 +21,11 @@ class ProjectFactoryStrategyContainerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @covers ::__construct
+     * @covers ::addStrategy
      */
     public function testStrategiesAreChecked()
     {
         new ProjectFactoryStrategyContainer(array(new DummyFactoryStrategy()));
-    }
-
-    /**
-     * @covers ::__construct
-     *
-     * @expectedException \InvalidArgumentException
-     */
-    public function testOnlyAcceptsStrategies()
-    {
-        new ProjectFactoryStrategyContainer(array(new \stdClass()));
     }
 
     /**
@@ -54,7 +45,7 @@ class ProjectFactoryStrategyContainerTest extends \PHPUnit_Framework_TestCase
      * @covers ::findMatching
      * @covers ::<private>
      *
-     * @expectedException \phpDocumentor\Reflection\Exception
+     * @expectedException \OutOfBoundsException
      */
     public function testCreateThrowsExceptionWhenStrategyNotFound()
     {
