@@ -48,6 +48,13 @@ final class Function_ implements ProjectFactoryStrategy
      */
     public function create($object, StrategyContainer $strategies)
     {
-        return new \phpDocumentor\Descriptor\Function_(new Fqsen($object->name));
+        $function = new \phpDocumentor\Descriptor\Function_(new Fqsen($object->name));
+
+        foreach ($object->params as $param) {
+            $strategy = $strategies->findMatching($param);
+            $function->addArgument($strategy->create($param, $strategies));
+        }
+
+        return $function;
     }
 }

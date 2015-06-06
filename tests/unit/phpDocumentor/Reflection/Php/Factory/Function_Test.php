@@ -11,6 +11,7 @@
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
+use phpDocumentor\Descriptor\Argument;
 use phpDocumentor\Descriptor\Function_ as FunctionDescriptor;
 use phpDocumentor\Reflection\Php\Factory;
 use phpDocumentor\Reflection\Php\Factory\Function_;
@@ -49,8 +50,30 @@ class Function_Test extends \PHPUnit_Framework_TestCase
     {
         $functionMock = m::mock(\PhpParser\Node\Stmt\Function_::class);
         $functionMock->name = '\SomeSpace::function()';
+        $functionMock->params = [];
         $containerMock = m::mock(StrategyContainer::class);
-        $containerMock->shouldReceive('create')->never();
+        $containerMock->shouldReceive('findMatching')->never();
+
+        /** @var FunctionDescriptor $function */
+        $function = $this->fixture->create($functionMock, $containerMock);
+
+        $this->assertEquals('\SomeSpace::function()', (string)$function->getFqsen());
+    }
+
+    /**
+     * @covers ::create
+     */
+    public function testCreateWithParameters()
+    {
+        $functionMock = m::mock(\PhpParser\Node\Stmt\Function_::class);
+        $functionMock->name = '\SomeSpace::function()';
+        $functionMock->params = array('param1');
+
+        $containerMock = m::mock(StrategyContainer::class);
+        $containerMock->shouldReceive('findMatching->create')
+            ->once()
+            ->with('param1', $containerMock)
+            ->andReturn(new Argument('param1'));
 
         /** @var FunctionDescriptor $function */
         $function = $this->fixture->create($functionMock, $containerMock);
