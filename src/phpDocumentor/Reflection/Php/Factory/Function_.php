@@ -15,6 +15,7 @@ use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\Factory;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
+use phpDocumentor\Reflection\Php\StrategyContainer;
 
 /**
  * Strategy to convert Function_ to FunctionDescriptor
@@ -42,10 +43,10 @@ final class Function_ implements ProjectFactoryStrategy
      * used to create nested Elements.
      *
      * @param object $object object to convert to an Element
-     * @param Factory $factory used to convert nested objects.
+     * @param StrategyContainer $strategies used to convert nested objects.
      * @return Element
      */
-    public function create($object, Factory $factory)
+    public function create($object, StrategyContainer $strategies)
     {
         return new \phpDocumentor\Descriptor\Function_(new Fqsen($object->name));
     }

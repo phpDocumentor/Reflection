@@ -22,7 +22,7 @@ use phpDocumentor\Reflection\Exception;
 final class ProjectFactory implements Factory
 {
     /**
-     * @var ProjectFactoryStrategy[]
+     * @var ProjectFactoryStrategyContainer[]
      */
     private $strategies;
 
@@ -33,19 +33,7 @@ final class ProjectFactory implements Factory
      */
     public function __construct($strategies)
     {
-        foreach ($strategies as $strategy) {
-            if (!$strategy instanceof ProjectFactoryStrategy) {
-                throw new \InvalidArgumentException(
-                    sprintf(
-                        '%s is not implementing %s',
-                        get_class($strategy),
-                        ProjectFactoryStrategy::class
-                    )
-                );
-            }
-        }
-
-        $this->strategies = $strategies;
+        $this->strategies = new ProjectFactoryStrategyContainer($strategies);
     }
 
     /**
@@ -60,33 +48,10 @@ final class ProjectFactory implements Factory
         $project = new Project('MyProject');
 
         foreach ($files as $filePath) {
-            $strategy = $this->findMatchingStrategy($filePath);
-            $project->addFile($strategy->create($filePath, $this));
+            $strategy = $this->strategies->findMatching($filePath);
+            $project->addFile($strategy->create($filePath, $this->strategies));
         }
 
         return $project;
-    }
-
-    /**
-     * Find the ProjectFactoryStrategy that matches $object.
-     *
-     * @param mixed $object
-     * @return ProjectFactoryStrategy
-     * @throws Exception when no matching strategy was found.
-     */
-    private function findMatchingStrategy($object)
-    {
-        foreach ($this->strategies as $strategy) {
-            if ($strategy->matches($object)) {
-                return $strategy;
-            }
-        }
-
-        throw new Exception(
-            sprintf(
-                'No matching factory found for %s',
-                is_object($object) ? get_class($object) : gettype($object)
-            )
-        );
     }
 }

@@ -32,8 +32,8 @@ interface ProjectFactoryStrategy
      * used to create nested Elements.
      *
      * @param object $object object to convert to an Element
-     * @param Factory $factory used to convert nested objects.
+     * @param StrategyContainer $strategies used to convert nested objects.
      * @return Element
      */
-    public function create($object, Factory $factory);
+    public function create($object, StrategyContainer $strategies);
 }

@@ -15,6 +15,7 @@ use phpDocumentor\Descriptor\Function_ as FunctionDescriptor;
 use phpDocumentor\Reflection\Php\Factory;
 use phpDocumentor\Reflection\Php\Factory\Function_;
 use Mockery as m;
+use phpDocumentor\Reflection\Php\StrategyContainer;
 
 /**
  * Test case for \phpDocumentor\Reflection\Php\Factory\Function_
@@ -48,11 +49,11 @@ class Function_Test extends \PHPUnit_Framework_TestCase
     {
         $functionMock = m::mock(\PhpParser\Node\Stmt\Function_::class);
         $functionMock->name = '\SomeSpace::function()';
-        $factoryMock = m::mock(Factory::class);
-        $factoryMock->shouldReceive('create')->never();
+        $containerMock = m::mock(StrategyContainer::class);
+        $containerMock->shouldReceive('create')->never();
 
         /** @var FunctionDescriptor $function */
-        $function = $this->fixture->create($functionMock, $factoryMock);
+        $function = $this->fixture->create($functionMock, $containerMock);
 
         $this->assertEquals('\SomeSpace::function()', (string)$function->getFqsen());
     }
