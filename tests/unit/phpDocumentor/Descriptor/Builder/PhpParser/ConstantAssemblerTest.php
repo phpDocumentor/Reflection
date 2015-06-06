@@ -66,27 +66,7 @@ DOCBLOCK;
 
         $this->assertSame(self::EXAMPLE_NAME, $descriptor->getName());
         $this->assertSame(self::EXAMPLE_VALUE, $descriptor->getValue());
-        $this->assertSame(self::EXAMPLE_LINE, $descriptor->getLine());
-        $this->assertSame('\\' . self::EXAMPLE_NAMESPACE, $descriptor->getNamespace());
-        $this->assertSame('\\' . $qsen, $descriptor->getFullyQualifiedStructuralElementName());
-    }
-
-    /**
-     * @covers phpDocumentor\Descriptor\Builder\PhpParser\ConstantAssembler::create
-     * @covers phpDocumentor\Descriptor\Builder\PhpParser\ConstantAssembler::extractNamespace
-     */
-    public function testDocBlockIsProperlyExtractedWhenAssemblingAConstantDescriptor()
-    {
-        list($docBlock, $varTagMock) = $this->givenADocBlockWithVarTag();
-        $constant = $this->givenAnExampleConstantNode($docBlock);
-
-        $descriptor = $this->fixture->create($constant);
-
-        $this->assertSame(self::EXAMPLE_SUMMARY, $descriptor->getSummary());
-        $this->assertSame(self::EXAMPLE_DESCRIPTION, $descriptor->getDescription());
-        $this->assertCount(1, $descriptor->getTags()->getAll());
-        $this->assertCount(1, $descriptor->getTags()->get('var')->getAll());
-        $this->assertSame($varTagMock, $descriptor->getTags()->get('var')->get(0));
+        $this->assertSame('\\' . $qsen, (string)$descriptor->getFqsen());
     }
 
     /**

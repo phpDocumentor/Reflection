@@ -12,7 +12,7 @@
 namespace phpDocumentor\Descriptor\Tag;
 
 /**
- * Tests the functionality for the PropertyDescriptor class.
+ * Tests the functionality for the Property class.
  */
 class PropertyDescriptorTest extends \PHPUnit_Framework_TestCase
 {

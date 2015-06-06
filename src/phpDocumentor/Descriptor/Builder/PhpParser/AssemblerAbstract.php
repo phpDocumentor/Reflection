@@ -12,14 +12,14 @@
 namespace phpDocumentor\Descriptor\Builder\PhpParser;
 
 use phpDocumentor\Descriptor\Builder\AssemblerAbstract as BaseAssembler;
-use phpDocumentor\Descriptor\ClassDescriptor;
+use phpDocumentor\Descriptor\Class_;
 use phpDocumentor\Descriptor\Collection;
-use phpDocumentor\Descriptor\ConstantDescriptor;
+use phpDocumentor\Descriptor\Constant;
 use phpDocumentor\Descriptor\DescriptorAbstract;
-use phpDocumentor\Descriptor\InterfaceDescriptor;
-use phpDocumentor\Descriptor\MethodDescriptor;
-use phpDocumentor\Descriptor\PropertyDescriptor;
-use phpDocumentor\Descriptor\TraitDescriptor;
+use phpDocumentor\Descriptor\Interface_;
+use phpDocumentor\Descriptor\Method;
+use phpDocumentor\Descriptor\Property;
+use phpDocumentor\Descriptor\Trait_;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\PrettyPrinter;
 use PhpParser\Node;
@@ -84,7 +84,7 @@ abstract class AssemblerAbstract extends BaseAssembler
     }
 
     /**
-     * @param ClassDescriptor|InterfaceDescriptor $descriptor
+     * @param Class_|Interface_ $descriptor
      * @param Node\Stmt\Const_ $constant
      */
     protected function addClassConstantToDescriptor($descriptor, $constant)
@@ -93,7 +93,7 @@ abstract class AssemblerAbstract extends BaseAssembler
             ? new DocBlock($constant->getDocComment()->getText())
             : null;
 
-        /** @var ConstantDescriptor $constantDescriptor */
+        /** @var Constant $constantDescriptor */
         $constantDescriptor = $this->getAnalyzer()->analyze($constant);
         if (! $constantDescriptor) {
             return;
@@ -105,7 +105,7 @@ abstract class AssemblerAbstract extends BaseAssembler
     }
 
     /**
-     * @param TraitDescriptor|InterfaceDescriptor|ClassDescriptor $descriptor
+     * @param Trait_|Interface_|Class_ $descriptor
      * @param Node\Stmt\ClassMethod $stmt
      *
      * @return void
@@ -116,7 +116,7 @@ abstract class AssemblerAbstract extends BaseAssembler
             ? new DocBlock($stmt->getDocComment()->getText())
             : null;
 
-        /** @var MethodDescriptor $methodDescriptor */
+        /** @var Method $methodDescriptor */
         $methodDescriptor = $this->getAnalyzer()->analyze($stmt);
         if (!$methodDescriptor) {
             return;
@@ -128,7 +128,7 @@ abstract class AssemblerAbstract extends BaseAssembler
     }
 
     /**
-     * @param TraitDescriptor|ClassDescriptor $descriptor
+     * @param Trait_|Class_ $descriptor
      * @param Node\Stmt\Property $propertyStatement
      * @param Node\Stmt\PropertyProperty $property
      *
@@ -154,7 +154,7 @@ abstract class AssemblerAbstract extends BaseAssembler
             $property->visibility = 'public';
         }
 
-        /** @var PropertyDescriptor $propertyDescriptor */
+        /** @var Property $propertyDescriptor */
         $propertyDescriptor = $this->getAnalyzer()->analyze($property);
         if (! $propertyDescriptor) {
             return;
@@ -168,7 +168,7 @@ abstract class AssemblerAbstract extends BaseAssembler
     /**
      * Registers the used traits with the generated Descriptor.
      *
-     * @param ClassDescriptor|TraitDescriptor $descriptor
+     * @param Class_|Trait_ $descriptor
      * @param Node\Stmt\TraitUse              $trait
      *
      * @return void

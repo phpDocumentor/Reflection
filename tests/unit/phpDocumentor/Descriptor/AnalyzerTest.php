@@ -44,8 +44,8 @@ class AnalyzerTest extends \PHPUnit_Framework_TestCase
     /**
      * Demonstrates the basic usage the the Analyzer.
      *
-     * This test scenario demonstrates how the Analyzer can be used to create a new ProjectDescriptor
-     * and populate it with a single FileDescriptor using a FileReflector as source.
+     * This test scenario demonstrates how the Analyzer can be used to create a new Project
+     * and populate it with a single File using a FileReflector as source.
      *
      * @covers phpDocumentor\Descriptor\Analyzer::createProjectDescriptor
      * @covers phpDocumentor\Descriptor\Analyzer::buildFileUsingSourceData
@@ -77,11 +77,11 @@ class AnalyzerTest extends \PHPUnit_Framework_TestCase
      * @covers phpDocumentor\Descriptor\Analyzer::createProjectDescriptor
      * @covers phpDocumentor\Descriptor\Analyzer::getProjectDescriptor
      */
-    public function testCreatesAnEmptyProjectDescriptorWhenCalledFor()
+    public function testCreatesAnEmptyProjectWhenCalledFor()
     {
         $this->fixture->createProjectDescriptor();
 
-        $this->assertInstanceOf('phpDocumentor\Descriptor\Interfaces\ProjectInterface', $this->fixture->getProjectDescriptor());
+        $this->assertInstanceOf(Project::class, $this->fixture->getProjectDescriptor());
         $this->assertEquals(
             Analyzer::DEFAULT_PROJECT_NAME,
             $this->fixture->getProjectDescriptor()->getName()
@@ -95,25 +95,11 @@ class AnalyzerTest extends \PHPUnit_Framework_TestCase
     public function testProvidingAPreExistingDescriptorToBuildOn()
     {
         $projectDescriptorName = 'My Descriptor';
-        $projectDescriptorMock = new ProjectDescriptor($projectDescriptorName);
+        $projectDescriptorMock = new Project($projectDescriptorName);
         $this->fixture->setProjectDescriptor($projectDescriptorMock);
 
         $this->assertSame($projectDescriptorMock, $this->fixture->getProjectDescriptor());
         $this->assertEquals($projectDescriptorName, $this->fixture->getProjectDescriptor()->getName());
-    }
-
-    /**
-     * @covers phpDocumentor\Descriptor\Analyzer::isVisibilityAllowed
-     */
-    public function testDeterminesWhetherASpecificVisibilityIsAllowedToBeIncluded()
-    {
-        $projectDescriptorName = 'My Descriptor';
-        $projectDescriptorMock = new ProjectDescriptor($projectDescriptorName);
-        $projectDescriptorMock->getSettings()->setVisibility(Settings::VISIBILITY_PUBLIC);
-        $this->fixture->setProjectDescriptor($projectDescriptorMock);
-
-        $this->assertTrue($this->fixture->isVisibilityAllowed(Settings::VISIBILITY_PUBLIC));
-        $this->assertFalse($this->fixture->isVisibilityAllowed(Settings::VISIBILITY_PRIVATE));
     }
 
     /**
@@ -146,7 +132,7 @@ class AnalyzerTest extends \PHPUnit_Framework_TestCase
      * Creates a Mock of an AssemblerFactory.
      *
      * When a FileReflector (or mock thereof) is passed to the 'get' method this mock will return an
-     * empty instance of the FileDescriptor class.
+     * empty instance of the File class.
      *
      * @return m\MockInterface|\phpDocumentor\Descriptor\Builder\AssemblerFactory
      */

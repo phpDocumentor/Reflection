@@ -4,6 +4,7 @@ namespace phpDocumentor\Descriptor;
 
 use Mockery as m;
 use phpDocumentor\Descriptor\Interfaces\ProjectInterface;
+use phpDocumentor\Reflection\Fqsen;
 
 /**
  * Tests for the \phpDocumentor\Descriptor\ProjectAnalyzer class.
@@ -79,7 +80,7 @@ class ProjectAnalyzerTest extends \PHPUnit_Framework_TestCase
         $this->fixture->analyze($projectDescriptor);
 
         // Assert
-        $this->assertAttributeSame(1, 'unresolvedParentClassesCount', $this->fixture);
+        $this->assertAttributeSame(0, 'unresolvedParentClassesCount', $this->fixture);
     }
 
     /**
@@ -109,8 +110,8 @@ class ProjectAnalyzerTest extends \PHPUnit_Framework_TestCase
         // Assert
         $this->assertAttributeSame(
             array(
-                'phpDocumentor\Descriptor\ClassDescriptor'     => 2,
-                'phpDocumentor\Descriptor\InterfaceDescriptor' => 1,
+                'phpDocumentor\Descriptor\Class_'     => 2,
+                'phpDocumentor\Descriptor\Interface_' => 1,
             ),
             'descriptorCountByType',
             $this->fixture
@@ -138,12 +139,12 @@ class ProjectAnalyzerTest extends \PHPUnit_Framework_TestCase
         $this->fixture->analyze($projectDescriptor);
 
         $expected = <<<TEXT
-In the ProjectDescriptor are:
+In the Project are:
          4 files
          3 top-level namespaces
-         1 unresolvable parent classes
-         2 phpDocumentor\Descriptor\ClassDescriptor elements
-         1 phpDocumentor\Descriptor\InterfaceDescriptor elements
+         0 unresolvable parent classes
+         2 phpDocumentor\Descriptor\Class_ elements
+         1 phpDocumentor\Descriptor\Interface_ elements
 
 TEXT;
 
@@ -159,29 +160,27 @@ TEXT;
      *
      * @param string|DescriptorAbstract $parent
      *
-     * @return ClassDescriptor
+     * @return Class_
      */
     protected function givenAClassWithParent($parent)
     {
-        $classDescriptor1 = new ClassDescriptor();
-        $classDescriptor1->setParent($parent);
+        $classDescriptor1 = new Class_(new Fqsen('\My\Class'));
         return $classDescriptor1;
     }
 
     /**
      * @param $interfaceParent
-     * @return InterfaceDescriptor
+     * @return Interface_
      */
     protected function givenAnInterfaceWithParent($interfaceParent)
     {
-        $classDescriptor3 = new InterfaceDescriptor();
-        $classDescriptor3->setParent($interfaceParent);
+        $classDescriptor3 = new Interface_(new Fqsen('\My\Interface'));
 
         return $classDescriptor3;
     }
 
     /**
-     * Returns a mocked ProjectDescriptor object.
+     * Returns a mocked Project object.
      *
      * @return m\Mock|ProjectInterface
      */
@@ -206,7 +205,7 @@ TEXT;
     /**
      * Ensures that the ProjectInterface has an index 'elements' with the provided elements.
      *
-     * @param m\Mock|ProjectDescriptor $projectDescriptor
+     * @param m\Mock|Project $projectDescriptor
      * @param array                    $elements
      *
      * @return void
@@ -218,7 +217,7 @@ TEXT;
     }
 
     /**
-     * Ensures that the ProjectDescriptor has a root namespace with the provided array as children of that namespace.
+     * Ensures that the Project has a root namespace with the provided array as children of that namespace.
      *
      * @param m\Mock|ProjectInterface $projectDescriptor
      * @param array $rootNamespaceChildren

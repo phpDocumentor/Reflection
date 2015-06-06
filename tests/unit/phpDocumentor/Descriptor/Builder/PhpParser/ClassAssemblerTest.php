@@ -13,7 +13,9 @@ namespace phpDocumentor\Descriptor\Builder\PhpParser;
 
 use Mockery as m;
 use phpDocumentor\Descriptor\Analyzer;
+use phpDocumentor\Descriptor\Interface_;
 use phpDocumentor\Reflection\DocBlock;
+use phpDocumentor\Reflection\Fqsen;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
 
@@ -68,17 +70,14 @@ DOCBLOCK;
 
         $fqsen = '\\' . self::EXAMPLE_NAMESPACE . '\\' . self::EXAMPLE_NAME;
         $this->assertSame(self::EXAMPLE_NAME, $descriptor->getName());
-//        $this->assertSame(self::EXAMPLE_PACKAGE_NAME, $descriptor->getPackage());
-        $this->assertSame('\\' . self::EXAMPLE_NAMESPACE, $descriptor->getNamespace());
-        $this->assertSame($fqsen, $descriptor->getFullyQualifiedStructuralElementName());
-        $this->assertSame(self::EXAMPLE_LINE, $descriptor->getLine());
-        $this->assertSame('\\' . self::EXAMPLE_PARENT, $descriptor->getParent());
-        $this->assertSame(
+        $this->assertSame($fqsen, (string)$descriptor->getFqsen());
+        $this->assertSame('\\' . self::EXAMPLE_PARENT, (string)$descriptor->getParent());
+        $this->assertEquals(
             array(
-                '\\' . self::EXAMPLE_IMPLEMENTS1 => '\\' . self::EXAMPLE_IMPLEMENTS1,
-                '\\' . self::EXAMPLE_IMPLEMENTS2 => '\\' . self::EXAMPLE_IMPLEMENTS2,
+                '\\' . self::EXAMPLE_IMPLEMENTS1 => new Fqsen('\\' . self::EXAMPLE_IMPLEMENTS1),
+                '\\' . self::EXAMPLE_IMPLEMENTS2 => new Fqsen('\\' . self::EXAMPLE_IMPLEMENTS2),
             ),
-            $descriptor->getInterfaces()->getAll()
+            $descriptor->getInterfaces()
         );
     }
 
@@ -134,18 +133,6 @@ DOCBLOCK;
     private function givenADocBlock()
     {
         $docBlock = new DocBlock(self::EXAMPLE_DOCBLOCK);
-
-        $authorTagMock = m::mock('phpDocumentor\Descriptor\Tag\AuthorDescriptor');
-        $packageTagMock = m::mock('phpDocumentor\Descriptor\Tag');
-        $packageTagMock->shouldReceive('getDescription')->andReturn(self::EXAMPLE_PACKAGE_NAME);
-
-        $this->analyzerMock->shouldReceive('analyze')
-            ->once()
-            ->with(m::type('phpDocumentor\Reflection\DocBlock\Tag'))
-            ->andReturn($packageTagMock);
-        $this->analyzerMock->shouldReceive('analyze')
-            ->with(m::type('phpDocumentor\Reflection\DocBlock\Tag\AuthorTag'))
-            ->andReturn($authorTagMock);
 
         return $docBlock;
     }

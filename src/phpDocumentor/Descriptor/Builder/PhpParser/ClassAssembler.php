@@ -11,14 +11,14 @@
 
 namespace phpDocumentor\Descriptor\Builder\PhpParser;
 
-use phpDocumentor\Descriptor\ClassDescriptor;
-use phpDocumentor\Descriptor\Collection;
-use phpDocumentor\Descriptor\DescriptorAbstract;
+use phpDocumentor\Descriptor\Class_ as ClassDescriptor;
+use phpDocumentor\Descriptor\Interface_;
+use phpDocumentor\Reflection\Fqsen;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node;
 
 /**
- * Assembles an ClassDescriptor using an Class_.
+ * Assembles an Class_ using an Class_.
  */
 class ClassAssembler extends AssemblerAbstract
 {
@@ -31,22 +31,18 @@ class ClassAssembler extends AssemblerAbstract
      */
     public function create($data)
     {
-        $classDescriptor = new ClassDescriptor();
-
-        $this->assembleDocBlock($data->docBlock, $classDescriptor);
-
-        $classDescriptor->setFullyQualifiedStructuralElementName('\\' . $data->namespacedName->toString());
-        $classDescriptor->setName($data->name);
-        $classDescriptor->setLine($data->getLine());
-        $classDescriptor->setParent($data->extends ? '\\' . $data->extends->toString() : null);
-        $classDescriptor->setAbstract($data->isAbstract());
-        $classDescriptor->setFinal($data->isFinal());
-
-        $classDescriptor->setNamespace('\\' . $this->extractNamespace($data));
+        $classDescriptor = new ClassDescriptor(
+            new Fqsen('\\' . $data->namespacedName->toString()),
+            $data->docBlock,
+            $data->extends ? new Fqsen('\\' . $data->extends) : null,
+            $data->isAbstract(),
+            $data->isFinal()
+        );
 
         foreach ($data->implements as $interfaceClassName) {
-            $interfaceFqcn = '\\' . $interfaceClassName->toString();
-            $classDescriptor->getInterfaces()->set($interfaceFqcn, $interfaceFqcn);
+            $classDescriptor->addInterface(
+                new Fqsen($interfaceFqcn = '\\' . $interfaceClassName->toString())
+            );
         }
 
         $this->addMembers($data, $classDescriptor);

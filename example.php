@@ -23,17 +23,17 @@ $analyzer = phpDocumentor\Descriptor\Analyzer::create();
 $splFileObject = new \SplFileObject('tests/example.file.php');
 
 // Analyze the given file, this will return a the structure of a single file as a
-// `\phpDocumentor\Descriptor\FileDescriptor` class and populate a project descriptor object in the Analyzer.
+// `\phpDocumentor\Descriptor\File` class and populate a project descriptor object in the Analyzer.
 $analyzer->analyze($splFileObject);
 
-// The returned Project object is of class `phpDocumentor\Descriptor\ProjectDescriptor`, see its DocBlock for more
+// The returned Project object is of class `phpDocumentor\Descriptor\Project`, see its DocBlock for more
 // information on it.
 $project = $analyzer->finalize();
 
 // As an example of what you can do, let's list all class names in the file 'tests/example.file.php'.
 echo 'List all classes in the example source file: ' . PHP_EOL;
 
-/** @var \phpDocumentor\Descriptor\ClassDescriptor $class */
+/** @var \phpDocumentor\Descriptor\Class_ $class */
 foreach ($project->getFiles()->get('tests/example.file.php')->getClasses() as $class) {
     echo '- ' . $class->getFullyQualifiedStructuralElementName() . PHP_EOL;
 }

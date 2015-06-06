@@ -11,14 +11,14 @@
 
 namespace phpDocumentor\Descriptor\Builder\PhpParser;
 
-use phpDocumentor\Descriptor\PropertyDescriptor;
+use phpDocumentor\Descriptor\Property;
 use phpDocumentor\Descriptor\Tag\VarDescriptor;
 use phpDocumentor\Reflection\ClassReflector\PropertyReflector;
 use phpDocumentor\Reflection\DocBlock;
 use PhpParser\Node\Stmt\PropertyProperty;
 
 /**
- * Assembles a PropertyDescriptor from a PropertyReflector.
+ * Assembles a Property from a PropertyReflector.
  */
 class PropertyAssembler extends AssemblerAbstract
 {
@@ -27,11 +27,11 @@ class PropertyAssembler extends AssemblerAbstract
      *
      * @param PropertyProperty $data
      *
-     * @return PropertyDescriptor
+     * @return Property
      */
     public function create($data)
     {
-        $propertyDescriptor = new PropertyDescriptor();
+        $propertyDescriptor = new Property();
         $this->assembleDocBlock($data->docBlock, $propertyDescriptor);
 
         $propertyDescriptor->setFullyQualifiedStructuralElementName($data->name);
@@ -52,7 +52,7 @@ class PropertyAssembler extends AssemblerAbstract
 
 
     /**
-     * @param PropertyDescriptor $propertyDescriptor
+     * @param Property $propertyDescriptor
      *
      * @return void
      */
@@ -68,7 +68,7 @@ class PropertyAssembler extends AssemblerAbstract
     }
 
     /**
-     * @param PropertyDescriptor  $propertyDescriptor
+     * @param Property  $propertyDescriptor
      * @param DocBlock\Tag\VarTag $var
      *
      * @return bool
@@ -80,7 +80,7 @@ class PropertyAssembler extends AssemblerAbstract
     }
 
     /**
-     * @param PropertyDescriptor  $propertyDescriptor
+     * @param Property  $propertyDescriptor
      * @param DocBlock\Tag\VarTag $var
      *
      * @return bool
@@ -91,7 +91,7 @@ class PropertyAssembler extends AssemblerAbstract
     }
 
     /**
-     * @param PropertyDescriptor $propertyDescriptor
+     * @param Property $propertyDescriptor
      * @param string             $docblock
      *
      * @return void

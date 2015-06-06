@@ -11,16 +11,16 @@
 
 namespace phpDocumentor\Descriptor\Builder\PhpParser;
 
-use phpDocumentor\Descriptor\ArgumentDescriptor;
+use phpDocumentor\Descriptor\Argument;
 use phpDocumentor\Descriptor\Collection;
-use phpDocumentor\Descriptor\FunctionDescriptor;
+use phpDocumentor\Descriptor\Function_;
 use phpDocumentor\Reflection\FunctionReflector;
 use PhpParser\Node;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\Function_;
 
 /**
- * Assembles a FunctionDescriptor from a FunctionReflector.
+ * Assembles a Function_ from a FunctionReflector.
  */
 class FunctionAssembler extends AssemblerAbstract
 {
@@ -40,11 +40,11 @@ class FunctionAssembler extends AssemblerAbstract
      *
      * @param Function_ $data
      *
-     * @return FunctionDescriptor
+     * @return Function_
      */
     public function create($data)
     {
-        $functionDescriptor = new FunctionDescriptor();
+        $functionDescriptor = new Function_();
 
         $this->mapPropertiesOntoDescriptor($data, $functionDescriptor);
         $this->assembleDocBlock($data->getDocComment(), $functionDescriptor);
@@ -57,7 +57,7 @@ class FunctionAssembler extends AssemblerAbstract
      * Maps the properties of the Function reflector onto the Descriptor.
      *
      * @param Function_          $node
-     * @param FunctionDescriptor $descriptor
+     * @param Function_ $descriptor
      *
      * @return void
      */
@@ -83,7 +83,7 @@ class FunctionAssembler extends AssemblerAbstract
      * Converts each argument to an argument descriptor and adds it to the function descriptor.
      *
      * @param Param[]            $arguments
-     * @param FunctionDescriptor $functionDescriptor
+     * @param Function_ $functionDescriptor
      *
      * @return void
      */
@@ -100,8 +100,8 @@ class FunctionAssembler extends AssemblerAbstract
     /**
      * Adds the given argument to the function.
      *
-     * @param FunctionDescriptor $functionDescriptor
-     * @param ArgumentDescriptor $argumentDescriptor
+     * @param Function_ $functionDescriptor
+     * @param Argument $argumentDescriptor
      *
      * @return void
      */
@@ -111,12 +111,12 @@ class FunctionAssembler extends AssemblerAbstract
     }
 
     /**
-     * Creates a new ArgumentDescriptor from the given Reflector and Param.
+     * Creates a new Argument from the given Reflector and Param.
      *
-     * @param FunctionDescriptor $functionDescriptor
+     * @param Function_ $functionDescriptor
      * @param Param              $argument
      *
-     * @return ArgumentDescriptor
+     * @return Argument
      */
     protected function createArgumentDescriptor($functionDescriptor, $argument)
     {
