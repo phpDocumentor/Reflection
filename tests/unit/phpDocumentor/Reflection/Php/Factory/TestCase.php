@@ -17,7 +17,7 @@ use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 
 /**
- * Base testcase for all strategies, to be sure that they check if the can handle objects before handeling them.
+ * Base test case for all strategies, to be sure that they check if the can handle objects before handeling them.
  */
 abstract class TestCase extends \PHPUnit_Framework_TestCase
 {
