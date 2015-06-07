@@ -13,11 +13,11 @@ namespace phpDocumentor\Reflection\Php;
 use phpDocumentor\Reflection\Php\Factory\DummyFactoryStrategy;
 
 /**
- * Test case for ProjectFactoryStrategyContainer
+ * Test case for ProjectFactoryStrategies
  *
- * @coversDefaultClass phpDocumentor\Reflection\Php\ProjectFactoryStrategyContainer
+ * @coversDefaultClass phpDocumentor\Reflection\Php\ProjectFactoryStrategies
  */
-class ProjectFactoryStrategyContainerTest extends \PHPUnit_Framework_TestCase
+class ProjectFactoryStrategiesTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @covers ::__construct
@@ -25,7 +25,7 @@ class ProjectFactoryStrategyContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testStrategiesAreChecked()
     {
-        new ProjectFactoryStrategyContainer(array(new DummyFactoryStrategy()));
+        new ProjectFactoryStrategies(array(new DummyFactoryStrategy()));
     }
 
     /**
@@ -35,7 +35,7 @@ class ProjectFactoryStrategyContainerTest extends \PHPUnit_Framework_TestCase
     public function testFindMatching()
     {
         $strategy = new DummyFactoryStrategy();
-        $container = new ProjectFactoryStrategyContainer(array($strategy));
+        $container = new ProjectFactoryStrategies(array($strategy));
         $actual = $container->findMatching(array('aa'));
 
         $this->assertSame($strategy, $actual);
@@ -49,7 +49,7 @@ class ProjectFactoryStrategyContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateThrowsExceptionWhenStrategyNotFound()
     {
-        $container = new ProjectFactoryStrategyContainer(array());
+        $container = new ProjectFactoryStrategies(array());
         $container->findMatching(array('aa'));
     }
 }

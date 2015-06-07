@@ -13,7 +13,7 @@ namespace phpDocumentor\Reflection\Php\Factory;
 
 use phpDocumentor\Descriptor\Argument as ArgumentDescriptor;
 use phpDocumentor\Reflection\Php\ProjectFactory;
-use phpDocumentor\Reflection\Php\ProjectFactoryStrategyContainer;
+use phpDocumentor\Reflection\Php\ProjectFactoryStrategies;
 use PhpParser\Node\Param;
 use Mockery as m;
 
@@ -47,7 +47,7 @@ class ArgumentTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreate()
     {
-        $factory = new ProjectFactoryStrategyContainer(array());
+        $factory = new ProjectFactoryStrategies(array());
 
         $argMock = m::mock(Param::class);
         $argMock->name = 'myArgument';

@@ -13,7 +13,7 @@ namespace phpDocumentor\Reflection\Php;
 
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 
-final class ProjectFactoryStrategyContainer implements StrategyContainer
+final class ProjectFactoryStrategies implements StrategyContainer
 {
     /**
      * @var ProjectFactoryStrategy[]

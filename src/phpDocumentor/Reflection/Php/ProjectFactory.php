@@ -21,7 +21,7 @@ use phpDocumentor\Reflection\ProjectFactory as ProjectFactoryInterface;
 final class ProjectFactory implements ProjectFactoryInterface
 {
     /**
-     * @var ProjectFactoryStrategyContainer[]
+     * @var ProjectFactoryStrategies[]
      */
     private $strategies;
 
@@ -32,7 +32,7 @@ final class ProjectFactory implements ProjectFactoryInterface
      */
     public function __construct($strategies)
     {
-        $this->strategies = new ProjectFactoryStrategyContainer($strategies);
+        $this->strategies = new ProjectFactoryStrategies($strategies);
     }
 
     /**
