@@ -11,15 +11,14 @@
 
 namespace phpDocumentor\Reflection\Php;
 
-
-use phpDocumentor\Descriptor\File;
 use phpDocumentor\Descriptor\Project;
 use phpDocumentor\Reflection\Exception;
+use phpDocumentor\Reflection\ProjectFactory as ProjectFactoryInterface;
 
 /**
  * Factory class to transform files into a project description.
  */
-final class ProjectFactory implements Factory
+final class ProjectFactory implements ProjectFactoryInterface
 {
     /**
      * @var ProjectFactoryStrategyContainer[]

@@ -11,14 +11,13 @@
 
 namespace phpDocumentor\Descriptor;
 
-use phpDocumentor\Descriptor\ProjectDescriptor\Settings;
 use phpDocumentor\Reflection\Fqsen;
-use Traversable;
+use phpDocumentor\Reflection\Project as ProjectInterface;
 
 /**
  * Represents the entire project with its files, namespaces and indexes.
  */
-final class Project
+final class Project implements ProjectInterface
 {
     /** @var string $name */
     private $name = '';
