@@ -17,6 +17,7 @@ use phpDocumentor\Descriptor\Method as MethodDescriptor;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
+use phpDocumentor\Reflection\Php\Visibility;
 use PhpParser\Node\Stmt\ClassMethod;
 
 /**
@@ -57,7 +58,14 @@ final class Method implements ProjectFactoryStrategy
             );
         }
 
-        $method = new MethodDescriptor(new Fqsen($object->name));
+        $method = new MethodDescriptor(
+            new Fqsen($object->name . '()'),
+            $this->buildVisibility($object),
+            null,
+            $object->isAbstract(),
+            $object->isStatic(),
+            $object->isFinal()
+        );
 
         foreach ($object->params as $param) {
             $strategy = $strategies->findMatching($param);
@@ -65,5 +73,16 @@ final class Method implements ProjectFactoryStrategy
         }
 
         return $method;
+    }
+
+    private function buildVisibility(ClassMethod $node)
+    {
+        if ($node->isPrivate()) {
+            return new Visibility(Visibility::PRIVATE_);
+        } elseif ($node->isProtected()) {
+            return new Visibility(Visibility::PROTECTED_);
+        }
+
+        return new Visibility(Visibility::PUBLIC_);
     }
 }

@@ -21,6 +21,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 /**
  * Test case for \phpDocumentor\Reflection\Php\Factory\Method
  * @coversDefaultClass \phpDocumentor\Reflection\Php\Factory\Method
+ * @covers ::<private>
  */
 class MethodTest extends TestCase
 {
@@ -43,8 +44,7 @@ class MethodTest extends TestCase
      */
     public function testCreateWithoutParameters()
     {
-        $classMethodMock = m::mock(ClassMethod::class);
-        $classMethodMock->name = '\SomeSpace\Class::function()';
+        $classMethodMock = $this->buildClassMethodMock();
         $classMethodMock->params = [];
         $containerMock = m::mock(StrategyContainer::class);
         $containerMock->shouldReceive('findMatching')->never();
@@ -60,9 +60,8 @@ class MethodTest extends TestCase
      */
     public function testCreateWithParameters()
     {
-        $functionMock = m::mock(ClassMethod::class);
-        $functionMock->name = '\SomeSpace\Class::function()';
-        $functionMock->params = array('param1');
+        $classMethodMock = $this->buildClassMethodMock();
+        $classMethodMock->params = array('param1');
 
         $containerMock = m::mock(StrategyContainer::class);
         $containerMock->shouldReceive('findMatching->create')
@@ -71,8 +70,21 @@ class MethodTest extends TestCase
             ->andReturn(new Argument('param1'));
 
         /** @var MethodDescriptor $method */
-        $method = $this->fixture->create($functionMock, $containerMock);
+        $method = $this->fixture->create($classMethodMock, $containerMock);
 
         $this->assertEquals('\SomeSpace\Class::function()', (string)$method->getFqsen());
+    }
+
+    private function buildClassMethodMock()
+    {
+        $functionMock = m::mock(ClassMethod::class);
+        $functionMock->name = '\SomeSpace\Class::function';
+
+        $functionMock->shouldReceive('isPrivate')->once()->andReturn(true);
+        $functionMock->shouldReceive('isStatic')->once()->andReturn(true);
+        $functionMock->shouldReceive('isFinal')->once()->andReturn(true);
+        $functionMock->shouldReceive('isAbstract')->once()->andReturn(true);
+
+        return $functionMock;
     }
 }
