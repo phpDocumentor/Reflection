@@ -11,16 +11,18 @@
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
-use phpDocumentor\Reflection\Element;
+use InvalidArgumentException;
+use phpDocumentor\Descriptor\Function_ as FunctionDescriptor;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\Factory;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
+use PhpParser\Node\Stmt\Function_ as FunctionNode;
 
 /**
  * Strategy to convert Function_ to FunctionDescriptor
  *
- * @see \phpDocumentor\Descriptor\Funtion_
+ * @see FunctionDescriptor
  * @see \PhpParser\Node\
  */
 final class Function_ implements ProjectFactoryStrategy
@@ -34,21 +36,31 @@ final class Function_ implements ProjectFactoryStrategy
      */
     public function matches($object)
     {
-        return $object instanceof \PhpParser\Node\Stmt\Function_;
+        return $object instanceof FunctionNode;
     }
 
     /**
-     * Creates an Element out of the given object.
-     * Since an object might contain other objects that need to be converted the $factory is passed so it can be
-     * used to create nested Elements.
+     * Creates an FunctionDescriptor out of the given object including its child elements.
      *
      * @param object $object object to convert to an Element
      * @param StrategyContainer $strategies used to convert nested objects.
-     * @return Element
+     *
+     * @return FunctionDescriptor
+     *
+     * @throws InvalidArgumentException when this strategy is not able to handle $object
      */
     public function create($object, StrategyContainer $strategies)
     {
-        $function = new \phpDocumentor\Descriptor\Function_(new Fqsen($object->name));
+        if (!$this->matches($object)) {
+            throw new InvalidArgumentException(
+                sprintf('%s cannot handle objects with the type %s',
+                    __CLASS__,
+                    is_object($object) ? get_class($object) : gettype($object)
+                )
+            );
+        }
+
+        $function = new FunctionDescriptor(new Fqsen($object->name));
 
         foreach ($object->params as $param) {
             $strategy = $strategies->findMatching($param);

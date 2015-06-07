@@ -22,13 +22,8 @@ use phpDocumentor\Reflection\Php\StrategyContainer;
  * Test case for \phpDocumentor\Reflection\Php\Factory\Function_
  * @coversDefaultClass \phpDocumentor\Reflection\Php\Factory\Function_
  */
-class Function_Test extends \PHPUnit_Framework_TestCase
+class Function_Test extends TestCase
 {
-    /**
-     * @var Function_
-     */
-    private $fixture;
-
     protected function setUp()
     {
         $this->fixture = new Function_();

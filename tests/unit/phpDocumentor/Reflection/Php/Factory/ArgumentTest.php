@@ -21,13 +21,8 @@ use Mockery as m;
  * Class ArgumentTest
  * @coversDefaultClass \phpDocumentor\Reflection\Php\Factory\Argument
  */
-class ArgumentTest extends \PHPUnit_Framework_TestCase
+class ArgumentTest extends TestCase
 {
-    /**
-     * @var Argument
-     */
-    private $fixture;
-
     protected function setUp()
     {
         $this->fixture = new Argument();
