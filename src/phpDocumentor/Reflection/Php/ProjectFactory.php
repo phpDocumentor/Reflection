@@ -42,7 +42,7 @@ final class ProjectFactory implements ProjectFactoryInterface
      * @return Project
      * @throws Exception when no matching strategy was found.
      */
-    public function create($files)
+    public function create(array $files)
     {
         $project = new Project('MyProject');
 
