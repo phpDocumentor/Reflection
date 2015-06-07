@@ -57,12 +57,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/ReflectionCommon.git",
-                "reference": "933f86322f5e5c3c189781e35bc57d9b75131295"
+                "reference": "4b22a9985770d6cb48ef784a8c61ed76aa4d22d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/ReflectionCommon/zipball/933f86322f5e5c3c189781e35bc57d9b75131295",
-                "reference": "933f86322f5e5c3c189781e35bc57d9b75131295",
+                "url": "https://api.github.com/repos/phpDocumentor/ReflectionCommon/zipball/4b22a9985770d6cb48ef784a8c61ed76aa4d22d3",
+                "reference": "4b22a9985770d6cb48ef784a8c61ed76aa4d22d3",
                 "shasum": ""
             },
             "require-dev": {
@@ -100,7 +100,7 @@
                 "reflection",
                 "static analysis"
             ],
-            "time": "2015-06-05 08:44:26"
+            "time": "2015-06-07 08:36:52"
         },
         {
             "name": "phpdocumentor/reflection-docblock",
