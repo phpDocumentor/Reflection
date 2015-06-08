@@ -132,7 +132,7 @@ DOCBLOCK;
      */
     private function givenADocBlock()
     {
-        $docBlock = new DocBlock(self::EXAMPLE_DOCBLOCK);
+        $docBlock = m::mock(DocBlock::class);
 
         return $docBlock;
     }
