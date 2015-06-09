@@ -78,7 +78,7 @@ DOCBLOCK;
      */
     private function givenAnExampleConstantNode(DocBlock $docBlock)
     {
-        $constant = new Const_(self::EXAMPLE_NAME, new \PhpParser\Node\Scalar\String(self::EXAMPLE_VALUE));
+        $constant = new Const_(self::EXAMPLE_NAME, new \PhpParser\Node\Scalar\String_(self::EXAMPLE_VALUE));
         $constant->namespacedName = new Name(self::EXAMPLE_NAMESPACE . '\\' . self::EXAMPLE_NAME);
         $constant->setLine(self::EXAMPLE_LINE);
         $constant->docBlock = $docBlock;
