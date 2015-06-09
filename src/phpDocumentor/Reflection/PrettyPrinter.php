@@ -12,7 +12,7 @@
 
 namespace phpDocumentor\Reflection;
 
-use PhpParser\Node\Scalar\String;
+use PhpParser\Node\Scalar\String_;
 use PhpParser\PrettyPrinter\Standard;
 
 /**
@@ -45,7 +45,7 @@ class PrettyPrinter extends Standard
      *
      * @return string
      */
-    public function pScalar_String(String $node)
+    public function pScalar_String(String_ $node)
     {
         if(! $node->getAttribute('originalValue')) {
             return $node->value;
