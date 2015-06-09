@@ -73,6 +73,10 @@ class MethodTest extends TestCase
         $method = $this->fixture->create($classMethodMock, $containerMock);
 
         $this->assertEquals('\SomeSpace\Class::function()', (string)$method->getFqsen());
+        $this->assertTrue($method->isAbstract());
+        $this->assertTrue($method->isFinal());
+        $this->assertTrue($method->isStatic());
+        $this->assertEquals('private', (string)$method->getVisibility());
     }
 
     private function buildClassMethodMock()
