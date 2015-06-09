@@ -23,19 +23,12 @@
         "psr/log":                           "~1.0",
         "nikic/php-parser":                  "~1.0",
         "phpdocumentor/reflection-docblock": "3.0.*@dev",
-        "phpdocumentor/reflection-common":    "1.0.*@dev",
-        "symfony/validator":                 "~2.2",
-        "symfony/filesystem":                "~2.3"
-    },
-    "suggests": {
-        "symfony/event-dispatcher": "~2.1",
-        "desarrolla2/cache":        "~1.8"
+        "phpdocumentor/reflection-common":    "1.0.*@dev"
     },
     "require-dev": {
         "phpunit/phpunit":    "~4.0",
         "mockery/mockery":    "~0.8",
-        "mikey179/vfsStream": "~1.2",
-        "desarrolla2/cache":  "~1.8"
+        "mikey179/vfsStream": "~1.2"
     },
     "extra": {
         "branch-alias": {
