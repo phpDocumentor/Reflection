@@ -46,6 +46,9 @@ class MethodTest extends TestCase
     {
         $classMethodMock = $this->buildClassMethodMock();
         $classMethodMock->params = [];
+        $classMethodMock->shouldReceive('isPrivate')->once()->andReturn(false);
+        $classMethodMock->shouldReceive('isProtected')->once()->andReturn(false);
+
         $containerMock = m::mock(StrategyContainer::class);
         $containerMock->shouldReceive('findMatching')->never();
 
@@ -53,6 +56,24 @@ class MethodTest extends TestCase
         $method = $this->fixture->create($classMethodMock, $containerMock);
 
         $this->assertEquals('\SomeSpace\Class::function()', (string)$method->getFqsen());
+        $this->assertEquals('public', (string)$method->getVisibility());
+    }
+
+    public function testCreateProtectedMethod()
+    {
+        $classMethodMock = $this->buildClassMethodMock();
+        $classMethodMock->params = [];
+        $classMethodMock->shouldReceive('isPrivate')->once()->andReturn(false);
+        $classMethodMock->shouldReceive('isProtected')->once()->andReturn(true);
+
+        $containerMock = m::mock(StrategyContainer::class);
+        $containerMock->shouldReceive('findMatching')->never();
+
+        /** @var MethodDescriptor $method */
+        $method = $this->fixture->create($classMethodMock, $containerMock);
+
+        $this->assertEquals('\SomeSpace\Class::function()', (string)$method->getFqsen());
+        $this->assertEquals('protected', (string)$method->getVisibility());
     }
 
     /**
@@ -62,6 +83,7 @@ class MethodTest extends TestCase
     {
         $classMethodMock = $this->buildClassMethodMock();
         $classMethodMock->params = array('param1');
+        $classMethodMock->shouldReceive('isPrivate')->once()->andReturn(true);
 
         $containerMock = m::mock(StrategyContainer::class);
         $containerMock->shouldReceive('findMatching->create')
@@ -81,14 +103,13 @@ class MethodTest extends TestCase
 
     private function buildClassMethodMock()
     {
-        $functionMock = m::mock(ClassMethod::class);
-        $functionMock->name = '\SomeSpace\Class::function';
+        $methodMock = m::mock(ClassMethod::class);
+        $methodMock->name = '\SomeSpace\Class::function';
 
-        $functionMock->shouldReceive('isPrivate')->once()->andReturn(true);
-        $functionMock->shouldReceive('isStatic')->once()->andReturn(true);
-        $functionMock->shouldReceive('isFinal')->once()->andReturn(true);
-        $functionMock->shouldReceive('isAbstract')->once()->andReturn(true);
+        $methodMock->shouldReceive('isStatic')->once()->andReturn(true);
+        $methodMock->shouldReceive('isFinal')->once()->andReturn(true);
+        $methodMock->shouldReceive('isAbstract')->once()->andReturn(true);
 
-        return $functionMock;
+        return $methodMock;
     }
 }
