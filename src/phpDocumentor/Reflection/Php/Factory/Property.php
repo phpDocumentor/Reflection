@@ -63,8 +63,25 @@ final class Property implements ProjectFactoryStrategy
             );
         }
 
-        $visibility = new Visibility($object->visibility);
+        $visibility = $this->buildVisibility($object);
 
         return new PropertyDescriptor(new Fqsen($object->name), $visibility, null, $object->default, $object->static);
+    }
+
+    /**
+     * Converts the visibility of the property to a valid Visibility object.
+     *
+     * @param PropertyNode $node
+     * @return Visibility
+     */
+    private function buildVisibility(PropertyNode $node)
+    {
+        if ($node->isPrivate()) {
+            return new Visibility(Visibility::PRIVATE_);
+        } elseif ($node->isProtected()) {
+            return new Visibility(Visibility::PROTECTED_);
+        }
+
+        return new Visibility(Visibility::PUBLIC_);
     }
 }

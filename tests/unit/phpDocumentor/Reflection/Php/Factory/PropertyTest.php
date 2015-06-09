@@ -19,6 +19,7 @@ use PhpParser\Node\Stmt\Property as PropertyNode;
 /**
  * Class ArgumentTest
  * @coversDefaultClass \phpDocumentor\Reflection\Php\Factory\Property
+ * @covers ::<private>
  */
 class PropertyTest extends TestCase
 {
@@ -39,22 +40,74 @@ class PropertyTest extends TestCase
     /**
      * @covers ::create
      */
-    public function testCreate()
+    public function testPrivateCreate()
     {
         $factory = new ProjectFactoryStrategies(array());
 
-        $argMock = m::mock(PropertyNode::class);
-        $argMock->name = '\myClass::$property';
-        $argMock->default = 'MyDefault';
-        $argMock->static = true;
-        $argMock->visibility = 'private';
+        $propertyMock = $this->buildPropertyMock();
+        $propertyMock->shouldReceive('isPrivate')->once()->andReturn(true);
 
-        /** @var PropertyDescriptor $argument */
-        $argument = $this->fixture->create($argMock, $factory);
+        /** @var PropertyDescriptor $property */
+        $property = $this->fixture->create($propertyMock, $factory);
 
-        $this->assertInstanceOf(PropertyDescriptor::class, $argument);
-        $this->assertEquals('\myClass::$property', (string)$argument->getFqsen());
-        $this->assertTrue($argument->isStatic());
-        $this->assertEquals('MyDefault', $argument->getDefault());
+        $this->assertProperty($property, 'private');
+    }
+
+    /**
+     * @covers ::create
+     */
+    public function testProtectedCreate()
+    {
+        $factory = new ProjectFactoryStrategies(array());
+
+        $propertyMock = $this->buildPropertyMock();
+        $propertyMock->shouldReceive('isPrivate')->once()->andReturn(false);
+        $propertyMock->shouldReceive('isProtected')->once()->andReturn(true);
+
+        /** @var PropertyDescriptor $property */
+        $property = $this->fixture->create($propertyMock, $factory);
+
+        $this->assertProperty($property, 'protected');
+    }
+
+    /**
+     * @covers ::create
+     */
+    public function testCreatePublic()
+    {
+        $factory = new ProjectFactoryStrategies(array());
+
+        $propertyMock = $this->buildPropertyMock();
+        $propertyMock->shouldReceive('isPrivate')->once()->andReturn(false);
+        $propertyMock->shouldReceive('isProtected')->once()->andReturn(false);
+
+        /** @var PropertyDescriptor $property */
+        $property = $this->fixture->create($propertyMock, $factory);
+
+        $this->assertProperty($property, 'public');
+    }
+
+    /**
+     * @return m\MockInterface
+     */
+    private function buildPropertyMock()
+    {
+        $propertyMock = m::mock(PropertyNode::class);
+        $propertyMock->name = '\myClass::$property';
+        $propertyMock->default = 'MyDefault';
+        $propertyMock->static = true;
+        return $propertyMock;
+    }
+
+    /**
+     * @param PropertyDescriptor $property
+     */
+    private function assertProperty($property, $visibility)
+    {
+        $this->assertInstanceOf(PropertyDescriptor::class, $property);
+        $this->assertEquals('\myClass::$property', (string)$property->getFqsen());
+        $this->assertTrue($property->isStatic());
+        $this->assertEquals('MyDefault', $property->getDefault());
+        $this->assertEquals($visibility, (string)$property->getVisibility());
     }
 }

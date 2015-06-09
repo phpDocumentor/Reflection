@@ -75,6 +75,12 @@ final class Method implements ProjectFactoryStrategy
         return $method;
     }
 
+    /**
+     * Converts the visibility of the method to a valid Visibility object.
+     *
+     * @param ClassMethod $node
+     * @return Visibility
+     */
     private function buildVisibility(ClassMethod $node)
     {
         if ($node->isPrivate()) {
