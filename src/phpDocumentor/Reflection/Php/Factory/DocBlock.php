@@ -62,7 +62,7 @@ final class DocBlock implements ProjectFactoryStrategy
      *
      * @param Doc $object object to convert to an Element
      * @param StrategyContainer $strategies used to convert nested objects.
-     * @return Element
+     * @return null|\phpDocumentor\Reflection\DocBlock
      */
     public function create($object, StrategyContainer $strategies)
     {
