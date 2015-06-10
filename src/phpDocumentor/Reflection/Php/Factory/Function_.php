@@ -18,6 +18,7 @@ use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\Factory;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
+use PhpParser\Comment\Doc;
 use PhpParser\Node\Stmt\Function_ as FunctionNode;
 
 /**
@@ -43,7 +44,7 @@ final class Function_ implements ProjectFactoryStrategy
     /**
      * Creates an FunctionDescriptor out of the given object including its child elements.
      *
-     * @param object $object object to convert to an Element
+     * @param \PhpParser\Node\Stmt\Function_ $object object to convert to an Element
      * @param StrategyContainer $strategies used to convert nested objects.
      *
      * @return FunctionDescriptor
@@ -61,7 +62,9 @@ final class Function_ implements ProjectFactoryStrategy
             );
         }
 
-        $function = new FunctionDescriptor(new Fqsen($object->name));
+        $docBlock = $this->createDocBlock($object->getDocComment(), $strategies);
+
+        $function = new FunctionDescriptor(new Fqsen($object->name), $docBlock);
 
         foreach ($object->params as $param) {
             $strategy = $strategies->findMatching($param);
@@ -69,5 +72,20 @@ final class Function_ implements ProjectFactoryStrategy
         }
 
         return $function;
+    }
+
+    /**
+     * @param Doc $docBlock
+     * @param StrategyContainer $strategies
+     * @return null|\phpDocumentor\Reflection\DocBlock
+     */
+    private function createDocBlock(Doc $docBlock = null, StrategyContainer $strategies)
+    {
+        if ($docBlock === null) {
+            return null;
+        }
+
+        $strategy = $strategies->findMatching($docBlock);
+        return $strategy->create($docBlock, $strategies);
     }
 }
