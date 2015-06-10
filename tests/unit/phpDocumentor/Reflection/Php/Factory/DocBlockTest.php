@@ -1,0 +1,57 @@
+<?php
+/**
+ * This file is part of phpDocumentor.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @copyright 2010-2015 Mike van Riel<mike@phpdoc.org>
+ * @license   http://www.opensource.org/licenses/mit-license.php MIT
+ * @link      http://phpdoc.org
+ */
+
+
+namespace phpDocumentor\Reflection\Php\Factory;
+
+use Mockery as m;
+use phpDocumentor\Reflection\DocBlock as DocblockDescriptor;
+use phpDocumentor\Reflection\DocBlockFactoryInterface;
+use phpDocumentor\Reflection\Php\StrategyContainer;
+use PhpParser\Comment\Doc;
+
+/**
+ * Test case for \phpDocumentor\Reflection\Php\Factory\DocBlock
+ * @coversDefaultClass \phpDocumentor\Reflection\Php\Factory\DocBlock
+ */
+class DocBlockTest extends TestCase
+{
+    /**
+     * @var m\MockInterface
+     */
+    private $factoryMock;
+
+    private $strategiesMock;
+
+    protected function setUp()
+    {
+        $this->factoryMock = m::mock(DocBlockFactoryInterface::class);
+        $this->strategiesMock = m::mock(StrategyContainer::class);
+        $this->fixture = new DocBlock($this->factoryMock);
+    }
+
+    public function createWithNullReturnsNull()
+    {
+        $this->assertNull($this->fixture->create(null, $this->strategiesMock));
+    }
+
+    public function createCallsFactory()
+    {
+        $expected = new DocblockDescriptor('');
+        $this->factoryMock->shouldReceive('create')->once()->andReturn($expected);
+
+        $docMock = m::mock(Doc::class);
+        $result = $this->fixture->create($docMock, $this->strategiesMock);
+
+        $this->assertSame($expected, $result);
+    }
+}
