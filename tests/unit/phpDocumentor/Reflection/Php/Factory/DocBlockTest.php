@@ -39,17 +39,35 @@ class DocBlockTest extends TestCase
         $this->fixture = new DocBlock($this->factoryMock);
     }
 
-    public function createWithNullReturnsNull()
+    /**
+     * @covers ::matches
+     */
+    public function testMatches()
+    {
+        $this->assertFalse($this->fixture->matches(new \stdClass()));
+        $this->assertTrue($this->fixture->matches(m::mock(Doc::class)));
+    }
+
+    /**
+     * @covers ::create
+     */
+    public function testCreateWithNullReturnsNull()
     {
         $this->assertNull($this->fixture->create(null, $this->strategiesMock));
     }
 
-    public function createCallsFactory()
+    /**
+     * @covers ::__construct
+     * @covers ::create
+     */
+    public function testCreateCallsFactory()
     {
         $expected = new DocblockDescriptor('');
         $this->factoryMock->shouldReceive('create')->once()->andReturn($expected);
 
         $docMock = m::mock(Doc::class);
+        $docMock->shouldReceive('getText')->andReturn('');
+
         $result = $this->fixture->create($docMock, $this->strategiesMock);
 
         $this->assertSame($expected, $result);
