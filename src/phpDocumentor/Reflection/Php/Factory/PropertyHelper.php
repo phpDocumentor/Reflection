@@ -1,0 +1,151 @@
+<?php
+/**
+ * This file is part of phpDocumentor.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @copyright 2010-2015 Mike van Riel<mike@phpdoc.org>
+ * @license   http://www.opensource.org/licenses/mit-license.php MIT
+ * @link      http://phpdoc.org
+ */
+
+
+namespace phpDocumentor\Reflection\Php\Factory;
+
+
+use PhpParser\Comment;
+use PhpParser\Node;
+use PhpParser\Node\Stmt\Property as PropertyNode;
+
+/**
+ * This class acts like a combination of a PropertyNode and PropertyProperty to be able to create property descriptors using a normal strategy.
+ */
+final class PropertyHelper implements \Iterator
+{
+    /**
+     * @var PropertyNode
+     */
+    private $property;
+
+    /** @var int index of the current propertyProperty to use */
+    private $index = 0;
+
+    public function __construct(PropertyNode $propery)
+    {
+        $this->property = $propery;
+    }
+
+    public function isPublic()
+    {
+        return $this->property->isPublic();
+    }
+
+    public function isProtected()
+    {
+        return $this->property->isProtected();
+    }
+
+    public function isPrivate()
+    {
+        return $this->property->isPrivate();
+    }
+
+    public function isStatic()
+    {
+        return $this->property->isStatic();
+    }
+
+    /**
+     * Gets line the node started in.
+     *
+     * @return int Line
+     */
+    public function getLine()
+    {
+        return $this->property->getLine();
+    }
+
+    /**
+     * Gets the doc comment of the node.
+     *
+     * The doc comment has to be the last comment associated with the node.
+     *
+     * @return null|Comment\Doc Doc comment object or null
+     */
+    public function getDocComment()
+    {
+        $docComment = $this->property->props[$this->index]->getDocComment();
+        if ($docComment === null) {
+            $docComment = $this->property->getDocComment();
+        }
+
+        return $docComment;
+    }
+
+    public function getName()
+    {
+        return $this->property->props[$this->index]->name;
+    }
+
+    public function getDefault()
+    {
+        return $this->property->props[$this->index]->default;
+    }
+
+    /**
+     * (PHP 5 &gt;= 5.0.0)<br/>
+     * Return the current element
+     * @link http://php.net/manual/en/iterator.current.php
+     * @return mixed Can return any type.
+     */
+    public function current()
+    {
+        return $this;
+    }
+
+    /**
+     * (PHP 5 &gt;= 5.0.0)<br/>
+     * Move forward to next element
+     * @link http://php.net/manual/en/iterator.next.php
+     * @return void Any returned value is ignored.
+     */
+    public function next()
+    {
+        return $this->index++;
+    }
+
+    /**
+     * (PHP 5 &gt;= 5.0.0)<br/>
+     * Return the key of the current element
+     * @link http://php.net/manual/en/iterator.key.php
+     * @return mixed scalar on success, or null on failure.
+     */
+    public function key()
+    {
+        return $this->index;
+    }
+
+    /**
+     * (PHP 5 &gt;= 5.0.0)<br/>
+     * Checks if current position is valid
+     * @link http://php.net/manual/en/iterator.valid.php
+     * @return boolean The return value will be casted to boolean and then evaluated.
+     * Returns true on success or false on failure.
+     */
+    public function valid()
+    {
+        return isset($this->property->props[$this->index]);
+    }
+
+    /**
+     * (PHP 5 &gt;= 5.0.0)<br/>
+     * Rewind the Iterator to the first element
+     * @link http://php.net/manual/en/iterator.rewind.php
+     * @return void Any returned value is ignored.
+     */
+    public function rewind()
+    {
+        $this->index = 0;
+    }
+}
