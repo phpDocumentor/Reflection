@@ -13,14 +13,17 @@ namespace phpDocumentor\Reflection\Php\Factory;
 
 use phpDocumentor\Descriptor\Argument;
 use phpDocumentor\Descriptor\Function_ as FunctionDescriptor;
+use phpDocumentor\Reflection\DocBlock as DocBlockDescriptor;
 use phpDocumentor\Reflection\Php\Factory;
 use phpDocumentor\Reflection\Php\Factory\Function_;
 use Mockery as m;
 use phpDocumentor\Reflection\Php\StrategyContainer;
+use PhpParser\Comment\Doc;
 
 /**
  * Test case for \phpDocumentor\Reflection\Php\Factory\Function_
  * @coversDefaultClass \phpDocumentor\Reflection\Php\Factory\Function_
+ * @covers ::<private>
  */
 class Function_Test extends TestCase
 {
@@ -46,6 +49,8 @@ class Function_Test extends TestCase
         $functionMock = m::mock(\PhpParser\Node\Stmt\Function_::class);
         $functionMock->name = '\SomeSpace::function()';
         $functionMock->params = [];
+        $functionMock->shouldReceive('getDocComment')->andReturnNull();
+
         $containerMock = m::mock(StrategyContainer::class);
         $containerMock->shouldReceive('findMatching')->never();
 
@@ -63,6 +68,7 @@ class Function_Test extends TestCase
         $functionMock = m::mock(\PhpParser\Node\Stmt\Function_::class);
         $functionMock->name = '\SomeSpace::function()';
         $functionMock->params = array('param1');
+        $functionMock->shouldReceive('getDocComment')->andReturnNull();
 
         $containerMock = m::mock(StrategyContainer::class);
         $containerMock->shouldReceive('findMatching->create')
@@ -75,4 +81,31 @@ class Function_Test extends TestCase
 
         $this->assertEquals('\SomeSpace::function()', (string)$function->getFqsen());
     }
+
+    /**
+     * @covers ::create
+     */
+    public function testCreateWithDocBlock()
+    {
+        $doc = m::mock(Doc::class);
+        $functionMock = m::mock(\PhpParser\Node\Stmt\Function_::class);
+        $functionMock->name = '\SomeSpace::function()';
+        $functionMock->params = [];
+        $functionMock->shouldReceive('getDocComment')->andReturn($doc);
+
+        $docBlock = new DocBlockDescriptor('');
+
+        $containerMock = m::mock(StrategyContainer::class);
+        $containerMock->shouldReceive('findMatching->create')
+            ->once()
+            ->with($doc, $containerMock)
+            ->andReturn($docBlock);
+
+        /** @var FunctionDescriptor $function */
+        $function = $this->fixture->create($functionMock, $containerMock);
+
+        $this->assertEquals('\SomeSpace::function()', (string)$function->getFqsen());
+        $this->assertSame($docBlock, $function->getDocBlock());
+    }
+
 }

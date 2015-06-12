@@ -108,12 +108,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
-                "reference": "eef6ab53e9d430ed5c707ad75c8b72b98e0d32b6"
+                "reference": "d4d860e990ca6f34c53bc626c9aeab543df3c1d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/eef6ab53e9d430ed5c707ad75c8b72b98e0d32b6",
-                "reference": "eef6ab53e9d430ed5c707ad75c8b72b98e0d32b6",
+                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/d4d860e990ca6f34c53bc626c9aeab543df3c1d8",
+                "reference": "d4d860e990ca6f34c53bc626c9aeab543df3c1d8",
                 "shasum": ""
             },
             "require": {
@@ -149,7 +149,7 @@
                     "email": "mike.vanriel@naenius.com"
                 }
             ],
-            "time": "2015-06-07 13:07:55"
+            "time": "2015-06-10 12:55:27"
         },
         {
             "name": "psr/log",
