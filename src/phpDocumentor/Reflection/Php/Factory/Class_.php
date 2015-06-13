@@ -15,15 +15,16 @@ namespace phpDocumentor\Reflection\Php\Factory;
 
 use InvalidArgumentException;
 use phpDocumentor\Descriptor\Class_ as ClassDescriptor;
+use phpDocumentor\Descriptor\Constant;
 use phpDocumentor\Descriptor\Method as MethodDescriptor;
 use phpDocumentor\Descriptor\Property as PropertyDescriptor;
-use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_ as ClassNode;
-use PhpParser\Node\Stmt\Property;
+use PhpParser\Node\Stmt\ClassConst;
+use PhpParser\Node\Stmt\Property as PropertyNode;
 use PhpParser\Comment\Doc;
 use PhpParser\Node\Stmt\TraitUse;
 
@@ -90,10 +91,16 @@ final class Class_ implements ProjectFactoryStrategy
                             $classDescriptor->addUsedTrait(new Fqsen('\\'. $use->toString()));
                         }
                         break;
-                    case Property::class:
+                    case PropertyNode::class:
                         $properties = new PropertyHelper($stmt);
                         foreach ($properties as $property) {
                             $this->addCreateAndMember($property, $strategies, $classDescriptor);
+                        }
+                        break;
+                    case ClassConst::class:
+                        $constants = new ClassConstantIterator($stmt);
+                        foreach ($constants as $const) {
+                            $this->addCreateAndMember($const, $strategies, $classDescriptor);
                         }
                         break;
                     default :
@@ -121,6 +128,9 @@ final class Class_ implements ProjectFactoryStrategy
                 break;
             case PropertyDescriptor::class:
                 $classDescriptor->addProperty($descriptor);
+                break;
+            case Constant::class:
+                $classDescriptor->addConstant($descriptor);
                 break;
         }
     }

@@ -14,13 +14,18 @@
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use Mockery as m;
+use phpDocumentor\Descriptor\Constant;
 use phpDocumentor\Descriptor\Method;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\DocBlock as DocBlockDescriptor;
+use PhpParser\Node\Const_;
+use PhpParser\Node\Expr\Cast\String_;
+use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_ as ClassNode;
 use phpDocumentor\Descriptor\Class_ as ClassDescriptor;
+use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PhpParser\Node\Stmt\PropertyProperty;
@@ -192,6 +197,35 @@ class Class_Test extends TestCase
                 '\OtherTrait' => new Fqsen('\OtherTrait'),
             ],
             $class->getUsedTraits()
+        );
+    }
+
+    /**
+     * @covers ::create
+     */
+    public function testWithConstants()
+    {
+        $conts = new Const_('\Space\MyClass::MY_CONST', new Variable('a'));
+        $constant = new ClassConst([$conts]);
+        $result = new Constant(new Fqsen('\Space\MyClass::MY_CONST'));
+        $strategiesMock = m::mock(StrategyContainer::class);
+        $strategiesMock->shouldReceive('findMatching->create')
+            ->with(m::type(ClassConstantIterator::class), $strategiesMock)
+            ->andReturn($result);
+        $classMock = $this->buildClassMock();
+        $classMock->shouldReceive('getDocComment')->andReturnNull();
+        $classMock->stmts = [
+            $constant
+        ];
+
+        /** @var ClassDescriptor $class */
+        $class = $this->fixture->create($classMock, $strategiesMock);
+
+        $this->assertEquals(
+            [
+                '\Space\MyClass::MY_CONST' => $result,
+            ],
+            $class->getConstants()
         );
     }
 
