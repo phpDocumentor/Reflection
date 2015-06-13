@@ -126,6 +126,21 @@ class Class_Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers ::getUsedTraits
+     * @covers ::AddUsedTrait
+     */
+    public function testAddAndGettingUsedTrait()
+    {
+        $this->assertEmpty($this->fixture->getUsedTraits());
+
+        $trait = new Fqsen('\MyTrait');
+
+        $this->fixture->addUsedTrait($trait);
+
+        $this->assertSame(array('\MyTrait' => $trait), $this->fixture->getUsedTraits());
+    }
+
+    /**
      * @covers ::isAbstract
      * @covers ::__construct
      */

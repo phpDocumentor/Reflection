@@ -198,6 +198,16 @@ final class Class_ implements Element
     }
 
     /**
+     * Add trait fqsen used by this class.
+     *
+     * @param Fqsen $fqsen
+     */
+    public function addUsedTrait(Fqsen $fqsen)
+    {
+        $this->usedTraits[(string)$fqsen] = $fqsen;
+    }
+
+    /**
      * Returns the Fqsen of the element.
      *
      * @return Fqsen
