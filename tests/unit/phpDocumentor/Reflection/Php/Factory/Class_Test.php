@@ -17,12 +17,15 @@ use Mockery as m;
 use phpDocumentor\Descriptor\Method;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\StrategyContainer;
+use phpDocumentor\Reflection\DocBlock as DocBlockDescriptor;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_ as ClassNode;
 use phpDocumentor\Descriptor\Class_ as ClassDescriptor;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PhpParser\Node\Stmt\PropertyProperty;
+use PhpParser\Comment\Doc;
+use PhpParser\Node\Stmt\TraitUse;
 
 /**
  * Class Class_Test
@@ -52,6 +55,7 @@ class Class_Test extends TestCase
     {
         $strategiesMock = m::mock(StrategyContainer::class);
         $classMock = $this->buildClassMock();
+        $classMock->shouldReceive('getDocComment')->andReturnNull();
 
         /** @var ClassDescriptor $class */
         $class = $this->fixture->create($classMock, $strategiesMock);
@@ -70,6 +74,7 @@ class Class_Test extends TestCase
     {
         $strategiesMock = m::mock(StrategyContainer::class);
         $classMock = $this->buildClassMock();
+        $classMock->shouldReceive('getDocComment')->andReturnNull();
         $classMock->extends = 'Space\MyParent';
 
         /** @var ClassDescriptor $class */
@@ -87,6 +92,7 @@ class Class_Test extends TestCase
     {
         $strategiesMock = m::mock(StrategyContainer::class);
         $classMock = $this->buildClassMock();
+        $classMock->shouldReceive('getDocComment')->andReturnNull();
         $classMock->extends = 'Space\MyParent';
         $classMock->implements = [
             new Name('MyInterface')
@@ -113,6 +119,7 @@ class Class_Test extends TestCase
         $method1Descriptor = new Method(new Fqsen('\MyClass::method1'));
         $strategiesMock = m::mock(StrategyContainer::class);
         $classMock = $this->buildClassMock();
+        $classMock->shouldReceive('getDocComment')->andReturnNull();
         $classMock->stmts = [
             $method1
         ];
@@ -142,6 +149,7 @@ class Class_Test extends TestCase
         $propertyDescriptor = new \phpDocumentor\Descriptor\Property(new Fqsen('\MyClass::$property'));
         $strategiesMock = m::mock(StrategyContainer::class);
         $classMock = $this->buildClassMock();
+        $classMock->shouldReceive('getDocComment')->andReturnNull();
         $classMock->stmts = [
             $property
         ];
@@ -160,6 +168,56 @@ class Class_Test extends TestCase
             $class->getProperties()
         );
     }
+
+    /**
+     * @covers ::create
+     */
+    public function testWithUsedTraits()
+    {
+        $trait = new TraitUse([new Name('MyTrait'), new Name('OtherTrait')]);
+        $strategiesMock = m::mock(StrategyContainer::class);
+        $strategiesMock->shouldReceive('findMatching')->never();
+        $classMock = $this->buildClassMock();
+        $classMock->shouldReceive('getDocComment')->andReturnNull();
+        $classMock->stmts = [
+            $trait
+        ];
+
+        /** @var ClassDescriptor $class */
+        $class = $this->fixture->create($classMock, $strategiesMock);
+
+        $this->assertEquals(
+            [
+                '\MyTrait' => new Fqsen('\MyTrait'),
+                '\OtherTrait' => new Fqsen('\OtherTrait'),
+            ],
+            $class->getUsedTraits()
+        );
+    }
+
+    /**
+     * @covers ::create
+     */
+    public function testCreateWithDocBlock()
+    {
+        $doc = m::mock(Doc::class);
+        $classMock = $this->buildClassMock();
+        $classMock->shouldReceive('getDocComment')->andReturn($doc);
+
+        $docBlock = new DocBlockDescriptor('');
+
+        $containerMock = m::mock(StrategyContainer::class);
+        $containerMock->shouldReceive('findMatching->create')
+            ->once()
+            ->with($doc, $containerMock)
+            ->andReturn($docBlock);
+
+        /** @var ClassDescriptor $class */
+        $class = $this->fixture->create($classMock, $containerMock);
+
+        $this->assertSame($docBlock, $class->getDocBlock());
+    }
+
 
 
     /**

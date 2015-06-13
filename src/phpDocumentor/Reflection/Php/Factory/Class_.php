@@ -24,7 +24,8 @@ use phpDocumentor\Reflection\Php\StrategyContainer;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_ as ClassNode;
 use PhpParser\Node\Stmt\Property;
-use PhpParser\Node\Stmt\PropertyProperty;
+use PhpParser\Comment\Doc;
+use PhpParser\Node\Stmt\TraitUse;
 
 /**
  * Strategy to create a ClassDescriptor including all sub elements.
@@ -44,7 +45,7 @@ final class Class_ implements ProjectFactoryStrategy
     }
 
     /**
-     * Creates an Element out of the given object.
+     * Creates an ClassDescriptor out of the given object.
      * Since an object might contain other objects that need to be converted the $factory is passed so it can be
      * used to create nested Elements.
      *
@@ -63,7 +64,7 @@ final class Class_ implements ProjectFactoryStrategy
             );
         }
 
-        $docBlock = null;
+        $docBlock = $this->createDocBlock($object->getDocComment(), $strategies);
 
         $classDescriptor = new ClassDescriptor(
             new Fqsen('\\' . $object->name),
@@ -84,11 +85,17 @@ final class Class_ implements ProjectFactoryStrategy
         if (isset($object->stmts)) {
             foreach ($object->stmts as $stmt) {
                 switch (get_class($stmt)) {
+                    case TraitUse::class:
+                        foreach ($stmt->traits as $use) {
+                            $classDescriptor->addUsedTrait(new Fqsen('\\'. $use->toString()));
+                        }
+                        break;
                     case Property::class:
                         $properties = new PropertyHelper($stmt);
                         foreach ($properties as $property) {
                             $this->addCreateAndMember($property, $strategies, $classDescriptor);
                         }
+                        break;
                     default :
                         $this->addCreateAndMember($stmt, $strategies, $classDescriptor);
                         break;
@@ -99,6 +106,11 @@ final class Class_ implements ProjectFactoryStrategy
         return $classDescriptor;
     }
 
+    /**
+     * @param Node|PropertyHelper $stmt
+     * @param StrategyContainer $strategies
+     * @param ClassDescriptor $classDescriptor
+     */
     private function addCreateAndMember($stmt, StrategyContainer $strategies, ClassDescriptor $classDescriptor)
     {
         $strategy = $strategies->findMatching($stmt);
@@ -111,5 +123,21 @@ final class Class_ implements ProjectFactoryStrategy
                 $classDescriptor->addProperty($descriptor);
                 break;
         }
+    }
+
+
+    /**
+     * @param Doc $docBlock
+     * @param StrategyContainer $strategies
+     * @return null|\phpDocumentor\Reflection\DocBlock
+     */
+    private function createDocBlock(Doc $docBlock = null, StrategyContainer $strategies)
+    {
+        if ($docBlock === null) {
+            return null;
+        }
+
+        $strategy = $strategies->findMatching($docBlock);
+        return $strategy->create($docBlock, $strategies);
     }
 }
