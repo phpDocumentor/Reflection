@@ -18,10 +18,10 @@ use PhpParser\Node\Stmt\Property as PropertyNode;
 use PhpParser\Node\Stmt\PropertyProperty;
 
 /**
- * Class PropertyHelperTest
- * @coversDefaultClass \phpDocumentor\Reflection\Php\Factory\PropertyHelper
+ * Class PropertyIteratorTest
+ * @coversDefaultClass \phpDocumentor\Reflection\Php\Factory\PropertyIterator
  */
-class PropertyHelperTest extends \PHPUnit_Framework_TestCase
+class PropertyIteratorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @covers ::current()
@@ -38,7 +38,7 @@ class PropertyHelperTest extends \PHPUnit_Framework_TestCase
         $propertyNode = new PropertyNode(1, [$prop1, $prop2]);
 
         $i = 1;
-        foreach (new PropertyHelper($propertyNode) as $property) {
+        foreach (new PropertyIterator($propertyNode) as $property) {
             $this->assertEquals('prop' . $i, $property->getName());
             $i++;
         }
@@ -52,7 +52,7 @@ class PropertyHelperTest extends \PHPUnit_Framework_TestCase
     {
         $propertyMock = m::mock(PropertyNode::class);
 
-        $fixture = new PropertyHelper($propertyMock);
+        $fixture = new PropertyIterator($propertyMock);
 
         $this->assertEquals(0, $fixture->key());
         $fixture->next();
@@ -76,7 +76,7 @@ class PropertyHelperTest extends \PHPUnit_Framework_TestCase
         $propertyMock->shouldReceive('isStatic')->once()->andReturn(true);
         $propertyMock->shouldReceive('getLine')->once()->andReturn(10);
 
-        $fixture = new PropertyHelper($propertyMock);
+        $fixture = new PropertyIterator($propertyMock);
 
         $this->assertTrue($fixture->isStatic());
         $this->assertTrue($fixture->isPrivate());
@@ -95,7 +95,7 @@ class PropertyHelperTest extends \PHPUnit_Framework_TestCase
         $prop->default = 'myDefault';
         $property = new PropertyNode(1, [$prop]);
 
-        $fixture = new PropertyHelper($property);
+        $fixture = new PropertyIterator($property);
 
         $this->assertEquals('myDefault', $fixture->getDefault());
     }
@@ -112,7 +112,7 @@ class PropertyHelperTest extends \PHPUnit_Framework_TestCase
         $prop->shouldReceive('getDocComment')->once()->andReturn('test');
         $propertyNode->shouldReceive('getDocComment')->never();
 
-        $fixture = new PropertyHelper($propertyNode);
+        $fixture = new PropertyIterator($propertyNode);
 
         $this->assertEquals('test', $fixture->getDocComment());
     }
@@ -129,7 +129,7 @@ class PropertyHelperTest extends \PHPUnit_Framework_TestCase
         $prop->shouldReceive('getDocComment')->once()->andReturnNull();
         $propertyNode->shouldReceive('getDocComment')->once()->andReturn('test');
 
-        $fixture = new PropertyHelper($propertyNode);
+        $fixture = new PropertyIterator($propertyNode);
 
         $this->assertEquals('test', $fixture->getDocComment());
     }

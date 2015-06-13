@@ -21,7 +21,7 @@ use PhpParser\Node\Stmt\Property as PropertyNode;
 use PhpParser\Node\Stmt\PropertyProperty;
 
 /**
- * Class PropertyHelperTest
+ * Class PropertyIteratorTest
  * @coversDefaultClass \phpDocumentor\Reflection\Php\Factory\ClassConstantIterator
  */
 class ClassConstantIteratorTest extends \PHPUnit_Framework_TestCase

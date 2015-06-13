@@ -92,7 +92,7 @@ final class Class_ implements ProjectFactoryStrategy
                         }
                         break;
                     case PropertyNode::class:
-                        $properties = new PropertyHelper($stmt);
+                        $properties = new PropertyIterator($stmt);
                         foreach ($properties as $property) {
                             $this->addCreateAndMember($property, $strategies, $classDescriptor);
                         }
@@ -114,7 +114,7 @@ final class Class_ implements ProjectFactoryStrategy
     }
 
     /**
-     * @param Node|PropertyHelper $stmt
+     * @param Node|PropertyIterator|ClassConstantIterator $stmt
      * @param StrategyContainer $strategies
      * @param ClassDescriptor $classDescriptor
      */
