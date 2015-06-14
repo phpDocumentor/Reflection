@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<phpunit bootstrap="vendor/autoload.php" colors="true" forceCoversAnnotation="true" checkForUnintentionallyCoveredCode="false">
+<phpunit 
+    bootstrap="vendor/autoload.php" 
+    colors="true" 
+    verbose="true" 
+    forceCoversAnnotation="true" 
+    checkForUnintentionallyCoveredCode="false"
+>
     <testsuites>
         <testsuite name="unit">
             <directory>./tests/unit/</directory>
         </testsuite>
-        <testsuite name="component">
-            <directory>./tests/component/</directory>
-        </testsuite>
     </testsuites>
     <filter>
         <whitelist>
-            <directory suffix=".php">src/phpDocumentor</directory>
+            <directory suffix=".php">src</directory>
         </whitelist>
     </filter>
     <logging>
         <log type="coverage-html"
-             title="phpDocumentor"
+             title="phpDocumentor Reflection"
              target="build/coverage"
              charset="UTF-8"
              yui="true"
