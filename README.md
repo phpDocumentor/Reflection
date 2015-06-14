@@ -1,6 +1,7 @@
 # phpDocumentor/Reflection
 
 [![Build Status]](http://travis-ci.org/phpDocumentor/Reflection)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/phpDocumentor/Reflection/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/phpDocumentor/Reflection/?branch=develop)
 
 Using this library it is possible to statically reflect one or more files and create an object graph representing
 your application's structure, including accompanying in-source documentation using DocBlocks.
