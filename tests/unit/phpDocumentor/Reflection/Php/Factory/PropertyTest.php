@@ -95,7 +95,7 @@ class PropertyTest extends TestCase
         $propertyMock = m::mock(PropertyNode::class);
         $propertyMock->name = '\myClass::$property';
         $propertyMock->default = 'MyDefault';
-        $propertyMock->static = true;
+        $propertyMock->shouldReceive('isStatic')->andReturn(true);
         return $propertyMock;
     }
 

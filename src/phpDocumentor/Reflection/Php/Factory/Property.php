@@ -65,7 +65,7 @@ final class Property implements ProjectFactoryStrategy
 
         $visibility = $this->buildVisibility($object);
 
-        return new PropertyDescriptor(new Fqsen($object->name), $visibility, null, $object->default, $object->static);
+        return new PropertyDescriptor(new Fqsen($object->name), $visibility, null, $object->default, $object->isStatic());
     }
 
     /**
