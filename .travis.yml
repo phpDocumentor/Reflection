@@ -4,23 +4,24 @@ php:
   - 5.6
   - 7.0
   - hhvm
-  - hhvm-nightly
 
 matrix:
     allow_failures:
         - php: hhvm
-        - php: hhvm-nightly
+
+cache:
+  directories:
+    - $HOME/.composer/cache
 
 script:
  - vendor/bin/phpunit
 
 before_script:
- - sudo apt-get -qq update > /dev/null
- - phpenv rehash > /dev/null
- - composer selfupdate --quiet
- - composer install --no-interaction --prefer-source --dev
- - vendor/bin/phpunit
- - composer update --no-interaction --prefer-source --dev
+ - composer install --no-interaction
+
+after_script:
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
 
 notifications:
   irc: "irc.freenode.org#phpdocumentor"
