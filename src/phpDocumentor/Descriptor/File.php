@@ -12,6 +12,7 @@
 namespace phpDocumentor\Descriptor;
 
 use phpDocumentor\Reflection\DocBlock;
+use phpDocumentor\Reflection\Fqsen;
 
 /**
  * Represents a file in the project.
@@ -35,7 +36,7 @@ final class File
     /** @var string|null $source */
     private $source = null;
 
-    /** @var Collection $namespaceAliases */
+    /** @var Fqsen[] $namespaceAliases */
     private $namespaceAliases;
 
     /** @var string[] $includes */
@@ -96,11 +97,23 @@ final class File
     /**
      * Returns the namespace aliases that have been defined in this file.
      *
-     * @return Collection
+     * @return Fqsen[]
      */
     public function getNamespaceAliases()
     {
         return $this->namespaceAliases;
+    }
+
+    /**
+     * Add namespace alias to file
+     *
+     * @param string $alias
+     * @param Fqsen $fqsen
+     * @return void
+     */
+    public function addNamespaceAlias($alias, Fqsen $fqsen)
+    {
+        $this->namespaceAliases[$alias] = $fqsen;
     }
 
     /**
