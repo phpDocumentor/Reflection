@@ -11,10 +11,10 @@ tools:
             paths: ["src/*", "tests/*"]
     php_cpd:
         enabled: true
-        excluded_dirs: ["tests", "vendor"]
+        excluded_dirs: ["vendor"]
     php_loc:
         enabled: true
-        excluded_dirs: ["tests", "vendor"]
+        excluded_dirs: ["vendor"]
     php_mess_detector:
         enabled: true
         config:
