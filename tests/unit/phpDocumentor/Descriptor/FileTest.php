@@ -154,20 +154,16 @@ class FileTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::setNamespaceAliases
+     * @covers ::addNamespaceAlias
      * @covers ::getNamespaceAliases
      */
     public function testSetAndGetNamespaceAliases()
     {
-        $this->markTestSkipped('todo');
-        $this->assertInstanceOf('phpDocumentor\Descriptor\Collection', $this->fixture->getNamespaceAliases());
+        $this->assertEmpty($this->fixture->getNamespaceAliases());
 
-        $mockInstance = m::mock('phpDocumentor\Descriptor\Collection');
-        $mock = $mockInstance;
+        $this->fixture->addNamespaceAlias('alias', new Fqsen('\MyNamepace\Foo'));
 
-        $this->fixture->setNamespaceAliases($mock);
-
-        $this->assertSame($mockInstance, $this->fixture->getNamespaceAliases());
+        $this->assertEquals(array('alias' => new Fqsen('\MyNamepace\Foo')), $this->fixture->getNamespaceAliases());
     }
 
     /**
