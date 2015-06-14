@@ -11,8 +11,7 @@
 
 namespace phpDocumentor\Descriptor\Builder\PhpParser;
 
-use phpDocumentor\Descriptor\Class_ as ClassDescriptor;
-use phpDocumentor\Descriptor\Interface_;
+use phpDocumentor\Reflection\Php\Class_ as ClassDescriptor;
 use phpDocumentor\Reflection\Fqsen;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node;

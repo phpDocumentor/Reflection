@@ -9,18 +9,18 @@
  * @link      http://phpdoc.org
  */
 
-namespace phpDocumentor\Descriptor;
+namespace phpDocumentor\Reflection\Php;
 
 use \Mockery as m;
-use phpDocumentor\Descriptor\Tag\AuthorDescriptor;
-use phpDocumentor\Descriptor\Tag\VersionDescriptor;
+use phpDocumentor\Reflection\Php\Tag\AuthorDescriptor;
+use phpDocumentor\Reflection\Php\Tag\VersionDescriptor;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\Visibility;
 
 /**
  * Tests the functionality for the Method class.
- * @coversDefaultClass phpDocumentor\Descriptor\Method
+ * @coversDefaultClass phpDocumentor\Reflection\Php\Method
  */
 class MethodTest extends \PHPUnit_Framework_TestCase
 {

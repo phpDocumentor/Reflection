@@ -50,11 +50,11 @@ An easy way to do this is by including the [composer] autoloader as shown here:
 Once that is done you can use the `create()` method of the `Analyzer` class to instantiate your source Analyzer and 
 pre-configure it with sensible defaults.
     
-    $analyzer = phpDocumentor\Descriptor\Analyzer::create();
+    $analyzer = phpDocumentor\Reflection\Php\Analyzer::create();
 
 At this point we are ready to analyze files, one at a time. By loading the file using an `SplFileObject` class and 
 feeding that to the `analyze` of the `Analyzer` method we convert the PHP code in that file into an object of type 
-`phpDocumentor\Descriptor\File`.
+`phpDocumentor\Reflection\Php\File`.
 
 This object describing a file is returned to us but also added to another object that describes your entire project.
 
@@ -65,13 +65,13 @@ The step above can be repeated for as many files as you have. When you are done 
 method of the analyzer. This method will do another analysis pass. This pass will connect the dots and do any processing
 that relies the structure to be complete, such as adding linkage between all elements.
 
-When the finalization is ready a new object of type `phpDocumentor\Descriptor\Project` will be returned that
+When the finalization is ready a new object of type `phpDocumentor\Reflection\Php\Project` will be returned that
 contains a complete hierarchy of all files with their classes, traits and interfaces (and everything in there), but also
 all namespaces and packages as a hierarchical tree.
 
     $project = $analyzer->finalize();
     
-When the finalization is ready a new object of type `phpDocumentor\Descriptor\Project` will be returned that
+When the finalization is ready a new object of type `phpDocumentor\Reflection\Php\Project` will be returned that
 contains a complete hierarchy of all files with their classes, traits and interfaces (and everything in there), but also
 all namespaces and packages as a hierarchical tree.
 

@@ -11,8 +11,8 @@
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
-use phpDocumentor\Descriptor\Argument;
-use phpDocumentor\Descriptor\Function_ as FunctionDescriptor;
+use phpDocumentor\Reflection\Php\Argument;
+use phpDocumentor\Reflection\Php\Function_ as FunctionDescriptor;
 use phpDocumentor\Reflection\DocBlock as DocBlockDescriptor;
 use phpDocumentor\Reflection\Php\Factory;
 use phpDocumentor\Reflection\Php\Factory\Function_;

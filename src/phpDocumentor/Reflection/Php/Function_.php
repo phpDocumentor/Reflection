@@ -9,37 +9,35 @@
  * @link      http://phpdoc.org
  */
 
-namespace phpDocumentor\Descriptor;
+namespace phpDocumentor\Reflection\Php;
+
+use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
-use phpDocumentor\Reflection\DocBlock;
 
 /**
- * Descriptor representing an Interface.
+ * Descriptor representing a function
  */
-final class Interface_ implements Element
+final class Function_ implements Element
 {
     /**
      * @var Fqsen Full Qualified Structural Element Name
      */
     private $fqsen;
 
+    /** @var Argument[] $arguments */
+    private $arguments = array();
+
     /**
      * @var DocBlock|null
      */
     private $docBlock;
 
-    /** @var Constant[] $constants */
-    protected $constants = array();
-
-    /** @var Method[] $methods */
-    protected $methods = array();
-
     /**
      * Initializes the object.
      *
      * @param Fqsen $fqsen
-     * @param DocBlock $docBlock
+     * @param DocBlock|null $docBlock
      */
     public function __construct(Fqsen $fqsen, DocBlock $docBlock = null)
     {
@@ -48,45 +46,23 @@ final class Interface_ implements Element
     }
 
     /**
-     * Returns the constants of this interface.
+     * Returns the arguments of this function.
      *
-     * @return Constant[]
+     * @return Argument[]
      */
-    public function getConstants()
+    public function getArguments()
     {
-        return $this->constants;
+        return $this->arguments;
     }
 
     /**
-     * Add constant to this interface.
+     * Add an argument to the function.
      *
-     * @param Constant $constant
-     * @return void
+     * @param Argument $argument
      */
-    public function addConstant(Constant $constant)
+    public function addArgument(Argument $argument)
     {
-        $this->constants[(string)$constant->getFqsen()] = $constant;
-    }
-
-    /**
-     * Returns the methods in this interface.
-     *
-     * @return Method[]
-     */
-    public function getMethods()
-    {
-        return $this->methods;
-    }
-
-    /**
-     * Add method to this interface.
-     *
-     * @param Method $method
-     * @return void
-     */
-    public function addMethod(Method $method)
-    {
-        $this->methods[(string)$method->getFqsen()] = $method;
+        $this->arguments[] = $argument;
     }
 
     /**
@@ -110,7 +86,7 @@ final class Interface_ implements Element
     }
 
     /**
-     * Returns the DocBlock of this interface if available.
+     * Returns the DocBlock of the element if available
      *
      * @return null|DocBlock
      */

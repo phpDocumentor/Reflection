@@ -9,11 +9,11 @@
  * @link      http://phpdoc.org
  */
 
-namespace phpDocumentor\Descriptor;
+namespace phpDocumentor\Reflection\Php;
 
 /**
  * Tests the functionality for the Argument class.
- * @coversDefaultClass phpDocumentor\Descriptor\Argument
+ * @coversDefaultClass phpDocumentor\Reflection\Php\Argument
  */
 class ArgumentTest extends \PHPUnit_Framework_TestCase
 {

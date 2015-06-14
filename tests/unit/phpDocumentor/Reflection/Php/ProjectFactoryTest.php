@@ -12,8 +12,8 @@
 namespace phpDocumentor\Reflection\Php;
 
 use Mockery as m;
-use phpDocumentor\Descriptor\File;
-use phpDocumentor\Descriptor\Project;
+use phpDocumentor\Reflection\Php\File;
+use phpDocumentor\Reflection\Php\Project;
 use phpDocumentor\Reflection\Php\Factory\DummyFactoryStrategy;
 
 /**

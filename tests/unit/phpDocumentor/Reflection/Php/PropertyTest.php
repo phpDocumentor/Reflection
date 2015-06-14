@@ -9,12 +9,12 @@
  * @link      http://phpdoc.org
  */
 
-namespace phpDocumentor\Descriptor;
+namespace phpDocumentor\Reflection\Php;
 
 use \Mockery as m;
-use phpDocumentor\Descriptor\Tag\AuthorDescriptor;
-use phpDocumentor\Descriptor\Tag\VarDescriptor;
-use phpDocumentor\Descriptor\Tag\VersionDescriptor;
+use phpDocumentor\Reflection\Php\Tag\AuthorDescriptor;
+use phpDocumentor\Reflection\Php\Tag\VarDescriptor;
+use phpDocumentor\Reflection\Php\Tag\VersionDescriptor;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\Visibility;
@@ -22,7 +22,7 @@ use phpDocumentor\Reflection\Php\Visibility;
 /**
  * Tests the functionality for the Property class.
  *
- * @coversDefaultClass phpDocumentor\Descriptor\Property
+ * @coversDefaultClass phpDocumentor\Reflection\Php\Property
  */
 class PropertyTest extends \PHPUnit_Framework_TestCase
 {

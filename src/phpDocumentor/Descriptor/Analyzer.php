@@ -11,14 +11,10 @@
 
 namespace phpDocumentor\Descriptor;
 
+use phpDocumentor\Descriptor\Builder\AssemblerAbstract;
 use phpDocumentor\Descriptor\Builder\AssemblerFactory;
-use phpDocumentor\Descriptor\Builder\Reflector\AssemblerAbstract;
-use phpDocumentor\Descriptor\Example\Finder;
-use phpDocumentor\Descriptor\ProjectDescriptor\InitializerChain;
-use phpDocumentor\Descriptor\ProjectDescriptor\InitializerCommand\PhpParserAssemblers;
-use phpDocumentor\Descriptor\ProjectDescriptor\InitializerCommand\ReflectionAssemblers;
-use phpDocumentor\Descriptor\ProjectDescriptor\Settings;
-use Psr\Log\LogLevel;
+use phpDocumentor\Reflection\Php\File;
+use phpDocumentor\Reflection\Php\Project;
 
 /**
  * Builds a Project Descriptor and underlying tree.

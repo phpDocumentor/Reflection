@@ -11,7 +11,7 @@
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
-use phpDocumentor\Descriptor\Argument as ArgumentDescriptor;
+use phpDocumentor\Reflection\Php\Argument as ArgumentDescriptor;
 use phpDocumentor\Reflection\Php\ProjectFactory;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategies;
 use PhpParser\Node\Param;

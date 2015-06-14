@@ -13,8 +13,7 @@
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use InvalidArgumentException;
-use phpDocumentor\Descriptor\Argument as ArgumentDescriptor;
-use phpDocumentor\Reflection\Element;
+use phpDocumentor\Reflection\Php\Argument as ArgumentDescriptor;
 use phpDocumentor\Reflection\Php\Factory;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
