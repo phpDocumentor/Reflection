@@ -14,6 +14,9 @@ namespace phpDocumentor\Reflection\Php\Factory;
 use phpDocumentor\Descriptor\Property as PropertyDescriptor;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategies;
 use Mockery as m;
+use phpDocumentor\Reflection\PrettyPrinter;
+use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Property as PropertyNode;
 
 /**
@@ -25,7 +28,7 @@ class PropertyTest extends TestCase
 {
     protected function setUp()
     {
-        $this->fixture = new Property();
+        $this->fixture = new Property(new PrettyPrinter());
     }
 
     /**
@@ -94,7 +97,7 @@ class PropertyTest extends TestCase
     {
         $propertyMock = m::mock(PropertyNode::class);
         $propertyMock->name = '\myClass::$property';
-        $propertyMock->default = 'MyDefault';
+        $propertyMock->default = new String_('MyDefault');
         $propertyMock->shouldReceive('isStatic')->andReturn(true);
         return $propertyMock;
     }
