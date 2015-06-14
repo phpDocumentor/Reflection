@@ -9,7 +9,7 @@
  * @link      http://phpdoc.org
  */
 
-namespace phpDocumentor\Descriptor;
+namespace phpDocumentor\Reflection\Php;
 
 use \Mockery as m;
 use phpDocumentor\Reflection\DocBlock;
@@ -17,7 +17,7 @@ use phpDocumentor\Reflection\Fqsen;
 
 /**
  * Tests the functionality for the Function_ class.
- * @coversDefaultClass phpDocumentor\Descriptor\Function_
+ * @coversDefaultClass phpDocumentor\Reflection\Php\Function_
  */
 class Function_Test extends \PHPUnit_Framework_TestCase
 {

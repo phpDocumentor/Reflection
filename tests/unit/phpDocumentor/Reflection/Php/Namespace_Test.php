@@ -9,7 +9,7 @@
  * @link      http://phpdoc.org
  */
 
-namespace phpDocumentor\Descriptor;
+namespace phpDocumentor\Reflection\Php;
 
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\DocBlock;
@@ -17,7 +17,7 @@ use phpDocumentor\Reflection\DocBlock;
 /**
  * Tests the functionality for the Namespace_ class.
  *
- * @coversDefaultClass phpDocumentor\Descriptor\Namespace_
+ * @coversDefaultClass phpDocumentor\Reflection\Php\Namespace_
  */
 class Namespace_Test extends \PHPUnit_Framework_TestCase
 {

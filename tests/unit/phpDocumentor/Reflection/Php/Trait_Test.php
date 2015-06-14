@@ -9,14 +9,14 @@
  * @link      http://phpdoc.org
  */
 
-namespace phpDocumentor\Descriptor;
+namespace phpDocumentor\Reflection\Php;
 
 use \Mockery as m;
 use phpDocumentor\Reflection\Fqsen;
 
 /**
  * Tests the functionality for the Trait_ class.
- * @coversDefaultClass phpDocumentor\Descriptor\Trait_
+ * @coversDefaultClass phpDocumentor\Reflection\Php\Trait_
  */
 class Trait_Test extends \PHPUnit_Framework_TestCase
 {

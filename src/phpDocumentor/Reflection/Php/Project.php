@@ -9,7 +9,7 @@
  * @link      http://phpdoc.org
  */
 
-namespace phpDocumentor\Descriptor;
+namespace phpDocumentor\Reflection\Php;
 
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Project as ProjectInterface;

@@ -11,11 +11,9 @@
 
 namespace phpDocumentor\Descriptor\Builder\PhpParser;
 
-use phpDocumentor\Descriptor\Constant;
-use phpDocumentor\Descriptor\Tag\VarDescriptor;
-use phpDocumentor\Reflection\ConstantReflector;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\Php\Constant;
 use PhpParser\Node\Const_;
 use PhpParser\Node\Name;
 use PhpParser\Node;

@@ -9,14 +9,14 @@
  * @link      http://phpdoc.org
  */
 
-namespace phpDocumentor\Descriptor;
+namespace phpDocumentor\Reflection\Php;
 
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
 
 /**
  * Tests the functionality for the Constant class.
- * @coversDefaultClass phpDocumentor\Descriptor\Constant
+ * @coversDefaultClass phpDocumentor\Reflection\Php\Constant
  */
 class ConstantTest extends \PHPUnit_Framework_TestCase
 {

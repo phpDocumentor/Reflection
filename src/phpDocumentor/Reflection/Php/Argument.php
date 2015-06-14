@@ -8,7 +8,7 @@
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
-namespace phpDocumentor\Descriptor;
+namespace phpDocumentor\Reflection\Php;
 
 /**
  * Descriptor representing a single Argument of a method or function.

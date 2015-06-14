@@ -9,7 +9,7 @@
  * @link      http://phpdoc.org
  */
 
-namespace phpDocumentor\Descriptor;
+namespace phpDocumentor\Reflection\Php;
 
 use \Settings;
 use phpDocumentor\Reflection\Fqsen;
@@ -17,7 +17,7 @@ use phpDocumentor\Reflection\Fqsen;
 /**
  * Tests the functionality for the Project class.
  *
- * @coversDefaultClass phpDocumentor\Descriptor\Project
+ * @coversDefaultClass phpDocumentor\Reflection\Php\Project
  */
 class ProjectTest extends \PHPUnit_Framework_TestCase
 {

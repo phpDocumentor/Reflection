@@ -12,7 +12,6 @@
 
 namespace phpDocumentor\Reflection\Php;
 
-use phpDocumentor\Descriptor\Project;
 use phpDocumentor\Reflection\Exception;
 use phpDocumentor\Reflection\ProjectFactory as ProjectFactoryInterface;
 

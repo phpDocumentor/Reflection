@@ -13,9 +13,9 @@
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use InvalidArgumentException;
-use phpDocumentor\Descriptor\Function_ as FunctionDescriptor;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\Factory;
+use phpDocumentor\Reflection\Php\Function_ as FunctionDescriptor;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use PhpParser\Comment\Doc;
