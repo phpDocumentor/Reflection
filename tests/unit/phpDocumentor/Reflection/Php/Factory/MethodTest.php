@@ -11,8 +11,8 @@
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
-use phpDocumentor\Descriptor\Argument;
-use phpDocumentor\Descriptor\Method as MethodDescriptor;
+use phpDocumentor\Reflection\Php\Argument;
+use phpDocumentor\Reflection\Php\Method as MethodDescriptor;
 use phpDocumentor\Reflection\Php\Factory;
 use Mockery as m;
 use phpDocumentor\Reflection\Php\StrategyContainer;

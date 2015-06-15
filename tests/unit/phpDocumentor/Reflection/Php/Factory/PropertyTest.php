@@ -11,7 +11,7 @@
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
-use phpDocumentor\Descriptor\Property as PropertyDescriptor;
+use phpDocumentor\Reflection\Php\Property as PropertyDescriptor;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategies;
 use Mockery as m;
 use phpDocumentor\Reflection\PrettyPrinter;

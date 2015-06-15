@@ -13,8 +13,8 @@
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use InvalidArgumentException;
-use phpDocumentor\Descriptor\Method as MethodDescriptor;
 use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\Php\Method as MethodDescriptor;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Php\Visibility;

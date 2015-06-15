@@ -13,9 +13,9 @@
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use InvalidArgumentException;
-use phpDocumentor\Descriptor\Property as PropertyDescriptor;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\Factory;
+use phpDocumentor\Reflection\Php\Property as PropertyDescriptor;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Php\Visibility;
