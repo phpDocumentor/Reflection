@@ -17,10 +17,16 @@ use phpDocumentor\Reflection\Php\Factory\Function_;
 use phpDocumentor\Reflection\Php\NodesFactory;
 use phpDocumentor\Reflection\Php\ProjectFactory;
 
+/**
+ * Intergration tests to check the correct working of processing a file into a project.
+ *
+ * @coversNothing
+ */
 class ProjectCreationTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreateProjectWithFunctions()
     {
+        $fileName = __DIR__ . '/project/simpleFunction.php';
         $projectFactory = new ProjectFactory(
             [
                 new File(new NodesFactory()),
@@ -29,9 +35,10 @@ class ProjectCreationTest extends \PHPUnit_Framework_TestCase
         );
 
         $project = $projectFactory->create([
-            __DIR__ . '/projects/functionProject/example.php'
+            $fileName
         ]);
 
-        $this->assertArrayHasKey(__DIR__ . '/projects/functionProject/example.php', $project->getFiles());
+        $this->assertArrayHasKey($fileName, $project->getFiles());
+        $this->assertArrayHasKey('\::simpleFunction()', $project->getFiles()[$fileName]->getFunctions());
     }
 }
