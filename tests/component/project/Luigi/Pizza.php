@@ -11,10 +11,10 @@
  */
 
 
+namespace Luigi;
+
+
 class Pizza
 {
-    /**
-     * The packaging method used to transport the pizza.
-     */
-    const PACKAGING = 'box';
+
 }

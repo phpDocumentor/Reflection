@@ -14,6 +14,7 @@ namespace phpDocumentor\Reflection;
 
 use Mockery as m;
 use phpDocumentor\Reflection\Php\Factory\Class_;
+use phpDocumentor\Reflection\Php\Factory\Constant;
 use phpDocumentor\Reflection\Php\Factory\DocBlock as DocBlockFactory;
 use phpDocumentor\Reflection\Php\Factory\File;
 use phpDocumentor\Reflection\Php\Factory\Function_;
@@ -40,10 +41,11 @@ class ProjectCreationTest extends \PHPUnit_Framework_TestCase
 
         $this->fixture = new ProjectFactory(
             [
+                new Class_(),
+                new Constant(),
+                new DocBlockFactory($docblockFactory),
                 new File(new NodesFactory()),
                 new Function_(),
-                new Class_(),
-                new DocBlockFactory($docblockFactory),
             ]
         );
     }
@@ -69,6 +71,18 @@ class ProjectCreationTest extends \PHPUnit_Framework_TestCase
         ]);
 
         $this->assertArrayHasKey($fileName, $project->getFiles());
-        $this->assertArrayHasKey('\Pizza', $project->getFiles()[$fileName]->getClasses());
+        $this->assertArrayHasKey('\\Pizza', $project->getFiles()[$fileName]->getClasses());
+        $this->assertArrayHasKey('\\Pizza::PACKAGING', $project->getFiles()[$fileName]->getClasses()['\\Pizza']->getConstants());
+    }
+
+    public function testWithNamespacedClass()
+    {
+        $fileName = __DIR__ . '/project/Luigi/Pizza.php';
+        $project = $this->fixture->create([
+            $fileName
+        ]);
+
+        $this->assertArrayHasKey($fileName, $project->getFiles());
+        $this->assertArrayHasKey('\\Luigi\\Pizza', $project->getFiles()[$fileName]->getClasses());
     }
 }
