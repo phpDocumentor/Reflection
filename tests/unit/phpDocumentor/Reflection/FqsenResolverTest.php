@@ -14,6 +14,7 @@
 namespace phpDocumentor\Reflection;
 
 
+use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\Function_;
 
 /**
@@ -31,6 +32,7 @@ class FqsenResolverTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->fixture = new FqsenResolver();
+        $this->fixture->beforeTraverse([]);
     }
 
     /**
@@ -38,12 +40,20 @@ class FqsenResolverTest extends \PHPUnit_Framework_TestCase
      */
     public function testFunctionWithoutNamespace()
     {
-        $resolver = new FqsenResolver();
-
         $function = new Function_('myFunction');
-        $resolver->beforeTraverse(array($function));
-        $resolver->enterNode($function);
+        $this->fixture->enterNode($function);
 
         $this->assertEquals('\::myFunction()', (string)$function->fqsen);
+    }
+
+    /**
+     * @covers ::enterNode
+     */
+    public function testWithClass()
+    {
+        $class = new Class_('myClass');
+        $this->fixture->enterNode($class);
+
+        $this->assertEquals('\myClass', (string)$class->fqsen);
     }
 }

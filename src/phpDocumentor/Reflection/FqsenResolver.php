@@ -72,13 +72,13 @@ final class FqsenResolver extends NodeVisitorAbstract
     {
         switch (get_class($node)) {
             case Namespace_::class:
-                $this->resetState('\\' . $node->name);
+                $this->resetState('\\' . $node->name . '\\');
                 $node->fqsen = new Fqsen($this->buildName());
                 break;
             case Class_::class:
             case Trait_::class:
             case Interface_::class:
-                $this->parts->push('\\' . (string)$node->name);
+                $this->parts->push((string)$node->name);
                 $node->fqsen = new Fqsen($this->buildName());
                 break;
             case Function_::class:
@@ -119,6 +119,6 @@ final class FqsenResolver extends NodeVisitorAbstract
         foreach ($this->parts as $part) {
             $name .= $part;
         }
-        return $name;
+        return rtrim($name, '\\');
     }
 }
