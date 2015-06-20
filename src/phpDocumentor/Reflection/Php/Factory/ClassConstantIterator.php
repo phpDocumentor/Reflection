@@ -27,7 +27,7 @@ final class ClassConstantIterator implements \Iterator
      */
     private $classConstants;
 
-    /** @var int index of the current propertyProperty to use */
+    /** @var int index of the current ClassConst to use */
     private $index = 0;
 
     /**
