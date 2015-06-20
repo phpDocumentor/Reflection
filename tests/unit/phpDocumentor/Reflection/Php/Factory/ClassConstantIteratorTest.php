@@ -14,6 +14,7 @@
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use Mockery as m;
+use phpDocumentor\Reflection\Fqsen;
 use PhpParser\Node\Const_;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\ClassConst;
@@ -32,17 +33,22 @@ class ClassConstantIteratorTest extends \PHPUnit_Framework_TestCase
      * @covers ::valid()
      * @covers ::rewind()
      * @covers ::getName()
+     * @covers ::getFqsen()
      */
     public function testIterateProps()
     {
         $const1 = new Const_('\Space\MyClass::MY_CONST1', new Variable('a'));
+        $const1->fqsen = new Fqsen($const1->name);
         $const2 = new Const_('\Space\MyClass::MY_CONST2', new Variable('b'));
+        $const2->fqsen = new Fqsen($const2->name);
 
         $classConstantNode = new ClassConst([$const1, $const2]);
 
         $i = 1;
         foreach (new ClassConstantIterator($classConstantNode) as $constant) {
             $this->assertEquals('\Space\MyClass::MY_CONST' . $i, $constant->getName());
+            $this->assertEquals('\Space\MyClass::MY_CONST' . $i, (string)$constant->getFqsen());
+
             $i++;
         }
     }

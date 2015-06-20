@@ -14,22 +14,21 @@
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use InvalidArgumentException;
-use phpDocumentor\Reflection\Php\Class_ as ClassDescriptor;
-use phpDocumentor\Reflection\Php\Constant;
-use phpDocumentor\Reflection\Php\Method as MethodDescriptor;
-use phpDocumentor\Reflection\Php\Property as PropertyDescriptor;
+use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\Php\Class_ as ClassElement;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_ as ClassNode;
 use PhpParser\Node\Stmt\ClassConst;
+use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property as PropertyNode;
 use PhpParser\Comment\Doc;
 use PhpParser\Node\Stmt\TraitUse;
 
 /**
- * Strategy to create a ClassDescriptor including all sub elements.
+ * Strategy to create a ClassElement including all sub elements.
  */
 final class Class_ implements ProjectFactoryStrategy
 {
@@ -46,13 +45,13 @@ final class Class_ implements ProjectFactoryStrategy
     }
 
     /**
-     * Creates an ClassDescriptor out of the given object.
+     * Creates an ClassElement out of the given object.
      * Since an object might contain other objects that need to be converted the $factory is passed so it can be
      * used to create nested Elements.
      *
      * @param ClassNode $object object to convert to an Element
      * @param StrategyContainer $strategies used to convert nested objects.
-     * @return ClassDescriptor
+     * @return ClassElement
      */
     public function create($object, StrategyContainer $strategies)
     {
@@ -67,8 +66,8 @@ final class Class_ implements ProjectFactoryStrategy
 
         $docBlock = $this->createDocBlock($object->getDocComment(), $strategies);
 
-        $classDescriptor = new ClassDescriptor(
-            new Fqsen('\\' . $object->name),
+        $classElement = new ClassElement(
+            $object->fqsen,
             $docBlock,
             $object->extends ? new Fqsen('\\' . $object->extends) : null,
             $object->isAbstract(),
@@ -77,7 +76,7 @@ final class Class_ implements ProjectFactoryStrategy
 
         if (isset($object->implements)) {
             foreach ($object->implements as $interfaceClassName) {
-                $classDescriptor->addInterface(
+                $classElement->addInterface(
                     new Fqsen('\\' . $interfaceClassName->toString())
                 );
             }
@@ -88,51 +87,44 @@ final class Class_ implements ProjectFactoryStrategy
                 switch (get_class($stmt)) {
                     case TraitUse::class:
                         foreach ($stmt->traits as $use) {
-                            $classDescriptor->addUsedTrait(new Fqsen('\\'. $use->toString()));
+                            $classElement->addUsedTrait(new Fqsen('\\'. $use->toString()));
                         }
                         break;
                     case PropertyNode::class:
                         $properties = new PropertyIterator($stmt);
                         foreach ($properties as $property) {
-                            $this->addCreateAndMember($property, $strategies, $classDescriptor);
+                            $element = $this->createMember($property, $strategies);
+                            $classElement->addProperty($element);
                         }
+                        break;
+                    case ClassMethod::class:
+                        $method = $this->createMember($stmt, $strategies);
+                        $classElement->addMethod($method);
                         break;
                     case ClassConst::class:
                         $constants = new ClassConstantIterator($stmt);
                         foreach ($constants as $const) {
-                            $this->addCreateAndMember($const, $strategies, $classDescriptor);
+                            $element = $this->createMember($const, $strategies);
+                            $classElement->addConstant($element);
                         }
-                        break;
-                    default :
-                        $this->addCreateAndMember($stmt, $strategies, $classDescriptor);
                         break;
                 }
             }
         }
 
-        return $classDescriptor;
+        return $classElement;
     }
 
     /**
      * @param Node|PropertyIterator|ClassConstantIterator $stmt
      * @param StrategyContainer $strategies
-     * @param ClassDescriptor $classDescriptor
+     *
+     * @return Element
      */
-    private function addCreateAndMember($stmt, StrategyContainer $strategies, ClassDescriptor $classDescriptor)
+    private function createMember($stmt, StrategyContainer $strategies)
     {
         $strategy = $strategies->findMatching($stmt);
-        $descriptor = $strategy->create($stmt, $strategies);
-        switch (get_class($descriptor)) {
-            case MethodDescriptor::class:
-                $classDescriptor->addMethod($descriptor);
-                break;
-            case PropertyDescriptor::class:
-                $classDescriptor->addProperty($descriptor);
-                break;
-            case Constant::class:
-                $classDescriptor->addConstant($descriptor);
-                break;
-        }
+        return $strategy->create($stmt, $strategies);
     }
 
 

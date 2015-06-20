@@ -205,8 +205,9 @@ class Class_Test extends TestCase
      */
     public function testWithConstants()
     {
-        $conts = new Const_('\Space\MyClass::MY_CONST', new Variable('a'));
-        $constant = new ClassConst([$conts]);
+        $const = new Const_('\Space\MyClass::MY_CONST', new Variable('a'));
+        $constant = new ClassConst([$const]);
+
         $result = new ConstantElement(new Fqsen('\Space\MyClass::MY_CONST'));
         $strategiesMock = m::mock(StrategyContainer::class);
         $strategiesMock->shouldReceive('findMatching->create')
@@ -260,7 +261,7 @@ class Class_Test extends TestCase
     private function buildClassMock()
     {
         $classMock = m::mock(ClassNode::class);
-        $classMock->name = 'Space\MyClass';
+        $classMock->fqsen = new Fqsen('\Space\MyClass');
         $classMock->shouldReceive('isFinal')->andReturn(true);
         $classMock->shouldReceive('isAbstract')->andReturn(true);
         return $classMock;

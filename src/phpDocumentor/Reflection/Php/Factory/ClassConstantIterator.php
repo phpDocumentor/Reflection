@@ -13,6 +13,7 @@
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
+use phpDocumentor\Reflection\Fqsen;
 use PhpParser\Comment\Doc;
 use PhpParser\Node\Stmt\ClassConst;
 
@@ -39,7 +40,6 @@ final class ClassConstantIterator implements \Iterator
         $this->classConstants = $classConst;
     }
 
-
     /**
      * Gets line the node started in.
      *
@@ -58,6 +58,16 @@ final class ClassConstantIterator implements \Iterator
     public function getName()
     {
        return $this->classConstants->consts[$this->index]->name;
+    }
+
+    /**
+     * Returns the fqsen of the current constant.
+     *
+     * @return Fqsen
+     */
+    public function getFqsen()
+    {
+        return $this->classConstants->consts[$this->index]->fqsen;
     }
 
     /**
