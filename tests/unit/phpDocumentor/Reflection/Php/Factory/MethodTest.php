@@ -11,7 +11,7 @@
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
-use phpDocumentor\Reflection\Php\Argument;
+use phpDocumentor\Reflection\Php\Argument as ArgumentDescriptor;
 use phpDocumentor\Reflection\DocBlock as DocBlockDescriptor;
 use phpDocumentor\Reflection\Php\Method as MethodDescriptor;
 use phpDocumentor\Reflection\Php\Factory;
@@ -94,7 +94,7 @@ class MethodTest extends TestCase
         $containerMock->shouldReceive('findMatching->create')
             ->once()
             ->with('param1', $containerMock)
-            ->andReturn(new Argument('param1'));
+            ->andReturn(new ArgumentDescriptor('param1'));
 
         /** @var MethodDescriptor $method */
         $method = $this->fixture->create($classMethodMock, $containerMock);
