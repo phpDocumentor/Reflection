@@ -14,13 +14,11 @@
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use InvalidArgumentException;
-use phpDocumentor\Reflection\Element;
-use phpDocumentor\Reflection\FqsenResolver;
-use phpDocumentor\Reflection\Php\Function_;
 use phpDocumentor\Reflection\Php\NodesFactory;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use PhpParser\Lexer;
+use PhpParser\Node\Stmt\Class_ as ClassNode;
 use PhpParser\Node\Stmt\Function_ as FunctionNode;
 /**
  * Strategy to create File element from the provided filename.
@@ -83,6 +81,12 @@ final class File implements ProjectFactoryStrategy
                     $strategy = $strategies->findMatching($node);
                     $function = $strategy->create($node, $strategies);
                     $file->addFunction($function);
+                    break;
+                case ClassNode::class:
+                    $strategy = $strategies->findMatching($node);
+                    $class = $strategy->create($node, $strategies);
+                    $file->addClass($class);
+                    break;
             }
         }
 

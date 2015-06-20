@@ -14,10 +14,14 @@
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use Mockery as m;
-use phpDocumentor\Reflection\Php\Function_;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\NodesFactory;
 use phpDocumentor\Reflection\Php\StrategyContainer;
+use phpDocumentor\Reflection\Php\File as FileElement;
+use phpDocumentor\Reflection\Php\Class_ as ClassElement;
+use phpDocumentor\Reflection\Php\Function_ as FunctionElement;
+use PhpParser\Node\Stmt\Class_ as ClassNode;
+use PhpParser\Node\Stmt\Function_ as FunctionNode;
 
 /**
  * Test case for \phpDocumentor\Reflection\Php\Factory\File
@@ -52,7 +56,7 @@ class FileTest extends TestCase
      */
     public function testFileWithFunction()
     {
-        $functionNode = new \PhpParser\Node\Stmt\Function_('myFunction');
+        $functionNode = new FunctionNode('myFunction');
         $this->nodesFactoryMock->shouldReceive('create')
             ->with(file_get_contents(__FILE__))
             ->andReturn(
@@ -65,8 +69,39 @@ class FileTest extends TestCase
         $containerMock->shouldReceive('findMatching->create')
             ->once()
             ->with($functionNode, $containerMock)
-            ->andReturn(new Function_(new Fqsen('\myFunction()')));
+            ->andReturn(new FunctionElement(new Fqsen('\myFunction()')));
 
-        $this->fixture->create(__FILE__, $containerMock);
+        /** @var FileElement $file */
+        $file = $this->fixture->create(__FILE__, $containerMock);
+
+        $this->assertEquals(__FILE__, $file->getPath());
+        $this->assertArrayHasKey('\myFunction()', $file->getFunctions());
+    }
+
+    /**
+     * @covers ::create
+     */
+    public function testFileWithClass()
+    {
+        $classNode = new ClassNode('myClass');
+        $this->nodesFactoryMock->shouldReceive('create')
+            ->with(file_get_contents(__FILE__))
+            ->andReturn(
+                [
+                    $classNode
+                ]
+            );
+
+        $containerMock = m::mock(StrategyContainer::class);
+        $containerMock->shouldReceive('findMatching->create')
+            ->once()
+            ->with($classNode, $containerMock)
+            ->andReturn(new ClassElement(new Fqsen('\myClass')));
+
+        /** @var FileElement $file */
+        $file = $this->fixture->create(__FILE__, $containerMock);
+
+        $this->assertEquals(__FILE__, $file->getPath());
+        $this->assertArrayHasKey('\myClass', $file->getClasses());
     }
 }
