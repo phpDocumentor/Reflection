@@ -11,6 +11,9 @@
         <testsuite name="unit">
             <directory>./tests/unit/</directory>
         </testsuite>
+        <testsuite name="component">
+            <directory>./tests/component/</directory>
+        </testsuite>
     </testsuites>
     <filter>
         <whitelist>
