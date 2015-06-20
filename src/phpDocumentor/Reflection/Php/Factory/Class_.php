@@ -14,10 +14,10 @@
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use InvalidArgumentException;
-use phpDocumentor\Descriptor\Class_ as ClassDescriptor;
-use phpDocumentor\Descriptor\Constant;
-use phpDocumentor\Descriptor\Method as MethodDescriptor;
-use phpDocumentor\Descriptor\Property as PropertyDescriptor;
+use phpDocumentor\Reflection\Php\Class_ as ClassDescriptor;
+use phpDocumentor\Reflection\Php\Constant;
+use phpDocumentor\Reflection\Php\Method as MethodDescriptor;
+use phpDocumentor\Reflection\Php\Property as PropertyDescriptor;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;

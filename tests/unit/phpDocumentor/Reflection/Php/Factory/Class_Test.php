@@ -14,20 +14,20 @@
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use Mockery as m;
-use phpDocumentor\Descriptor\Constant;
-use phpDocumentor\Descriptor\Method;
+use phpDocumentor\Reflection\Php\Property as PropertyElement;
+use phpDocumentor\Reflection\Php\Constant as ConstantElement;
+use phpDocumentor\Reflection\Php\Method as MethodElement;
+use phpDocumentor\Reflection\Php\Class_ as ClassElement;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\StrategyContainer;
-use phpDocumentor\Reflection\DocBlock as DocBlockDescriptor;
+use phpDocumentor\Reflection\DocBlock as DocBlockElement;
 use PhpParser\Node\Const_;
-use PhpParser\Node\Expr\Cast\String_;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_ as ClassNode;
-use phpDocumentor\Descriptor\Class_ as ClassDescriptor;
 use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassMethod;
-use PhpParser\Node\Stmt\Property;
+use PhpParser\Node\Stmt\Property as PropertyNode;
 use PhpParser\Node\Stmt\PropertyProperty;
 use PhpParser\Comment\Doc;
 use PhpParser\Node\Stmt\TraitUse;
@@ -62,10 +62,10 @@ class Class_Test extends TestCase
         $classMock = $this->buildClassMock();
         $classMock->shouldReceive('getDocComment')->andReturnNull();
 
-        /** @var ClassDescriptor $class */
+        /** @var ClassElement $class */
         $class = $this->fixture->create($classMock, $strategiesMock);
 
-        $this->assertInstanceOf(ClassDescriptor::class, $class);
+        $this->assertInstanceOf(ClassElement::class, $class);
         $this->assertEquals('\Space\MyClass', (string)$class->getFqsen());
         $this->assertNull($class->getParent());
         $this->assertTrue($class->isFinal());
@@ -82,10 +82,10 @@ class Class_Test extends TestCase
         $classMock->shouldReceive('getDocComment')->andReturnNull();
         $classMock->extends = 'Space\MyParent';
 
-        /** @var ClassDescriptor $class */
+        /** @var ClassElement $class */
         $class = $this->fixture->create($classMock, $strategiesMock);
 
-        $this->assertInstanceOf(ClassDescriptor::class, $class);
+        $this->assertInstanceOf(ClassElement::class, $class);
         $this->assertEquals('\Space\MyClass', (string)$class->getFqsen());
         $this->assertEquals('\Space\MyParent', (string)$class->getParent());
     }
@@ -103,10 +103,10 @@ class Class_Test extends TestCase
             new Name('MyInterface')
         ];
 
-        /** @var ClassDescriptor $class */
+        /** @var ClassElement $class */
         $class = $this->fixture->create($classMock, $strategiesMock);
 
-        $this->assertInstanceOf(ClassDescriptor::class, $class);
+        $this->assertInstanceOf(ClassElement::class, $class);
         $this->assertEquals('\Space\MyClass', (string)$class->getFqsen());
 
         $this->assertEquals(
@@ -121,7 +121,7 @@ class Class_Test extends TestCase
     public function testWithMethodMembers()
     {
         $method1 = new ClassMethod('MyClass::method1');
-        $method1Descriptor = new Method(new Fqsen('\MyClass::method1'));
+        $method1Descriptor = new MethodElement(new Fqsen('\MyClass::method1'));
         $strategiesMock = m::mock(StrategyContainer::class);
         $classMock = $this->buildClassMock();
         $classMock->shouldReceive('getDocComment')->andReturnNull();
@@ -136,7 +136,7 @@ class Class_Test extends TestCase
         /** @var ClassDescriptor $class */
         $class = $this->fixture->create($classMock, $strategiesMock);
 
-        $this->assertInstanceOf(ClassDescriptor::class, $class);
+        $this->assertInstanceOf(ClassElement::class, $class);
         $this->assertEquals('\Space\MyClass', (string)$class->getFqsen());
         $this->assertEquals(
             ['\MyClass::method1' => $method1Descriptor],
@@ -150,8 +150,8 @@ class Class_Test extends TestCase
     public function testWithPropertyMembers()
     {
         $propertyProperty = new PropertyProperty('\MyClass::$property');
-        $property = new Property(1, [$propertyProperty] );
-        $propertyDescriptor = new \phpDocumentor\Descriptor\Property(new Fqsen('\MyClass::$property'));
+        $property = new PropertyNode(1, [$propertyProperty] );
+        $propertyDescriptor = new PropertyElement(new Fqsen('\MyClass::$property'));
         $strategiesMock = m::mock(StrategyContainer::class);
         $classMock = $this->buildClassMock();
         $classMock->shouldReceive('getDocComment')->andReturnNull();
@@ -163,10 +163,10 @@ class Class_Test extends TestCase
 
         $this->fixture->create($classMock, $strategiesMock);
 
-        /** @var ClassDescriptor $class */
+        /** @var ClassElement $class */
         $class = $this->fixture->create($classMock, $strategiesMock);
 
-        $this->assertInstanceOf(ClassDescriptor::class, $class);
+        $this->assertInstanceOf(ClassElement::class, $class);
         $this->assertEquals('\Space\MyClass', (string)$class->getFqsen());
         $this->assertEquals(
             ['\MyClass::$property' => $propertyDescriptor],
@@ -188,7 +188,7 @@ class Class_Test extends TestCase
             $trait
         ];
 
-        /** @var ClassDescriptor $class */
+        /** @var ClassElement $class */
         $class = $this->fixture->create($classMock, $strategiesMock);
 
         $this->assertEquals(
@@ -207,7 +207,7 @@ class Class_Test extends TestCase
     {
         $conts = new Const_('\Space\MyClass::MY_CONST', new Variable('a'));
         $constant = new ClassConst([$conts]);
-        $result = new Constant(new Fqsen('\Space\MyClass::MY_CONST'));
+        $result = new ConstantElement(new Fqsen('\Space\MyClass::MY_CONST'));
         $strategiesMock = m::mock(StrategyContainer::class);
         $strategiesMock->shouldReceive('findMatching->create')
             ->with(m::type(ClassConstantIterator::class), $strategiesMock)
@@ -218,7 +218,7 @@ class Class_Test extends TestCase
             $constant
         ];
 
-        /** @var ClassDescriptor $class */
+        /** @var ClassElement $class */
         $class = $this->fixture->create($classMock, $strategiesMock);
 
         $this->assertEquals(
@@ -238,7 +238,7 @@ class Class_Test extends TestCase
         $classMock = $this->buildClassMock();
         $classMock->shouldReceive('getDocComment')->andReturn($doc);
 
-        $docBlock = new DocBlockDescriptor('');
+        $docBlock = new DocBlockElement('');
 
         $containerMock = m::mock(StrategyContainer::class);
         $containerMock->shouldReceive('findMatching->create')
@@ -246,7 +246,7 @@ class Class_Test extends TestCase
             ->with($doc, $containerMock)
             ->andReturn($docBlock);
 
-        /** @var ClassDescriptor $class */
+        /** @var ClassElement $class */
         $class = $this->fixture->create($classMock, $containerMock);
 
         $this->assertSame($docBlock, $class->getDocBlock());
