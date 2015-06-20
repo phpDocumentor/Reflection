@@ -20,8 +20,10 @@ use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Php\File as FileElement;
 use phpDocumentor\Reflection\Php\Class_ as ClassElement;
 use phpDocumentor\Reflection\Php\Function_ as FunctionElement;
+use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_ as ClassNode;
 use PhpParser\Node\Stmt\Function_ as FunctionNode;
+use PhpParser\Node\Stmt\Namespace_ as NamespaceNode;
 
 /**
  * Test case for \phpDocumentor\Reflection\Php\Factory\File
@@ -103,5 +105,29 @@ class FileTest extends TestCase
 
         $this->assertEquals(__FILE__, $file->getPath());
         $this->assertArrayHasKey('\myClass', $file->getClasses());
+    }
+
+    /**
+     * @covers ::create
+     */
+    public function testFileWithNamespace()
+    {
+        $namespaceNode = new NamespaceNode(new Name('mySpace'));
+        $namespaceNode->fqsen = new Fqsen('\mySpace');
+        $this->nodesFactoryMock->shouldReceive('create')
+            ->with(file_get_contents(__FILE__))
+            ->andReturn(
+                [
+                    $namespaceNode
+                ]
+            );
+
+        $containerMock = m::mock(StrategyContainer::class);
+
+        /** @var FileElement $file */
+        $file = $this->fixture->create(__FILE__, $containerMock);
+
+        $this->assertEquals(__FILE__, $file->getPath());
+        $this->assertArrayHasKey('mySpace', $file->getNamespaceAliases());
     }
 }

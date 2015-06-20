@@ -14,12 +14,16 @@
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use InvalidArgumentException;
+use phpDocumentor\Reflection\Php\File as FileElement;
 use phpDocumentor\Reflection\Php\NodesFactory;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use PhpParser\Lexer;
+use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_ as ClassNode;
 use PhpParser\Node\Stmt\Function_ as FunctionNode;
+use PhpParser\Node\Stmt\Namespace_ as NamespaceNode;
+
 /**
  * Strategy to create File element from the provided filename.
  */
@@ -73,24 +77,37 @@ final class File implements ProjectFactoryStrategy
         $code = file_get_contents($object);
         $nodes = $this->nodesFactory->create($code);
 
-        $file = new \phpDocumentor\Reflection\Php\File(md5_file($object), $object, $code);
+        $file = new FileElement(md5_file($object), $object, $code);
 
+        $this->createElements($nodes, $file, $strategies);
+
+        return $file;
+    }
+
+    /**
+     * @param Node[] $nodes
+     * @param FileElement $file
+     * @param StrategyContainer $strategies
+     */
+    private function createElements($nodes, FileElement $file, StrategyContainer $strategies)
+    {
         foreach ($nodes as $node) {
             switch (get_class($node)) {
-                case FunctionNode::class:
-                    $strategy = $strategies->findMatching($node);
-                    $function = $strategy->create($node, $strategies);
-                    $file->addFunction($function);
-                    break;
                 case ClassNode::class:
                     $strategy = $strategies->findMatching($node);
                     $class = $strategy->create($node, $strategies);
                     $file->addClass($class);
                     break;
+                case FunctionNode::class:
+                    $strategy = $strategies->findMatching($node);
+                    $function = $strategy->create($node, $strategies);
+                    $file->addFunction($function);
+                    break;
+                case NamespaceNode::class:
+                    $file->addNamespaceAlias($node->fqsen->getName(), $node->fqsen);
+                    $this->createElements($node->stmts, $file, $strategies);
+                    break;
             }
         }
-
-
-        return $file;
     }
 }
