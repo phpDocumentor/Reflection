@@ -20,6 +20,7 @@ use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Php\Visibility;
 use phpDocumentor\Reflection\PrettyPrinter;
+use PhpParser\Comment\Doc;
 use PhpParser\Node\Stmt\Property as PropertyNode;
 
 /**
@@ -80,8 +81,9 @@ final class Property implements ProjectFactoryStrategy
 
         $visibility = $this->buildVisibility($object);
         $default = $this->valueConverter->prettyPrintExpr($object->default);
+        $docBlock = $this->createDocBlock($object->getDocComment(), $strategies);
 
-        return new PropertyDescriptor(new Fqsen($object->name), $visibility, null, $default, $object->isStatic());
+        return new PropertyDescriptor(new Fqsen($object->name), $visibility, $docBlock, $default, $object->isStatic());
     }
 
     /**
@@ -99,5 +101,20 @@ final class Property implements ProjectFactoryStrategy
         }
 
         return new Visibility(Visibility::PUBLIC_);
+    }
+
+    /**
+     * @param Doc $docBlock
+     * @param StrategyContainer $strategies
+     * @return null|\phpDocumentor\Reflection\DocBlock
+     */
+    private function createDocBlock(Doc $docBlock = null, StrategyContainer $strategies)
+    {
+        if ($docBlock === null) {
+            return null;
+        }
+
+        $strategy = $strategies->findMatching($docBlock);
+        return $strategy->create($docBlock, $strategies);
     }
 }

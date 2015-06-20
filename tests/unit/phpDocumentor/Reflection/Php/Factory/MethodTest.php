@@ -12,10 +12,12 @@
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use phpDocumentor\Reflection\Php\Argument;
+use phpDocumentor\Reflection\DocBlock as DocBlockDescriptor;
 use phpDocumentor\Reflection\Php\Method as MethodDescriptor;
 use phpDocumentor\Reflection\Php\Factory;
 use Mockery as m;
 use phpDocumentor\Reflection\Php\StrategyContainer;
+use PhpParser\Comment\Doc;
 use PhpParser\Node\Stmt\ClassMethod;
 
 /**
@@ -48,6 +50,7 @@ class MethodTest extends TestCase
         $classMethodMock->params = [];
         $classMethodMock->shouldReceive('isPrivate')->once()->andReturn(false);
         $classMethodMock->shouldReceive('isProtected')->once()->andReturn(false);
+        $classMethodMock->shouldReceive('getDocComment')->once()->andReturnNull();
 
         $containerMock = m::mock(StrategyContainer::class);
         $containerMock->shouldReceive('findMatching')->never();
@@ -65,6 +68,7 @@ class MethodTest extends TestCase
         $classMethodMock->params = [];
         $classMethodMock->shouldReceive('isPrivate')->once()->andReturn(false);
         $classMethodMock->shouldReceive('isProtected')->once()->andReturn(true);
+        $classMethodMock->shouldReceive('getDocComment')->once()->andReturnNull();
 
         $containerMock = m::mock(StrategyContainer::class);
         $containerMock->shouldReceive('findMatching')->never();
@@ -84,6 +88,7 @@ class MethodTest extends TestCase
         $classMethodMock = $this->buildClassMethodMock();
         $classMethodMock->params = array('param1');
         $classMethodMock->shouldReceive('isPrivate')->once()->andReturn(true);
+        $classMethodMock->shouldReceive('getDocComment')->once()->andReturnNull();
 
         $containerMock = m::mock(StrategyContainer::class);
         $containerMock->shouldReceive('findMatching->create')
@@ -100,6 +105,33 @@ class MethodTest extends TestCase
         $this->assertTrue($method->isStatic());
         $this->assertEquals('private', (string)$method->getVisibility());
     }
+
+    /**
+     * @covers ::create
+     */
+    public function testCreateWithDocBlock()
+    {
+        $doc = m::mock(Doc::class);
+        $classMethodMock = $this->buildClassMethodMock();
+        $classMethodMock->params = array();
+        $classMethodMock->shouldReceive('isPrivate')->once()->andReturn(true);
+        $classMethodMock->shouldReceive('getDocComment')->andReturn($doc);
+
+        $docBlock = new DocBlockDescriptor('');
+
+        $containerMock = m::mock(StrategyContainer::class);
+        $containerMock->shouldReceive('findMatching->create')
+            ->once()
+            ->with($doc, $containerMock)
+            ->andReturn($docBlock);
+
+        /** @var MethodDescriptor $method */
+        $method = $this->fixture->create($classMethodMock, $containerMock);
+
+        $this->assertEquals('\SomeSpace\Class::function()', (string)$method->getFqsen());
+        $this->assertSame($docBlock, $method->getDocBlock());
+    }
+
 
     private function buildClassMethodMock()
     {

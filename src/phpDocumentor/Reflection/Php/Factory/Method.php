@@ -18,6 +18,7 @@ use phpDocumentor\Reflection\Php\Method as MethodDescriptor;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Php\Visibility;
+use PhpParser\Comment\Doc;
 use PhpParser\Node\Stmt\ClassMethod;
 
 /**
@@ -58,10 +59,12 @@ final class Method implements ProjectFactoryStrategy
             );
         }
 
+        $docBlock = $this->createDocBlock($object->getDocComment(), $strategies);
+
         $method = new MethodDescriptor(
             new Fqsen($object->name . '()'),
             $this->buildVisibility($object),
-            null,
+            $docBlock,
             $object->isAbstract(),
             $object->isStatic(),
             $object->isFinal()
@@ -90,5 +93,20 @@ final class Method implements ProjectFactoryStrategy
         }
 
         return new Visibility(Visibility::PUBLIC_);
+    }
+
+    /**
+     * @param Doc $docBlock
+     * @param StrategyContainer $strategies
+     * @return null|\phpDocumentor\Reflection\DocBlock
+     */
+    private function createDocBlock(Doc $docBlock = null, StrategyContainer $strategies)
+    {
+        if ($docBlock === null) {
+            return null;
+        }
+
+        $strategy = $strategies->findMatching($docBlock);
+        return $strategy->create($docBlock, $strategies);
     }
 }
