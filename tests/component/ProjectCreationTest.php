@@ -12,6 +12,9 @@
 
 namespace phpDocumentor\Reflection;
 
+use Mockery as m;
+use phpDocumentor\Reflection\Php\Factory\Class_;
+use phpDocumentor\Reflection\Php\Factory\DocBlock as DocBlockFactory;
 use phpDocumentor\Reflection\Php\Factory\File;
 use phpDocumentor\Reflection\Php\Factory\Function_;
 use phpDocumentor\Reflection\Php\NodesFactory;
@@ -24,21 +27,48 @@ use phpDocumentor\Reflection\Php\ProjectFactory;
  */
 class ProjectCreationTest extends \PHPUnit_Framework_TestCase
 {
-    public function testCreateProjectWithFunctions()
+    /**
+     * @var ProjectFactory
+     */
+    private $fixture;
+
+    protected function setUp()
     {
-        $fileName = __DIR__ . '/project/simpleFunction.php';
-        $projectFactory = new ProjectFactory(
+        //TODO replace this by a real factory
+        $docblockFactory = m::mock(DocBlockFactoryInterface::class);
+        $docblockFactory->shouldReceive('create')->andReturnNull();
+
+        $this->fixture = new ProjectFactory(
             [
                 new File(new NodesFactory()),
                 new Function_(),
+                new Class_(),
+                new DocBlockFactory($docblockFactory),
             ]
         );
+    }
 
-        $project = $projectFactory->create([
+
+    public function testCreateProjectWithFunctions()
+    {
+        $fileName = __DIR__ . '/project/simpleFunction.php';
+
+        $project = $this->fixture->create([
             $fileName
         ]);
 
         $this->assertArrayHasKey($fileName, $project->getFiles());
         $this->assertArrayHasKey('\::simpleFunction()', $project->getFiles()[$fileName]->getFunctions());
+    }
+
+    public function testCreateProjectWithClass()
+    {
+        $fileName = __DIR__ . '/project/Pizza.php';
+        $project = $this->fixture->create([
+            $fileName
+        ]);
+
+        $this->assertArrayHasKey($fileName, $project->getFiles());
+        $this->assertArrayHasKey('\Pizza', $project->getFiles()[$fileName]->getClasses());
     }
 }
