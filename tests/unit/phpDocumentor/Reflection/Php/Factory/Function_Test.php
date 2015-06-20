@@ -11,6 +11,7 @@
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
+use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\Argument;
 use phpDocumentor\Reflection\Php\Function_ as FunctionDescriptor;
 use phpDocumentor\Reflection\DocBlock as DocBlockDescriptor;
@@ -47,7 +48,7 @@ class Function_Test extends TestCase
     public function testCreateWithoutParameters()
     {
         $functionMock = m::mock(\PhpParser\Node\Stmt\Function_::class);
-        $functionMock->name = '\SomeSpace::function()';
+        $functionMock->fqsen = new Fqsen('\SomeSpace::function()');
         $functionMock->params = [];
         $functionMock->shouldReceive('getDocComment')->andReturnNull();
 
@@ -66,7 +67,7 @@ class Function_Test extends TestCase
     public function testCreateWithParameters()
     {
         $functionMock = m::mock(\PhpParser\Node\Stmt\Function_::class);
-        $functionMock->name = '\SomeSpace::function()';
+        $functionMock->fqsen = new Fqsen('\SomeSpace::function()');
         $functionMock->params = array('param1');
         $functionMock->shouldReceive('getDocComment')->andReturnNull();
 
@@ -89,7 +90,7 @@ class Function_Test extends TestCase
     {
         $doc = m::mock(Doc::class);
         $functionMock = m::mock(\PhpParser\Node\Stmt\Function_::class);
-        $functionMock->name = '\SomeSpace::function()';
+        $functionMock->fqsen = new Fqsen('\SomeSpace::function()');
         $functionMock->params = [];
         $functionMock->shouldReceive('getDocComment')->andReturn($doc);
 

@@ -64,7 +64,7 @@ final class Function_ implements ProjectFactoryStrategy
 
         $docBlock = $this->createDocBlock($object->getDocComment(), $strategies);
 
-        $function = new FunctionDescriptor(new Fqsen($object->name), $docBlock);
+        $function = new FunctionDescriptor($object->fqsen, $docBlock);
 
         foreach ($object->params as $param) {
             $strategy = $strategies->findMatching($param);
