@@ -13,11 +13,14 @@
 namespace phpDocumentor\Reflection;
 
 use Mockery as m;
+use phpDocumentor\Reflection\Php\Factory\Argument;
 use phpDocumentor\Reflection\Php\Factory\Class_;
 use phpDocumentor\Reflection\Php\Factory\Constant;
 use phpDocumentor\Reflection\Php\Factory\DocBlock as DocBlockFactory;
 use phpDocumentor\Reflection\Php\Factory\File;
 use phpDocumentor\Reflection\Php\Factory\Function_;
+use phpDocumentor\Reflection\Php\Factory\Method;
+use phpDocumentor\Reflection\Php\Factory\Property;
 use phpDocumentor\Reflection\Php\NodesFactory;
 use phpDocumentor\Reflection\Php\ProjectFactory;
 
@@ -41,11 +44,14 @@ class ProjectCreationTest extends \PHPUnit_Framework_TestCase
 
         $this->fixture = new ProjectFactory(
             [
+                new Argument(),
                 new Class_(),
                 new Constant(),
                 new DocBlockFactory($docblockFactory),
                 new File(new NodesFactory()),
                 new Function_(),
+                new Method(),
+                new Property(new PrettyPrinter()),
             ]
         );
     }
