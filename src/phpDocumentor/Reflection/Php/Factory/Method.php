@@ -62,7 +62,7 @@ final class Method implements ProjectFactoryStrategy
         $docBlock = $this->createDocBlock($object->getDocComment(), $strategies);
 
         $method = new MethodDescriptor(
-            new Fqsen($object->name . '()'),
+            $object->fqsen,
             $this->buildVisibility($object),
             $docBlock,
             $object->isAbstract(),

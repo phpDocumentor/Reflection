@@ -11,6 +11,7 @@
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
+use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\Argument as ArgumentDescriptor;
 use phpDocumentor\Reflection\DocBlock as DocBlockDescriptor;
 use phpDocumentor\Reflection\Php\Method as MethodDescriptor;
@@ -136,7 +137,8 @@ class MethodTest extends TestCase
     private function buildClassMethodMock()
     {
         $methodMock = m::mock(ClassMethod::class);
-        $methodMock->name = '\SomeSpace\Class::function';
+        $methodMock->name = 'function';
+        $methodMock->fqsen = new Fqsen('\SomeSpace\Class::function()');
 
         $methodMock->shouldReceive('isStatic')->once()->andReturn(true);
         $methodMock->shouldReceive('isFinal')->once()->andReturn(true);

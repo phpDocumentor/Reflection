@@ -11,6 +11,7 @@
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
+use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\Property as PropertyDescriptor;
 use phpDocumentor\Reflection\DocBlock as DocBlockDescriptor;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategies;
@@ -19,7 +20,9 @@ use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\PrettyPrinter;
 use PhpParser\Comment\Doc;
 use PhpParser\Node\Scalar\String_;
+use PhpParser\Node\Stmt\Class_ as ClassNode;
 use PhpParser\Node\Stmt\Property as PropertyNode;
+use PhpParser\Node\Stmt\PropertyProperty;
 
 /**
  * Class ArgumentTest
@@ -40,7 +43,7 @@ class PropertyTest extends TestCase
     public function testMatches()
     {
         $this->assertFalse($this->fixture->matches(new \stdClass()));
-        $this->assertTrue($this->fixture->matches(m::mock(PropertyNode::class)));
+        $this->assertTrue($this->fixture->matches(new PropertyIterator(new PropertyNode(1, []))));
     }
 
     /**
@@ -50,9 +53,7 @@ class PropertyTest extends TestCase
     {
         $factory = new ProjectFactoryStrategies(array());
 
-        $propertyMock = $this->buildPropertyMock();
-        $propertyMock->shouldReceive('isPrivate')->once()->andReturn(true);
-        $propertyMock->shouldReceive('getDocComment')->once()->andReturnNull();
+        $propertyMock = $this->buildPropertyMock(ClassNode::MODIFIER_PRIVATE);
 
         /** @var PropertyDescriptor $property */
         $property = $this->fixture->create($propertyMock, $factory);
@@ -67,10 +68,7 @@ class PropertyTest extends TestCase
     {
         $factory = new ProjectFactoryStrategies(array());
 
-        $propertyMock = $this->buildPropertyMock();
-        $propertyMock->shouldReceive('isPrivate')->once()->andReturn(false);
-        $propertyMock->shouldReceive('isProtected')->once()->andReturn(true);
-        $propertyMock->shouldReceive('getDocComment')->once()->andReturnNull();
+        $propertyMock = $this->buildPropertyMock(ClassNode::MODIFIER_PROTECTED);
 
         /** @var PropertyDescriptor $property */
         $property = $this->fixture->create($propertyMock, $factory);
@@ -85,10 +83,7 @@ class PropertyTest extends TestCase
     {
         $factory = new ProjectFactoryStrategies(array());
 
-        $propertyMock = $this->buildPropertyMock();
-        $propertyMock->shouldReceive('isPrivate')->once()->andReturn(false);
-        $propertyMock->shouldReceive('isProtected')->once()->andReturn(false);
-        $propertyMock->shouldReceive('getDocComment')->once()->andReturnNull();
+        $propertyMock = $this->buildPropertyMock(ClassNode::MODIFIER_PUBLIC);
 
         /** @var PropertyDescriptor $property */
         $property = $this->fixture->create($propertyMock, $factory);
@@ -102,11 +97,13 @@ class PropertyTest extends TestCase
     public function testCreateWithDocBlock()
     {
         $doc = m::mock(Doc::class);
-        $propertyMock = $this->buildPropertyMock();
-        $propertyMock->shouldReceive('isPrivate')->once()->andReturn(true);
-        $propertyMock->shouldReceive('getDocComment')->andReturn($doc);
-
         $docBlock = new DocBlockDescriptor('');
+
+        $property = new PropertyProperty('property', new String_('MyDefault'), ['comments' => [$doc]]);
+        $property->fqsen = new Fqsen('\myClass::$property');
+        $node = new PropertyNode(ClassNode::MODIFIER_PRIVATE | ClassNode::MODIFIER_STATIC, [$property]);
+
+        $propertyMock = new PropertyIterator($node);
 
         $containerMock = m::mock(StrategyContainer::class);
         $containerMock->shouldReceive('findMatching->create')
@@ -125,12 +122,12 @@ class PropertyTest extends TestCase
     /**
      * @return m\MockInterface
      */
-    private function buildPropertyMock()
+    private function buildPropertyMock($modifier)
     {
-        $propertyMock = m::mock(PropertyNode::class);
-        $propertyMock->name = '\myClass::$property';
-        $propertyMock->default = new String_('MyDefault');
-        $propertyMock->shouldReceive('isStatic')->andReturn(true);
+        $property = new PropertyProperty('property', new String_('MyDefault'));
+        $property->fqsen = new Fqsen('\myClass::$property');
+        $propertyMock = new PropertyIterator(new PropertyNode($modifier | ClassNode::MODIFIER_STATIC, [$property]));
+
         return $propertyMock;
     }
 

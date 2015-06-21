@@ -21,13 +21,12 @@ use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Php\Visibility;
 use phpDocumentor\Reflection\PrettyPrinter;
 use PhpParser\Comment\Doc;
-use PhpParser\Node\Stmt\Property as PropertyNode;
 
 /**
- * Strategy to convert Param to Argument
+ * Strategy to convert PropertyIterator to PropertyDescriptor
  *
  * @see PropertyDescriptor
- * @see PropertyNode
+ * @see PropertyIterator
  */
 final class Property implements ProjectFactoryStrategy
 {
@@ -54,7 +53,7 @@ final class Property implements ProjectFactoryStrategy
      */
     public function matches($object)
     {
-        return $object instanceof PropertyNode;
+        return $object instanceof PropertyIterator;
     }
 
     /**
@@ -62,7 +61,7 @@ final class Property implements ProjectFactoryStrategy
      * Since an object might contain other objects that need to be converted the $factory is passed so it can be
      * used to create nested Elements.
      *
-     * @param PropertyNode $object object to convert to an PropertyDescriptor
+     * @param PropertyIterator $object object to convert to an PropertyDescriptor
      * @param StrategyContainer $strategies used to convert nested objects.
      * @return PropertyDescriptor
      *
@@ -80,19 +79,22 @@ final class Property implements ProjectFactoryStrategy
         }
 
         $visibility = $this->buildVisibility($object);
-        $default = $this->valueConverter->prettyPrintExpr($object->default);
+        $default = null;
+        if ($object->getDefault() !== null) {
+            $default = $this->valueConverter->prettyPrintExpr($object->getDefault());
+        }
         $docBlock = $this->createDocBlock($object->getDocComment(), $strategies);
 
-        return new PropertyDescriptor(new Fqsen($object->name), $visibility, $docBlock, $default, $object->isStatic());
+        return new PropertyDescriptor($object->getFqsen(), $visibility, $docBlock, $default, $object->isStatic());
     }
 
     /**
      * Converts the visibility of the property to a valid Visibility object.
      *
-     * @param PropertyNode $node
+     * @param PropertyIterator $node
      * @return Visibility
      */
-    private function buildVisibility(PropertyNode $node)
+    private function buildVisibility(PropertyIterator $node)
     {
         if ($node->isPrivate()) {
             return new Visibility(Visibility::PRIVATE_);
