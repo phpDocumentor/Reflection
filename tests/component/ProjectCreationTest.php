@@ -91,5 +91,17 @@ class ProjectCreationTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey($fileName, $project->getFiles());
         $this->assertArrayHasKey('\\Luigi\\Pizza', $project->getFiles()[$fileName]->getClasses());
         $this->assertEquals('\Pizza', $project->getFiles()[$fileName]->getClasses()['\\Luigi\\Pizza']->getParent());
+        $this->assertArrayHasKey(
+            '\\Luigi\\Pizza::$instance',
+            $project->getFiles()[$fileName]->getClasses()['\\Luigi\\Pizza']->getProperties()
+        );
+
+        $methods = $project->getFiles()[$fileName]->getClasses()['\\Luigi\\Pizza']->getMethods();
+        $this->assertArrayHasKey(
+            '\\Luigi\\Pizza::__construct()',
+            $methods
+        );
+
+        $this->assertEquals('style', $methods['\\Luigi\\Pizza::__construct()']->getArguments()[0]->getName());
     }
 }
