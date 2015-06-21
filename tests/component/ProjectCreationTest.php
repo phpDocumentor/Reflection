@@ -84,5 +84,6 @@ class ProjectCreationTest extends \PHPUnit_Framework_TestCase
 
         $this->assertArrayHasKey($fileName, $project->getFiles());
         $this->assertArrayHasKey('\\Luigi\\Pizza', $project->getFiles()[$fileName]->getClasses());
+        $this->assertEquals('\Pizza', $project->getFiles()[$fileName]->getClasses()['\\Luigi\\Pizza']->getParent());
     }
 }

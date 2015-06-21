@@ -14,7 +14,7 @@
 namespace Luigi;
 
 
-class Pizza
+class Pizza extends \Pizza
 {
 
 }
