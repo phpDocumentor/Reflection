@@ -11,7 +11,7 @@
  */
 
 
-namespace phpDocumentor\Reflection;
+namespace phpDocumentor\Reflection\NodeVisitor;
 
 
 use PhpParser\Node\Stmt\Class_;
@@ -19,10 +19,10 @@ use PhpParser\Node\Stmt\Function_;
 
 /**
  * Testcase for FqsenResolver
- * @coversDefaultClass phpDocumentor\Reflection\FqsenResolver
+ * @coversDefaultClass phpDocumentor\Reflection\NodeVisitor\ElementNameResolver
  * @covers ::<private>
  */
-class FqsenResolverTest extends \PHPUnit_Framework_TestCase
+class ElementNameResolverTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var FqsenResolver
@@ -31,7 +31,7 @@ class FqsenResolverTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->fixture = new FqsenResolver();
+        $this->fixture = new ElementNameResolver();
         $this->fixture->beforeTraverse([]);
     }
 
@@ -43,7 +43,7 @@ class FqsenResolverTest extends \PHPUnit_Framework_TestCase
         $function = new Function_('myFunction');
         $this->fixture->enterNode($function);
 
-        $this->assertEquals('\::myFunction()', (string)$function->fqsen);
+        $this->assertEquals('\myFunction()', (string)$function->fqsen);
     }
 
     /**

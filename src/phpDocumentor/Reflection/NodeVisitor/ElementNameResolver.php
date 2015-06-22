@@ -11,8 +11,9 @@
  */
 
 
-namespace phpDocumentor\Reflection;
+namespace phpDocumentor\Reflection\NodeVisitor;
 
+use phpDocumentor\Reflection\Fqsen;
 use PhpParser\Node;
 use PhpParser\Node\Const_;
 use PhpParser\Node\Name;
@@ -25,7 +26,7 @@ use PhpParser\Node\Stmt\PropertyProperty;
 use PhpParser\Node\Stmt\Trait_;
 use PhpParser\NodeVisitorAbstract;
 
-final class FqsenResolver extends NodeVisitorAbstract
+final class ElementNameResolver extends NodeVisitorAbstract
 {
     /**
      * @var \SplDoublyLinkedList
@@ -82,6 +83,9 @@ final class FqsenResolver extends NodeVisitorAbstract
                 $node->fqsen = new Fqsen($this->buildName());
                 break;
             case Function_::class:
+                $this->parts->push($node->name . '()');
+                $node->fqsen = new Fqsen($this->buildName());
+                break;
             case ClassMethod::class:
                 $this->parts->push('::' . $node->name . '()');
                 $node->fqsen = new Fqsen($this->buildName());
