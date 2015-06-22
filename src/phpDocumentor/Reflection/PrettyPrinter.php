@@ -1,14 +1,14 @@
 <?php
 /**
- * phpDocumentor
- *
- * PHP Version 5.3
- *
- * @author    Mike van Riel <mike.vanriel@naenius.com>
- * @copyright 2010-2011 Mike van Riel / Naenius (http://www.naenius.com)
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      http://phpdoc.org
- */
+     * phpDocumentor
+     *
+     * PHP Version 5.3
+     *
+     * @author    Mike van Riel <mike.vanriel@naenius.com>
+     * @copyright 2010-2011 Mike van Riel / Naenius (http://www.naenius.com)
+     * @license   http://www.opensource.org/licenses/mit-license.php MIT
+     * @link      http://phpdoc.org
+     */
 
 namespace phpDocumentor\Reflection;
 
@@ -39,7 +39,7 @@ class PrettyPrinter extends Standard
      * Since we do not want such conversions we take the original that is
      * injected by our own custom Lexer.
      *
-     * @param String $node The node to return a string representation of.
+     * @param String_ $node The node to return a string representation of.
      *
      * @see Lexer where the originalValue is injected.
      *
@@ -47,7 +47,7 @@ class PrettyPrinter extends Standard
      */
     public function pScalar_String(String_ $node)
     {
-        if(! $node->getAttribute('originalValue')) {
+        if (!$node->getAttribute('originalValue')) {
             return $node->value;
         }
 

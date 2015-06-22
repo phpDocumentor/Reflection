@@ -1,14 +1,14 @@
 <?php
 /**
- * This file is part of phpDocumentor.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
- * @copyright 2010-2015 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      http://phpdoc.org
- */
+     * This file is part of phpDocumentor.
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     *
+     * @copyright 2010-2015 Mike van Riel<mike@phpdoc.org>
+     * @license   http://www.opensource.org/licenses/mit-license.php MIT
+     * @link      http://phpdoc.org
+     */
 
 
 namespace phpDocumentor\Reflection\Php\Factory;
@@ -144,7 +144,7 @@ final class PropertyIterator implements \Iterator
      * (PHP 5 &gt;= 5.0.0)<br/>
      * Return the current element
      * @link http://php.net/manual/en/iterator.current.php
-     * @return mixed Can return any type.
+     * @return PropertyIterator Can return any type.
      */
     public function current()
     {
@@ -166,7 +166,7 @@ final class PropertyIterator implements \Iterator
      * (PHP 5 &gt;= 5.0.0)<br/>
      * Return the key of the current element
      * @link http://php.net/manual/en/iterator.key.php
-     * @return mixed scalar on success, or null on failure.
+     * @return integer scalar on success, or null on failure.
      */
     public function key()
     {

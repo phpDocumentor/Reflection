@@ -120,7 +120,7 @@ class PropertyTest extends TestCase
 
 
     /**
-     * @return m\MockInterface
+     * @return PropertyIterator
      */
     private function buildPropertyMock($modifier)
     {
@@ -133,6 +133,7 @@ class PropertyTest extends TestCase
 
     /**
      * @param PropertyDescriptor $property
+     * @param string $visibility
      */
     private function assertProperty($property, $visibility)
     {
