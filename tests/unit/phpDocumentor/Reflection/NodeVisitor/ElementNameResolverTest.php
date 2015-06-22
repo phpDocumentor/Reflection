@@ -14,8 +14,13 @@
 namespace phpDocumentor\Reflection\NodeVisitor;
 
 
+use PhpParser\Node\Const_;
+use PhpParser\Node\Name;
+use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Class_;
+use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\Function_;
+use PhpParser\Node\Stmt\Namespace_;
 
 /**
  * Testcase for FqsenResolver
@@ -25,7 +30,7 @@ use PhpParser\Node\Stmt\Function_;
 class ElementNameResolverTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var FqsenResolver
+     * @var ElementNameResolver
      */
     private $fixture;
 
@@ -55,5 +60,35 @@ class ElementNameResolverTest extends \PHPUnit_Framework_TestCase
         $this->fixture->enterNode($class);
 
         $this->assertEquals('\myClass', (string)$class->fqsen);
+    }
+
+    /**
+     * @covers ::enterNode
+     */
+    public function testClassConstant()
+    {
+        $const = new Const_('MY_CLASS', new String_('value'));
+        $classConst = new ClassConst([$const]);
+        $class = new Class_('myClass');
+
+        $this->fixture->enterNode($class);
+        $this->fixture->enterNode($classConst);
+        $this->fixture->enterNode($const);
+
+        $this->assertEquals('\\myClass::MY_CLASS', (string)$const->fqsen);
+    }
+
+    /**
+     * @covers ::enterNode
+     */
+    public function testNamespacedConstant()
+    {
+        $const = new Const_('MY_CLASS', new String_('value'));
+        $namespace = new Namespace_(new Name('name'));
+
+        $this->fixture->enterNode($namespace);
+        $this->fixture->enterNode($const);
+
+        $this->assertEquals('\\name\\MY_CLASS', (string)$const->fqsen);
     }
 }

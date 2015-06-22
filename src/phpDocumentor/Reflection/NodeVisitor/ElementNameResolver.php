@@ -18,6 +18,7 @@ use PhpParser\Node;
 use PhpParser\Node\Const_;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
+use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
 use PhpParser\Node\Stmt\Interface_;
@@ -56,6 +57,7 @@ final class ElementNameResolver extends NodeVisitorAbstract
             case ClassMethod::class:
             case Trait_::class:
             case PropertyProperty::class:
+            case ClassConst::class:
             case Const_::class:
             case Interface_::class:
             case Function_::class:
@@ -90,8 +92,11 @@ final class ElementNameResolver extends NodeVisitorAbstract
                 $this->parts->push('::' . $node->name . '()');
                 $node->fqsen = new Fqsen($this->buildName());
                 break;
+            case ClassConst::class:
+                $this->parts->push('::');
+                break;
             case Const_::class:
-                $this->parts->push('::' . $node->name);
+                $this->parts->push($node->name);
                 $node->fqsen = new Fqsen($this->buildName());
                 break;
             case PropertyProperty::class:
