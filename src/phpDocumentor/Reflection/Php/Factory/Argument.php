@@ -31,7 +31,7 @@ final class Argument implements ProjectFactoryStrategy
     /**
      * Returns true when the strategy is able to handle the object.
      *
-     * @param object $object object to check.
+     * @param Param $object object to check.
      * @return boolean
      */
     public function matches($object)

@@ -39,7 +39,7 @@ class PrettyPrinter extends Standard
      * Since we do not want such conversions we take the original that is
      * injected by our own custom Lexer.
      *
-     * @param String $node The node to return a string representation of.
+     * @param String_ $node The node to return a string representation of.
      *
      * @see Lexer where the originalValue is injected.
      *
@@ -47,7 +47,7 @@ class PrettyPrinter extends Standard
      */
     public function pScalar_String(String_ $node)
     {
-        if(! $node->getAttribute('originalValue')) {
+        if (!$node->getAttribute('originalValue')) {
             return $node->value;
         }
 

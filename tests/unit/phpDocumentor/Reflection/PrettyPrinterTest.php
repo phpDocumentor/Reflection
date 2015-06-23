@@ -1,17 +1,18 @@
 <?php
 /**
- * phpDocumentor
+ * This file is part of phpDocumentor.
  *
- * PHP Version 5
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  *
- * @author    Vasil Rangelov <boen.robot@gmail.com>
- * @copyright 2010-2011 Mike van Riel / Naenius (http://www.naenius.com)
+ * @copyright 2010-2015 Mike van Riel<mike@phpdoc.org>
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
+
 namespace phpDocumentor\Reflection;
 
-use PHPParser_Node_Scalar_String;
+use PhpParser\Node\Scalar\String_;
 use PHPUnit_Framework_TestCase;
 
 /**
@@ -35,7 +36,7 @@ class PrettyPrinterTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(
             'Another value',
             $object->pScalar_String(
-                new PHPParser_Node_Scalar_String(
+                new String_(
                     'Value',
                     array('originalValue' => 'Another value')
                 )
