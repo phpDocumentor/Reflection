@@ -19,6 +19,7 @@ use phpDocumentor\Reflection\Php\Factory\Constant;
 use phpDocumentor\Reflection\Php\Factory\DocBlock as DocBlockFactory;
 use phpDocumentor\Reflection\Php\Factory\File;
 use phpDocumentor\Reflection\Php\Factory\Function_;
+use phpDocumentor\Reflection\Php\Factory\Interface_;
 use phpDocumentor\Reflection\Php\Factory\Method;
 use phpDocumentor\Reflection\Php\Factory\Property;
 use phpDocumentor\Reflection\Php\NodesFactory;
@@ -50,6 +51,7 @@ class ProjectCreationTest extends \PHPUnit_Framework_TestCase
                 new DocBlockFactory($docblockFactory),
                 new File(new NodesFactory()),
                 new Function_(),
+                new Interface_(),
                 new Method(),
                 new Property(new PrettyPrinter()),
             ]
@@ -103,5 +105,15 @@ class ProjectCreationTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals('style', $methods['\\Luigi\\Pizza::__construct()']->getArguments()[0]->getName());
+    }
+
+    public function testWithInterface()
+    {
+        $fileName = __DIR__ . '/project/Luigi/Valued.php';
+        $project = $this->fixture->create([
+            $fileName
+        ]);
+
+        $this->assertArrayHasKey('\\Luigi\\Valued', $project->getFiles()[$fileName]->getInterfaces());
     }
 }
