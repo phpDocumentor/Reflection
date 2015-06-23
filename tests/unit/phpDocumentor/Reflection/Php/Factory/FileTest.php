@@ -20,9 +20,11 @@ use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Php\File as FileElement;
 use phpDocumentor\Reflection\Php\Class_ as ClassElement;
 use phpDocumentor\Reflection\Php\Function_ as FunctionElement;
+use phpDocumentor\Reflection\Php\Interface_ as InterfaceElement;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_ as ClassNode;
 use PhpParser\Node\Stmt\Function_ as FunctionNode;
+use PhpParser\Node\Stmt\Interface_ as InterfaceNode;
 use PhpParser\Node\Stmt\Namespace_ as NamespaceNode;
 
 /**
@@ -129,5 +131,32 @@ class FileTest extends TestCase
 
         $this->assertEquals(__FILE__, $file->getPath());
         $this->assertArrayHasKey('mySpace', $file->getNamespaceAliases());
+    }
+
+    /**
+     * @covers ::create
+     */
+    public function testFileWithInterface()
+    {
+        $interfaceNode = new InterfaceNode('myInterface');
+        $this->nodesFactoryMock->shouldReceive('create')
+            ->with(file_get_contents(__FILE__))
+            ->andReturn(
+                [
+                    $interfaceNode
+                ]
+            );
+
+        $containerMock = m::mock(StrategyContainer::class);
+        $containerMock->shouldReceive('findMatching->create')
+            ->once()
+            ->with($interfaceNode, $containerMock)
+            ->andReturn(new InterfaceElement(new Fqsen('\myInterface')));
+
+        /** @var FileElement $file */
+        $file = $this->fixture->create(__FILE__, $containerMock);
+
+        $this->assertEquals(__FILE__, $file->getPath());
+        $this->assertArrayHasKey('\myInterface', $file->getInterfaces());
     }
 }

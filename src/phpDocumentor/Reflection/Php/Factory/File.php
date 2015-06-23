@@ -22,6 +22,7 @@ use PhpParser\Lexer;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_ as ClassNode;
 use PhpParser\Node\Stmt\Function_ as FunctionNode;
+use PhpParser\Node\Stmt\Interface_ as InterfaceNode;
 use PhpParser\Node\Stmt\Namespace_ as NamespaceNode;
 
 /**
@@ -102,6 +103,11 @@ final class File implements ProjectFactoryStrategy
                     $strategy = $strategies->findMatching($node);
                     $function = $strategy->create($node, $strategies);
                     $file->addFunction($function);
+                    break;
+                case InterfaceNode::class:
+                    $strategy = $strategies->findMatching($node);
+                    $interface = $strategy->create($node, $strategies);
+                    $file->addInterface($interface);
                     break;
                 case NamespaceNode::class:
                     $file->addNamespaceAlias($node->fqsen->getName(), $node->fqsen);
