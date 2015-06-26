@@ -55,7 +55,7 @@ class Namespace_Test extends \PHPUnit_Framework_TestCase
     {
         $this->assertEmpty($this->fixture->getClasses());
 
-        $class = new Class_(new Fqsen('\MySpace\MyClass'));
+        $class = new Fqsen('\MySpace\MyClass');
         $this->fixture->addClass($class);
 
         $this->assertEquals(array('\MySpace\MyClass' => $class), $this->fixture->getClasses());

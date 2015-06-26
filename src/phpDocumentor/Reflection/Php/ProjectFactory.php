@@ -52,6 +52,18 @@ final class ProjectFactory implements ProjectFactoryInterface
             $project->addFile($strategy->create($filePath, $this->strategies));
         }
 
+        foreach ($project->getFiles() as $file) {
+            foreach ($file->getNamespaceAliases() as $namespaceFqsen) {
+                $namespace = new Namespace_($namespaceFqsen);
+
+                foreach($file->getClasses() as $class) {
+                    $namespace->addClass($class->getFqsen());
+                }
+
+                $project->addNamespace($namespace);
+            }
+        }
+
         return $project;
     }
 }

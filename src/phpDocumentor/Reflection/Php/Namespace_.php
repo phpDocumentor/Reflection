@@ -35,7 +35,7 @@ final class Namespace_ implements Element
     /** @var Constant[] $constants */
     private $constants = array();
 
-    /** @var Class_[] $classes */
+    /** @var Fqsen[] $classes fqsen of all classes in this namespace */
     private $classes = array();
 
     /** @var Interface_[] $interfaces */
@@ -55,9 +55,9 @@ final class Namespace_ implements Element
     }
 
     /**
-     * Returns a list of all classes in this namespace.
+     * Returns a list of all fqsen of classes in this namespace.
      *
-     * @return Collection
+     * @return Fqsen[]
      */
     public function getClasses()
     {
@@ -67,11 +67,11 @@ final class Namespace_ implements Element
     /**
      * Add a class to this namespace.
      *
-     * @param Class_ $class
+     * @param Fqsen $class
      */
-    public function addClass(Class_ $class)
+    public function addClass(Fqsen $class)
     {
-        $this->classes[(string)$class->getFqsen()] = $class;
+        $this->classes[(string)$class] = $class;
     }
 
     /**
