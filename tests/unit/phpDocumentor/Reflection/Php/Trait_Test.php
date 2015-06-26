@@ -13,6 +13,7 @@
 namespace phpDocumentor\Reflection\Php;
 
 use \Mockery as m;
+use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
 
 /**
@@ -28,13 +29,21 @@ class Trait_Test extends \PHPUnit_Framework_TestCase
      * @var Fqsen
      */
     private $fqsen;
+
+    /**
+     * @var DocBlock
+     */
+    private $docBlock;
+
     /**
      * Creates a new (empty) fixture object.
      */
     protected function setUp()
     {
         $this->fqsen = new Fqsen('\MyTrait');
-        $this->fixture = new Trait_($this->fqsen);
+        $this->docBlock = new DocBlock('');
+        $this->fixture = new Trait_($this->fqsen, $this->docBlock);
+
     }
 
     /**
@@ -76,5 +85,29 @@ class Trait_Test extends \PHPUnit_Framework_TestCase
         $this->fixture->addMethod($method);
 
         $this->assertEquals(array('\MyTrait::myMethod()' => $method), $this->fixture->getMethods());
+    }
+
+    /**
+     * @covers ::getUsedTraits
+     * @covers ::AddUsedTrait
+     */
+    public function testAddAndGettingUsedTrait()
+    {
+        $this->assertEmpty($this->fixture->getUsedTraits());
+
+        $trait = new Fqsen('\MyTrait');
+
+        $this->fixture->addUsedTrait($trait);
+
+        $this->assertSame(array('\MyTrait' => $trait), $this->fixture->getUsedTraits());
+    }
+
+    /**
+     * @covers ::__construct
+     * @covers ::getDocBlock
+     */
+    public function testGetDocblock()
+    {
+        $this->assertSame($this->docBlock, $this->fixture->getDocBlock());
     }
 }
