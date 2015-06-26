@@ -15,6 +15,8 @@ cache:
 
 script:
  - vendor/bin/phpunit
+  - composer update --no-interaction --prefer-source
+  - vendor/bin/phpunit -v
 
 before_script:
  - composer install --no-interaction
@@ -22,8 +24,6 @@ before_script:
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
   - php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml
-  - composer update --no-interaction --prefer-source
-  - vendor/bin/phpunit -v
 
 notifications:
   irc: "irc.freenode.org#phpdocumentor"
