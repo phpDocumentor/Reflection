@@ -14,12 +14,12 @@ cache:
     - $HOME/.composer/cache
 
 script:
- - vendor/bin/phpunit
+  - vendor/bin/phpunit
   - composer update --no-interaction --prefer-source
   - vendor/bin/phpunit -v
 
 before_script:
- - composer install --no-interaction
+  - composer install --no-interaction
 
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
