@@ -21,11 +21,13 @@ use phpDocumentor\Reflection\Php\File as FileElement;
 use phpDocumentor\Reflection\Php\Class_ as ClassElement;
 use phpDocumentor\Reflection\Php\Function_ as FunctionElement;
 use phpDocumentor\Reflection\Php\Interface_ as InterfaceElement;
+use phpDocumentor\Reflection\Php\Trait_ as TraitElement;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_ as ClassNode;
 use PhpParser\Node\Stmt\Function_ as FunctionNode;
 use PhpParser\Node\Stmt\Interface_ as InterfaceNode;
 use PhpParser\Node\Stmt\Namespace_ as NamespaceNode;
+use PhpParser\Node\Stmt\Trait_ as TraitNode;
 
 /**
  * Test case for \phpDocumentor\Reflection\Php\Factory\File
@@ -158,5 +160,29 @@ class FileTest extends TestCase
 
         $this->assertEquals(__FILE__, $file->getPath());
         $this->assertArrayHasKey('\myInterface', $file->getInterfaces());
+    }
+
+    public function testFileWithTrait()
+    {
+        $traitNode = new TraitNode('\myTrait');
+        $this->nodesFactoryMock->shouldReceive('create')
+            ->with(file_get_contents(__FILE__))
+            ->andReturn(
+                [
+                    $traitNode
+                ]
+            );
+
+        $containerMock = m::mock(StrategyContainer::class);
+        $containerMock->shouldReceive('findMatching->create')
+            ->once()
+            ->with($traitNode, $containerMock)
+            ->andReturn(new TraitElement(new Fqsen('\myTrait')));
+
+        /** @var FileElement $file */
+        $file = $this->fixture->create(__FILE__, $containerMock);
+
+        $this->assertEquals(__FILE__, $file->getPath());
+        $this->assertArrayHasKey('\myTrait', $file->getTraits());
     }
 }

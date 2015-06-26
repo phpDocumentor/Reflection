@@ -24,6 +24,7 @@ use PhpParser\Node\Stmt\Class_ as ClassNode;
 use PhpParser\Node\Stmt\Function_ as FunctionNode;
 use PhpParser\Node\Stmt\Interface_ as InterfaceNode;
 use PhpParser\Node\Stmt\Namespace_ as NamespaceNode;
+use PhpParser\Node\Stmt\Trait_ as TraitNode;
 
 /**
  * Strategy to create File element from the provided filename.
@@ -112,6 +113,11 @@ final class File implements ProjectFactoryStrategy
                 case NamespaceNode::class:
                     $file->addNamespaceAlias($node->fqsen->getName(), $node->fqsen);
                     $this->createElements($node->stmts, $file, $strategies);
+                    break;
+                case TraitNode::class:
+                    $strategy = $strategies->findMatching($node);
+                    $trait = $strategy->create($node, $strategies);
+                    $file->addTrait($trait);
                     break;
             }
         }
