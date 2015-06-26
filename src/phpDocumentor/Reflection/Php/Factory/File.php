@@ -38,6 +38,7 @@ final class File implements ProjectFactoryStrategy
 
     /**
      * Initializes the object
+     * @param NodesFactory $nodesFactory
      */
     public function __construct(NodesFactory $nodesFactory)
     {
