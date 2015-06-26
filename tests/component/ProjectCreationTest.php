@@ -22,6 +22,7 @@ use phpDocumentor\Reflection\Php\Factory\Function_;
 use phpDocumentor\Reflection\Php\Factory\Interface_;
 use phpDocumentor\Reflection\Php\Factory\Method;
 use phpDocumentor\Reflection\Php\Factory\Property;
+use phpDocumentor\Reflection\Php\Factory\Trait_;
 use phpDocumentor\Reflection\Php\NodesFactory;
 use phpDocumentor\Reflection\Php\ProjectFactory;
 
@@ -54,6 +55,7 @@ class ProjectCreationTest extends \PHPUnit_Framework_TestCase
                 new Interface_(),
                 new Method(),
                 new Property(new PrettyPrinter()),
+                new Trait_(),
             ]
         );
     }
@@ -115,5 +117,15 @@ class ProjectCreationTest extends \PHPUnit_Framework_TestCase
         ]);
 
         $this->assertArrayHasKey('\\Luigi\\Valued', $project->getFiles()[$fileName]->getInterfaces());
+    }
+
+    public function testWithTrait()
+    {
+        $fileName = __DIR__ . '/project/Luigi/ExampleNestedTrait.php';
+        $project = $this->fixture->create([
+            $fileName
+        ]);
+
+        $this->assertArrayHasKey('\\Luigi\\ExampleNestedTrait', $project->getFiles()[$fileName]->getTraits());
     }
 }
