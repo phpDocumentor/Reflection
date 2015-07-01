@@ -14,7 +14,7 @@ namespace phpDocumentor\Reflection;
 
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlock\Context;
-use PHPParser_Node_Const;
+use PhpParser\Node\Const_ as PHPParser_Node_Const;
 use PHPParser_Node_Stmt_Const;
 
 /**

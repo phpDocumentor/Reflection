@@ -12,11 +12,10 @@
 
 namespace phpDocumentor\Reflection;
 
-use phpDocumentor\Reflection\BaseReflector;
 use phpDocumentor\Reflection\DocBlock\Context;
-use PHPParser_Node_Param;
-use PHPParser_Node_Stmt;
-use PHPParser_Node_Stmt_Function;
+use PhpParser\Node\Param as PHPParser_Node_Param;
+use PhpParser\Node\Stmt as PHPParser_Node_Stmt;
+use PhpParser\Node\Stmt\Function_ as PHPParser_Node_Stmt_Function;
 
 /**
  * Provides Static Reflection for functions.

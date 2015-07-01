@@ -12,11 +12,11 @@
 
 namespace phpDocumentor\Reflection\FunctionReflector;
 
-use phpDocumentor\Reflection\BaseReflector;
+use PhpParser\Node\Param as PHPParser_Node_Param;
 
 class ArgumentReflector extends BaseReflector
 {
-    /** @var \PHPParser_Node_Param */
+    /** @var PHPParser_Node_Param */
     protected $node;
 
     /**

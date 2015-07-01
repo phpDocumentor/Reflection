@@ -20,10 +20,10 @@ use phpDocumentor\Reflection\DocBlock\Context;
 use phpDocumentor\Reflection\DocBlock\Location;
 use phpDocumentor\Reflection\Event\PostDocBlockExtractionEvent;
 use Psr\Log\LogLevel;
-use PHPParser_Node_Expr;
-use PHPParser_Node_Stmt;
-use PHPParser_NodeAbstract;
-use PHPParser_PrettyPrinterAbstract;
+use PhpParser\Node\Expr as PHPParser_Node_Expr;
+use PhpParser\Node\Stmt as PHPParser_Node_Stmt;
+use PhpParser\NodeAbstract as PHPParser_NodeAbstract;
+use PhpParser\PrettyPrinterAbstract as PHPParser_PrettyPrinterAbstract;
 
 /**
  * Basic reflection providing support for events and basic properties as a

@@ -12,8 +12,8 @@
 
 namespace phpDocumentor\Reflection;
 
-use PHPParser_Lexer;
-use PHPParser_Parser;
+use PhpParser\Lexer as PHPParser_Lexer;
+use PhpParser\Parser as PHPParser_Parser;
 
 /**
  * Custom lexer for phpDocumentor.

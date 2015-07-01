@@ -12,7 +12,7 @@
 
 namespace phpDocumentor\Reflection;
 
-use PHPParser_Node_Scalar_String;
+use PhpParser\Node\Scalar\String_ as PHPParser_Node_Scalar_String;
 use PHPParser_PrettyPrinter_Zend;
 
 /**

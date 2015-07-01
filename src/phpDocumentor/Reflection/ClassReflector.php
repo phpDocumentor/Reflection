@@ -12,9 +12,9 @@
 
 namespace phpDocumentor\Reflection;
 
-use PHPParser_Node_Name;
-use PHPParser_Node_Stmt_Class;
-use PHPParser_Node_Stmt_TraitUse;
+use PhpParser\Node\Name as PHPParser_Node_Name;
+use PhpParser\Node\Stmt\Class_ as PHPParser_Node_Stmt_Class;
+use PhpParser\Node\Stmt\TraitUse as PHPParser_Node_Stmt_TraitUse;
 
 /**
  * Provides static reflection for a class.
@@ -25,7 +25,7 @@ use PHPParser_Node_Stmt_TraitUse;
  */
 class ClassReflector extends InterfaceReflector
 {
-    /** @var \PHPParser_Node_Stmt_Class */
+    /** @var PHPParser_Node_Stmt_Class */
     protected $node;
 
     /** @var string[] */
@@ -33,9 +33,9 @@ class ClassReflector extends InterfaceReflector
 
     public function parseSubElements()
     {
-        /** @var \PHPParser_Node_Stmt_TraitUse $stmt  */
+        /** @var PHPParser_Node_Stmt_TraitUse $stmt  */
         foreach ($this->node->stmts as $stmt) {
-            if ($stmt instanceof \PHPParser_Node_Stmt_TraitUse) {
+            if ($stmt instanceof PHPParser_Node_Stmt_TraitUse) {
                 foreach ($stmt->traits as $trait) {
                     $this->traits[] = '\\' . (string) $trait;
                 }

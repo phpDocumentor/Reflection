@@ -12,12 +12,12 @@
 
 namespace phpDocumentor\Reflection;
 
-use PHPParser_Error;
-use PHPParser_NodeTraverser;
-use PHPParser_NodeVisitor;
-use PHPParser_NodeVisitor_NameResolver;
-use PHPParser_NodeVisitorAbstract;
-use PHPParser_Parser;
+use PhpParser\Error as PHPParser_Error;
+use PhpParser\NodeTraverser as PHPParser_NodeTraverser;
+use PhpParser\NodeVisitor as PHPParser_NodeVisitor;
+use PhpParser\NodeVisitor\NameResolver as PHPParser_NodeVisitor_NameResolver;
+use PhpParser\NodeVisitorAbstract as PHPParser_NodeVisitorAbstract;
+use PhpParser\Parser as PHPParser_Parser;
 
 /**
  * The source code traverser that scans the given source code and transforms

@@ -13,8 +13,8 @@
 namespace phpDocumentor\Reflection\ClassReflector;
 
 use phpDocumentor\Reflection\FunctionReflector;
-use PHPParser_Node_Stmt_Class;
-use PHPParser_Node_Stmt_ClassMethod;
+use PhpParser\Node\Stmt\Class_ as PHPParser_Node_Stmt_Class;
+use PhpParser\Node\Stmt\ClassMethod as PHPParser_Node_Stmt_ClassMethod;
 
 class MethodReflector extends FunctionReflector
 {
