@@ -15,9 +15,9 @@ namespace phpDocumentor\Reflection\ClassReflector;
 use phpDocumentor\Reflection\BaseReflector;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlock\Context;
-use PHPParser_Node_Stmt_Class;
-use PHPParser_Node_Stmt_Property;
-use PHPParser_Node_Stmt_PropertyProperty;
+use PhpParser\Node\Stmt\Class_ as PHPParser_Node_Stmt_Class;
+use PhpParser\Node\Stmt\Property as PHPParser_Node_Stmt_Property;
+use PhpParser\Node\Stmt\PropertyProperty as PHPParser_Node_Stmt_PropertyProperty;
 
 class PropertyReflector extends BaseReflector
 {

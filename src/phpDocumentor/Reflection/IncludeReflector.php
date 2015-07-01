@@ -13,7 +13,7 @@
 namespace phpDocumentor\Reflection;
 
 use Exception;
-use PHPParser_Node_Expr_Include;
+use PhpParser\Node\Expr\Include_ as PHPParser_Node_Expr_Include;
 
 class IncludeReflector extends BaseReflector
 {
