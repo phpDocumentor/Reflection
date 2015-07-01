@@ -17,7 +17,6 @@ use phpDocumentor\Reflection\ConstantReflector as BaseConstantReflector;
 use phpDocumentor\Reflection\DocBlock\Context;
 use PhpParser\Node as PHPParser_Node;
 use PhpParser\Node\Stmt\ClassConst as PHPParser_Node_Stmt_ClassConst;
-use PhpParser\Node\Stmt\Const_ as PHPParser_Node_Stmt_Const;
 use PhpParser\Node\Const_ as PHPParser_Node_Const;
 
 class ConstantReflector extends BaseConstantReflector
@@ -28,7 +27,7 @@ class ConstantReflector extends BaseConstantReflector
     /**
      * Registers the Constant Statement and Node with this reflector.
      *
-     * @param PHPParser_Node_Stmt_Const $stmt
+     * @param PHPParser_Node_Stmt_ClassConst $stmt
      * @param Context                   $context
      * @param PHPParser_Node_Const      $node
      */
