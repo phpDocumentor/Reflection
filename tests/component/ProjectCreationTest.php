@@ -109,6 +109,18 @@ class ProjectCreationTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('style', $methods['\\Luigi\\Pizza::__construct()']->getArguments()[0]->getName());
     }
 
+    public function testWithUsedParent()
+    {
+        $fileName = __DIR__ . '/project/Luigi/StyleFactory.php';
+        $project = $this->fixture->create([
+            $fileName
+        ]);
+
+        $this->assertArrayHasKey($fileName, $project->getFiles());
+        $this->assertArrayHasKey('\\Luigi\\StyleFactory', $project->getFiles()[$fileName]->getClasses());
+        $this->assertEquals('\\Luigi\\Pizza\\PizzaComponentFactory', $project->getFiles()[$fileName]->getClasses()['\\Luigi\\StyleFactory']->getParent());
+    }
+
     public function testWithInterface()
     {
         $fileName = __DIR__ . '/project/Luigi/Valued.php';
