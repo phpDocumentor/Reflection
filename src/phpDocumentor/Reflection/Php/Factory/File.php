@@ -48,12 +48,12 @@ final class File implements ProjectFactoryStrategy
     /**
      * Returns true when the strategy is able to handle the object.
      *
-     * @param object $object object to check.
+     * @param string $filePath path to check.
      * @return boolean
      */
-    public function matches($object)
+    public function matches($filePath)
     {
-        return is_string($object) && file_exists($object);
+        return is_string($filePath) && file_exists($filePath);
     }
 
     /**
@@ -61,26 +61,26 @@ final class File implements ProjectFactoryStrategy
      * Since an object might contain other objects that need to be converted the $factory is passed so it can be
      * used to create nested Elements.
      *
-     * @param string $object object to convert to an File
+     * @param string $filePath path to the file to convert to an File object.
      * @param StrategyContainer $strategies used to convert nested objects.
      * @return File
      *
      * @throws InvalidArgumentException when this strategy is not able to handle $object or if the file path is not readable.
      */
-    public function create($object, StrategyContainer $strategies)
+    public function create($filePath, StrategyContainer $strategies)
     {
-        if (!$this->matches($object)) {
+        if (!$this->matches($filePath)) {
             throw new InvalidArgumentException(
                 sprintf('%s cannot handle objects with the type %s',
                     __CLASS__,
-                    is_object($object) ? get_class($object) : gettype($object)
+                    is_object($filePath) ? get_class($filePath) : gettype($filePath)
                 )
             );
         }
-        $code = file_get_contents($object);
+        $code = file_get_contents($filePath);
         $nodes = $this->nodesFactory->create($code);
 
-        $file = new FileElement(md5_file($object), $object, $code);
+        $file = new FileElement(md5_file($filePath), $filePath, $code);
 
         $this->createElements($nodes, $file, $strategies);
 
