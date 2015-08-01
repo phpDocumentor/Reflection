@@ -88,7 +88,7 @@ final class Interface_ implements ProjectFactoryStrategy
     }
 
     /**
-     * @param Node|ClassConstantIterator $stmt
+     * @param Node|ClassConstantIterator|Doc $stmt
      * @param StrategyContainer $strategies
      * @param Context $context
      * @return Element
@@ -111,7 +111,6 @@ final class Interface_ implements ProjectFactoryStrategy
             return null;
         }
 
-        $strategy = $strategies->findMatching($docBlock);
-        return $strategy->create($docBlock, $strategies, $context);
+        return $this->createMember($docBlock, $strategies, $context);
     }
 }

@@ -142,7 +142,6 @@ final class Class_ implements ProjectFactoryStrategy
             return null;
         }
 
-        $strategy = $strategies->findMatching($docBlock);
-        return $strategy->create($docBlock, $strategies, $context);
+        return $this->createMember($docBlock, $strategies, $context);
     }
 }

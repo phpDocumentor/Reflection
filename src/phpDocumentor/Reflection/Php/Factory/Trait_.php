@@ -91,7 +91,7 @@ final class Trait_ implements ProjectFactoryStrategy
     }
 
     /**
-     * @param Node|PropertyIterator $stmt
+     * @param Node|PropertyIterator|Doc $stmt
      * @param StrategyContainer $strategies
      * @param Context $context
      * @return Element
@@ -114,7 +114,6 @@ final class Trait_ implements ProjectFactoryStrategy
             return null;
         }
 
-        $strategy = $strategies->findMatching($docBlock);
-        return $strategy->create($docBlock, $strategies, $context);
+        return $this->createMember($docBlock, $strategies, $context);
     }
 }
