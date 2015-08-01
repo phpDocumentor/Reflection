@@ -41,13 +41,28 @@ class NodesFactory
 
     /**
      * Initializes the object.
+     *
+     * @param Parser $parser used to parse the code
+     * @param NodeTraverser $traverser used to do some post processing on the nodes
      */
-    public function __construct()
+    public function __construct(Parser $parser, NodeTraverser $traverser)
     {
-        $this->parser = new Parser(new Lexer);
-        $this->traverser = new NodeTraverser(false);
-        $this->traverser->addVisitor(new NameResolver());
-        $this->traverser->addVisitor(new FqsenResolver());
+        $this->parser = $parser;
+        $this->traverser = $traverser;
+    }
+
+    /**
+     * Creates a new instance of NodeFactory with default Parser ands Traverser.
+     *
+     * @return static
+     */
+    public static function createInstance()
+    {
+        $parser = new Parser(new Lexer);
+        $traverser = new NodeTraverser(false);
+        $traverser->addVisitor(new NameResolver());
+        $traverser->addVisitor(new FqsenResolver());
+        return new static($parser, $traverser);
     }
 
     /**
