@@ -50,7 +50,7 @@ class ProjectCreationTest extends \PHPUnit_Framework_TestCase
                 new Class_(),
                 new Constant(),
                 new DocBlockStrategy($docBlockFactory),
-                new File(new NodesFactory()),
+                new File(NodesFactory::createInstance()),
                 new Function_(),
                 new Interface_(),
                 new Method(),

@@ -13,7 +13,7 @@
 
 namespace phpDocumentor\Reflection\Php;
 
-use phpDocumentor\Reflection\FqsenResolver;
+use phpDocumentor\Reflection\NodeVisitor\ElementNameResolver;
 use PhpParser\Lexer;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitor\NameResolver;
@@ -61,7 +61,7 @@ class NodesFactory
         $parser = new Parser(new Lexer);
         $traverser = new NodeTraverser(false);
         $traverser->addVisitor(new NameResolver());
-        $traverser->addVisitor(new FqsenResolver());
+        $traverser->addVisitor(new ElementNameResolver());
         return new static($parser, $traverser);
     }
 
