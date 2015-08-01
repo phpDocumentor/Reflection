@@ -18,6 +18,7 @@ use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Php\Trait_ as TraitElement;
+use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Comment\Doc;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
@@ -45,11 +46,10 @@ final class Trait_ implements ProjectFactoryStrategy
      *
      * @param TraitNode $object object to convert to an TraitElement
      * @param StrategyContainer $strategies used to convert nested objects.
+     * @param Context $context
      * @return TraitElement
-     *
-     * @throws InvalidArgumentException when this strategy is not able to handle $object
      */
-    public function create($object, StrategyContainer $strategies)
+    public function create($object, StrategyContainer $strategies, Context $context = null)
     {
         if (!$this->matches($object)) {
             throw new InvalidArgumentException(
@@ -60,7 +60,7 @@ final class Trait_ implements ProjectFactoryStrategy
             );
         }
 
-        $docBlock = $this->createDocBlock($object->getDocComment(), $strategies);
+        $docBlock = $this->createDocBlock($object->getDocComment(), $strategies, $context);
 
         $trait = new TraitElement($object->fqsen, $docBlock);
 
@@ -70,12 +70,12 @@ final class Trait_ implements ProjectFactoryStrategy
                     case PropertyNode::class:
                         $properties = new PropertyIterator($stmt);
                         foreach ($properties as $property) {
-                            $element = $this->createMember($property, $strategies);
+                            $element = $this->createMember($property, $strategies, $context);
                             $trait->addProperty($element);
                         }
                         break;
                     case ClassMethod::class:
-                        $method = $this->createMember($stmt, $strategies);
+                        $method = $this->createMember($stmt, $strategies, $context);
                         $trait->addMethod($method);
                         break;
                     case TraitUse::class:
@@ -93,27 +93,28 @@ final class Trait_ implements ProjectFactoryStrategy
     /**
      * @param Node|PropertyIterator $stmt
      * @param StrategyContainer $strategies
-     *
+     * @param Context $context
      * @return Element
      */
-    private function createMember($stmt, StrategyContainer $strategies)
+    private function createMember($stmt, StrategyContainer $strategies, Context $context = null)
     {
         $strategy = $strategies->findMatching($stmt);
-        return $strategy->create($stmt, $strategies);
+        return $strategy->create($stmt, $strategies, $context);
     }
 
     /**
      * @param Doc $docBlock
      * @param StrategyContainer $strategies
+     * @param Context $context
      * @return null|\phpDocumentor\Reflection\DocBlock
      */
-    private function createDocBlock(Doc $docBlock = null, StrategyContainer $strategies)
+    private function createDocBlock(Doc $docBlock = null, StrategyContainer $strategies, Context $context = null)
     {
         if ($docBlock === null) {
             return null;
         }
 
         $strategy = $strategies->findMatching($docBlock);
-        return $strategy->create($docBlock, $strategies);
+        return $strategy->create($docBlock, $strategies, $context);
     }
 }

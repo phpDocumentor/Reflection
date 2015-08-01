@@ -13,6 +13,7 @@ namespace phpDocumentor\Reflection\Php\Factory;
 
 use phpDocumentor\Reflection\Php\Argument as ArgumentDescriptor;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategies;
+use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Node\Param;
 use Mockery as m;
 

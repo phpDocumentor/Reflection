@@ -18,6 +18,7 @@ use phpDocumentor\Reflection\Php\ProjectFactoryStrategies;
 use Mockery as m;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\PrettyPrinter;
+use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Comment\Doc;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Class_ as ClassNode;
@@ -108,7 +109,7 @@ class PropertyTest extends TestCase
         $containerMock = m::mock(StrategyContainer::class);
         $containerMock->shouldReceive('findMatching->create')
             ->once()
-            ->with($doc, $containerMock)
+            ->with($doc, $containerMock, null)
             ->andReturn($docBlock);
 
         /** @var PropertyDescriptor $property */

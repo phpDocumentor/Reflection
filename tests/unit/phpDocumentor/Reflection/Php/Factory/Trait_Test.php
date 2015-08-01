@@ -16,6 +16,7 @@ namespace phpDocumentor\Reflection\Php\Factory;
 use Mockery as m;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\StrategyContainer;
+use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Comment\Doc;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\ClassMethod;
@@ -79,7 +80,7 @@ class Trait_Test extends TestCase
         $containerMock = m::mock(StrategyContainer::class);
         $containerMock->shouldReceive('findMatching->create')
             ->once()
-            ->with($doc, $containerMock)
+            ->with($doc, $containerMock, null)
             ->andReturn($docBlock);
 
         /** @var TraitElement $trait */
@@ -103,9 +104,9 @@ class Trait_Test extends TestCase
             $property
         ];
 
-        $strategiesMock->shouldReceive('findMatching->create')->with(m::any(), $strategiesMock)->andReturn($propertyDescriptor);
-
-        $this->fixture->create($traitMock, $strategiesMock);
+        $strategiesMock->shouldReceive('findMatching->create')
+            ->with(m::any(), $strategiesMock, null)
+            ->andReturn($propertyDescriptor);
 
         /** @var TraitElement $trait */
         $trait = $this->fixture->create($traitMock, $strategiesMock);
@@ -132,9 +133,9 @@ class Trait_Test extends TestCase
             $method1
         ];
 
-        $strategiesMock->shouldReceive('findMatching->create')->with($method1, $strategiesMock)->andReturn($method1Descriptor);
-
-        $this->fixture->create($classMock, $strategiesMock);
+        $strategiesMock->shouldReceive('findMatching->create')
+            ->with($method1, $strategiesMock, null)
+            ->andReturn($method1Descriptor);
 
         /** @var TraitElement $class */
         $class = $this->fixture->create($classMock, $strategiesMock);

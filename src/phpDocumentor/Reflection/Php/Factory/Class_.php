@@ -19,6 +19,7 @@ use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\Class_ as ClassElement;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
+use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_ as ClassNode;
 use PhpParser\Node\Stmt\ClassConst;
@@ -51,9 +52,10 @@ final class Class_ implements ProjectFactoryStrategy
      *
      * @param ClassNode $object object to convert to an Element
      * @param StrategyContainer $strategies used to convert nested objects.
+     * @param Context $context of the created object
      * @return ClassElement
      */
-    public function create($object, StrategyContainer $strategies)
+    public function create($object, StrategyContainer $strategies, Context $context = null)
     {
         if (!$this->matches($object)) {
             throw new InvalidArgumentException(
@@ -64,7 +66,7 @@ final class Class_ implements ProjectFactoryStrategy
             );
         }
 
-        $docBlock = $this->createDocBlock($object->getDocComment(), $strategies);
+        $docBlock = $this->createDocBlock($object->getDocComment(), $strategies, $context);
 
         $classElement = new ClassElement(
             $object->fqsen,
@@ -93,18 +95,18 @@ final class Class_ implements ProjectFactoryStrategy
                     case PropertyNode::class:
                         $properties = new PropertyIterator($stmt);
                         foreach ($properties as $property) {
-                            $element = $this->createMember($property, $strategies);
+                            $element = $this->createMember($property, $strategies, $context);
                             $classElement->addProperty($element);
                         }
                         break;
                     case ClassMethod::class:
-                        $method = $this->createMember($stmt, $strategies);
+                        $method = $this->createMember($stmt, $strategies, $context);
                         $classElement->addMethod($method);
                         break;
                     case ClassConst::class:
                         $constants = new ClassConstantIterator($stmt);
                         foreach ($constants as $const) {
-                            $element = $this->createMember($const, $strategies);
+                            $element = $this->createMember($const, $strategies, $context);
                             $classElement->addConstant($element);
                         }
                         break;
@@ -118,28 +120,29 @@ final class Class_ implements ProjectFactoryStrategy
     /**
      * @param Node|PropertyIterator|ClassConstantIterator $stmt
      * @param StrategyContainer $strategies
-     *
+     * @param Context $context
      * @return Element
      */
-    private function createMember($stmt, StrategyContainer $strategies)
+    private function createMember($stmt, StrategyContainer $strategies, Context $context = null)
     {
         $strategy = $strategies->findMatching($stmt);
-        return $strategy->create($stmt, $strategies);
+        return $strategy->create($stmt, $strategies, $context);
     }
 
 
     /**
      * @param Doc $docBlock
      * @param StrategyContainer $strategies
+     * @param Context $context
      * @return null|\phpDocumentor\Reflection\DocBlock
      */
-    private function createDocBlock(Doc $docBlock = null, StrategyContainer $strategies)
+    private function createDocBlock(Doc $docBlock = null, StrategyContainer $strategies, Context $context = null)
     {
         if ($docBlock === null) {
             return null;
         }
 
         $strategy = $strategies->findMatching($docBlock);
-        return $strategy->create($docBlock, $strategies);
+        return $strategy->create($docBlock, $strategies, $context);
     }
 }

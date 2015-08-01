@@ -21,6 +21,7 @@ use phpDocumentor\Reflection\Php\Class_ as ClassElement;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\DocBlock as DocBlockElement;
+use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Node\Const_;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Name;
@@ -129,9 +130,9 @@ class Class_Test extends TestCase
             $method1
         ];
 
-        $strategiesMock->shouldReceive('findMatching->create')->with($method1, $strategiesMock)->andReturn($method1Descriptor);
-
-        $this->fixture->create($classMock, $strategiesMock);
+        $strategiesMock->shouldReceive('findMatching->create')
+            ->with($method1, $strategiesMock, null)
+            ->andReturn($method1Descriptor);
 
         /** @var ClassDescriptor $class */
         $class = $this->fixture->create($classMock, $strategiesMock);
@@ -159,9 +160,9 @@ class Class_Test extends TestCase
             $property
         ];
 
-        $strategiesMock->shouldReceive('findMatching->create')->with(m::any(), $strategiesMock)->andReturn($propertyDescriptor);
-
-        $this->fixture->create($classMock, $strategiesMock);
+        $strategiesMock->shouldReceive('findMatching->create')
+            ->with(m::any(), $strategiesMock, null)
+            ->andReturn($propertyDescriptor);
 
         /** @var ClassElement $class */
         $class = $this->fixture->create($classMock, $strategiesMock);
@@ -211,7 +212,7 @@ class Class_Test extends TestCase
         $result = new ConstantElement(new Fqsen('\Space\MyClass::MY_CONST'));
         $strategiesMock = m::mock(StrategyContainer::class);
         $strategiesMock->shouldReceive('findMatching->create')
-            ->with(m::type(ClassConstantIterator::class), $strategiesMock)
+            ->with(m::type(ClassConstantIterator::class), $strategiesMock, null)
             ->andReturn($result);
         $classMock = $this->buildClassMock();
         $classMock->shouldReceive('getDocComment')->andReturnNull();
@@ -244,7 +245,7 @@ class Class_Test extends TestCase
         $containerMock = m::mock(StrategyContainer::class);
         $containerMock->shouldReceive('findMatching->create')
             ->once()
-            ->with($doc, $containerMock)
+            ->with($doc, $containerMock, null)
             ->andReturn($docBlock);
 
         /** @var ClassElement $class */

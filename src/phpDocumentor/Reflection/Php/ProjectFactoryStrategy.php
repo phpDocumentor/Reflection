@@ -13,6 +13,7 @@
 namespace phpDocumentor\Reflection\Php;
 
 use phpDocumentor\Reflection\Element;
+use phpDocumentor\Reflection\Types\Context;
 
 /**
  * Interface for strategies used by the project factory to build Elements out of nodes.
@@ -34,7 +35,8 @@ interface ProjectFactoryStrategy
      *
      * @param object $object object to convert to an Element
      * @param StrategyContainer $strategies used to convert nested objects.
+     * @param Context $context
      * @return Element
      */
-    public function create($object, StrategyContainer $strategies);
+    public function create($object, StrategyContainer $strategies, Context $context = null);
 }

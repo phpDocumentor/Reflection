@@ -18,6 +18,7 @@ use phpDocumentor\Reflection\Php\Method as MethodDescriptor;
 use phpDocumentor\Reflection\Php\Factory;
 use Mockery as m;
 use phpDocumentor\Reflection\Php\StrategyContainer;
+use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Comment\Doc;
 use PhpParser\Node\Stmt\ClassMethod;
 
@@ -94,7 +95,7 @@ class MethodTest extends TestCase
         $containerMock = m::mock(StrategyContainer::class);
         $containerMock->shouldReceive('findMatching->create')
             ->once()
-            ->with('param1', $containerMock)
+            ->with('param1', $containerMock, null)
             ->andReturn(new ArgumentDescriptor('param1'));
 
         /** @var MethodDescriptor $method */
@@ -123,7 +124,7 @@ class MethodTest extends TestCase
         $containerMock = m::mock(StrategyContainer::class);
         $containerMock->shouldReceive('findMatching->create')
             ->once()
-            ->with($doc, $containerMock)
+            ->with($doc, $containerMock, null)
             ->andReturn($docBlock);
 
         /** @var MethodDescriptor $method */

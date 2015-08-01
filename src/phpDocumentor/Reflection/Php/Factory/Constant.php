@@ -16,6 +16,7 @@ namespace phpDocumentor\Reflection\Php\Factory;
 use phpDocumentor\Reflection\Php\Constant as ConstantElement;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
+use phpDocumentor\Reflection\Types\Context;
 
 /**
  * Strategy to convert ClassConstantIterator to ConstantElement
@@ -43,9 +44,10 @@ class Constant implements ProjectFactoryStrategy
      *
      * @param ClassConstantIterator $object object to convert to an Element
      * @param StrategyContainer $strategies used to convert nested objects.
+     * @param Context $context of the created object
      * @return Constant
      */
-    public function create($object, StrategyContainer $strategies)
+    public function create($object, StrategyContainer $strategies, Context $context = null)
     {
         return new ConstantElement($object->getFqsen());
     }
