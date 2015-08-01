@@ -13,10 +13,11 @@
 namespace phpDocumentor\Reflection;
 
 use Mockery as m;
+use phpDocumentor\Reflection\DocBlock\Tags\Param;
 use phpDocumentor\Reflection\Php\Factory\Argument;
 use phpDocumentor\Reflection\Php\Factory\Class_;
 use phpDocumentor\Reflection\Php\Factory\Constant;
-use phpDocumentor\Reflection\Php\Factory\DocBlock as DocBlockFactory;
+use phpDocumentor\Reflection\Php\Factory\DocBlock as DocBlockStrategy;
 use phpDocumentor\Reflection\Php\Factory\File;
 use phpDocumentor\Reflection\Php\Factory\Function_;
 use phpDocumentor\Reflection\Php\Factory\Interface_;
@@ -25,6 +26,7 @@ use phpDocumentor\Reflection\Php\Factory\Property;
 use phpDocumentor\Reflection\Php\Factory\Trait_;
 use phpDocumentor\Reflection\Php\NodesFactory;
 use phpDocumentor\Reflection\Php\ProjectFactory;
+use phpDocumentor\Reflection\Types\Object_;
 
 /**
  * Intergration tests to check the correct working of processing a file into a project.
@@ -40,16 +42,14 @@ class ProjectCreationTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        //TODO replace this by a real factory
-        $docblockFactory = m::mock(DocBlockFactoryInterface::class);
-        $docblockFactory->shouldReceive('create')->andReturnNull();
+        $docBlockFactory = DocBlockFactory::createInstance();
 
         $this->fixture = new ProjectFactory(
             [
                 new Argument(),
                 new Class_(),
                 new Constant(),
-                new DocBlockFactory($docblockFactory),
+                new DocBlockStrategy($docBlockFactory),
                 new File(new NodesFactory()),
                 new Function_(),
                 new Interface_(),
@@ -107,6 +107,31 @@ class ProjectCreationTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals('style', $methods['\\Luigi\\Pizza::__construct()']->getArguments()[0]->getName());
+    }
+
+    public function testDocblockOfMethodIsProcessed()
+    {
+        $fileName = __DIR__ . '/project/Luigi/Pizza.php';
+        $project = $this->fixture->create([
+            $fileName
+        ]);
+
+        $this->assertArrayHasKey($fileName, $project->getFiles());
+
+        $methods = $project->getFiles()[$fileName]->getClasses()['\\Luigi\\Pizza']->getMethods();
+
+        $createInstanceMethod = $methods['\\Luigi\\Pizza::createInstance()'];
+
+        $this->assertInstanceOf(DocBlock::class, $createInstanceMethod->getDocblock());
+
+        $docblock = $createInstanceMethod->getDocblock();
+        /** @var Param[] $params */
+        $params = $docblock->getTagsByName('param');
+
+        /** @var Object_ $objectType */
+        $objectType = $params[0]->getType();
+
+        $this->assertEquals(new Fqsen('\Luigi\Pizza\Style'), $objectType->getFqsen());
     }
 
     public function testWithUsedParent()
