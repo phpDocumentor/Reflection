@@ -21,6 +21,7 @@ use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Types\Context;
 use phpDocumentor\Reflection\Types\ContextFactory;
+use PhpParser\Comment\Doc;
 use PhpParser\Lexer;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_ as ClassNode;
@@ -81,8 +82,9 @@ final class File implements ProjectFactoryStrategy
         }
         $code = file_get_contents($object);
         $nodes = $this->nodesFactory->create($code);
+        $docBlock = $this->createDocBlock($strategies, $code, $nodes);
 
-        $file = new FileElement(md5_file($object), $object, $code);
+        $file = new FileElement(md5_file($object), $object, $code, $docBlock);
 
         $this->createElements(new Fqsen('\\'), $nodes, $file, $strategies);
 
@@ -126,5 +128,29 @@ final class File implements ProjectFactoryStrategy
                     break;
             }
         }
+    }
+
+    /**
+     * @param StrategyContainer $strategies
+     * @param $code
+     * @param $nodes
+     * @return null|\phpDocumentor\Reflection\Element
+     * @internal param Context $context
+     */
+    private function createDocBlock(StrategyContainer $strategies, $code, $nodes)
+    {
+        $contextFactory = new ContextFactory();
+        $context = $contextFactory->createForNamespace('\\', $code);
+        $docBlock = null;
+
+        foreach ($nodes as $node) {
+            if ($node instanceof Doc) {
+                $strategy = $strategies->findMatching($node);
+                $docBlock = $strategy->create($node, $strategies, $context);
+                break;
+            }
+        }
+
+        return $docBlock;
     }
 }
