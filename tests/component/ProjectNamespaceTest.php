@@ -16,7 +16,7 @@ use Mockery as m;
 use phpDocumentor\Reflection\Php\Factory\Argument;
 use phpDocumentor\Reflection\Php\Factory\Class_;
 use phpDocumentor\Reflection\Php\Factory\Constant;
-use phpDocumentor\Reflection\Php\Factory\DocBlock as DocBlockFactory;
+use phpDocumentor\Reflection\Php\Factory\DocBlock as DocBlockStrategy;
 use phpDocumentor\Reflection\Php\Factory\File;
 use phpDocumentor\Reflection\Php\NodesFactory;
 use phpDocumentor\Reflection\Php\Factory\Function_;
@@ -43,17 +43,15 @@ class ProjectNamespaceTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        //TODO replace this by a real factory
-        $docblockFactory = m::mock(DocBlockFactoryInterface::class);
-        $docblockFactory->shouldReceive('create')->andReturnNull();
+        $docBlockFactory = DocBlockFactory::createInstance();
 
         $this->fixture = new ProjectFactory(
             array(
                 new Argument(),
                 new Class_(),
                 new Constant(),
-                new DocBlockFactory($docblockFactory),
-                new File(new NodesFactory()),
+                new DocBlockStrategy($docBlockFactory),
+                new File(NodesFactory::createInstance()),
                 new Function_(),
                 new Interface_(),
                 new Method(),
