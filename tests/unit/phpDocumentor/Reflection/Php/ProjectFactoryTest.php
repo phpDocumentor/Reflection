@@ -20,6 +20,8 @@ use phpDocumentor\Reflection\Php\Factory\DummyFactoryStrategy;
  * Test case for ProjectFactory
  *
  * @coversDefaultClass phpDocumentor\Reflection\Php\ProjectFactory
+ * @covers ::create
+ * @covers ::<private>
  */
 class ProjectFactoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -31,10 +33,6 @@ class ProjectFactoryTest extends \PHPUnit_Framework_TestCase
         new ProjectFactory(array(new DummyFactoryStrategy()));
     }
 
-    /**
-     * @covers ::create
-     * @covers ::<private>
-     */
     public function testCreate()
     {
         $someOtherStrategy = m::mock(ProjectFactoryStrategy::class);
@@ -64,9 +62,6 @@ class ProjectFactoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::create
-     * @covers ::<private>
-     *
      * @expectedException \OutOfBoundsException
      */
     public function testCreateThrowsExceptionWhenStrategyNotFound()
@@ -75,10 +70,6 @@ class ProjectFactoryTest extends \PHPUnit_Framework_TestCase
         $projectFactory->create(array('aa'));
     }
 
-    /**
-     * @covers ::create
-     * @covers ::<private>
-     */
     public function testCreateProjectFromFileWithNamespacedClass()
     {
         $file = new File(md5('some/file.php'), 'some/file.php');
@@ -96,7 +87,7 @@ class ProjectFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('\mySpace\MyClass', key($mySpace->getClasses()));
     }
 
-    public function testWithNamespacedFunction()
+    public function testWithNamespacedInterface()
     {
         $file = new File(md5('some/file.php'), 'some/file.php');
         $file->addNamespace(new Fqsen('\mySpace'));
@@ -109,6 +100,51 @@ class ProjectFactoryTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(Namespace_::class, $mySpace);
         $this->assertEquals('\mySpace\MyInterface', key($mySpace->getInterfaces()));
+    }
+
+    public function testWithNamespacedFunction()
+    {
+        $file = new File(md5('some/file.php'), 'some/file.php');
+        $file->addNamespace(new Fqsen('\mySpace'));
+        $file->addFunction(new Function_(new Fqsen('\mySpace\function()')));
+
+        $namespaces = $this->fetchNamespaces($file);
+
+        /** @var Namespace_ $mySpace */
+        $mySpace = current($namespaces);
+
+        $this->assertInstanceOf(Namespace_::class, $mySpace);
+        $this->assertEquals('\mySpace\function()', key($mySpace->getFunctions()));
+    }
+
+    public function testWithNamespacedConstant()
+    {
+        $file = new File(md5('some/file.php'), 'some/file.php');
+        $file->addNamespace(new Fqsen('\mySpace'));
+        $file->addFunction(new Constant(new Fqsen('\mySpace::MY_CONST')));
+
+        $namespaces = $this->fetchNamespaces($file);
+
+        /** @var Namespace_ $mySpace */
+        $mySpace = current($namespaces);
+
+        $this->assertInstanceOf(Namespace_::class, $mySpace);
+        $this->assertEquals('\mySpace::MY_CONST', key($mySpace->getConstants()));
+    }
+
+    public function testWithNamespacedTrait()
+    {
+        $file = new File(md5('some/file.php'), 'some/file.php');
+        $file->addNamespace(new Fqsen('\mySpace'));
+        $file->addFunction(new Trait_(new Fqsen('\mySpace\MyTrait')));
+
+        $namespaces = $this->fetchNamespaces($file);
+
+        /** @var Namespace_ $mySpace */
+        $mySpace = current($namespaces);
+
+        $this->assertInstanceOf(Namespace_::class, $mySpace);
+        $this->assertEquals('\mySpace\MyTrait', key($mySpace->getTraits()));
     }
 
     private function fetchNamespaces(File $file)

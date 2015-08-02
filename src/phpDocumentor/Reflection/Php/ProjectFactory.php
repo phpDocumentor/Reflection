@@ -64,6 +64,18 @@ final class ProjectFactory implements ProjectFactoryInterface
                     $namespace->addInterface($interface->getFqsen());
                 }
 
+                foreach ($file->getFunctions() as $function) {
+                    $namespace->addFunction($function->getFqsen());
+                }
+
+                foreach ($file->getConstants() as $constant) {
+                    $namespace->addConstant($constant->getFqsen());
+                }
+
+                foreach ($file->getTraits() as $trait) {
+                    $namespace->addTrait($trait->getFqsen());
+                }
+
                 $project->addNamespace($namespace);
             }
         }
