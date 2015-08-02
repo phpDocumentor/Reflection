@@ -70,7 +70,7 @@ class Namespace_Test extends \PHPUnit_Framework_TestCase
     {
         $this->assertEmpty($this->fixture->getConstants());
 
-        $constant = new Constant(new Fqsen('\MySpace::MY_CONSTANT'));
+        $constant = new Fqsen('\MySpace::MY_CONSTANT');
         $this->fixture->addConstant($constant);
 
         $this->assertEquals(array('\MySpace::MY_CONSTANT' => $constant), $this->fixture->getConstants());
@@ -85,10 +85,10 @@ class Namespace_Test extends \PHPUnit_Framework_TestCase
     {
         $this->assertEmpty($this->fixture->getFunctions());
 
-        $function = new Function_(new Fqsen('\MySpace::MyFunction()'));
+        $function = new Fqsen('\MySpace\MyFunction()');
         $this->fixture->addFunction($function);
 
-        $this->assertEquals(array('\MySpace::MyFunction()' => $function), $this->fixture->getFunctions());
+        $this->assertEquals(array('\MySpace\MyFunction()' => $function), $this->fixture->getFunctions());
     }
 
     /**
@@ -100,25 +100,10 @@ class Namespace_Test extends \PHPUnit_Framework_TestCase
     {
         $this->assertEmpty($this->fixture->getInterfaces());
 
-        $interface = new Interface_(new Fqsen('\MySpace\MyInterface'));
+        $interface = new Fqsen('\MySpace\MyInterface');
         $this->fixture->addInterface($interface);
 
         $this->assertEquals(array('\MySpace\MyInterface' => $interface), $this->fixture->getInterfaces());
-    }
-
-    /**
-     * @covers ::__construct
-     * @covers ::getChildren
-     * @covers ::AddChild
-     */
-    public function testAddAndGetChildren()
-    {
-        $this->assertEmpty($this->fixture->getChildren());
-
-        $namespace = new Namespace_(new Fqsen('\MySpace\MySubSpace'));
-        $this->fixture->addChild($namespace);
-
-        $this->assertEquals(array('\MySpace\MySubSpace' => $namespace), $this->fixture->getChildren());
     }
 
     /**
@@ -130,7 +115,7 @@ class Namespace_Test extends \PHPUnit_Framework_TestCase
     {
         $this->assertEmpty($this->fixture->getTraits());
 
-        $trait = new Trait_(new Fqsen('\MySpace\MyTrait'));
+        $trait = new Fqsen('\MySpace\MyTrait');
         $this->fixture->addTrait($trait);
 
         $this->assertEquals(array('\MySpace\MyTrait' => $trait), $this->fixture->getTraits());
