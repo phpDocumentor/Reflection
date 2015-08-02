@@ -56,8 +56,12 @@ final class ProjectFactory implements ProjectFactoryInterface
             foreach ($file->getNamespaces() as $namespaceFqsen) {
                 $namespace = new Namespace_($namespaceFqsen);
 
-                foreach($file->getClasses() as $class) {
+                foreach ($file->getClasses() as $class) {
                     $namespace->addClass($class->getFqsen());
+                }
+
+                foreach ($file->getInterfaces() as $interface) {
+                    $namespace->addInterface($interface->getFqsen());
                 }
 
                 $project->addNamespace($namespace);
