@@ -117,7 +117,6 @@ class FileTest extends TestCase
      */
     public function testFileWithNamespace()
     {
-        $this->markTestSkipped('Not yet implemented');
         $namespaceNode = new NamespaceNode(new Name('mySpace'));
         $namespaceNode->fqsen = new Fqsen('\mySpace');
         $this->nodesFactoryMock->shouldReceive('create')
@@ -134,7 +133,7 @@ class FileTest extends TestCase
         $file = $this->fixture->create(__FILE__, $containerMock);
 
         $this->assertEquals(__FILE__, $file->getPath());
-        $this->assertArrayHasKey('mySpace', $file->getNamespaceAliases());
+        $this->assertArrayHasKey('\mySpace', $file->getNamespaces());
     }
 
     /**

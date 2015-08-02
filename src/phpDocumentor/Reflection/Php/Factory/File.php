@@ -119,6 +119,7 @@ final class File implements ProjectFactoryStrategy
                     $file->addInterface($interface);
                     break;
                 case NamespaceNode::class:
+                    $file->addNamespace($node->fqsen);
                     $this->createElements($node->fqsen, $node->stmts, $file, $strategies);
                     break;
                 case TraitNode::class:

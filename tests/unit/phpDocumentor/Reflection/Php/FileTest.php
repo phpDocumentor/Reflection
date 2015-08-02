@@ -155,16 +155,16 @@ class FileTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::addNamespaceAlias
-     * @covers ::getNamespaceAliases
+     * @covers ::addNamespace
+     * @covers ::getNamespaces
      */
     public function testSetAndGetNamespaceAliases()
     {
-        $this->assertEmpty($this->fixture->getNamespaceAliases());
+        $this->assertEmpty($this->fixture->getNamespaces());
 
-        $this->fixture->addNamespaceAlias('alias', new Fqsen('\MyNamepace\Foo'));
+        $this->fixture->addNamespace(new Fqsen('\MyNamepace\Foo'));
 
-        $this->assertEquals(array('alias' => new Fqsen('\MyNamepace\Foo')), $this->fixture->getNamespaceAliases());
+        $this->assertEquals(array('\MyNamepace\Foo' => new Fqsen('\MyNamepace\Foo')), $this->fixture->getNamespaces());
     }
 
     /**
