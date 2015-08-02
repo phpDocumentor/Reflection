@@ -53,7 +53,7 @@ final class ProjectFactory implements ProjectFactoryInterface
         }
 
         foreach ($project->getFiles() as $file) {
-            foreach ($file->getNamespaceAliases() as $namespaceFqsen) {
+            foreach ($file->getNamespaces() as $namespaceFqsen) {
                 $namespace = new Namespace_($namespaceFqsen);
 
                 foreach($file->getClasses() as $class) {
