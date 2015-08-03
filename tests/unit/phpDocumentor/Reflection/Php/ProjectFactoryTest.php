@@ -76,7 +76,7 @@ class ProjectFactoryTest extends \PHPUnit_Framework_TestCase
         $file->addNamespace(new Fqsen('\mySpace'));
         $file->addClass(new Class_(new Fqsen('\mySpace\MyClass')));
 
-        $namespaces = $this->fetchNamespaces($file);
+        $namespaces = $this->fetchNamespacesFromSingleFile($file);
 
         $this->assertEquals('\mySpace', key($namespaces));
 
@@ -93,7 +93,7 @@ class ProjectFactoryTest extends \PHPUnit_Framework_TestCase
         $file->addNamespace(new Fqsen('\mySpace'));
         $file->addInterface(new Interface_(new Fqsen('\mySpace\MyInterface')));
 
-        $namespaces = $this->fetchNamespaces($file);
+        $namespaces = $this->fetchNamespacesFromSingleFile($file);
 
         /** @var Namespace_ $mySpace */
         $mySpace = current($namespaces);
@@ -108,7 +108,7 @@ class ProjectFactoryTest extends \PHPUnit_Framework_TestCase
         $file->addNamespace(new Fqsen('\mySpace'));
         $file->addFunction(new Function_(new Fqsen('\mySpace\function()')));
 
-        $namespaces = $this->fetchNamespaces($file);
+        $namespaces = $this->fetchNamespacesFromSingleFile($file);
 
         /** @var Namespace_ $mySpace */
         $mySpace = current($namespaces);
@@ -121,9 +121,9 @@ class ProjectFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $file = new File(md5('some/file.php'), 'some/file.php');
         $file->addNamespace(new Fqsen('\mySpace'));
-        $file->addFunction(new Constant(new Fqsen('\mySpace::MY_CONST')));
+        $file->addConstant(new Constant(new Fqsen('\mySpace::MY_CONST')));
 
-        $namespaces = $this->fetchNamespaces($file);
+        $namespaces = $this->fetchNamespacesFromSingleFile($file);
 
         /** @var Namespace_ $mySpace */
         $mySpace = current($namespaces);
@@ -136,9 +136,9 @@ class ProjectFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $file = new File(md5('some/file.php'), 'some/file.php');
         $file->addNamespace(new Fqsen('\mySpace'));
-        $file->addFunction(new Trait_(new Fqsen('\mySpace\MyTrait')));
+        $file->addTrait(new Trait_(new Fqsen('\mySpace\MyTrait')));
 
-        $namespaces = $this->fetchNamespaces($file);
+        $namespaces = $this->fetchNamespacesFromSingleFile($file);
 
         /** @var Namespace_ $mySpace */
         $mySpace = current($namespaces);
@@ -147,20 +147,69 @@ class ProjectFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('\mySpace\MyTrait', key($mySpace->getTraits()));
     }
 
-    private function fetchNamespaces(File $file)
+    public function testNamespaceSpreadOverMultipleFiles()
+    {
+        $someFile = new File(md5('some/file.php'), 'some/file.php');
+        $someFile->addNamespace(new Fqsen('\mySpace'));
+        $someFile->addClass(new Class_(new Fqsen('\mySpace\MyClass')));
+
+        $otherFile = new File(md5('some/other.php'), 'some/other.php');
+        $otherFile->addNamespace(new Fqsen('\mySpace'));
+        $otherFile->addClass(new Class_(new Fqsen('\mySpace\OtherClass')));
+
+        $namespaces = $this->fetchNamespacesFromMultipleFiles(array($otherFile, $someFile));
+
+        $this->assertCount(1, $namespaces);
+        $this->assertCount(2, current($namespaces)->getClasses());
+    }
+
+    public function testSingleFileMultipleNamespaces()
+    {
+        $someFile = new File(md5('some/file.php'), 'some/file.php');
+        $someFile->addNamespace(new Fqsen('\mySpace'));
+        $someFile->addClass(new Class_(new Fqsen('\mySpace\MyClass')));
+        $someFile->addNamespace(new Fqsen('\mySpace\SubSpace'));
+        $someFile->addClass(new Class_(new Fqsen('\mySpace\SubSpace\MyClass')));
+
+        $namespaces = $this->fetchNamespacesFromSingleFile($someFile);
+
+        $this->assertCount(2, $namespaces);
+        $this->assertArrayHasKey('\mySpace', $namespaces);
+        $this->assertArrayHasKey('\mySpace\SubSpace', $namespaces);
+
+        $this->assertCount(1, $namespaces['\mySpace']->getClasses());
+    }
+
+    /**
+     * Uses the ProjectFactory to create a Project and returns the namespaces created by the factory.
+     *
+     * @param File $file
+     * @return Namespace_[] Namespaces of the project
+     */
+    private function fetchNamespacesFromSingleFile(File $file)
+    {
+        return $this->fetchNamespacesFromMultipleFiles(array($file));
+    }
+
+    /**
+     * Uses the ProjectFactory to create a Project and returns the namespaces created by the factory.
+     *
+     * @param File[] $files
+     * @return Namespace_[] Namespaces of the project
+     */
+
+    private function fetchNamespacesFromMultipleFiles($files)
     {
         $fileStrategyMock = m::mock(ProjectFactoryStrategy::class);
-        $fileStrategyMock->shouldReceive('matches')->once()->andReturn(true);
+        $fileStrategyMock->shouldReceive('matches')->times(count($files))->andReturn(true);
         $fileStrategyMock->shouldReceive('create')
-            ->once()
+            ->times(count($files))
             ->andReturnValues(
-                array(
-                    $file
-                )
+                $files
             );
 
         $projectFactory = new ProjectFactory(array($fileStrategyMock));
-        $project = $projectFactory->create(array('some/file.php'));
+        $project = $projectFactory->create($files);
 
         return $project->getNamespaces();
     }

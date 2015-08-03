@@ -13,8 +13,8 @@
 namespace phpDocumentor\Reflection\Php;
 
 use phpDocumentor\Reflection\Exception;
+use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\ProjectFactory as ProjectFactoryInterface;
-use phpDocumentor\Reflection\Types\Context;
 
 /**
  * Factory class to transform files into a project description.
@@ -54,32 +54,59 @@ final class ProjectFactory implements ProjectFactoryInterface
 
         foreach ($project->getFiles() as $file) {
             foreach ($file->getNamespaces() as $namespaceFqsen) {
-                $namespace = new Namespace_($namespaceFqsen);
-
+                $namespace = $this->getNamespaceByName($project, (string)$namespaceFqsen);
                 foreach ($file->getClasses() as $class) {
-                    $namespace->addClass($class->getFqsen());
+                    if ($namespaceFqsen . '\\' . $class->getName() == $class->getFqsen()) {
+                        $namespace->addClass($class->getFqsen());
+                    }
                 }
 
                 foreach ($file->getInterfaces() as $interface) {
-                    $namespace->addInterface($interface->getFqsen());
+                    if ($namespaceFqsen . '\\' . $interface->getName() == $interface->getFqsen()) {
+                        $namespace->addInterface($interface->getFqsen());
+                    }
                 }
 
                 foreach ($file->getFunctions() as $function) {
-                    $namespace->addFunction($function->getFqsen());
+                    if ($namespaceFqsen . '\\' . $function->getName() . '()' == $function->getFqsen()) {
+                        $namespace->addFunction($function->getFqsen());
+                    }
                 }
 
                 foreach ($file->getConstants() as $constant) {
-                    $namespace->addConstant($constant->getFqsen());
+                    if ($namespaceFqsen . '::' . $constant->getName() == $constant->getFqsen()) {
+                        $namespace->addConstant($constant->getFqsen());
+                    }
                 }
 
                 foreach ($file->getTraits() as $trait) {
-                    $namespace->addTrait($trait->getFqsen());
+                    if ($namespaceFqsen . '\\' . $trait->getName() == $trait->getFqsen()) {
+                        $namespace->addTrait($trait->getFqsen());
+                    }
                 }
-
-                $project->addNamespace($namespace);
             }
         }
 
         return $project;
+    }
+
+    /**
+     * Gets Namespace from the project if it exists, otherwise returns a new namepace
+     *
+     * @param Project $project
+     * @param $name
+     * @return Namespace_
+     */
+    private function getNamespaceByName(Project $project, $name)
+    {
+        $existingNamespaces = $project->getNamespaces();
+
+        if (isset($existingNamespaces[$name])) {
+            return $existingNamespaces[$name];
+        }
+
+        $namespace = new Namespace_(new Fqsen($name));
+        $project->addNamespace($namespace);
+        return $namespace;
     }
 }
