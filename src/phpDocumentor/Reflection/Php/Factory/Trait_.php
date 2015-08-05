@@ -10,50 +10,44 @@
  * @link      http://phpdoc.org
  */
 
-
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use InvalidArgumentException;
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
-use phpDocumentor\Reflection\Php\Class_ as ClassElement;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
+use phpDocumentor\Reflection\Php\Trait_ as TraitElement;
 use phpDocumentor\Reflection\Types\Context;
+use PhpParser\Comment\Doc;
 use PhpParser\Node;
-use PhpParser\Node\Stmt\Class_ as ClassNode;
-use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property as PropertyNode;
-use PhpParser\Comment\Doc;
+use PhpParser\Node\Stmt\Trait_ as TraitNode;
 use PhpParser\Node\Stmt\TraitUse;
 
-/**
- * Strategy to create a ClassElement including all sub elements.
- */
-final class Class_ implements ProjectFactoryStrategy
+final class Trait_ implements ProjectFactoryStrategy
 {
-
     /**
      * Returns true when the strategy is able to handle the object.
      *
-     * @param object $object object to check.
+     * @param TraitNode $object object to check.
      * @return boolean
      */
     public function matches($object)
     {
-        return $object instanceof ClassNode;
+        return $object instanceof TraitNode;
     }
 
     /**
-     * Creates an ClassElement out of the given object.
+     * Creates an TraitElement out of the given object.
      * Since an object might contain other objects that need to be converted the $factory is passed so it can be
      * used to create nested Elements.
      *
-     * @param ClassNode $object object to convert to an Element
+     * @param TraitNode $object object to convert to an TraitElement
      * @param StrategyContainer $strategies used to convert nested objects.
-     * @param Context $context of the created object
-     * @return ClassElement
+     * @param Context $context
+     * @return TraitElement
      */
     public function create($object, StrategyContainer $strategies, Context $context = null)
     {
@@ -68,57 +62,36 @@ final class Class_ implements ProjectFactoryStrategy
 
         $docBlock = $this->createDocBlock($object->getDocComment(), $strategies, $context);
 
-        $classElement = new ClassElement(
-            $object->fqsen,
-            $docBlock,
-            $object->extends ? new Fqsen('\\' . $object->extends) : null,
-            $object->isAbstract(),
-            $object->isFinal()
-        );
-
-        if (isset($object->implements)) {
-            foreach ($object->implements as $interfaceClassName) {
-                $classElement->addInterface(
-                    new Fqsen('\\' . $interfaceClassName->toString())
-                );
-            }
-        }
+        $trait = new TraitElement($object->fqsen, $docBlock);
 
         if (isset($object->stmts)) {
             foreach ($object->stmts as $stmt) {
                 switch (get_class($stmt)) {
-                    case TraitUse::class:
-                        foreach ($stmt->traits as $use) {
-                            $classElement->addUsedTrait(new Fqsen('\\'. $use->toString()));
-                        }
-                        break;
                     case PropertyNode::class:
                         $properties = new PropertyIterator($stmt);
                         foreach ($properties as $property) {
                             $element = $this->createMember($property, $strategies, $context);
-                            $classElement->addProperty($element);
+                            $trait->addProperty($element);
                         }
                         break;
                     case ClassMethod::class:
                         $method = $this->createMember($stmt, $strategies, $context);
-                        $classElement->addMethod($method);
+                        $trait->addMethod($method);
                         break;
-                    case ClassConst::class:
-                        $constants = new ClassConstantIterator($stmt);
-                        foreach ($constants as $const) {
-                            $element = $this->createMember($const, $strategies, $context);
-                            $classElement->addConstant($element);
+                    case TraitUse::class:
+                        foreach ($stmt->traits as $use) {
+                            $trait->addUsedTrait(new Fqsen('\\'. $use->toString()));
                         }
                         break;
                 }
             }
         }
 
-        return $classElement;
+        return $trait;
     }
 
     /**
-     * @param Node|PropertyIterator|ClassConstantIterator $stmt
+     * @param Node|PropertyIterator|Doc $stmt
      * @param StrategyContainer $strategies
      * @param Context $context
      * @return Element
@@ -128,7 +101,6 @@ final class Class_ implements ProjectFactoryStrategy
         $strategy = $strategies->findMatching($stmt);
         return $strategy->create($stmt, $strategies, $context);
     }
-
 
     /**
      * @param Doc $docBlock

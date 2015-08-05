@@ -37,8 +37,8 @@ final class File
     /** @var string|null $source */
     private $source = null;
 
-    /** @var Fqsen[] $namespaceAliases */
-    private $namespaceAliases;
+    /** @var Fqsen[] $namespaces */
+    private $namespaces = array();
 
     /** @var string[] $includes */
     private $includes = array();
@@ -96,25 +96,23 @@ final class File
     }
 
     /**
-     * Returns the namespace aliases that have been defined in this file.
+     * Returns the namespace fqsens that have been defined in this file.
      *
      * @return Fqsen[]
      */
-    public function getNamespaceAliases()
+    public function getNamespaces()
     {
-        return $this->namespaceAliases;
+        return $this->namespaces;
     }
 
     /**
-     * Add namespace alias to file
+     * Add namespace to file
      *
-     * @param string $alias
      * @param Fqsen $fqsen
-     * @return void
      */
-    public function addNamespaceAlias($alias, Fqsen $fqsen)
+    public function addNamespace(Fqsen $fqsen)
     {
-        $this->namespaceAliases[$alias] = $fqsen;
+        $this->namespaces[(string)$fqsen] = $fqsen;
     }
 
     /**

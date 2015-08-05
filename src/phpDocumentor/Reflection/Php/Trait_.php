@@ -37,6 +37,9 @@ final class Trait_ implements Element
     /** @var Method[] $methods */
     private $methods = array();
 
+    /** @var Fqsen[] $usedTraits References to traits consumed by this trait */
+    private $usedTraits = array();
+
     /**
      * Initializes the all properties
      *
@@ -109,5 +112,33 @@ final class Trait_ implements Element
     public function getName()
     {
         return $this->fqsen->getName();
+    }
+
+    /**
+     * @return null|DocBlock
+     */
+    public function getDocBlock()
+    {
+        return $this->docBlock;
+    }
+
+    /**
+     * Returns fqsen of all traits used by this trait.
+     *
+     * @return Fqsen[]
+     */
+    public function getUsedTraits()
+    {
+        return $this->usedTraits;
+    }
+
+    /**
+     * Add reference to trait used by this trait.
+     *
+     * @param Fqsen $fqsen
+     */
+    public function addUsedTrait(Fqsen $fqsen)
+    {
+        $this->usedTraits[(string)$fqsen] = $fqsen;
     }
 }

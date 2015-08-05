@@ -18,6 +18,7 @@ use phpDocumentor\Reflection\DocBlock as DocBlockDescriptor;
 use phpDocumentor\Reflection\DocBlockFactoryInterface;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
+use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Comment\Doc;
 
 /**
@@ -61,9 +62,10 @@ final class DocBlock implements ProjectFactoryStrategy
      *
      * @param Doc $object object to convert to an Element
      * @param StrategyContainer $strategies used to convert nested objects.
-     * @return null|\phpDocumentor\Reflection\DocBlock
+     * @param Context $context of the created object
+     * @return null|DocBlockDescriptor
      */
-    public function create($object, StrategyContainer $strategies)
+    public function create($object, StrategyContainer $strategies, Context $context = null)
     {
         if ($object === null) {
             return null;
@@ -78,6 +80,6 @@ final class DocBlock implements ProjectFactoryStrategy
             );
         }
 
-        return $this->docblockFactory->create($object->getText());
+        return $this->docblockFactory->create($object->getText(), $context);
     }
 }

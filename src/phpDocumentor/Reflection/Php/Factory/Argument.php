@@ -17,6 +17,7 @@ use phpDocumentor\Reflection\Php\Argument as ArgumentDescriptor;
 use phpDocumentor\Reflection\Php\Factory;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
+use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Node\Param;
 
 /**
@@ -46,11 +47,10 @@ final class Argument implements ProjectFactoryStrategy
      *
      * @param Param $object object to convert to an Element
      * @param StrategyContainer $strategies used to convert nested objects.
+     * @param Context $context of the created object
      * @return ArgumentDescriptor
-     *
-     * @throws InvalidArgumentException when this strategy is not able to handle $object
      */
-    public function create($object, StrategyContainer $strategies)
+    public function create($object, StrategyContainer $strategies, Context $context = null)
     {
         if (!$this->matches($object)) {
             throw new InvalidArgumentException(

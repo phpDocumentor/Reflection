@@ -15,6 +15,7 @@ namespace phpDocumentor\Reflection\Php\Factory;
 use Mockery as m;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
+use phpDocumentor\Reflection\Types\Context;
 
 /**
  * Base test case for all strategies, to be sure that they check if the can handle objects before handeling them.

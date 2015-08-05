@@ -15,6 +15,7 @@ use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Php\Factory;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
+use phpDocumentor\Reflection\Types\Context;
 
 /**
  * Stub for test purpose only.
@@ -40,9 +41,10 @@ final class DummyFactoryStrategy implements ProjectFactoryStrategy
      *
      * @param object $object object to convert to an Element
      * @param StrategyContainer $strategies used to convert nested objects.
+     * @param Context $context
      * @return Element
      */
-    public function create($object, StrategyContainer $strategies)
+    public function create($object, StrategyContainer $strategies, Context $context = null)
     {
     }
 }

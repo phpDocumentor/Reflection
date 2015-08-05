@@ -19,6 +19,7 @@ use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Php\Visibility;
 use phpDocumentor\Reflection\PrettyPrinter;
+use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Comment\Doc;
 
 /**
@@ -62,11 +63,10 @@ final class Property implements ProjectFactoryStrategy
      *
      * @param PropertyIterator $object object to convert to an PropertyDescriptor
      * @param StrategyContainer $strategies used to convert nested objects.
+     * @param Context $context
      * @return PropertyDescriptor
-     *
-     * @throws InvalidArgumentException when this strategy is not able to handle $object
      */
-    public function create($object, StrategyContainer $strategies)
+    public function create($object, StrategyContainer $strategies, Context $context = null)
     {
         if (!$this->matches($object)) {
             throw new InvalidArgumentException(
@@ -82,7 +82,7 @@ final class Property implements ProjectFactoryStrategy
         if ($object->getDefault() !== null) {
             $default = $this->valueConverter->prettyPrintExpr($object->getDefault());
         }
-        $docBlock = $this->createDocBlock($object->getDocComment(), $strategies);
+        $docBlock = $this->createDocBlock($object->getDocComment(), $strategies, $context);
 
         return new PropertyDescriptor($object->getFqsen(), $visibility, $docBlock, $default, $object->isStatic());
     }
@@ -107,15 +107,16 @@ final class Property implements ProjectFactoryStrategy
     /**
      * @param Doc $docBlock
      * @param StrategyContainer $strategies
+     * @param Context $context
      * @return null|\phpDocumentor\Reflection\DocBlock
      */
-    private function createDocBlock(Doc $docBlock = null, StrategyContainer $strategies)
+    private function createDocBlock(Doc $docBlock = null, StrategyContainer $strategies, Context $context = null)
     {
         if ($docBlock === null) {
             return null;
         }
 
         $strategy = $strategies->findMatching($docBlock);
-        return $strategy->create($docBlock, $strategies);
+        return $strategy->create($docBlock, $strategies, $context);
     }
 }

@@ -19,6 +19,7 @@ use phpDocumentor\Reflection\Php\Factory;
 use phpDocumentor\Reflection\Php\Factory\Function_;
 use Mockery as m;
 use phpDocumentor\Reflection\Php\StrategyContainer;
+use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Comment\Doc;
 
 /**
@@ -74,7 +75,7 @@ class Function_Test extends TestCase
         $containerMock = m::mock(StrategyContainer::class);
         $containerMock->shouldReceive('findMatching->create')
             ->once()
-            ->with('param1', $containerMock)
+            ->with('param1', $containerMock, null)
             ->andReturn(new Argument('param1'));
 
         /** @var FunctionDescriptor $function */
@@ -99,7 +100,7 @@ class Function_Test extends TestCase
         $containerMock = m::mock(StrategyContainer::class);
         $containerMock->shouldReceive('findMatching->create')
             ->once()
-            ->with($doc, $containerMock)
+            ->with($doc, $containerMock, null)
             ->andReturn($docBlock);
 
         /** @var FunctionDescriptor $function */
