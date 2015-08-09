@@ -48,7 +48,7 @@ final class ProjectFactory implements ProjectFactoryInterface
     {
        return new static(
             [
-                new Factory\Argument(),
+                new Factory\Argument(new PrettyPrinter()),
                 new Factory\Class_(),
                 new Factory\Constant(new PrettyPrinter()),
                 new Factory\DocBlock(DocBlockFactory::createInstance()),
