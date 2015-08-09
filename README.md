@@ -22,13 +22,9 @@ are however several advantages to using this library:
 
 * [Creates an object graph] containing the structure of your application much like a site map shows the 
   structure of a website.
-* Supports [incrementally updating] a previously analyzed codebase by caching the results 
-  and checking if any of the files have changed.
-* Can [filter] the object graph, for example to hide specific elements.
-* You can inspect your object graph, analyze it and report any errors and inconsistencies found using [validators].
 * Can read and interpret code of any PHP version starting with 5.2 up to and including your currently installed version 
   of PHP.
-* Can be integrated into Silex and Cilex using a [Service Provider].
+* Due it's clean interface it can be in any application without a complex setup.
 
 ## Installation
 
@@ -41,49 +37,30 @@ After the installation is complete no further configuration is necessary and you
 
 ## Basic Usage
 
-This Reflection library uses [PSR-0] and it is recommended to use a PSR-0 compatible autoloader to load all the 
+This Reflection library uses [PSR-4] and it is recommended to use a PSR-4 compatible autoloader to load all the 
 files containing the classes for this library. 
 
 An easy way to do this is by including the [composer] autoloader as shown here:
 
     include 'vendor/autoload.php';
 
-Once that is done you can use the `create()` method of the `Analyzer` class to instantiate your source Analyzer and 
+Once that is done you can use the `createIntance()` method of the `\phpDocumentor\Reflection\Php\ProjectFactory` class to instantiate a new project factory and 
 pre-configure it with sensible defaults.
     
-    $analyzer = phpDocumentor\Reflection\Php\Analyzer::create();
+    $projectFactory = \phpDocumentor\Reflection\Php\ProjectFactory::createInstance();
 
-At this point we are ready to analyze files, one at a time. By loading the file using an `SplFileObject` class and 
-feeding that to the `analyze` of the `Analyzer` method we convert the PHP code in that file into an object of type 
-`phpDocumentor\Reflection\Php\File`.
+At this point we are ready to analyze your complete project or just one file at the time. Just pass an array of file paths to the `create` method of the project factory.
 
-This object describing a file is returned to us but also added to another object that describes your entire project.
+    $projectFiles = ['tests/example.file.php'];
+    $project = $projectFactory->create('My Project', $projectFiles);
 
-    $splFileObject = new \SplFileObject('tests/example.file.php');
-    $analyzer->analyze($splFileObject);
-    
-The step above can be repeated for as many files as you have. When you are done you will have to call the finalize 
-method of the analyzer. This method will do another analysis pass. This pass will connect the dots and do any processing
-that relies the structure to be complete, such as adding linkage between all elements.
-
-When the finalization is ready a new object of type `phpDocumentor\Reflection\Php\Project` will be returned that
-contains a complete hierarchy of all files with their classes, traits and interfaces (and everything in there), but also
-all namespaces and packages as a hierarchical tree.
-
-    $project = $analyzer->finalize();
-    
-When the finalization is ready a new object of type `phpDocumentor\Reflection\Php\Project` will be returned that
+When the process is ready a new object of type `phpDocumentor\Reflection\Php\Project` will be returned that
 contains a complete hierarchy of all files with their classes, traits and interfaces (and everything in there), but also
 all namespaces and packages as a hierarchical tree.
 
 > See the [example] script for a detailed and commented example
 
 [Build Status]:            https://secure.travis-ci.org/phpDocumentor/Reflection.png
-[PSR-0]:                   http://php-fig.com
-[Creates an object graph]: docs/usage.rst
-[incrementally updating]:  docs/incremental-updates.rst
-[filter]:                  docs/filtering.rst
-[validators]:              docs/inspecting.rst
-[Service Provider]:        docs/integrating-with-silex-and-cilex.rst
+[PSR-4]:                   http://php-fig.com
 [example]:                 example.php
 [composer]:                http://getcomposer.org
