@@ -142,7 +142,7 @@ class ProjectCreationTest extends \PHPUnit_Framework_TestCase
     public function testInterfaceExtends()
     {
         $fileName = __DIR__ . '/project/Luigi/Packing.php';
-        $project = $this->fixture->create([
+        $project = $this->fixture->create('MyProject', [
             $fileName
         ]);
 
