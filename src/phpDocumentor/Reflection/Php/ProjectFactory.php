@@ -12,9 +12,12 @@
 
 namespace phpDocumentor\Reflection\Php;
 
+use phpDocumentor\Reflection\DocBlockFactory;
 use phpDocumentor\Reflection\Exception;
 use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\PrettyPrinter;
 use phpDocumentor\Reflection\ProjectFactory as ProjectFactoryInterface;
+use phpDocumentor\Reflection\Php\Factory as Factory;
 
 /**
  * Factory class to transform files into a project description.
@@ -34,6 +37,24 @@ final class ProjectFactory implements ProjectFactoryInterface
     public function __construct($strategies)
     {
         $this->strategies = new ProjectFactoryStrategies($strategies);
+    }
+
+    public static function createInstance()
+    {
+        new ProjectFactory(
+            [
+                new Factory\Argument(),
+                new Factory\Class_(),
+                new Factory\Constant(),
+                new Factory\DocBlock(DocBlockFactory::createInstance()),
+                new Factory\File(NodesFactory::createInstance()),
+                new Factory\Function_(),
+                new Factory\Interface_(),
+                new Factory\Method(),
+                new Factory\Property(new PrettyPrinter()),
+                new Factory\Trait_(),
+            ]
+        );
     }
 
     /**

@@ -14,17 +14,6 @@ namespace phpDocumentor\Reflection;
 
 use Mockery as m;
 use phpDocumentor\Reflection\DocBlock\Tags\Param;
-use phpDocumentor\Reflection\Php\Factory\Argument;
-use phpDocumentor\Reflection\Php\Factory\Class_;
-use phpDocumentor\Reflection\Php\Factory\Constant;
-use phpDocumentor\Reflection\Php\Factory\DocBlock as DocBlockStrategy;
-use phpDocumentor\Reflection\Php\Factory\File;
-use phpDocumentor\Reflection\Php\Factory\Function_;
-use phpDocumentor\Reflection\Php\Factory\Interface_;
-use phpDocumentor\Reflection\Php\Factory\Method;
-use phpDocumentor\Reflection\Php\Factory\Property;
-use phpDocumentor\Reflection\Php\Factory\Trait_;
-use phpDocumentor\Reflection\Php\NodesFactory;
 use phpDocumentor\Reflection\Php\ProjectFactory;
 use phpDocumentor\Reflection\Types\Object_;
 
@@ -42,24 +31,8 @@ class ProjectCreationTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $docBlockFactory = DocBlockFactory::createInstance();
-
-        $this->fixture = new ProjectFactory(
-            [
-                new Argument(),
-                new Class_(),
-                new Constant(),
-                new DocBlockStrategy($docBlockFactory),
-                new File(NodesFactory::createInstance()),
-                new Function_(),
-                new Interface_(),
-                new Method(),
-                new Property(new PrettyPrinter()),
-                new Trait_(),
-            ]
-        );
+        $this->fixture = ProjectFactory::createInstance();
     }
-
 
     public function testCreateProjectWithFunctions()
     {
