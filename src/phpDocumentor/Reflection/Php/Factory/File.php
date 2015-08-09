@@ -15,6 +15,8 @@ namespace phpDocumentor\Reflection\Php\Factory;
 
 use InvalidArgumentException;
 use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\Php\Factory\File\Adapter;
+use phpDocumentor\Reflection\Php\Factory\File\LocalAdapter;
 use phpDocumentor\Reflection\Php\File as FileElement;
 use phpDocumentor\Reflection\Php\NodesFactory;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
@@ -41,12 +43,24 @@ final class File implements ProjectFactoryStrategy
     private $nodesFactory;
 
     /**
-     * Initializes the object
-     * @param NodesFactory $nodesFactory
+     * @var Adapter
      */
-    public function __construct(NodesFactory $nodesFactory)
+    private $adapter;
+
+    /**
+     * Initializes the object.
+     *
+     * @param NodesFactory $nodesFactory
+     * @param Adapter $adapter
+     */
+    public function __construct(NodesFactory $nodesFactory, Adapter $adapter = null)
     {
+        if($adapter === null) {
+            $adapter = new LocalAdapter();
+        }
+
         $this->nodesFactory = $nodesFactory;
+        $this->adapter = $adapter;
     }
 
     /**
@@ -57,7 +71,7 @@ final class File implements ProjectFactoryStrategy
      */
     public function matches($filePath)
     {
-        return is_string($filePath) && file_exists($filePath);
+        return is_string($filePath) && $this->adapter->fileExists($filePath);
     }
 
     /**
@@ -80,11 +94,11 @@ final class File implements ProjectFactoryStrategy
                 )
             );
         }
-        $code = file_get_contents($object);
+        $code = $this->adapter->getContents($object);
         $nodes = $this->nodesFactory->create($code);
         $docBlock = $this->createDocBlock($strategies, $code, $nodes);
 
-        $file = new FileElement(md5_file($object), $object, $code, $docBlock);
+        $file = new FileElement($this->adapter->md5($object), $this->adapter->path($object), $code, $docBlock);
 
         $this->createElements(new Fqsen('\\'), $nodes, $file, $strategies);
 
