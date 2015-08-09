@@ -65,7 +65,7 @@ class ProjectCreationTest extends \PHPUnit_Framework_TestCase
     {
         $fileName = __DIR__ . '/project/simpleFunction.php';
 
-        $project = $this->fixture->create([
+        $project = $this->fixture->create('MyProject',[
             $fileName
         ]);
 
@@ -76,7 +76,7 @@ class ProjectCreationTest extends \PHPUnit_Framework_TestCase
     public function testCreateProjectWithClass()
     {
         $fileName = __DIR__ . '/project/Pizza.php';
-        $project = $this->fixture->create([
+        $project = $this->fixture->create('MyProject', [
             $fileName
         ]);
 
@@ -88,7 +88,7 @@ class ProjectCreationTest extends \PHPUnit_Framework_TestCase
     public function testWithNamespacedClass()
     {
         $fileName = __DIR__ . '/project/Luigi/Pizza.php';
-        $project = $this->fixture->create([
+        $project = $this->fixture->create('MyProject', [
             $fileName
         ]);
 
@@ -112,7 +112,7 @@ class ProjectCreationTest extends \PHPUnit_Framework_TestCase
     public function testDocblockOfMethodIsProcessed()
     {
         $fileName = __DIR__ . '/project/Luigi/Pizza.php';
-        $project = $this->fixture->create([
+        $project = $this->fixture->create('MyProject', [
             $fileName
         ]);
 
@@ -137,7 +137,7 @@ class ProjectCreationTest extends \PHPUnit_Framework_TestCase
     public function testWithUsedParent()
     {
         $fileName = __DIR__ . '/project/Luigi/StyleFactory.php';
-        $project = $this->fixture->create([
+        $project = $this->fixture->create('MyProject', [
             $fileName
         ]);
 
@@ -149,7 +149,7 @@ class ProjectCreationTest extends \PHPUnit_Framework_TestCase
     public function testWithInterface()
     {
         $fileName = __DIR__ . '/project/Luigi/Valued.php';
-        $project = $this->fixture->create([
+        $project = $this->fixture->create('MyProject', [
             $fileName
         ]);
 
@@ -159,7 +159,7 @@ class ProjectCreationTest extends \PHPUnit_Framework_TestCase
     public function testWithTrait()
     {
         $fileName = __DIR__ . '/project/Luigi/ExampleNestedTrait.php';
-        $project = $this->fixture->create([
+        $project = $this->fixture->create('MyProject', [
             $fileName
         ]);
 
