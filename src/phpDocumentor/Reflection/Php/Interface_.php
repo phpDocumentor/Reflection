@@ -36,16 +36,21 @@ final class Interface_ implements Element
     /** @var Method[] $methods */
     protected $methods = array();
 
+    /** @var Fqsen[] $parents */
+    protected $parents = array();
+
     /**
      * Initializes the object.
      *
      * @param Fqsen $fqsen
+     * @param Fqsen[] $parents
      * @param DocBlock $docBlock
      */
-    public function __construct(Fqsen $fqsen, DocBlock $docBlock = null)
+    public function __construct(Fqsen $fqsen, array $parents = array(), DocBlock $docBlock = null)
     {
         $this->fqsen = $fqsen;
         $this->docBlock = $docBlock;
+        $this->parents = $parents;
     }
 
     /**
@@ -118,5 +123,15 @@ final class Interface_ implements Element
     public function getDocBlock()
     {
         return $this->docBlock;
+    }
+
+    /**
+     * Returns the Fqsen of the interfaces this interface is extending.
+     *
+     * @return Fqsen[]
+     */
+    public function getParents()
+    {
+        return $this->parents;
     }
 }

@@ -13,11 +13,8 @@
 namespace phpDocumentor\Reflection\Php;
 
 use Mockery as m;
-use phpDocumentor\Reflection\Php\Tag\AuthorDescriptor;
-use phpDocumentor\Reflection\Php\Tag\VersionDescriptor;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
-use PhpParser\Comment\Doc;
 
 /**
  * Tests the functionality for the Interface_ class.
@@ -45,7 +42,7 @@ class Interface_Test extends \PHPUnit_Framework_TestCase
     {
         $this->fqsen = new Fqsen('\MySpace\MyInterface');
         $this->docBlock = new DocBlock('');
-        $this->fixture = new Interface_($this->fqsen, $this->docBlock);
+        $this->fixture = new Interface_($this->fqsen, array(), $this->docBlock);
     }
 
     /**

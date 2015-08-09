@@ -165,4 +165,18 @@ class ProjectCreationTest extends \PHPUnit_Framework_TestCase
 
         $this->assertArrayHasKey('\\Luigi\\ExampleNestedTrait', $project->getFiles()[$fileName]->getTraits());
     }
+
+    public function testInterfaceExtends()
+    {
+        $fileName = __DIR__ . '/project/Luigi/Packing.php';
+        $project = $this->fixture->create([
+            $fileName
+        ]);
+
+        $this->assertArrayHasKey('\\Luigi\\Packing', $project->getFiles()[$fileName]->getInterfaces());
+        $interface = current($project->getFiles()[$fileName]->getInterfaces());
+
+        $this->assertEquals(['\\Packing' => new Fqsen('\\Packing')], $interface->getParents());
+
+    }
 }
