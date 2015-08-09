@@ -43,22 +43,7 @@ class ProjectNamespaceTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $docBlockFactory = DocBlockFactory::createInstance();
-
-        $this->fixture = new ProjectFactory(
-            array(
-                new Argument(),
-                new Class_(),
-                new Constant(),
-                new DocBlockStrategy($docBlockFactory),
-                new File(NodesFactory::createInstance()),
-                new Function_(),
-                new Interface_(),
-                new Method(),
-                new Property(new PrettyPrinter()),
-                new Trait_(),
-            )
-        );
+        $this->fixture = $this->fixture = ProjectFactory::createInstance();
     }
 
     public function testWithNamespacedClass()

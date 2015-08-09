@@ -56,6 +56,9 @@ class ProjectCreationTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey($fileName, $project->getFiles());
         $this->assertArrayHasKey('\\Pizza', $project->getFiles()[$fileName]->getClasses());
         $this->assertArrayHasKey('\\Pizza::PACKAGING', $project->getFiles()[$fileName]->getClasses()['\\Pizza']->getConstants());
+        $constant = $project->getFiles()[$fileName]->getClasses()['\\Pizza']->getConstants()['\\Pizza::PACKAGING'];
+
+        $this->assertEquals('box',$constant->getValue());
     }
 
     public function testWithNamespacedClass()
