@@ -39,13 +39,14 @@ final class ProjectFactory implements ProjectFactoryInterface
     /**
      * Creates a project from the set of files.
      *
+     * @param string $name
      * @param string[] $files
      * @return Project
      * @throws Exception when no matching strategy was found.
      */
-    public function create(array $files)
+    public function create($name, array $files)
     {
-        $project = new Project('MyProject');
+        $project = new Project($name);
 
         foreach ($files as $filePath) {
             $strategy = $this->strategies->findMatching($filePath);

@@ -54,7 +54,7 @@ class ProjectFactoryTest extends \PHPUnit_Framework_TestCase
         $projectFactory = new ProjectFactory(array($someOtherStrategy, $fileStrategyMock));
 
         $files = array('some/file.php', 'some/other.php');
-        $project = $projectFactory->create($files);
+        $project = $projectFactory->create('MyProject', $files);
 
         $this->assertInstanceOf(Project::class, $project);
 
@@ -71,6 +71,6 @@ class ProjectFactoryTest extends \PHPUnit_Framework_TestCase
     public function testCreateThrowsExceptionWhenStrategyNotFound()
     {
         $projectFactory = new ProjectFactory(array());
-        $projectFactory->create(array('aa'));
+        $projectFactory->create('MyProject', array('aa'));
     }
 }
