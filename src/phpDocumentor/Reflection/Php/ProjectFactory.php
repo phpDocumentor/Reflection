@@ -52,42 +52,24 @@ final class ProjectFactory implements ProjectFactoryInterface
             $project->addFile($strategy->create($filePath, $this->strategies));
         }
 
+        $this->buildNamespaces($project);
+
+        return $project;
+    }
+
+    /**
+     * Builds the namespace tree with all elements in the project.
+     *
+     * @param Project $project
+     */
+    private function buildNamespaces(Project $project)
+    {
         foreach ($project->getFiles() as $file) {
             foreach ($file->getNamespaces() as $namespaceFqsen) {
                 $namespace = $this->getNamespaceByName($project, (string)$namespaceFqsen);
-                foreach ($file->getClasses() as $class) {
-                    if ($namespaceFqsen . '\\' . $class->getName() == $class->getFqsen()) {
-                        $namespace->addClass($class->getFqsen());
-                    }
-                }
-
-                foreach ($file->getInterfaces() as $interface) {
-                    if ($namespaceFqsen . '\\' . $interface->getName() == $interface->getFqsen()) {
-                        $namespace->addInterface($interface->getFqsen());
-                    }
-                }
-
-                foreach ($file->getFunctions() as $function) {
-                    if ($namespaceFqsen . '\\' . $function->getName() . '()' == $function->getFqsen()) {
-                        $namespace->addFunction($function->getFqsen());
-                    }
-                }
-
-                foreach ($file->getConstants() as $constant) {
-                    if ($namespaceFqsen . '::' . $constant->getName() == $constant->getFqsen()) {
-                        $namespace->addConstant($constant->getFqsen());
-                    }
-                }
-
-                foreach ($file->getTraits() as $trait) {
-                    if ($namespaceFqsen . '\\' . $trait->getName() == $trait->getFqsen()) {
-                        $namespace->addTrait($trait->getFqsen());
-                    }
-                }
+                $this->buildNamespace($file, $namespace);
             }
         }
-
-        return $project;
     }
 
     /**
@@ -108,5 +90,44 @@ final class ProjectFactory implements ProjectFactoryInterface
         $namespace = new Namespace_(new Fqsen($name));
         $project->addNamespace($namespace);
         return $namespace;
+    }
+
+    /**
+     * Adds all elements belonging to the namespace to the namespace.
+     *
+     * @param File $file
+     * @param Namespace_ $namespace
+     */
+    private function buildNamespace(File $file, Namespace_ $namespace)
+    {
+        foreach ($file->getClasses() as $class) {
+            if ($namespace->getFqsen() . '\\' . $class->getName() == $class->getFqsen()) {
+                $namespace->addClass($class->getFqsen());
+            }
+        }
+
+        foreach ($file->getInterfaces() as $interface) {
+            if ($namespace->getFqsen() . '\\' . $interface->getName() == $interface->getFqsen()) {
+                $namespace->addInterface($interface->getFqsen());
+            }
+        }
+
+        foreach ($file->getFunctions() as $function) {
+            if ($namespace->getFqsen() . '\\' . $function->getName() . '()' == $function->getFqsen()) {
+                $namespace->addFunction($function->getFqsen());
+            }
+        }
+
+        foreach ($file->getConstants() as $constant) {
+            if ($namespace->getFqsen() . '::' . $constant->getName() == $constant->getFqsen()) {
+                $namespace->addConstant($constant->getFqsen());
+            }
+        }
+
+        foreach ($file->getTraits() as $trait) {
+            if ($namespace->getFqsen() . '\\' . $trait->getName() == $trait->getFqsen()) {
+                $namespace->addTrait($trait->getFqsen());
+            }
+        }
     }
 }
