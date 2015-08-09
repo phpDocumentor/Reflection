@@ -209,7 +209,7 @@ class ProjectFactoryTest extends \PHPUnit_Framework_TestCase
             );
 
         $projectFactory = new ProjectFactory(array($fileStrategyMock));
-        $project = $projectFactory->create($files);
+        $project = $projectFactory->create('My Project', $files);
 
         return $project->getNamespaces();
     }

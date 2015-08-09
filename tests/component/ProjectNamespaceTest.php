@@ -64,7 +64,7 @@ class ProjectNamespaceTest extends \PHPUnit_Framework_TestCase
     public function testWithNamespacedClass()
     {
         $fileName = __DIR__ . '/project/Luigi/Pizza.php';
-        $project = $this->fixture->create([
+        $project = $this->fixture->create('My Project', [
             $fileName
         ]);
 
