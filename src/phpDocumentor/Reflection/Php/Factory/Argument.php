@@ -17,6 +17,7 @@ use phpDocumentor\Reflection\Php\Argument as ArgumentDescriptor;
 use phpDocumentor\Reflection\Php\Factory;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
+use phpDocumentor\Reflection\PrettyPrinter;
 use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Node\Param;
 
@@ -28,6 +29,20 @@ use PhpParser\Node\Param;
  */
 final class Argument implements ProjectFactoryStrategy
 {
+    /**
+     * @var PrettyPrinter
+     */
+    private $valueConverter;
+
+    /**
+     * Initializes the object.
+     *
+     * @param PrettyPrinter $prettyPrinter
+     */
+    public function __construct(PrettyPrinter $prettyPrinter)
+    {
+        $this->valueConverter = $prettyPrinter;
+    }
 
     /**
      * Returns true when the strategy is able to handle the object.
@@ -61,6 +76,11 @@ final class Argument implements ProjectFactoryStrategy
             );
         }
 
-        return new ArgumentDescriptor($object->name, $object->default, $object->byRef, $object->variadic);
+        $default = null;
+        if ($object->default !== null) {
+            $default = $this->valueConverter->prettyPrintExpr($object->getValue());
+        }
+
+        return new ArgumentDescriptor($object->name, $default, $object->byRef, $object->variadic);
     }
 }
