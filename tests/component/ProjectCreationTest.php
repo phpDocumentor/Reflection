@@ -70,7 +70,7 @@ class ProjectCreationTest extends \PHPUnit_Framework_TestCase
         ]);
 
         $this->assertArrayHasKey($fileName, $project->getFiles());
-        $this->assertArrayHasKey('\::simpleFunction()', $project->getFiles()[$fileName]->getFunctions());
+        $this->assertArrayHasKey('\simpleFunction()', $project->getFiles()[$fileName]->getFunctions());
     }
 
     public function testCreateProjectWithClass()
