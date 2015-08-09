@@ -14,26 +14,24 @@
      */
 
 // use Composer's autoloader to allow the application to automatically load all classes on request.
+use phpDocumentor\Reflection\Php\Project;
+
 include 'vendor/autoload.php';
 
 // Create a new Analyzer with which we can analyze a PHP source file
-$analyzer = phpDocumentor\Descriptor\Analyzer::create();
+$projectFactory = \phpDocumentor\Reflection\Php\ProjectFactory::createInstance();
 
-// Load a file that is to be analyzed
-$splFileObject = new \SplFileObject('tests/example.file.php');
+// Create an array of files to analize.
+$files = ['tests/example.file.php'];
 
-// Analyze the given file, this will return a the structure of a single file as a
-// `\phpDocumentor\Descriptor\File` class and populate a project descriptor object in the Analyzer.
-$analyzer->analyze($splFileObject);
-
-// The returned Project object is of class `phpDocumentor\Descriptor\Project`, see its DocBlock for more
-// information on it.
-$project = $analyzer->finalize();
+//create a new project 'MyProject' containing all elements in the files.
+/** @var Project $project */
+$project = $projectFactory->create('MyProject', $files);
 
 // As an example of what you can do, let's list all class names in the file 'tests/example.file.php'.
 echo 'List all classes in the example source file: ' . PHP_EOL;
 
-/** @var \phpDocumentor\Descriptor\Class_ $class */
-foreach ($project->getFiles()->get('tests/example.file.php')->getClasses() as $class) {
-    echo '- ' . $class->getFullyQualifiedStructuralElementName() . PHP_EOL;
+/** @var \phpDocumentor\Reflection\Php\Class_ $class */
+foreach ($project->getFiles()['tests/example.file.php']->getClasses() as $class) {
+    echo '- ' . $class->getFqsen() . PHP_EOL;
 }
