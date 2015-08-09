@@ -39,9 +39,14 @@ final class ProjectFactory implements ProjectFactoryInterface
         $this->strategies = new ProjectFactoryStrategies($strategies);
     }
 
+    /**
+     * Creates a new instance of this factory. With all default strategies.
+     *
+     * @return static;
+     */
     public static function createInstance()
     {
-        new ProjectFactory(
+       return new static(
             [
                 new Factory\Argument(),
                 new Factory\Class_(),
