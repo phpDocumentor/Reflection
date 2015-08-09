@@ -14,6 +14,7 @@
 namespace phpDocumentor\Reflection\Php\Factory;
 use InvalidArgumentException;
 use phpDocumentor\Reflection\Element;
+use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Types\Context;
@@ -63,8 +64,12 @@ final class Interface_ implements ProjectFactoryStrategy
         }
 
         $docBlock = $this->createDocBlock($object->getDocComment(), $strategies, $context);
+        $parents = array();
+        foreach ($object->extends as $extend) {
+            $parents['\\' . (string)$extend] = new Fqsen('\\' . (string)$extend);
+        }
 
-        $interface = new InterfaceElement($object->fqsen, $docBlock);
+        $interface = new InterfaceElement($object->fqsen, $parents, $docBlock);
 
         if (isset($object->stmts)) {
             foreach ($object->stmts as $stmt) {

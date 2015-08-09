@@ -99,7 +99,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEmpty($this->fixture->getInterfaces());
 
-        $interface = new Interface_(new Fqsen('\MySpace\MyInterface'));
+        $interface = new Interface_(new Fqsen('\MySpace\MyInterface'), array());
         $this->fixture->addInterface($interface);
 
         $this->assertEquals(array('\MySpace\MyInterface' => $interface), $this->fixture->getInterfaces());
