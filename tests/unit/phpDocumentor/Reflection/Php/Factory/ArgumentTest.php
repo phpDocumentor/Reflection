@@ -13,9 +13,11 @@ namespace phpDocumentor\Reflection\Php\Factory;
 
 use phpDocumentor\Reflection\Php\Argument as ArgumentDescriptor;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategies;
+use phpDocumentor\Reflection\PrettyPrinter;
 use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Node\Param;
 use Mockery as m;
+use PhpParser\Node\Scalar\String_;
 
 /**
  * Class ArgumentTest
@@ -25,7 +27,7 @@ class ArgumentTest extends TestCase
 {
     protected function setUp()
     {
-        $this->fixture = new Argument();
+        $this->fixture = new Argument(new PrettyPrinter());
     }
 
     /**
@@ -46,7 +48,7 @@ class ArgumentTest extends TestCase
 
         $argMock = m::mock(Param::class);
         $argMock->name = 'myArgument';
-        $argMock->default = 'MyDefault';
+        $argMock->default = new String_('MyDefault');
         $argMock->byRef = true;
         $argMock->variadic = true;
 

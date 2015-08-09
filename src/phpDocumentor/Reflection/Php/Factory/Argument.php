@@ -78,7 +78,7 @@ final class Argument implements ProjectFactoryStrategy
 
         $default = null;
         if ($object->default !== null) {
-            $default = $this->valueConverter->prettyPrintExpr($object->getValue());
+            $default = $this->valueConverter->prettyPrintExpr($object->default);
         }
 
         return new ArgumentDescriptor($object->name, $default, $object->byRef, $object->variadic);
