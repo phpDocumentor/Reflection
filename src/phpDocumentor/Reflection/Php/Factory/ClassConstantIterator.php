@@ -87,6 +87,11 @@ final class ClassConstantIterator implements \Iterator
         return $docComment;
     }
 
+    public function getValue()
+    {
+        return $this->classConstants->consts[$this->index]->value;
+    }
+
     /**
      * (PHP 5 &gt;= 5.0.0)<br/>
      * Return the current element

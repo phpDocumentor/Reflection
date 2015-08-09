@@ -50,7 +50,7 @@ final class ProjectFactory implements ProjectFactoryInterface
             [
                 new Factory\Argument(),
                 new Factory\Class_(),
-                new Factory\Constant(),
+                new Factory\Constant(new PrettyPrinter()),
                 new Factory\DocBlock(DocBlockFactory::createInstance()),
                 new Factory\File(NodesFactory::createInstance()),
                 new Factory\Function_(),
