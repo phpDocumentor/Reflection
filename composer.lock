@@ -5,6 +5,7 @@
         "This file is @generated automatically"
     ],
     "hash": "e7540b1b97f0029b7a7d6a5a242ae099",
+    "content-hash": "5613368fc8a5cae139fea987f160afa2",
     "packages": [
         {
             "name": "nikic/php-parser",
@@ -156,16 +157,16 @@
         },
         {
             "name": "phpdocumentor/type-resolver",
-            "version": "0.1.4",
+            "version": "0.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/TypeResolver.git",
-                "reference": "14bb2da6387c6a58648b4a87ff02d4c971050309"
+                "reference": "83e31258fb03b9a27884a83b81501cb4cb297a81"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/14bb2da6387c6a58648b4a87ff02d4c971050309",
-                "reference": "14bb2da6387c6a58648b4a87ff02d4c971050309",
+                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/83e31258fb03b9a27884a83b81501cb4cb297a81",
+                "reference": "83e31258fb03b9a27884a83b81501cb4cb297a81",
                 "shasum": ""
             },
             "require": {
@@ -199,7 +200,7 @@
                     "email": "me@mikevanriel.com"
                 }
             ],
-            "time": "2015-07-02 17:28:34"
+            "time": "2015-07-18 13:58:32"
         },
         {
             "name": "psr/log",
