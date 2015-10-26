@@ -1,10 +1,12 @@
 <?php
 /**
- * Polder Knowledge / Reflection (http://polderknowledge.nl)
+ * phpDocumentor
  *
- * @link http://developers.polderknowledge.nl/gitlab/polderknowledge/Reflection for the canonical source repository
- * @copyright Copyright (c) 2015-2015 Polder Knowledge (http://www.polderknowledge.nl)
- * @license http://polderknowledge.nl/license/proprietary proprietary
+ * PHP Version 5.5
+ *
+ * @copyright 2010-2015 Mike van Riel / Naenius (http://www.naenius.com)
+ * @license   http://www.opensource.org/licenses/mit-license.php MIT
+ * @link      http://phpdoc.org
  */
 
 namespace phpDocumentor\Reflection\Php\Factory\File;
