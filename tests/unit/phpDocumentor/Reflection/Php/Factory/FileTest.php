@@ -15,6 +15,8 @@ namespace phpDocumentor\Reflection\Php\Factory;
 
 use Mockery as m;
 use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\Php\Factory\File\LocalAdapter;
+use phpDocumentor\Reflection\Php\Factory\File\Middleware;
 use phpDocumentor\Reflection\Php\NodesFactory;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Php\File as FileElement;
@@ -163,6 +165,9 @@ class FileTest extends TestCase
         $this->assertArrayHasKey('\myInterface', $file->getInterfaces());
     }
 
+    /**
+     * @covers ::create
+     */
     public function testFileWithTrait()
     {
         $traitNode = new TraitNode('\myTrait');
@@ -185,5 +190,35 @@ class FileTest extends TestCase
 
         $this->assertEquals(__FILE__, $file->getPath());
         $this->assertArrayHasKey('\myTrait', $file->getTraits());
+    }
+
+    /**
+     * @covers ::create
+     */
+    public function testMiddlewareIsExecuted()
+    {
+        $file = new FileElement('aa', __FILE__);
+        $this->nodesFactoryMock->shouldReceive('create')
+            ->with(file_get_contents(__FILE__))
+            ->andReturn([]);
+
+        $middleware = m::mock(Middleware::class);
+        $middleware->shouldReceive('execute')
+            ->once()
+            ->andReturn($file);
+        $fixture = new File($this->nodesFactoryMock, new LocalAdapter(), [$middleware]);
+
+        $containerMock = m::mock(StrategyContainer::class);
+        $result = $fixture->create(__FILE__, $containerMock);
+
+        $this->assertSame($result, $file);
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testMiddlewareIsChecked()
+    {
+        new File($this->nodesFactoryMock, new LocalAdapter(), [new \stdClass()]);
     }
 }
