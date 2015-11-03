@@ -65,7 +65,7 @@ final class CreateCommand
      *
      * @return string
      */
-    public function getObject()
+    public function getFilePath()
     {
         return $this->object;
     }

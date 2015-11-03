@@ -82,7 +82,13 @@ final class File implements ProjectFactoryStrategy
 
         while ($middleware = array_pop($middlewareList)) {
             if (! $middleware instanceof Middleware) {
-                throw new InvalidArgumentException();
+                throw new InvalidArgumentException(
+                    sprintf(
+                        'Middleware must be an instance of %s but %s was given',
+                        Middleware::class,
+                        is_object($middleware) ? get_class($middleware) : gettype($middleware)
+                    )
+                );
             }
             $lastCallable = function ($command) use ($middleware, $lastCallable) {
                 return $middleware->execute($command, $lastCallable);
@@ -136,13 +142,13 @@ final class File implements ProjectFactoryStrategy
      */
     private function createFile(CreateCommand $command)
     {
-        $code = $this->adapter->getContents($command->getObject());
+        $code = $this->adapter->getContents($command->getFilePath());
         $nodes = $this->nodesFactory->create($code);
         $docBlock = $this->createDocBlock($command->getStrategies(), $code, $nodes);
 
         $file = new FileElement(
-            $this->adapter->md5($command->getObject()),
-            $this->adapter->path($command->getObject()),
+            $this->adapter->md5($command->getFilePath()),
+            $this->adapter->path($command->getFilePath()),
             $code,
             $docBlock
         );
