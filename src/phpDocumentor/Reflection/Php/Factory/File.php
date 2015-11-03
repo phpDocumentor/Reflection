@@ -15,10 +15,11 @@ namespace phpDocumentor\Reflection\Php\Factory;
 
 use InvalidArgumentException;
 use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\Middleware\ChainFactory;
+use phpDocumentor\Reflection\Middleware\Middleware;
 use phpDocumentor\Reflection\Php\Factory\File\Adapter;
 use phpDocumentor\Reflection\Php\Factory\File\CreateCommand;
 use phpDocumentor\Reflection\Php\Factory\File\LocalAdapter;
-use phpDocumentor\Reflection\Php\Factory\File\Middleware;
 use phpDocumentor\Reflection\Php\File as FileElement;
 use phpDocumentor\Reflection\Php\NodesFactory;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
@@ -66,35 +67,11 @@ final class File implements ProjectFactoryStrategy
         $this->nodesFactory = $nodesFactory;
         $this->adapter = $adapter;
 
-        $this->middlewareChain = $this->createExecutionChain($middleware);
-    }
-
-    /**
-     * @param Middleware[] $middlewareList
-     *
-     * @return callable
-     */
-    private function createExecutionChain($middlewareList)
-    {
         $lastCallable = function($command) {
             return $this->createFile($command);
         };
 
-        while ($middleware = array_pop($middlewareList)) {
-            if (! $middleware instanceof Middleware) {
-                throw new InvalidArgumentException(
-                    sprintf(
-                        'Middleware must be an instance of %s but %s was given',
-                        Middleware::class,
-                        is_object($middleware) ? get_class($middleware) : gettype($middleware)
-                    )
-                );
-            }
-            $lastCallable = function ($command) use ($middleware, $lastCallable) {
-                return $middleware->execute($command, $lastCallable);
-            };
-        }
-        return $lastCallable;
+        $this->middlewareChain = ChainFactory::createExecutionChain($middleware, $lastCallable);
     }
 
     /**
