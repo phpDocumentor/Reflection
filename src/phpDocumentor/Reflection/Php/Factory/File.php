@@ -15,7 +15,10 @@ namespace phpDocumentor\Reflection\Php\Factory;
 
 use InvalidArgumentException;
 use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\Middleware\ChainFactory;
+use phpDocumentor\Reflection\Middleware\Middleware;
 use phpDocumentor\Reflection\Php\Factory\File\Adapter;
+use phpDocumentor\Reflection\Php\Factory\File\CreateCommand;
 use phpDocumentor\Reflection\Php\Factory\File\LocalAdapter;
 use phpDocumentor\Reflection\Php\File as FileElement;
 use phpDocumentor\Reflection\Php\NodesFactory;
@@ -34,6 +37,7 @@ use PhpParser\Node\Stmt\Trait_ as TraitNode;
 
 /**
  * Strategy to create File element from the provided filename.
+ * This class supports extra middle wares to add extra steps to the creation process.
  */
 final class File implements ProjectFactoryStrategy
 {
@@ -52,8 +56,9 @@ final class File implements ProjectFactoryStrategy
      *
      * @param NodesFactory $nodesFactory
      * @param Adapter $adapter
+     * @param Middleware[] $middleware
      */
-    public function __construct(NodesFactory $nodesFactory, Adapter $adapter = null)
+    public function __construct(NodesFactory $nodesFactory, Adapter $adapter = null, $middleware = array())
     {
         if($adapter === null) {
             $adapter = new LocalAdapter();
@@ -61,6 +66,12 @@ final class File implements ProjectFactoryStrategy
 
         $this->nodesFactory = $nodesFactory;
         $this->adapter = $adapter;
+
+        $lastCallable = function($command) {
+            return $this->createFile($command);
+        };
+
+        $this->middlewareChain = ChainFactory::createExecutionChain($middleware, $lastCallable);
     }
 
     /**
@@ -94,13 +105,32 @@ final class File implements ProjectFactoryStrategy
                 )
             );
         }
-        $code = $this->adapter->getContents($object);
+
+        $command = new CreateCommand($this->adapter, $object, $strategies);
+        $middlewareChain = $this->middlewareChain;
+
+        return $middlewareChain($command);
+    }
+
+    /**
+     * @param $object
+     * @param StrategyContainer $strategies
+     * @return FileElement
+     */
+    private function createFile(CreateCommand $command)
+    {
+        $code = $this->adapter->getContents($command->getFilePath());
         $nodes = $this->nodesFactory->create($code);
-        $docBlock = $this->createDocBlock($strategies, $code, $nodes);
+        $docBlock = $this->createDocBlock($command->getStrategies(), $code, $nodes);
 
-        $file = new FileElement($this->adapter->md5($object), $this->adapter->path($object), $code, $docBlock);
+        $file = new FileElement(
+            $this->adapter->md5($command->getFilePath()),
+            $this->adapter->path($command->getFilePath()),
+            $code,
+            $docBlock
+        );
 
-        $this->createElements(new Fqsen('\\'), $nodes, $file, $strategies);
+        $this->createElements(new Fqsen('\\'), $nodes, $file, $command->getStrategies());
 
         return $file;
     }
@@ -144,7 +174,6 @@ final class File implements ProjectFactoryStrategy
             }
         }
     }
-
     /**
      * @param StrategyContainer $strategies
      * @param $code
