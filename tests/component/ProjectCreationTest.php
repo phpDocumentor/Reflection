@@ -61,6 +61,17 @@ class ProjectCreationTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('box',$constant->getValue());
     }
 
+    public function testFileWithDocBlock()
+    {
+        $fileName = __DIR__ . '/project/Pizza.php';
+        $project = $this->fixture->create('MyProject', [
+            $fileName
+        ]);
+
+        $this->assertArrayHasKey($fileName, $project->getFiles());
+        $this->assertInstanceOf(Docblock::class, $project->getFiles()[$fileName]->getDocBlock());
+    }
+
     public function testWithNamespacedClass()
     {
         $fileName = __DIR__ . '/project/Luigi/Pizza.php';

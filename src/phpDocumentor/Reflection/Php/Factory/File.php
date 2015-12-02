@@ -34,6 +34,7 @@ use PhpParser\Node\Stmt\Function_ as FunctionNode;
 use PhpParser\Node\Stmt\Interface_ as InterfaceNode;
 use PhpParser\Node\Stmt\Namespace_ as NamespaceNode;
 use PhpParser\Node\Stmt\Trait_ as TraitNode;
+use PhpParser\NodeAbstract;
 
 /**
  * Strategy to create File element from the provided filename.
@@ -60,14 +61,14 @@ final class File implements ProjectFactoryStrategy
      */
     public function __construct(NodesFactory $nodesFactory, Adapter $adapter = null, $middleware = array())
     {
-        if($adapter === null) {
+        if ($adapter === null) {
             $adapter = new LocalAdapter();
         }
 
         $this->nodesFactory = $nodesFactory;
         $this->adapter = $adapter;
 
-        $lastCallable = function($command) {
+        $lastCallable = function ($command) {
             return $this->createFile($command);
         };
 
@@ -187,11 +188,18 @@ final class File implements ProjectFactoryStrategy
         $context = $contextFactory->createForNamespace('\\', $code);
         $docBlock = null;
 
-        foreach ($nodes as $node) {
-            if ($node instanceof Doc) {
-                $strategy = $strategies->findMatching($node);
-                $docBlock = $strategy->create($node, $strategies, $context);
-                break;
+        /** @var NodeAbstract $node */
+        $node = current($nodes);
+        if ($node instanceof Node) {
+            $comments = $node->getAttribute('comments');
+            if (is_array($comments)) {
+                if ($node instanceof NamespaceNode) {
+                    $strategy = $strategies->findMatching(current($comments));
+                    $docBlock = $strategy->create(current($comments), $strategies, $context);
+                } elseif (count($comments) == 2) {
+                    $strategy = $strategies->findMatching(current($comments));
+                    $docBlock = $strategy->create(current($comments), $strategies, $context);
+                }
             }
         }
 

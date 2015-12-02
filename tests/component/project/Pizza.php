@@ -11,6 +11,9 @@
  */
 
 
+/**
+ * Pizza base class
+ */
 class Pizza
 {
     /**
