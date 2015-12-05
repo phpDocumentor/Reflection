@@ -18,6 +18,7 @@ use PhpParser\Lexer;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitor\NameResolver;
 use PhpParser\Parser;
+use PhpParser\ParserFactory;
 
 /**
  * Factory to create a array of nodes from a provided file.
@@ -54,11 +55,12 @@ class NodesFactory
     /**
      * Creates a new instance of NodeFactory with default Parser ands Traverser.
      *
+     * @param int $kind One of ParserFactory::PREFER_PHP7, ParserFactory::PREFER_PHP5, ParserFactory::ONLY_PHP7 or ParserFactory::ONLY_PHP5
      * @return static
      */
-    public static function createInstance()
+    public static function createInstance($kind = ParserFactory::PREFER_PHP7)
     {
-        $parser = new Parser(new Lexer);
+        $parser = (new ParserFactory)->create($kind);
         $traverser = new NodeTraverser(false);
         $traverser->addVisitor(new NameResolver());
         $traverser->addVisitor(new ElementNameResolver());

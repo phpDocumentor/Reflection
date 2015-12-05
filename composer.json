@@ -21,7 +21,7 @@
     "require": {
         "php":                               ">=5.4.0",
         "psr/log":                           "~1.0",
-        "nikic/php-parser":                  "~1.0",
+        "nikic/php-parser":                  "^2.0",
         "phpdocumentor/reflection-docblock": "^3.0@dev",
         "phpdocumentor/reflection-common":   "^1.0@dev"
     },
