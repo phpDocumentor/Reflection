@@ -12,6 +12,7 @@
 
 namespace phpDocumentor\Reflection\Php;
 
+use phpDocumentor\Reflection\File as FileInterface;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Project as ProjectInterface;
 
@@ -27,7 +28,7 @@ final class Project implements ProjectInterface
     private $rootNamespace;
 
     /**
-     * @var File[]
+     * @var FileInterface[]
      */
     private $files = array();
 
@@ -64,7 +65,7 @@ final class Project implements ProjectInterface
     /**
      * Returns all files with their sub-elements.
      *
-     * @return File[]
+     * @return FileInterface[]
      */
     public function getFiles()
     {
@@ -74,9 +75,9 @@ final class Project implements ProjectInterface
     /**
      * Add a file to this project.
      *
-     * @param File $file
+     * @param FileInterface $file
      */
-    public function addFile(File $file)
+    public function addFile(FileInterface $file)
     {
         $this->files[$file->getPath()] = $file;
     }
