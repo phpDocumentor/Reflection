@@ -44,8 +44,9 @@ An easy way to do this is by including the [composer] autoloader as shown here:
 
     include 'vendor/autoload.php';
 
-Once that is done you can use the `createIntance()` method of the `\phpDocumentor\Reflection\Php\ProjectFactory` class to instantiate a new project factory and 
-pre-configure it with sensible defaults.
+Once that is done you can use the `createInstance()` method of the `\phpDocumentor\Reflection\Php\ProjectFactory` class to instantiate a new project factory and 
+pre-configure it with sensible defaults. Optional you can specify the parser version that shall be used as an argument of `createInstance()`.
+By default the php7 parser is prefered. And php5 is used as a fallback. See the [documentation of phpparser] for more info.
     
     $projectFactory = \phpDocumentor\Reflection\Php\ProjectFactory::createInstance();
 
@@ -64,3 +65,4 @@ all namespaces and packages as a hierarchical tree.
 [PSR-4]:                   http://php-fig.com
 [example]:                 example.php
 [composer]:                http://getcomposer.org
+[documentation of phpparser]: https://github.com/nikic/PHP-Parser/blob/master/UPGRADE-2.0.md#creating-a-parser-instance 
