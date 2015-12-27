@@ -28,7 +28,8 @@
     "require-dev": {
         "phpunit/phpunit":    "~4.0",
         "mockery/mockery":    "~0.8",
-        "mikey179/vfsStream": "~1.2"
+        "mikey179/vfsStream": "~1.2",
+        "squizlabs/php_codesniffer": "^2.5"
     },
     "extra": {
         "branch-alias": {
