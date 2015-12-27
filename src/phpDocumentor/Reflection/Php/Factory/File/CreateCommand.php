@@ -12,6 +12,7 @@
 namespace phpDocumentor\Reflection\Php\Factory\File;
 
 
+use phpDocumentor\Reflection\File;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 
 /**
@@ -21,14 +22,9 @@ use phpDocumentor\Reflection\Php\StrategyContainer;
 final class CreateCommand
 {
     /**
-     * @var Adapter
+     * @var File
      */
-    private $adapter;
-
-    /**
-     * @var string
-     */
-    private $object;
+    private $file;
 
     /**
      * @var StrategyContainer
@@ -38,26 +34,13 @@ final class CreateCommand
     /**
      * Initializes this command.
      *
-     * @param Adapter $adapter
-     * @param string $object
+     * @param File $file
      * @param StrategyContainer $strategies
      */
-    public function __construct(Adapter $adapter, $object, StrategyContainer $strategies)
+    public function __construct(File $file, StrategyContainer $strategies)
     {
-
-        $this->adapter = $adapter;
-        $this->object = $object;
+        $this->file = $file;
         $this->strategies = $strategies;
-    }
-
-    /**
-     * Returns the adapter used by the command handler for this command.
-     *
-     * @return Adapter
-     */
-    public function getAdapter()
-    {
-        return $this->adapter;
     }
 
     /**
@@ -67,7 +50,7 @@ final class CreateCommand
      */
     public function getFilePath()
     {
-        return $this->object;
+        return $this->file;
     }
 
     /**
@@ -78,5 +61,13 @@ final class CreateCommand
     public function getStrategies()
     {
         return $this->strategies;
+    }
+
+    /**
+     * @return File
+     */
+    public function getFile()
+    {
+        return $this->file;
     }
 }

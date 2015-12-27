@@ -14,6 +14,7 @@ namespace phpDocumentor\Reflection;
 
 use Mockery as m;
 use phpDocumentor\Reflection\DocBlock\Tags\Param;
+use phpDocumentor\Reflection\File\LocalFile;
 use phpDocumentor\Reflection\Php\ProjectFactory;
 use phpDocumentor\Reflection\Types\Object_;
 
@@ -39,7 +40,7 @@ class ProjectCreationTest extends \PHPUnit_Framework_TestCase
         $fileName = __DIR__ . '/project/simpleFunction.php';
 
         $project = $this->fixture->create('MyProject',[
-            $fileName
+            new LocalFile($fileName)
         ]);
 
         $this->assertArrayHasKey($fileName, $project->getFiles());
@@ -50,7 +51,7 @@ class ProjectCreationTest extends \PHPUnit_Framework_TestCase
     {
         $fileName = __DIR__ . '/project/Pizza.php';
         $project = $this->fixture->create('MyProject', [
-            $fileName
+            new LocalFile($fileName)
         ]);
 
         $this->assertArrayHasKey($fileName, $project->getFiles());
@@ -65,7 +66,7 @@ class ProjectCreationTest extends \PHPUnit_Framework_TestCase
     {
         $fileName = __DIR__ . '/project/Pizza.php';
         $project = $this->fixture->create('MyProject', [
-            $fileName
+            new LocalFile($fileName)
         ]);
 
         $this->assertArrayHasKey($fileName, $project->getFiles());
@@ -76,7 +77,7 @@ class ProjectCreationTest extends \PHPUnit_Framework_TestCase
     {
         $fileName = __DIR__ . '/project/Luigi/Pizza.php';
         $project = $this->fixture->create('MyProject', [
-            $fileName
+            new LocalFile($fileName)
         ]);
 
         $this->assertArrayHasKey($fileName, $project->getFiles());
@@ -100,7 +101,7 @@ class ProjectCreationTest extends \PHPUnit_Framework_TestCase
     {
         $fileName = __DIR__ . '/project/Luigi/Pizza.php';
         $project = $this->fixture->create('MyProject', [
-            $fileName
+            new LocalFile($fileName)
         ]);
 
         $this->assertArrayHasKey($fileName, $project->getFiles());
@@ -125,7 +126,7 @@ class ProjectCreationTest extends \PHPUnit_Framework_TestCase
     {
         $fileName = __DIR__ . '/project/Luigi/StyleFactory.php';
         $project = $this->fixture->create('MyProject', [
-            $fileName
+            new LocalFile($fileName)
         ]);
 
         $this->assertArrayHasKey($fileName, $project->getFiles());
@@ -137,7 +138,7 @@ class ProjectCreationTest extends \PHPUnit_Framework_TestCase
     {
         $fileName = __DIR__ . '/project/Luigi/Valued.php';
         $project = $this->fixture->create('MyProject', [
-            $fileName
+            new LocalFile($fileName)
         ]);
 
         $this->assertArrayHasKey('\\Luigi\\Valued', $project->getFiles()[$fileName]->getInterfaces());
@@ -147,7 +148,7 @@ class ProjectCreationTest extends \PHPUnit_Framework_TestCase
     {
         $fileName = __DIR__ . '/project/Luigi/ExampleNestedTrait.php';
         $project = $this->fixture->create('MyProject', [
-            $fileName
+            new LocalFile($fileName)
         ]);
 
         $this->assertArrayHasKey('\\Luigi\\ExampleNestedTrait', $project->getFiles()[$fileName]->getTraits());
@@ -157,7 +158,7 @@ class ProjectCreationTest extends \PHPUnit_Framework_TestCase
     {
         $fileName = __DIR__ . '/project/Luigi/Packing.php';
         $project = $this->fixture->create('MyProject', [
-            $fileName
+            new LocalFile($fileName)
         ]);
 
         $this->assertArrayHasKey('\\Luigi\\Packing', $project->getFiles()[$fileName]->getInterfaces());

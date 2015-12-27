@@ -14,12 +14,11 @@
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use InvalidArgumentException;
+use phpDocumentor\Reflection\File as FileSystemFile;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Middleware\ChainFactory;
 use phpDocumentor\Reflection\Middleware\Middleware;
-use phpDocumentor\Reflection\Php\Factory\File\Adapter;
 use phpDocumentor\Reflection\Php\Factory\File\CreateCommand;
-use phpDocumentor\Reflection\Php\Factory\File\LocalAdapter;
 use phpDocumentor\Reflection\Php\File as FileElement;
 use phpDocumentor\Reflection\Php\NodesFactory;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
@@ -56,17 +55,11 @@ final class File implements ProjectFactoryStrategy
      * Initializes the object.
      *
      * @param NodesFactory $nodesFactory
-     * @param Adapter $adapter
      * @param Middleware[] $middleware
      */
-    public function __construct(NodesFactory $nodesFactory, Adapter $adapter = null, $middleware = array())
+    public function __construct(NodesFactory $nodesFactory, $middleware = array())
     {
-        if ($adapter === null) {
-            $adapter = new LocalAdapter();
-        }
-
         $this->nodesFactory = $nodesFactory;
-        $this->adapter = $adapter;
 
         $lastCallable = function ($command) {
             return $this->createFile($command);
@@ -78,12 +71,12 @@ final class File implements ProjectFactoryStrategy
     /**
      * Returns true when the strategy is able to handle the object.
      *
-     * @param string $filePath path to check.
+     * @param string $file path to check.
      * @return boolean
      */
-    public function matches($filePath)
+    public function matches($file)
     {
-        return is_string($filePath) && $this->adapter->fileExists($filePath);
+        return $file instanceof FileSystemFile;
     }
 
     /**
@@ -91,7 +84,7 @@ final class File implements ProjectFactoryStrategy
      * Since an object might contain other objects that need to be converted the $factory is passed so it can be
      * used to create nested Elements.
      *
-     * @param string $object path to the file to convert to an File object.
+     * @param FileSystemFile $object path to the file to convert to an File object.
      * @param StrategyContainer $strategies used to convert nested objects.
      * @param Context $context
      * @return File
@@ -107,33 +100,33 @@ final class File implements ProjectFactoryStrategy
             );
         }
 
-        $command = new CreateCommand($this->adapter, $object, $strategies);
+        $command = new CreateCommand($object, $strategies);
         $middlewareChain = $this->middlewareChain;
 
         return $middlewareChain($command);
     }
 
     /**
-     * @param $object
-     * @param StrategyContainer $strategies
+     * @param CreateCommand $command
      * @return FileElement
      */
     private function createFile(CreateCommand $command)
     {
-        $code = $this->adapter->getContents($command->getFilePath());
+        $file = $command->getFile();
+        $code = $file->getContents();
         $nodes = $this->nodesFactory->create($code);
         $docBlock = $this->createDocBlock($command->getStrategies(), $code, $nodes);
 
-        $file = new FileElement(
-            $this->adapter->md5($command->getFilePath()),
-            $this->adapter->path($command->getFilePath()),
+        $result = new FileElement(
+            $file->md5(),
+            $file->path(),
             $code,
             $docBlock
         );
 
-        $this->createElements(new Fqsen('\\'), $nodes, $file, $command->getStrategies());
+        $this->createElements(new Fqsen('\\'), $nodes, $result, $command->getStrategies());
 
-        return $file;
+        return $result;
     }
 
     /**
