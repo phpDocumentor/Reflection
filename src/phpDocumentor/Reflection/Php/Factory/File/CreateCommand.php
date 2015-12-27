@@ -44,16 +44,6 @@ final class CreateCommand
     }
 
     /**
-     * Returns the path of the processed file.
-     *
-     * @return string
-     */
-    public function getFilePath()
-    {
-        return $this->file;
-    }
-
-    /**
      * Returns the strategyContainer in this command context.
      *
      * @return StrategyContainer
