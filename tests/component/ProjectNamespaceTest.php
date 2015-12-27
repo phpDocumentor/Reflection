@@ -13,6 +13,7 @@
 namespace phpDocumentor\Reflection;
 
 use Mockery as m;
+use phpDocumentor\Reflection\File\LocalFile;
 use phpDocumentor\Reflection\Php\Factory\Argument;
 use phpDocumentor\Reflection\Php\Factory\Class_;
 use phpDocumentor\Reflection\Php\Factory\Constant;
@@ -50,7 +51,7 @@ class ProjectNamespaceTest extends \PHPUnit_Framework_TestCase
     {
         $fileName = __DIR__ . '/project/Luigi/Pizza.php';
         $project = $this->fixture->create('My Project', [
-            $fileName
+            new LocalFile($fileName)
         ]);
 
         $this->assertArrayHasKey($fileName, $project->getFiles());

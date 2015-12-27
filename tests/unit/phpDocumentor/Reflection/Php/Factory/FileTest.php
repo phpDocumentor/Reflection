@@ -14,9 +14,9 @@
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use Mockery as m;
+use phpDocumentor\Reflection\File as SourceFile;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Middleware\Middleware;
-use phpDocumentor\Reflection\Php\Factory\File\LocalAdapter;
 use phpDocumentor\Reflection\Php\NodesFactory;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Php\File as FileElement;
@@ -24,7 +24,6 @@ use phpDocumentor\Reflection\Php\Class_ as ClassElement;
 use phpDocumentor\Reflection\Php\Function_ as FunctionElement;
 use phpDocumentor\Reflection\Php\Interface_ as InterfaceElement;
 use phpDocumentor\Reflection\Php\Trait_ as TraitElement;
-use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_ as ClassNode;
 use PhpParser\Node\Stmt\Function_ as FunctionNode;
@@ -57,7 +56,7 @@ class FileTest extends TestCase
     public function testMatches()
     {
         $this->assertFalse($this->fixture->matches(new \stdClass()));
-        $this->assertTrue($this->fixture->matches(__FILE__));
+        $this->assertTrue($this->fixture->matches(m::mock(SourceFile::class)));
     }
 
     /**
@@ -81,7 +80,7 @@ class FileTest extends TestCase
             ->andReturn(new FunctionElement(new Fqsen('\myFunction()')));
 
         /** @var FileElement $file */
-        $file = $this->fixture->create(__FILE__, $containerMock);
+        $file = $this->fixture->create(new SourceFile\LocalFile(__FILE__), $containerMock);
 
         $this->assertEquals(__FILE__, $file->getPath());
         $this->assertArrayHasKey('\myFunction()', $file->getFunctions());
@@ -108,7 +107,7 @@ class FileTest extends TestCase
             ->andReturn(new ClassElement(new Fqsen('\myClass')));
 
         /** @var FileElement $file */
-        $file = $this->fixture->create(__FILE__, $containerMock);
+        $file = $this->fixture->create(new SourceFile\LocalFile(__FILE__), $containerMock);
 
         $this->assertEquals(__FILE__, $file->getPath());
         $this->assertArrayHasKey('\myClass', $file->getClasses());
@@ -132,7 +131,7 @@ class FileTest extends TestCase
         $containerMock = m::mock(StrategyContainer::class);
 
         /** @var FileElement $file */
-        $file = $this->fixture->create(__FILE__, $containerMock);
+        $file = $this->fixture->create(new SourceFile\LocalFile(__FILE__), $containerMock);
 
         $this->assertEquals(__FILE__, $file->getPath());
         $this->assertArrayHasKey('\mySpace', $file->getNamespaces());
@@ -159,7 +158,7 @@ class FileTest extends TestCase
             ->andReturn(new InterfaceElement(new Fqsen('\myInterface')));
 
         /** @var FileElement $file */
-        $file = $this->fixture->create(__FILE__, $containerMock);
+        $file = $this->fixture->create(new SourceFile\LocalFile(__FILE__), $containerMock);
 
         $this->assertEquals(__FILE__, $file->getPath());
         $this->assertArrayHasKey('\myInterface', $file->getInterfaces());
@@ -186,7 +185,7 @@ class FileTest extends TestCase
             ->andReturn(new TraitElement(new Fqsen('\myTrait')));
 
         /** @var FileElement $file */
-        $file = $this->fixture->create(__FILE__, $containerMock);
+        $file = $this->fixture->create(new SourceFile\LocalFile(__FILE__), $containerMock);
 
         $this->assertEquals(__FILE__, $file->getPath());
         $this->assertArrayHasKey('\myTrait', $file->getTraits());
@@ -206,10 +205,10 @@ class FileTest extends TestCase
         $middleware->shouldReceive('execute')
             ->once()
             ->andReturn($file);
-        $fixture = new File($this->nodesFactoryMock, new LocalAdapter(), [$middleware]);
+        $fixture = new File($this->nodesFactoryMock, [$middleware]);
 
         $containerMock = m::mock(StrategyContainer::class);
-        $result = $fixture->create(__FILE__, $containerMock);
+        $result = $fixture->create(new SourceFile\LocalFile(__FILE__), $containerMock);
 
         $this->assertSame($result, $file);
     }
@@ -219,6 +218,6 @@ class FileTest extends TestCase
      */
     public function testMiddlewareIsChecked()
     {
-        new File($this->nodesFactoryMock, new LocalAdapter(), [new \stdClass()]);
+        new File($this->nodesFactoryMock, [new \stdClass()]);
     }
 }
