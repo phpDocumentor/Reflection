@@ -39,17 +39,12 @@ use PhpParser\NodeAbstract;
  * Strategy to create File element from the provided filename.
  * This class supports extra middle wares to add extra steps to the creation process.
  */
-final class File implements ProjectFactoryStrategy
+final class File extends AbstractFactory implements ProjectFactoryStrategy
 {
     /**
      * @var NodesFactory
      */
     private $nodesFactory;
-
-    /**
-     * @var Adapter
-     */
-    private $adapter;
 
     /**
      * Initializes the object.
@@ -89,17 +84,8 @@ final class File implements ProjectFactoryStrategy
      * @param Context $context
      * @return File
      */
-    public function create($object, StrategyContainer $strategies, Context $context = null)
+    public function doCreate($object, StrategyContainer $strategies, Context $context = null)
     {
-        if (!$this->matches($object)) {
-            throw new InvalidArgumentException(
-                sprintf('%s cannot handle objects with the type %s',
-                    __CLASS__,
-                    is_object($object) ? get_class($object) : gettype($object)
-                )
-            );
-        }
-
         $command = new CreateCommand($object, $strategies);
         $middlewareChain = $this->middlewareChain;
 
@@ -175,7 +161,7 @@ final class File implements ProjectFactoryStrategy
      * @return null|\phpDocumentor\Reflection\Element
      * @internal param Context $context
      */
-    private function createDocBlock(StrategyContainer $strategies, $code, $nodes)
+    protected function createDocBlock(StrategyContainer $strategies, $code, $nodes)
     {
         $contextFactory = new ContextFactory();
         $context = $contextFactory->createForNamespace('\\', $code);
