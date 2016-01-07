@@ -101,7 +101,11 @@ final class File extends AbstractFactory implements ProjectFactoryStrategy
         $file = $command->getFile();
         $code = $file->getContents();
         $nodes = $this->nodesFactory->create($code);
-        $docBlock = $this->createDocBlock($command->getStrategies(), $code, $nodes);
+
+        $contextFactory = new ContextFactory();
+        $context = $contextFactory->createForNamespace('\\', $code);
+
+        $docBlock = $this->createFileDocBlock(null, $command->getStrategies(), $context, $nodes);
 
         $result = new FileElement(
             $file->md5(),
@@ -154,30 +158,25 @@ final class File extends AbstractFactory implements ProjectFactoryStrategy
             }
         }
     }
+
     /**
+     * @param Doc $docBlock
      * @param StrategyContainer $strategies
-     * @param $code
+     * @param Context $context
      * @param $nodes
      * @return null|\phpDocumentor\Reflection\Element
-     * @internal param Context $context
      */
-    protected function createDocBlock(StrategyContainer $strategies, $code, $nodes)
+    protected function createFileDocBlock(Doc $docBlock = null, StrategyContainer $strategies, Context $context = null, $nodes)
     {
-        $contextFactory = new ContextFactory();
-        $context = $contextFactory->createForNamespace('\\', $code);
-        $docBlock = null;
-
         /** @var NodeAbstract $node */
         $node = current($nodes);
         if ($node instanceof Node) {
             $comments = $node->getAttribute('comments');
             if (is_array($comments)) {
                 if ($node instanceof NamespaceNode) {
-                    $strategy = $strategies->findMatching(current($comments));
-                    $docBlock = $strategy->create(current($comments), $strategies, $context);
+                    $docBlock = $this->createDocBlock(current($comments), $strategies, $context);
                 } elseif (count($comments) == 2) {
-                    $strategy = $strategies->findMatching(current($comments));
-                    $docBlock = $strategy->create(current($comments), $strategies, $context);
+                    $docBlock = $this->createDocBlock(current($comments), $strategies, $context);
                 }
             }
         }

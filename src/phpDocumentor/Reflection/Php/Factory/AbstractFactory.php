@@ -3,12 +3,13 @@
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use phpDocumentor\Reflection\Element;
+use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Comment\Doc;
 use PhpParser\Node;
 
-abstract class AbstractFactory
+abstract class AbstractFactory implements ProjectFactoryStrategy
 {
     abstract public function matches($object);
 
@@ -29,7 +30,7 @@ abstract class AbstractFactory
     abstract protected function doCreate($object, StrategyContainer $strategies, Context $context = null);
 
     /**
-     * @param Node|PropertyIterator|ClassConstantIterator $stmt
+     * @param Node|PropertyIterator|ClassConstantIterator|Doc $stmt
      * @param StrategyContainer $strategies
      * @param Context $context
      * @return Element
