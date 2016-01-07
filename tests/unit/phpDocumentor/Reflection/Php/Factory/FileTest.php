@@ -34,7 +34,7 @@ use PhpParser\Node\Stmt\Trait_ as TraitNode;
 /**
  * Test case for \phpDocumentor\Reflection\Php\Factory\File
  * @coversDefaultClass \phpDocumentor\Reflection\Php\Factory\File
- * @covers ::<private>
+ * @covers ::<!public>
  * @covers ::__construct
  */
 class FileTest extends TestCase

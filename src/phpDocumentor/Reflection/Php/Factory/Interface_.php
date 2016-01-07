@@ -28,7 +28,7 @@ use phpDocumentor\Reflection\Php\Interface_ as InterfaceElement;
 /**
  * Strategy to create a InterfaceElement including all sub elements.
  */
-final class Interface_ implements ProjectFactoryStrategy
+final class Interface_ extends AbstractFactory implements ProjectFactoryStrategy
 {
 
     /**
@@ -52,17 +52,8 @@ final class Interface_ implements ProjectFactoryStrategy
      * @param Context $context of the created object
      * @return InterfaceElement
      */
-    public function create($object, StrategyContainer $strategies, Context $context = null)
+    protected function doCreate($object, StrategyContainer $strategies, Context $context = null)
     {
-        if (!$this->matches($object)) {
-            throw new InvalidArgumentException(
-                sprintf('%s cannot handle objects with the type %s',
-                    __CLASS__,
-                    is_object($object) ? get_class($object) : gettype($object)
-                )
-            );
-        }
-
         $docBlock = $this->createDocBlock($object->getDocComment(), $strategies, $context);
         $parents = array();
         foreach ($object->extends as $extend) {
@@ -90,32 +81,5 @@ final class Interface_ implements ProjectFactoryStrategy
         }
 
         return $interface;
-    }
-
-    /**
-     * @param Node|ClassConstantIterator|Doc $stmt
-     * @param StrategyContainer $strategies
-     * @param Context $context
-     * @return Element
-     */
-    private function createMember($stmt, StrategyContainer $strategies, Context $context = null)
-    {
-        $strategy = $strategies->findMatching($stmt);
-        return $strategy->create($stmt, $strategies, $context);
-    }
-
-    /**
-     * @param Doc $docBlock
-     * @param StrategyContainer $strategies
-     * @param Context $context
-     * @return null|\phpDocumentor\Reflection\DocBlock
-     */
-    private function createDocBlock(Doc $docBlock = null, StrategyContainer $strategies, Context $context = null)
-    {
-        if ($docBlock === null) {
-            return null;
-        }
-
-        return $this->createMember($docBlock, $strategies, $context);
     }
 }

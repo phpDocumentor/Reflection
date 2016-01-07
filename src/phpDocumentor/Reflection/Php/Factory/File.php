@@ -84,7 +84,7 @@ final class File extends AbstractFactory implements ProjectFactoryStrategy
      * @param Context $context
      * @return File
      */
-    public function doCreate($object, StrategyContainer $strategies, Context $context = null)
+    protected function doCreate($object, StrategyContainer $strategies, Context $context = null)
     {
         $command = new CreateCommand($object, $strategies);
         $middlewareChain = $this->middlewareChain;

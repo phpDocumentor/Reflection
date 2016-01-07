@@ -54,7 +54,7 @@ final class Class_ extends AbstractFactory implements ProjectFactoryStrategy
      * @param Context $context of the created object
      * @return ClassElement
      */
-    public function doCreate($object, StrategyContainer $strategies, Context $context = null)
+    protected function doCreate($object, StrategyContainer $strategies, Context $context = null)
     {
         $docBlock = $this->createDocBlock($object->getDocComment(), $strategies, $context);
 

@@ -36,7 +36,7 @@ use PhpParser\Node\Stmt\TraitUse;
 /**
  * Class Class_Test
  * @coversDefaultClass phpDocumentor\Reflection\Php\Factory\Class_
- * @covers ::<private>
+ * @covers ::<!public>
  */
 class Class_Test extends TestCase
 {

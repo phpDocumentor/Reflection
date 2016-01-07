@@ -26,7 +26,7 @@ use PhpParser\Comment\Doc;
  * @see ConstantElement
  * @see ClassConstantIterator
  */
-class Constant implements ProjectFactoryStrategy
+final class Constant extends AbstractFactory implements ProjectFactoryStrategy
 {
     /**
      * @var PrettyPrinter
@@ -64,7 +64,7 @@ class Constant implements ProjectFactoryStrategy
      * @param Context $context of the created object
      * @return Constant
      */
-    public function create($object, StrategyContainer $strategies, Context $context = null)
+    protected function doCreate($object, StrategyContainer $strategies, Context $context = null)
     {
         $docBlock = $this->createDocBlock($object->getDocComment(), $strategies, $context);
         $default = null;
@@ -73,21 +73,5 @@ class Constant implements ProjectFactoryStrategy
         }
 
         return new ConstantElement($object->getFqsen(), $docBlock, $default);
-    }
-
-    /**
-     * @param Doc $docBlock
-     * @param StrategyContainer $strategies
-     * @param Context $context
-     * @return null|\phpDocumentor\Reflection\DocBlock
-     */
-    private function createDocBlock(Doc $docBlock = null, StrategyContainer $strategies, Context $context = null)
-    {
-        if ($docBlock === null) {
-            return null;
-        }
-
-        $strategy = $strategies->findMatching($docBlock);
-        return $strategy->create($docBlock, $strategies, $context);
     }
 }

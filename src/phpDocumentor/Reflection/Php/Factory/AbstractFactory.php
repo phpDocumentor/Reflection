@@ -12,7 +12,7 @@ abstract class AbstractFactory
 {
     abstract public function matches($object);
 
-    public function create($object, StrategyContainer $strategies, Context $context = null)
+    public final function create($object, StrategyContainer $strategies, Context $context = null)
     {
         if (! $this->matches($object)) {
             throw new \InvalidArgumentException(
@@ -22,6 +22,8 @@ abstract class AbstractFactory
                 )
             );
         }
+
+        return $this->doCreate($object, $strategies, $context);
     }
 
     abstract protected function doCreate($object, StrategyContainer $strategies, Context $context = null);

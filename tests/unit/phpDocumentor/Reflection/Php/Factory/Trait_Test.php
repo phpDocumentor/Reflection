@@ -32,7 +32,7 @@ use PhpParser\Node\Stmt\TraitUse;
 /**
  * Test case for Trait_
  * @coversDefaultClass phpDocumentor\Reflection\Php\Factory\Trait_
- * @covers ::<private>
+ * @covers ::<!public>
  */
 class Trait_Test extends TestCase
 {

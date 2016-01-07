@@ -28,7 +28,7 @@ use PhpParser\Node\Stmt\PropertyProperty;
 /**
  * Class ArgumentTest
  * @coversDefaultClass \phpDocumentor\Reflection\Php\Factory\Property
- * @covers ::<private>
+ * @covers ::<!public>
  * @covers ::__construct
  */
 class PropertyTest extends TestCase

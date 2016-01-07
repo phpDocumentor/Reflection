@@ -25,7 +25,7 @@ use PhpParser\Comment\Doc;
 /**
  * Test case for \phpDocumentor\Reflection\Php\Factory\Function_
  * @coversDefaultClass \phpDocumentor\Reflection\Php\Factory\Function_
- * @covers ::<private>
+ * @covers ::<!public>
  */
 class Function_Test extends TestCase
 {

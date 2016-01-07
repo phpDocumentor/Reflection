@@ -22,6 +22,8 @@ use PhpParser\Node\Scalar\String_;
 /**
  * Class ArgumentTest
  * @coversDefaultClass \phpDocumentor\Reflection\Php\Factory\Argument
+ * @covers ::__construct
+ * @covers ::<!public>
  */
 class ArgumentTest extends TestCase
 {

@@ -27,7 +27,7 @@ use PhpParser\Node\Param;
  * @see \phpDocumentor\Descriptor\Argument
  * @see \PhpParser\Node\Arg
  */
-final class Argument implements ProjectFactoryStrategy
+final class Argument extends AbstractFactory implements ProjectFactoryStrategy
 {
     /**
      * @var PrettyPrinter
@@ -65,17 +65,8 @@ final class Argument implements ProjectFactoryStrategy
      * @param Context $context of the created object
      * @return ArgumentDescriptor
      */
-    public function create($object, StrategyContainer $strategies, Context $context = null)
+    protected function doCreate($object, StrategyContainer $strategies, Context $context = null)
     {
-        if (!$this->matches($object)) {
-            throw new InvalidArgumentException(
-                sprintf('%s cannot handle objects with the type %s',
-                    __CLASS__,
-                    is_object($object) ? get_class($object) : gettype($object)
-                )
-            );
-        }
-
         $default = null;
         if ($object->default !== null) {
             $default = $this->valueConverter->prettyPrintExpr($object->default);

@@ -28,7 +28,7 @@ use PhpParser\Comment\Doc;
  * @see PropertyDescriptor
  * @see PropertyIterator
  */
-final class Property implements ProjectFactoryStrategy
+final class Property extends AbstractFactory implements ProjectFactoryStrategy
 {
     /**
      * @var PrettyPrinter
@@ -66,17 +66,8 @@ final class Property implements ProjectFactoryStrategy
      * @param Context $context
      * @return PropertyDescriptor
      */
-    public function create($object, StrategyContainer $strategies, Context $context = null)
+    protected function doCreate($object, StrategyContainer $strategies, Context $context = null)
     {
-        if (!$this->matches($object)) {
-            throw new InvalidArgumentException(
-                sprintf('%s cannot handle objects with the type %s',
-                    __CLASS__,
-                    is_object($object) ? get_class($object) : gettype($object)
-                )
-            );
-        }
-
         $visibility = $this->buildVisibility($object);
         $default = null;
         if ($object->getDefault() !== null) {
@@ -102,21 +93,5 @@ final class Property implements ProjectFactoryStrategy
         }
 
         return new Visibility(Visibility::PUBLIC_);
-    }
-
-    /**
-     * @param Doc $docBlock
-     * @param StrategyContainer $strategies
-     * @param Context $context
-     * @return null|\phpDocumentor\Reflection\DocBlock
-     */
-    private function createDocBlock(Doc $docBlock = null, StrategyContainer $strategies, Context $context = null)
-    {
-        if ($docBlock === null) {
-            return null;
-        }
-
-        $strategy = $strategies->findMatching($docBlock);
-        return $strategy->create($docBlock, $strategies, $context);
     }
 }
