@@ -26,7 +26,9 @@ use PhpParser\Node\Stmt\Property as PropertyNode;
 use PhpParser\Node\Stmt\Trait_ as TraitNode;
 use PhpParser\Node\Stmt\TraitUse;
 
+// @codingStandardsIgnoreStart
 final class Trait_ extends AbstractFactory implements ProjectFactoryStrategy
+// @codingStandardsIgnoreEnd
 {
     /**
      * Returns true when the strategy is able to handle the object.
@@ -51,7 +53,7 @@ final class Trait_ extends AbstractFactory implements ProjectFactoryStrategy
      */
     protected function doCreate($object, StrategyContainer $strategies, Context $context = null)
     {
-        $docBlock = $this->createDocBlock($object->getDocComment(), $strategies, $context);
+        $docBlock = $this->createDocBlock($strategies, $object->getDocComment(), $context);
 
         $trait = new TraitElement($object->fqsen, $docBlock);
 

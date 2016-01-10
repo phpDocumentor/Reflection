@@ -11,6 +11,7 @@
  */
 
 namespace phpDocumentor\Reflection\Php;
+
 use phpDocumentor\Reflection\Php\Factory\DummyFactoryStrategy;
 
 /**

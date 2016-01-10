@@ -20,7 +20,9 @@ use phpDocumentor\Reflection\Fqsen;
  * Tests the functionality for the Class_ class.
  * @coversDefaultClass phpDocumentor\Reflection\Php\Class_
  */
+// @codingStandardsIgnoreStart
 class Class_Test extends \PHPUnit_Framework_TestCase
+// @codingStandardsIgnoreEnd
 {
     /**
      * @var Class_

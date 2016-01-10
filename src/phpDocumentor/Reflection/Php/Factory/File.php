@@ -163,20 +163,24 @@ final class File extends AbstractFactory implements ProjectFactoryStrategy
      * @param Doc $docBlock
      * @param StrategyContainer $strategies
      * @param Context $context
-     * @param $nodes
+     * @param Node[] $nodes
      * @return null|\phpDocumentor\Reflection\Element
      */
-    protected function createFileDocBlock(Doc $docBlock = null, StrategyContainer $strategies, Context $context = null, $nodes)
-    {
+    protected function createFileDocBlock(
+        Doc $docBlock = null,
+        StrategyContainer $strategies = null,
+        Context $context = null,
+        $nodes = array()
+    ) {
         /** @var NodeAbstract $node */
         $node = current($nodes);
         if ($node instanceof Node) {
             $comments = $node->getAttribute('comments');
             if (is_array($comments)) {
                 if ($node instanceof NamespaceNode) {
-                    $docBlock = $this->createDocBlock(current($comments), $strategies, $context);
+                    $docBlock = $this->createDocBlock($strategies, current($comments), $context);
                 } elseif (count($comments) == 2) {
-                    $docBlock = $this->createDocBlock(current($comments), $strategies, $context);
+                    $docBlock = $this->createDocBlock($strategies, current($comments), $context);
                 }
             }
         }

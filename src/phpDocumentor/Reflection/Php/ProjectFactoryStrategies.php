@@ -12,6 +12,7 @@
 
 namespace phpDocumentor\Reflection\Php;
 
+use OutOfBoundsException;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 
 final class ProjectFactoryStrategies implements StrategyContainer
@@ -41,7 +42,7 @@ final class ProjectFactoryStrategies implements StrategyContainer
      *
      * @param mixed $object
      * @return ProjectFactoryStrategy
-     * @throws Exception when no matching strategy was found.
+     * @throws OutOfBoundsException when no matching strategy was found.
      */
     public function findMatching($object)
     {
@@ -51,7 +52,7 @@ final class ProjectFactoryStrategies implements StrategyContainer
             }
         }
 
-        throw new \OutOfBoundsException(
+        throw new OutOfBoundsException(
             sprintf(
                 'No matching factory found for %s',
                 is_object($object) ? get_class($object) : gettype($object)

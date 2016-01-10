@@ -13,11 +13,12 @@ abstract class AbstractFactory implements ProjectFactoryStrategy
 {
     abstract public function matches($object);
 
-    public final function create($object, StrategyContainer $strategies, Context $context = null)
+    final public function create($object, StrategyContainer $strategies, Context $context = null)
     {
-        if (! $this->matches($object)) {
+        if (!$this->matches($object)) {
             throw new \InvalidArgumentException(
-                sprintf('%s cannot handle objects with the type %s',
+                sprintf(
+                    '%s cannot handle objects with the type %s',
                     __CLASS__,
                     is_object($object) ? get_class($object) : gettype($object)
                 )
@@ -42,12 +43,12 @@ abstract class AbstractFactory implements ProjectFactoryStrategy
     }
 
     /**
-     * @param Doc $docBlock
      * @param StrategyContainer $strategies
+     * @param Doc $docBlock
      * @param Context $context
      * @return null|\phpDocumentor\Reflection\DocBlock
      */
-    protected function createDocBlock(Doc $docBlock = null, StrategyContainer $strategies, Context $context = null)
+    protected function createDocBlock(StrategyContainer $strategies, Doc $docBlock = null, Context $context = null)
     {
         if ($docBlock === null) {
             return null;

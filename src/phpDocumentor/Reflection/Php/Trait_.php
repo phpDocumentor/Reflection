@@ -19,7 +19,9 @@ use phpDocumentor\Reflection\Fqsen;
 /**
  * Descriptor representing a Trait.
  */
+// @codingStandardsIgnoreStart
 final class Trait_ implements Element
+// @codingStandardsIgnoreEnd
 {
     /**
      * @var Fqsen Full Qualified Structural Element Name

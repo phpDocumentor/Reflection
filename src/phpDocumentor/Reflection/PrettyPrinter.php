@@ -45,8 +45,10 @@ class PrettyPrinter extends Standard
      *
      * @return string
      */
+    // @codingStandardsIgnoreStart
     public function pScalar_String(String_ $node)
     {
+    // @codingStandardsIgnoreStart
         if (!$node->getAttribute('originalValue')) {
             return $node->value;
         }
@@ -57,5 +59,4 @@ class PrettyPrinter extends Standard
 
         return $this->pNoIndent($node->getAttribute('originalValue'));
     }
-
 }

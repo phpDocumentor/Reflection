@@ -28,7 +28,9 @@ use PhpParser\Node\Stmt\Function_ as FunctionNode;
  * @see FunctionDescriptor
  * @see \PhpParser\Node\
  */
+// @codingStandardsIgnoreStart
 final class Function_ extends AbstractFactory implements ProjectFactoryStrategy
+// @codingStandardsIgnoreEnd
 {
 
     /**
@@ -52,7 +54,7 @@ final class Function_ extends AbstractFactory implements ProjectFactoryStrategy
      */
     protected function doCreate($object, StrategyContainer $strategies, Context $context = null)
     {
-        $docBlock = $this->createDocBlock($object->getDocComment(), $strategies, $context);
+        $docBlock = $this->createDocBlock($strategies, $object->getDocComment(), $context);
 
         $function = new FunctionDescriptor($object->fqsen, $docBlock);
 

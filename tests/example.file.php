@@ -1,4 +1,5 @@
 <?php
+// @codingStandardsIgnoreStart
 /**
  * Summary of the File DocBlock.
  *
@@ -272,3 +273,4 @@ namespace Luigi
         }
     }
 }
+// @codingStandardsIgnoreEnd

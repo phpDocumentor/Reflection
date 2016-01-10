@@ -12,6 +12,7 @@
 
 
 namespace phpDocumentor\Reflection\Php\Factory;
+
 use InvalidArgumentException;
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
@@ -28,7 +29,9 @@ use phpDocumentor\Reflection\Php\Interface_ as InterfaceElement;
 /**
  * Strategy to create a InterfaceElement including all sub elements.
  */
+// @codingStandardsIgnoreStart
 final class Interface_ extends AbstractFactory implements ProjectFactoryStrategy
+// @codingStandardsIgnoreEnd
 {
 
     /**
@@ -54,7 +57,7 @@ final class Interface_ extends AbstractFactory implements ProjectFactoryStrategy
      */
     protected function doCreate($object, StrategyContainer $strategies, Context $context = null)
     {
-        $docBlock = $this->createDocBlock($object->getDocComment(), $strategies, $context);
+        $docBlock = $this->createDocBlock($strategies, $object->getDocComment(), $context);
         $parents = array();
         foreach ($object->extends as $extend) {
             $parents['\\' . (string)$extend] = new Fqsen('\\' . (string)$extend);

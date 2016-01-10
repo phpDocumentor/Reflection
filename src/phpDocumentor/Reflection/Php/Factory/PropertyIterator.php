@@ -13,16 +13,17 @@
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
-
+use Iterator;
 use phpDocumentor\Reflection\Fqsen;
 use PhpParser\Comment;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Property as PropertyNode;
 
 /**
- * This class acts like a combination of a PropertyNode and PropertyProperty to be able to create property descriptors using a normal strategy.
+ * This class acts like a combination of a PropertyNode and PropertyProperty to
+ * be able to create property descriptors using a normal strategy.
  */
-final class PropertyIterator implements \Iterator
+final class PropertyIterator implements Iterator
 {
     /**
      * @var PropertyNode

@@ -27,7 +27,9 @@ use PhpParser\Comment\Doc;
  * @coversDefaultClass \phpDocumentor\Reflection\Php\Factory\Function_
  * @covers ::<!public>
  */
+// @codingStandardsIgnoreStart
 class Function_Test extends TestCase
+// @codingStandardsIgnoreEnd
 {
     protected function setUp()
     {
@@ -109,5 +111,4 @@ class Function_Test extends TestCase
         $this->assertEquals('\SomeSpace::function()', (string)$function->getFqsen());
         $this->assertSame($docBlock, $function->getDocBlock());
     }
-
 }

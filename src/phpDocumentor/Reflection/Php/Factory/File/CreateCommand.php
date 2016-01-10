@@ -11,7 +11,6 @@
 
 namespace phpDocumentor\Reflection\Php\Factory\File;
 
-
 use phpDocumentor\Reflection\File;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 

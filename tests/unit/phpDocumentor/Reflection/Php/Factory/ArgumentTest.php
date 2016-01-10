@@ -11,13 +11,13 @@
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
+use Mockery as m;
 use phpDocumentor\Reflection\Php\Argument as ArgumentDescriptor;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategies;
 use phpDocumentor\Reflection\PrettyPrinter;
-use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Node\Param;
-use Mockery as m;
 use PhpParser\Node\Scalar\String_;
+use stdClass;
 
 /**
  * Class ArgumentTest
@@ -37,7 +37,7 @@ class ArgumentTest extends TestCase
      */
     public function testMatches()
     {
-        $this->assertFalse($this->fixture->matches(new \stdClass()));
+        $this->assertFalse($this->fixture->matches(new stdClass()));
         $this->assertTrue($this->fixture->matches(m::mock(Param::class)));
     }
 
@@ -62,5 +62,4 @@ class ArgumentTest extends TestCase
         $this->assertTrue($argument->isVariadic());
         $this->assertEquals('MyDefault', $argument->getDefault());
     }
-
 }

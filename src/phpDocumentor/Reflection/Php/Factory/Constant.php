@@ -66,7 +66,7 @@ final class Constant extends AbstractFactory implements ProjectFactoryStrategy
      */
     protected function doCreate($object, StrategyContainer $strategies, Context $context = null)
     {
-        $docBlock = $this->createDocBlock($object->getDocComment(), $strategies, $context);
+        $docBlock = $this->createDocBlock($strategies, $object->getDocComment(), $context);
         $default = null;
         if ($object->getValue() !== null) {
             $default = $this->valueConverter->prettyPrintExpr($object->getValue());

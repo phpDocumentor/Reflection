@@ -39,7 +39,7 @@ class ProjectCreationTest extends \PHPUnit_Framework_TestCase
     {
         $fileName = __DIR__ . '/project/simpleFunction.php';
 
-        $project = $this->fixture->create('MyProject',[
+        $project = $this->fixture->create('MyProject', [
             new LocalFile($fileName)
         ]);
 
@@ -56,10 +56,13 @@ class ProjectCreationTest extends \PHPUnit_Framework_TestCase
 
         $this->assertArrayHasKey($fileName, $project->getFiles());
         $this->assertArrayHasKey('\\Pizza', $project->getFiles()[$fileName]->getClasses());
-        $this->assertArrayHasKey('\\Pizza::PACKAGING', $project->getFiles()[$fileName]->getClasses()['\\Pizza']->getConstants());
+        $this->assertArrayHasKey(
+            '\\Pizza::PACKAGING',
+            $project->getFiles()[$fileName]->getClasses()['\\Pizza']->getConstants()
+        );
         $constant = $project->getFiles()[$fileName]->getClasses()['\\Pizza']->getConstants()['\\Pizza::PACKAGING'];
 
-        $this->assertEquals('box',$constant->getValue());
+        $this->assertEquals('box', $constant->getValue());
     }
 
     public function testFileWithDocBlock()
@@ -131,7 +134,10 @@ class ProjectCreationTest extends \PHPUnit_Framework_TestCase
 
         $this->assertArrayHasKey($fileName, $project->getFiles());
         $this->assertArrayHasKey('\\Luigi\\StyleFactory', $project->getFiles()[$fileName]->getClasses());
-        $this->assertEquals('\\Luigi\\Pizza\\PizzaComponentFactory', $project->getFiles()[$fileName]->getClasses()['\\Luigi\\StyleFactory']->getParent());
+        $this->assertEquals(
+            '\\Luigi\\Pizza\\PizzaComponentFactory',
+            $project->getFiles()[$fileName]->getClasses()['\\Luigi\\StyleFactory']->getParent()
+        );
     }
 
     public function testWithInterface()

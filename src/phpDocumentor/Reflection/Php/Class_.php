@@ -11,6 +11,7 @@
  */
 
 namespace phpDocumentor\Reflection\Php;
+
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
@@ -18,7 +19,9 @@ use phpDocumentor\Reflection\Fqsen;
 /**
  * Descriptor representing a Class.
  */
+// @codingStandardsIgnoreStart
 final class Class_ implements Element
+// @codingStandardsIgnoreEnd
 {
     /**
      * @var Fqsen Full Qualified Structural Element Name
@@ -65,8 +68,13 @@ final class Class_ implements Element
      * @param bool $abstract
      * @param bool $final
      */
-    public function __construct(Fqsen $fqsen, DocBlock $docBlock = null, Fqsen $parent = null, $abstract = false, $final = false)
-    {
+    public function __construct(
+        Fqsen $fqsen,
+        DocBlock $docBlock = null,
+        Fqsen $parent = null,
+        $abstract = false,
+        $final = false
+    ) {
         $this->fqsen = $fqsen;
         $this->parent = $parent;
         $this->docBlock = $docBlock;

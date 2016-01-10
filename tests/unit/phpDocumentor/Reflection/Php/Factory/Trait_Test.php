@@ -34,7 +34,9 @@ use PhpParser\Node\Stmt\TraitUse;
  * @coversDefaultClass phpDocumentor\Reflection\Php\Factory\Trait_
  * @covers ::<!public>
  */
+// @codingStandardsIgnoreStart
 class Trait_Test extends TestCase
+// @codingStandardsIgnoreEnd
 {
     protected function setUp()
     {
@@ -95,7 +97,7 @@ class Trait_Test extends TestCase
     public function testWithPropertyMembers()
     {
         $propertyProperty = new PropertyProperty('\Space\MyTrait::$property');
-        $property = new PropertyNode(1, [$propertyProperty] );
+        $property = new PropertyNode(1, [$propertyProperty]);
         $propertyDescriptor = new PropertyElement(new Fqsen('\Space\MyTrait::$property'));
         $strategiesMock = m::mock(StrategyContainer::class);
         $traitMock = $this->buildTraitMock();

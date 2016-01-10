@@ -19,7 +19,9 @@ use phpDocumentor\Reflection\Fqsen;
 /**
  * Descriptor representing a function
  */
+// @codingStandardsIgnoreStart
 final class Function_ implements Element
+// // @codingStandardsIgnoreEnd
 {
     /**
      * @var Fqsen Full Qualified Structural Element Name

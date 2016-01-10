@@ -24,7 +24,7 @@ final class ChainFactory
     public static function createExecutionChain($middlewareList, callable $lastCallable)
     {
         while ($middleware = array_pop($middlewareList)) {
-            if (! $middleware instanceof Middleware) {
+            if (!$middleware instanceof Middleware) {
                 throw new InvalidArgumentException(
                     sprintf(
                         'Middleware must be an instance of %s but %s was given',

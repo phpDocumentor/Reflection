@@ -33,7 +33,9 @@ use phpDocumentor\Reflection\Php\Method as MethodElement;
  * @coversDefaultClass phpDocumentor\Reflection\Php\Factory\Interface_
  * @covers ::<!public>
  */
+// @codingStandardsIgnoreStart
 class Interface_Test extends TestCase
+// @codingStandardsIgnoreEnd
 {
     protected function setUp()
     {

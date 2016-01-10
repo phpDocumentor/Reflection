@@ -64,8 +64,7 @@ final class Method implements Element
         $abstract = false,
         $static = false,
         $final = false
-    )
-    {
+    ) {
         $this->fqsen = $fqsen;
         $this->visibility = $visibility;
         $this->docBlock = $docBlock;

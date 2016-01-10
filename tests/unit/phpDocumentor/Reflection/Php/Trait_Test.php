@@ -20,7 +20,9 @@ use phpDocumentor\Reflection\Fqsen;
  * Tests the functionality for the Trait_ class.
  * @coversDefaultClass phpDocumentor\Reflection\Php\Trait_
  */
+// @codingStandardsIgnoreStart
 class Trait_Test extends \PHPUnit_Framework_TestCase
+// @codingStandardsIgnoreEnd
 {
     /** @var Trait_ $fixture */
     protected $fixture;

@@ -73,7 +73,7 @@ final class Property extends AbstractFactory implements ProjectFactoryStrategy
         if ($object->getDefault() !== null) {
             $default = $this->valueConverter->prettyPrintExpr($object->getDefault());
         }
-        $docBlock = $this->createDocBlock($object->getDocComment(), $strategies, $context);
+        $docBlock = $this->createDocBlock($strategies, $object->getDocComment(), $context);
 
         return new PropertyDescriptor($object->getFqsen(), $visibility, $docBlock, $default, $object->isStatic());
     }

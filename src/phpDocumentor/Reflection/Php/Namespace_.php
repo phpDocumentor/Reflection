@@ -19,7 +19,9 @@ use phpDocumentor\Reflection\DocBlock;
 /**
  * Represents a namespace and its children for a project.
  */
+// @codingStandardsIgnoreStart
 final class Namespace_ implements Element
+// codingStandardsIgnoreEnd
 {
     /**
      * @var Fqsen Full Qualified Structural Element Name

@@ -31,7 +31,9 @@ use PhpParser\Node\Stmt\TraitUse;
 /**
  * Strategy to create a ClassElement including all sub elements.
  */
+// @codingStandardsIgnoreStart
 final class Class_ extends AbstractFactory implements ProjectFactoryStrategy
+// @codingStandardsIgnoreEnd
 {
     /**
      * Returns true when the strategy is able to handle the object.
@@ -56,7 +58,7 @@ final class Class_ extends AbstractFactory implements ProjectFactoryStrategy
      */
     protected function doCreate($object, StrategyContainer $strategies, Context $context = null)
     {
-        $docBlock = $this->createDocBlock($object->getDocComment(), $strategies, $context);
+        $docBlock = $this->createDocBlock($strategies, $object->getDocComment(), $context);
 
         $classElement = new ClassElement(
             $object->fqsen,

@@ -20,7 +20,9 @@ use phpDocumentor\Reflection\DocBlock;
  *
  * @coversDefaultClass phpDocumentor\Reflection\Php\Namespace_
  */
+// @codingStandardsIgnoreStart
 class Namespace_Test extends \PHPUnit_Framework_TestCase
+// @codingStandardsIgnoreEnd
 {
     /** @var Namespace_ $fixture */
     protected $fixture;
