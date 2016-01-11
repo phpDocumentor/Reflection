@@ -20,7 +20,9 @@ use phpDocumentor\Reflection\Fqsen;
  * Tests the functionality for the Interface_ class.
  * @coversDefaultClass phpDocumentor\Reflection\Php\Interface_
  */
+// @codingStandardsIgnoreStart
 class Interface_Test extends \PHPUnit_Framework_TestCase
+// @codingStandardsIgnoreEnd
 {
     /** @var Interface_ $fixture */
     private $fixture;

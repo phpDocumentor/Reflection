@@ -25,7 +25,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 /**
  * Test case for \phpDocumentor\Reflection\Php\Factory\Method
  * @coversDefaultClass \phpDocumentor\Reflection\Php\Factory\Method
- * @covers ::<private>
+ * @covers ::<!public>
  */
 class MethodTest extends TestCase
 {

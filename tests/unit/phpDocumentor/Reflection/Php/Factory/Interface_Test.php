@@ -31,9 +31,11 @@ use phpDocumentor\Reflection\Php\Method as MethodElement;
 /**
  * Test case for Interface_
  * @coversDefaultClass phpDocumentor\Reflection\Php\Factory\Interface_
- * @covers ::<private>
+ * @covers ::<!public>
  */
+// @codingStandardsIgnoreStart
 class Interface_Test extends TestCase
+// @codingStandardsIgnoreEnd
 {
     protected function setUp()
     {

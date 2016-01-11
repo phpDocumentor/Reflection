@@ -51,8 +51,13 @@ final class Property implements Element
      * @param null|string $default
      * @param bool $static
      */
-    public function __construct(Fqsen $fqsen, Visibility $visibility = null, DocBlock $docBlock = null, $default = null, $static = false)
-    {
+    public function __construct(
+        Fqsen $fqsen,
+        Visibility $visibility = null,
+        DocBlock $docBlock = null,
+        $default = null,
+        $static = false
+    ) {
         $this->fqsen = $fqsen;
         $this->visibility = $visibility;
         $this->docBlock = $docBlock;

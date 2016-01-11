@@ -59,7 +59,7 @@ class MethodTest extends \PHPUnit_Framework_TestCase
     {
         $method = new Method($this->fqsen, $this->visibility, $this->docblock);
 
-        $this->assertSame($this->docblock, $method->getDocblock());
+        $this->assertSame($this->docblock, $method->getDocBlock());
     }
 
     /**

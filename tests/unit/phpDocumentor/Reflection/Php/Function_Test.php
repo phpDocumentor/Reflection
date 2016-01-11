@@ -20,7 +20,9 @@ use phpDocumentor\Reflection\Fqsen;
  * Tests the functionality for the Function_ class.
  * @coversDefaultClass phpDocumentor\Reflection\Php\Function_
  */
+// @codingStandardsIgnoreStart
 class Function_Test extends \PHPUnit_Framework_TestCase
+// @codingStandardsIgnoreEnd
 {
     /** @var Function_ $fixture */
     protected $fixture;
@@ -30,6 +32,7 @@ class Function_Test extends \PHPUnit_Framework_TestCase
 
     /** @var  DocBlock */
     protected $docBlock;
+
     /**
      * Creates a new (emoty) fixture object.
      */
@@ -67,7 +70,7 @@ class Function_Test extends \PHPUnit_Framework_TestCase
      */
     public function testGetFqsen()
     {
-       $this->assertSame($this->fqsen, $this->fixture->getFqsen());
+        $this->assertSame($this->fqsen, $this->fixture->getFqsen());
     }
 
     /**

@@ -77,5 +77,4 @@ class ConstantTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertSame($this->docBlock, $this->fixture->getDocBlock());
     }
-
 }

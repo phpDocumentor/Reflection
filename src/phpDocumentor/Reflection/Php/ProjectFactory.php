@@ -46,7 +46,7 @@ final class ProjectFactory implements ProjectFactoryInterface
      */
     public static function createInstance()
     {
-       return new static(
+        return new static(
             [
                 new Factory\Argument(new PrettyPrinter()),
                 new Factory\Class_(),

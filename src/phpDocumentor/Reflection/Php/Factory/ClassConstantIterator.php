@@ -13,14 +13,16 @@
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
+use Iterator;
 use phpDocumentor\Reflection\Fqsen;
 use PhpParser\Comment\Doc;
 use PhpParser\Node\Stmt\ClassConst;
 
 /**
- * This class acts like a combination of a ClassConst and Const_ to be able to create constant descriptors using a normal strategy.
+ * This class acts like a combination of a ClassConst and Const_
+ * to be able to create constant descriptors using a normal strategy.
  */
-final class ClassConstantIterator implements \Iterator
+final class ClassConstantIterator implements Iterator
 {
     /**
      * @var ClassConst
@@ -57,7 +59,7 @@ final class ClassConstantIterator implements \Iterator
      */
     public function getName()
     {
-       return $this->classConstants->consts[$this->index]->name;
+        return $this->classConstants->consts[$this->index]->name;
     }
 
     /**

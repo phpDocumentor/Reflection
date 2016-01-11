@@ -39,17 +39,12 @@ use PhpParser\NodeAbstract;
  * Strategy to create File element from the provided filename.
  * This class supports extra middle wares to add extra steps to the creation process.
  */
-final class File implements ProjectFactoryStrategy
+final class File extends AbstractFactory implements ProjectFactoryStrategy
 {
     /**
      * @var NodesFactory
      */
     private $nodesFactory;
-
-    /**
-     * @var Adapter
-     */
-    private $adapter;
 
     /**
      * Initializes the object.
@@ -89,17 +84,8 @@ final class File implements ProjectFactoryStrategy
      * @param Context $context
      * @return File
      */
-    public function create($object, StrategyContainer $strategies, Context $context = null)
+    protected function doCreate($object, StrategyContainer $strategies, Context $context = null)
     {
-        if (!$this->matches($object)) {
-            throw new InvalidArgumentException(
-                sprintf('%s cannot handle objects with the type %s',
-                    __CLASS__,
-                    is_object($object) ? get_class($object) : gettype($object)
-                )
-            );
-        }
-
         $command = new CreateCommand($object, $strategies);
         $middlewareChain = $this->middlewareChain;
 
@@ -115,7 +101,11 @@ final class File implements ProjectFactoryStrategy
         $file = $command->getFile();
         $code = $file->getContents();
         $nodes = $this->nodesFactory->create($code);
-        $docBlock = $this->createDocBlock($command->getStrategies(), $code, $nodes);
+
+        $contextFactory = new ContextFactory();
+        $context = $contextFactory->createForNamespace('\\', $code);
+
+        $docBlock = $this->createFileDocBlock(null, $command->getStrategies(), $context, $nodes);
 
         $result = new FileElement(
             $file->md5(),
@@ -168,30 +158,29 @@ final class File implements ProjectFactoryStrategy
             }
         }
     }
-    /**
-     * @param StrategyContainer $strategies
-     * @param $code
-     * @param $nodes
-     * @return null|\phpDocumentor\Reflection\Element
-     * @internal param Context $context
-     */
-    private function createDocBlock(StrategyContainer $strategies, $code, $nodes)
-    {
-        $contextFactory = new ContextFactory();
-        $context = $contextFactory->createForNamespace('\\', $code);
-        $docBlock = null;
 
+    /**
+     * @param Doc $docBlock
+     * @param StrategyContainer $strategies
+     * @param Context $context
+     * @param Node[] $nodes
+     * @return null|\phpDocumentor\Reflection\Element
+     */
+    protected function createFileDocBlock(
+        Doc $docBlock = null,
+        StrategyContainer $strategies = null,
+        Context $context = null,
+        $nodes = array()
+    ) {
         /** @var NodeAbstract $node */
         $node = current($nodes);
         if ($node instanceof Node) {
             $comments = $node->getAttribute('comments');
             if (is_array($comments)) {
                 if ($node instanceof NamespaceNode) {
-                    $strategy = $strategies->findMatching(current($comments));
-                    $docBlock = $strategy->create(current($comments), $strategies, $context);
+                    $docBlock = $this->createDocBlock($strategies, current($comments), $context);
                 } elseif (count($comments) == 2) {
-                    $strategy = $strategies->findMatching(current($comments));
-                    $docBlock = $strategy->create(current($comments), $strategies, $context);
+                    $docBlock = $this->createDocBlock($strategies, current($comments), $context);
                 }
             }
         }

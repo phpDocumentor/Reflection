@@ -11,6 +11,7 @@
  */
 
 namespace phpDocumentor\Reflection\Php;
+
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\DocBlock;
@@ -18,7 +19,9 @@ use phpDocumentor\Reflection\DocBlock;
 /**
  * Descriptor representing an Interface.
  */
+// @codingStandardsIgnoreStart
 final class Interface_ implements Element
+// @codingStandardsIgnoreEnd
 {
     /**
      * @var Fqsen Full Qualified Structural Element Name

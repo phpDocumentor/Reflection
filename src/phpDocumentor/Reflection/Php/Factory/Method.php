@@ -24,9 +24,8 @@ use PhpParser\Node\Stmt\ClassMethod;
 /**
  * Strategy to create MethodDescriptor and arguments when applicable.
  */
-final class Method implements ProjectFactoryStrategy
+final class Method extends AbstractFactory implements ProjectFactoryStrategy
 {
-
     /**
      * Returns true when the strategy is able to handle the object.
      *
@@ -46,18 +45,9 @@ final class Method implements ProjectFactoryStrategy
      * @param Context $context of the created object
      * @return MethodDescriptor
      */
-    public function create($object, StrategyContainer $strategies, Context $context = null)
+    protected function doCreate($object, StrategyContainer $strategies, Context $context = null)
     {
-        if (!$this->matches($object)) {
-            throw new InvalidArgumentException(
-                sprintf('%s cannot handle objects with the type %s',
-                    __CLASS__,
-                    is_object($object) ? get_class($object) : gettype($object)
-                )
-            );
-        }
-
-        $docBlock = $this->createDocBlock($object->getDocComment(), $strategies, $context);
+        $docBlock = $this->createDocBlock($strategies, $object->getDocComment(), $context);
 
         $method = new MethodDescriptor(
             $object->fqsen,
@@ -69,8 +59,7 @@ final class Method implements ProjectFactoryStrategy
         );
 
         foreach ($object->params as $param) {
-            $strategy = $strategies->findMatching($param);
-            $method->addArgument($strategy->create($param, $strategies, $context));
+            $method->addArgument($this->createMember($param, $strategies, $context));
         }
 
         return $method;
@@ -91,21 +80,5 @@ final class Method implements ProjectFactoryStrategy
         }
 
         return new Visibility(Visibility::PUBLIC_);
-    }
-
-    /**
-     * @param Doc $docBlock
-     * @param StrategyContainer $strategies
-     * @param Context $context
-     * @return null|\phpDocumentor\Reflection\DocBlock
-     */
-    private function createDocBlock(Doc $docBlock = null, StrategyContainer $strategies, Context $context = null)
-    {
-        if ($docBlock === null) {
-            return null;
-        }
-
-        $strategy = $strategies->findMatching($docBlock);
-        return $strategy->create($docBlock, $strategies, $context);
     }
 }

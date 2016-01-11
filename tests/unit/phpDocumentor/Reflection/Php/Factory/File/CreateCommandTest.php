@@ -12,7 +12,6 @@
 
 namespace phpDocumentor\Reflection\Php\Factory\File;
 
-
 use phpDocumentor\Reflection\File\LocalFile;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategies;
 

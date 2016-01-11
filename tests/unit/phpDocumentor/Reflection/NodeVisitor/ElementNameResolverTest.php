@@ -13,7 +13,6 @@
 
 namespace phpDocumentor\Reflection\NodeVisitor;
 
-
 use PhpParser\Node\Const_;
 use PhpParser\Node\Name;
 use PhpParser\Node\Scalar\String_;

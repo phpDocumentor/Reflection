@@ -28,7 +28,9 @@ use PhpParser\Node\Stmt\Function_ as FunctionNode;
  * @see FunctionDescriptor
  * @see \PhpParser\Node\
  */
-final class Function_ implements ProjectFactoryStrategy
+// @codingStandardsIgnoreStart
+final class Function_ extends AbstractFactory implements ProjectFactoryStrategy
+// @codingStandardsIgnoreEnd
 {
 
     /**
@@ -50,18 +52,9 @@ final class Function_ implements ProjectFactoryStrategy
      * @param Context $context of the created object
      * @return FunctionDescriptor
      */
-    public function create($object, StrategyContainer $strategies, Context $context = null)
+    protected function doCreate($object, StrategyContainer $strategies, Context $context = null)
     {
-        if (!$this->matches($object)) {
-            throw new InvalidArgumentException(
-                sprintf('%s cannot handle objects with the type %s',
-                    __CLASS__,
-                    is_object($object) ? get_class($object) : gettype($object)
-                )
-            );
-        }
-
-        $docBlock = $this->createDocBlock($object->getDocComment(), $strategies, $context);
+        $docBlock = $this->createDocBlock($strategies, $object->getDocComment(), $context);
 
         $function = new FunctionDescriptor($object->fqsen, $docBlock);
 
@@ -71,21 +64,5 @@ final class Function_ implements ProjectFactoryStrategy
         }
 
         return $function;
-    }
-
-    /**
-     * @param Doc $docBlock
-     * @param StrategyContainer $strategies
-     * @param Context $context
-     * @return null|\phpDocumentor\Reflection\DocBlock
-     */
-    private function createDocBlock(Doc $docBlock = null, StrategyContainer $strategies, Context $context = null)
-    {
-        if ($docBlock === null) {
-            return null;
-        }
-
-        $strategy = $strategies->findMatching($docBlock);
-        return $strategy->create($docBlock, $strategies, $context);
     }
 }

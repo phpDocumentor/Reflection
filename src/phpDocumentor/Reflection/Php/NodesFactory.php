@@ -55,7 +55,8 @@ class NodesFactory
     /**
      * Creates a new instance of NodeFactory with default Parser ands Traverser.
      *
-     * @param int $kind One of ParserFactory::PREFER_PHP7, ParserFactory::PREFER_PHP5, ParserFactory::ONLY_PHP7 or ParserFactory::ONLY_PHP5
+     * @param int $kind One of ParserFactory::PREFER_PHP7,
+     *  ParserFactory::PREFER_PHP5, ParserFactory::ONLY_PHP7 or ParserFactory::ONLY_PHP5
      * @return static
      */
     public static function createInstance($kind = ParserFactory::PREFER_PHP7)

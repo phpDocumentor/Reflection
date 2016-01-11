@@ -12,7 +12,6 @@
 
 namespace phpDocumentor\Reflection\File;
 
-
 use phpDocumentor\Reflection\File;
 
 /**

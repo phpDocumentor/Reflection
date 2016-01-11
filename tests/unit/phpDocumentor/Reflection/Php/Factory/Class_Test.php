@@ -14,14 +14,14 @@
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use Mockery as m;
-use phpDocumentor\Reflection\Php\Property as PropertyElement;
+use phpDocumentor\Reflection\DocBlock as DocBlockElement;
+use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\Php\Class_ as ClassElement;
 use phpDocumentor\Reflection\Php\Constant as ConstantElement;
 use phpDocumentor\Reflection\Php\Method as MethodElement;
-use phpDocumentor\Reflection\Php\Class_ as ClassElement;
-use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\Php\Property as PropertyElement;
 use phpDocumentor\Reflection\Php\StrategyContainer;
-use phpDocumentor\Reflection\DocBlock as DocBlockElement;
-use phpDocumentor\Reflection\Types\Context;
+use PhpParser\Comment\Doc;
 use PhpParser\Node\Const_;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Name;
@@ -30,15 +30,16 @@ use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property as PropertyNode;
 use PhpParser\Node\Stmt\PropertyProperty;
-use PhpParser\Comment\Doc;
 use PhpParser\Node\Stmt\TraitUse;
 
 /**
  * Class Class_Test
  * @coversDefaultClass phpDocumentor\Reflection\Php\Factory\Class_
- * @covers ::<private>
+ * @covers ::<!public>
  */
+// @codingStandardsIgnoreStart
 class Class_Test extends TestCase
+// @codingStandardsIgnoreEnd
 {
     protected function setUp()
     {
@@ -151,7 +152,7 @@ class Class_Test extends TestCase
     public function testWithPropertyMembers()
     {
         $propertyProperty = new PropertyProperty('\MyClass::$property');
-        $property = new PropertyNode(1, [$propertyProperty] );
+        $property = new PropertyNode(1, [$propertyProperty]);
         $propertyDescriptor = new PropertyElement(new Fqsen('\MyClass::$property'));
         $strategiesMock = m::mock(StrategyContainer::class);
         $classMock = $this->buildClassMock();
@@ -253,8 +254,6 @@ class Class_Test extends TestCase
 
         $this->assertSame($docBlock, $class->getDocBlock());
     }
-
-
 
     /**
      * @return m\MockInterface|ClassNode

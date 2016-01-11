@@ -26,7 +26,9 @@ use PhpParser\Node\Stmt\Property as PropertyNode;
 use PhpParser\Node\Stmt\Trait_ as TraitNode;
 use PhpParser\Node\Stmt\TraitUse;
 
-final class Trait_ implements ProjectFactoryStrategy
+// @codingStandardsIgnoreStart
+final class Trait_ extends AbstractFactory implements ProjectFactoryStrategy
+// @codingStandardsIgnoreEnd
 {
     /**
      * Returns true when the strategy is able to handle the object.
@@ -49,18 +51,9 @@ final class Trait_ implements ProjectFactoryStrategy
      * @param Context $context
      * @return TraitElement
      */
-    public function create($object, StrategyContainer $strategies, Context $context = null)
+    protected function doCreate($object, StrategyContainer $strategies, Context $context = null)
     {
-        if (!$this->matches($object)) {
-            throw new InvalidArgumentException(
-                sprintf('%s cannot handle objects with the type %s',
-                    __CLASS__,
-                    is_object($object) ? get_class($object) : gettype($object)
-                )
-            );
-        }
-
-        $docBlock = $this->createDocBlock($object->getDocComment(), $strategies, $context);
+        $docBlock = $this->createDocBlock($strategies, $object->getDocComment(), $context);
 
         $trait = new TraitElement($object->fqsen, $docBlock);
 
@@ -88,32 +81,5 @@ final class Trait_ implements ProjectFactoryStrategy
         }
 
         return $trait;
-    }
-
-    /**
-     * @param Node|PropertyIterator|Doc $stmt
-     * @param StrategyContainer $strategies
-     * @param Context $context
-     * @return Element
-     */
-    private function createMember($stmt, StrategyContainer $strategies, Context $context = null)
-    {
-        $strategy = $strategies->findMatching($stmt);
-        return $strategy->create($stmt, $strategies, $context);
-    }
-
-    /**
-     * @param Doc $docBlock
-     * @param StrategyContainer $strategies
-     * @param Context $context
-     * @return null|\phpDocumentor\Reflection\DocBlock
-     */
-    private function createDocBlock(Doc $docBlock = null, StrategyContainer $strategies, Context $context = null)
-    {
-        if ($docBlock === null) {
-            return null;
-        }
-
-        return $this->createMember($docBlock, $strategies, $context);
     }
 }
