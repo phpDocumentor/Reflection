@@ -113,9 +113,9 @@ class ProjectCreationTest extends \PHPUnit_Framework_TestCase
 
         $createInstanceMethod = $methods['\\Luigi\\Pizza::createInstance()'];
 
-        $this->assertInstanceOf(DocBlock::class, $createInstanceMethod->getDocblock());
+        $this->assertInstanceOf(DocBlock::class, $createInstanceMethod->getDocBlock());
 
-        $docblock = $createInstanceMethod->getDocblock();
+        $docblock = $createInstanceMethod->getDocBlock();
         /** @var Param[] $params */
         $params = $docblock->getTagsByName('param');
 

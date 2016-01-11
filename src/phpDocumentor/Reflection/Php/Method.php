@@ -165,7 +165,7 @@ final class Method implements Element
      *
      * @returns null|DocBlock
      */
-    public function getDocblock()
+    public function getDocBlock()
     {
         return $this->docBlock;
     }
