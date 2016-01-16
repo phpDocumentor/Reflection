@@ -42,6 +42,7 @@ final class Property extends AbstractFactory implements ProjectFactoryStrategy
      */
     public function __construct(PrettyPrinter $prettyPrinter)
     {
+        parent::__construct();
         $this->valueConverter = $prettyPrinter;
     }
 

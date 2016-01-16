@@ -18,7 +18,7 @@ use phpDocumentor\Reflection\File as FileSystemFile;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Middleware\ChainFactory;
 use phpDocumentor\Reflection\Middleware\Middleware;
-use phpDocumentor\Reflection\Php\Factory\File\CreateCommand;
+use phpDocumentor\Reflection\Php\Factory\File\CreateCommand as FileCreateCommand;
 use phpDocumentor\Reflection\Php\File as FileElement;
 use phpDocumentor\Reflection\Php\NodesFactory;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
@@ -46,6 +46,8 @@ final class File extends AbstractFactory implements ProjectFactoryStrategy
      */
     private $nodesFactory;
 
+    private $fileMiddleware;
+
     /**
      * Initializes the object.
      *
@@ -54,13 +56,14 @@ final class File extends AbstractFactory implements ProjectFactoryStrategy
      */
     public function __construct(NodesFactory $nodesFactory, $middleware = array())
     {
+        parent::__construct();
         $this->nodesFactory = $nodesFactory;
 
         $lastCallable = function ($command) {
             return $this->createFile($command);
         };
 
-        $this->middlewareChain = ChainFactory::createExecutionChain($middleware, $lastCallable);
+        $this->fileMiddleware = ChainFactory::createExecutionChain($middleware, $lastCallable);
     }
 
     /**
@@ -86,8 +89,8 @@ final class File extends AbstractFactory implements ProjectFactoryStrategy
      */
     protected function doCreate($object, StrategyContainer $strategies, Context $context = null)
     {
-        $command = new CreateCommand($object, $strategies);
-        $middlewareChain = $this->middlewareChain;
+        $command = new FileCreateCommand($object, $strategies);
+        $middlewareChain = $this->fileMiddleware;
 
         return $middlewareChain($command);
     }
@@ -96,7 +99,7 @@ final class File extends AbstractFactory implements ProjectFactoryStrategy
      * @param CreateCommand $command
      * @return FileElement
      */
-    private function createFile(CreateCommand $command)
+    private function createFile(FileCreateCommand $command)
     {
         $file = $command->getFile();
         $code = $file->getContents();

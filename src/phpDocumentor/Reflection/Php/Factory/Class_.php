@@ -17,6 +17,8 @@ use InvalidArgumentException;
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\Class_ as ClassElement;
+use phpDocumentor\Reflection\Php\Factory\Middleware\Implements_;
+use phpDocumentor\Reflection\Php\Factory\Middleware\Statements;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Types\Context;
@@ -35,6 +37,15 @@ use PhpParser\Node\Stmt\TraitUse;
 final class Class_ extends AbstractFactory implements ProjectFactoryStrategy
 // @codingStandardsIgnoreEnd
 {
+    public function __construct()
+    {
+        $middlewares[] = new Implements_();
+        $middlewares[] = new Statements();
+
+        parent::__construct($middlewares);
+    }
+
+
     /**
      * Returns true when the strategy is able to handle the object.
      *
@@ -67,44 +78,6 @@ final class Class_ extends AbstractFactory implements ProjectFactoryStrategy
             $object->isAbstract(),
             $object->isFinal()
         );
-
-        if (isset($object->implements)) {
-            foreach ($object->implements as $interfaceClassName) {
-                $classElement->addInterface(
-                    new Fqsen('\\' . $interfaceClassName->toString())
-                );
-            }
-        }
-
-        if (isset($object->stmts)) {
-            foreach ($object->stmts as $stmt) {
-                switch (get_class($stmt)) {
-                    case TraitUse::class:
-                        foreach ($stmt->traits as $use) {
-                            $classElement->addUsedTrait(new Fqsen('\\'. $use->toString()));
-                        }
-                        break;
-                    case PropertyNode::class:
-                        $properties = new PropertyIterator($stmt);
-                        foreach ($properties as $property) {
-                            $element = $this->createMember($property, $strategies, $context);
-                            $classElement->addProperty($element);
-                        }
-                        break;
-                    case ClassMethod::class:
-                        $method = $this->createMember($stmt, $strategies, $context);
-                        $classElement->addMethod($method);
-                        break;
-                    case ClassConst::class:
-                        $constants = new ClassConstantIterator($stmt);
-                        foreach ($constants as $const) {
-                            $element = $this->createMember($const, $strategies, $context);
-                            $classElement->addConstant($element);
-                        }
-                        break;
-                }
-            }
-        }
 
         return $classElement;
     }
