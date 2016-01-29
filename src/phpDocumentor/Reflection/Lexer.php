@@ -12,8 +12,8 @@
 
 namespace phpDocumentor\Reflection;
 
-use PhpParser_Lexer;
-use PhpParser_Parser;
+use PhpParser\Lexer as BaseLexer;
+use PhpParser\Parser;
 
 /**
  * Custom lexer for phpDocumentor.
@@ -28,7 +28,7 @@ use PhpParser_Parser;
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link    http://phpdoc.org
  */
-class Lexer extends PhpParser_Lexer
+class Lexer extends BaseLexer
 {
     /**
      * Retrieves the next token and determines the associated attributes and
@@ -67,8 +67,8 @@ class Lexer extends PhpParser_Lexer
      */
     protected function isTokenScalar($tokenId)
     {
-        return $tokenId == PhpParser_Parser::T_CONSTANT_ENCAPSED_STRING
-            || $tokenId == PhpParser_Parser::T_LNUMBER
-            || $tokenId == PhpParser_Parser::T_DNUMBER;
+        return $tokenId == Parser::T_CONSTANT_ENCAPSED_STRING
+            || $tokenId == Parser::T_LNUMBER
+            || $tokenId == Parser::T_DNUMBER;
     }
 }

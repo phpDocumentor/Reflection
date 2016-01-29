@@ -16,7 +16,7 @@ use phpDocumentor\Reflection\BaseReflector;
 use phpDocumentor\Reflection\ConstantReflector as BaseConstantReflector;
 use phpDocumentor\Reflection\DocBlock\Context;
 use PhpParser\Node\Stmt\ClassConst;
-use PhpParser\Node\Stmt\Const_;
+use PhpParser\Node\Const_;
 
 class ConstantReflector extends BaseConstantReflector
 {
@@ -35,7 +35,7 @@ class ConstantReflector extends BaseConstantReflector
         Context $context,
         Const_ $node
     ) {
-        parent::__construct($node, $context);
+        BaseReflector::__construct($node, $context);
         $this->constant = $stmt;
     }
 }
