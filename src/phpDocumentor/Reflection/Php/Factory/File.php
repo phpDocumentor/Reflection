@@ -172,17 +172,37 @@ final class File extends AbstractFactory implements ProjectFactoryStrategy
         Context $context = null,
         $nodes = array()
     ) {
-        /** @var NodeAbstract $node */
         $node = current($nodes);
-        if ($node instanceof Node) {
-            $comments = $node->getAttribute('comments');
-            if (is_array($comments)) {
-                if ($node instanceof NamespaceNode) {
-                    $docBlock = $this->createDocBlock($strategies, current($comments), $context);
-                } elseif (count($comments) == 2) {
-                    $docBlock = $this->createDocBlock($strategies, current($comments), $context);
-                }
+        if (!$node instanceof Node) {
+            return $docBlock;
+        }
+
+        $comments = $node->getAttribute('comments');
+        if (!is_array($comments) || empty($comments)) {
+            return $docBlock;
+        }
+
+        $found = 0;
+        $firstDocBlock = null;
+        foreach ($comments as $comment) {
+            if (!$comment instanceof Doc) {
+                continue;
             }
+
+            if ($node instanceof NamespaceNode) {
+                return $this->createDocBlock($strategies, $comment, $context);
+            }
+
+            $found++;
+            if ($firstDocBlock === null) {
+                $firstDocBlock = $comment;
+            } elseif ($found > 2) {
+                break;
+            }
+        }
+
+        if ($found === 2) {
+            return $this->createDocBlock($strategies, $firstDocBlock, $context);
         }
 
         return $docBlock;

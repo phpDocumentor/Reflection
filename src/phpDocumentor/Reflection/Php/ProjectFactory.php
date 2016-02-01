@@ -66,7 +66,7 @@ final class ProjectFactory implements ProjectFactoryInterface
      * Creates a project from the set of files.
      *
      * @param string $name
-     * @param string[] $files
+     * @param \phpDocumentor\Reflection\File[] $files
      * @return Project
      * @throws Exception when no matching strategy was found.
      */
