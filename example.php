@@ -22,7 +22,7 @@ include 'vendor/autoload.php';
 $projectFactory = \phpDocumentor\Reflection\Php\ProjectFactory::createInstance();
 
 // Create an array of files to analize.
-$files = ['tests/example.file.php'];
+$files = [ new \phpDocumentor\Reflection\File\LocalFile('tests/example.file.php') ];
 
 //create a new project 'MyProject' containing all elements in the files.
 /** @var Project $project */
