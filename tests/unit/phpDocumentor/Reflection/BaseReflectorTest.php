@@ -36,7 +36,7 @@ class BaseReflectorTest extends PHPUnit_Framework_TestCase
     {
         /** @var BaseReflector $base_reflector  */
         $base_reflector = new BaseReflectorMock(
-            $this->getMockBuilder(\PhpParser\Node\Stmt::class)->disableOriginalConstructor()->getMock(),
+            $this->getMockBuilder('\PhpParser\Node\Stmt')->disableOriginalConstructor()->getMock(),
             new Context()
         );
         $base_reflector->setNamespace('namespace_name');
@@ -57,7 +57,7 @@ class BaseReflectorTest extends PHPUnit_Framework_TestCase
     {
         /** @var BaseReflector $base_reflector  */
         $base_reflector = new BaseReflectorMock(
-            $this->getMockBuilder(\PhpParser\Node\Stmt::class)->disableOriginalConstructor()->getMock(),
+            $this->getMockBuilder('\PhpParser\Node\Stmt')->disableOriginalConstructor()->getMock(),
             new Context()
         );
         $base_reflector->setNamespace(null);
