@@ -484,7 +484,7 @@ class FileReflector extends ReflectionAbstract implements NodeVisitor
         $prettyPrinter = new PrettyPrinter;
 
         switch (get_class($node)) {
-            case 'PhpParser\Node\Stmt_Use':
+            case 'PhpParser\Node\Stmt\Use_':
                 /** @var \PhpParser\Node\Stmt\UseUse $use */
                 foreach ($node->uses as $use) {
                     $this->context->setNamespaceAlias(
