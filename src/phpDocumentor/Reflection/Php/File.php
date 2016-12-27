@@ -257,4 +257,14 @@ final class File
     {
         return $this->docBlock;
     }
+
+    /**
+     * Returns the full name of this file
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
 }
