@@ -25,6 +25,7 @@ use PhpParser\Node\Stmt\Interface_;
 use PhpParser\Node\Stmt\Namespace_;
 use PhpParser\Node\Stmt\PropertyProperty;
 use PhpParser\Node\Stmt\Trait_;
+use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitorAbstract;
 
 final class ElementNameResolver extends NodeVisitorAbstract
@@ -81,6 +82,10 @@ final class ElementNameResolver extends NodeVisitorAbstract
             case Class_::class:
             case Trait_::class:
             case Interface_::class:
+                if (is_null($node->name)) {
+                    return NodeTraverser::DONT_TRAVERSE_CHILDREN;
+                }
+
                 $this->parts->push((string)$node->name);
                 $node->fqsen = new Fqsen($this->buildName());
                 break;
