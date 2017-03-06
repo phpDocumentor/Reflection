@@ -20,6 +20,7 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\Function_;
 use PhpParser\Node\Stmt\Namespace_;
+use PhpParser\NodeTraverser;
 
 /**
  * Testcase for FqsenResolver
@@ -59,6 +60,21 @@ class ElementNameResolverTest extends \PHPUnit_Framework_TestCase
         $this->fixture->enterNode($class);
 
         $this->assertEquals('\myClass', (string)$class->fqsen);
+    }
+
+    /**
+     * If anonymous classes were processed, we would obtain a
+     * InvalidArgumentException for an invalid Fqsen.
+     *
+     * @covers ::enterNode
+     */
+    public function testDoesNotEnterAnonymousClass()
+    {
+        $class = new Class_(null);
+        $this->assertEquals(
+            NodeTraverser::DONT_TRAVERSE_CHILDREN,
+            $this->fixture->enterNode($class)
+        );
     }
 
     /**
