@@ -14,6 +14,7 @@
 namespace phpDocumentor\Reflection\NodeVisitor;
 
 use PhpParser\Node\Const_;
+use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Name;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Class_;
@@ -75,6 +76,27 @@ class ElementNameResolverTest extends \PHPUnit_Framework_TestCase
             NodeTraverser::DONT_TRAVERSE_CHILDREN,
             $this->fixture->enterNode($class)
         );
+    }
+
+    /**
+     * @link https://github.com/phpDocumentor/Reflection/issues/103
+     * @covers ::enterNode
+     * @covers ::leaveNode
+     */
+    public function testAnonymousClassDoesNotPopParts()
+    {
+        $anonymousClass = new Class_(null);
+
+        $new = new New_($anonymousClass);
+
+        $namespace = new Namespace_(new Name('ANamespace'), $new);
+
+        $this->fixture->enterNode($namespace);
+        $this->fixture->enterNode($new);
+        $this->fixture->enterNode($anonymousClass);
+        $this->fixture->leaveNode($anonymousClass);
+        $this->fixture->leaveNode($new);
+        $this->fixture->leaveNode($namespace);
     }
 
     /**
