@@ -82,11 +82,12 @@ final class ElementNameResolver extends NodeVisitorAbstract
             case Class_::class:
             case Trait_::class:
             case Interface_::class:
+                $this->parts->push((string)$node->name);
+
                 if (is_null($node->name)) {
                     return NodeTraverser::DONT_TRAVERSE_CHILDREN;
                 }
 
-                $this->parts->push((string)$node->name);
                 $node->fqsen = new Fqsen($this->buildName());
                 break;
             case Function_::class:
