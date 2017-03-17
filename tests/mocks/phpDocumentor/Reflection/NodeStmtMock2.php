@@ -31,4 +31,8 @@ class NodeStmtMock2 extends Stmt
     public $implements = array();
 
     public $extends = null;
+
+    public function getSubNodeNames()
+    {
+    }
 }

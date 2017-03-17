@@ -37,4 +37,8 @@ class NodeStmtMock extends \PhpParser\Node\Stmt
     {
         return 'testNodeMock';
     }
+
+    public function getSubNodeNames()
+    {
+    }
 }

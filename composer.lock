@@ -4,37 +4,42 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a95f5fcfa7881ef2a6d076533216cc21",
-    "content-hash": "5f18bb38fd8e84b5f811b568bc546c0c",
+    "content-hash": "32f219ee4f0349b598f7f4332f90d7d0",
     "packages": [
         {
             "name": "nikic/php-parser",
-            "version": "v1.4.1",
+            "version": "v2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "f78af2c9c86107aa1a34cd1dbb5bbe9eeb0d9f51"
+                "reference": "4dd659edadffdc2143e4753df655d866dbfeedf0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/f78af2c9c86107aa1a34cd1dbb5bbe9eeb0d9f51",
-                "reference": "f78af2c9c86107aa1a34cd1dbb5bbe9eeb0d9f51",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/4dd659edadffdc2143e4753df655d866dbfeedf0",
+                "reference": "4dd659edadffdc2143e4753df655d866dbfeedf0",
                 "shasum": ""
             },
             "require": {
                 "ext-tokenizer": "*",
-                "php": ">=5.3"
+                "php": ">=5.4"
             },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "bin": [
+                "bin/php-parse"
+            ],
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.4-dev"
+                    "dev-master": "2.1-dev"
                 }
             },
             "autoload": {
-                "files": [
-                    "lib/bootstrap.php"
-                ]
+                "psr-4": {
+                    "PhpParser\\": "lib/PhpParser"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -50,7 +55,7 @@
                 "parser",
                 "php"
             ],
-            "time": "2015-09-19 14:15:08"
+            "time": "2016-09-16T12:04:44+00:00"
         },
         {
             "name": "phpdocumentor/reflection-docblock",
@@ -99,7 +104,7 @@
                     "email": "mike.vanriel@naenius.com"
                 }
             ],
-            "time": "2014-08-09 10:27:07"
+            "time": "2014-08-09T10:27:07+00:00"
         },
         {
             "name": "psr/log",
@@ -137,7 +142,7 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2012-12-21 11:40:51"
+            "time": "2012-12-21T11:40:51+00:00"
         }
     ],
     "packages-dev": [
@@ -201,7 +206,7 @@
                 "Behat",
                 "Symfony2"
             ],
-            "time": "2014-04-26 16:55:16"
+            "time": "2014-04-26T16:55:16+00:00"
         },
         {
             "name": "behat/gherkin",
@@ -262,7 +267,7 @@
                 "Symfony2",
                 "parser"
             ],
-            "time": "2013-10-15 11:22:17"
+            "time": "2013-10-15T11:22:17+00:00"
         },
         {
             "name": "mockery/mockery",
@@ -328,7 +333,7 @@
                 "test double",
                 "testing"
             ],
-            "time": "2014-05-02 12:16:45"
+            "time": "2014-05-02T12:16:45+00:00"
         },
         {
             "name": "ocramius/instantiator",
@@ -383,7 +388,7 @@
                 "constructor",
                 "instantiate"
             ],
-            "time": "2014-08-14 15:10:55"
+            "time": "2014-08-14T15:10:55+00:00"
         },
         {
             "name": "ocramius/lazy-map",
@@ -441,7 +446,7 @@
                 "map",
                 "service location"
             ],
-            "time": "2013-11-09 22:30:54"
+            "time": "2013-11-09T22:30:54+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -506,7 +511,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-08-06 06:39:42"
+            "time": "2014-08-06T06:39:42+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -551,7 +556,7 @@
                 "filesystem",
                 "iterator"
             ],
-            "time": "2013-10-10 15:34:57"
+            "time": "2013-10-10T15:34:57+00:00"
         },
         {
             "name": "phpunit/php-text-template",
@@ -595,7 +600,7 @@
             "keywords": [
                 "template"
             ],
-            "time": "2014-01-30 17:20:04"
+            "time": "2014-01-30T17:20:04+00:00"
         },
         {
             "name": "phpunit/php-timer",
@@ -639,7 +644,7 @@
             "keywords": [
                 "timer"
             ],
-            "time": "2013-08-02 07:42:54"
+            "time": "2013-08-02T07:42:54+00:00"
         },
         {
             "name": "phpunit/php-token-stream",
@@ -689,7 +694,7 @@
             "keywords": [
                 "tokenizer"
             ],
-            "time": "2014-03-03 05:10:30"
+            "time": "2014-03-03T05:10:30+00:00"
         },
         {
             "name": "phpunit/phpunit",
@@ -763,7 +768,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-08-18 05:12:30"
+            "time": "2014-08-18T05:12:30+00:00"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -821,7 +826,7 @@
                 "mock",
                 "xunit"
             ],
-            "time": "2014-08-02 13:50:58"
+            "time": "2014-08-02T13:50:58+00:00"
         },
         {
             "name": "sebastian/comparator",
@@ -886,7 +891,7 @@
                 "compare",
                 "equality"
             ],
-            "time": "2014-05-02 07:05:58"
+            "time": "2014-05-02T07:05:58+00:00"
         },
         {
             "name": "sebastian/diff",
@@ -936,7 +941,7 @@
             "keywords": [
                 "diff"
             ],
-            "time": "2013-08-03 16:46:33"
+            "time": "2013-08-03T16:46:33+00:00"
         },
         {
             "name": "sebastian/environment",
@@ -987,7 +992,7 @@
                 "environment",
                 "hhvm"
             ],
-            "time": "2014-02-18 16:17:19"
+            "time": "2014-02-18T16:17:19+00:00"
         },
         {
             "name": "sebastian/exporter",
@@ -1054,7 +1059,7 @@
                 "export",
                 "exporter"
             ],
-            "time": "2014-02-16 08:26:31"
+            "time": "2014-02-16T08:26:31+00:00"
         },
         {
             "name": "sebastian/version",
@@ -1089,7 +1094,7 @@
             ],
             "description": "Library that helps with managing the version number of Git-hosted PHP projects",
             "homepage": "https://github.com/sebastianbergmann/version",
-            "time": "2014-03-07 15:35:33"
+            "time": "2014-03-07T15:35:33+00:00"
         },
         {
             "name": "symfony/config",
@@ -1137,7 +1142,7 @@
             ],
             "description": "Symfony Config Component",
             "homepage": "http://symfony.com",
-            "time": "2014-08-05 09:00:40"
+            "time": "2014-08-05T09:00:40+00:00"
         },
         {
             "name": "symfony/console",
@@ -1192,7 +1197,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2014-08-05 09:00:40"
+            "time": "2014-08-05T09:00:40+00:00"
         },
         {
             "name": "symfony/dependency-injection",
@@ -1249,7 +1254,7 @@
             ],
             "description": "Symfony DependencyInjection Component",
             "homepage": "http://symfony.com",
-            "time": "2014-08-06 06:44:37"
+            "time": "2014-08-06T06:44:37+00:00"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -1306,7 +1311,7 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "http://symfony.com",
-            "time": "2014-07-28 13:20:46"
+            "time": "2014-07-28T13:20:46+00:00"
         },
         {
             "name": "symfony/filesystem",
@@ -1353,7 +1358,7 @@
             ],
             "description": "Symfony Filesystem Component",
             "homepage": "http://symfony.com",
-            "time": "2014-07-09 09:05:48"
+            "time": "2014-07-09T09:05:48+00:00"
         },
         {
             "name": "symfony/finder",
@@ -1400,7 +1405,7 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "http://symfony.com",
-            "time": "2014-07-28 13:20:46"
+            "time": "2014-07-28T13:20:46+00:00"
         },
         {
             "name": "symfony/translation",
@@ -1455,7 +1460,7 @@
             ],
             "description": "Symfony Translation Component",
             "homepage": "http://symfony.com",
-            "time": "2014-07-28 13:20:46"
+            "time": "2014-07-28T13:20:46+00:00"
         },
         {
             "name": "symfony/yaml",
@@ -1502,7 +1507,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "http://symfony.com",
-            "time": "2014-08-05 09:00:40"
+            "time": "2014-08-05T09:00:40+00:00"
         }
     ],
     "aliases": [],
