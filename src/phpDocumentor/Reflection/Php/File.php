@@ -13,12 +13,13 @@
 namespace phpDocumentor\Reflection\Php;
 
 use phpDocumentor\Reflection\DocBlock;
+use phpDocumentor\Reflection\File as FileInterface;
 use phpDocumentor\Reflection\Fqsen;
 
 /**
  * Represents a file in the project.
  */
-final class File
+final class File implements FileInterface
 {
     /**
      * @var DocBlock|null
