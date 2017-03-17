@@ -26,4 +26,7 @@ use PhpParser\Node\Expr;
  */
 class NodeExprMock extends Expr
 {
+    public function getSubNodeNames()
+    {
+    }
 }
