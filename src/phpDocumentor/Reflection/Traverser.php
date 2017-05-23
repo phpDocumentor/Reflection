@@ -18,6 +18,7 @@ use PhpParser\Parser;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitor;
 use PhpParser\NodeVisitorAbstract;
+use PhpParser\ParserFactory;
 
 /**
  * The source code traverser that scans the given source code and transforms
@@ -78,7 +79,7 @@ class Traverser
      */
     protected function createParser()
     {
-        return new Parser(new Lexer());
+        return (new ParserFactory)->create(ParserFactory::PREFER_PHP7, new Lexer());
     }
 
     /**
