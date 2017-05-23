@@ -31,4 +31,14 @@ class NodeStmtMock2 extends Stmt
     public $implements = array();
 
     public $extends = null;
+
+    /**
+     * Gets the names of the sub nodes.
+     *
+     * @return array Names of sub nodes
+     */
+    public function getSubNodeNames()
+    {
+        // TODO: Implement getSubNodeNames() method.
+    }
 }

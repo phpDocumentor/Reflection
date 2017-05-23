@@ -37,4 +37,14 @@ class NodeStmtMock extends \PhpParser\Node\Stmt
     {
         return 'testNodeMock';
     }
+
+    /**
+     * Gets the names of the sub nodes.
+     *
+     * @return array Names of sub nodes
+     */
+    public function getSubNodeNames()
+    {
+        // TODO: Implement getSubNodeNames() method.
+    }
 }
