@@ -61,5 +61,56 @@ class ArgumentTest extends TestCase
         $this->assertTrue($argument->isByReference());
         $this->assertTrue($argument->isVariadic());
         $this->assertEquals('MyDefault', $argument->getDefault());
+        $this->assertSame([], $argument->getTypes());
     }
+
+    /**
+     * @covers ::create
+     * @dataProvider dataArgumentTypes
+     * @param string $type An argument type.
+     */
+    public function testCreateWithTypes( $type )
+    {
+        $factory = new ProjectFactoryStrategies(array());
+
+        $argMock = m::mock(Param::class);
+        $argMock->name = 'myArgument';
+        $argMock->type = $type;
+
+        $argument = $this->fixture->create($argMock, $factory);
+
+        $this->assertInstanceOf(ArgumentDescriptor::class, $argument);
+        $this->assertSame([$type], $argument->getTypes());
+    }
+
+    /**
+     * Data provider for possible argument types
+     */
+    public function dataArgumentTypes()
+    {
+        return [
+            [
+                'array',
+            ],
+            [
+                'callable',
+            ],
+            [
+                'bool',
+            ],
+            [
+                'float',
+            ],
+            [
+                'int',
+            ],
+            [
+                'string',
+            ],
+            [
+                '\my\classname',
+            ],
+        ];
+    }
+
 }
