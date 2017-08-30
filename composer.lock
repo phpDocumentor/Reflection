@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "7a9df98bbcb5d79719d7911f84a9caac",
+    "content-hash": "954820db34e64769a397fc30295dc249",
     "packages": [
         {
             "name": "nikic/php-parser",
@@ -113,16 +113,16 @@
         },
         {
             "name": "phpdocumentor/reflection-docblock",
-            "version": "4.1.0",
+            "version": "4.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
-                "reference": "125c8b15c80827dbcd32facc9f85c8a603617d87"
+                "reference": "2d3d238c433cf69caeb4842e97a3223a116f94b2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/125c8b15c80827dbcd32facc9f85c8a603617d87",
-                "reference": "125c8b15c80827dbcd32facc9f85c8a603617d87",
+                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/2d3d238c433cf69caeb4842e97a3223a116f94b2",
+                "reference": "2d3d238c433cf69caeb4842e97a3223a116f94b2",
                 "shasum": ""
             },
             "require": {
@@ -154,7 +154,7 @@
                 }
             ],
             "description": "With this component, a library can provide support for annotations via DocBlocks or otherwise retrieve information that is embedded in a DocBlock.",
-            "time": "2017-08-18T21:01:43+00:00"
+            "time": "2017-08-30T18:51:59+00:00"
         },
         {
             "name": "phpdocumentor/type-resolver",
@@ -1658,7 +1658,7 @@
         {
             "alias": "3.3.0",
             "alias_normalized": "3.3.0.0",
-            "version": "4.1.0.0",
+            "version": "4.1.1.0",
             "package": "phpdocumentor/reflection-docblock"
         }
     ],
