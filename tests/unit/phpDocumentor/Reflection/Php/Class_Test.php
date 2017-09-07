@@ -15,6 +15,7 @@ namespace phpDocumentor\Reflection\Php;
 use Mockery as m;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\Location;
 
 /**
  * Tests the functionality for the Class_ class.
@@ -52,7 +53,7 @@ class Class_Test extends \PHPUnit_Framework_TestCase
         $this->fqsen = new Fqsen('\MyClass');
         $this->docBlock = new DocBlock('');
 
-        $this->fixture = new Class_($this->fqsen, $this->docBlock, null, false, false);
+        $this->fixture = new Class_($this->fqsen, $this->docBlock, null, false, false, new Location(1));
     }
 
     /**
@@ -61,10 +62,10 @@ class Class_Test extends \PHPUnit_Framework_TestCase
      */
     public function testGettingParent()
     {
-        $class = new Class_($this->fqsen, $this->docBlock, null, false, false);
+        $class = new Class_($this->fqsen, $this->docBlock, null, false, false, null);
         $this->assertNull($class->getParent());
 
-        $class = new Class_($this->fqsen, $this->docBlock, $this->parent, false, false);
+        $class = new Class_($this->fqsen, $this->docBlock, $this->parent, false, false, null);
         $this->assertSame($this->parent, $class->getParent());
     }
 

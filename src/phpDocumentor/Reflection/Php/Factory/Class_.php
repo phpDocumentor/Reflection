@@ -16,6 +16,7 @@ namespace phpDocumentor\Reflection\Php\Factory;
 use InvalidArgumentException;
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Class_ as ClassElement;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
@@ -65,7 +66,8 @@ final class Class_ extends AbstractFactory implements ProjectFactoryStrategy
             $docBlock,
             $object->extends ? new Fqsen('\\' . $object->extends) : null,
             $object->isAbstract(),
-            $object->isFinal()
+            $object->isFinal(),
+            new Location($object->getLine())
         );
 
         if (isset($object->implements)) {

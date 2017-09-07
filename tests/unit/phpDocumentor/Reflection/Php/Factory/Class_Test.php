@@ -264,6 +264,7 @@ class Class_Test extends TestCase
         $classMock->fqsen = new Fqsen('\Space\MyClass');
         $classMock->shouldReceive('isFinal')->andReturn(true);
         $classMock->shouldReceive('isAbstract')->andReturn(true);
+        $classMock->shouldReceive('getLine')->andReturn(1);
         return $classMock;
     }
 }

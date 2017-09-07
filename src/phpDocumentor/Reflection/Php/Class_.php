@@ -15,6 +15,7 @@ namespace phpDocumentor\Reflection\Php;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\Location;
 
 /**
  * Descriptor representing a Class.
@@ -60,6 +61,11 @@ final class Class_ implements Element
     private $usedTraits = array();
 
     /**
+     * @var null|Location
+     */
+    private $location;
+
+    /**
      * Initializes a number of properties with the given values. Others are initialized by definition.
      *
      * @param Fqsen $fqsen
@@ -67,19 +73,22 @@ final class Class_ implements Element
      * @param Fqsen $parent
      * @param bool $abstract
      * @param bool $final
+     * @param Location|null $location
      */
     public function __construct(
         Fqsen $fqsen,
         DocBlock $docBlock = null,
         Fqsen $parent = null,
         $abstract = false,
-        $final = false
+        $final = false,
+        Location $location = null
     ) {
         $this->fqsen = $fqsen;
         $this->parent = $parent;
         $this->docBlock = $docBlock;
         $this->abstract = $abstract;
         $this->final = $final;
+        $this->location = $location;
     }
 
     /**
@@ -242,5 +251,13 @@ final class Class_ implements Element
     public function getDocBlock()
     {
         return $this->docBlock;
+    }
+
+    /**
+     * @return null|Location
+     */
+    public function getLocation()
+    {
+        return $this->location;
     }
 }
