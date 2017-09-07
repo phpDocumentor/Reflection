@@ -22,7 +22,7 @@
         "php":                               "^7.0",
         "psr/log":                           "~1.0",
         "nikic/php-parser":                  "^3.0",
-        "phpdocumentor/reflection-docblock": "4.1.1 as 3.3.0",
+        "phpdocumentor/reflection-docblock": "^4.1",
         "phpdocumentor/reflection-common":   "^1.0@dev"
     },
     "require-dev": {
