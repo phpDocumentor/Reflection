@@ -15,6 +15,7 @@ namespace phpDocumentor\Reflection\Php;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\Location;
 
 /**
  * Descriptor representing a function
@@ -37,15 +38,25 @@ final class Function_ implements Element
     private $docBlock;
 
     /**
+     * @var Location
+     */
+    private $location;
+
+    /**
      * Initializes the object.
      *
      * @param Fqsen $fqsen
      * @param DocBlock|null $docBlock
      */
-    public function __construct(Fqsen $fqsen, DocBlock $docBlock = null)
+    public function __construct(Fqsen $fqsen, DocBlock $docBlock = null, Location $location = null)
     {
+        if ($location === null) {
+            $location = new Location(-1);
+        }
+
         $this->fqsen = $fqsen;
         $this->docBlock = $docBlock;
+        $this->location = $location;
     }
 
     /**
@@ -96,5 +107,13 @@ final class Function_ implements Element
     public function getDocBlock()
     {
         return $this->docBlock;
+    }
+
+    /**
+     * @return Location
+     */
+    public function getLocation()
+    {
+        return $this->location;
     }
 }

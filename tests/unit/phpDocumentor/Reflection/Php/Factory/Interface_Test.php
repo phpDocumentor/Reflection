@@ -159,6 +159,7 @@ class Interface_Test extends TestCase
         $interfaceMock = m::mock(InterfaceNode::class);
         $interfaceMock->fqsen = new Fqsen('\Space\MyInterface');
         $interfaceMock->extends = [];
+        $interfaceMock->shouldReceive('getLine')->andReturn(1);
         return $interfaceMock;
     }
 }

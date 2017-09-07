@@ -54,6 +54,7 @@ class Function_Test extends TestCase
         $functionMock->fqsen = new Fqsen('\SomeSpace::function()');
         $functionMock->params = [];
         $functionMock->shouldReceive('getDocComment')->andReturnNull();
+        $functionMock->shouldReceive('getLine')->andReturn(1);
 
         $containerMock = m::mock(StrategyContainer::class);
         $containerMock->shouldReceive('findMatching')->never();
@@ -73,6 +74,7 @@ class Function_Test extends TestCase
         $functionMock->fqsen = new Fqsen('\SomeSpace::function()');
         $functionMock->params = array('param1');
         $functionMock->shouldReceive('getDocComment')->andReturnNull();
+        $functionMock->shouldReceive('getLine')->andReturn(1);
 
         $containerMock = m::mock(StrategyContainer::class);
         $containerMock->shouldReceive('findMatching->create')
@@ -96,6 +98,7 @@ class Function_Test extends TestCase
         $functionMock->fqsen = new Fqsen('\SomeSpace::function()');
         $functionMock->params = [];
         $functionMock->shouldReceive('getDocComment')->andReturn($doc);
+        $functionMock->shouldReceive('getLine')->andReturn(1);
 
         $docBlock = new DocBlockDescriptor('');
 

@@ -14,6 +14,7 @@ namespace phpDocumentor\Reflection\Php\Factory;
 
 use InvalidArgumentException;
 use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Factory;
 use phpDocumentor\Reflection\Php\Function_ as FunctionDescriptor;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
@@ -56,7 +57,7 @@ final class Function_ extends AbstractFactory implements ProjectFactoryStrategy
     {
         $docBlock = $this->createDocBlock($strategies, $object->getDocComment(), $context);
 
-        $function = new FunctionDescriptor($object->fqsen, $docBlock);
+        $function = new FunctionDescriptor($object->fqsen, $docBlock, new Location($object->getLine()));
 
         foreach ($object->params as $param) {
             $strategy = $strategies->findMatching($param);

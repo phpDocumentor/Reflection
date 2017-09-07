@@ -15,6 +15,7 @@ namespace phpDocumentor\Reflection\Php\Factory;
 use InvalidArgumentException;
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Php\Trait_ as TraitElement;
@@ -55,7 +56,7 @@ final class Trait_ extends AbstractFactory implements ProjectFactoryStrategy
     {
         $docBlock = $this->createDocBlock($strategies, $object->getDocComment(), $context);
 
-        $trait = new TraitElement($object->fqsen, $docBlock);
+        $trait = new TraitElement($object->fqsen, $docBlock, new Location($object->getLine()));
 
         if (isset($object->stmts)) {
             foreach ($object->stmts as $stmt) {

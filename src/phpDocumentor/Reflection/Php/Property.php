@@ -15,6 +15,7 @@ namespace phpDocumentor\Reflection\Php;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Visibility;
 
 /**
@@ -45,28 +46,41 @@ final class Property implements Element
     private $visibility;
 
     /**
+     * @var Location
+     */
+    private $location;
+
+    /**
      * @param Fqsen $fqsen
      * @param Visibility|null $visibility when null is provided a default 'public' is set.
      * @param DocBlock|null $docBlock
      * @param null|string $default
      * @param bool $static
+     * @param Location|null $location
      */
     public function __construct(
         Fqsen $fqsen,
         Visibility $visibility = null,
         DocBlock $docBlock = null,
         $default = null,
-        $static = false
+        $static = false,
+        Location $location = null
     ) {
+        if ($location === null) {
+            $location = new Location(-1);
+        }
+
         $this->fqsen = $fqsen;
         $this->visibility = $visibility;
         $this->docBlock = $docBlock;
         $this->default = $default;
         $this->static = $static;
+        $this->location = $location;
 
         if ($this->visibility === null) {
             $this->visibility = new Visibility('public');
         }
+
     }
 
     /**
@@ -148,5 +162,13 @@ final class Property implements Element
     public function getDocBlock()
     {
         return $this->docBlock;
+    }
+
+    /**
+     * @return Location
+     */
+    public function getLocation()
+    {
+        return $this->location;
     }
 }

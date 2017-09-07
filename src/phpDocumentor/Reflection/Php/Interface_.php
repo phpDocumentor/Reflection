@@ -15,6 +15,7 @@ namespace phpDocumentor\Reflection\Php;
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\DocBlock;
+use phpDocumentor\Reflection\Location;
 
 /**
  * Descriptor representing an Interface.
@@ -43,17 +44,31 @@ final class Interface_ implements Element
     protected $parents = array();
 
     /**
+     * @var Location
+     */
+    private $location;
+
+    /**
      * Initializes the object.
      *
      * @param Fqsen $fqsen
      * @param Fqsen[] $parents
      * @param DocBlock $docBlock
      */
-    public function __construct(Fqsen $fqsen, array $parents = array(), DocBlock $docBlock = null)
-    {
+    public function __construct(
+        Fqsen $fqsen,
+        array $parents = array(),
+        DocBlock $docBlock = null,
+        Location $location = null
+    ) {
+        if ($location === null) {
+            $location = new Location(-1);
+        }
+
         $this->fqsen = $fqsen;
         $this->docBlock = $docBlock;
         $this->parents = $parents;
+        $this->location = $location;
     }
 
     /**
@@ -136,5 +151,13 @@ final class Interface_ implements Element
     public function getParents()
     {
         return $this->parents;
+    }
+
+    /**
+     * @return Location
+     */
+    public function getLocation()
+    {
+        return $this->location;
     }
 }

@@ -144,6 +144,7 @@ class MethodTest extends TestCase
         $methodMock->shouldReceive('isStatic')->once()->andReturn(true);
         $methodMock->shouldReceive('isFinal')->once()->andReturn(true);
         $methodMock->shouldReceive('isAbstract')->once()->andReturn(true);
+        $methodMock->shouldReceive('getLine')->once()->andReturn(1);
 
         return $methodMock;
     }

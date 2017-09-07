@@ -16,6 +16,7 @@ namespace phpDocumentor\Reflection\Php\Factory;
 use InvalidArgumentException;
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Types\Context;
@@ -63,7 +64,7 @@ final class Interface_ extends AbstractFactory implements ProjectFactoryStrategy
             $parents['\\' . (string)$extend] = new Fqsen('\\' . (string)$extend);
         }
 
-        $interface = new InterfaceElement($object->fqsen, $parents, $docBlock);
+        $interface = new InterfaceElement($object->fqsen, $parents, $docBlock, new Location($object->getLine()));
 
         if (isset($object->stmts)) {
             foreach ($object->stmts as $stmt) {

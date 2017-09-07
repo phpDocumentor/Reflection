@@ -180,8 +180,9 @@ class Trait_Test extends TestCase
      */
     private function buildTraitMock()
     {
-        $interfaceMock = m::mock(TraitNode::class);
-        $interfaceMock->fqsen = new Fqsen('\Space\MyTrait');
-        return $interfaceMock;
+        $mock = m::mock(TraitNode::class);
+        $mock->fqsen = new Fqsen('\Space\MyTrait');
+        $mock->shouldReceive('getLine')->andReturn(1);
+        return $mock;
     }
 }

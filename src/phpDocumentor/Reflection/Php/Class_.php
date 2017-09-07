@@ -83,6 +83,10 @@ final class Class_ implements Element
         $final = false,
         Location $location = null
     ) {
+        if ($location === null) {
+            $location = new Location(-1);
+        }
+
         $this->fqsen = $fqsen;
         $this->parent = $parent;
         $this->docBlock = $docBlock;

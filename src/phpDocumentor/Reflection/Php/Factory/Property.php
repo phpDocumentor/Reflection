@@ -13,6 +13,7 @@
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use InvalidArgumentException;
+use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Factory;
 use phpDocumentor\Reflection\Php\Property as PropertyDescriptor;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
@@ -75,7 +76,14 @@ final class Property extends AbstractFactory implements ProjectFactoryStrategy
         }
         $docBlock = $this->createDocBlock($strategies, $object->getDocComment(), $context);
 
-        return new PropertyDescriptor($object->getFqsen(), $visibility, $docBlock, $default, $object->isStatic());
+        return new PropertyDescriptor(
+            $object->getFqsen(),
+            $visibility,
+            $docBlock,
+            $default,
+            $object->isStatic(),
+            new Location($object->getLine())
+        );
     }
 
     /**

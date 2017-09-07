@@ -13,6 +13,7 @@
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use InvalidArgumentException;
+use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Method as MethodDescriptor;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
@@ -40,7 +41,7 @@ final class Method extends AbstractFactory implements ProjectFactoryStrategy
     /**
      * Creates an MethodDescriptor out of the given object including its child elements.
      *
-     * @param object $object object to convert to an MethodDescriptor
+     * @param ClassMethod $object object to convert to an MethodDescriptor
      * @param StrategyContainer $strategies used to convert nested objects.
      * @param Context $context of the created object
      * @return MethodDescriptor
@@ -55,7 +56,8 @@ final class Method extends AbstractFactory implements ProjectFactoryStrategy
             $docBlock,
             $object->isAbstract(),
             $object->isStatic(),
-            $object->isFinal()
+            $object->isFinal(),
+            new Location($object->getLine())
         );
 
         foreach ($object->params as $param) {

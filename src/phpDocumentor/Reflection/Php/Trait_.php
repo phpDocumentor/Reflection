@@ -15,6 +15,7 @@ namespace phpDocumentor\Reflection\Php;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\Location;
 
 /**
  * Descriptor representing a Trait.
@@ -43,15 +44,25 @@ final class Trait_ implements Element
     private $usedTraits = array();
 
     /**
+     * @var Location
+     */
+    private $location;
+
+    /**
      * Initializes the all properties
      *
      * @param Fqsen $fqsen
      * @param DocBlock|null $docBlock
      */
-    public function __construct(Fqsen $fqsen, DocBlock $docBlock = null)
+    public function __construct(Fqsen $fqsen, DocBlock $docBlock = null, Location $location = null)
     {
+        if ($location === null) {
+            $location = new Location(-1);
+        }
+
         $this->fqsen = $fqsen;
         $this->docBlock = $docBlock;
+        $this->location = $location;
     }
 
     /**
@@ -142,5 +153,13 @@ final class Trait_ implements Element
     public function addUsedTrait(Fqsen $fqsen)
     {
         $this->usedTraits[(string)$fqsen] = $fqsen;
+    }
+
+    /**
+     * @return Location
+     */
+    public function getLocation()
+    {
+        return $this->location;
     }
 }

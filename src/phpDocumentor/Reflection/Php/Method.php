@@ -15,6 +15,7 @@ namespace phpDocumentor\Reflection\Php;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Element;
+use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Visibility;
 
 /**
@@ -48,6 +49,11 @@ final class Method implements Element
     private $arguments = array();
 
     /**
+     * @var Location
+     */
+    private $location;
+
+    /**
      * Initializes the all properties.
      *
      * @param Fqsen $fqsen
@@ -56,6 +62,7 @@ final class Method implements Element
      * @param bool $abstract
      * @param bool $static
      * @param bool $final
+     * @param Location|null $location
      */
     public function __construct(
         Fqsen $fqsen,
@@ -63,7 +70,8 @@ final class Method implements Element
         DocBlock $docBlock = null,
         $abstract = false,
         $static = false,
-        $final = false
+        $final = false,
+        Location $location = null
     ) {
         $this->fqsen = $fqsen;
         $this->visibility = $visibility;
@@ -73,9 +81,14 @@ final class Method implements Element
             $this->visibility = new Visibility('public');
         }
 
+        if ($location === null) {
+            $location = new Location(-1);
+        }
+
         $this->abstract = $abstract;
         $this->static = $static;
         $this->final = $final;
+        $this->location = $location;
     }
 
     /**
@@ -168,5 +181,13 @@ final class Method implements Element
     public function getDocBlock()
     {
         return $this->docBlock;
+    }
+
+    /**
+     * @return Location
+     */
+    public function getLocation()
+    {
+        return $this->location;
     }
 }

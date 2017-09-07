@@ -13,12 +13,11 @@
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
+use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Constant as ConstantElement;
-use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\PrettyPrinter;
 use phpDocumentor\Reflection\Types\Context;
-use PhpParser\Comment\Doc;
 
 /**
  * Strategy to convert ClassConstantIterator to ConstantElement
@@ -26,7 +25,7 @@ use PhpParser\Comment\Doc;
  * @see ConstantElement
  * @see ClassConstantIterator
  */
-final class Constant extends AbstractFactory implements ProjectFactoryStrategy
+final class Constant extends AbstractFactory
 {
     /**
      * @var PrettyPrinter
@@ -62,7 +61,7 @@ final class Constant extends AbstractFactory implements ProjectFactoryStrategy
      * @param ClassConstantIterator $object object to convert to an Element
      * @param StrategyContainer $strategies used to convert nested objects.
      * @param Context $context of the created object
-     * @return Constant
+     * @return ConstantElement
      */
     protected function doCreate($object, StrategyContainer $strategies, Context $context = null)
     {
@@ -72,6 +71,6 @@ final class Constant extends AbstractFactory implements ProjectFactoryStrategy
             $default = $this->valueConverter->prettyPrintExpr($object->getValue());
         }
 
-        return new ConstantElement($object->getFqsen(), $docBlock, $default);
+        return new ConstantElement($object->getFqsen(), $docBlock, $default, new Location($object->getLine()));
     }
 }
