@@ -16,6 +16,7 @@ namespace phpDocumentor\Reflection\Php\Factory;
 use InvalidArgumentException;
 use phpDocumentor\Reflection\DocBlock as DocBlockDescriptor;
 use phpDocumentor\Reflection\DocBlockFactoryInterface;
+use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Types\Context;
@@ -81,6 +82,6 @@ final class DocBlock implements ProjectFactoryStrategy
             );
         }
 
-        return $this->docblockFactory->create($object->getText(), $context);
+        return $this->docblockFactory->create($object->getText(), $context, new Location($object->getLine()));
     }
 }

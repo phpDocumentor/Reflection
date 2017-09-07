@@ -66,6 +66,7 @@ class DocBlockTest extends TestCase
 
         $docMock = m::mock(Doc::class);
         $docMock->shouldReceive('getText')->andReturn('');
+        $docMock->shouldReceive('getLine')->andReturn(1);
 
         $result = $this->fixture->create($docMock, $this->strategiesMock);
 
