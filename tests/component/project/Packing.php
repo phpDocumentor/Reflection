@@ -12,5 +12,5 @@
 
 interface Packing
 {
-    public function getName();
+    public function getName() : string;
 }

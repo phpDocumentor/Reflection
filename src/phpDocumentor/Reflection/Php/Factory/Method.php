@@ -12,14 +12,14 @@
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
-use InvalidArgumentException;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Method as MethodDescriptor;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Php\Visibility;
+use phpDocumentor\Reflection\TypeResolver;
 use phpDocumentor\Reflection\Types\Context;
-use PhpParser\Comment\Doc;
+use phpDocumentor\Reflection\Types\Mixed_;
 use PhpParser\Node\Stmt\ClassMethod;
 
 /**
@@ -50,6 +50,12 @@ final class Method extends AbstractFactory implements ProjectFactoryStrategy
     {
         $docBlock = $this->createDocBlock($strategies, $object->getDocComment(), $context);
 
+        $returnType = null;
+        if ($object->returnType !== null) {
+            $typeResolver = new TypeResolver();
+            $returnType = $typeResolver->resolve($object->returnType, $context);
+        }
+
         $method = new MethodDescriptor(
             $object->fqsen,
             $this->buildVisibility($object),
@@ -57,7 +63,8 @@ final class Method extends AbstractFactory implements ProjectFactoryStrategy
             $object->isAbstract(),
             $object->isStatic(),
             $object->isFinal(),
-            new Location($object->getLine())
+            new Location($object->getLine()),
+            $returnType
         );
 
         foreach ($object->params as $param) {
