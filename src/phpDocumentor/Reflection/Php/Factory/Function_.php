@@ -19,6 +19,7 @@ use phpDocumentor\Reflection\Php\Factory;
 use phpDocumentor\Reflection\Php\Function_ as FunctionDescriptor;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
+use phpDocumentor\Reflection\TypeResolver;
 use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Comment\Doc;
 use PhpParser\Node\Stmt\Function_ as FunctionNode;
@@ -57,7 +58,13 @@ final class Function_ extends AbstractFactory implements ProjectFactoryStrategy
     {
         $docBlock = $this->createDocBlock($strategies, $object->getDocComment(), $context);
 
-        $function = new FunctionDescriptor($object->fqsen, $docBlock, new Location($object->getLine()));
+        $returnType = null;
+        if ($object->returnType !== null) {
+            $typeResolver = new TypeResolver();
+            $returnType = $typeResolver->resolve($object->returnType, $context);
+        }
+
+        $function = new FunctionDescriptor($object->fqsen, $docBlock, new Location($object->getLine()), $returnType);
 
         foreach ($object->params as $param) {
             $strategy = $strategies->findMatching($param);

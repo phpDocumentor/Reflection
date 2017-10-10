@@ -16,6 +16,8 @@ use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
+use phpDocumentor\Reflection\Type;
+use phpDocumentor\Reflection\Types\Mixed_;
 
 /**
  * Descriptor representing a function
@@ -43,20 +45,36 @@ final class Function_ implements Element
     private $location;
 
     /**
+     * @var Type
+     */
+    private $returnType;
+
+    /**
      * Initializes the object.
      *
      * @param Fqsen $fqsen
      * @param DocBlock|null $docBlock
+     * @param Location|null $location
+     * @param Type|null $returnType
      */
-    public function __construct(Fqsen $fqsen, DocBlock $docBlock = null, Location $location = null)
-    {
+    public function __construct(
+        Fqsen $fqsen,
+        DocBlock $docBlock = null,
+        Location $location = null,
+        Type $returnType = null
+    ) {
         if ($location === null) {
             $location = new Location(-1);
+        }
+
+        if ($returnType ===  null) {
+            $returnType = new Mixed_();
         }
 
         $this->fqsen = $fqsen;
         $this->docBlock = $docBlock;
         $this->location = $location;
+        $this->returnType = $returnType;
     }
 
     /**
@@ -115,5 +133,13 @@ final class Function_ implements Element
     public function getLocation()
     {
         return $this->location;
+    }
+
+    /**
+     * @return Type
+     */
+    public function getReturnType() : Type
+    {
+        return $this->returnType;
     }
 }

@@ -15,6 +15,8 @@ namespace phpDocumentor\Reflection\Php;
 use \Mockery as m;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\Types\Mixed_;
+use phpDocumentor\Reflection\Types\String_;
 
 /**
  * Tests the functionality for the Method class.
@@ -134,5 +136,36 @@ class MethodTest extends \PHPUnit_Framework_TestCase
     {
         $method = new Method($this->fqsen);
         $this->assertEquals(new Visibility('public'), $method->getVisibility());
+    }
+
+    /**
+     * @covers ::getReturnType
+     * @covers ::__construct
+     */
+    public function testGetDefaultReturnType()
+    {
+        $method = new Method($this->fqsen);
+        $this->assertEquals(new Mixed_(), $method->getReturnType());
+    }
+
+    /**
+     * @covers ::getReturnType
+     * @covers ::__construct
+     */
+    public function testGetReturnTypeFromConstructor()
+    {
+        $returnType = new String_();
+        $method = new Method(
+            $this->fqsen,
+            new Visibility('public'),
+            null,
+            false,
+            false,
+            false,
+            null,
+            $returnType
+        );
+
+        $this->assertSame($returnType, $method->getReturnType());
     }
 }

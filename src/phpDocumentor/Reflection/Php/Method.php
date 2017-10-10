@@ -17,6 +17,8 @@ use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Visibility;
+use phpDocumentor\Reflection\Type;
+use phpDocumentor\Reflection\Types\Mixed_;
 
 /**
  * Descriptor representing a Method in a Class, Interface or Trait.
@@ -52,6 +54,10 @@ final class Method implements Element
      * @var Location
      */
     private $location;
+    /**
+     * @var Type
+     */
+    private $returnType;
 
     /**
      * Initializes the all properties.
@@ -63,6 +69,7 @@ final class Method implements Element
      * @param bool $static
      * @param bool $final
      * @param Location|null $location
+     * @param Type $returnType
      */
     public function __construct(
         Fqsen $fqsen,
@@ -71,7 +78,8 @@ final class Method implements Element
         $abstract = false,
         $static = false,
         $final = false,
-        Location $location = null
+        Location $location = null,
+        Type $returnType = null
     ) {
         $this->fqsen = $fqsen;
         $this->visibility = $visibility;
@@ -85,10 +93,15 @@ final class Method implements Element
             $location = new Location(-1);
         }
 
+        if ($returnType ===  null) {
+            $returnType = new Mixed_();
+        }
+
         $this->abstract = $abstract;
         $this->static = $static;
         $this->final = $final;
         $this->location = $location;
+        $this->returnType = $returnType;
     }
 
     /**
@@ -189,5 +202,19 @@ final class Method implements Element
     public function getLocation()
     {
         return $this->location;
+    }
+
+    /**
+     * Returns the in code defined return type.
+     *
+     * Return types are introduced in php 7.0 when your could doesn't have a
+     * return type defined this method will return Mixed_ by default. The return value of this
+     * method is not affected by the return tag in your docblock.
+     *
+     * @return Type
+     */
+    public function getReturnType()
+    {
+        return $this->returnType;
     }
 }

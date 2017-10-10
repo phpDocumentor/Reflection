@@ -15,6 +15,8 @@ namespace phpDocumentor\Reflection\Php;
 use \Mockery as m;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\Types\Mixed_;
+use phpDocumentor\Reflection\Types\String_;
 
 /**
  * Tests the functionality for the Function_ class.
@@ -80,5 +82,32 @@ class Function_Test extends \PHPUnit_Framework_TestCase
     public function testGetDocblock()
     {
         $this->assertSame($this->docBlock, $this->fixture->getDocBlock());
+    }
+
+    /**
+     * @covers ::getReturnType
+     * @covers ::__construct
+     */
+    public function testGetDefaultReturnType()
+    {
+        $method = new Function_($this->fqsen);
+        $this->assertEquals(new Mixed_(), $method->getReturnType());
+    }
+
+    /**
+     * @covers ::getReturnType
+     * @covers ::__construct
+     */
+    public function testGetReturnTypeFromConstructor()
+    {
+        $returnType = new String_();
+        $method = new Function_(
+            $this->fqsen,
+            null,
+            null,
+            $returnType
+        );
+
+        $this->assertSame($returnType, $method->getReturnType());
     }
 }

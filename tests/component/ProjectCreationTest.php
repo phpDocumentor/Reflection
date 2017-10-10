@@ -15,8 +15,10 @@ namespace phpDocumentor\Reflection;
 use Mockery as m;
 use phpDocumentor\Reflection\DocBlock\Tags\Param;
 use phpDocumentor\Reflection\File\LocalFile;
+use phpDocumentor\Reflection\Php\Interface_;
 use phpDocumentor\Reflection\Php\ProjectFactory;
 use phpDocumentor\Reflection\Types\Object_;
+use phpDocumentor\Reflection\Types\String_;
 
 /**
  * Intergration tests to check the correct working of processing a file into a project.
@@ -172,5 +174,18 @@ class ProjectCreationTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(['\\Packing' => new Fqsen('\\Packing')], $interface->getParents());
 
+    }
+
+    public function testMethodReturnType()
+    {
+        $fileName = __DIR__ . '/project/Packing.php';
+        $project = $this->fixture->create('MyProject', [
+            new LocalFile($fileName)
+        ]);
+
+        $this->assertArrayHasKey('\\Packing', $project->getFiles()[$fileName]->getInterfaces());
+        $interface = current($project->getFiles()[$fileName]->getInterfaces());
+
+        $this->assertEquals(new String_(),  $interface->getMethods()['\Packing::getName()']->getReturnType());
     }
 }
