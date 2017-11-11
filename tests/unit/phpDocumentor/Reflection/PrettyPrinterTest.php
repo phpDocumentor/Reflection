@@ -13,7 +13,7 @@
 namespace phpDocumentor\Reflection;
 
 use PhpParser\Node\Scalar\String_;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class for testing the PrettyPrinter.
@@ -23,7 +23,7 @@ use PHPUnit_Framework_TestCase;
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
-class PrettyPrinterTest extends PHPUnit_Framework_TestCase
+class PrettyPrinterTest extends TestCase
 {
     /**
      * @covers \phpDocumentor\Reflection\PrettyPrinter::pScalar_String

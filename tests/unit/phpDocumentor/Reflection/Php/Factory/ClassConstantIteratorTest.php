@@ -20,12 +20,13 @@ use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\Property as PropertyNode;
 use PhpParser\Node\Stmt\PropertyProperty;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class PropertyIteratorTest
  * @coversDefaultClass \phpDocumentor\Reflection\Php\Factory\ClassConstantIterator
  */
-class ClassConstantIteratorTest extends \PHPUnit_Framework_TestCase
+class ClassConstantIteratorTest extends TestCase
 {
     /**
      * @covers ::current()

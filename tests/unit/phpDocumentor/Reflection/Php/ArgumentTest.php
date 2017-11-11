@@ -12,11 +12,13 @@
 
 namespace phpDocumentor\Reflection\Php;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Tests the functionality for the Argument class.
  * @coversDefaultClass phpDocumentor\Reflection\Php\Argument
  */
-class ArgumentTest extends \PHPUnit_Framework_TestCase
+class ArgumentTest extends TestCase
 {
 
     /**

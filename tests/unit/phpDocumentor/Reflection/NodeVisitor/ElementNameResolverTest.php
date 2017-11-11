@@ -22,13 +22,14 @@ use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\Function_;
 use PhpParser\Node\Stmt\Namespace_;
 use PhpParser\NodeTraverser;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Testcase for FqsenResolver
  * @coversDefaultClass phpDocumentor\Reflection\NodeVisitor\ElementNameResolver
  * @covers ::<private>
  */
-class ElementNameResolverTest extends \PHPUnit_Framework_TestCase
+class ElementNameResolverTest extends TestCase
 {
     /**
      * @var ElementNameResolver

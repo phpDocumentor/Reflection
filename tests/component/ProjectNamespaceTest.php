@@ -26,13 +26,14 @@ use phpDocumentor\Reflection\Php\Factory\Method;
 use phpDocumentor\Reflection\Php\Factory\Property;
 use phpDocumentor\Reflection\Php\Factory\Trait_;
 use phpDocumentor\Reflection\Php\ProjectFactory;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Intergration tests to check the correct working of processing a namespace into a project.
  *
  * @coversNothing
  */
-class ProjectNamespaceTest extends \PHPUnit_Framework_TestCase
+class ProjectNamespaceTest extends TestCase
 {
     /**
      * @var ProjectFactory

@@ -17,12 +17,13 @@ use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Types\Mixed_;
 use phpDocumentor\Reflection\Types\String_;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the functionality for the Method class.
  * @coversDefaultClass phpDocumentor\Reflection\Php\Method
  */
-class MethodTest extends \PHPUnit_Framework_TestCase
+class MethodTest extends TestCase
 {
     /** @var Method $fixture */
     protected $fixture;

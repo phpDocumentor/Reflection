@@ -14,6 +14,7 @@ namespace phpDocumentor\Reflection\Php;
 
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\DocBlock;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the functionality for the Namespace_ class.
@@ -21,7 +22,7 @@ use phpDocumentor\Reflection\DocBlock;
  * @coversDefaultClass phpDocumentor\Reflection\Php\Namespace_
  */
 // @codingStandardsIgnoreStart
-class Namespace_Test extends \PHPUnit_Framework_TestCase
+class Namespace_Test extends TestCase
 // @codingStandardsIgnoreEnd
 {
     /** @var Namespace_ $fixture */

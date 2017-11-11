@@ -13,13 +13,14 @@
 namespace phpDocumentor\Reflection\Php;
 
 use phpDocumentor\Reflection\Php\Factory\DummyFactoryStrategy;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test case for ProjectFactoryStrategies
  *
  * @coversDefaultClass phpDocumentor\Reflection\Php\ProjectFactoryStrategies
  */
-class ProjectFactoryStrategiesTest extends \PHPUnit_Framework_TestCase
+class ProjectFactoryStrategiesTest extends TestCase
 {
     /**
      * @covers ::__construct

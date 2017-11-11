@@ -15,13 +15,14 @@ namespace phpDocumentor\Reflection\Php;
 use Mockery as m;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the functionality for the Interface_ class.
  * @coversDefaultClass phpDocumentor\Reflection\Php\Interface_
  */
 // @codingStandardsIgnoreStart
-class Interface_Test extends \PHPUnit_Framework_TestCase
+class Interface_Test extends TestCase
 // @codingStandardsIgnoreEnd
 {
     /** @var Interface_ $fixture */

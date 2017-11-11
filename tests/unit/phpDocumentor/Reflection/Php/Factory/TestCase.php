@@ -16,11 +16,12 @@ use Mockery as m;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Types\Context;
+use PHPUnit\Framework\TestCase as BaseTestCase;
 
 /**
  * Base test case for all strategies, to be sure that they check if the can handle objects before handeling them.
  */
-abstract class TestCase extends \PHPUnit_Framework_TestCase
+abstract class TestCase extends BaseTestCase
 {
     /**
      * @var ProjectFactoryStrategy
