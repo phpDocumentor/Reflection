@@ -16,13 +16,14 @@ use Mockery as m;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the functionality for the Class_ class.
  * @coversDefaultClass phpDocumentor\Reflection\Php\Class_
  */
 // @codingStandardsIgnoreStart
-class Class_Test extends \PHPUnit_Framework_TestCase
+class Class_Test extends TestCase
 // @codingStandardsIgnoreEnd
 {
     /**

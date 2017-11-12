@@ -13,13 +13,14 @@
 namespace phpDocumentor\Reflection\Php;
 
 use phpDocumentor\Reflection\Fqsen;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the functionality for the Project class.
  *
  * @coversDefaultClass phpDocumentor\Reflection\Php\Project
  */
-class ProjectTest extends \PHPUnit_Framework_TestCase
+class ProjectTest extends TestCase
 {
     const EXAMPLE_NAME = 'Initial name';
 

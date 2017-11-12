@@ -14,12 +14,13 @@ namespace phpDocumentor\Reflection\Php;
 
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the functionality for the Constant class.
  * @coversDefaultClass phpDocumentor\Reflection\Php\Constant
  */
-class ConstantTest extends \PHPUnit_Framework_TestCase
+class ConstantTest extends TestCase
 {
     /** @var Constant $fixture */
     protected $fixture;

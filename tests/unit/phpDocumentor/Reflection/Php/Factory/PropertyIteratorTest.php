@@ -16,12 +16,13 @@ namespace phpDocumentor\Reflection\Php\Factory;
 use Mockery as m;
 use PhpParser\Node\Stmt\Property as PropertyNode;
 use PhpParser\Node\Stmt\PropertyProperty;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class PropertyIteratorTest
  * @coversDefaultClass \phpDocumentor\Reflection\Php\Factory\PropertyIterator
  */
-class PropertyIteratorTest extends \PHPUnit_Framework_TestCase
+class PropertyIteratorTest extends TestCase
 {
     /**
      * @covers ::current()

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "f2ae8142b3d65d23c3984303208743f4",
+    "content-hash": "ced0a3d3d928a8ec06e853eae97b85d9",
     "packages": [
         {
             "name": "nikic/php-parser",
@@ -109,7 +109,7 @@
                 "reflection",
                 "static analysis"
             ],
-            "time": "2017-04-30 11:58:12"
+            "time": "2017-04-30T11:58:12+00:00"
         },
         {
             "name": "phpdocumentor/reflection-docblock",

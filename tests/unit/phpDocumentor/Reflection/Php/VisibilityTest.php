@@ -12,11 +12,13 @@
 
 namespace phpDocumentor\Reflection\Php;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Test case for Visibility
  * @coversDefaultClass phpDocumentor\Reflection\Php\Visibility
  */
-class VisibilityTest extends \PHPUnit_Framework_TestCase
+class VisibilityTest extends TestCase
 {
     /**
      * @param $input

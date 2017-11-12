@@ -14,6 +14,7 @@ namespace phpDocumentor\Reflection\Php\Factory\File;
 
 use phpDocumentor\Reflection\File\LocalFile;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategies;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @coversDefaultClass phpDocumentor\Reflection\Php\Factory\File\CreateCommand
@@ -21,7 +22,7 @@ use phpDocumentor\Reflection\Php\ProjectFactoryStrategies;
  * @uses phpDocumentor\Reflection\File\LocalFile
  * @uses phpDocumentor\Reflection\Php\ProjectFactoryStrategies
  */
-class CreateCommandTest extends \PHPUnit_Framework_TestCase
+class CreateCommandTest extends TestCase
 {
     /**
      * @var CreateCommand

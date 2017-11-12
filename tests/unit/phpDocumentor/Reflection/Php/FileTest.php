@@ -15,13 +15,14 @@ namespace phpDocumentor\Reflection\Php;
 use \Mockery as m;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the functionality for the File class.
  *
  * @coversDefaultClass phpDocumentor\Reflection\Php\File
  */
-class FileTest extends \PHPUnit_Framework_TestCase
+class FileTest extends TestCase
 {
     const EXAMPLE_HASH   = 'a-hash-string';
     const EXAMPLE_PATH   = 'a-path-string';

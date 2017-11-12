@@ -15,6 +15,7 @@ namespace phpDocumentor\Reflection\Php;
 use Mockery as m;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\Factory\DummyFactoryStrategy;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test case for ProjectFactory
@@ -23,7 +24,7 @@ use phpDocumentor\Reflection\Php\Factory\DummyFactoryStrategy;
  * @covers ::create
  * @covers ::<private>
  */
-class ProjectFactoryTest extends \PHPUnit_Framework_TestCase
+class ProjectFactoryTest extends TestCase
 {
     /**
      * @covers ::__construct

@@ -19,13 +19,14 @@ use phpDocumentor\Reflection\Php\Interface_;
 use phpDocumentor\Reflection\Php\ProjectFactory;
 use phpDocumentor\Reflection\Types\Object_;
 use phpDocumentor\Reflection\Types\String_;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Intergration tests to check the correct working of processing a file into a project.
  *
  * @coversNothing
  */
-class ProjectCreationTest extends \PHPUnit_Framework_TestCase
+class ProjectCreationTest extends TestCase
 {
     /**
      * @var ProjectFactory

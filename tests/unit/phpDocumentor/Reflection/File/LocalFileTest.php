@@ -11,12 +11,13 @@
  */
 
 namespace phpDocumentor\Reflection\File;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @coversDefaultClass phpDocumentor\Reflection\File\LocalFile
  * @covers ::__construct
  */
-class LocalFileTest extends \PHPUnit_Framework_TestCase
+class LocalFileTest extends TestCase
 {
     /**
      * @covers ::getContents
