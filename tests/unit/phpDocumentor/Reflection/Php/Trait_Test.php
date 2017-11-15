@@ -49,6 +49,11 @@ class Trait_Test extends TestCase
 
     }
 
+    protected function tearDown()
+    {
+        m::close();
+    }
+
     /**
      * @covers ::getFqsen
      * @covers ::getName

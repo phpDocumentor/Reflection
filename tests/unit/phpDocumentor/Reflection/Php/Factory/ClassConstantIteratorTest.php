@@ -28,6 +28,11 @@ use PHPUnit\Framework\TestCase;
  */
 class ClassConstantIteratorTest extends TestCase
 {
+    protected function tearDown()
+    {
+        m::close();
+    }
+
     /**
      * @covers ::current()
      * @covers ::next()

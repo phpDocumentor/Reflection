@@ -24,6 +24,12 @@ use PHPUnit\Framework\TestCase;
  */
 class PropertyIteratorTest extends TestCase
 {
+
+    protected function tearDown()
+    {
+        m::close();
+    }
+
     /**
      * @covers ::current()
      * @covers ::next()

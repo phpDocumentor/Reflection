@@ -41,6 +41,11 @@ class MethodTest extends TestCase
         $this->docblock = new DocBlock('');
     }
 
+    protected function tearDown()
+    {
+        m::close();
+    }
+
     /**
      * @covers ::getFqsen
      * @covers ::getName

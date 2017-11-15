@@ -46,6 +46,11 @@ class Function_Test extends TestCase
         $this->fixture = new Function_($this->fqsen, $this->docBlock);
     }
 
+    protected function tearDown()
+    {
+        m::close();
+    }
+
     /**
      * @covers ::__construct
      * @covers ::getName

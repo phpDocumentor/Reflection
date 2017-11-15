@@ -48,6 +48,11 @@ class ProjectNamespaceTest extends TestCase
         $this->fixture = $this->fixture = ProjectFactory::createInstance();
     }
 
+    protected function tearDown()
+    {
+        m::close();
+    }
+
     public function testWithNamespacedClass()
     {
         $fileName = __DIR__ . '/project/Luigi/Pizza.php';

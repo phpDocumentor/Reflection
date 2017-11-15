@@ -46,6 +46,11 @@ class PropertyTest extends TestCase
         $this->docBlock = new DocBlock('');
     }
 
+    protected function tearDown()
+    {
+        m::close();
+    }
+
     /**
      * @covers ::getFqsen
      * @covers ::getName
