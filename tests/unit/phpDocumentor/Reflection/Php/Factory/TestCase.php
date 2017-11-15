@@ -28,6 +28,11 @@ abstract class TestCase extends BaseTestCase
      */
     protected $fixture;
 
+    protected function tearDown()
+    {
+        m::close();
+    }
+
     /**
      * @covers ::create
      *

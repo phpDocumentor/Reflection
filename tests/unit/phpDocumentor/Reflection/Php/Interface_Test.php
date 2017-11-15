@@ -48,6 +48,11 @@ class Interface_Test extends TestCase
         $this->fixture = new Interface_($this->fqsen, array(), $this->docBlock);
     }
 
+    protected function tearDown()
+    {
+        m::close();
+    }
+
     /**
      * @covers ::__construct
      * @covers ::getFqsen

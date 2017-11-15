@@ -32,6 +32,11 @@ class ArgumentTest extends TestCase
         $this->fixture = new Argument(new PrettyPrinter());
     }
 
+    protected function tearDown()
+    {
+        m::close();
+    }
+
     /**
      * @covers ::matches
      */

@@ -26,6 +26,12 @@ use PHPUnit\Framework\TestCase;
  */
 class ProjectFactoryTest extends TestCase
 {
+
+    protected function tearDown()
+    {
+        m::close();
+    }
+
     /**
      * @covers ::__construct
      */

@@ -38,6 +38,11 @@ class ProjectCreationTest extends TestCase
         $this->fixture = ProjectFactory::createInstance();
     }
 
+    protected function tearDown()
+    {
+        m::close();
+    }
+
     public function testCreateProjectWithFunctions()
     {
         $fileName = __DIR__ . '/project/simpleFunction.php';
