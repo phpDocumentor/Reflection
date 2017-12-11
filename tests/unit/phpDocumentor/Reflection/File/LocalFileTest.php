@@ -25,7 +25,7 @@ class LocalFileTest extends TestCase
     public function testGetContents()
     {
         $file = new LocalFile(__FILE__);
-        $this->assertEquals(file_get_contents(__FILE__), $file->getContents());
+        $this->assertStringEqualsFile(__FILE__, $file->getContents());
     }
 
     /**
