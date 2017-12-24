@@ -55,7 +55,7 @@ final class ProjectFactoryStrategies implements StrategyContainer
         throw new OutOfBoundsException(
             sprintf(
                 'No matching factory found for %s',
-                is_object($object) ? get_class($object) : gettype($object)
+                is_object($object) ? get_class($object) : print_r($object, true)
             )
         );
     }
