@@ -194,4 +194,15 @@ class ProjectCreationTest extends TestCase
 
         $this->assertEquals(new String_(),  $interface->getMethods()['\Packing::getName()']->getReturnType());
     }
+
+    public function testFileDocblock()
+    {
+        $fileName = __DIR__ . '/project/empty.php';
+        $project = $this->fixture->create('MyProject', [
+            new LocalFile($fileName)
+        ]);
+
+        $this->assertEquals("This file is part of phpDocumentor.", $project->getFiles()[$fileName]->getDocBlock()->getSummary());
+
+    }
 }

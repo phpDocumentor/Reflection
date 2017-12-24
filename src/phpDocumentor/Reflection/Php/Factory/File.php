@@ -164,7 +164,7 @@ final class File extends AbstractFactory implements ProjectFactoryStrategy
      * @param StrategyContainer $strategies
      * @param Context $context
      * @param Node[] $nodes
-     * @return null|\phpDocumentor\Reflection\Element
+     * @return null|\phpDocumentor\Reflection\DocBlock
      */
     protected function createFileDocBlock(
         Doc $docBlock = null,
@@ -174,12 +174,12 @@ final class File extends AbstractFactory implements ProjectFactoryStrategy
     ) {
         $node = current($nodes);
         if (!$node instanceof Node) {
-            return $docBlock;
+            return null;
         }
 
         $comments = $node->getAttribute('comments');
         if (!is_array($comments) || empty($comments)) {
-            return $docBlock;
+            return null;
         }
 
         $found = 0;
@@ -189,7 +189,13 @@ final class File extends AbstractFactory implements ProjectFactoryStrategy
                 continue;
             }
 
-            if ($node instanceof NamespaceNode) {
+            //If current node cannot have a docblock return the first comment as docblock for the file.
+            if (!(
+                $node instanceof ClassNode ||
+                $node instanceof FunctionNode ||
+                $node instanceof InterfaceNode ||
+                $node instanceof TraitNode
+            )) {
                 return $this->createDocBlock($strategies, $comment, $context);
             }
 
@@ -205,6 +211,6 @@ final class File extends AbstractFactory implements ProjectFactoryStrategy
             return $this->createDocBlock($strategies, $firstDocBlock, $context);
         }
 
-        return $docBlock;
+        return null;
     }
 }
