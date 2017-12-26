@@ -19,7 +19,10 @@ use phpDocumentor\Reflection\Php\Factory;
 use Mockery as m;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Types\Context;
+use phpDocumentor\Reflection\Types\Integer;
+use phpDocumentor\Reflection\Types\Nullable;
 use PhpParser\Comment\Doc;
+use PhpParser\Node\NullableType;
 use PhpParser\Node\Stmt\ClassMethod;
 
 /**
@@ -53,6 +56,7 @@ class MethodTest extends TestCase
         $classMethodMock->shouldReceive('isPrivate')->once()->andReturn(false);
         $classMethodMock->shouldReceive('isProtected')->once()->andReturn(false);
         $classMethodMock->shouldReceive('getDocComment')->once()->andReturnNull();
+        $classMethodMock->shouldReceive('getReturnType')->once()->andReturn(null);
 
         $containerMock = m::mock(StrategyContainer::class);
         $containerMock->shouldReceive('findMatching')->never();
@@ -71,6 +75,7 @@ class MethodTest extends TestCase
         $classMethodMock->shouldReceive('isPrivate')->once()->andReturn(false);
         $classMethodMock->shouldReceive('isProtected')->once()->andReturn(true);
         $classMethodMock->shouldReceive('getDocComment')->once()->andReturnNull();
+        $classMethodMock->shouldReceive('getReturnType')->once()->andReturn(null);
 
         $containerMock = m::mock(StrategyContainer::class);
         $containerMock->shouldReceive('findMatching')->never();
@@ -91,6 +96,7 @@ class MethodTest extends TestCase
         $classMethodMock->params = array('param1');
         $classMethodMock->shouldReceive('isPrivate')->once()->andReturn(true);
         $classMethodMock->shouldReceive('getDocComment')->once()->andReturnNull();
+        $classMethodMock->shouldReceive('getReturnType')->once()->andReturn(null);
 
         $containerMock = m::mock(StrategyContainer::class);
         $containerMock->shouldReceive('findMatching->create')
@@ -111,6 +117,48 @@ class MethodTest extends TestCase
     /**
      * @covers ::create
      */
+    public function testReturnTypeResolving()
+    {
+        $classMethodMock = $this->buildClassMethodMock();
+        $classMethodMock->params = [];
+        $classMethodMock->shouldReceive('isPrivate')->once()->andReturn(true);
+        $classMethodMock->shouldReceive('getDocComment')->once()->andReturnNull();
+        $classMethodMock->shouldReceive('getReturnType')->times(3)->andReturn('int');
+
+        $containerMock = m::mock(StrategyContainer::class);
+        $containerMock->shouldReceive('findMatching')->never();
+
+
+        /** @var MethodDescriptor $method */
+        $method = $this->fixture->create($classMethodMock, $containerMock);
+
+        $this->assertEquals(new Integer(), $method->getReturnType());
+    }
+
+    /**
+     * @covers ::create
+     */
+    public function testReturnTypeNullableResolving()
+    {
+        $classMethodMock = $this->buildClassMethodMock();
+        $classMethodMock->params = [];
+        $classMethodMock->shouldReceive('isPrivate')->once()->andReturn(true);
+        $classMethodMock->shouldReceive('getDocComment')->once()->andReturnNull();
+        $classMethodMock->shouldReceive('getReturnType')->times(3)->andReturn(new NullableType('int'));
+
+        $containerMock = m::mock(StrategyContainer::class);
+        $containerMock->shouldReceive('findMatching')->never();
+
+
+        /** @var MethodDescriptor $method */
+        $method = $this->fixture->create($classMethodMock, $containerMock);
+
+        $this->assertEquals(new Nullable(new Integer()), $method->getReturnType());
+    }
+
+    /**
+     * @covers ::create
+     */
     public function testCreateWithDocBlock()
     {
         $doc = m::mock(Doc::class);
@@ -118,6 +166,7 @@ class MethodTest extends TestCase
         $classMethodMock->params = array();
         $classMethodMock->shouldReceive('isPrivate')->once()->andReturn(true);
         $classMethodMock->shouldReceive('getDocComment')->andReturn($doc);
+        $classMethodMock->shouldReceive('getReturnType')->once()->andReturn(null);
 
         $docBlock = new DocBlockDescriptor('');
 

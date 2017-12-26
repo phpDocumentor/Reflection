@@ -20,7 +20,10 @@ use phpDocumentor\Reflection\Php\Factory\Function_;
 use Mockery as m;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Types\Context;
+use phpDocumentor\Reflection\Types\Integer;
+use phpDocumentor\Reflection\Types\Nullable;
 use PhpParser\Comment\Doc;
+use PhpParser\Node\NullableType;
 
 /**
  * Test case for \phpDocumentor\Reflection\Php\Factory\Function_
@@ -55,6 +58,7 @@ class Function_Test extends TestCase
         $functionMock->params = [];
         $functionMock->shouldReceive('getDocComment')->andReturnNull();
         $functionMock->shouldReceive('getLine')->andReturn(1);
+        $functionMock->shouldReceive('getReturnType')->andReturnNull();
 
         $containerMock = m::mock(StrategyContainer::class);
         $containerMock->shouldReceive('findMatching')->never();
@@ -75,6 +79,7 @@ class Function_Test extends TestCase
         $functionMock->params = array('param1');
         $functionMock->shouldReceive('getDocComment')->andReturnNull();
         $functionMock->shouldReceive('getLine')->andReturn(1);
+        $functionMock->shouldReceive('getReturnType')->andReturnNull();
 
         $containerMock = m::mock(StrategyContainer::class);
         $containerMock->shouldReceive('findMatching->create')
@@ -91,6 +96,50 @@ class Function_Test extends TestCase
     /**
      * @covers ::create
      */
+    public function testReturnTypeResolving()
+    {
+        $functionMock = m::mock(\PhpParser\Node\Stmt\Function_::class);
+        $functionMock->fqsen = new Fqsen('\SomeSpace::function()');
+        $functionMock->params = [];
+        $functionMock->shouldReceive('getDocComment')->andReturnNull();
+        $functionMock->shouldReceive('getLine')->andReturn(1);
+        $functionMock->shouldReceive('getReturnType')->times(3)->andReturn('int');
+
+        $containerMock = m::mock(StrategyContainer::class);
+        $containerMock->shouldReceive('findMatching')->never();
+
+
+        /** @var FunctionDescriptor $function */
+        $function = $this->fixture->create($functionMock, $containerMock);
+
+        $this->assertEquals(new Integer(), $function->getReturnType());
+    }
+
+    /**
+     * @covers ::create
+     */
+    public function testReturnTypeNullableResolving()
+    {
+        $functionMock = m::mock(\PhpParser\Node\Stmt\Function_::class);
+        $functionMock->fqsen = new Fqsen('\SomeSpace::function()');
+        $functionMock->params = [];
+        $functionMock->shouldReceive('getDocComment')->andReturnNull();
+        $functionMock->shouldReceive('getLine')->andReturn(1);
+        $functionMock->shouldReceive('getReturnType')->times(3)->andReturn(new NullableType('int'));
+
+        $containerMock = m::mock(StrategyContainer::class);
+        $containerMock->shouldReceive('findMatching')->never();
+
+
+        /** @var FunctionDescriptor $method */
+        $function = $this->fixture->create($functionMock, $containerMock);
+
+        $this->assertEquals(new Nullable(new Integer()), $function->getReturnType());
+    }
+
+    /**
+     * @covers ::create
+     */
     public function testCreateWithDocBlock()
     {
         $doc = m::mock(Doc::class);
@@ -99,6 +148,7 @@ class Function_Test extends TestCase
         $functionMock->params = [];
         $functionMock->shouldReceive('getDocComment')->andReturn($doc);
         $functionMock->shouldReceive('getLine')->andReturn(1);
+        $functionMock->shouldReceive('getReturnType')->andReturnNull();
 
         $docBlock = new DocBlockDescriptor('');
 
