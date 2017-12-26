@@ -20,6 +20,7 @@ use phpDocumentor\Reflection\Php\Visibility;
 use phpDocumentor\Reflection\TypeResolver;
 use phpDocumentor\Reflection\Types\Context;
 use phpDocumentor\Reflection\Types\Mixed_;
+use PhpParser\Node\NullableType;
 use PhpParser\Node\Stmt\ClassMethod;
 
 /**
@@ -51,9 +52,14 @@ final class Method extends AbstractFactory implements ProjectFactoryStrategy
         $docBlock = $this->createDocBlock($strategies, $object->getDocComment(), $context);
 
         $returnType = null;
-        if ($object->returnType !== null) {
+        if ($object->getReturnType() !== null) {
             $typeResolver = new TypeResolver();
-            $returnType = $typeResolver->resolve($object->returnType, $context);
+            if ($object->getReturnType() instanceof NullableType) {
+                $typeString = '?' . $object->getReturnType()->type;
+            } else {
+                $typeString = (string)$object->getReturnType();
+            }
+            $returnType = $typeResolver->resolve($typeString, $context);
         }
 
         $method = new MethodDescriptor(

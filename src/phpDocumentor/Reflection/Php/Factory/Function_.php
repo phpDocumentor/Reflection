@@ -22,6 +22,7 @@ use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\TypeResolver;
 use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Comment\Doc;
+use PhpParser\Node\NullableType;
 use PhpParser\Node\Stmt\Function_ as FunctionNode;
 
 /**
@@ -59,9 +60,14 @@ final class Function_ extends AbstractFactory implements ProjectFactoryStrategy
         $docBlock = $this->createDocBlock($strategies, $object->getDocComment(), $context);
 
         $returnType = null;
-        if ($object->returnType !== null) {
+        if ($object->getReturnType() !== null) {
             $typeResolver = new TypeResolver();
-            $returnType = $typeResolver->resolve($object->returnType, $context);
+            if ($object->getReturnType() instanceof NullableType) {
+                $typeString = '?' . $object->getReturnType()->type;
+            } else {
+                $typeString = (string)$object->getReturnType();
+            }
+            $returnType = $typeResolver->resolve($typeString, $context);
         }
 
         $function = new FunctionDescriptor($object->fqsen, $docBlock, new Location($object->getLine()), $returnType);
