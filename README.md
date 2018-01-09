@@ -1,8 +1,15 @@
-# phpDocumentor/Reflection
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Travis Status](https://travis-ci.org/phpDocumentor/Reflection.svg?branch=master)](https://travis-ci.org/phpDocumentor/Reflection)
+[![Appveyor Status](https://ci.appveyor.com/api/projects/status/2xpc16hq56n5v1x5/branch/master?svg=true)](https://ci.appveyor.com/project/phpDocumentor/reflection/branch/master)
+[![Code Quality](https://scrutinizer-ci.com/g/phpDocumentor/Reflection/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/phpDocumentor/Reflection/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/phpDocumentor/Reflection/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/phpDocumentor/Reflection/?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/phpDocumentor/Reflection/badge.svg?branch=master)](https://coveralls.io/github/phpDocumentor/Reflection?branch=master)
+[![PHPStan](https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat)](https://github.com/phpstan/phpstan)
 
-[![Build Status]](http://travis-ci.org/phpDocumentor/Reflection)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/phpDocumentor/Reflection/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/phpDocumentor/Reflection/?branch=develop)
-[![Code Coverage](https://scrutinizer-ci.com/g/phpDocumentor/Reflection/badges/coverage.png?b=develop)](https://scrutinizer-ci.com/g/phpDocumentor/Reflection/?branch=develop)
+
+
+phpDocumentor/Reflection
+========================
 
 Using this library it is possible to statically reflect one or more files and create an object graph representing
 your application's structure, including accompanying in-source documentation using DocBlocks.
