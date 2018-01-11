@@ -1,15 +1,15 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Travis Status](https://travis-ci.org/phpDocumentor/Reflection.svg?branch=master)](https://travis-ci.org/phpDocumentor/Reflection)
-[![Appveyor Status](https://ci.appveyor.com/api/projects/status/2xpc16hq56n5v1x5/branch/master?svg=true)](https://ci.appveyor.com/project/phpDocumentor/reflection/branch/master)
-[![Code Quality](https://scrutinizer-ci.com/g/phpDocumentor/Reflection/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/phpDocumentor/Reflection/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/phpDocumentor/Reflection/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/phpDocumentor/Reflection/?branch=master)
-[![Coverage Status](https://coveralls.io/repos/github/phpDocumentor/Reflection/badge.svg?branch=master)](https://coveralls.io/github/phpDocumentor/Reflection?branch=master)
-[![PHPStan](https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat)](https://github.com/phpstan/phpstan)
+[![Travis Status](https://img.shields.io/travis/phpDocumentor/Reflection.svg?label=Linux)](https://travis-ci.org/phpDocumentor/Reflection)
+[![Appveyor Status](https://img.shields.io/appveyor/ci/phpDocumentor/Reflection.svg?label=Windows)](https://ci.appveyor.com/project/phpDocumentor/Reflection/branch/master)
+[![Coveralls Coverage](https://img.shields.io/coveralls/github/phpDocumentor/Reflection.svg)](https://coveralls.io/github/phpDocumentor/Reflection?branch=master)
+[![Scrutinizer Code Coverage](https://img.shields.io/scrutinizer/coverage/g/phpDocumentor/Reflection.svg)](https://scrutinizer-ci.com/g/phpDocumentor/Reflection/?branch=master)
+[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/phpDocumentor/Reflection.svg)](https://scrutinizer-ci.com/g/phpDocumentor/Reflection/?branch=master)
+[![Stable Version](https://img.shields.io/packagist/v/phpDocumentor/Reflection.svg)](https://packagist.org/packages/phpDocumentor/Reflection)
+[![Unstable Version](https://img.shields.io/packagist/vpre/phpDocumentor/Reflection.svg)](https://packagist.org/packages/phpDocumentor/Reflection)
 
 
-
-phpDocumentor/Reflection
-========================
+Reflection
+==========
 
 Using this library it is possible to statically reflect one or more files and create an object graph representing
 your application's structure, including accompanying in-source documentation using DocBlocks.
