@@ -8,6 +8,7 @@ version: '{build}.{branch}'
 skip_tags: true
 branches:
   only:
+    - develop
     - master
 
 environment:
