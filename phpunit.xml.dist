@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<phpunit 
-    bootstrap="vendor/autoload.php" 
-    colors="true" 
-    verbose="true" 
-    forceCoversAnnotation="true" 
+<phpunit
+    bootstrap="vendor/autoload.php"
+    colors="true"
+    verbose="true"
+    forceCoversAnnotation="true"
     checkForUnintentionallyCoveredCode="false"
 >
     <testsuites>
@@ -22,13 +22,13 @@
     </filter>
     <logging>
         <log type="coverage-html"
-             title="phpDocumentor Reflection"
-             target="build/coverage"
-             charset="UTF-8"
-             yui="true"
-             highlight="false"
-             lowUpperBound="35"
-             highLowerBound="70" />
+            title="phpDocumentor Reflection"
+            target="build/coverage"
+            charset="UTF-8"
+            yui="true"
+            highlight="false"
+            lowUpperBound="35"
+            highLowerBound="70" />
         <log type="coverage-clover" target="build/logs/clover.xml"/>
         <log type="junit" target="build/logs/junit.xml" logIncompleteSkipped="false" />
     </logging>
