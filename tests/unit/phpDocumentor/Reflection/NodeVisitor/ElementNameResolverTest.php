@@ -98,6 +98,8 @@ class ElementNameResolverTest extends TestCase
         $this->fixture->leaveNode($anonymousClass);
         $this->fixture->leaveNode($new);
         $this->fixture->leaveNode($namespace);
+
+        $this->assertTrue(true);
     }
 
     /**
