@@ -12,9 +12,9 @@
 
 namespace phpDocumentor\Reflection\Php;
 
+use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
-use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Location;
 
 /**
@@ -35,13 +35,13 @@ final class Interface_ implements Element
     private $docBlock;
 
     /** @var Constant[] $constants */
-    protected $constants = array();
+    private $constants = [];
 
     /** @var Method[] $methods */
-    protected $methods = array();
+    private $methods = [];
 
     /** @var Fqsen[] $parents */
-    protected $parents = array();
+    private $parents = [];
 
     /**
      * @var Location
@@ -51,13 +51,11 @@ final class Interface_ implements Element
     /**
      * Initializes the object.
      *
-     * @param Fqsen $fqsen
      * @param Fqsen[] $parents
-     * @param DocBlock $docBlock
      */
     public function __construct(
         Fqsen $fqsen,
-        array $parents = array(),
+        array $parents = [],
         DocBlock $docBlock = null,
         Location $location = null
     ) {
@@ -83,13 +81,10 @@ final class Interface_ implements Element
 
     /**
      * Add constant to this interface.
-     *
-     * @param Constant $constant
-     * @return void
      */
     public function addConstant(Constant $constant)
     {
-        $this->constants[(string)$constant->getFqsen()] = $constant;
+        $this->constants[(string) $constant->getFqsen()] = $constant;
     }
 
     /**
@@ -104,13 +99,10 @@ final class Interface_ implements Element
 
     /**
      * Add method to this interface.
-     *
-     * @param Method $method
-     * @return void
      */
     public function addMethod(Method $method)
     {
-        $this->methods[(string)$method->getFqsen()] = $method;
+        $this->methods[(string) $method->getFqsen()] = $method;
     }
 
     /**

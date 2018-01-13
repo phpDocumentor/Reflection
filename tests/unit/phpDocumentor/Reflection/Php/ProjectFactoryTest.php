@@ -26,7 +26,6 @@ use PHPUnit\Framework\TestCase;
  */
 class ProjectFactoryTest extends TestCase
 {
-
     protected function tearDown()
     {
         m::close();
@@ -37,7 +36,7 @@ class ProjectFactoryTest extends TestCase
      */
     public function testStrategiesAreChecked()
     {
-        new ProjectFactory(array(new DummyFactoryStrategy()));
+        new ProjectFactory([new DummyFactoryStrategy()]);
         $this->assertTrue(true);
     }
 
@@ -52,15 +51,15 @@ class ProjectFactoryTest extends TestCase
         $fileStrategyMock->shouldReceive('create')
             ->twice()
             ->andReturnValues(
-                array(
+                [
                     new File(md5('some/file.php'), 'some/file.php'),
-                    new File(md5('some/other.php'), 'some/other.php')
-                )
+                    new File(md5('some/other.php'), 'some/other.php'),
+                ]
             );
 
-        $projectFactory = new ProjectFactory(array($someOtherStrategy, $fileStrategyMock));
+        $projectFactory = new ProjectFactory([$someOtherStrategy, $fileStrategyMock]);
 
-        $files = array('some/file.php', 'some/other.php');
+        $files = ['some/file.php', 'some/other.php'];
         $project = $projectFactory->create('MyProject', $files);
 
         $this->assertInstanceOf(Project::class, $project);
@@ -74,8 +73,8 @@ class ProjectFactoryTest extends TestCase
      */
     public function testCreateThrowsExceptionWhenStrategyNotFound()
     {
-        $projectFactory = new ProjectFactory(array());
-        $projectFactory->create('MyProject', array('aa'));
+        $projectFactory = new ProjectFactory([]);
+        $projectFactory->create('MyProject', ['aa']);
     }
 
     public function testCreateProjectFromFileWithNamespacedClass()
@@ -165,7 +164,7 @@ class ProjectFactoryTest extends TestCase
         $otherFile->addNamespace(new Fqsen('\mySpace'));
         $otherFile->addClass(new Class_(new Fqsen('\mySpace\OtherClass')));
 
-        $namespaces = $this->fetchNamespacesFromMultipleFiles(array($otherFile, $someFile));
+        $namespaces = $this->fetchNamespacesFromMultipleFiles([$otherFile, $someFile]);
 
         $this->assertCount(1, $namespaces);
         $this->assertCount(2, current($namespaces)->getClasses());
@@ -191,12 +190,11 @@ class ProjectFactoryTest extends TestCase
     /**
      * Uses the ProjectFactory to create a Project and returns the namespaces created by the factory.
      *
-     * @param File $file
      * @return Namespace_[] Namespaces of the project
      */
     private function fetchNamespacesFromSingleFile(File $file)
     {
-        return $this->fetchNamespacesFromMultipleFiles(array($file));
+        return $this->fetchNamespacesFromMultipleFiles([$file]);
     }
 
     /**
@@ -205,7 +203,6 @@ class ProjectFactoryTest extends TestCase
      * @param File[] $files
      * @return Namespace_[] Namespaces of the project
      */
-
     private function fetchNamespacesFromMultipleFiles($files)
     {
         $fileStrategyMock = m::mock(ProjectFactoryStrategy::class);
@@ -216,7 +213,7 @@ class ProjectFactoryTest extends TestCase
                 $files
             );
 
-        $projectFactory = new ProjectFactory(array($fileStrategyMock));
+        $projectFactory = new ProjectFactory([$fileStrategyMock]);
         $project = $projectFactory->create('My Project', $files);
 
         return $project->getNamespaces();

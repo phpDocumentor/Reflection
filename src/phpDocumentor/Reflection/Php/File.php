@@ -38,25 +38,25 @@ final class File
     private $source = null;
 
     /** @var Fqsen[] $namespaces */
-    private $namespaces = array();
+    private $namespaces = [];
 
     /** @var string[] $includes */
-    private $includes = array();
+    private $includes = [];
 
     /** @var Function_[] $functions */
-    private $functions = array();
+    private $functions = [];
 
     /** @var Constant[] $constants */
-    private $constants = array();
+    private $constants = [];
 
     /** @var Class_[] $classes */
-    private $classes = array();
+    private $classes = [];
 
     /** @var Interface_[] $interfaces */
-    private $interfaces = array();
+    private $interfaces = [];
 
     /** @var Trait_[] $traits */
-    private $traits = array();
+    private $traits = [];
 
     /**
      * Initializes a new file descriptor with the given hash of its contents.
@@ -64,7 +64,6 @@ final class File
      * @param string $hash An MD5 hash of the contents if this file.
      * @param string $path
      * @param string|null $source
-     * @param DocBlock $docBlock
      */
     public function __construct($hash, $path, $source = null, DocBlock $docBlock = null)
     {
@@ -107,12 +106,10 @@ final class File
 
     /**
      * Add namespace to file
-     *
-     * @param Fqsen $fqsen
      */
     public function addNamespace(Fqsen $fqsen)
     {
-        $this->namespaces[(string)$fqsen] = $fqsen;
+        $this->namespaces[(string) $fqsen] = $fqsen;
     }
 
     /**
@@ -127,7 +124,6 @@ final class File
 
     /**
      * @param string $include
-     * @return void
      */
     public function addInclude($include)
     {
@@ -146,13 +142,10 @@ final class File
 
     /**
      * Add constant to this file.
-     *
-     * @param Constant $constant
-     * @return void
      */
     public function addConstant(Constant $constant)
     {
-        $this->constants[(string)$constant->getFqsen()] = $constant;
+        $this->constants[(string) $constant->getFqsen()] = $constant;
     }
 
     /**
@@ -167,13 +160,10 @@ final class File
 
     /**
      * Add function to this file.
-     *
-     * @param Function_ $function
-     * @return void
      */
     public function addFunction(Function_ $function)
     {
-        $this->functions[(string)$function->getFqsen()] = $function;
+        $this->functions[(string) $function->getFqsen()] = $function;
     }
 
     /**
@@ -188,13 +178,10 @@ final class File
 
     /**
      * Add Class to this file.
-     *
-     * @param Class_ $class
-     * @return void
      */
     public function addClass(Class_ $class)
     {
-        $this->classes[(string)$class->getFqsen()] = $class;
+        $this->classes[(string) $class->getFqsen()] = $class;
     }
 
     /**
@@ -209,13 +196,10 @@ final class File
 
     /**
      * Add interface to this file.
-     *
-     * @param Interface_ $interface
-     * @return void
      */
     public function addInterface(Interface_ $interface)
     {
-        $this->interfaces[(string)$interface->getFqsen()] = $interface;
+        $this->interfaces[(string) $interface->getFqsen()] = $interface;
     }
 
     /**
@@ -230,13 +214,10 @@ final class File
 
     /**
      * Add trait to this file.
-     *
-     * @param Trait_ $trait
-     * @return void
      */
     public function addTrait(Trait_ $trait)
     {
-        $this->traits[(string)$trait->getFqsen()] = $trait;
+        $this->traits[(string) $trait->getFqsen()] = $trait;
     }
 
     /**
@@ -248,6 +229,7 @@ final class File
     {
         return $this->path;
     }
+
     /**
      * Returns the DocBlock of the element if available
      *

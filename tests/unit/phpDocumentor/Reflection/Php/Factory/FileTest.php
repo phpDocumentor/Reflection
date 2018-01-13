@@ -10,7 +10,6 @@
  * @link      http://phpdoc.org
  */
 
-
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use Mockery as m;
@@ -18,12 +17,12 @@ use phpDocumentor\Reflection\DocBlock as DocBlockDescriptor;
 use phpDocumentor\Reflection\File as SourceFile;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Middleware\Middleware;
-use phpDocumentor\Reflection\Php\NodesFactory;
-use phpDocumentor\Reflection\Php\StrategyContainer;
-use phpDocumentor\Reflection\Php\File as FileElement;
 use phpDocumentor\Reflection\Php\Class_ as ClassElement;
+use phpDocumentor\Reflection\Php\File as FileElement;
 use phpDocumentor\Reflection\Php\Function_ as FunctionElement;
 use phpDocumentor\Reflection\Php\Interface_ as InterfaceElement;
+use phpDocumentor\Reflection\Php\NodesFactory;
+use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Php\Trait_ as TraitElement;
 use PhpParser\Comment as CommentNode;
 use PhpParser\Comment\Doc as DocBlockNode;
@@ -72,7 +71,7 @@ class FileTest extends TestCase
             ->with(file_get_contents(__FILE__))
             ->andReturn(
                 [
-                    $functionNode
+                    $functionNode,
                 ]
             );
 
@@ -99,7 +98,7 @@ class FileTest extends TestCase
             ->with(file_get_contents(__FILE__))
             ->andReturn(
                 [
-                    $classNode
+                    $classNode,
                 ]
             );
 
@@ -127,7 +126,7 @@ class FileTest extends TestCase
             ->with(file_get_contents(__FILE__))
             ->andReturn(
                 [
-                    $namespaceNode
+                    $namespaceNode,
                 ]
             );
 
@@ -150,7 +149,7 @@ class FileTest extends TestCase
             ->with(file_get_contents(__FILE__))
             ->andReturn(
                 [
-                    $interfaceNode
+                    $interfaceNode,
                 ]
             );
 
@@ -177,7 +176,7 @@ class FileTest extends TestCase
             ->with(file_get_contents(__FILE__))
             ->andReturn(
                 [
-                    $traitNode
+                    $traitNode,
                 ]
             );
 
@@ -234,11 +233,11 @@ class FileTest extends TestCase
 
         $namespaceNode = new NamespaceNode(new Name('mySpace'));
         $namespaceNode->fqsen = new Fqsen('\mySpace');
-        $namespaceNode->setAttribute('comments', [ $docBlockNode ]);
+        $namespaceNode->setAttribute('comments', [$docBlockNode]);
 
         $this->nodesFactoryMock->shouldReceive('create')
             ->with(file_get_contents(__FILE__))
-            ->andReturn([ $namespaceNode ]);
+            ->andReturn([$namespaceNode]);
 
         $containerMock = m::mock(StrategyContainer::class);
 
@@ -261,11 +260,11 @@ class FileTest extends TestCase
         $docBlockDescriptor = new DocBlockDescriptor('');
 
         $classNode = new ClassNode('myClass');
-        $classNode->setAttribute('comments', [ $docBlockNode, new DocBlockNode('') ]);
+        $classNode->setAttribute('comments', [$docBlockNode, new DocBlockNode('')]);
 
         $this->nodesFactoryMock->shouldReceive('create')
             ->with(file_get_contents(__FILE__))
-            ->andReturn([ $classNode ]);
+            ->andReturn([$classNode]);
 
         $containerMock = m::mock(StrategyContainer::class);
 
@@ -294,11 +293,11 @@ class FileTest extends TestCase
 
         $namespaceNode = new NamespaceNode(new Name('mySpace'));
         $namespaceNode->fqsen = new Fqsen('\mySpace');
-        $namespaceNode->setAttribute('comments', [ new CommentNode('@codingStandardsIgnoreStart'), $docBlockNode ]);
+        $namespaceNode->setAttribute('comments', [new CommentNode('@codingStandardsIgnoreStart'), $docBlockNode]);
 
         $this->nodesFactoryMock->shouldReceive('create')
             ->with(file_get_contents(__FILE__))
-            ->andReturn([ $namespaceNode ]);
+            ->andReturn([$namespaceNode]);
 
         $containerMock = m::mock(StrategyContainer::class);
 

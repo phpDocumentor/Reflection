@@ -10,7 +10,6 @@
  * @link      http://phpdoc.org
  */
 
-
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use InvalidArgumentException;
@@ -37,8 +36,6 @@ final class DocBlock implements ProjectFactoryStrategy
 
     /**
      * Initializes the object with a DocBlockFactory implementation.
-     *
-     * @param DocBlockFactoryInterface $docBlockFactory
      */
     public function __construct(DocBlockFactoryInterface $docBlockFactory)
     {

@@ -72,7 +72,7 @@ namespace Luigi\Pizza
     {
         const BASE_PRICE = 1;
 
-        function getPrice();
+        public function getPrice();
     }
 
     interface Series
@@ -98,12 +98,10 @@ namespace Luigi\Pizza
         }
 
         /**
-         * Calculates the price for this specific component.
-         *
-         * @param float[] $...additionalPrices Additional costs may be passed
-         *
-         * @return float
-         */
+     * Calculates the price for this specific component.
+     *
+     * @return float
+     */
         abstract protected function calculatePrice();
     }
 
@@ -195,19 +193,21 @@ namespace Luigi
 
         const
             /** @var string DELIVERY designates that the delivery method is to deliver the pizza to the customer. */
-            DELIVERY = 'delivery',
-            /** @var string PICKUP   designates that the delivery method is that the customer picks the pizza up. */
+            DELIVERY = 'delivery';
+        const /** @var string PICKUP   designates that the delivery method is that the customer picks the pizza up. */
             PICKUP = 'pickup';
 
         /** @var static contains the active instance for this Pizza. */
-        static private $instance;
+        private static $instance;
 
         /**
-         * @var Pizza\Style      $style
+         * @var Pizza\Style     
          * @var Pizza\Sauce|null $sauce
          * @var Pizza\Topping[]  $toppings
          */
-        private $style, $sauce, $toppings;
+        private $style;
+        private $sauce;
+        private $toppings;
 
         /**
          * The size of the pizza in centimeters, defaults to 20cm.
@@ -216,13 +216,10 @@ namespace Luigi
          */
         public $size = \Luigi\Pizza\SIZE_20CM;
 
-        var $legacy; // don't use this anymore!
+        public $legacy; // don't use this anymore!
 
-        protected
-            /** @var string $packaging The type of packaging for this Pizza */
-            $packaging = self::PACKAGING,
-            /** @var string $deliveryMethod Is the customer picking this pizza up or must it be delivered? */
-            $deliveryMethod;
+        protected $packaging = self::PACKAGING;
+        protected $deliveryMethod;
 
         private function __construct(Pizza\Style $style)
         {
@@ -230,17 +227,13 @@ namespace Luigi
         }
 
         /**
-         * Creates a new instance of a Pizza.
-         *
-         * This method can be used to instantiate a new object of this class which can then be retrieved using
-         * {@see self::getInstance()}.
-         *
-         * @param Pizza\Style $style
-         *
-         * @see self::getInstance to retrieve the pizza object.
-         *
-         * @return void
-         */
+     * Creates a new instance of a Pizza.
+     *
+     * This method can be used to instantiate a new object of this class which can then be retrieved using
+     * {@see self::getInstance()}.
+     *
+     * @see self::getInstance to retrieve the pizza object.
+     */
         public static function createInstance(Pizza\Style $style)
         {
             self::$instance = new static($style);
@@ -249,7 +242,7 @@ namespace Luigi
         /**
          * @return self
          */
-        static function getInstance()
+        public static function getInstance()
         {
             return self::$instance;
         }

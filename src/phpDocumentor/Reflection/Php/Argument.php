@@ -23,7 +23,7 @@ final class Argument
     private $name = null;
 
     /** @var string[] $type an array of normalized types that should be in this Argument */
-    private $types = array();
+    private $types = [];
 
     /** @var string|null $default the default value for an argument or null if none is provided */
     private $default = null;

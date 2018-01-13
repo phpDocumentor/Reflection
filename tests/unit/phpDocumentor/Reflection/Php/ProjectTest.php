@@ -55,7 +55,7 @@ class ProjectTest extends TestCase
         $include = new File('foo-bar', 'foo/bar');
         $this->fixture->addFile($include);
 
-        $this->assertSame(array('foo/bar' => $include), $this->fixture->getFiles());
+        $this->assertSame(['foo/bar' => $include], $this->fixture->getFiles());
     }
 
     /**
@@ -83,6 +83,6 @@ class ProjectTest extends TestCase
         $namespace = new Namespace_(new Fqsen('\MySpace'));
         $this->fixture->addNamespace($namespace);
 
-        $this->assertSame(array('\MySpace' => $namespace), $this->fixture->getNamespaces());
+        $this->assertSame(['\MySpace' => $namespace], $this->fixture->getNamespaces());
     }
 }

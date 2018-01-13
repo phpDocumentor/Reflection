@@ -45,6 +45,7 @@ class Class_Test extends TestCase
      * @var DocBlock
      */
     private $docBlock;
+
     /**
      * Creates a new (emoty) fixture object.
      */
@@ -87,7 +88,7 @@ class Class_Test extends TestCase
 
         $this->fixture->addInterface($interface);
 
-        $this->assertSame(array('\MyInterface' => $interface), $this->fixture->getInterfaces());
+        $this->assertSame(['\MyInterface' => $interface], $this->fixture->getInterfaces());
     }
 
     /**
@@ -102,7 +103,7 @@ class Class_Test extends TestCase
 
         $this->fixture->addConstant($constant);
 
-        $this->assertSame(array('\MyClass::MY_CONSTANT' => $constant), $this->fixture->getConstants());
+        $this->assertSame(['\MyClass::MY_CONSTANT' => $constant], $this->fixture->getConstants());
     }
 
     /**
@@ -117,7 +118,7 @@ class Class_Test extends TestCase
 
         $this->fixture->addProperty($property);
 
-        $this->assertSame(array('\MyClass::$myProperty' => $property), $this->fixture->getProperties());
+        $this->assertSame(['\MyClass::$myProperty' => $property], $this->fixture->getProperties());
     }
 
     /**
@@ -132,7 +133,7 @@ class Class_Test extends TestCase
 
         $this->fixture->addMethod($method);
 
-        $this->assertSame(array('\MyClass::myMethod()' => $method), $this->fixture->getMethods());
+        $this->assertSame(['\MyClass::myMethod()' => $method], $this->fixture->getMethods());
     }
 
     /**
@@ -147,7 +148,7 @@ class Class_Test extends TestCase
 
         $this->fixture->addUsedTrait($trait);
 
-        $this->assertSame(array('\MyTrait' => $trait), $this->fixture->getUsedTraits());
+        $this->assertSame(['\MyTrait' => $trait], $this->fixture->getUsedTraits());
     }
 
     /**

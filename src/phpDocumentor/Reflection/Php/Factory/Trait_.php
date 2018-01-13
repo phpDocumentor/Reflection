@@ -12,16 +12,12 @@
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
-use InvalidArgumentException;
-use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Php\Trait_ as TraitElement;
 use phpDocumentor\Reflection\Types\Context;
-use PhpParser\Comment\Doc;
-use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property as PropertyNode;
 use PhpParser\Node\Stmt\Trait_ as TraitNode;
@@ -44,12 +40,12 @@ final class Trait_ extends AbstractFactory implements ProjectFactoryStrategy
 
     /**
      * Creates an TraitElement out of the given object.
+     *
      * Since an object might contain other objects that need to be converted the $factory is passed so it can be
      * used to create nested Elements.
      *
      * @param TraitNode $object object to convert to an TraitElement
      * @param StrategyContainer $strategies used to convert nested objects.
-     * @param Context $context
      * @return TraitElement
      */
     protected function doCreate($object, StrategyContainer $strategies, Context $context = null)
@@ -74,7 +70,7 @@ final class Trait_ extends AbstractFactory implements ProjectFactoryStrategy
                         break;
                     case TraitUse::class:
                         foreach ($stmt->traits as $use) {
-                            $trait->addUsedTrait(new Fqsen('\\'. $use->toString()));
+                            $trait->addUsedTrait(new Fqsen('\\' . $use->toString()));
                         }
                         break;
                 }

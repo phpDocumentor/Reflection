@@ -33,7 +33,7 @@ class Function_Test extends TestCase
     /** @var Fqsen */
     protected $fqsen;
 
-    /** @var  DocBlock */
+    /** @var DocBlock */
     protected $docBlock;
 
     /**
@@ -69,7 +69,7 @@ class Function_Test extends TestCase
         $argument = new Argument('firstArgument');
         $this->fixture->addArgument($argument);
 
-        $this->assertEquals(array($argument), $this->fixture->getArguments());
+        $this->assertEquals([$argument], $this->fixture->getArguments());
     }
 
     /**

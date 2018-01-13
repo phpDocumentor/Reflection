@@ -12,9 +12,7 @@
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
-use InvalidArgumentException;
 use phpDocumentor\Reflection\Php\Argument as ArgumentDescriptor;
-use phpDocumentor\Reflection\Php\Factory;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\PrettyPrinter;
@@ -36,8 +34,6 @@ final class Argument extends AbstractFactory implements ProjectFactoryStrategy
 
     /**
      * Initializes the object.
-     *
-     * @param PrettyPrinter $prettyPrinter
      */
     public function __construct(PrettyPrinter $prettyPrinter)
     {

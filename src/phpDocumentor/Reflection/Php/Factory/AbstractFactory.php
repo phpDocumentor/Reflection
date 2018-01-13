@@ -31,9 +31,7 @@ abstract class AbstractFactory implements ProjectFactoryStrategy
     abstract protected function doCreate($object, StrategyContainer $strategies, Context $context = null);
 
     /**
-     * @param Node|PropertyIterator|ClassConstantIterator|Doc $stmt
-     * @param StrategyContainer $strategies
-     * @param Context $context
+     * @param Node|\PropertyIterator|\ClassConstantIterator|\Doc $stmt
      * @return Element
      */
     protected function createMember($stmt, StrategyContainer $strategies, Context $context = null)
@@ -43,9 +41,6 @@ abstract class AbstractFactory implements ProjectFactoryStrategy
     }
 
     /**
-     * @param StrategyContainer $strategies
-     * @param Doc $docBlock
-     * @param Context $context
      * @return null|\phpDocumentor\Reflection\DocBlock
      */
     protected function createDocBlock(StrategyContainer $strategies, Doc $docBlock = null, Context $context = null)

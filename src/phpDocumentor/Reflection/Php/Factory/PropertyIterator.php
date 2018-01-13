@@ -10,7 +10,6 @@
      * @link      http://phpdoc.org
      */
 
-
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use Iterator;
@@ -35,8 +34,6 @@ final class PropertyIterator implements Iterator
 
     /**
      * Instantiates this iterator with the propertyNode to iterate.
-     *
-     * @param PropertyNode $property
      */
     public function __construct(PropertyNode $property)
     {
@@ -130,7 +127,6 @@ final class PropertyIterator implements Iterator
         return $this->property->props[$this->index]->default;
     }
 
-
     /**
      * Returns the fqsen of the current property.
      *
@@ -156,11 +152,10 @@ final class PropertyIterator implements Iterator
      * (PHP 5 &gt;= 5.0.0)<br/>
      * Move forward to next element
      * @link http://php.net/manual/en/iterator.next.php
-     * @return void Any returned value is ignored.
      */
     public function next()
     {
-        $this->index++;
+        ++$this->index;
     }
 
     /**
@@ -185,11 +180,11 @@ final class PropertyIterator implements Iterator
     {
         return isset($this->property->props[$this->index]);
     }
+
     /**
      * (PHP 5 &gt;= 5.0.0)<br/>
      * Rewind the Iterator to the first element
      * @link http://php.net/manual/en/iterator.rewind.php
-     * @return void Any returned value is ignored.
      */
     public function rewind()
     {

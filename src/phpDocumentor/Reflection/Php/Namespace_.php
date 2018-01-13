@@ -14,7 +14,6 @@ namespace phpDocumentor\Reflection\Php;
 
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
-use phpDocumentor\Reflection\DocBlock;
 
 /**
  * Represents a namespace and its children for a project.
@@ -29,24 +28,22 @@ final class Namespace_ implements Element
     private $fqsen;
 
     /** @var Fqsen[] $functions fqsen of all functions in this namespace */
-    private $functions = array();
+    private $functions = [];
 
     /** @var Fqsen[] $constants fqsen of all constants in this namespace */
-    private $constants = array();
+    private $constants = [];
 
     /** @var Fqsen[] $classes fqsen of all classes in this namespace */
-    private $classes = array();
+    private $classes = [];
 
     /** @var Fqsen[] $interfaces fqsen of all interfaces in this namespace */
-    private $interfaces = array();
+    private $interfaces = [];
 
     /** @var Fqsen[] $traits fqsen of all traits in this namespace */
-    private $traits = array();
+    private $traits = [];
 
     /**
      * Initializes the namespace.
-     *
-     * @param Fqsen $fqsen
      */
     public function __construct(Fqsen $fqsen)
     {
@@ -65,12 +62,10 @@ final class Namespace_ implements Element
 
     /**
      * Add a class to this namespace.
-     *
-     * @param Fqsen $class
      */
     public function addClass(Fqsen $class)
     {
-        $this->classes[(string)$class] = $class;
+        $this->classes[(string) $class] = $class;
     }
 
     /**
@@ -90,7 +85,7 @@ final class Namespace_ implements Element
      */
     public function addConstant(Fqsen $contant)
     {
-        $this->constants[(string)$contant] = $contant;
+        $this->constants[(string) $contant] = $contant;
     }
 
     /**
@@ -105,12 +100,10 @@ final class Namespace_ implements Element
 
     /**
      * Add a function to this namespace.
-     *
-     * @param Fqsen $function
      */
     public function addFunction(Fqsen $function)
     {
-        $this->functions[(string)$function] = $function;
+        $this->functions[(string) $function] = $function;
     }
 
     /**
@@ -125,12 +118,10 @@ final class Namespace_ implements Element
 
     /**
      * Add an interface the this namespace.
-     *
-     * @param Fqsen $interface
      */
     public function addInterface(Fqsen $interface)
     {
-        $this->interfaces[(string)$interface] = $interface;
+        $this->interfaces[(string) $interface] = $interface;
     }
 
     /**
@@ -145,12 +136,10 @@ final class Namespace_ implements Element
 
     /**
      * Add a trait to this namespace.
-     *
-     * @param Fqsen $trait
      */
     public function addTrait(Fqsen $trait)
     {
-        $this->traits[(string)$trait] = $trait;
+        $this->traits[(string) $trait] = $trait;
     }
 
     /**
@@ -162,6 +151,7 @@ final class Namespace_ implements Element
     {
         return $this->fqsen;
     }
+
     /**
      * Returns the name of the element.
      *

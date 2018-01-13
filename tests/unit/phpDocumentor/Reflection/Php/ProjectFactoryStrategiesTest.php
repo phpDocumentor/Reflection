@@ -28,7 +28,7 @@ class ProjectFactoryStrategiesTest extends TestCase
      */
     public function testStrategiesAreChecked()
     {
-        new ProjectFactoryStrategies(array(new DummyFactoryStrategy()));
+        new ProjectFactoryStrategies([new DummyFactoryStrategy()]);
         $this->assertTrue(true);
     }
 
@@ -39,8 +39,8 @@ class ProjectFactoryStrategiesTest extends TestCase
     public function testFindMatching()
     {
         $strategy = new DummyFactoryStrategy();
-        $container = new ProjectFactoryStrategies(array($strategy));
-        $actual = $container->findMatching(array('aa'));
+        $container = new ProjectFactoryStrategies([$strategy]);
+        $actual = $container->findMatching(['aa']);
 
         $this->assertSame($strategy, $actual);
     }
@@ -53,7 +53,7 @@ class ProjectFactoryStrategiesTest extends TestCase
      */
     public function testCreateThrowsExceptionWhenStrategyNotFound()
     {
-        $container = new ProjectFactoryStrategies(array());
-        $container->findMatching(array('aa'));
+        $container = new ProjectFactoryStrategies([]);
+        $container->findMatching(['aa']);
     }
 }

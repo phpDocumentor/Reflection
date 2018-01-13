@@ -45,7 +45,7 @@ class Interface_Test extends TestCase
     {
         $this->fqsen = new Fqsen('\MySpace\MyInterface');
         $this->docBlock = new DocBlock('');
-        $this->fixture = new Interface_($this->fqsen, array(), $this->docBlock);
+        $this->fixture = new Interface_($this->fqsen, [], $this->docBlock);
     }
 
     protected function tearDown()
@@ -77,13 +77,13 @@ class Interface_Test extends TestCase
      */
     public function testSettingAndGettingConstants()
     {
-        $this->assertEquals(array(), $this->fixture->getConstants());
+        $this->assertEquals([], $this->fixture->getConstants());
 
         $constant = new Constant(new Fqsen('\MySpace\MyInterface::MY_CONSTANT'));
 
         $this->fixture->addConstant($constant);
 
-        $this->assertEquals(array('\MySpace\MyInterface::MY_CONSTANT' => $constant), $this->fixture->getConstants());
+        $this->assertEquals(['\MySpace\MyInterface::MY_CONSTANT' => $constant], $this->fixture->getConstants());
     }
 
     /**
@@ -92,12 +92,12 @@ class Interface_Test extends TestCase
      */
     public function testSettingAndGettingMethods()
     {
-        $this->assertEquals(array(), $this->fixture->getMethods());
+        $this->assertEquals([], $this->fixture->getMethods());
 
         $method = new Method(new Fqsen('\MySpace\MyInterface::myMethod()'));
 
         $this->fixture->addMethod($method);
 
-        $this->assertEquals(array('\MySpace\MyInterface::myMethod()' => $method), $this->fixture->getMethods());
+        $this->assertEquals(['\MySpace\MyInterface::myMethod()' => $method], $this->fixture->getMethods());
     }
 }

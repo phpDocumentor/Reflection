@@ -32,7 +32,7 @@ final class Function_ implements Element
     private $fqsen;
 
     /** @var Argument[] $arguments */
-    private $arguments = array();
+    private $arguments = [];
 
     /**
      * @var DocBlock|null
@@ -52,7 +52,6 @@ final class Function_ implements Element
     /**
      * Initializes the object.
      *
-     * @param Fqsen $fqsen
      * @param DocBlock|null $docBlock
      * @param Location|null $location
      * @param Type|null $returnType
@@ -67,7 +66,7 @@ final class Function_ implements Element
             $location = new Location(-1);
         }
 
-        if ($returnType ===  null) {
+        if ($returnType === null) {
             $returnType = new Mixed_();
         }
 
@@ -89,8 +88,6 @@ final class Function_ implements Element
 
     /**
      * Add an argument to the function.
-     *
-     * @param Argument $argument
      */
     public function addArgument(Argument $argument)
     {
@@ -135,10 +132,7 @@ final class Function_ implements Element
         return $this->location;
     }
 
-    /**
-     * @return Type
-     */
-    public function getReturnType() : Type
+    public function getReturnType(): Type
     {
         return $this->returnType;
     }

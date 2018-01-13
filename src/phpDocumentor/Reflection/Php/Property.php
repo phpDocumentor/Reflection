@@ -16,7 +16,6 @@ use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
-use phpDocumentor\Reflection\Php\Visibility;
 
 /**
  * Descriptor representing a property.
@@ -34,7 +33,7 @@ final class Property implements Element
     private $docBlock;
 
     /** @var string[] $types */
-    private $types = array();
+    private $types = [];
 
     /** @var string $default */
     private $default = null;
@@ -51,7 +50,6 @@ final class Property implements Element
     private $location;
 
     /**
-     * @param Fqsen $fqsen
      * @param Visibility|null $visibility when null is provided a default 'public' is set.
      * @param DocBlock|null $docBlock
      * @param null|string $default
@@ -80,7 +78,6 @@ final class Property implements Element
         if ($this->visibility === null) {
             $this->visibility = new Visibility('public');
         }
-
     }
 
     /**
@@ -117,7 +114,6 @@ final class Property implements Element
      * Add a type to this property
      *
      * @param string $type
-     * @return void
      */
     public function addType($type)
     {

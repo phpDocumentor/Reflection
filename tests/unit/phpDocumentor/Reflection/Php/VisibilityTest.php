@@ -21,11 +21,7 @@ use PHPUnit\Framework\TestCase;
 class VisibilityTest extends TestCase
 {
     /**
-     * @param $input
-     * @param $expected
-     *
      * @dataProvider visibilityProvider
-     *
      * @covers ::__construct
      * @covers ::__toString
      */
@@ -33,7 +29,7 @@ class VisibilityTest extends TestCase
     {
         $visibility = new Visibility($input);
 
-        $this->assertEquals($expected, (string)$visibility);
+        $this->assertEquals($expected, (string) $visibility);
     }
 
     public function visibilityProvider()
