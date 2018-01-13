@@ -29,6 +29,7 @@ class ProjectFactoryStrategiesTest extends TestCase
     public function testStrategiesAreChecked()
     {
         new ProjectFactoryStrategies(array(new DummyFactoryStrategy()));
+        $this->assertTrue(true);
     }
 
     /**
