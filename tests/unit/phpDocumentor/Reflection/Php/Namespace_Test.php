@@ -12,8 +12,8 @@
 
 namespace phpDocumentor\Reflection\Php;
 
-use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\DocBlock;
+use phpDocumentor\Reflection\Fqsen;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -61,7 +61,7 @@ class Namespace_Test extends TestCase
         $class = new Fqsen('\MySpace\MyClass');
         $this->fixture->addClass($class);
 
-        $this->assertEquals(array('\MySpace\MyClass' => $class), $this->fixture->getClasses());
+        $this->assertEquals(['\MySpace\MyClass' => $class], $this->fixture->getClasses());
     }
 
     /**
@@ -76,7 +76,7 @@ class Namespace_Test extends TestCase
         $constant = new Fqsen('\MySpace::MY_CONSTANT');
         $this->fixture->addConstant($constant);
 
-        $this->assertEquals(array('\MySpace::MY_CONSTANT' => $constant), $this->fixture->getConstants());
+        $this->assertEquals(['\MySpace::MY_CONSTANT' => $constant], $this->fixture->getConstants());
     }
 
     /**
@@ -91,7 +91,7 @@ class Namespace_Test extends TestCase
         $function = new Fqsen('\MySpace\MyFunction()');
         $this->fixture->addFunction($function);
 
-        $this->assertEquals(array('\MySpace\MyFunction()' => $function), $this->fixture->getFunctions());
+        $this->assertEquals(['\MySpace\MyFunction()' => $function], $this->fixture->getFunctions());
     }
 
     /**
@@ -106,7 +106,7 @@ class Namespace_Test extends TestCase
         $interface = new Fqsen('\MySpace\MyInterface');
         $this->fixture->addInterface($interface);
 
-        $this->assertEquals(array('\MySpace\MyInterface' => $interface), $this->fixture->getInterfaces());
+        $this->assertEquals(['\MySpace\MyInterface' => $interface], $this->fixture->getInterfaces());
     }
 
     /**
@@ -121,7 +121,7 @@ class Namespace_Test extends TestCase
         $trait = new Fqsen('\MySpace\MyTrait');
         $this->fixture->addTrait($trait);
 
-        $this->assertEquals(array('\MySpace\MyTrait' => $trait), $this->fixture->getTraits());
+        $this->assertEquals(['\MySpace\MyTrait' => $trait], $this->fixture->getTraits());
     }
 
     /**

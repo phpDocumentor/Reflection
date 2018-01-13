@@ -40,8 +40,7 @@ final class Visibility
     /**
      * Initializes the object.
      *
-     * @param $visibility
-     * @throws \InvalidArgumentException when visibility does not match public|protected|private
+     * @throws InvalidArgumentException when visibility does not match public|protected|private
      */
     public function __construct($visibility)
     {

@@ -10,10 +10,8 @@
  * @link      http://phpdoc.org
  */
 
-
 namespace phpDocumentor\Reflection\Php\Factory;
 
-use InvalidArgumentException;
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
@@ -21,12 +19,10 @@ use phpDocumentor\Reflection\Php\Class_ as ClassElement;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Types\Context;
-use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_ as ClassNode;
 use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property as PropertyNode;
-use PhpParser\Comment\Doc;
 use PhpParser\Node\Stmt\TraitUse;
 
 /**
@@ -83,7 +79,7 @@ final class Class_ extends AbstractFactory implements ProjectFactoryStrategy
                 switch (get_class($stmt)) {
                     case TraitUse::class:
                         foreach ($stmt->traits as $use) {
-                            $classElement->addUsedTrait(new Fqsen('\\'. $use->toString()));
+                            $classElement->addUsedTrait(new Fqsen('\\' . $use->toString()));
                         }
                         break;
                     case PropertyNode::class:

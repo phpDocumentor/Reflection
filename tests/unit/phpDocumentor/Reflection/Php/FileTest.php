@@ -24,8 +24,10 @@ use PHPUnit\Framework\TestCase;
  */
 class FileTest extends TestCase
 {
-    const EXAMPLE_HASH   = 'a-hash-string';
-    const EXAMPLE_PATH   = 'a-path-string';
+    const EXAMPLE_HASH = 'a-hash-string';
+
+    const EXAMPLE_PATH = 'a-path-string';
+
     const EXAMPLE_SOURCE = 'a-source-string';
 
     /** @var File $fixture */
@@ -63,7 +65,7 @@ class FileTest extends TestCase
         $class = new Class_(new Fqsen('\MySpace\MyClass'));
         $this->fixture->addClass($class);
 
-        $this->assertEquals(array('\MySpace\MyClass' => $class), $this->fixture->getClasses());
+        $this->assertEquals(['\MySpace\MyClass' => $class], $this->fixture->getClasses());
     }
 
     /**
@@ -78,7 +80,7 @@ class FileTest extends TestCase
         $constant = new Constant(new Fqsen('\MySpace::MY_CONSTANT'));
         $this->fixture->addConstant($constant);
 
-        $this->assertEquals(array('\MySpace::MY_CONSTANT' => $constant), $this->fixture->getConstants());
+        $this->assertEquals(['\MySpace::MY_CONSTANT' => $constant], $this->fixture->getConstants());
     }
 
     /**
@@ -93,7 +95,7 @@ class FileTest extends TestCase
         $function = new Function_(new Fqsen('\MySpace::MyFunction()'));
         $this->fixture->addFunction($function);
 
-        $this->assertEquals(array('\MySpace::MyFunction()' => $function), $this->fixture->getFunctions());
+        $this->assertEquals(['\MySpace::MyFunction()' => $function], $this->fixture->getFunctions());
     }
 
     /**
@@ -105,10 +107,10 @@ class FileTest extends TestCase
     {
         $this->assertEmpty($this->fixture->getInterfaces());
 
-        $interface = new Interface_(new Fqsen('\MySpace\MyInterface'), array());
+        $interface = new Interface_(new Fqsen('\MySpace\MyInterface'), []);
         $this->fixture->addInterface($interface);
 
-        $this->assertEquals(array('\MySpace\MyInterface' => $interface), $this->fixture->getInterfaces());
+        $this->assertEquals(['\MySpace\MyInterface' => $interface], $this->fixture->getInterfaces());
     }
 
     /**
@@ -123,7 +125,7 @@ class FileTest extends TestCase
         $trait = new Trait_(new Fqsen('\MySpace\MyTrait'));
         $this->fixture->addTrait($trait);
 
-        $this->assertEquals(array('\MySpace\MyTrait' => $trait), $this->fixture->getTraits());
+        $this->assertEquals(['\MySpace\MyTrait' => $trait], $this->fixture->getTraits());
     }
 
     /**
@@ -170,7 +172,7 @@ class FileTest extends TestCase
 
         $this->fixture->addNamespace(new Fqsen('\MyNamepace\Foo'));
 
-        $this->assertEquals(array('\MyNamepace\Foo' => new Fqsen('\MyNamepace\Foo')), $this->fixture->getNamespaces());
+        $this->assertEquals(['\MyNamepace\Foo' => new Fqsen('\MyNamepace\Foo')], $this->fixture->getNamespaces());
     }
 
     /**
@@ -184,6 +186,6 @@ class FileTest extends TestCase
         $include = static::EXAMPLE_PATH;
         $this->fixture->addInclude($include);
 
-        $this->assertSame(array(static::EXAMPLE_PATH => static::EXAMPLE_PATH), $this->fixture->getIncludes());
+        $this->assertSame([static::EXAMPLE_PATH => static::EXAMPLE_PATH], $this->fixture->getIncludes());
     }
 }

@@ -10,11 +10,9 @@
  * @link      http://phpdoc.org
  */
 
-
 namespace phpDocumentor\Reflection\Php;
 
 use phpDocumentor\Reflection\NodeVisitor\ElementNameResolver;
-use PhpParser\Lexer;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitor\NameResolver;
 use PhpParser\Parser;
@@ -61,7 +59,7 @@ class NodesFactory
      */
     public static function createInstance($kind = ParserFactory::PREFER_PHP7)
     {
-        $parser = (new ParserFactory)->create($kind);
+        $parser = (new ParserFactory())->create($kind);
         $traverser = new NodeTraverser(false);
         $traverser->addVisitor(new NameResolver());
         $traverser->addVisitor(new ElementNameResolver());

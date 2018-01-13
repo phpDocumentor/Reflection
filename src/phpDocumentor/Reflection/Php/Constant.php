@@ -33,7 +33,7 @@ final class Constant implements Element
     private $docBlock;
 
     /** @var null|string $value */
-    protected $value;
+    private $value;
 
     /**
      * @var Location
@@ -43,7 +43,6 @@ final class Constant implements Element
     /**
      * Initializes the object.
      *
-     * @param Fqsen $fqsen
      * @param DocBlock|null $docBlock
      * @param null|string $value
      * @param Location|null $location

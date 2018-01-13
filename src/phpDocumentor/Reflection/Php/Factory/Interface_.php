@@ -10,22 +10,18 @@
  * @link      http://phpdoc.org
  */
 
-
 namespace phpDocumentor\Reflection\Php\Factory;
 
-use InvalidArgumentException;
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
+use phpDocumentor\Reflection\Php\Interface_ as InterfaceElement;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Types\Context;
-use PhpParser\Comment\Doc;
-use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Interface_ as InterfaceNode;
-use phpDocumentor\Reflection\Php\Interface_ as InterfaceElement;
 
 /**
  * Strategy to create a InterfaceElement including all sub elements.
@@ -34,7 +30,6 @@ use phpDocumentor\Reflection\Php\Interface_ as InterfaceElement;
 final class Interface_ extends AbstractFactory implements ProjectFactoryStrategy
 // @codingStandardsIgnoreEnd
 {
-
     /**
      * Returns true when the strategy is able to handle the object.
      *
@@ -59,9 +54,9 @@ final class Interface_ extends AbstractFactory implements ProjectFactoryStrategy
     protected function doCreate($object, StrategyContainer $strategies, Context $context = null)
     {
         $docBlock = $this->createDocBlock($strategies, $object->getDocComment(), $context);
-        $parents = array();
+        $parents = [];
         foreach ($object->extends as $extend) {
-            $parents['\\' . (string)$extend] = new Fqsen('\\' . (string)$extend);
+            $parents['\\' . (string) $extend] = new Fqsen('\\' . (string) $extend);
         }
 
         $interface = new InterfaceElement($object->fqsen, $parents, $docBlock, new Location($object->getLine()));

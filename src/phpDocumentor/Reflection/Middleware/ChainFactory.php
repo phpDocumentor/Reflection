@@ -33,10 +33,12 @@ final class ChainFactory
                     )
                 );
             }
+
             $lastCallable = function ($command) use ($middleware, $lastCallable) {
                 return $middleware->execute($command, $lastCallable);
             };
         }
+
         return $lastCallable;
     }
 }

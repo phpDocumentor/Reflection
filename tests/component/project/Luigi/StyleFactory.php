@@ -10,7 +10,6 @@
  * @link      http://phpdoc.org
  */
 
-
 namespace Luigi;
 
 use Luigi\Pizza\PizzaComponentFactory;

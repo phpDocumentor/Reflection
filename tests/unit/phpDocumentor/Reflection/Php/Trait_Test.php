@@ -46,7 +46,6 @@ class Trait_Test extends TestCase
         $this->fqsen = new Fqsen('\MyTrait');
         $this->docBlock = new DocBlock('');
         $this->fixture = new Trait_($this->fqsen, $this->docBlock);
-
     }
 
     protected function tearDown()
@@ -71,13 +70,13 @@ class Trait_Test extends TestCase
      */
     public function testAddAndGettingProperties()
     {
-        $this->assertEquals(array(), $this->fixture->getProperties());
+        $this->assertEquals([], $this->fixture->getProperties());
 
         $property = new Property(new Fqsen('\MyTrait::$myProperty'));
 
         $this->fixture->addProperty($property);
 
-        $this->assertEquals(array('\MyTrait::$myProperty' => $property), $this->fixture->getProperties());
+        $this->assertEquals(['\MyTrait::$myProperty' => $property], $this->fixture->getProperties());
     }
 
     /**
@@ -86,13 +85,13 @@ class Trait_Test extends TestCase
      */
     public function testAddAndGettingMethods()
     {
-        $this->assertEquals(array(), $this->fixture->getMethods());
+        $this->assertEquals([], $this->fixture->getMethods());
 
         $method = new Method(new Fqsen('\MyTrait::myMethod()'));
 
         $this->fixture->addMethod($method);
 
-        $this->assertEquals(array('\MyTrait::myMethod()' => $method), $this->fixture->getMethods());
+        $this->assertEquals(['\MyTrait::myMethod()' => $method], $this->fixture->getMethods());
     }
 
     /**
@@ -107,7 +106,7 @@ class Trait_Test extends TestCase
 
         $this->fixture->addUsedTrait($trait);
 
-        $this->assertSame(array('\MyTrait' => $trait), $this->fixture->getUsedTraits());
+        $this->assertSame(['\MyTrait' => $trait], $this->fixture->getUsedTraits());
     }
 
     /**

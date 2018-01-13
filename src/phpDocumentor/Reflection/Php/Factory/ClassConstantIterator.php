@@ -10,7 +10,6 @@
  * @link      http://phpdoc.org
  */
 
-
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use Iterator;
@@ -34,8 +33,6 @@ final class ClassConstantIterator implements Iterator
 
     /**
      * Initializes the class with source data.
-     *
-     * @param ClassConst $classConst
      */
     public function __construct(ClassConst $classConst)
     {
@@ -109,11 +106,10 @@ final class ClassConstantIterator implements Iterator
      * (PHP 5 &gt;= 5.0.0)<br/>
      * Move forward to next element
      * @link http://php.net/manual/en/iterator.next.php
-     * @return void Any returned value is ignored.
      */
     public function next()
     {
-        $this->index++;
+        ++$this->index;
     }
 
     /**
@@ -143,7 +139,6 @@ final class ClassConstantIterator implements Iterator
      * (PHP 5 &gt;= 5.0.0)<br/>
      * Rewind the Iterator to the first element
      * @link http://php.net/manual/en/iterator.rewind.php
-     * @return void Any returned value is ignored.
      */
     public function rewind()
     {

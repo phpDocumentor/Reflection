@@ -35,13 +35,13 @@ final class Trait_ implements Element
     private $docBlock;
 
     /** @var Property[] $properties */
-    private $properties = array();
+    private $properties = [];
 
     /** @var Method[] $methods */
-    private $methods = array();
+    private $methods = [];
 
     /** @var Fqsen[] $usedTraits References to traits consumed by this trait */
-    private $usedTraits = array();
+    private $usedTraits = [];
 
     /**
      * @var Location
@@ -51,7 +51,6 @@ final class Trait_ implements Element
     /**
      * Initializes the all properties
      *
-     * @param Fqsen $fqsen
      * @param DocBlock|null $docBlock
      */
     public function __construct(Fqsen $fqsen, DocBlock $docBlock = null, Location $location = null)
@@ -77,13 +76,10 @@ final class Trait_ implements Element
 
     /**
      * Add a method to this Trait
-     *
-     * @param Method $method
-     * @return void
      */
     public function addMethod(Method $method)
     {
-        $this->methods[(string)$method->getFqsen()] = $method;
+        $this->methods[(string) $method->getFqsen()] = $method;
     }
 
     /**
@@ -98,13 +94,10 @@ final class Trait_ implements Element
 
     /**
      * Add a property to this Trait.
-     *
-     * @param Property $property
-     * @return void
      */
     public function addProperty(Property $property)
     {
-        $this->properties[(string)$property->getFqsen()] = $property;
+        $this->properties[(string) $property->getFqsen()] = $property;
     }
 
     /**
@@ -147,12 +140,10 @@ final class Trait_ implements Element
 
     /**
      * Add reference to trait used by this trait.
-     *
-     * @param Fqsen $fqsen
      */
     public function addUsedTrait(Fqsen $fqsen)
     {
-        $this->usedTraits[(string)$fqsen] = $fqsen;
+        $this->usedTraits[(string) $fqsen] = $fqsen;
     }
 
     /**

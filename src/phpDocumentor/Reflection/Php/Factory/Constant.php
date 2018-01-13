@@ -10,7 +10,6 @@
  * @link      http://phpdoc.org
  */
 
-
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use phpDocumentor\Reflection\Location;
@@ -34,8 +33,6 @@ final class Constant extends AbstractFactory
 
     /**
      * Initializes the object.
-     *
-     * @param PrettyPrinter $prettyPrinter
      */
     public function __construct(PrettyPrinter $prettyPrinter)
     {

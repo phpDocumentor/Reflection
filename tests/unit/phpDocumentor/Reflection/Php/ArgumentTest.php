@@ -20,7 +20,6 @@ use PHPUnit\Framework\TestCase;
  */
 class ArgumentTest extends TestCase
 {
-
     /**
      * @covers ::getTypes
      * @covers ::addType
@@ -28,11 +27,11 @@ class ArgumentTest extends TestCase
     public function testGetTypes()
     {
         $argument = new Argument('myArgument', 'myDefaultValue', true, true);
-        $this->assertSame(array(), $argument->getTypes());
+        $this->assertSame([], $argument->getTypes());
 
         $argument->addType(1);
 
-        $this->assertSame(array(1), $argument->getTypes());
+        $this->assertSame([1], $argument->getTypes());
     }
 
     /**

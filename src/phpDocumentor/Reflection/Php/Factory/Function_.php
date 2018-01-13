@@ -12,16 +12,12 @@
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
-use InvalidArgumentException;
-use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
-use phpDocumentor\Reflection\Php\Factory;
 use phpDocumentor\Reflection\Php\Function_ as FunctionDescriptor;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\TypeResolver;
 use phpDocumentor\Reflection\Types\Context;
-use PhpParser\Comment\Doc;
 use PhpParser\Node\NullableType;
 use PhpParser\Node\Stmt\Function_ as FunctionNode;
 
@@ -35,7 +31,6 @@ use PhpParser\Node\Stmt\Function_ as FunctionNode;
 final class Function_ extends AbstractFactory implements ProjectFactoryStrategy
 // @codingStandardsIgnoreEnd
 {
-
     /**
      * Returns true when the strategy is able to handle the object.
      *
@@ -65,8 +60,9 @@ final class Function_ extends AbstractFactory implements ProjectFactoryStrategy
             if ($object->getReturnType() instanceof NullableType) {
                 $typeString = '?' . $object->getReturnType()->type;
             } else {
-                $typeString = (string)$object->getReturnType();
+                $typeString = (string) $object->getReturnType();
             }
+
             $returnType = $typeResolver->resolve($typeString, $context);
         }
 

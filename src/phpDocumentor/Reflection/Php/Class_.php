@@ -41,24 +41,24 @@ final class Class_ implements Element
     private $final = false;
 
     /**
-     * @var Class_ $parent The class this class is extending.
+     * @var Class_ The class this class is extending.
      */
     private $parent = null;
 
     /** @var Fqsen[] $implements References to interfaces that are implemented by this class. */
-    private $implements = array();
+    private $implements = [];
 
     /** @var Constant[] $constants References to constants defined in this class. */
-    private $constants = array();
+    private $constants = [];
 
     /** @var Property[] $properties References to properties defined in this class. */
-    private $properties = array();
+    private $properties = [];
 
     /** @var Method[] $methods References to methods defined in this class. */
-    private $methods = array();
+    private $methods = [];
 
     /** @var Fqsen[] $usedTraits References to traits consumed by this class */
-    private $usedTraits = array();
+    private $usedTraits = [];
 
     /**
      * @var null|Location
@@ -68,9 +68,6 @@ final class Class_ implements Element
     /**
      * Initializes a number of properties with the given values. Others are initialized by definition.
      *
-     * @param Fqsen $fqsen
-     * @param DocBlock $docBlock
-     * @param Fqsen $parent
      * @param bool $abstract
      * @param bool $final
      * @param Location|null $location
@@ -118,7 +115,7 @@ final class Class_ implements Element
     /**
      * Returns the superclass this class is extending if available.
      *
-     * @return NUll|Fqsen
+     * @return null|Fqsen
      */
     public function getParent()
     {
@@ -137,13 +134,10 @@ final class Class_ implements Element
 
     /**
      * Add a interface Fqsen this class is implementing.
-     *
-     * @param Fqsen $interface
-     * @return void
      */
     public function addInterface(Fqsen $interface)
     {
-        $this->implements[(string)$interface] = $interface;
+        $this->implements[(string) $interface] = $interface;
     }
 
     /**
@@ -158,13 +152,10 @@ final class Class_ implements Element
 
     /**
      * Add Constant to this class.
-     *
-     * @param Constant $constant
-     * @return void
      */
     public function addConstant(Constant $constant)
     {
-        $this->constants[(string)$constant->getFqsen()] = $constant;
+        $this->constants[(string) $constant->getFqsen()] = $constant;
     }
 
     /**
@@ -179,13 +170,10 @@ final class Class_ implements Element
 
     /**
      * Add a method to this class.
-     *
-     * @param Method $method
-     * @return void
      */
     public function addMethod(Method $method)
     {
-        $this->methods[(string)$method->getFqsen()] = $method;
+        $this->methods[(string) $method->getFqsen()] = $method;
     }
 
     /**
@@ -200,13 +188,10 @@ final class Class_ implements Element
 
     /**
      * Add a property to this class.
-     *
-     * @param Property $property
-     * @return void
      */
     public function addProperty(Property $property)
     {
-        $this->properties[(string)$property->getFqsen()] = $property;
+        $this->properties[(string) $property->getFqsen()] = $property;
     }
 
     /**
@@ -221,12 +206,10 @@ final class Class_ implements Element
 
     /**
      * Add trait fqsen used by this class.
-     *
-     * @param Fqsen $fqsen
      */
     public function addUsedTrait(Fqsen $fqsen)
     {
-        $this->usedTraits[(string)$fqsen] = $fqsen;
+        $this->usedTraits[(string) $fqsen] = $fqsen;
     }
 
     /**

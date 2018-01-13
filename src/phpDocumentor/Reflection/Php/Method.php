@@ -13,10 +13,9 @@
 namespace phpDocumentor\Reflection\Php;
 
 use phpDocumentor\Reflection\DocBlock;
-use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Element;
+use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
-use phpDocumentor\Reflection\Php\Visibility;
 use phpDocumentor\Reflection\Type;
 use phpDocumentor\Reflection\Types\Mixed_;
 
@@ -48,12 +47,13 @@ final class Method implements Element
     private $visibility = null;
 
     /** @var Argument[] */
-    private $arguments = array();
+    private $arguments = [];
 
     /**
      * @var Location
      */
     private $location;
+
     /**
      * @var Type
      */
@@ -62,14 +62,12 @@ final class Method implements Element
     /**
      * Initializes the all properties.
      *
-     * @param Fqsen $fqsen
      * @param Visibility|null $visibility when null is provided a default 'public' is set.
      * @param DocBlock|null $docBlock
      * @param bool $abstract
      * @param bool $static
      * @param bool $final
      * @param Location|null $location
-     * @param Type $returnType
      */
     public function __construct(
         Fqsen $fqsen,
@@ -93,7 +91,7 @@ final class Method implements Element
             $location = new Location(-1);
         }
 
-        if ($returnType ===  null) {
+        if ($returnType === null) {
             $returnType = new Mixed_();
         }
 
@@ -154,12 +152,8 @@ final class Method implements Element
         return $this->arguments;
     }
 
-
     /**
      * Add new argument to this method.
-     *
-     * @param Argument $argument
-     * @return void
      */
     public function addArgument(Argument $argument)
     {

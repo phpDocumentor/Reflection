@@ -12,7 +12,6 @@
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use phpDocumentor\Reflection\Element;
-use phpDocumentor\Reflection\Php\Factory;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Types\Context;
@@ -22,7 +21,6 @@ use phpDocumentor\Reflection\Types\Context;
  */
 final class DummyFactoryStrategy implements ProjectFactoryStrategy
 {
-
     /**
      * Returns true when the strategy is able to handle the object.
      *
@@ -36,12 +34,12 @@ final class DummyFactoryStrategy implements ProjectFactoryStrategy
 
     /**
      * Creates an Element out of the given object.
+     *
      * Since an object might contain other objects that need to be converted the $factory is passed so it can be
      * used to create nested Elements.
      *
      * @param object $object object to convert to an Element
      * @param StrategyContainer $strategies used to convert nested objects.
-     * @param Context $context
      * @return Element
      */
     public function create($object, StrategyContainer $strategies, Context $context = null)

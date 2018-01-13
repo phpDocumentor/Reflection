@@ -13,7 +13,6 @@
 namespace phpDocumentor\Reflection\Php;
 
 use OutOfBoundsException;
-use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 
 final class ProjectFactoryStrategies implements StrategyContainer
 {
@@ -35,7 +34,6 @@ final class ProjectFactoryStrategies implements StrategyContainer
 
         $this->strategies = $strategies;
     }
-
 
     /**
      * Find the ProjectFactoryStrategy that matches $object.
@@ -62,8 +60,6 @@ final class ProjectFactoryStrategies implements StrategyContainer
 
     /**
      * Add a strategy to this container.
-     *
-     * @param ProjectFactoryStrategy $strategy
      */
     public function addStrategy(ProjectFactoryStrategy $strategy)
     {

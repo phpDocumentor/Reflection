@@ -10,23 +10,21 @@
  * @link      http://phpdoc.org
  */
 
-
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use Mockery as m;
+use phpDocumentor\Reflection\DocBlock as DocBlockElement;
 use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\Php\Constant as ConstantElement;
+use phpDocumentor\Reflection\Php\Interface_ as InterfaceElement;
+use phpDocumentor\Reflection\Php\Method as MethodElement;
 use phpDocumentor\Reflection\Php\StrategyContainer;
-use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Comment\Doc;
 use PhpParser\Node\Const_;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Interface_ as InterfaceNode;
-use phpDocumentor\Reflection\DocBlock as DocBlockElement;
-use phpDocumentor\Reflection\Php\Constant as ConstantElement;
-use phpDocumentor\Reflection\Php\Interface_ as InterfaceElement;
-use phpDocumentor\Reflection\Php\Method as MethodElement;
 
 /**
  * Test case for Interface_
@@ -64,7 +62,7 @@ class Interface_Test extends TestCase
         $class = $this->fixture->create($interfaceMock, $strategiesMock);
 
         $this->assertInstanceOf(InterfaceElement::class, $class);
-        $this->assertEquals('\Space\MyInterface', (string)$class->getFqsen());
+        $this->assertEquals('\Space\MyInterface', (string) $class->getFqsen());
     }
 
     /**
@@ -101,7 +99,7 @@ class Interface_Test extends TestCase
         $interfaceMock = $this->buildClassMock();
         $interfaceMock->shouldReceive('getDocComment')->andReturnNull();
         $interfaceMock->stmts = [
-            $method1
+            $method1,
         ];
 
         $strategiesMock->shouldReceive('findMatching->create')
@@ -114,7 +112,7 @@ class Interface_Test extends TestCase
         $interface = $this->fixture->create($interfaceMock, $strategiesMock);
 
         $this->assertInstanceOf(InterfaceElement::class, $interface);
-        $this->assertEquals('\Space\MyInterface', (string)$interface->getFqsen());
+        $this->assertEquals('\Space\MyInterface', (string) $interface->getFqsen());
         $this->assertEquals(
             ['\Space\MyInterface::method1' => $method1Descriptor],
             $interface->getMethods()
@@ -137,7 +135,7 @@ class Interface_Test extends TestCase
         $classMock = $this->buildClassMock();
         $classMock->shouldReceive('getDocComment')->andReturnNull();
         $classMock->stmts = [
-            $constant
+            $constant,
         ];
 
         /** @var ClassElement $class */

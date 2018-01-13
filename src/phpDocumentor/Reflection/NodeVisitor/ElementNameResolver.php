@@ -10,7 +10,6 @@
  * @link      http://phpdoc.org
  */
 
-
 namespace phpDocumentor\Reflection\NodeVisitor;
 
 use phpDocumentor\Reflection\Fqsen;
@@ -37,8 +36,6 @@ final class ElementNameResolver extends NodeVisitorAbstract
 
     /**
      * Resets the object to a known state before start processing.
-     *
-     * @param array $nodes
      */
     public function beforeTraverse(array $nodes)
     {
@@ -47,8 +44,6 @@ final class ElementNameResolver extends NodeVisitorAbstract
 
     /**
      * Performs a reset of the added element when needed.
-     *
-     * @param Node $node
      */
     public function leaveNode(Node $node)
     {
@@ -69,8 +64,6 @@ final class ElementNameResolver extends NodeVisitorAbstract
 
     /**
      * Adds fqsen property to a node when applicable.
-     *
-     * @param Node $node
      */
     public function enterNode(Node $node)
     {
@@ -82,9 +75,9 @@ final class ElementNameResolver extends NodeVisitorAbstract
             case Class_::class:
             case Trait_::class:
             case Interface_::class:
-                $this->parts->push((string)$node->name);
+                $this->parts->push((string) $node->name);
 
-                if (is_null($node->name)) {
+                if ($node->name === null) {
                     return NodeTraverser::DONT_TRAVERSE_CHILDREN;
                 }
 
@@ -134,6 +127,7 @@ final class ElementNameResolver extends NodeVisitorAbstract
         foreach ($this->parts as $part) {
             $name .= $part;
         }
+
         return rtrim($name, '\\');
     }
 }

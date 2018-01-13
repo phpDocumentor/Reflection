@@ -10,23 +10,21 @@
  * @link      http://phpdoc.org
  */
 
-
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use Mockery as m;
+use phpDocumentor\Reflection\DocBlock as DocBlockElement;
 use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\Php\Method as MethodElement;
+use phpDocumentor\Reflection\Php\Property as PropertyElement;
 use phpDocumentor\Reflection\Php\StrategyContainer;
-use phpDocumentor\Reflection\Types\Context;
+use phpDocumentor\Reflection\Php\Trait_ as TraitElement;
 use PhpParser\Comment\Doc;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\ClassMethod;
-use PhpParser\Node\Stmt\PropertyProperty;
 use PhpParser\Node\Stmt\Property as PropertyNode;
+use PhpParser\Node\Stmt\PropertyProperty;
 use PhpParser\Node\Stmt\Trait_ as TraitNode;
-use phpDocumentor\Reflection\DocBlock as DocBlockElement;
-use phpDocumentor\Reflection\Php\Trait_ as TraitElement;
-use phpDocumentor\Reflection\Php\Property as PropertyElement;
-use phpDocumentor\Reflection\Php\Method as MethodElement;
 use PhpParser\Node\Stmt\TraitUse;
 
 /**
@@ -65,7 +63,7 @@ class Trait_Test extends TestCase
         $trait = $this->fixture->create($interfaceMock, $strategiesMock);
 
         $this->assertInstanceOf(TraitElement::class, $trait);
-        $this->assertEquals('\Space\MyTrait', (string)$trait->getFqsen());
+        $this->assertEquals('\Space\MyTrait', (string) $trait->getFqsen());
     }
 
     /**
@@ -103,7 +101,7 @@ class Trait_Test extends TestCase
         $traitMock = $this->buildTraitMock();
         $traitMock->shouldReceive('getDocComment')->andReturnNull();
         $traitMock->stmts = [
-            $property
+            $property,
         ];
 
         $strategiesMock->shouldReceive('findMatching->create')
@@ -114,7 +112,7 @@ class Trait_Test extends TestCase
         $trait = $this->fixture->create($traitMock, $strategiesMock);
 
         $this->assertInstanceOf(TraitElement::class, $trait);
-        $this->assertEquals('\Space\MyTrait', (string)$trait->getFqsen());
+        $this->assertEquals('\Space\MyTrait', (string) $trait->getFqsen());
         $this->assertEquals(
             ['\Space\MyTrait::$property' => $propertyDescriptor],
             $trait->getProperties()
@@ -132,7 +130,7 @@ class Trait_Test extends TestCase
         $classMock = $this->buildTraitMock();
         $classMock->shouldReceive('getDocComment')->andReturnNull();
         $classMock->stmts = [
-            $method1
+            $method1,
         ];
 
         $strategiesMock->shouldReceive('findMatching->create')
@@ -143,7 +141,7 @@ class Trait_Test extends TestCase
         $class = $this->fixture->create($classMock, $strategiesMock);
 
         $this->assertInstanceOf(TraitElement::class, $class);
-        $this->assertEquals('\Space\MyTrait', (string)$class->getFqsen());
+        $this->assertEquals('\Space\MyTrait', (string) $class->getFqsen());
         $this->assertEquals(
             ['\MyTrait::method1' => $method1Descriptor],
             $class->getMethods()
@@ -161,7 +159,7 @@ class Trait_Test extends TestCase
         $traitMock = $this->buildTraitMock();
         $traitMock->shouldReceive('getDocComment')->andReturnNull();
         $traitMock->stmts = [
-            $trait
+            $trait,
         ];
 
         /** @var TraitElement $trait */

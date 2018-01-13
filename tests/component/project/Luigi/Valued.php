@@ -9,6 +9,7 @@
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
+
 namespace Luigi;
 
 /**
@@ -21,5 +22,5 @@ interface Valued
 {
     const BASE_PRICE = 1;
 
-    function getPrice();
+    public function getPrice();
 }

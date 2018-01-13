@@ -19,7 +19,6 @@ use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Php\Visibility;
 use phpDocumentor\Reflection\TypeResolver;
 use phpDocumentor\Reflection\Types\Context;
-use phpDocumentor\Reflection\Types\Mixed_;
 use PhpParser\Node\NullableType;
 use PhpParser\Node\Stmt\ClassMethod;
 
@@ -57,8 +56,9 @@ final class Method extends AbstractFactory implements ProjectFactoryStrategy
             if ($object->getReturnType() instanceof NullableType) {
                 $typeString = '?' . $object->getReturnType()->type;
             } else {
-                $typeString = (string)$object->getReturnType();
+                $typeString = (string) $object->getReturnType();
             }
+
             $returnType = $typeResolver->resolve($typeString, $context);
         }
 
@@ -83,7 +83,6 @@ final class Method extends AbstractFactory implements ProjectFactoryStrategy
     /**
      * Converts the visibility of the method to a valid Visibility object.
      *
-     * @param ClassMethod $node
      * @return Visibility
      */
     private function buildVisibility(ClassMethod $node)

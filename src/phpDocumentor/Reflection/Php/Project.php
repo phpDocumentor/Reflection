@@ -29,12 +29,12 @@ final class Project implements ProjectInterface
     /**
      * @var File[]
      */
-    private $files = array();
+    private $files = [];
 
     /**
      * @var Namespace_[]
      */
-    private $namespaces = array();
+    private $namespaces = [];
 
     /**
      * Initializes this descriptor.
@@ -73,8 +73,6 @@ final class Project implements ProjectInterface
 
     /**
      * Add a file to this project.
-     *
-     * @param File $file
      */
     public function addFile(File $file)
     {
@@ -93,12 +91,10 @@ final class Project implements ProjectInterface
 
     /**
      * Add a namespace to the project.
-     *
-     * @param Namespace_ $namespace
      */
     public function addNamespace(Namespace_ $namespace)
     {
-        $this->namespaces[(string)$namespace->getFqsen()] = $namespace;
+        $this->namespaces[(string) $namespace->getFqsen()] = $namespace;
     }
 
     /**

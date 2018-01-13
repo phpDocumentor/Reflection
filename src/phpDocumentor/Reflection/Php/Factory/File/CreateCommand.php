@@ -32,9 +32,6 @@ final class CreateCommand
 
     /**
      * Initializes this command.
-     *
-     * @param File $file
-     * @param StrategyContainer $strategies
      */
     public function __construct(File $file, StrategyContainer $strategies)
     {

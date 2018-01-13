@@ -10,7 +10,6 @@
  * @link      http://phpdoc.org
  */
 
-
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use Mockery as m;
@@ -24,7 +23,6 @@ use PHPUnit\Framework\TestCase;
  */
 class PropertyIteratorTest extends TestCase
 {
-
     protected function tearDown()
     {
         m::close();
@@ -47,7 +45,7 @@ class PropertyIteratorTest extends TestCase
         $i = 1;
         foreach (new PropertyIterator($propertyNode) as $property) {
             $this->assertEquals('prop' . $i, $property->getName());
-            $i++;
+            ++$i;
         }
     }
 

@@ -12,16 +12,13 @@
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
-use InvalidArgumentException;
 use phpDocumentor\Reflection\Location;
-use phpDocumentor\Reflection\Php\Factory;
-use phpDocumentor\Reflection\Php\Property as PropertyDescriptor;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
+use phpDocumentor\Reflection\Php\Property as PropertyDescriptor;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Php\Visibility;
 use phpDocumentor\Reflection\PrettyPrinter;
 use phpDocumentor\Reflection\Types\Context;
-use PhpParser\Comment\Doc;
 
 /**
  * Strategy to convert PropertyIterator to PropertyDescriptor
@@ -38,8 +35,6 @@ final class Property extends AbstractFactory implements ProjectFactoryStrategy
 
     /**
      * Initializes the object.
-     *
-     * @param PrettyPrinter $prettyPrinter
      */
     public function __construct(PrettyPrinter $prettyPrinter)
     {
@@ -59,12 +54,12 @@ final class Property extends AbstractFactory implements ProjectFactoryStrategy
 
     /**
      * Creates an PropertyDescriptor out of the given object.
+     *
      * Since an object might contain other objects that need to be converted the $factory is passed so it can be
      * used to create nested Elements.
      *
      * @param PropertyIterator $object object to convert to an PropertyDescriptor
      * @param StrategyContainer $strategies used to convert nested objects.
-     * @param Context $context
      * @return PropertyDescriptor
      */
     protected function doCreate($object, StrategyContainer $strategies, Context $context = null)
@@ -74,6 +69,7 @@ final class Property extends AbstractFactory implements ProjectFactoryStrategy
         if ($object->getDefault() !== null) {
             $default = $this->valueConverter->prettyPrintExpr($object->getDefault());
         }
+
         $docBlock = $this->createDocBlock($strategies, $object->getDocComment(), $context);
 
         return new PropertyDescriptor(
@@ -89,7 +85,6 @@ final class Property extends AbstractFactory implements ProjectFactoryStrategy
     /**
      * Converts the visibility of the property to a valid Visibility object.
      *
-     * @param PropertyIterator $node
      * @return Visibility
      */
     private function buildVisibility(PropertyIterator $node)

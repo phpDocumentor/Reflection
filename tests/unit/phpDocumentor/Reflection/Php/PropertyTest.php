@@ -95,10 +95,10 @@ class PropertyTest extends TestCase
     public function testSetAndGetTypes()
     {
         $property = new Property($this->fqsen, $this->visibility, $this->docBlock, null, true);
-        $this->assertEquals(array(), $property->getTypes());
+        $this->assertEquals([], $property->getTypes());
 
         $property->addType('a');
-        $this->assertEquals(array('a'), $property->getTypes());
+        $this->assertEquals(['a'], $property->getTypes());
     }
 
     /**
