@@ -13,6 +13,8 @@ parameters:
         - PhpCsFixer\Fixer\Operator\NotOperatorWithSuccessorSpaceFixer
 
     skip:
+        PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff:
+            - src/phpDocumentor/Reflection/Middleware/ChainFactory.php
         PHP_CodeSniffer\Standards\Generic\Sniffs\NamingConventions\CamelCapsFunctionNameSniff:
             - */tests/**
         PHP_CodeSniffer\Standards\Squiz\Sniffs\Classes\ValidClassNameSniff:
@@ -34,3 +36,6 @@ parameters:
             - tests/unit/phpDocumentor/Reflection/Php/Interface_Test.php
             - tests/unit/phpDocumentor/Reflection/Php/Namespace_Test.php
             - tests/unit/phpDocumentor/Reflection/Php/Trait_Test.php
+        SlevomatCodingStandard\Sniffs\Classes\UnusedPrivateElementsSniff:
+            - tests/component/project/Luigi/Pizza.php
+            - tests/example.file.php
