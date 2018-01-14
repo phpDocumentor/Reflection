@@ -17,6 +17,7 @@ class Pizza extends \Pizza
     const
         /** @var string DELIVERY designates that the delivery method is to deliver the pizza to the customer. */
         DELIVERY = 'delivery';
+
     const /** @var string PICKUP   designates that the delivery method is that the customer picks the pizza up. */
         PICKUP = 'pickup';
 
@@ -24,12 +25,14 @@ class Pizza extends \Pizza
     private static $instance;
 
     /**
-     * @var Pizza\Style     
+     * @var Pizza\Style
      * @var Pizza\Sauce|null $sauce
      * @var Pizza\Topping[]  $toppings
      */
     private $style;
+
     private $sauce;
+
     private $toppings;
 
     /**
@@ -42,6 +45,7 @@ class Pizza extends \Pizza
     public $legacy; // don't use this anymore!
 
     protected $packaging = self::PACKAGING;
+
     protected $deliveryMethod;
 
     private function __construct(Pizza\Style $style)

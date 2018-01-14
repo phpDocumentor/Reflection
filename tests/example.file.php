@@ -98,10 +98,10 @@ namespace Luigi\Pizza
         }
 
         /**
-     * Calculates the price for this specific component.
-     *
-     * @return float
-     */
+         * Calculates the price for this specific component.
+         *
+         * @return float
+         */
         abstract protected function calculatePrice();
     }
 
@@ -194,6 +194,7 @@ namespace Luigi
         const
             /** @var string DELIVERY designates that the delivery method is to deliver the pizza to the customer. */
             DELIVERY = 'delivery';
+
         const /** @var string PICKUP   designates that the delivery method is that the customer picks the pizza up. */
             PICKUP = 'pickup';
 
@@ -201,12 +202,14 @@ namespace Luigi
         private static $instance;
 
         /**
-         * @var Pizza\Style     
+         * @var Pizza\Style
          * @var Pizza\Sauce|null $sauce
          * @var Pizza\Topping[]  $toppings
          */
         private $style;
+
         private $sauce;
+
         private $toppings;
 
         /**
@@ -219,6 +222,7 @@ namespace Luigi
         public $legacy; // don't use this anymore!
 
         protected $packaging = self::PACKAGING;
+
         protected $deliveryMethod;
 
         private function __construct(Pizza\Style $style)
@@ -227,13 +231,13 @@ namespace Luigi
         }
 
         /**
-     * Creates a new instance of a Pizza.
-     *
-     * This method can be used to instantiate a new object of this class which can then be retrieved using
-     * {@see self::getInstance()}.
-     *
-     * @see self::getInstance to retrieve the pizza object.
-     */
+         * Creates a new instance of a Pizza.
+         *
+         * This method can be used to instantiate a new object of this class which can then be retrieved using
+         * {@see self::getInstance()}.
+         *
+         * @see self::getInstance to retrieve the pizza object.
+         */
         public static function createInstance(Pizza\Style $style)
         {
             self::$instance = new static($style);
