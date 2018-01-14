@@ -77,7 +77,7 @@ final class ElementNameResolver extends NodeVisitorAbstract
             case Interface_::class:
                 $this->parts->push((string) $node->name);
 
-                if ($node->name === null) {
+                if (empty($node->name)) {
                     return NodeTraverser::DONT_TRAVERSE_CHILDREN;
                 }
 
