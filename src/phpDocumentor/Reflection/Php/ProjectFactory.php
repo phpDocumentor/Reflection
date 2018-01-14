@@ -121,31 +121,31 @@ final class ProjectFactory implements ProjectFactoryInterface
     private function buildNamespace(File $file, Namespace_ $namespace)
     {
         foreach ($file->getClasses() as $class) {
-            if ($namespace->getFqsen() . '\\' . $class->getName() === $class->getFqsen()) {
+            if ($namespace->getFqsen() . '\\' . $class->getName() === (string) $class->getFqsen()) {
                 $namespace->addClass($class->getFqsen());
             }
         }
 
         foreach ($file->getInterfaces() as $interface) {
-            if ($namespace->getFqsen() . '\\' . $interface->getName() === $interface->getFqsen()) {
+            if ($namespace->getFqsen() . '\\' . $interface->getName() === (string) $interface->getFqsen()) {
                 $namespace->addInterface($interface->getFqsen());
             }
         }
 
         foreach ($file->getFunctions() as $function) {
-            if ($namespace->getFqsen() . '\\' . $function->getName() . '()' === $function->getFqsen()) {
+            if ($namespace->getFqsen() . '\\' . $function->getName() . '()' === (string) $function->getFqsen()) {
                 $namespace->addFunction($function->getFqsen());
             }
         }
 
         foreach ($file->getConstants() as $constant) {
-            if ($namespace->getFqsen() . '::' . $constant->getName() === $constant->getFqsen()) {
+            if ($namespace->getFqsen() . '::' . $constant->getName() === (string) $constant->getFqsen()) {
                 $namespace->addConstant($constant->getFqsen());
             }
         }
 
         foreach ($file->getTraits() as $trait) {
-            if ($namespace->getFqsen() . '\\' . $trait->getName() === $trait->getFqsen()) {
+            if ($namespace->getFqsen() . '\\' . $trait->getName() === (string) $trait->getFqsen()) {
                 $namespace->addTrait($trait->getFqsen());
             }
         }

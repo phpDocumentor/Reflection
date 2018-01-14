@@ -59,6 +59,8 @@ class Pizza extends \Pizza
      * This method can be used to instantiate a new object of this class which can then be retrieved using
      * {@see self::getInstance()}.
      *
+     * @param Pizza\Style $style style of pizza
+     *
      * @see self::getInstance to retrieve the pizza object.
      */
     public static function createInstance(Pizza\Style $style)
