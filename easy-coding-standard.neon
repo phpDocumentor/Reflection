@@ -15,3 +15,22 @@ parameters:
     skip:
         PHP_CodeSniffer\Standards\Generic\Sniffs\NamingConventions\CamelCapsFunctionNameSniff:
             - */tests/**
+        PHP_CodeSniffer\Standards\Squiz\Sniffs\Classes\ValidClassNameSniff:
+            - src/phpDocumentor/Reflection/Php/Class_.php
+            - src/phpDocumentor/Reflection/Php/Factory/Class_.php
+            - src/phpDocumentor/Reflection/Php/Factory/Function_.php
+            - src/phpDocumentor/Reflection/Php/Factory/Interface_.php
+            - src/phpDocumentor/Reflection/Php/Factory/Trait_.php
+            - src/phpDocumentor/Reflection/Php/Function_.php
+            - src/phpDocumentor/Reflection/Php/Interface_.php
+            - src/phpDocumentor/Reflection/Php/Namespace_.php
+            - src/phpDocumentor/Reflection/Php/Trait_.php
+            - tests/unit/phpDocumentor/Reflection/Php/Class_Test.php
+            - tests/unit/phpDocumentor/Reflection/Php/Factory/Class_Test.php
+            - tests/unit/phpDocumentor/Reflection/Php/Factory/Function_Test.php
+            - tests/unit/phpDocumentor/Reflection/Php/Factory/Interface_Test.php
+            - tests/unit/phpDocumentor/Reflection/Php/Factory/Trait_Test.php
+            - tests/unit/phpDocumentor/Reflection/Php/Function_Test.php
+            - tests/unit/phpDocumentor/Reflection/Php/Interface_Test.php
+            - tests/unit/phpDocumentor/Reflection/Php/Namespace_Test.php
+            - tests/unit/phpDocumentor/Reflection/Php/Trait_Test.php
