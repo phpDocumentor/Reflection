@@ -22,8 +22,7 @@
         "php": ">=7.1",
         "psr/log": "~1.0",
         "nikic/php-parser": "^3.0",
-        "phpdocumentor/reflection-docblock": "^4.1",
-        "phpdocumentor/reflection-common": "^1.0@dev"
+        "phpdocumentor/reflection-docblock": "^4"
     },
     "require-dev": {
         "mockery/mockery": "~1.0",
