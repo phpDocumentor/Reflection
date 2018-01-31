@@ -1,8 +1,5 @@
 language: php
-php:
-  - 7.1
-  - 7.2
-  - nightly
+php: [ 7.1, 7.2, nightly ]
 sudo: false
 
 env:
@@ -13,7 +10,7 @@ matrix:
     - php: nightly
 
 install:
-  - composer install --no-interaction --prefer-dist --optimize-autoloader
+  - travis_retry composer install --no-interaction --prefer-dist --optimize-autoloader
 
 script:
   - ./vendor/bin/phpunit --no-coverage
@@ -23,7 +20,7 @@ jobs:
     - stage: coverage
       php: 7.1
       script:
-        - vendor/bin/phpunit
+        - ./vendor/bin/phpunit
       after_script:
         - wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml
         - wget https://github.com/satooshi/php-coveralls/releases/download/v1.0.1/coveralls.phar && php coveralls.phar --verbose
