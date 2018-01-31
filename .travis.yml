@@ -15,12 +15,11 @@ matrix:
 install:
   - composer install --no-interaction --prefer-dist --optimize-autoloader
 
+script:
+  - ./vendor/bin/phpunit --no-coverage
+
 jobs:
   include:
-    - stage: test
-      script:
-      - vendor/bin/phpunit --no-coverage
-
     - stage: coverage
       php: 7.1
       script:
