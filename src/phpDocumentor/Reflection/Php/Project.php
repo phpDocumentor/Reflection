@@ -56,7 +56,7 @@ final class Project implements ProjectInterface
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
