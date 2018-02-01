@@ -16,6 +16,7 @@ use phpDocumentor\Reflection\DocBlockFactory;
 use phpDocumentor\Reflection\Exception;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\PrettyPrinter;
+use phpDocumentor\Reflection\Project as ProjectInterface;
 use phpDocumentor\Reflection\ProjectFactory as ProjectFactoryInterface;
 
 /**
@@ -64,10 +65,10 @@ final class ProjectFactory implements ProjectFactoryInterface
      *
      * @param string $name
      * @param \phpDocumentor\Reflection\File[] $files
-     * @return Project
+     * @return ProjectInterface
      * @throws Exception when no matching strategy was found.
      */
-    public function create($name, array $files)
+    public function create($name, array $files): ProjectInterface
     {
         $project = new Project($name);
 
