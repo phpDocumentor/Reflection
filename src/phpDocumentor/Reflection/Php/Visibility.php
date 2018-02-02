@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
@@ -11,6 +13,8 @@
  */
 
 namespace phpDocumentor\Reflection\Php;
+
+use InvalidArgumentException;
 
 /**
  * Value object for visibility values of classes, properties, ect.
@@ -42,12 +46,12 @@ final class Visibility
      *
      * @throws InvalidArgumentException when visibility does not match public|protected|private
      */
-    public function __construct($visibility)
+    public function __construct(string $visibility)
     {
         $visibility = strtolower($visibility);
 
         if ($visibility !== static::PUBLIC_ && $visibility !== static::PROTECTED_ && $visibility !== static::PRIVATE_) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf('""%s" is not a valid visibility value.', $visibility)
             );
         }
@@ -60,7 +64,7 @@ final class Visibility
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->visibility;
     }

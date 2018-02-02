@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
@@ -33,10 +35,10 @@ final class Interface_ extends AbstractFactory implements ProjectFactoryStrategy
     /**
      * Returns true when the strategy is able to handle the object.
      *
-     * @param InterfaceNode $object object to check.
+     * @param mixed $object object to check.
      * @return boolean
      */
-    public function matches($object)
+    public function matches($object): bool
     {
         return $object instanceof InterfaceNode;
     }

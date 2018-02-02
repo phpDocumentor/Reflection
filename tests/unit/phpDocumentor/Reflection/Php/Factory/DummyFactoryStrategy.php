@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * phpDocumentor
  *
@@ -16,6 +18,7 @@ use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Types\Context;
 
+
 /**
  * Stub for test purpose only.
  */
@@ -24,10 +27,10 @@ final class DummyFactoryStrategy implements ProjectFactoryStrategy
     /**
      * Returns true when the strategy is able to handle the object.
      *
-     * @param object $object object to check.
+     * @param mixed $object object to check.
      * @return boolean
      */
-    public function matches($object)
+    public function matches($object): bool
     {
         return true;
     }

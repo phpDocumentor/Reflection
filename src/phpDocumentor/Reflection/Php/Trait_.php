@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
@@ -69,7 +71,7 @@ final class Trait_ implements Element
      *
      * @return Method[]
      */
-    public function getMethods()
+    public function getMethods(): array
     {
         return $this->methods;
     }
@@ -77,7 +79,7 @@ final class Trait_ implements Element
     /**
      * Add a method to this Trait
      */
-    public function addMethod(Method $method)
+    public function addMethod(Method $method): void
     {
         $this->methods[(string) $method->getFqsen()] = $method;
     }
@@ -87,7 +89,7 @@ final class Trait_ implements Element
      *
      * @return Property[]
      */
-    public function getProperties()
+    public function getProperties(): array
     {
         return $this->properties;
     }
@@ -95,7 +97,7 @@ final class Trait_ implements Element
     /**
      * Add a property to this Trait.
      */
-    public function addProperty(Property $property)
+    public function addProperty(Property $property): void
     {
         $this->properties[(string) $property->getFqsen()] = $property;
     }
@@ -105,7 +107,7 @@ final class Trait_ implements Element
      *
      * @return Fqsen
      */
-    public function getFqsen()
+    public function getFqsen(): Fqsen
     {
         return $this->fqsen;
     }
@@ -115,7 +117,7 @@ final class Trait_ implements Element
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->fqsen->getName();
     }
@@ -123,7 +125,7 @@ final class Trait_ implements Element
     /**
      * @return null|DocBlock
      */
-    public function getDocBlock()
+    public function getDocBlock(): ?DocBlock
     {
         return $this->docBlock;
     }
@@ -133,7 +135,7 @@ final class Trait_ implements Element
      *
      * @return Fqsen[]
      */
-    public function getUsedTraits()
+    public function getUsedTraits(): array
     {
         return $this->usedTraits;
     }
@@ -141,7 +143,7 @@ final class Trait_ implements Element
     /**
      * Add reference to trait used by this trait.
      */
-    public function addUsedTrait(Fqsen $fqsen)
+    public function addUsedTrait(Fqsen $fqsen): void
     {
         $this->usedTraits[(string) $fqsen] = $fqsen;
     }
@@ -149,7 +151,7 @@ final class Trait_ implements Element
     /**
      * @return Location
      */
-    public function getLocation()
+    public function getLocation(): Location
     {
         return $this->location;
     }

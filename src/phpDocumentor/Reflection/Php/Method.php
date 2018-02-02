@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
@@ -73,9 +75,9 @@ final class Method implements Element
         Fqsen $fqsen,
         Visibility $visibility = null,
         DocBlock $docBlock = null,
-        $abstract = false,
-        $static = false,
-        $final = false,
+        bool $abstract = false,
+        bool $static = false,
+        bool $final = false,
         Location $location = null,
         Type $returnType = null
     ) {
@@ -107,7 +109,7 @@ final class Method implements Element
      *
      * @return bool
      */
-    public function isAbstract()
+    public function isAbstract(): bool
     {
         return $this->abstract;
     }
@@ -117,7 +119,7 @@ final class Method implements Element
      *
      * @return bool
      */
-    public function isFinal()
+    public function isFinal(): bool
     {
         return $this->final;
     }
@@ -127,7 +129,7 @@ final class Method implements Element
      *
      * @return bool
      */
-    public function isStatic()
+    public function isStatic(): bool
     {
         return $this->static;
     }
@@ -137,7 +139,7 @@ final class Method implements Element
      *
      * @return Visibility
      */
-    public function getVisibility()
+    public function getVisibility(): Visibility
     {
         return $this->visibility;
     }
@@ -147,7 +149,7 @@ final class Method implements Element
      *
      * @return Argument[]
      */
-    public function getArguments()
+    public function getArguments(): array
     {
         return $this->arguments;
     }
@@ -155,7 +157,7 @@ final class Method implements Element
     /**
      * Add new argument to this method.
      */
-    public function addArgument(Argument $argument)
+    public function addArgument(Argument $argument): void
     {
         $this->arguments[] = $argument;
     }
@@ -165,7 +167,7 @@ final class Method implements Element
      *
      * @return Fqsen
      */
-    public function getFqsen()
+    public function getFqsen(): Fqsen
     {
         return $this->fqsen;
     }
@@ -175,7 +177,7 @@ final class Method implements Element
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->fqsen->getName();
     }
@@ -185,7 +187,7 @@ final class Method implements Element
      *
      * @returns null|DocBlock
      */
-    public function getDocBlock()
+    public function getDocBlock(): ?DocBlock
     {
         return $this->docBlock;
     }
@@ -193,7 +195,7 @@ final class Method implements Element
     /**
      * @return Location
      */
-    public function getLocation()
+    public function getLocation(): Location
     {
         return $this->location;
     }
@@ -207,7 +209,7 @@ final class Method implements Element
      *
      * @return Type
      */
-    public function getReturnType()
+    public function getReturnType(): Type
     {
         return $this->returnType;
     }

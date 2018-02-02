@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
@@ -65,7 +67,7 @@ final class File
      * @param string $path
      * @param string|null $source
      */
-    public function __construct($hash, $path, $source = null, DocBlock $docBlock = null)
+    public function __construct(string $hash, string $path, string $source = null, DocBlock $docBlock = null)
     {
         $this->hash = $hash;
         $this->path = $path;
@@ -79,7 +81,7 @@ final class File
      *
      * @return string
      */
-    public function getHash()
+    public function getHash(): string
     {
         return $this->hash;
     }
@@ -89,7 +91,7 @@ final class File
      *
      * @return string|null
      */
-    public function getSource()
+    public function getSource(): ?string
     {
         return $this->source;
     }
@@ -99,7 +101,7 @@ final class File
      *
      * @return Fqsen[]
      */
-    public function getNamespaces()
+    public function getNamespaces(): array
     {
         return $this->namespaces;
     }
@@ -107,7 +109,7 @@ final class File
     /**
      * Add namespace to file
      */
-    public function addNamespace(Fqsen $fqsen)
+    public function addNamespace(Fqsen $fqsen): void
     {
         $this->namespaces[(string) $fqsen] = $fqsen;
     }
@@ -117,7 +119,7 @@ final class File
      *
      * @return string[]
      */
-    public function getIncludes()
+    public function getIncludes(): array
     {
         return $this->includes;
     }
@@ -125,7 +127,7 @@ final class File
     /**
      * @param string $include
      */
-    public function addInclude($include)
+    public function addInclude(string $include): void
     {
         $this->includes[$include] = $include;
     }
@@ -135,7 +137,7 @@ final class File
      *
      * @return Constant[]
      */
-    public function getConstants()
+    public function getConstants(): array
     {
         return $this->constants;
     }
@@ -143,7 +145,7 @@ final class File
     /**
      * Add constant to this file.
      */
-    public function addConstant(Constant $constant)
+    public function addConstant(Constant $constant): void
     {
         $this->constants[(string) $constant->getFqsen()] = $constant;
     }
@@ -153,7 +155,7 @@ final class File
      *
      * @return Function_[]
      */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return $this->functions;
     }
@@ -161,7 +163,7 @@ final class File
     /**
      * Add function to this file.
      */
-    public function addFunction(Function_ $function)
+    public function addFunction(Function_ $function): void
     {
         $this->functions[(string) $function->getFqsen()] = $function;
     }
@@ -171,7 +173,7 @@ final class File
      *
      * @return Class_[]
      */
-    public function getClasses()
+    public function getClasses(): array
     {
         return $this->classes;
     }
@@ -179,7 +181,7 @@ final class File
     /**
      * Add Class to this file.
      */
-    public function addClass(Class_ $class)
+    public function addClass(Class_ $class): void
     {
         $this->classes[(string) $class->getFqsen()] = $class;
     }
@@ -189,7 +191,7 @@ final class File
      *
      * @return Interface_[]
      */
-    public function getInterfaces()
+    public function getInterfaces(): array
     {
         return $this->interfaces;
     }
@@ -197,7 +199,7 @@ final class File
     /**
      * Add interface to this file.
      */
-    public function addInterface(Interface_ $interface)
+    public function addInterface(Interface_ $interface): void
     {
         $this->interfaces[(string) $interface->getFqsen()] = $interface;
     }
@@ -207,7 +209,7 @@ final class File
      *
      * @return Trait_[]
      */
-    public function getTraits()
+    public function getTraits(): array
     {
         return $this->traits;
     }
@@ -215,7 +217,7 @@ final class File
     /**
      * Add trait to this file.
      */
-    public function addTrait(Trait_ $trait)
+    public function addTrait(Trait_ $trait): void
     {
         $this->traits[(string) $trait->getFqsen()] = $trait;
     }
@@ -225,7 +227,7 @@ final class File
      *
      * @return string
      */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->path;
     }
@@ -235,7 +237,7 @@ final class File
      *
      * @return null|DocBlock
      */
-    public function getDocBlock()
+    public function getDocBlock(): ?DocBlock
     {
         return $this->docBlock;
     }
@@ -245,7 +247,7 @@ final class File
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }

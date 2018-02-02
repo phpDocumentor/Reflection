@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
@@ -55,7 +57,7 @@ final class Namespace_ implements Element
      *
      * @return Fqsen[]
      */
-    public function getClasses()
+    public function getClasses(): array
     {
         return $this->classes;
     }
@@ -63,7 +65,7 @@ final class Namespace_ implements Element
     /**
      * Add a class to this namespace.
      */
-    public function addClass(Fqsen $class)
+    public function addClass(Fqsen $class): void
     {
         $this->classes[(string) $class] = $class;
     }
@@ -73,7 +75,7 @@ final class Namespace_ implements Element
      *
      * @return Fqsen[]
      */
-    public function getConstants()
+    public function getConstants(): array
     {
         return $this->constants;
     }
@@ -83,7 +85,7 @@ final class Namespace_ implements Element
      *
      * @param Fqsen|Constant $contant
      */
-    public function addConstant(Fqsen $contant)
+    public function addConstant(Fqsen $contant): void
     {
         $this->constants[(string) $contant] = $contant;
     }
@@ -93,7 +95,7 @@ final class Namespace_ implements Element
      *
      * @return Fqsen[]
      */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return $this->functions;
     }
@@ -101,7 +103,7 @@ final class Namespace_ implements Element
     /**
      * Add a function to this namespace.
      */
-    public function addFunction(Fqsen $function)
+    public function addFunction(Fqsen $function): void
     {
         $this->functions[(string) $function] = $function;
     }
@@ -111,7 +113,7 @@ final class Namespace_ implements Element
      *
      * @return Fqsen[]
      */
-    public function getInterfaces()
+    public function getInterfaces(): array
     {
         return $this->interfaces;
     }
@@ -119,7 +121,7 @@ final class Namespace_ implements Element
     /**
      * Add an interface the this namespace.
      */
-    public function addInterface(Fqsen $interface)
+    public function addInterface(Fqsen $interface): void
     {
         $this->interfaces[(string) $interface] = $interface;
     }
@@ -129,7 +131,7 @@ final class Namespace_ implements Element
      *
      * @return Fqsen[]
      */
-    public function getTraits()
+    public function getTraits(): array
     {
         return $this->traits;
     }
@@ -137,7 +139,7 @@ final class Namespace_ implements Element
     /**
      * Add a trait to this namespace.
      */
-    public function addTrait(Fqsen $trait)
+    public function addTrait(Fqsen $trait): void
     {
         $this->traits[(string) $trait] = $trait;
     }
@@ -147,7 +149,7 @@ final class Namespace_ implements Element
      *
      * @return Fqsen
      */
-    public function getFqsen()
+    public function getFqsen(): Fqsen
     {
         return $this->fqsen;
     }
@@ -157,7 +159,7 @@ final class Namespace_ implements Element
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->fqsen->getName();
     }

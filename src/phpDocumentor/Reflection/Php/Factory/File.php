@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
@@ -61,10 +63,10 @@ final class File extends AbstractFactory implements ProjectFactoryStrategy
     /**
      * Returns true when the strategy is able to handle the object.
      *
-     * @param string $file path to check.
+     * @param mixed $file path to check.
      * @return boolean
      */
-    public function matches($file)
+    public function matches($file): bool
     {
         return $file instanceof FileSystemFile;
     }

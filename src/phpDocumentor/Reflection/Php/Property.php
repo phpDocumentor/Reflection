@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
@@ -60,8 +62,8 @@ final class Property implements Element
         Fqsen $fqsen,
         Visibility $visibility = null,
         DocBlock $docBlock = null,
-        $default = null,
-        $static = false,
+        string $default = null,
+        bool $static = false,
         Location $location = null
     ) {
         if ($location === null) {
@@ -85,7 +87,7 @@ final class Property implements Element
      *
      * @return string
      */
-    public function getDefault()
+    public function getDefault(): ?string
     {
         return $this->default;
     }
@@ -95,7 +97,7 @@ final class Property implements Element
      *
      * @return bool
      */
-    public function isStatic()
+    public function isStatic(): bool
     {
         return $this->static;
     }
@@ -105,7 +107,7 @@ final class Property implements Element
      *
      * @return string[]
      */
-    public function getTypes()
+    public function getTypes(): array
     {
         return $this->types;
     }
@@ -115,7 +117,7 @@ final class Property implements Element
      *
      * @param string $type
      */
-    public function addType($type)
+    public function addType(string $type): void
     {
         $this->types[] = $type;
     }
@@ -125,7 +127,7 @@ final class Property implements Element
      *
      * @return Visibility
      */
-    public function getVisibility()
+    public function getVisibility(): Visibility
     {
         return $this->visibility;
     }
@@ -135,7 +137,7 @@ final class Property implements Element
      *
      * @return Fqsen
      */
-    public function getFqsen()
+    public function getFqsen(): Fqsen
     {
         return $this->fqsen;
     }
@@ -145,7 +147,7 @@ final class Property implements Element
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->fqsen->getName();
     }
@@ -155,7 +157,7 @@ final class Property implements Element
      *
      * @return DocBlock|null
      */
-    public function getDocBlock()
+    public function getDocBlock(): ?DocBlock
     {
         return $this->docBlock;
     }
@@ -163,7 +165,7 @@ final class Property implements Element
     /**
      * @return Location
      */
-    public function getLocation()
+    public function getLocation(): Location
     {
         return $this->location;
     }

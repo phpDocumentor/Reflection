@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
@@ -11,7 +12,7 @@ use PhpParser\Node;
 
 abstract class AbstractFactory implements ProjectFactoryStrategy
 {
-    abstract public function matches($object);
+    abstract public function matches($object): bool;
 
     final public function create($object, StrategyContainer $strategies, Context $context = null)
     {

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
@@ -42,7 +44,7 @@ final class Argument
      * @param bool $byReference
      * @param bool $isVariadic
      */
-    public function __construct($name, $default = null, $byReference = false, $isVariadic = false)
+    public function __construct(string $name, string $default = null, bool $byReference = false, bool $isVariadic = false)
     {
         $this->name = $name;
         $this->default = $default;
@@ -55,7 +57,7 @@ final class Argument
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -63,16 +65,16 @@ final class Argument
     /**
      * {@inheritDoc}
      */
-    public function getTypes()
+    public function getTypes(): array
     {
         return $this->types;
     }
 
     /**
      * Add a type.
-     * @param string $type
+     * @param mixed $type
      */
-    public function addType($type)
+    public function addType($type): void
     {
         $this->types[] = $type;
     }
@@ -80,7 +82,7 @@ final class Argument
     /**
      * {@inheritDoc}
      */
-    public function getDefault()
+    public function getDefault(): ?string
     {
         return $this->default;
     }
@@ -88,7 +90,7 @@ final class Argument
     /**
      * {@inheritDoc}
      */
-    public function isByReference()
+    public function isByReference(): bool
     {
         return $this->byReference;
     }
@@ -98,7 +100,7 @@ final class Argument
      *
      * @return boolean
      */
-    public function isVariadic()
+    public function isVariadic(): bool
     {
         return $this->isVariadic;
     }

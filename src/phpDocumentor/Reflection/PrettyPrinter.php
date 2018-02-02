@@ -1,8 +1,11 @@
 <?php
+declare(strict_types=1);
+
 /**
- * phpDocumentor
+ * This file is part of phpDocumentor.
  *
- * PHP Version 5.3
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  *
  * @author    Mike van Riel <mike.vanriel@naenius.com>
  * @copyright 2010-2018 Mike van Riel / Naenius (http://www.naenius.com)
@@ -12,6 +15,7 @@
 
 namespace phpDocumentor\Reflection;
 
+use PhpParser\Lexer;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\PrettyPrinter\Standard;
 
@@ -46,7 +50,7 @@ class PrettyPrinter extends Standard
      * @return string
      */
     // @codingStandardsIgnoreStart
-    public function pScalar_String(String_ $node)
+    public function pScalar_String(String_ $node): string
     {
         // @codingStandardsIgnoreStart
         if (!$node->getAttribute('originalValue')) {
