@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
@@ -74,7 +76,7 @@ final class Interface_ implements Element
      *
      * @return Constant[]
      */
-    public function getConstants()
+    public function getConstants(): array
     {
         return $this->constants;
     }
@@ -82,7 +84,7 @@ final class Interface_ implements Element
     /**
      * Add constant to this interface.
      */
-    public function addConstant(Constant $constant)
+    public function addConstant(Constant $constant): void
     {
         $this->constants[(string) $constant->getFqsen()] = $constant;
     }
@@ -92,7 +94,7 @@ final class Interface_ implements Element
      *
      * @return Method[]
      */
-    public function getMethods()
+    public function getMethods(): array
     {
         return $this->methods;
     }
@@ -100,7 +102,7 @@ final class Interface_ implements Element
     /**
      * Add method to this interface.
      */
-    public function addMethod(Method $method)
+    public function addMethod(Method $method): void
     {
         $this->methods[(string) $method->getFqsen()] = $method;
     }
@@ -110,7 +112,7 @@ final class Interface_ implements Element
      *
      * @return Fqsen
      */
-    public function getFqsen()
+    public function getFqsen(): Fqsen
     {
         return $this->fqsen;
     }
@@ -120,7 +122,7 @@ final class Interface_ implements Element
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->fqsen->getName();
     }
@@ -130,7 +132,7 @@ final class Interface_ implements Element
      *
      * @return null|DocBlock
      */
-    public function getDocBlock()
+    public function getDocBlock(): ?DocBlock
     {
         return $this->docBlock;
     }
@@ -140,7 +142,7 @@ final class Interface_ implements Element
      *
      * @return Fqsen[]
      */
-    public function getParents()
+    public function getParents(): array
     {
         return $this->parents;
     }
@@ -148,7 +150,7 @@ final class Interface_ implements Element
     /**
      * @return Location
      */
-    public function getLocation()
+    public function getLocation(): Location
     {
         return $this->location;
     }

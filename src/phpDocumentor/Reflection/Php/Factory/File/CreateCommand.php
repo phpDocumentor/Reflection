@@ -1,8 +1,11 @@
 <?php
+declare(strict_types=1);
+
 /**
- * phpDocumentor
+ * This file is part of phpDocumentor.
  *
- * PHP Version 5.5
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  *
  * @copyright 2010-2018 Mike van Riel / Naenius (http://www.naenius.com)
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
@@ -44,7 +47,7 @@ final class CreateCommand
      *
      * @return StrategyContainer
      */
-    public function getStrategies()
+    public function getStrategies(): StrategyContainer
     {
         return $this->strategies;
     }
@@ -52,7 +55,7 @@ final class CreateCommand
     /**
      * @return File
      */
-    public function getFile()
+    public function getFile(): File
     {
         return $this->file;
     }

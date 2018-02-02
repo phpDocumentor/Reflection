@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
@@ -15,7 +17,6 @@ namespace phpDocumentor\Reflection\NodeVisitor;
 use phpDocumentor\Reflection\Fqsen;
 use PhpParser\Node;
 use PhpParser\Node\Const_;
-use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassMethod;
@@ -26,18 +27,19 @@ use PhpParser\Node\Stmt\PropertyProperty;
 use PhpParser\Node\Stmt\Trait_;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitorAbstract;
+use SplDoublyLinkedList;
 
 final class ElementNameResolver extends NodeVisitorAbstract
 {
     /**
-     * @var \SplDoublyLinkedList
+     * @var SplDoublyLinkedList
      */
     private $parts = null;
 
     /**
      * Resets the object to a known state before start processing.
      */
-    public function beforeTraverse(array $nodes)
+    public function beforeTraverse(array $nodes): void
     {
         $this->resetState('\\');
     }
@@ -45,7 +47,7 @@ final class ElementNameResolver extends NodeVisitorAbstract
     /**
      * Performs a reset of the added element when needed.
      */
-    public function leaveNode(Node $node)
+    public function leaveNode(Node $node): void
     {
         switch (get_class($node)) {
             case Namespace_::class:
@@ -65,7 +67,7 @@ final class ElementNameResolver extends NodeVisitorAbstract
     /**
      * Adds fqsen property to a node when applicable.
      */
-    public function enterNode(Node $node)
+    public function enterNode(Node $node): ?int
     {
         switch (get_class($node)) {
             case Namespace_::class:
@@ -103,6 +105,7 @@ final class ElementNameResolver extends NodeVisitorAbstract
                 $node->fqsen = new Fqsen($this->buildName());
                 break;
         }
+        return null;
     }
 
     /**
@@ -110,9 +113,9 @@ final class ElementNameResolver extends NodeVisitorAbstract
      *
      * @param string $namespace
      */
-    private function resetState($namespace = null)
+    private function resetState(string $namespace = null): void
     {
-        $this->parts = new \SplDoublyLinkedList();
+        $this->parts = new SplDoublyLinkedList();
         $this->parts->push($namespace);
     }
 
@@ -121,7 +124,7 @@ final class ElementNameResolver extends NodeVisitorAbstract
      *
      * @return null|string
      */
-    private function buildName()
+    private function buildName(): ?string
     {
         $name = null;
         foreach ($this->parts as $part) {

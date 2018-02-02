@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
@@ -76,8 +78,8 @@ final class Class_ implements Element
         Fqsen $fqsen,
         DocBlock $docBlock = null,
         Fqsen $parent = null,
-        $abstract = false,
-        $final = false,
+        bool $abstract = false,
+        bool $final = false,
         Location $location = null
     ) {
         if ($location === null) {
@@ -97,7 +99,7 @@ final class Class_ implements Element
      *
      * @return bool
      */
-    public function isFinal()
+    public function isFinal(): bool
     {
         return $this->final;
     }
@@ -107,7 +109,7 @@ final class Class_ implements Element
      *
      * @return bool
      */
-    public function isAbstract()
+    public function isAbstract(): bool
     {
         return $this->abstract;
     }
@@ -117,7 +119,7 @@ final class Class_ implements Element
      *
      * @return null|Fqsen
      */
-    public function getParent()
+    public function getParent(): ?Fqsen
     {
         return $this->parent;
     }
@@ -127,7 +129,7 @@ final class Class_ implements Element
      *
      * @return Fqsen[]
      */
-    public function getInterfaces()
+    public function getInterfaces(): array
     {
         return $this->implements;
     }
@@ -135,7 +137,7 @@ final class Class_ implements Element
     /**
      * Add a interface Fqsen this class is implementing.
      */
-    public function addInterface(Fqsen $interface)
+    public function addInterface(Fqsen $interface): void
     {
         $this->implements[(string) $interface] = $interface;
     }
@@ -145,7 +147,7 @@ final class Class_ implements Element
      *
      * @return Constant[]
      */
-    public function getConstants()
+    public function getConstants(): array
     {
         return $this->constants;
     }
@@ -153,7 +155,7 @@ final class Class_ implements Element
     /**
      * Add Constant to this class.
      */
-    public function addConstant(Constant $constant)
+    public function addConstant(Constant $constant): void
     {
         $this->constants[(string) $constant->getFqsen()] = $constant;
     }
@@ -163,7 +165,7 @@ final class Class_ implements Element
      *
      * @return Method[]
      */
-    public function getMethods()
+    public function getMethods(): array
     {
         return $this->methods;
     }
@@ -171,7 +173,7 @@ final class Class_ implements Element
     /**
      * Add a method to this class.
      */
-    public function addMethod(Method $method)
+    public function addMethod(Method $method): void
     {
         $this->methods[(string) $method->getFqsen()] = $method;
     }
@@ -181,7 +183,7 @@ final class Class_ implements Element
      *
      * @return Property[]
      */
-    public function getProperties()
+    public function getProperties(): array
     {
         return $this->properties;
     }
@@ -189,7 +191,7 @@ final class Class_ implements Element
     /**
      * Add a property to this class.
      */
-    public function addProperty(Property $property)
+    public function addProperty(Property $property): void
     {
         $this->properties[(string) $property->getFqsen()] = $property;
     }
@@ -199,7 +201,7 @@ final class Class_ implements Element
      *
      * @return Fqsen[]
      */
-    public function getUsedTraits()
+    public function getUsedTraits(): array
     {
         return $this->usedTraits;
     }
@@ -207,7 +209,7 @@ final class Class_ implements Element
     /**
      * Add trait fqsen used by this class.
      */
-    public function addUsedTrait(Fqsen $fqsen)
+    public function addUsedTrait(Fqsen $fqsen): void
     {
         $this->usedTraits[(string) $fqsen] = $fqsen;
     }
@@ -217,7 +219,7 @@ final class Class_ implements Element
      *
      * @return Fqsen
      */
-    public function getFqsen()
+    public function getFqsen(): Fqsen
     {
         return $this->fqsen;
     }
@@ -227,7 +229,7 @@ final class Class_ implements Element
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->fqsen->getName();
     }
@@ -235,7 +237,7 @@ final class Class_ implements Element
     /**
      * @returns null|DocBlock
      */
-    public function getDocBlock()
+    public function getDocBlock(): ?DocBlock
     {
         return $this->docBlock;
     }
@@ -243,7 +245,7 @@ final class Class_ implements Element
     /**
      * @return null|Location
      */
-    public function getLocation()
+    public function getLocation(): ?Location
     {
         return $this->location;
     }

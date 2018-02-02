@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
@@ -47,7 +49,7 @@ final class Constant implements Element
      * @param null|string $value
      * @param Location|null $location
      */
-    public function __construct(Fqsen $fqsen, DocBlock $docBlock = null, $value = null, Location $location = null)
+    public function __construct(Fqsen $fqsen, DocBlock $docBlock = null, string $value = null, Location $location = null)
     {
         $this->fqsen = $fqsen;
         $this->docBlock = $docBlock;
@@ -65,7 +67,7 @@ final class Constant implements Element
      *
      * @return null|string
      */
-    public function getValue()
+    public function getValue(): ?string
     {
         return $this->value;
     }
@@ -75,7 +77,7 @@ final class Constant implements Element
      *
      * @return Fqsen
      */
-    public function getFqsen()
+    public function getFqsen(): Fqsen
     {
         return $this->fqsen;
     }
@@ -85,7 +87,7 @@ final class Constant implements Element
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->fqsen->getName();
     }
@@ -95,7 +97,7 @@ final class Constant implements Element
      *
      * @return null|DocBlock
      */
-    public function getDocBlock()
+    public function getDocBlock(): ?DocBlock
     {
         return $this->docBlock;
     }
@@ -103,7 +105,7 @@ final class Constant implements Element
     /**
      * @return Location
      */
-    public function getLocation()
+    public function getLocation(): Location
     {
         return $this->location;
     }

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
@@ -81,7 +83,7 @@ final class Function_ implements Element
      *
      * @return Argument[]
      */
-    public function getArguments()
+    public function getArguments(): array
     {
         return $this->arguments;
     }
@@ -89,7 +91,7 @@ final class Function_ implements Element
     /**
      * Add an argument to the function.
      */
-    public function addArgument(Argument $argument)
+    public function addArgument(Argument $argument): void
     {
         $this->arguments[] = $argument;
     }
@@ -99,7 +101,7 @@ final class Function_ implements Element
      *
      * @return Fqsen
      */
-    public function getFqsen()
+    public function getFqsen(): Fqsen
     {
         return $this->fqsen;
     }
@@ -109,7 +111,7 @@ final class Function_ implements Element
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->fqsen->getName();
     }
@@ -119,7 +121,7 @@ final class Function_ implements Element
      *
      * @return null|DocBlock
      */
-    public function getDocBlock()
+    public function getDocBlock(): ?DocBlock
     {
         return $this->docBlock;
     }
@@ -127,7 +129,7 @@ final class Function_ implements Element
     /**
      * @return Location
      */
-    public function getLocation()
+    public function getLocation(): Location
     {
         return $this->location;
     }
