@@ -8,7 +8,6 @@ version: '{build}.{branch}'
 skip_tags: true
 branches:
   only:
-    - develop
     - master
 
 environment:
@@ -49,7 +48,9 @@ install:
   - IF NOT EXIST php-installed.txt type nul >> php-installed.txt
   - cd c:\reflection
   - composer install --no-interaction --prefer-dist --no-progress
+  - composer global require phpunit/phpunit
+  - composer global config bin-dir --absolute
 
 test_script:
   - cd c:\reflection
-  - vendor/bin/phpunit --no-coverage
+  - c:\Users\appveyor\AppData\Roaming\Composer\vendor\bin\phpunit --no-coverage
