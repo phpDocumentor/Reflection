@@ -22,6 +22,7 @@ use phpDocumentor\Reflection\Php\File as FileElement;
 use phpDocumentor\Reflection\Php\Function_ as FunctionElement;
 use phpDocumentor\Reflection\Php\Interface_ as InterfaceElement;
 use phpDocumentor\Reflection\Php\NodesFactory;
+use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Php\Trait_ as TraitElement;
 use PhpParser\Comment as CommentNode;
@@ -74,12 +75,16 @@ class FileTest extends TestCase
                     $functionNode,
                 ]
             );
-
+        $strategyMock = m::mock(ProjectFactoryStrategy::class);
         $containerMock = m::mock(StrategyContainer::class);
-        $containerMock->shouldReceive('findMatching->create')
-            ->once()
+
+        $strategyMock->shouldReceive('create')
             ->with($functionNode, $containerMock, m::any())
             ->andReturn(new FunctionElement(new Fqsen('\myFunction()')));
+
+        $containerMock->shouldReceive('findMatching')
+            ->with($functionNode)
+            ->andReturn($strategyMock);
 
         /** @var FileElement $file */
         $file = $this->fixture->create(new SourceFile\LocalFile(__FILE__), $containerMock);
@@ -101,12 +106,16 @@ class FileTest extends TestCase
                     $classNode,
                 ]
             );
-
+        $strategyMock = m::mock(ProjectFactoryStrategy::class);
         $containerMock = m::mock(StrategyContainer::class);
-        $containerMock->shouldReceive('findMatching->create')
-            ->once()
+
+        $strategyMock->shouldReceive('create')
             ->with($classNode, $containerMock, m::any())
             ->andReturn(new ClassElement(new Fqsen('\myClass')));
+
+        $containerMock->shouldReceive('findMatching')
+            ->with($classNode)
+            ->andReturn($strategyMock);
 
         /** @var FileElement $file */
         $file = $this->fixture->create(new SourceFile\LocalFile(__FILE__), $containerMock);
@@ -152,12 +161,16 @@ class FileTest extends TestCase
                     $interfaceNode,
                 ]
             );
-
+        $strategyMock = m::mock(ProjectFactoryStrategy::class);
         $containerMock = m::mock(StrategyContainer::class);
-        $containerMock->shouldReceive('findMatching->create')
-            ->once()
+
+        $strategyMock->shouldReceive('create')
             ->with($interfaceNode, $containerMock, m::any())
             ->andReturn(new InterfaceElement(new Fqsen('\myInterface')));
+
+        $containerMock->shouldReceive('findMatching')
+            ->with($interfaceNode)
+            ->andReturn($strategyMock);
 
         /** @var FileElement $file */
         $file = $this->fixture->create(new SourceFile\LocalFile(__FILE__), $containerMock);
@@ -179,12 +192,16 @@ class FileTest extends TestCase
                     $traitNode,
                 ]
             );
-
+        $strategyMock = m::mock(ProjectFactoryStrategy::class);
         $containerMock = m::mock(StrategyContainer::class);
-        $containerMock->shouldReceive('findMatching->create')
-            ->once()
+
+        $strategyMock->shouldReceive('create')
             ->with($traitNode, $containerMock, m::any())
             ->andReturn(new TraitElement(new Fqsen('\myTrait')));
+
+        $containerMock->shouldReceive('findMatching')
+            ->with($traitNode)
+            ->andReturn($strategyMock);
 
         /** @var FileElement $file */
         $file = $this->fixture->create(new SourceFile\LocalFile(__FILE__), $containerMock);
@@ -239,11 +256,16 @@ class FileTest extends TestCase
             ->with(file_get_contents(__FILE__))
             ->andReturn([$namespaceNode]);
 
+        $strategyMock = m::mock(ProjectFactoryStrategy::class);
         $containerMock = m::mock(StrategyContainer::class);
 
-        $containerMock->shouldReceive('findMatching->create')
+        $strategyMock->shouldReceive('create')
             ->with($docBlockNode, $containerMock, m::any())
             ->andReturn($docBlockDescriptor);
+
+        $containerMock->shouldReceive('findMatching')
+            ->with($docBlockNode)
+            ->andReturn($strategyMock);
 
         /** @var FileElement $file */
         $file = $this->fixture->create(new SourceFile\LocalFile(__FILE__), $containerMock);
@@ -266,16 +288,24 @@ class FileTest extends TestCase
             ->with(file_get_contents(__FILE__))
             ->andReturn([$classNode]);
 
+        $strategyMock = m::mock(ProjectFactoryStrategy::class);
         $containerMock = m::mock(StrategyContainer::class);
 
-        $containerMock->shouldReceive('findMatching->create')
+        $strategyMock->shouldReceive('create')
             ->once()
             ->with($classNode, $containerMock, m::any())
             ->andReturn(new ClassElement(new Fqsen('\myClass')));
+        $containerMock->shouldReceive('findMatching')
+            ->with($classNode)
+            ->andReturn($strategyMock);
 
-        $containerMock->shouldReceive('findMatching->create')
+        $strategyMock->shouldReceive('create')
             ->with($docBlockNode, $containerMock, m::any())
             ->andReturn($docBlockDescriptor);
+
+        $containerMock->shouldReceive('findMatching')
+            ->with($docBlockNode)
+            ->andReturn($strategyMock);
 
         /** @var FileElement $file */
         $file = $this->fixture->create(new SourceFile\LocalFile(__FILE__), $containerMock);
@@ -299,11 +329,16 @@ class FileTest extends TestCase
             ->with(file_get_contents(__FILE__))
             ->andReturn([$namespaceNode]);
 
+        $strategyMock = m::mock(ProjectFactoryStrategy::class);
         $containerMock = m::mock(StrategyContainer::class);
 
-        $containerMock->shouldReceive('findMatching->create')
+        $strategyMock->shouldReceive('create')
             ->with($docBlockNode, $containerMock, m::any())
             ->andReturn($docBlockDescriptor);
+
+        $containerMock->shouldReceive('findMatching')
+            ->with($docBlockNode)
+            ->andReturn($strategyMock);
 
         /** @var FileElement $file */
         $file = $this->fixture->create(new SourceFile\LocalFile(__FILE__), $containerMock);

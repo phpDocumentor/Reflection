@@ -18,6 +18,7 @@ use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\Class_ as ClassElement;
 use phpDocumentor\Reflection\Php\Constant as ConstantElement;
 use phpDocumentor\Reflection\Php\Method as MethodElement;
+use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\Property as PropertyElement;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use PhpParser\Comment\Doc;
@@ -123,6 +124,7 @@ class Class_Test extends TestCase
     {
         $method1 = new ClassMethod('MyClass::method1');
         $method1Descriptor = new MethodElement(new Fqsen('\MyClass::method1'));
+        $strategyMock = m::mock(ProjectFactoryStrategy::class);
         $containerMock = m::mock(StrategyContainer::class);
         $classMock = $this->buildClassMock();
         $classMock->shouldReceive('getDocComment')->andReturnNull();
@@ -130,9 +132,13 @@ class Class_Test extends TestCase
             $method1,
         ];
 
-        $containerMock->shouldReceive('findMatching->create')
+        $strategyMock->shouldReceive('create')
             ->with($method1, $containerMock, null)
             ->andReturn($method1Descriptor);
+
+        $containerMock->shouldReceive('findMatching')
+            ->with($method1)
+            ->andReturn($strategyMock);
 
         /** @var ClassDescriptor $class */
         $class = $this->fixture->create($classMock, $containerMock);
@@ -153,6 +159,7 @@ class Class_Test extends TestCase
         $propertyProperty = new PropertyProperty('\MyClass::$property');
         $property = new PropertyNode(1, [$propertyProperty]);
         $propertyDescriptor = new PropertyElement(new Fqsen('\MyClass::$property'));
+        $strategyMock = m::mock(ProjectFactoryStrategy::class);
         $containerMock = m::mock(StrategyContainer::class);
         $classMock = $this->buildClassMock();
         $classMock->shouldReceive('getDocComment')->andReturnNull();
@@ -160,9 +167,13 @@ class Class_Test extends TestCase
             $property,
         ];
 
-        $containerMock->shouldReceive('findMatching->create')
-            ->with(m::any(), $containerMock, null)
+        $strategyMock->shouldReceive('create')
+            ->with(m::type(PropertyIterator::class), $containerMock, null)
             ->andReturn($propertyDescriptor);
+
+        $containerMock->shouldReceive('findMatching')
+            ->with(m::type(PropertyIterator::class))
+            ->andReturn($strategyMock);
 
         /** @var ClassElement $class */
         $class = $this->fixture->create($classMock, $containerMock);
@@ -210,10 +221,17 @@ class Class_Test extends TestCase
         $constant = new ClassConst([$const]);
 
         $result = new ConstantElement(new Fqsen('\Space\MyClass::MY_CONST'));
+        $strategyMock = m::mock(ProjectFactoryStrategy::class);
         $containerMock = m::mock(StrategyContainer::class);
-        $containerMock->shouldReceive('findMatching->create')
+
+        $strategyMock->shouldReceive('create')
             ->with(m::type(ClassConstantIterator::class), $containerMock, null)
             ->andReturn($result);
+
+        $containerMock->shouldReceive('findMatching')
+            ->with(m::type(ClassConstantIterator::class))
+            ->andReturn($strategyMock);
+
         $classMock = $this->buildClassMock();
         $classMock->shouldReceive('getDocComment')->andReturnNull();
         $classMock->stmts = [
@@ -242,11 +260,16 @@ class Class_Test extends TestCase
 
         $docBlock = new DocBlockElement('');
 
+        $strategyMock = m::mock(ProjectFactoryStrategy::class);
         $containerMock = m::mock(StrategyContainer::class);
-        $containerMock->shouldReceive('findMatching->create')
-            ->once()
+
+        $strategyMock->shouldReceive('create')
             ->with($doc, $containerMock, null)
             ->andReturn($docBlock);
+
+        $containerMock->shouldReceive('findMatching')
+            ->with($doc)
+            ->andReturn($strategyMock);
 
         /** @var ClassElement $class */
         $class = $this->fixture->create($classMock, $containerMock);

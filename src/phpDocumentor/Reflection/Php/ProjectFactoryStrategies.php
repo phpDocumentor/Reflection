@@ -44,7 +44,7 @@ final class ProjectFactoryStrategies implements StrategyContainer
      * @return ProjectFactoryStrategy
      * @throws OutOfBoundsException when no matching strategy was found.
      */
-    public function findMatching($object)
+    public function findMatching($object): ProjectFactoryStrategy
     {
         foreach ($this->strategies as $strategy) {
             if ($strategy->matches($object)) {

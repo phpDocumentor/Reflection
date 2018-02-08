@@ -28,5 +28,5 @@ interface StrategyContainer
      * @return ProjectFactoryStrategy
      * @throws Exception when no matching strategy was found.
      */
-    public function findMatching($object);
+    public function findMatching($object): ProjectFactoryStrategy;
 }

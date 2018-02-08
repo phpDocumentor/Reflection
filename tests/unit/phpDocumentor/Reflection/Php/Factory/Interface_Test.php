@@ -18,6 +18,7 @@ use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\Constant as ConstantElement;
 use phpDocumentor\Reflection\Php\Interface_ as InterfaceElement;
 use phpDocumentor\Reflection\Php\Method as MethodElement;
+use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use PhpParser\Comment\Doc;
 use PhpParser\Node\Const_;
@@ -75,12 +76,16 @@ class Interface_Test extends TestCase
         $interfaceMock->shouldReceive('getDocComment')->andReturn($doc);
 
         $docBlock = new DocBlockElement('');
-
+        $strategyMock = m::mock(ProjectFactoryStrategy::class);
         $containerMock = m::mock(StrategyContainer::class);
-        $containerMock->shouldReceive('findMatching->create')
-            ->once()
+
+        $strategyMock->shouldReceive('create')
             ->with($doc, $containerMock, null)
             ->andReturn($docBlock);
+
+        $containerMock->shouldReceive('findMatching')
+            ->with($doc)
+            ->andReturn($strategyMock);
 
         /** @var InterfaceElement $interface */
         $interface = $this->fixture->create($interfaceMock, $containerMock);
@@ -95,6 +100,7 @@ class Interface_Test extends TestCase
     {
         $method1 = new ClassMethod('\Space\MyInterface::method1');
         $method1Descriptor = new MethodElement(new Fqsen('\Space\MyInterface::method1'));
+        $strategyMock = m::mock(ProjectFactoryStrategy::class);
         $containerMock = m::mock(StrategyContainer::class);
         $interfaceMock = $this->buildClassMock();
         $interfaceMock->shouldReceive('getDocComment')->andReturnNull();
@@ -102,9 +108,13 @@ class Interface_Test extends TestCase
             $method1,
         ];
 
-        $containerMock->shouldReceive('findMatching->create')
+        $strategyMock->shouldReceive('create')
             ->with($method1, $containerMock, null)
             ->andReturn($method1Descriptor);
+
+        $containerMock->shouldReceive('findMatching')
+            ->with($method1)
+            ->andReturn($strategyMock);
 
         $this->fixture->create($interfaceMock, $containerMock);
 
@@ -128,10 +138,17 @@ class Interface_Test extends TestCase
         $constant = new ClassConst([$const]);
 
         $result = new ConstantElement(new Fqsen('\Space\MyClass::MY_CONST'));
+        $strategyMock = m::mock(ProjectFactoryStrategy::class);
         $containerMock = m::mock(StrategyContainer::class);
-        $containerMock->shouldReceive('findMatching->create')
+
+        $strategyMock->shouldReceive('create')
             ->with(m::type(ClassConstantIterator::class), $containerMock, null)
             ->andReturn($result);
+
+        $containerMock->shouldReceive('findMatching')
+            ->with(m::type(ClassConstantIterator::class))
+            ->andReturn($strategyMock);
+
         $classMock = $this->buildClassMock();
         $classMock->shouldReceive('getDocComment')->andReturnNull();
         $classMock->stmts = [
