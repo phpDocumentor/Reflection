@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
@@ -34,7 +36,7 @@ final class ProjectFactory implements ProjectFactoryInterface
      *
      * @param ProjectFactoryStrategy[] $strategies
      */
-    public function __construct($strategies)
+    public function __construct(array $strategies)
     {
         $this->strategies = new ProjectFactoryStrategies($strategies);
     }
@@ -42,7 +44,7 @@ final class ProjectFactory implements ProjectFactoryInterface
     /**
      * Creates a new instance of this factory. With all default strategies.
      */
-    public static function createInstance()
+    public static function createInstance(): self
     {
         return new static(
             [
@@ -88,7 +90,7 @@ final class ProjectFactory implements ProjectFactoryInterface
     /**
      * Builds the namespace tree with all elements in the project.
      */
-    private function buildNamespaces(Project $project)
+    private function buildNamespaces(Project $project): void
     {
         foreach ($project->getFiles() as $file) {
             foreach ($file->getNamespaces() as $namespaceFqsen) {
@@ -103,7 +105,7 @@ final class ProjectFactory implements ProjectFactoryInterface
      *
      * @return Namespace_
      */
-    private function getNamespaceByName(Project $project, $name)
+    private function getNamespaceByName(Project $project, $name): Namespace_
     {
         $existingNamespaces = $project->getNamespaces();
 
@@ -119,7 +121,7 @@ final class ProjectFactory implements ProjectFactoryInterface
     /**
      * Adds all elements belonging to the namespace to the namespace.
      */
-    private function buildNamespace(File $file, Namespace_ $namespace)
+    private function buildNamespace(File $file, Namespace_ $namespace): void
     {
         foreach ($file->getClasses() as $class) {
             if ($namespace->getFqsen() . '\\' . $class->getName() === (string) $class->getFqsen()) {

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
@@ -61,7 +63,7 @@ final class ProjectFactoryStrategies implements StrategyContainer
     /**
      * Add a strategy to this container.
      */
-    public function addStrategy(ProjectFactoryStrategy $strategy)
+    public function addStrategy(ProjectFactoryStrategy $strategy): void
     {
         $this->strategies[] = $strategy;
     }
