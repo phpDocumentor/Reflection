@@ -15,6 +15,7 @@ use Mockery as m;
 use phpDocumentor\Reflection\DocBlock as DocBlockDescriptor;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategies;
+use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\Property as PropertyDescriptor;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\PrettyPrinter;
@@ -104,12 +105,16 @@ class PropertyTest extends TestCase
         $node = new PropertyNode(ClassNode::MODIFIER_PRIVATE | ClassNode::MODIFIER_STATIC, [$property]);
 
         $propertyMock = new PropertyIterator($node);
-
+        $strategyMock = m::mock(ProjectFactoryStrategy::class);
         $containerMock = m::mock(StrategyContainer::class);
-        $containerMock->shouldReceive('findMatching->create')
-            ->once()
+
+        $strategyMock->shouldReceive('create')
             ->with($doc, $containerMock, null)
             ->andReturn($docBlock);
+
+        $containerMock->shouldReceive('findMatching')
+            ->with($doc)
+            ->andReturn($strategyMock);
 
         /** @var PropertyDescriptor $property */
         $property = $this->fixture->create($propertyMock, $containerMock);

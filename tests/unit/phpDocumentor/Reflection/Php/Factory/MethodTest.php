@@ -16,6 +16,7 @@ use phpDocumentor\Reflection\DocBlock as DocBlockDescriptor;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\Argument as ArgumentDescriptor;
 use phpDocumentor\Reflection\Php\Method as MethodDescriptor;
+use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Types\Integer;
 use phpDocumentor\Reflection\Types\Nullable;
@@ -96,11 +97,16 @@ class MethodTest extends TestCase
         $classMethodMock->shouldReceive('getDocComment')->once()->andReturnNull();
         $classMethodMock->shouldReceive('getReturnType')->once()->andReturn(null);
 
+        $strategyMock = m::mock(ProjectFactoryStrategy::class);
         $containerMock = m::mock(StrategyContainer::class);
-        $containerMock->shouldReceive('findMatching->create')
-            ->once()
+
+        $strategyMock->shouldReceive('create')
             ->with('param1', $containerMock, null)
             ->andReturn(new ArgumentDescriptor('param1'));
+
+        $containerMock->shouldReceive('findMatching')
+            ->with('param1')
+            ->andReturn($strategyMock);
 
         /** @var MethodDescriptor $method */
         $method = $this->fixture->create($classMethodMock, $containerMock);
@@ -165,12 +171,16 @@ class MethodTest extends TestCase
         $classMethodMock->shouldReceive('getReturnType')->once()->andReturn(null);
 
         $docBlock = new DocBlockDescriptor('');
-
+        $strategyMock = m::mock(ProjectFactoryStrategy::class);
         $containerMock = m::mock(StrategyContainer::class);
-        $containerMock->shouldReceive('findMatching->create')
-            ->once()
+
+        $strategyMock->shouldReceive('create')
             ->with($doc, $containerMock, null)
             ->andReturn($docBlock);
+
+        $containerMock->shouldReceive('findMatching')
+            ->with($doc)
+            ->andReturn($strategyMock);
 
         /** @var MethodDescriptor $method */
         $method = $this->fixture->create($classMethodMock, $containerMock);
