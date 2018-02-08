@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
      * This file is part of phpDocumentor.
      *
@@ -14,8 +16,8 @@ namespace phpDocumentor\Reflection\Php\Factory;
 
 use Iterator;
 use phpDocumentor\Reflection\Fqsen;
-use PhpParser\Comment;
-use PhpParser\Node;
+use PhpParser\Comment\Doc;
+use PhpParser\Node\Expr;
 use PhpParser\Node\Stmt\Property as PropertyNode;
 
 /**
@@ -45,7 +47,7 @@ final class PropertyIterator implements Iterator
      *
      * @return bool
      */
-    public function isPublic()
+    public function isPublic(): bool
     {
         return $this->property->isPublic();
     }
@@ -55,7 +57,7 @@ final class PropertyIterator implements Iterator
      *
      * @return bool
      */
-    public function isProtected()
+    public function isProtected(): bool
     {
         return $this->property->isProtected();
     }
@@ -65,7 +67,7 @@ final class PropertyIterator implements Iterator
      *
      * @return bool
      */
-    public function isPrivate()
+    public function isPrivate(): bool
     {
         return $this->property->isPrivate();
     }
@@ -75,7 +77,7 @@ final class PropertyIterator implements Iterator
      *
      * @return bool
      */
-    public function isStatic()
+    public function isStatic(): bool
     {
         return $this->property->isStatic();
     }
@@ -85,7 +87,7 @@ final class PropertyIterator implements Iterator
      *
      * @return int Line
      */
-    public function getLine()
+    public function getLine(): int
     {
         return $this->property->getLine();
     }
@@ -95,7 +97,7 @@ final class PropertyIterator implements Iterator
      *
      * The doc comment has to be the last comment associated with the node.
      *
-     * @return null|Comment\Doc Doc comment object or null
+     * @return null|string|Doc Doc comment object or null
      */
     public function getDocComment()
     {
@@ -112,7 +114,7 @@ final class PropertyIterator implements Iterator
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->property->props[$this->index]->name;
     }
@@ -120,7 +122,7 @@ final class PropertyIterator implements Iterator
     /**
      * returns the default value of the current property.
      *
-     * @return null|Node\Expr
+     * @return null|string|Expr
      */
     public function getDefault()
     {
@@ -132,7 +134,7 @@ final class PropertyIterator implements Iterator
      *
      * @return Fqsen
      */
-    public function getFqsen()
+    public function getFqsen(): Fqsen
     {
         return $this->property->props[$this->index]->fqsen;
     }
@@ -143,7 +145,7 @@ final class PropertyIterator implements Iterator
      * @link http://php.net/manual/en/iterator.current.php
      * @return PropertyIterator Can return any type.
      */
-    public function current()
+    public function current(): self
     {
         return $this;
     }
@@ -153,7 +155,7 @@ final class PropertyIterator implements Iterator
      * Move forward to next element
      * @link http://php.net/manual/en/iterator.next.php
      */
-    public function next()
+    public function next(): void
     {
         ++$this->index;
     }
@@ -164,7 +166,7 @@ final class PropertyIterator implements Iterator
      * @link http://php.net/manual/en/iterator.key.php
      * @return integer scalar on success, or null on failure.
      */
-    public function key()
+    public function key(): ?int
     {
         return $this->index;
     }
@@ -176,7 +178,7 @@ final class PropertyIterator implements Iterator
      * @return boolean The return value will be casted to boolean and then evaluated.
      * Returns true on success or false on failure.
      */
-    public function valid()
+    public function valid(): bool
     {
         return isset($this->property->props[$this->index]);
     }
@@ -186,7 +188,7 @@ final class PropertyIterator implements Iterator
      * Rewind the Iterator to the first element
      * @link http://php.net/manual/en/iterator.rewind.php
      */
-    public function rewind()
+    public function rewind(): void
     {
         $this->index = 0;
     }
