@@ -64,11 +64,9 @@ final class Method implements Element
     /**
      * Initializes the all properties.
      *
+     *
      * @param Visibility|null $visibility when null is provided a default 'public' is set.
      * @param DocBlock|null $docBlock
-     * @param bool $abstract
-     * @param bool $static
-     * @param bool $final
      * @param Location|null $location
      */
     public function __construct(
@@ -106,8 +104,6 @@ final class Method implements Element
 
     /**
      * Returns true when this method is abstract. Otherwise returns false.
-     *
-     * @return bool
      */
     public function isAbstract(): bool
     {
@@ -116,8 +112,6 @@ final class Method implements Element
 
     /**
      * Returns true when this method is final. Otherwise returns false.
-     *
-     * @return bool
      */
     public function isFinal(): bool
     {
@@ -126,8 +120,6 @@ final class Method implements Element
 
     /**
      * Returns true when this method is static. Otherwise returns false.
-     *
-     * @return bool
      */
     public function isStatic(): bool
     {
@@ -136,8 +128,6 @@ final class Method implements Element
 
     /**
      * Returns the Visibility of this method.
-     *
-     * @return Visibility
      */
     public function getVisibility(): Visibility
     {
@@ -164,8 +154,6 @@ final class Method implements Element
 
     /**
      * Returns the Fqsen of the element.
-     *
-     * @return Fqsen
      */
     public function getFqsen(): Fqsen
     {
@@ -174,8 +162,6 @@ final class Method implements Element
 
     /**
      * Returns the name of the element.
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -192,9 +178,6 @@ final class Method implements Element
         return $this->docBlock;
     }
 
-    /**
-     * @return Location
-     */
     public function getLocation(): Location
     {
         return $this->location;
@@ -206,8 +189,6 @@ final class Method implements Element
      * Return types are introduced in php 7.0 when your could doesn't have a
      * return type defined this method will return Mixed_ by default. The return value of this
      * method is not affected by the return tag in your docblock.
-     *
-     * @return Type
      */
     public function getReturnType(): Type
     {

@@ -146,8 +146,6 @@ final class Namespace_ implements Element
 
     /**
      * Returns the Fqsen of the element.
-     *
-     * @return Fqsen
      */
     public function getFqsen(): Fqsen
     {
@@ -156,8 +154,6 @@ final class Namespace_ implements Element
 
     /**
      * Returns the name of the element.
-     *
-     * @return string
      */
     public function getName(): string
     {

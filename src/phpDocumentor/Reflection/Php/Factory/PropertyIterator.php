@@ -2,15 +2,15 @@
 declare(strict_types=1);
 
 /**
-     * This file is part of phpDocumentor.
-     *
-     * For the full copyright and license information, please view the LICENSE
-     * file that was distributed with this source code.
-     *
-     * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
-     * @license   http://www.opensource.org/licenses/mit-license.php MIT
-     * @link      http://phpdoc.org
-     */
+ * This file is part of phpDocumentor.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
+ * @license   http://www.opensource.org/licenses/mit-license.php MIT
+ * @link      http://phpdoc.org
+ */
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
@@ -44,8 +44,6 @@ final class PropertyIterator implements Iterator
 
     /**
      * returns true when the current property is public.
-     *
-     * @return bool
      */
     public function isPublic(): bool
     {
@@ -54,8 +52,6 @@ final class PropertyIterator implements Iterator
 
     /**
      * returns true when the current property is protected.
-     *
-     * @return bool
      */
     public function isProtected(): bool
     {
@@ -64,8 +60,6 @@ final class PropertyIterator implements Iterator
 
     /**
      * returns true when the current property is private.
-     *
-     * @return bool
      */
     public function isPrivate(): bool
     {
@@ -74,8 +68,6 @@ final class PropertyIterator implements Iterator
 
     /**
      * returns true when the current property is static.
-     *
-     * @return bool
      */
     public function isStatic(): bool
     {
@@ -111,8 +103,6 @@ final class PropertyIterator implements Iterator
 
     /**
      * returns the name of the current property.
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -131,8 +121,6 @@ final class PropertyIterator implements Iterator
 
     /**
      * Returns the fqsen of the current property.
-     *
-     * @return Fqsen
      */
     public function getFqsen(): Fqsen
     {

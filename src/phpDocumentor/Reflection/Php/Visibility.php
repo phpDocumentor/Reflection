@@ -61,8 +61,6 @@ final class Visibility
 
     /**
      * Will return a string representation of visibility.
-     *
-     * @return string
      */
     public function __toString(): string
     {

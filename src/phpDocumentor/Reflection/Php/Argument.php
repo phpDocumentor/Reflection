@@ -38,11 +38,6 @@ final class Argument
 
     /**
      * Initializes the object.
-     *
-     * @param string $name
-     * @param string $default
-     * @param bool $byReference
-     * @param bool $isVariadic
      */
     public function __construct(string $name, string $default = null, bool $byReference = false, bool $isVariadic = false)
     {
@@ -54,8 +49,6 @@ final class Argument
 
     /**
      * Returns the name of this argument.
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -97,8 +90,6 @@ final class Argument
 
     /**
      * Returns whether this argument represents a variadic argument.
-     *
-     * @return boolean
      */
     public function isVariadic(): bool
     {

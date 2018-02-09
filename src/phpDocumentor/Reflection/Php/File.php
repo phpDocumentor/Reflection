@@ -63,8 +63,8 @@ final class File
     /**
      * Initializes a new file descriptor with the given hash of its contents.
      *
+     *
      * @param string $hash An MD5 hash of the contents if this file.
-     * @param string $path
      * @param string|null $source
      */
     public function __construct(string $hash, string $path, string $source = null, DocBlock $docBlock = null)
@@ -78,8 +78,6 @@ final class File
 
     /**
      * Returns the hash of the contents for this file.
-     *
-     * @return string
      */
     public function getHash(): string
     {
@@ -88,8 +86,6 @@ final class File
 
     /**
      * Retrieves the contents of this file.
-     *
-     * @return string|null
      */
     public function getSource(): ?string
     {
@@ -124,9 +120,6 @@ final class File
         return $this->includes;
     }
 
-    /**
-     * @param string $include
-     */
     public function addInclude(string $include): void
     {
         $this->includes[$include] = $include;
@@ -224,8 +217,6 @@ final class File
 
     /**
      * Returns the file path relative to the project's root.
-     *
-     * @return string
      */
     public function getPath(): string
     {
@@ -234,8 +225,6 @@ final class File
 
     /**
      * Returns the DocBlock of the element if available
-     *
-     * @return null|DocBlock
      */
     public function getDocBlock(): ?DocBlock
     {
@@ -244,8 +233,6 @@ final class File
 
     /**
      * Returns the full name of this file
-     *
-     * @return string
      */
     public function getName(): string
     {

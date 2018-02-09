@@ -40,8 +40,8 @@ final class ProjectFactoryStrategies implements StrategyContainer
     /**
      * Find the ProjectFactoryStrategy that matches $object.
      *
+     *
      * @param mixed $object
-     * @return ProjectFactoryStrategy
      * @throws OutOfBoundsException when no matching strategy was found.
      */
     public function findMatching($object): ProjectFactoryStrategy

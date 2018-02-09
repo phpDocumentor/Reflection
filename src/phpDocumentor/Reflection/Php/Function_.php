@@ -98,8 +98,6 @@ final class Function_ implements Element
 
     /**
      * Returns the Fqsen of the element.
-     *
-     * @return Fqsen
      */
     public function getFqsen(): Fqsen
     {
@@ -108,8 +106,6 @@ final class Function_ implements Element
 
     /**
      * Returns the name of the element.
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -118,17 +114,12 @@ final class Function_ implements Element
 
     /**
      * Returns the DocBlock of the element if available
-     *
-     * @return null|DocBlock
      */
     public function getDocBlock(): ?DocBlock
     {
         return $this->docBlock;
     }
 
-    /**
-     * @return Location
-     */
     public function getLocation(): Location
     {
         return $this->location;

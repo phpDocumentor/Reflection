@@ -70,8 +70,7 @@ final class Class_ implements Element
     /**
      * Initializes a number of properties with the given values. Others are initialized by definition.
      *
-     * @param bool $abstract
-     * @param bool $final
+     *
      * @param Location|null $location
      */
     public function __construct(
@@ -96,8 +95,6 @@ final class Class_ implements Element
 
     /**
      * Returns true when this class is final. Otherwise returns false.
-     *
-     * @return bool
      */
     public function isFinal(): bool
     {
@@ -106,8 +103,6 @@ final class Class_ implements Element
 
     /**
      * Returns true when this class is abstract. Otherwise returns false.
-     *
-     * @return bool
      */
     public function isAbstract(): bool
     {
@@ -116,8 +111,6 @@ final class Class_ implements Element
 
     /**
      * Returns the superclass this class is extending if available.
-     *
-     * @return null|Fqsen
      */
     public function getParent(): ?Fqsen
     {
@@ -216,8 +209,6 @@ final class Class_ implements Element
 
     /**
      * Returns the Fqsen of the element.
-     *
-     * @return Fqsen
      */
     public function getFqsen(): Fqsen
     {
@@ -226,8 +217,6 @@ final class Class_ implements Element
 
     /**
      * Returns the name of the element.
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -242,9 +231,6 @@ final class Class_ implements Element
         return $this->docBlock;
     }
 
-    /**
-     * @return null|Location
-     */
     public function getLocation(): ?Location
     {
         return $this->location;

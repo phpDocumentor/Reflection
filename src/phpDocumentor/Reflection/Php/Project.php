@@ -55,8 +55,6 @@ final class Project implements ProjectInterface
 
     /**
      * Returns the name of this project.
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -101,8 +99,6 @@ final class Project implements ProjectInterface
 
     /**
      * Returns the root (global) namespace.
-     *
-     * @return Namespace_
      */
     public function getRootNamespace(): Namespace_
     {

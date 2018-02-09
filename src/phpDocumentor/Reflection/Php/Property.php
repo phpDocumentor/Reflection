@@ -55,7 +55,6 @@ final class Property implements Element
      * @param Visibility|null $visibility when null is provided a default 'public' is set.
      * @param DocBlock|null $docBlock
      * @param null|string $default
-     * @param bool $static
      * @param Location|null $location
      */
     public function __construct(
@@ -94,8 +93,6 @@ final class Property implements Element
 
     /**
      * Returns true when this method is static. Otherwise returns false.
-     *
-     * @return bool
      */
     public function isStatic(): bool
     {
@@ -114,8 +111,6 @@ final class Property implements Element
 
     /**
      * Add a type to this property
-     *
-     * @param string $type
      */
     public function addType(string $type): void
     {
@@ -124,8 +119,6 @@ final class Property implements Element
 
     /**
      * Return visibility of the property.
-     *
-     * @return Visibility
      */
     public function getVisibility(): Visibility
     {
@@ -134,8 +127,6 @@ final class Property implements Element
 
     /**
      * Returns the Fqsen of the element.
-     *
-     * @return Fqsen
      */
     public function getFqsen(): Fqsen
     {
@@ -144,8 +135,6 @@ final class Property implements Element
 
     /**
      * Returns the name of the element.
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -154,17 +143,12 @@ final class Property implements Element
 
     /**
      * Returns the DocBlock of this property.
-     *
-     * @return DocBlock|null
      */
     public function getDocBlock(): ?DocBlock
     {
         return $this->docBlock;
     }
 
-    /**
-     * @return Location
-     */
     public function getLocation(): Location
     {
         return $this->location;

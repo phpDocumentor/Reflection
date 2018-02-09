@@ -63,8 +63,8 @@ final class File extends AbstractFactory implements ProjectFactoryStrategy
     /**
      * Returns true when the strategy is able to handle the object.
      *
+     *
      * @param mixed $file path to check.
-     * @return boolean
      */
     public function matches($file): bool
     {
