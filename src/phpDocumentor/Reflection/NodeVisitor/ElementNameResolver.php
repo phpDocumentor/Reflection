@@ -105,13 +105,12 @@ final class ElementNameResolver extends NodeVisitorAbstract
                 $node->fqsen = new Fqsen($this->buildName());
                 break;
         }
+
         return null;
     }
 
     /**
      * Resets the state of the object to an empty state.
-     *
-     * @param string $namespace
      */
     private function resetState(string $namespace = null): void
     {
@@ -121,8 +120,6 @@ final class ElementNameResolver extends NodeVisitorAbstract
 
     /**
      * Builds the name of the current node using the parts that are pushed to the parts list.
-     *
-     * @return null|string
      */
     private function buildName(): ?string
     {

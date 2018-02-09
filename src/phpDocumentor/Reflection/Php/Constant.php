@@ -64,8 +64,6 @@ final class Constant implements Element
 
     /**
      * Returns the value of this constant.
-     *
-     * @return null|string
      */
     public function getValue(): ?string
     {
@@ -74,8 +72,6 @@ final class Constant implements Element
 
     /**
      * Returns the Fqsen of the element.
-     *
-     * @return Fqsen
      */
     public function getFqsen(): Fqsen
     {
@@ -84,8 +80,6 @@ final class Constant implements Element
 
     /**
      * Returns the name of the element.
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -94,17 +88,12 @@ final class Constant implements Element
 
     /**
      * Returns DocBlock of this constant if available.
-     *
-     * @return null|DocBlock
      */
     public function getDocBlock(): ?DocBlock
     {
         return $this->docBlock;
     }
 
-    /**
-     * @return Location
-     */
     public function getLocation(): Location
     {
         return $this->location;

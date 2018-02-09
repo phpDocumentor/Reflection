@@ -102,8 +102,6 @@ final class ProjectFactory implements ProjectFactoryInterface
 
     /**
      * Gets Namespace from the project if it exists, otherwise returns a new namepace
-     *
-     * @return Namespace_
      */
     private function getNamespaceByName(Project $project, $name): Namespace_
     {

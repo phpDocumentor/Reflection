@@ -20,7 +20,6 @@ use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\PrettyPrinter;
 use phpDocumentor\Reflection\Types\Context;
 
-
 /**
  * Strategy to convert ClassConstantIterator to ConstantElement
  *
@@ -45,8 +44,8 @@ final class Constant extends AbstractFactory
     /**
      * Returns true when the strategy is able to handle the object.
      *
+     *
      * @param mixed $object object to check.
-     * @return boolean
      */
     public function matches($object): bool
     {

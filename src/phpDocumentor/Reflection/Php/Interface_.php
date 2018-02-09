@@ -109,8 +109,6 @@ final class Interface_ implements Element
 
     /**
      * Returns the Fqsen of the element.
-     *
-     * @return Fqsen
      */
     public function getFqsen(): Fqsen
     {
@@ -119,8 +117,6 @@ final class Interface_ implements Element
 
     /**
      * Returns the name of the element.
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -129,8 +125,6 @@ final class Interface_ implements Element
 
     /**
      * Returns the DocBlock of this interface if available.
-     *
-     * @return null|DocBlock
      */
     public function getDocBlock(): ?DocBlock
     {
@@ -147,9 +141,6 @@ final class Interface_ implements Element
         return $this->parents;
     }
 
-    /**
-     * @return Location
-     */
     public function getLocation(): Location
     {
         return $this->location;

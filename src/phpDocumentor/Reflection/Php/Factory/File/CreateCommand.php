@@ -44,17 +44,12 @@ final class CreateCommand
 
     /**
      * Returns the strategyContainer in this command context.
-     *
-     * @return StrategyContainer
      */
     public function getStrategies(): StrategyContainer
     {
         return $this->strategies;
     }
 
-    /**
-     * @return File
-     */
     public function getFile(): File
     {
         return $this->file;

@@ -104,8 +104,6 @@ final class Trait_ implements Element
 
     /**
      * Returns the Fqsen of the element.
-     *
-     * @return Fqsen
      */
     public function getFqsen(): Fqsen
     {
@@ -114,17 +112,12 @@ final class Trait_ implements Element
 
     /**
      * Returns the name of the element.
-     *
-     * @return string
      */
     public function getName(): string
     {
         return $this->fqsen->getName();
     }
 
-    /**
-     * @return null|DocBlock
-     */
     public function getDocBlock(): ?DocBlock
     {
         return $this->docBlock;
@@ -148,9 +141,6 @@ final class Trait_ implements Element
         $this->usedTraits[(string) $fqsen] = $fqsen;
     }
 
-    /**
-     * @return Location
-     */
     public function getLocation(): Location
     {
         return $this->location;

@@ -53,8 +53,6 @@ final class ClassConstantIterator implements Iterator
 
     /**
      * Returns the name of the current constant.
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -63,8 +61,6 @@ final class ClassConstantIterator implements Iterator
 
     /**
      * Returns the fqsen of the current constant.
-     *
-     * @return Fqsen
      */
     public function getFqsen(): Fqsen
     {
