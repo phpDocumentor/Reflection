@@ -15,14 +15,8 @@ declare(strict_types=1);
 namespace phpDocumentor\Reflection\Middleware;
 
 /**
- * Middleware can be uses to perform extra steps during the parsing process.
+ * Commands are used by Middleware
  */
-interface Middleware
+interface Command
 {
-    /**
-     * Executes this middle ware class.
-     *
-     * @return object
-     */
-    public function execute(Command $command, callable $next);
 }

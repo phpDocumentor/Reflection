@@ -15,13 +15,14 @@ declare(strict_types=1);
 namespace phpDocumentor\Reflection\Php\Factory\File;
 
 use phpDocumentor\Reflection\File;
+use phpDocumentor\Reflection\Middleware\Command;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 
 /**
  * File Create command is used by the File Factory Strategy.
  * The command is passed to the registered middle ware classes.
  */
-final class CreateCommand
+final class CreateCommand implements Command
 {
     /**
      * @var File
