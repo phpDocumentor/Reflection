@@ -27,7 +27,7 @@ use phpDocumentor\Reflection\ProjectFactory as ProjectFactoryInterface;
 final class ProjectFactory implements ProjectFactoryInterface
 {
     /**
-     * @var ProjectFactoryStrategies[]
+     * @var ProjectFactoryStrategies
      */
     private $strategies;
 
@@ -66,7 +66,8 @@ final class ProjectFactory implements ProjectFactoryInterface
      * Creates a project from the set of files.
      *
      * @param string $name
-     * @param \phpDocumentor\Reflection\File[] $files
+     *
+     * @param File[] $files
      * @return ProjectInterface
      * @throws Exception when no matching strategy was found.
      */
