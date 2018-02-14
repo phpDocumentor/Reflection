@@ -23,7 +23,6 @@ interface Middleware
      * Executes this middle ware class.
      *
      * @param object $command
-     * @param callable $next
      *
      * @return object
      */

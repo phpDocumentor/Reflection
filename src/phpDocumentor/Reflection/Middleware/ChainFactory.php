@@ -20,7 +20,6 @@ final class ChainFactory
 {
     /**
      * @param Middleware[] $middlewareList
-     * @param callable $lastCallable
      */
     public static function createExecutionChain(array $middlewareList, callable $lastCallable): callable
     {
