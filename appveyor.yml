@@ -13,9 +13,9 @@ branches:
 
 environment:
   matrix:
-    - PHP_VERSION: '7.1.13'
+    - PHP_VERSION: '7.1.14'
       VC_VERSION: 'VC14'
-    - PHP_VERSION: '7.2.1'
+    - PHP_VERSION: '7.2.2'
       VC_VERSION: 'VC15'
 matrix:
   fast_finish: false
@@ -49,7 +49,9 @@ install:
   - IF NOT EXIST php-installed.txt type nul >> php-installed.txt
   - cd c:\reflection
   - composer install --no-interaction --prefer-dist --no-progress
+  - composer global require phpunit/phpunit ^6
+  - composer global config bin-dir --absolute
 
 test_script:
   - cd c:\reflection
-  - vendor/bin/phpunit --no-coverage
+  - c:\Users\appveyor\AppData\Roaming\Composer\vendor\bin\phpunit --no-coverage

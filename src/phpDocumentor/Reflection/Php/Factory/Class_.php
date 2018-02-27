@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
@@ -10,10 +12,8 @@
  * @link      http://phpdoc.org
  */
 
-
 namespace phpDocumentor\Reflection\Php\Factory;
 
-use InvalidArgumentException;
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
@@ -21,12 +21,10 @@ use phpDocumentor\Reflection\Php\Class_ as ClassElement;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Types\Context;
-use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_ as ClassNode;
 use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property as PropertyNode;
-use PhpParser\Comment\Doc;
 use PhpParser\Node\Stmt\TraitUse;
 
 /**
@@ -39,10 +37,10 @@ final class Class_ extends AbstractFactory implements ProjectFactoryStrategy
     /**
      * Returns true when the strategy is able to handle the object.
      *
-     * @param object $object object to check.
-     * @return boolean
+     *
+     * @param mixed $object object to check.
      */
-    public function matches($object)
+    public function matches($object): bool
     {
         return $object instanceof ClassNode;
     }
@@ -57,7 +55,7 @@ final class Class_ extends AbstractFactory implements ProjectFactoryStrategy
      * @param Context $context of the created object
      * @return ClassElement
      */
-    protected function doCreate($object, StrategyContainer $strategies, Context $context = null)
+    protected function doCreate($object, StrategyContainer $strategies, ?Context $context = null)
     {
         $docBlock = $this->createDocBlock($strategies, $object->getDocComment(), $context);
 
@@ -83,7 +81,7 @@ final class Class_ extends AbstractFactory implements ProjectFactoryStrategy
                 switch (get_class($stmt)) {
                     case TraitUse::class:
                         foreach ($stmt->traits as $use) {
-                            $classElement->addUsedTrait(new Fqsen('\\'. $use->toString()));
+                            $classElement->addUsedTrait(new Fqsen('\\' . $use->toString()));
                         }
                         break;
                     case PropertyNode::class:

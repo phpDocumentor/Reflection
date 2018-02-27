@@ -77,12 +77,12 @@ class MethodTest extends TestCase
     public function testAddingAndGettingArguments()
     {
         $method = new Method($this->fqsen);
-        $this->assertEquals(array(), $method->getArguments());
+        $this->assertEquals([], $method->getArguments());
 
         $argument = new Argument('myArgument');
         $method->addArgument($argument);
 
-        $this->assertEquals(array($argument), $method->getArguments());
+        $this->assertEquals([$argument], $method->getArguments());
     }
 
     /**

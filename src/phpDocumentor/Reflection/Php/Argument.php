@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
@@ -23,7 +25,7 @@ final class Argument
     private $name = null;
 
     /** @var string[] $type an array of normalized types that should be in this Argument */
-    private $types = array();
+    private $types = [];
 
     /** @var string|null $default the default value for an argument or null if none is provided */
     private $default = null;
@@ -36,13 +38,8 @@ final class Argument
 
     /**
      * Initializes the object.
-     *
-     * @param string $name
-     * @param string $default
-     * @param bool $byReference
-     * @param bool $isVariadic
      */
-    public function __construct($name, $default = null, $byReference = false, $isVariadic = false)
+    public function __construct(string $name, ?string $default = null, bool $byReference = false, bool $isVariadic = false)
     {
         $this->name = $name;
         $this->default = $default;
@@ -52,10 +49,8 @@ final class Argument
 
     /**
      * Returns the name of this argument.
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -63,16 +58,16 @@ final class Argument
     /**
      * {@inheritDoc}
      */
-    public function getTypes()
+    public function getTypes(): array
     {
         return $this->types;
     }
 
     /**
      * Add a type.
-     * @param string $type
+     * @param mixed $type
      */
-    public function addType($type)
+    public function addType($type): void
     {
         $this->types[] = $type;
     }
@@ -80,7 +75,7 @@ final class Argument
     /**
      * {@inheritDoc}
      */
-    public function getDefault()
+    public function getDefault(): ?string
     {
         return $this->default;
     }
@@ -88,17 +83,15 @@ final class Argument
     /**
      * {@inheritDoc}
      */
-    public function isByReference()
+    public function isByReference(): bool
     {
         return $this->byReference;
     }
 
     /**
      * Returns whether this argument represents a variadic argument.
-     *
-     * @return boolean
      */
-    public function isVariadic()
+    public function isVariadic(): bool
     {
         return $this->isVariadic;
     }

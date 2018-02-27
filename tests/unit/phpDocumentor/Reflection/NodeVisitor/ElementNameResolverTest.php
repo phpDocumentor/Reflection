@@ -10,7 +10,6 @@
  * @link      http://phpdoc.org
  */
 
-
 namespace phpDocumentor\Reflection\NodeVisitor;
 
 use PhpParser\Node\Const_;
@@ -50,7 +49,7 @@ class ElementNameResolverTest extends TestCase
         $function = new Function_('myFunction');
         $this->fixture->enterNode($function);
 
-        $this->assertEquals('\myFunction()', (string)$function->fqsen);
+        $this->assertEquals('\myFunction()', (string) $function->fqsen);
     }
 
     /**
@@ -61,7 +60,7 @@ class ElementNameResolverTest extends TestCase
         $class = new Class_('myClass');
         $this->fixture->enterNode($class);
 
-        $this->assertEquals('\myClass', (string)$class->fqsen);
+        $this->assertEquals('\myClass', (string) $class->fqsen);
     }
 
     /**
@@ -98,6 +97,8 @@ class ElementNameResolverTest extends TestCase
         $this->fixture->leaveNode($anonymousClass);
         $this->fixture->leaveNode($new);
         $this->fixture->leaveNode($namespace);
+
+        $this->assertTrue(true);
     }
 
     /**
@@ -113,7 +114,7 @@ class ElementNameResolverTest extends TestCase
         $this->fixture->enterNode($classConst);
         $this->fixture->enterNode($const);
 
-        $this->assertEquals('\\myClass::MY_CLASS', (string)$const->fqsen);
+        $this->assertEquals('\\myClass::MY_CLASS', (string) $const->fqsen);
     }
 
     /**
@@ -127,6 +128,6 @@ class ElementNameResolverTest extends TestCase
         $this->fixture->enterNode($namespace);
         $this->fixture->enterNode($const);
 
-        $this->assertEquals('\\name\\MY_CLASS', (string)$const->fqsen);
+        $this->assertEquals('\\name\\MY_CLASS', (string) $const->fqsen);
     }
 }

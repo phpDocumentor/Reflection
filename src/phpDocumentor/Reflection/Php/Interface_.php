@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
@@ -12,9 +14,9 @@
 
 namespace phpDocumentor\Reflection\Php;
 
+use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
-use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Location;
 
 /**
@@ -35,13 +37,13 @@ final class Interface_ implements Element
     private $docBlock;
 
     /** @var Constant[] $constants */
-    protected $constants = array();
+    private $constants = [];
 
     /** @var Method[] $methods */
-    protected $methods = array();
+    private $methods = [];
 
     /** @var Fqsen[] $parents */
-    protected $parents = array();
+    private $parents = [];
 
     /**
      * @var Location
@@ -51,13 +53,11 @@ final class Interface_ implements Element
     /**
      * Initializes the object.
      *
-     * @param Fqsen $fqsen
      * @param Fqsen[] $parents
-     * @param DocBlock $docBlock
      */
     public function __construct(
         Fqsen $fqsen,
-        array $parents = array(),
+        array $parents = [],
         DocBlock $docBlock = null,
         Location $location = null
     ) {
@@ -76,20 +76,17 @@ final class Interface_ implements Element
      *
      * @return Constant[]
      */
-    public function getConstants()
+    public function getConstants(): array
     {
         return $this->constants;
     }
 
     /**
      * Add constant to this interface.
-     *
-     * @param Constant $constant
-     * @return void
      */
-    public function addConstant(Constant $constant)
+    public function addConstant(Constant $constant): void
     {
-        $this->constants[(string)$constant->getFqsen()] = $constant;
+        $this->constants[(string) $constant->getFqsen()] = $constant;
     }
 
     /**
@@ -97,48 +94,39 @@ final class Interface_ implements Element
      *
      * @return Method[]
      */
-    public function getMethods()
+    public function getMethods(): array
     {
         return $this->methods;
     }
 
     /**
      * Add method to this interface.
-     *
-     * @param Method $method
-     * @return void
      */
-    public function addMethod(Method $method)
+    public function addMethod(Method $method): void
     {
-        $this->methods[(string)$method->getFqsen()] = $method;
+        $this->methods[(string) $method->getFqsen()] = $method;
     }
 
     /**
      * Returns the Fqsen of the element.
-     *
-     * @return Fqsen
      */
-    public function getFqsen()
+    public function getFqsen(): Fqsen
     {
         return $this->fqsen;
     }
 
     /**
      * Returns the name of the element.
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->fqsen->getName();
     }
 
     /**
      * Returns the DocBlock of this interface if available.
-     *
-     * @return null|DocBlock
      */
-    public function getDocBlock()
+    public function getDocBlock(): ?DocBlock
     {
         return $this->docBlock;
     }
@@ -148,15 +136,12 @@ final class Interface_ implements Element
      *
      * @return Fqsen[]
      */
-    public function getParents()
+    public function getParents(): array
     {
         return $this->parents;
     }
 
-    /**
-     * @return Location
-     */
-    public function getLocation()
+    public function getLocation(): Location
     {
         return $this->location;
     }

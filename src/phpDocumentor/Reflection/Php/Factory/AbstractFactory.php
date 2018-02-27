@@ -1,7 +1,9 @@
 <?php
+declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
+use phpDocumentor\Reflection\DocBlock as DocBlockInstance;
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
@@ -11,9 +13,9 @@ use PhpParser\Node;
 
 abstract class AbstractFactory implements ProjectFactoryStrategy
 {
-    abstract public function matches($object);
+    abstract public function matches($object): bool;
 
-    final public function create($object, StrategyContainer $strategies, Context $context = null)
+    final public function create($object, StrategyContainer $strategies, ?Context $context = null)
     {
         if (!$this->matches($object)) {
             throw new \InvalidArgumentException(
@@ -28,27 +30,22 @@ abstract class AbstractFactory implements ProjectFactoryStrategy
         return $this->doCreate($object, $strategies, $context);
     }
 
-    abstract protected function doCreate($object, StrategyContainer $strategies, Context $context = null);
+    abstract protected function doCreate($object, StrategyContainer $strategies, ?Context $context = null);
 
     /**
      * @param Node|PropertyIterator|ClassConstantIterator|Doc $stmt
-     * @param StrategyContainer $strategies
-     * @param Context $context
      * @return Element
      */
-    protected function createMember($stmt, StrategyContainer $strategies, Context $context = null)
+    protected function createMember($stmt, StrategyContainer $strategies, ?Context $context = null)
     {
         $strategy = $strategies->findMatching($stmt);
         return $strategy->create($stmt, $strategies, $context);
     }
 
     /**
-     * @param StrategyContainer $strategies
-     * @param Doc $docBlock
-     * @param Context $context
-     * @return null|\phpDocumentor\Reflection\DocBlock
+     * @return null|DocBlockInstance
      */
-    protected function createDocBlock(StrategyContainer $strategies, Doc $docBlock = null, Context $context = null)
+    protected function createDocBlock(StrategyContainer $strategies, ?Doc $docBlock = null, ?Context $context = null)
     {
         if ($docBlock === null) {
             return null;

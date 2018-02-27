@@ -14,17 +14,7 @@ namespace phpDocumentor\Reflection;
 
 use Mockery as m;
 use phpDocumentor\Reflection\File\LocalFile;
-use phpDocumentor\Reflection\Php\Factory\Argument;
-use phpDocumentor\Reflection\Php\Factory\Class_;
-use phpDocumentor\Reflection\Php\Factory\Constant;
-use phpDocumentor\Reflection\Php\Factory\DocBlock as DocBlockStrategy;
 use phpDocumentor\Reflection\Php\Factory\File;
-use phpDocumentor\Reflection\Php\NodesFactory;
-use phpDocumentor\Reflection\Php\Factory\Function_;
-use phpDocumentor\Reflection\Php\Factory\Interface_;
-use phpDocumentor\Reflection\Php\Factory\Method;
-use phpDocumentor\Reflection\Php\Factory\Property;
-use phpDocumentor\Reflection\Php\Factory\Trait_;
 use phpDocumentor\Reflection\Php\ProjectFactory;
 use PHPUnit\Framework\TestCase;
 
@@ -40,9 +30,6 @@ class ProjectNamespaceTest extends TestCase
      */
     private $fixture;
 
-    /**
-     *
-     */
     protected function setUp()
     {
         $this->fixture = $this->fixture = ProjectFactory::createInstance();
@@ -57,7 +44,7 @@ class ProjectNamespaceTest extends TestCase
     {
         $fileName = __DIR__ . '/project/Luigi/Pizza.php';
         $project = $this->fixture->create('My Project', [
-            new LocalFile($fileName)
+            new LocalFile($fileName),
         ]);
 
         $this->assertArrayHasKey($fileName, $project->getFiles());

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
@@ -10,13 +12,11 @@
  * @link      http://phpdoc.org
  */
 
-
 namespace phpDocumentor\Reflection\NodeVisitor;
 
 use phpDocumentor\Reflection\Fqsen;
 use PhpParser\Node;
 use PhpParser\Node\Const_;
-use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassMethod;
@@ -27,30 +27,27 @@ use PhpParser\Node\Stmt\PropertyProperty;
 use PhpParser\Node\Stmt\Trait_;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitorAbstract;
+use SplDoublyLinkedList;
 
 final class ElementNameResolver extends NodeVisitorAbstract
 {
     /**
-     * @var \SplDoublyLinkedList
+     * @var SplDoublyLinkedList
      */
     private $parts = null;
 
     /**
      * Resets the object to a known state before start processing.
-     *
-     * @param array $nodes
      */
-    public function beforeTraverse(array $nodes)
+    public function beforeTraverse(array $nodes): void
     {
         $this->resetState('\\');
     }
 
     /**
      * Performs a reset of the added element when needed.
-     *
-     * @param Node $node
      */
-    public function leaveNode(Node $node)
+    public function leaveNode(Node $node): void
     {
         switch (get_class($node)) {
             case Namespace_::class:
@@ -69,10 +66,8 @@ final class ElementNameResolver extends NodeVisitorAbstract
 
     /**
      * Adds fqsen property to a node when applicable.
-     *
-     * @param Node $node
      */
-    public function enterNode(Node $node)
+    public function enterNode(Node $node): ?int
     {
         switch (get_class($node)) {
             case Namespace_::class:
@@ -82,9 +77,9 @@ final class ElementNameResolver extends NodeVisitorAbstract
             case Class_::class:
             case Trait_::class:
             case Interface_::class:
-                $this->parts->push((string)$node->name);
+                $this->parts->push((string) $node->name);
 
-                if (is_null($node->name)) {
+                if (empty($node->name)) {
                     return NodeTraverser::DONT_TRAVERSE_CHILDREN;
                 }
 
@@ -110,30 +105,29 @@ final class ElementNameResolver extends NodeVisitorAbstract
                 $node->fqsen = new Fqsen($this->buildName());
                 break;
         }
+
+        return null;
     }
 
     /**
      * Resets the state of the object to an empty state.
-     *
-     * @param string $namespace
      */
-    private function resetState($namespace = null)
+    private function resetState(?string $namespace = null): void
     {
-        $this->parts = new \SplDoublyLinkedList();
+        $this->parts = new SplDoublyLinkedList();
         $this->parts->push($namespace);
     }
 
     /**
      * Builds the name of the current node using the parts that are pushed to the parts list.
-     *
-     * @return null|string
      */
-    private function buildName()
+    private function buildName(): ?string
     {
         $name = null;
         foreach ($this->parts as $part) {
             $name .= $part;
         }
+
         return rtrim($name, '\\');
     }
 }

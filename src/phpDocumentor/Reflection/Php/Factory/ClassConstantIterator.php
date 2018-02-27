@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
@@ -9,7 +11,6 @@
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
-
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
@@ -34,8 +35,6 @@ final class ClassConstantIterator implements Iterator
 
     /**
      * Initializes the class with source data.
-     *
-     * @param ClassConst $classConst
      */
     public function __construct(ClassConst $classConst)
     {
@@ -47,27 +46,23 @@ final class ClassConstantIterator implements Iterator
      *
      * @return int Line
      */
-    public function getLine()
+    public function getLine(): int
     {
         return $this->classConstants->getLine();
     }
 
     /**
      * Returns the name of the current constant.
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->classConstants->consts[$this->index]->name;
     }
 
     /**
      * Returns the fqsen of the current constant.
-     *
-     * @return Fqsen
      */
-    public function getFqsen()
+    public function getFqsen(): Fqsen
     {
         return $this->classConstants->consts[$this->index]->fqsen;
     }
@@ -77,7 +72,7 @@ final class ClassConstantIterator implements Iterator
      *
      * The doc comment has to be the last comment associated with the node.
      *
-     * @return null|Doc Doc comment object or null
+     * @return null|string|Doc Doc comment object or null
      */
     public function getDocComment()
     {
@@ -100,7 +95,7 @@ final class ClassConstantIterator implements Iterator
      * @link http://php.net/manual/en/iterator.current.php
      * @return mixed Can return any type.
      */
-    public function current()
+    public function current(): self
     {
         return $this;
     }
@@ -109,11 +104,10 @@ final class ClassConstantIterator implements Iterator
      * (PHP 5 &gt;= 5.0.0)<br/>
      * Move forward to next element
      * @link http://php.net/manual/en/iterator.next.php
-     * @return void Any returned value is ignored.
      */
-    public function next()
+    public function next(): void
     {
-        $this->index++;
+        ++$this->index;
     }
 
     /**
@@ -122,7 +116,7 @@ final class ClassConstantIterator implements Iterator
      * @link http://php.net/manual/en/iterator.key.php
      * @return mixed scalar on success, or null on failure.
      */
-    public function key()
+    public function key(): ?int
     {
         return $this->index;
     }
@@ -134,7 +128,7 @@ final class ClassConstantIterator implements Iterator
      * @return boolean The return value will be casted to boolean and then evaluated.
      * Returns true on success or false on failure.
      */
-    public function valid()
+    public function valid(): bool
     {
         return isset($this->classConstants->consts[$this->index]);
     }
@@ -143,9 +137,8 @@ final class ClassConstantIterator implements Iterator
      * (PHP 5 &gt;= 5.0.0)<br/>
      * Rewind the Iterator to the first element
      * @link http://php.net/manual/en/iterator.rewind.php
-     * @return void Any returned value is ignored.
      */
-    public function rewind()
+    public function rewind(): void
     {
         $this->index = 0;
     }

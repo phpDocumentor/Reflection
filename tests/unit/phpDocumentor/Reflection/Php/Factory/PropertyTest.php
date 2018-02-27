@@ -11,14 +11,14 @@
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
-use phpDocumentor\Reflection\Fqsen;
-use phpDocumentor\Reflection\Php\Property as PropertyDescriptor;
-use phpDocumentor\Reflection\DocBlock as DocBlockDescriptor;
-use phpDocumentor\Reflection\Php\ProjectFactoryStrategies;
 use Mockery as m;
+use phpDocumentor\Reflection\DocBlock as DocBlockDescriptor;
+use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\Php\ProjectFactoryStrategies;
+use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
+use phpDocumentor\Reflection\Php\Property as PropertyDescriptor;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\PrettyPrinter;
-use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Comment\Doc;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Class_ as ClassNode;
@@ -52,7 +52,7 @@ class PropertyTest extends TestCase
      */
     public function testPrivateCreate()
     {
-        $factory = new ProjectFactoryStrategies(array());
+        $factory = new ProjectFactoryStrategies([]);
 
         $propertyMock = $this->buildPropertyMock(ClassNode::MODIFIER_PRIVATE);
 
@@ -67,7 +67,7 @@ class PropertyTest extends TestCase
      */
     public function testProtectedCreate()
     {
-        $factory = new ProjectFactoryStrategies(array());
+        $factory = new ProjectFactoryStrategies([]);
 
         $propertyMock = $this->buildPropertyMock(ClassNode::MODIFIER_PROTECTED);
 
@@ -82,7 +82,7 @@ class PropertyTest extends TestCase
      */
     public function testCreatePublic()
     {
-        $factory = new ProjectFactoryStrategies(array());
+        $factory = new ProjectFactoryStrategies([]);
 
         $propertyMock = $this->buildPropertyMock(ClassNode::MODIFIER_PUBLIC);
 
@@ -105,12 +105,16 @@ class PropertyTest extends TestCase
         $node = new PropertyNode(ClassNode::MODIFIER_PRIVATE | ClassNode::MODIFIER_STATIC, [$property]);
 
         $propertyMock = new PropertyIterator($node);
-
+        $strategyMock = m::mock(ProjectFactoryStrategy::class);
         $containerMock = m::mock(StrategyContainer::class);
-        $containerMock->shouldReceive('findMatching->create')
-            ->once()
+
+        $strategyMock->shouldReceive('create')
             ->with($doc, $containerMock, null)
             ->andReturn($docBlock);
+
+        $containerMock->shouldReceive('findMatching')
+            ->with($doc)
+            ->andReturn($strategyMock);
 
         /** @var PropertyDescriptor $property */
         $property = $this->fixture->create($propertyMock, $containerMock);
@@ -118,7 +122,6 @@ class PropertyTest extends TestCase
         $this->assertProperty($property, 'private');
         $this->assertSame($docBlock, $property->getDocBlock());
     }
-
 
     /**
      * @return PropertyIterator
@@ -139,9 +142,9 @@ class PropertyTest extends TestCase
     private function assertProperty($property, $visibility)
     {
         $this->assertInstanceOf(PropertyDescriptor::class, $property);
-        $this->assertEquals('\myClass::$property', (string)$property->getFqsen());
+        $this->assertEquals('\myClass::$property', (string) $property->getFqsen());
         $this->assertTrue($property->isStatic());
         $this->assertEquals('MyDefault', $property->getDefault());
-        $this->assertEquals($visibility, (string)$property->getVisibility());
+        $this->assertEquals($visibility, (string) $property->getVisibility());
     }
 }

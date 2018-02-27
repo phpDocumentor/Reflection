@@ -1,27 +1,25 @@
 <?php
+declare(strict_types=1);
+
 /**
-     * This file is part of phpDocumentor.
-     *
-     * For the full copyright and license information, please view the LICENSE
-     * file that was distributed with this source code.
-     *
-     * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
-     * @license   http://www.opensource.org/licenses/mit-license.php MIT
-     * @link      http://phpdoc.org
-     */
+ * This file is part of phpDocumentor.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
+ * @license   http://www.opensource.org/licenses/mit-license.php MIT
+ * @link      http://phpdoc.org
+ */
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
-use InvalidArgumentException;
-use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
-use phpDocumentor\Reflection\Php\Factory;
 use phpDocumentor\Reflection\Php\Function_ as FunctionDescriptor;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\TypeResolver;
 use phpDocumentor\Reflection\Types\Context;
-use PhpParser\Comment\Doc;
 use PhpParser\Node\NullableType;
 use PhpParser\Node\Stmt\Function_ as FunctionNode;
 
@@ -35,14 +33,13 @@ use PhpParser\Node\Stmt\Function_ as FunctionNode;
 final class Function_ extends AbstractFactory implements ProjectFactoryStrategy
 // @codingStandardsIgnoreEnd
 {
-
     /**
      * Returns true when the strategy is able to handle the object.
      *
-     * @param FunctionNode $object object to check.
-     * @return boolean
+     *
+     * @param mixed $object object to check.
      */
-    public function matches($object)
+    public function matches($object): bool
     {
         return $object instanceof FunctionNode;
     }
@@ -55,7 +52,7 @@ final class Function_ extends AbstractFactory implements ProjectFactoryStrategy
      * @param Context $context of the created object
      * @return FunctionDescriptor
      */
-    protected function doCreate($object, StrategyContainer $strategies, Context $context = null)
+    protected function doCreate($object, StrategyContainer $strategies, ?Context $context = null)
     {
         $docBlock = $this->createDocBlock($strategies, $object->getDocComment(), $context);
 
@@ -65,8 +62,9 @@ final class Function_ extends AbstractFactory implements ProjectFactoryStrategy
             if ($object->getReturnType() instanceof NullableType) {
                 $typeString = '?' . $object->getReturnType()->type;
             } else {
-                $typeString = (string)$object->getReturnType();
+                $typeString = (string) $object->getReturnType();
             }
+
             $returnType = $typeResolver->resolve($typeString, $context);
         }
 

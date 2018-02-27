@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
@@ -9,7 +11,6 @@
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
-
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
@@ -37,8 +38,6 @@ final class DocBlock implements ProjectFactoryStrategy
 
     /**
      * Initializes the object with a DocBlockFactory implementation.
-     *
-     * @param DocBlockFactoryInterface $docBlockFactory
      */
     public function __construct(DocBlockFactoryInterface $docBlockFactory)
     {
@@ -48,10 +47,10 @@ final class DocBlock implements ProjectFactoryStrategy
     /**
      * Returns true when the strategy is able to handle the object.
      *
-     * @param Doc $object object to check.
-     * @return boolean
+     *
+     * @param mixed $object object to check.
      */
-    public function matches($object)
+    public function matches($object): bool
     {
         return $object instanceof Doc;
     }
@@ -66,7 +65,7 @@ final class DocBlock implements ProjectFactoryStrategy
      * @param Context $context of the created object
      * @return null|DocBlockDescriptor
      */
-    public function create($object, StrategyContainer $strategies, Context $context = null)
+    public function create($object, StrategyContainer $strategies, ?Context $context = null)
     {
         if ($object === null) {
             return null;

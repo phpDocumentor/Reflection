@@ -27,8 +27,6 @@ class PrettyPrinterTest extends TestCase
 {
     /**
      * @covers \phpDocumentor\Reflection\PrettyPrinter::pScalar_String
-     *
-     * @return void
      */
     public function testScalarStringPrinting()
     {
@@ -38,7 +36,7 @@ class PrettyPrinterTest extends TestCase
             $object->pScalar_String(
                 new String_(
                     'Value',
-                    array('originalValue' => 'Another value')
+                    ['originalValue' => 'Another value']
                 )
             )
         );

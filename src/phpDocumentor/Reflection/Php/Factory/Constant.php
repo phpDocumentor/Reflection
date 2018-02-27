@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
@@ -9,7 +11,6 @@
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
-
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
@@ -34,8 +35,6 @@ final class Constant extends AbstractFactory
 
     /**
      * Initializes the object.
-     *
-     * @param PrettyPrinter $prettyPrinter
      */
     public function __construct(PrettyPrinter $prettyPrinter)
     {
@@ -45,10 +44,10 @@ final class Constant extends AbstractFactory
     /**
      * Returns true when the strategy is able to handle the object.
      *
-     * @param object $object object to check.
-     * @return boolean
+     *
+     * @param mixed $object object to check.
      */
-    public function matches($object)
+    public function matches($object): bool
     {
         return $object instanceof ClassConstantIterator;
     }
@@ -63,7 +62,7 @@ final class Constant extends AbstractFactory
      * @param Context $context of the created object
      * @return ConstantElement
      */
-    protected function doCreate($object, StrategyContainer $strategies, Context $context = null)
+    protected function doCreate($object, StrategyContainer $strategies, ?Context $context = null)
     {
         $docBlock = $this->createDocBlock($strategies, $object->getDocComment(), $context);
         $default = null;

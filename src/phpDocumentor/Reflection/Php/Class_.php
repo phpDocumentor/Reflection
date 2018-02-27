@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
@@ -41,24 +43,24 @@ final class Class_ implements Element
     private $final = false;
 
     /**
-     * @var Class_ $parent The class this class is extending.
+     * @var Class_ The class this class is extending.
      */
     private $parent = null;
 
     /** @var Fqsen[] $implements References to interfaces that are implemented by this class. */
-    private $implements = array();
+    private $implements = [];
 
     /** @var Constant[] $constants References to constants defined in this class. */
-    private $constants = array();
+    private $constants = [];
 
     /** @var Property[] $properties References to properties defined in this class. */
-    private $properties = array();
+    private $properties = [];
 
     /** @var Method[] $methods References to methods defined in this class. */
-    private $methods = array();
+    private $methods = [];
 
     /** @var Fqsen[] $usedTraits References to traits consumed by this class */
-    private $usedTraits = array();
+    private $usedTraits = [];
 
     /**
      * @var null|Location
@@ -68,19 +70,15 @@ final class Class_ implements Element
     /**
      * Initializes a number of properties with the given values. Others are initialized by definition.
      *
-     * @param Fqsen $fqsen
-     * @param DocBlock $docBlock
-     * @param Fqsen $parent
-     * @param bool $abstract
-     * @param bool $final
+     *
      * @param Location|null $location
      */
     public function __construct(
         Fqsen $fqsen,
         DocBlock $docBlock = null,
         Fqsen $parent = null,
-        $abstract = false,
-        $final = false,
+        bool $abstract = false,
+        bool $final = false,
         Location $location = null
     ) {
         if ($location === null) {
@@ -97,30 +95,24 @@ final class Class_ implements Element
 
     /**
      * Returns true when this class is final. Otherwise returns false.
-     *
-     * @return bool
      */
-    public function isFinal()
+    public function isFinal(): bool
     {
         return $this->final;
     }
 
     /**
      * Returns true when this class is abstract. Otherwise returns false.
-     *
-     * @return bool
      */
-    public function isAbstract()
+    public function isAbstract(): bool
     {
         return $this->abstract;
     }
 
     /**
      * Returns the superclass this class is extending if available.
-     *
-     * @return NUll|Fqsen
      */
-    public function getParent()
+    public function getParent(): ?Fqsen
     {
         return $this->parent;
     }
@@ -130,20 +122,17 @@ final class Class_ implements Element
      *
      * @return Fqsen[]
      */
-    public function getInterfaces()
+    public function getInterfaces(): array
     {
         return $this->implements;
     }
 
     /**
      * Add a interface Fqsen this class is implementing.
-     *
-     * @param Fqsen $interface
-     * @return void
      */
-    public function addInterface(Fqsen $interface)
+    public function addInterface(Fqsen $interface): void
     {
-        $this->implements[(string)$interface] = $interface;
+        $this->implements[(string) $interface] = $interface;
     }
 
     /**
@@ -151,20 +140,17 @@ final class Class_ implements Element
      *
      * @return Constant[]
      */
-    public function getConstants()
+    public function getConstants(): array
     {
         return $this->constants;
     }
 
     /**
      * Add Constant to this class.
-     *
-     * @param Constant $constant
-     * @return void
      */
-    public function addConstant(Constant $constant)
+    public function addConstant(Constant $constant): void
     {
-        $this->constants[(string)$constant->getFqsen()] = $constant;
+        $this->constants[(string) $constant->getFqsen()] = $constant;
     }
 
     /**
@@ -172,20 +158,17 @@ final class Class_ implements Element
      *
      * @return Method[]
      */
-    public function getMethods()
+    public function getMethods(): array
     {
         return $this->methods;
     }
 
     /**
      * Add a method to this class.
-     *
-     * @param Method $method
-     * @return void
      */
-    public function addMethod(Method $method)
+    public function addMethod(Method $method): void
     {
-        $this->methods[(string)$method->getFqsen()] = $method;
+        $this->methods[(string) $method->getFqsen()] = $method;
     }
 
     /**
@@ -193,20 +176,17 @@ final class Class_ implements Element
      *
      * @return Property[]
      */
-    public function getProperties()
+    public function getProperties(): array
     {
         return $this->properties;
     }
 
     /**
      * Add a property to this class.
-     *
-     * @param Property $property
-     * @return void
      */
-    public function addProperty(Property $property)
+    public function addProperty(Property $property): void
     {
-        $this->properties[(string)$property->getFqsen()] = $property;
+        $this->properties[(string) $property->getFqsen()] = $property;
     }
 
     /**
@@ -214,37 +194,31 @@ final class Class_ implements Element
      *
      * @return Fqsen[]
      */
-    public function getUsedTraits()
+    public function getUsedTraits(): array
     {
         return $this->usedTraits;
     }
 
     /**
      * Add trait fqsen used by this class.
-     *
-     * @param Fqsen $fqsen
      */
-    public function addUsedTrait(Fqsen $fqsen)
+    public function addUsedTrait(Fqsen $fqsen): void
     {
-        $this->usedTraits[(string)$fqsen] = $fqsen;
+        $this->usedTraits[(string) $fqsen] = $fqsen;
     }
 
     /**
      * Returns the Fqsen of the element.
-     *
-     * @return Fqsen
      */
-    public function getFqsen()
+    public function getFqsen(): Fqsen
     {
         return $this->fqsen;
     }
 
     /**
      * Returns the name of the element.
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->fqsen->getName();
     }
@@ -252,15 +226,12 @@ final class Class_ implements Element
     /**
      * @returns null|DocBlock
      */
-    public function getDocBlock()
+    public function getDocBlock(): ?DocBlock
     {
         return $this->docBlock;
     }
 
-    /**
-     * @return null|Location
-     */
-    public function getLocation()
+    public function getLocation(): ?Location
     {
         return $this->location;
     }

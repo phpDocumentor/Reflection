@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
@@ -32,7 +34,7 @@ final class Function_ implements Element
     private $fqsen;
 
     /** @var Argument[] $arguments */
-    private $arguments = array();
+    private $arguments = [];
 
     /**
      * @var DocBlock|null
@@ -52,7 +54,6 @@ final class Function_ implements Element
     /**
      * Initializes the object.
      *
-     * @param Fqsen $fqsen
      * @param DocBlock|null $docBlock
      * @param Location|null $location
      * @param Type|null $returnType
@@ -67,7 +68,7 @@ final class Function_ implements Element
             $location = new Location(-1);
         }
 
-        if ($returnType ===  null) {
+        if ($returnType === null) {
             $returnType = new Mixed_();
         }
 
@@ -82,63 +83,49 @@ final class Function_ implements Element
      *
      * @return Argument[]
      */
-    public function getArguments()
+    public function getArguments(): array
     {
         return $this->arguments;
     }
 
     /**
      * Add an argument to the function.
-     *
-     * @param Argument $argument
      */
-    public function addArgument(Argument $argument)
+    public function addArgument(Argument $argument): void
     {
         $this->arguments[] = $argument;
     }
 
     /**
      * Returns the Fqsen of the element.
-     *
-     * @return Fqsen
      */
-    public function getFqsen()
+    public function getFqsen(): Fqsen
     {
         return $this->fqsen;
     }
 
     /**
      * Returns the name of the element.
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->fqsen->getName();
     }
 
     /**
      * Returns the DocBlock of the element if available
-     *
-     * @return null|DocBlock
      */
-    public function getDocBlock()
+    public function getDocBlock(): ?DocBlock
     {
         return $this->docBlock;
     }
 
-    /**
-     * @return Location
-     */
-    public function getLocation()
+    public function getLocation(): Location
     {
         return $this->location;
     }
 
-    /**
-     * @return Type
-     */
-    public function getReturnType() : Type
+    public function getReturnType(): Type
     {
         return $this->returnType;
     }
