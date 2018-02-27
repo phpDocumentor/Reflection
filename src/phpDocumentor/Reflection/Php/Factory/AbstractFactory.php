@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
+use phpDocumentor\Reflection\DocBlock as DocBlockInstance;
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
@@ -32,7 +33,7 @@ abstract class AbstractFactory implements ProjectFactoryStrategy
     abstract protected function doCreate($object, StrategyContainer $strategies, ?Context $context = null);
 
     /**
-     * @param Node|\PropertyIterator|\ClassConstantIterator|\Doc $stmt
+     * @param Node|PropertyIterator|ClassConstantIterator|Doc $stmt
      * @return Element
      */
     protected function createMember($stmt, StrategyContainer $strategies, ?Context $context = null)
@@ -42,7 +43,7 @@ abstract class AbstractFactory implements ProjectFactoryStrategy
     }
 
     /**
-     * @return null|\phpDocumentor\Reflection\DocBlock
+     * @return null|DocBlockInstance
      */
     protected function createDocBlock(StrategyContainer $strategies, ?Doc $docBlock = null, ?Context $context = null)
     {
