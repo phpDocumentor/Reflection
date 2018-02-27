@@ -40,5 +40,5 @@ interface ProjectFactoryStrategy
      * @param Context $context
      * @return Element
      */
-    public function create($object, StrategyContainer $strategies, Context $context = null);
+    public function create($object, StrategyContainer $strategies, ?Context $context = null);
 }

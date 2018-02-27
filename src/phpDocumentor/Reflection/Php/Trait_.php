@@ -55,7 +55,7 @@ final class Trait_ implements Element
      *
      * @param DocBlock|null $docBlock
      */
-    public function __construct(Fqsen $fqsen, DocBlock $docBlock = null, Location $location = null)
+    public function __construct(Fqsen $fqsen, ?DocBlock $docBlock = null, ?Location $location = null)
     {
         if ($location === null) {
             $location = new Location(-1);

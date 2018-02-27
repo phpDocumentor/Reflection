@@ -81,7 +81,7 @@ final class File extends AbstractFactory implements ProjectFactoryStrategy
      * @param StrategyContainer $strategies used to convert nested objects.
      * @return File
      */
-    protected function doCreate($object, StrategyContainer $strategies, Context $context = null)
+    protected function doCreate($object, StrategyContainer $strategies, ?Context $context = null)
     {
         $command = new CreateCommand($object, $strategies);
         $middlewareChain = $this->middlewareChain;

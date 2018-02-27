@@ -39,7 +39,7 @@ final class Argument
     /**
      * Initializes the object.
      */
-    public function __construct(string $name, string $default = null, bool $byReference = false, bool $isVariadic = false)
+    public function __construct(string $name, ?string $default = null, bool $byReference = false, bool $isVariadic = false)
     {
         $this->name = $name;
         $this->default = $default;
