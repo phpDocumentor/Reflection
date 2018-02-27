@@ -67,7 +67,7 @@ final class File
      * @param string $hash An MD5 hash of the contents if this file.
      * @param string|null $source
      */
-    public function __construct(string $hash, string $path, string $source = null, DocBlock $docBlock = null)
+    public function __construct(string $hash, string $path, ?string $source = null, ?DocBlock $docBlock = null)
     {
         $this->hash = $hash;
         $this->path = $path;

@@ -44,7 +44,7 @@ final class Project implements ProjectInterface
      * @param string $name Name of the current project.
      * @param Namespace_ $namespace Root namespace of the project.
      */
-    public function __construct(string $name, Namespace_ $namespace = null)
+    public function __construct(string $name, ?Namespace_ $namespace = null)
     {
         $this->name = $name;
         $this->rootNamespace = $namespace;

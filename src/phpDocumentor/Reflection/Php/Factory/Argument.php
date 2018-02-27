@@ -63,7 +63,7 @@ final class Argument extends AbstractFactory implements ProjectFactoryStrategy
      * @param Context $context of the created object
      * @return ArgumentDescriptor
      */
-    protected function doCreate($object, StrategyContainer $strategies, Context $context = null)
+    protected function doCreate($object, StrategyContainer $strategies, ?Context $context = null)
     {
         $default = null;
         if ($object->default !== null) {

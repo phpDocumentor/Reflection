@@ -112,7 +112,7 @@ final class ElementNameResolver extends NodeVisitorAbstract
     /**
      * Resets the state of the object to an empty state.
      */
-    private function resetState(string $namespace = null): void
+    private function resetState(?string $namespace = null): void
     {
         $this->parts = new SplDoublyLinkedList();
         $this->parts->push($namespace);

@@ -65,7 +65,7 @@ final class DocBlock implements ProjectFactoryStrategy
      * @param Context $context of the created object
      * @return null|DocBlockDescriptor
      */
-    public function create($object, StrategyContainer $strategies, Context $context = null)
+    public function create($object, StrategyContainer $strategies, ?Context $context = null)
     {
         if ($object === null) {
             return null;

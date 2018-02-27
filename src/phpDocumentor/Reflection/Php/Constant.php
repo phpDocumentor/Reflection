@@ -49,7 +49,7 @@ final class Constant implements Element
      * @param null|string $value
      * @param Location|null $location
      */
-    public function __construct(Fqsen $fqsen, DocBlock $docBlock = null, string $value = null, Location $location = null)
+    public function __construct(Fqsen $fqsen, ?DocBlock $docBlock = null, ?string $value = null, ?Location $location = null)
     {
         $this->fqsen = $fqsen;
         $this->docBlock = $docBlock;

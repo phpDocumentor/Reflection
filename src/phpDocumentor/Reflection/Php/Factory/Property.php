@@ -64,7 +64,7 @@ final class Property extends AbstractFactory implements ProjectFactoryStrategy
      * @param StrategyContainer $strategies used to convert nested objects.
      * @return PropertyDescriptor
      */
-    protected function doCreate($object, StrategyContainer $strategies, Context $context = null)
+    protected function doCreate($object, StrategyContainer $strategies, ?Context $context = null)
     {
         $visibility = $this->buildVisibility($object);
         $default = null;
