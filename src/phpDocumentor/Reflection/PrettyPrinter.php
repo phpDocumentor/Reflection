@@ -57,10 +57,6 @@ class PrettyPrinter extends Standard
             return $node->value;
         }
 
-        if (method_exists($this, 'pSafe')) {
-            return $this->pSafe($node->getAttribute('originalValue'));
-        }
-
         return $this->pNoIndent($node->getAttribute('originalValue'));
     }
 }
