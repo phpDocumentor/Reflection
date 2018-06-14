@@ -1,5 +1,5 @@
 <?php
-// @codingStandardsIgnoreStart
+// phpcs:ignoreFile
 /**
  * Summary of the File DocBlock.
  *
@@ -273,4 +273,3 @@ namespace Luigi
         }
     }
 }
-// @codingStandardsIgnoreEnd

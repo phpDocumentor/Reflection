@@ -36,6 +36,8 @@ parameters:
             - tests/unit/phpDocumentor/Reflection/Php/Interface_Test.php
             - tests/unit/phpDocumentor/Reflection/Php/Namespace_Test.php
             - tests/unit/phpDocumentor/Reflection/Php/Trait_Test.php
+        PHP_CodeSniffer\Standards\Squiz\Sniffs\Scope\MethodScopeSniff:
+            - tests/example.file.php
         SlevomatCodingStandard\Sniffs\Classes\UnusedPrivateElementsSniff:
             - tests/component/project/Luigi/Pizza.php
             - tests/example.file.php
