@@ -48,6 +48,3 @@ parameters:
         # until I can make $object arg ?$object...
         # src/phpDocumentor/Reflection/Php/Factory/DocBlock.php
         - '#Strict comparison using === between PhpParser\\Comment\\Doc and null will always evaluate to false\.#'
-
-
-
