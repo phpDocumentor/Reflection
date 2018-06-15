@@ -14,6 +14,7 @@ namespace phpDocumentor\Reflection\Php\Factory;
 
 use Mockery as m;
 use phpDocumentor\Reflection\Fqsen;
+use PhpParser\Comment\Doc;
 use PhpParser\Node\Const_;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\ClassConst;
@@ -94,12 +95,12 @@ class ClassConstantIteratorTest extends TestCase
         $classConstants = m::mock(ClassConst::class);
         $classConstants->consts = [$const];
 
-        $const->shouldReceive('getDocComment')->once()->andReturn('test');
+        $const->shouldReceive('getDocComment')->once()->andReturn(new Doc('test'));
         $classConstants->shouldReceive('getDocComment')->never();
 
         $fixture = new ClassConstantIterator($classConstants);
 
-        $this->assertEquals('test', $fixture->getDocComment());
+        $this->assertEquals('test', $fixture->getDocComment()->getText());
     }
 
     /**
@@ -112,10 +113,10 @@ class ClassConstantIteratorTest extends TestCase
         $classConstants->consts = [$const];
 
         $const->shouldReceive('getDocComment')->once()->andReturnNull();
-        $classConstants->shouldReceive('getDocComment')->once()->andReturn('test');
+        $classConstants->shouldReceive('getDocComment')->once()->andReturn(new Doc('test'));
 
         $fixture = new ClassConstantIterator($classConstants);
 
-        $this->assertEquals('test', $fixture->getDocComment());
+        $this->assertEquals('test', $fixture->getDocComment()->getText());
     }
 }

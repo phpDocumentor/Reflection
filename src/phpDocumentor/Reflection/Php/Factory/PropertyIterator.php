@@ -88,10 +88,8 @@ final class PropertyIterator implements Iterator
      * Gets the doc comment of the node.
      *
      * The doc comment has to be the last comment associated with the node.
-     *
-     * @return null|Doc Doc comment object or null
      */
-    public function getDocComment()
+    public function getDocComment(): ?Doc
     {
         $docComment = $this->property->props[$this->index]->getDocComment();
         if ($docComment === null) {
