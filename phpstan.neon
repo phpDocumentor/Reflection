@@ -50,3 +50,4 @@ parameters:
         - '#Strict comparison using === between PhpParser\\Comment\\Doc and null will always evaluate to false\.#'
 
 
+
