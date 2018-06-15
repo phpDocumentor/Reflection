@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
@@ -10,10 +12,9 @@
  * @link      http://phpdoc.org
  */
 
-
 namespace phpDocumentor\Reflection\Php\Factory;
 
-use InvalidArgumentException;
+use phpDocumentor\Reflection\DocBlock as DocBlockInstance;
 use phpDocumentor\Reflection\File as FileSystemFile;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Middleware\ChainFactory;
@@ -26,14 +27,12 @@ use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Types\Context;
 use phpDocumentor\Reflection\Types\ContextFactory;
 use PhpParser\Comment\Doc;
-use PhpParser\Lexer;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_ as ClassNode;
 use PhpParser\Node\Stmt\Function_ as FunctionNode;
 use PhpParser\Node\Stmt\Interface_ as InterfaceNode;
 use PhpParser\Node\Stmt\Namespace_ as NamespaceNode;
 use PhpParser\Node\Stmt\Trait_ as TraitNode;
-use PhpParser\NodeAbstract;
 
 /**
  * Strategy to create File element from the provided filename.
@@ -47,12 +46,16 @@ final class File extends AbstractFactory implements ProjectFactoryStrategy
     private $nodesFactory;
 
     /**
+     * @var callable
+     */
+    private $middlewareChain;
+
+    /**
      * Initializes the object.
      *
-     * @param NodesFactory $nodesFactory
      * @param Middleware[] $middleware
      */
-    public function __construct(NodesFactory $nodesFactory, $middleware = array())
+    public function __construct(NodesFactory $nodesFactory, $middleware = [])
     {
         $this->nodesFactory = $nodesFactory;
 
@@ -63,28 +66,22 @@ final class File extends AbstractFactory implements ProjectFactoryStrategy
         $this->middlewareChain = ChainFactory::createExecutionChain($middleware, $lastCallable);
     }
 
-    /**
-     * Returns true when the strategy is able to handle the object.
-     *
-     * @param string $file path to check.
-     * @return boolean
-     */
-    public function matches($file)
+    public function matches($file): bool
     {
         return $file instanceof FileSystemFile;
     }
 
     /**
      * Creates an File out of the given object.
+     *
      * Since an object might contain other objects that need to be converted the $factory is passed so it can be
      * used to create nested Elements.
      *
      * @param FileSystemFile $object path to the file to convert to an File object.
      * @param StrategyContainer $strategies used to convert nested objects.
-     * @param Context $context
      * @return File
      */
-    protected function doCreate($object, StrategyContainer $strategies, Context $context = null)
+    protected function doCreate($object, StrategyContainer $strategies, ?Context $context = null)
     {
         $command = new CreateCommand($object, $strategies);
         $middlewareChain = $this->middlewareChain;
@@ -93,7 +90,6 @@ final class File extends AbstractFactory implements ProjectFactoryStrategy
     }
 
     /**
-     * @param CreateCommand $command
      * @return FileElement
      */
     private function createFile(CreateCommand $command)
@@ -120,15 +116,12 @@ final class File extends AbstractFactory implements ProjectFactoryStrategy
     }
 
     /**
-     * @param Fqsen $namespace
      * @param Node[] $nodes
-     * @param FileElement $file
-     * @param StrategyContainer $strategies
      */
-    private function createElements(Fqsen $namespace, $nodes, FileElement $file, StrategyContainer $strategies)
+    private function createElements(Fqsen $namespace, array $nodes, FileElement $file, StrategyContainer $strategies): void
     {
         $contextFactory = new ContextFactory();
-        $context = $contextFactory->createForNamespace((string)$namespace, $file->getSource());
+        $context = $contextFactory->createForNamespace((string) $namespace, $file->getSource());
         foreach ($nodes as $node) {
             switch (get_class($node)) {
                 case ClassNode::class:
@@ -160,18 +153,14 @@ final class File extends AbstractFactory implements ProjectFactoryStrategy
     }
 
     /**
-     * @param Doc $docBlock
-     * @param StrategyContainer $strategies
-     * @param Context $context
      * @param Node[] $nodes
-     * @return null|\phpDocumentor\Reflection\DocBlock
      */
     protected function createFileDocBlock(
-        Doc $docBlock = null,
-        StrategyContainer $strategies = null,
-        Context $context = null,
-        $nodes = array()
-    ) {
+        ?Doc $docBlock = null,
+        ?StrategyContainer $strategies = null,
+        ?Context $context = null,
+        array $nodes = []
+    ): ?DocBlockInstance {
         $node = current($nodes);
         if (!$node instanceof Node) {
             return null;
@@ -199,7 +188,7 @@ final class File extends AbstractFactory implements ProjectFactoryStrategy
                 return $this->createDocBlock($strategies, $comment, $context);
             }
 
-            $found++;
+            ++$found;
             if ($firstDocBlock === null) {
                 $firstDocBlock = $comment;
             } elseif ($found > 2) {

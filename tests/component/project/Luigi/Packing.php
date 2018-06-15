@@ -14,5 +14,4 @@ namespace Luigi;
 
 interface Packing extends \Packing
 {
-
 }

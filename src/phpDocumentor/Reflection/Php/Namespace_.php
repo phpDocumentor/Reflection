@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
@@ -14,7 +16,6 @@ namespace phpDocumentor\Reflection\Php;
 
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
-use phpDocumentor\Reflection\DocBlock;
 
 /**
  * Represents a namespace and its children for a project.
@@ -28,25 +29,33 @@ final class Namespace_ implements Element
      */
     private $fqsen;
 
-    /** @var Fqsen[] $functions fqsen of all functions in this namespace */
-    private $functions = array();
+    /**
+     * @var Fqsen[] fqsen of all functions in this namespace
+     */
+    private $functions = [];
 
-    /** @var Fqsen[] $constants fqsen of all constants in this namespace */
-    private $constants = array();
+    /**
+     * @var Fqsen[] fqsen of all constants in this namespace
+     */
+    private $constants = [];
 
-    /** @var Fqsen[] $classes fqsen of all classes in this namespace */
-    private $classes = array();
+    /**
+     * @var Fqsen[] fqsen of all classes in this namespace
+     */
+    private $classes = [];
 
-    /** @var Fqsen[] $interfaces fqsen of all interfaces in this namespace */
-    private $interfaces = array();
+    /**
+     * @var Fqsen[] fqsen of all interfaces in this namespace
+     */
+    private $interfaces = [];
 
-    /** @var Fqsen[] $traits fqsen of all traits in this namespace */
-    private $traits = array();
+    /**
+     * @var Fqsen[] fqsen of all traits in this namespace
+     */
+    private $traits = [];
 
     /**
      * Initializes the namespace.
-     *
-     * @param Fqsen $fqsen
      */
     public function __construct(Fqsen $fqsen)
     {
@@ -58,19 +67,17 @@ final class Namespace_ implements Element
      *
      * @return Fqsen[]
      */
-    public function getClasses()
+    public function getClasses(): array
     {
         return $this->classes;
     }
 
     /**
      * Add a class to this namespace.
-     *
-     * @param Fqsen $class
      */
-    public function addClass(Fqsen $class)
+    public function addClass(Fqsen $class): void
     {
-        $this->classes[(string)$class] = $class;
+        $this->classes[(string) $class] = $class;
     }
 
     /**
@@ -78,19 +85,17 @@ final class Namespace_ implements Element
      *
      * @return Fqsen[]
      */
-    public function getConstants()
+    public function getConstants(): array
     {
         return $this->constants;
     }
 
     /**
      * Add a Constant to this Namespace.
-     *
-     * @param Fqsen|Constant $contant
      */
-    public function addConstant(Fqsen $contant)
+    public function addConstant(Fqsen $contant): void
     {
-        $this->constants[(string)$contant] = $contant;
+        $this->constants[(string) $contant] = $contant;
     }
 
     /**
@@ -98,19 +103,17 @@ final class Namespace_ implements Element
      *
      * @return Fqsen[]
      */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return $this->functions;
     }
 
     /**
      * Add a function to this namespace.
-     *
-     * @param Fqsen $function
      */
-    public function addFunction(Fqsen $function)
+    public function addFunction(Fqsen $function): void
     {
-        $this->functions[(string)$function] = $function;
+        $this->functions[(string) $function] = $function;
     }
 
     /**
@@ -118,19 +121,17 @@ final class Namespace_ implements Element
      *
      * @return Fqsen[]
      */
-    public function getInterfaces()
+    public function getInterfaces(): array
     {
         return $this->interfaces;
     }
 
     /**
      * Add an interface the this namespace.
-     *
-     * @param Fqsen $interface
      */
-    public function addInterface(Fqsen $interface)
+    public function addInterface(Fqsen $interface): void
     {
-        $this->interfaces[(string)$interface] = $interface;
+        $this->interfaces[(string) $interface] = $interface;
     }
 
     /**
@@ -138,36 +139,31 @@ final class Namespace_ implements Element
      *
      * @return Fqsen[]
      */
-    public function getTraits()
+    public function getTraits(): array
     {
         return $this->traits;
     }
 
     /**
      * Add a trait to this namespace.
-     *
-     * @param Fqsen $trait
      */
-    public function addTrait(Fqsen $trait)
+    public function addTrait(Fqsen $trait): void
     {
-        $this->traits[(string)$trait] = $trait;
+        $this->traits[(string) $trait] = $trait;
     }
 
     /**
      * Returns the Fqsen of the element.
-     *
-     * @return Fqsen
      */
-    public function getFqsen()
+    public function getFqsen(): Fqsen
     {
         return $this->fqsen;
     }
+
     /**
      * Returns the name of the element.
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->fqsen->getName();
     }

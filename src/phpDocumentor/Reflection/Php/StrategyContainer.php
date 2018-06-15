@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
@@ -26,5 +28,5 @@ interface StrategyContainer
      * @return ProjectFactoryStrategy
      * @throws Exception when no matching strategy was found.
      */
-    public function findMatching($object);
+    public function findMatching($object): ProjectFactoryStrategy;
 }

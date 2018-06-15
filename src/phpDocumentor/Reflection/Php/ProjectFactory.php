@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
@@ -16,8 +18,8 @@ use phpDocumentor\Reflection\DocBlockFactory;
 use phpDocumentor\Reflection\Exception;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\PrettyPrinter;
+use phpDocumentor\Reflection\Project as ProjectInterface;
 use phpDocumentor\Reflection\ProjectFactory as ProjectFactoryInterface;
-use phpDocumentor\Reflection\Php\Factory as Factory;
 
 /**
  * Factory class to transform files into a project description.
@@ -25,7 +27,7 @@ use phpDocumentor\Reflection\Php\Factory as Factory;
 final class ProjectFactory implements ProjectFactoryInterface
 {
     /**
-     * @var ProjectFactoryStrategies[]
+     * @var ProjectFactoryStrategies
      */
     private $strategies;
 
@@ -34,17 +36,15 @@ final class ProjectFactory implements ProjectFactoryInterface
      *
      * @param ProjectFactoryStrategy[] $strategies
      */
-    public function __construct($strategies)
+    public function __construct(array $strategies)
     {
         $this->strategies = new ProjectFactoryStrategies($strategies);
     }
 
     /**
      * Creates a new instance of this factory. With all default strategies.
-     *
-     * @return static;
      */
-    public static function createInstance()
+    public static function createInstance(): self
     {
         return new static(
             [
@@ -65,21 +65,17 @@ final class ProjectFactory implements ProjectFactoryInterface
     /**
      * Creates a project from the set of files.
      *
-     * @param string $name
-     * @param \phpDocumentor\Reflection\File[] $files
-     * @return Project
+     * @param File[] $files
      * @throws Exception when no matching strategy was found.
      */
-    public function create($name, array $files)
+    public function create(string $name, array $files): ProjectInterface
     {
         $project = new Project($name);
 
         foreach ($files as $filePath) {
             $strategy = $this->strategies->findMatching($filePath);
             $file = $strategy->create($filePath, $this->strategies);
-            if ($file !== null) {
-                $project->addFile($file);
-            }
+            $project->addFile($file);
         }
 
         $this->buildNamespaces($project);
@@ -89,14 +85,12 @@ final class ProjectFactory implements ProjectFactoryInterface
 
     /**
      * Builds the namespace tree with all elements in the project.
-     *
-     * @param Project $project
      */
-    private function buildNamespaces(Project $project)
+    private function buildNamespaces(Project $project): void
     {
         foreach ($project->getFiles() as $file) {
             foreach ($file->getNamespaces() as $namespaceFqsen) {
-                $namespace = $this->getNamespaceByName($project, (string)$namespaceFqsen);
+                $namespace = $this->getNamespaceByName($project, (string) $namespaceFqsen);
                 $this->buildNamespace($file, $namespace);
             }
         }
@@ -104,12 +98,8 @@ final class ProjectFactory implements ProjectFactoryInterface
 
     /**
      * Gets Namespace from the project if it exists, otherwise returns a new namepace
-     *
-     * @param Project $project
-     * @param $name
-     * @return Namespace_
      */
-    private function getNamespaceByName(Project $project, $name)
+    private function getNamespaceByName(Project $project, $name): Namespace_
     {
         $existingNamespaces = $project->getNamespaces();
 
@@ -124,38 +114,35 @@ final class ProjectFactory implements ProjectFactoryInterface
 
     /**
      * Adds all elements belonging to the namespace to the namespace.
-     *
-     * @param File $file
-     * @param Namespace_ $namespace
      */
-    private function buildNamespace(File $file, Namespace_ $namespace)
+    private function buildNamespace(File $file, Namespace_ $namespace): void
     {
         foreach ($file->getClasses() as $class) {
-            if ($namespace->getFqsen() . '\\' . $class->getName() == $class->getFqsen()) {
+            if ($namespace->getFqsen() . '\\' . $class->getName() === (string) $class->getFqsen()) {
                 $namespace->addClass($class->getFqsen());
             }
         }
 
         foreach ($file->getInterfaces() as $interface) {
-            if ($namespace->getFqsen() . '\\' . $interface->getName() == $interface->getFqsen()) {
+            if ($namespace->getFqsen() . '\\' . $interface->getName() === (string) $interface->getFqsen()) {
                 $namespace->addInterface($interface->getFqsen());
             }
         }
 
         foreach ($file->getFunctions() as $function) {
-            if ($namespace->getFqsen() . '\\' . $function->getName() . '()' == $function->getFqsen()) {
+            if ($namespace->getFqsen() . '\\' . $function->getName() . '()' === (string) $function->getFqsen()) {
                 $namespace->addFunction($function->getFqsen());
             }
         }
 
         foreach ($file->getConstants() as $constant) {
-            if ($namespace->getFqsen() . '::' . $constant->getName() == $constant->getFqsen()) {
+            if ($namespace->getFqsen() . '::' . $constant->getName() === (string) $constant->getFqsen()) {
                 $namespace->addConstant($constant->getFqsen());
             }
         }
 
         foreach ($file->getTraits() as $trait) {
-            if ($namespace->getFqsen() . '\\' . $trait->getName() == $trait->getFqsen()) {
+            if ($namespace->getFqsen() . '\\' . $trait->getName() === (string) $trait->getFqsen()) {
                 $namespace->addTrait($trait->getFqsen());
             }
         }

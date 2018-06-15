@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
@@ -33,7 +35,7 @@ final class Constant implements Element
     private $docBlock;
 
     /** @var null|string $value */
-    protected $value;
+    private $value;
 
     /**
      * @var Location
@@ -43,12 +45,11 @@ final class Constant implements Element
     /**
      * Initializes the object.
      *
-     * @param Fqsen $fqsen
      * @param DocBlock|null $docBlock
      * @param null|string $value
      * @param Location|null $location
      */
-    public function __construct(Fqsen $fqsen, DocBlock $docBlock = null, $value = null, Location $location = null)
+    public function __construct(Fqsen $fqsen, ?DocBlock $docBlock = null, ?string $value = null, ?Location $location = null)
     {
         $this->fqsen = $fqsen;
         $this->docBlock = $docBlock;
@@ -63,48 +64,37 @@ final class Constant implements Element
 
     /**
      * Returns the value of this constant.
-     *
-     * @return null|string
      */
-    public function getValue()
+    public function getValue(): ?string
     {
         return $this->value;
     }
 
     /**
      * Returns the Fqsen of the element.
-     *
-     * @return Fqsen
      */
-    public function getFqsen()
+    public function getFqsen(): Fqsen
     {
         return $this->fqsen;
     }
 
     /**
      * Returns the name of the element.
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->fqsen->getName();
     }
 
     /**
      * Returns DocBlock of this constant if available.
-     *
-     * @return null|DocBlock
      */
-    public function getDocBlock()
+    public function getDocBlock(): ?DocBlock
     {
         return $this->docBlock;
     }
 
-    /**
-     * @return Location
-     */
-    public function getLocation()
+    public function getLocation(): Location
     {
         return $this->location;
     }

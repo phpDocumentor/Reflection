@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
@@ -20,10 +22,7 @@ interface Middleware
     /**
      * Executes this middle ware class.
      *
-     * @param $command
-     * @param callable $next
-     *
      * @return object
      */
-    public function execute($command, callable $next);
+    public function execute(Command $command, callable $next);
 }

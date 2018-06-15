@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
@@ -25,48 +27,67 @@ final class File
      */
     private $docBlock = null;
 
-    /** @var string $hash */
+    /**
+     * @var string
+     */
     private $hash;
 
-    /** @var string $name */
+    /**
+     * @var string
+     */
     private $name = null;
 
-    /** @var string $path */
+    /**
+     * @var string
+     */
     private $path = null;
 
-    /** @var string|null $source */
+    /**
+     * @var string
+     */
     private $source = null;
 
-    /** @var Fqsen[] $namespaces */
-    private $namespaces = array();
+    /**
+     * @var Fqsen[]
+     */
+    private $namespaces = [];
 
-    /** @var string[] $includes */
-    private $includes = array();
+    /**
+     * @var string[]
+     */
+    private $includes = [];
 
-    /** @var Function_[] $functions */
-    private $functions = array();
+    /**
+     * @var Function_[]
+     */
+    private $functions = [];
 
-    /** @var Constant[] $constants */
-    private $constants = array();
+    /**
+     * @var Constant[]
+     */
+    private $constants = [];
 
-    /** @var Class_[] $classes */
-    private $classes = array();
+    /**
+     * @var Class_[]
+     */
+    private $classes = [];
 
-    /** @var Interface_[] $interfaces */
-    private $interfaces = array();
+    /**
+     * @var Interface_[]
+     */
+    private $interfaces = [];
 
-    /** @var Trait_[] $traits */
-    private $traits = array();
+    /**
+     * @var Trait_[]
+     */
+    private $traits = [];
 
     /**
      * Initializes a new file descriptor with the given hash of its contents.
      *
      * @param string $hash An MD5 hash of the contents if this file.
-     * @param string $path
-     * @param string|null $source
-     * @param DocBlock $docBlock
      */
-    public function __construct($hash, $path, $source = null, DocBlock $docBlock = null)
+    public function __construct(string $hash, string $path, string $source = '', ?DocBlock $docBlock = null)
     {
         $this->hash = $hash;
         $this->path = $path;
@@ -77,20 +98,16 @@ final class File
 
     /**
      * Returns the hash of the contents for this file.
-     *
-     * @return string
      */
-    public function getHash()
+    public function getHash(): string
     {
         return $this->hash;
     }
 
     /**
      * Retrieves the contents of this file.
-     *
-     * @return string|null
      */
-    public function getSource()
+    public function getSource(): string
     {
         return $this->source;
     }
@@ -100,19 +117,17 @@ final class File
      *
      * @return Fqsen[]
      */
-    public function getNamespaces()
+    public function getNamespaces(): array
     {
         return $this->namespaces;
     }
 
     /**
      * Add namespace to file
-     *
-     * @param Fqsen $fqsen
      */
-    public function addNamespace(Fqsen $fqsen)
+    public function addNamespace(Fqsen $fqsen): void
     {
-        $this->namespaces[(string)$fqsen] = $fqsen;
+        $this->namespaces[(string) $fqsen] = $fqsen;
     }
 
     /**
@@ -120,16 +135,12 @@ final class File
      *
      * @return string[]
      */
-    public function getIncludes()
+    public function getIncludes(): array
     {
         return $this->includes;
     }
 
-    /**
-     * @param string $include
-     * @return void
-     */
-    public function addInclude($include)
+    public function addInclude(string $include): void
     {
         $this->includes[$include] = $include;
     }
@@ -139,20 +150,17 @@ final class File
      *
      * @return Constant[]
      */
-    public function getConstants()
+    public function getConstants(): array
     {
         return $this->constants;
     }
 
     /**
      * Add constant to this file.
-     *
-     * @param Constant $constant
-     * @return void
      */
-    public function addConstant(Constant $constant)
+    public function addConstant(Constant $constant): void
     {
-        $this->constants[(string)$constant->getFqsen()] = $constant;
+        $this->constants[(string) $constant->getFqsen()] = $constant;
     }
 
     /**
@@ -160,20 +168,17 @@ final class File
      *
      * @return Function_[]
      */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return $this->functions;
     }
 
     /**
      * Add function to this file.
-     *
-     * @param Function_ $function
-     * @return void
      */
-    public function addFunction(Function_ $function)
+    public function addFunction(Function_ $function): void
     {
-        $this->functions[(string)$function->getFqsen()] = $function;
+        $this->functions[(string) $function->getFqsen()] = $function;
     }
 
     /**
@@ -181,20 +186,17 @@ final class File
      *
      * @return Class_[]
      */
-    public function getClasses()
+    public function getClasses(): array
     {
         return $this->classes;
     }
 
     /**
      * Add Class to this file.
-     *
-     * @param Class_ $class
-     * @return void
      */
-    public function addClass(Class_ $class)
+    public function addClass(Class_ $class): void
     {
-        $this->classes[(string)$class->getFqsen()] = $class;
+        $this->classes[(string) $class->getFqsen()] = $class;
     }
 
     /**
@@ -202,20 +204,17 @@ final class File
      *
      * @return Interface_[]
      */
-    public function getInterfaces()
+    public function getInterfaces(): array
     {
         return $this->interfaces;
     }
 
     /**
      * Add interface to this file.
-     *
-     * @param Interface_ $interface
-     * @return void
      */
-    public function addInterface(Interface_ $interface)
+    public function addInterface(Interface_ $interface): void
     {
-        $this->interfaces[(string)$interface->getFqsen()] = $interface;
+        $this->interfaces[(string) $interface->getFqsen()] = $interface;
     }
 
     /**
@@ -223,47 +222,39 @@ final class File
      *
      * @return Trait_[]
      */
-    public function getTraits()
+    public function getTraits(): array
     {
         return $this->traits;
     }
 
     /**
      * Add trait to this file.
-     *
-     * @param Trait_ $trait
-     * @return void
      */
-    public function addTrait(Trait_ $trait)
+    public function addTrait(Trait_ $trait): void
     {
-        $this->traits[(string)$trait->getFqsen()] = $trait;
+        $this->traits[(string) $trait->getFqsen()] = $trait;
     }
 
     /**
      * Returns the file path relative to the project's root.
-     *
-     * @return string
      */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->path;
     }
+
     /**
      * Returns the DocBlock of the element if available
-     *
-     * @return null|DocBlock
      */
-    public function getDocBlock()
+    public function getDocBlock(): ?DocBlock
     {
         return $this->docBlock;
     }
 
     /**
      * Returns the full name of this file
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }

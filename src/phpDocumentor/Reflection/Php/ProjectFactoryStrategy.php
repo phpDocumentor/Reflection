@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
@@ -23,10 +25,10 @@ interface ProjectFactoryStrategy
     /**
      * Returns true when the strategy is able to handle the object.
      *
-     * @param object $object object to check.
+     * @param mixed $object object to check.
      * @return boolean
      */
-    public function matches($object);
+    public function matches($object): bool;
 
     /**
      * Creates an Element out of the given object.
@@ -38,5 +40,5 @@ interface ProjectFactoryStrategy
      * @param Context $context
      * @return Element
      */
-    public function create($object, StrategyContainer $strategies, Context $context = null);
+    public function create($object, StrategyContainer $strategies, ?Context $context = null);
 }

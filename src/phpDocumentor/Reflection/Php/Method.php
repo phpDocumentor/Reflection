@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
@@ -13,10 +15,9 @@
 namespace phpDocumentor\Reflection\Php;
 
 use phpDocumentor\Reflection\DocBlock;
-use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Element;
+use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
-use phpDocumentor\Reflection\Php\Visibility;
 use phpDocumentor\Reflection\Type;
 use phpDocumentor\Reflection\Types\Mixed_;
 
@@ -35,25 +36,36 @@ final class Method implements Element
      */
     private $fqsen;
 
-    /** @var bool $abstract */
+    /**
+     * @var bool
+     */
     private $abstract = false;
 
-    /** @var bool $final */
+    /**
+     * @var bool
+     */
     private $final = false;
 
-    /** @var bool $static */
+    /**
+     * @var bool
+     */
     private $static = false;
 
-    /** @var Visibility visibility of this method */
+    /**
+     * @var null|Visibility visibility of this method
+     */
     private $visibility = null;
 
-    /** @var Argument[] */
-    private $arguments = array();
+    /**
+     * @var Argument[]
+     */
+    private $arguments = [];
 
     /**
      * @var Location
      */
     private $location;
+
     /**
      * @var Type
      */
@@ -62,24 +74,17 @@ final class Method implements Element
     /**
      * Initializes the all properties.
      *
-     * @param Fqsen $fqsen
      * @param Visibility|null $visibility when null is provided a default 'public' is set.
-     * @param DocBlock|null $docBlock
-     * @param bool $abstract
-     * @param bool $static
-     * @param bool $final
-     * @param Location|null $location
-     * @param Type $returnType
      */
     public function __construct(
         Fqsen $fqsen,
-        Visibility $visibility = null,
-        DocBlock $docBlock = null,
-        $abstract = false,
-        $static = false,
-        $final = false,
-        Location $location = null,
-        Type $returnType = null
+        ?Visibility $visibility = null,
+        ?DocBlock $docBlock = null,
+        bool $abstract = false,
+        bool $static = false,
+        bool $final = false,
+        ?Location $location = null,
+        ?Type $returnType = null
     ) {
         $this->fqsen = $fqsen;
         $this->visibility = $visibility;
@@ -93,7 +98,7 @@ final class Method implements Element
             $location = new Location(-1);
         }
 
-        if ($returnType ===  null) {
+        if ($returnType === null) {
             $returnType = new Mixed_();
         }
 
@@ -106,40 +111,32 @@ final class Method implements Element
 
     /**
      * Returns true when this method is abstract. Otherwise returns false.
-     *
-     * @return bool
      */
-    public function isAbstract()
+    public function isAbstract(): bool
     {
         return $this->abstract;
     }
 
     /**
      * Returns true when this method is final. Otherwise returns false.
-     *
-     * @return bool
      */
-    public function isFinal()
+    public function isFinal(): bool
     {
         return $this->final;
     }
 
     /**
      * Returns true when this method is static. Otherwise returns false.
-     *
-     * @return bool
      */
-    public function isStatic()
+    public function isStatic(): bool
     {
         return $this->static;
     }
 
     /**
      * Returns the Visibility of this method.
-     *
-     * @return Visibility
      */
-    public function getVisibility()
+    public function getVisibility(): ?Visibility
     {
         return $this->visibility;
     }
@@ -149,39 +146,31 @@ final class Method implements Element
      *
      * @return Argument[]
      */
-    public function getArguments()
+    public function getArguments(): array
     {
         return $this->arguments;
     }
 
-
     /**
      * Add new argument to this method.
-     *
-     * @param Argument $argument
-     * @return void
      */
-    public function addArgument(Argument $argument)
+    public function addArgument(Argument $argument): void
     {
         $this->arguments[] = $argument;
     }
 
     /**
      * Returns the Fqsen of the element.
-     *
-     * @return Fqsen
      */
-    public function getFqsen()
+    public function getFqsen(): Fqsen
     {
         return $this->fqsen;
     }
 
     /**
      * Returns the name of the element.
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->fqsen->getName();
     }
@@ -191,15 +180,12 @@ final class Method implements Element
      *
      * @returns null|DocBlock
      */
-    public function getDocBlock()
+    public function getDocBlock(): ?DocBlock
     {
         return $this->docBlock;
     }
 
-    /**
-     * @return Location
-     */
-    public function getLocation()
+    public function getLocation(): Location
     {
         return $this->location;
     }
@@ -210,10 +196,8 @@ final class Method implements Element
      * Return types are introduced in php 7.0 when your could doesn't have a
      * return type defined this method will return Mixed_ by default. The return value of this
      * method is not affected by the return tag in your docblock.
-     *
-     * @return Type
      */
-    public function getReturnType()
+    public function getReturnType(): Type
     {
         return $this->returnType;
     }

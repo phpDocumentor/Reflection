@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
@@ -27,39 +29,32 @@ final class LocalFile implements File
 
     /**
      * LocalFile constructor.
-     * @param string $path
      */
-    public function __construct($path)
+    public function __construct(string $path)
     {
         $this->path = $path;
     }
 
     /**
      * Returns the content of the file as a string.
-     *
-     * @return string
      */
-    public function getContents()
+    public function getContents(): string
     {
         return file_get_contents($this->path);
     }
 
     /**
      * Returns md5 hash of the file.
-     *
-     * @return string
      */
-    public function md5()
+    public function md5(): string
     {
         return md5_file($this->path);
     }
 
     /**
      * Returns an relative path to the file.
-     *
-     * @return string
      */
-    public function path()
+    public function path(): string
     {
         return $this->path;
     }

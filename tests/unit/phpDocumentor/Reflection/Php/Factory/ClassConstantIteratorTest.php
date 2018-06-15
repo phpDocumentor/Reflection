@@ -10,16 +10,14 @@
  * @link      http://phpdoc.org
  */
 
-
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use Mockery as m;
 use phpDocumentor\Reflection\Fqsen;
+use PhpParser\Comment\Doc;
 use PhpParser\Node\Const_;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\ClassConst;
-use PhpParser\Node\Stmt\Property as PropertyNode;
-use PhpParser\Node\Stmt\PropertyProperty;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -53,9 +51,9 @@ class ClassConstantIteratorTest extends TestCase
         $i = 1;
         foreach (new ClassConstantIterator($classConstantNode) as $constant) {
             $this->assertEquals('\Space\MyClass::MY_CONST' . $i, $constant->getName());
-            $this->assertEquals('\Space\MyClass::MY_CONST' . $i, (string)$constant->getFqsen());
+            $this->assertEquals('\Space\MyClass::MY_CONST' . $i, (string) $constant->getFqsen());
 
-            $i++;
+            ++$i;
         }
     }
 
@@ -97,12 +95,12 @@ class ClassConstantIteratorTest extends TestCase
         $classConstants = m::mock(ClassConst::class);
         $classConstants->consts = [$const];
 
-        $const->shouldReceive('getDocComment')->once()->andReturn('test');
+        $const->shouldReceive('getDocComment')->once()->andReturn(new Doc('test'));
         $classConstants->shouldReceive('getDocComment')->never();
 
         $fixture = new ClassConstantIterator($classConstants);
 
-        $this->assertEquals('test', $fixture->getDocComment());
+        $this->assertEquals('test', $fixture->getDocComment()->getText());
     }
 
     /**
@@ -115,10 +113,10 @@ class ClassConstantIteratorTest extends TestCase
         $classConstants->consts = [$const];
 
         $const->shouldReceive('getDocComment')->once()->andReturnNull();
-        $classConstants->shouldReceive('getDocComment')->once()->andReturn('test');
+        $classConstants->shouldReceive('getDocComment')->once()->andReturn(new Doc('test'));
 
         $fixture = new ClassConstantIterator($classConstants);
 
-        $this->assertEquals('test', $fixture->getDocComment());
+        $this->assertEquals('test', $fixture->getDocComment()->getText());
     }
 }

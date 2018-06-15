@@ -11,6 +11,7 @@
  */
 
 namespace phpDocumentor\Reflection\File;
+
 use PHPUnit\Framework\TestCase;
 
 /**

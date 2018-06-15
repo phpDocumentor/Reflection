@@ -51,7 +51,7 @@ class ArgumentTest extends TestCase
      */
     public function testCreate()
     {
-        $factory = new ProjectFactoryStrategies(array());
+        $factory = new ProjectFactoryStrategies([]);
 
         $argMock = m::mock(Param::class);
         $argMock->name = 'myArgument';

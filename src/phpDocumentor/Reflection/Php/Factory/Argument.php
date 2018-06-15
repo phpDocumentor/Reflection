@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
@@ -12,9 +14,7 @@
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
-use InvalidArgumentException;
 use phpDocumentor\Reflection\Php\Argument as ArgumentDescriptor;
-use phpDocumentor\Reflection\Php\Factory;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\PrettyPrinter;
@@ -36,21 +36,13 @@ final class Argument extends AbstractFactory implements ProjectFactoryStrategy
 
     /**
      * Initializes the object.
-     *
-     * @param PrettyPrinter $prettyPrinter
      */
     public function __construct(PrettyPrinter $prettyPrinter)
     {
         $this->valueConverter = $prettyPrinter;
     }
 
-    /**
-     * Returns true when the strategy is able to handle the object.
-     *
-     * @param Param $object object to check.
-     * @return boolean
-     */
-    public function matches($object)
+    public function matches($object): bool
     {
         return $object instanceof Param;
     }
@@ -65,7 +57,7 @@ final class Argument extends AbstractFactory implements ProjectFactoryStrategy
      * @param Context $context of the created object
      * @return ArgumentDescriptor
      */
-    protected function doCreate($object, StrategyContainer $strategies, Context $context = null)
+    protected function doCreate($object, StrategyContainer $strategies, ?Context $context = null)
     {
         $default = null;
         if ($object->default !== null) {

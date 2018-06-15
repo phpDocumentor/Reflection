@@ -15,7 +15,6 @@ namespace phpDocumentor\Reflection;
 use Mockery as m;
 use phpDocumentor\Reflection\DocBlock\Tags\Param;
 use phpDocumentor\Reflection\File\LocalFile;
-use phpDocumentor\Reflection\Php\Interface_;
 use phpDocumentor\Reflection\Php\ProjectFactory;
 use phpDocumentor\Reflection\Types\Object_;
 use phpDocumentor\Reflection\Types\String_;
@@ -48,7 +47,7 @@ class ProjectCreationTest extends TestCase
         $fileName = __DIR__ . '/project/simpleFunction.php';
 
         $project = $this->fixture->create('MyProject', [
-            new LocalFile($fileName)
+            new LocalFile($fileName),
         ]);
 
         $this->assertArrayHasKey($fileName, $project->getFiles());
@@ -59,7 +58,7 @@ class ProjectCreationTest extends TestCase
     {
         $fileName = __DIR__ . '/project/Pizza.php';
         $project = $this->fixture->create('MyProject', [
-            new LocalFile($fileName)
+            new LocalFile($fileName),
         ]);
 
         $this->assertArrayHasKey($fileName, $project->getFiles());
@@ -77,7 +76,7 @@ class ProjectCreationTest extends TestCase
     {
         $fileName = __DIR__ . '/project/Pizza.php';
         $project = $this->fixture->create('MyProject', [
-            new LocalFile($fileName)
+            new LocalFile($fileName),
         ]);
 
         $this->assertArrayHasKey($fileName, $project->getFiles());
@@ -88,7 +87,7 @@ class ProjectCreationTest extends TestCase
     {
         $fileName = __DIR__ . '/project/Luigi/Pizza.php';
         $project = $this->fixture->create('MyProject', [
-            new LocalFile($fileName)
+            new LocalFile($fileName),
         ]);
 
         $this->assertArrayHasKey($fileName, $project->getFiles());
@@ -112,7 +111,7 @@ class ProjectCreationTest extends TestCase
     {
         $fileName = __DIR__ . '/project/Luigi/Pizza.php';
         $project = $this->fixture->create('MyProject', [
-            new LocalFile($fileName)
+            new LocalFile($fileName),
         ]);
 
         $this->assertArrayHasKey($fileName, $project->getFiles());
@@ -137,7 +136,7 @@ class ProjectCreationTest extends TestCase
     {
         $fileName = __DIR__ . '/project/Luigi/StyleFactory.php';
         $project = $this->fixture->create('MyProject', [
-            new LocalFile($fileName)
+            new LocalFile($fileName),
         ]);
 
         $this->assertArrayHasKey($fileName, $project->getFiles());
@@ -152,7 +151,7 @@ class ProjectCreationTest extends TestCase
     {
         $fileName = __DIR__ . '/project/Luigi/Valued.php';
         $project = $this->fixture->create('MyProject', [
-            new LocalFile($fileName)
+            new LocalFile($fileName),
         ]);
 
         $this->assertArrayHasKey('\\Luigi\\Valued', $project->getFiles()[$fileName]->getInterfaces());
@@ -162,7 +161,7 @@ class ProjectCreationTest extends TestCase
     {
         $fileName = __DIR__ . '/project/Luigi/ExampleNestedTrait.php';
         $project = $this->fixture->create('MyProject', [
-            new LocalFile($fileName)
+            new LocalFile($fileName),
         ]);
 
         $this->assertArrayHasKey('\\Luigi\\ExampleNestedTrait', $project->getFiles()[$fileName]->getTraits());
@@ -172,37 +171,35 @@ class ProjectCreationTest extends TestCase
     {
         $fileName = __DIR__ . '/project/Luigi/Packing.php';
         $project = $this->fixture->create('MyProject', [
-            new LocalFile($fileName)
+            new LocalFile($fileName),
         ]);
 
         $this->assertArrayHasKey('\\Luigi\\Packing', $project->getFiles()[$fileName]->getInterfaces());
         $interface = current($project->getFiles()[$fileName]->getInterfaces());
 
         $this->assertEquals(['\\Packing' => new Fqsen('\\Packing')], $interface->getParents());
-
     }
 
     public function testMethodReturnType()
     {
         $fileName = __DIR__ . '/project/Packing.php';
         $project = $this->fixture->create('MyProject', [
-            new LocalFile($fileName)
+            new LocalFile($fileName),
         ]);
 
         $this->assertArrayHasKey('\\Packing', $project->getFiles()[$fileName]->getInterfaces());
         $interface = current($project->getFiles()[$fileName]->getInterfaces());
 
-        $this->assertEquals(new String_(),  $interface->getMethods()['\Packing::getName()']->getReturnType());
+        $this->assertEquals(new String_(), $interface->getMethods()['\Packing::getName()']->getReturnType());
     }
 
     public function testFileDocblock()
     {
         $fileName = __DIR__ . '/project/empty.php';
         $project = $this->fixture->create('MyProject', [
-            new LocalFile($fileName)
+            new LocalFile($fileName),
         ]);
 
-        $this->assertEquals("This file is part of phpDocumentor.", $project->getFiles()[$fileName]->getDocBlock()->getSummary());
-
+        $this->assertEquals('This file is part of phpDocumentor.', $project->getFiles()[$fileName]->getDocBlock()->getSummary());
     }
 }

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
@@ -13,7 +15,6 @@
 namespace phpDocumentor\Reflection\Php;
 
 use OutOfBoundsException;
-use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 
 final class ProjectFactoryStrategies implements StrategyContainer
 {
@@ -36,15 +37,14 @@ final class ProjectFactoryStrategies implements StrategyContainer
         $this->strategies = $strategies;
     }
 
-
     /**
      * Find the ProjectFactoryStrategy that matches $object.
      *
+     *
      * @param mixed $object
-     * @return ProjectFactoryStrategy
      * @throws OutOfBoundsException when no matching strategy was found.
      */
-    public function findMatching($object)
+    public function findMatching($object): ProjectFactoryStrategy
     {
         foreach ($this->strategies as $strategy) {
             if ($strategy->matches($object)) {
@@ -62,10 +62,8 @@ final class ProjectFactoryStrategies implements StrategyContainer
 
     /**
      * Add a strategy to this container.
-     *
-     * @param ProjectFactoryStrategy $strategy
      */
-    public function addStrategy(ProjectFactoryStrategy $strategy)
+    public function addStrategy(ProjectFactoryStrategy $strategy): void
     {
         $this->strategies[] = $strategy;
     }

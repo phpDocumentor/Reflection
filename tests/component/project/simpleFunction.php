@@ -1,6 +1,7 @@
 <?php
 
-function simpleFunction() {
+function simpleFunction()
+{
     return true;
 }
 

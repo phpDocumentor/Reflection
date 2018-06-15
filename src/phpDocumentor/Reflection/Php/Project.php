@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
@@ -20,29 +22,33 @@ use phpDocumentor\Reflection\Project as ProjectInterface;
  */
 final class Project implements ProjectInterface
 {
-    /** @var string $name */
+    /**
+     * @var string
+     */
     private $name = '';
 
-    /** @var Namespace_ $rootNamespace */
+    /**
+     * @var Namespace_|null
+     */
     private $rootNamespace;
 
     /**
      * @var File[]
      */
-    private $files = array();
+    private $files = [];
 
     /**
      * @var Namespace_[]
      */
-    private $namespaces = array();
+    private $namespaces = [];
 
     /**
      * Initializes this descriptor.
      *
      * @param string $name Name of the current project.
-     * @param Namespace_ $namespace Root namespace of the project.
+     * @param null|Namespace_ $namespace Root namespace of the project.
      */
-    public function __construct($name, Namespace_ $namespace = null)
+    public function __construct(string $name, ?Namespace_ $namespace = null)
     {
         $this->name = $name;
         $this->rootNamespace = $namespace;
@@ -53,10 +59,8 @@ final class Project implements ProjectInterface
 
     /**
      * Returns the name of this project.
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -66,17 +70,15 @@ final class Project implements ProjectInterface
      *
      * @return File[]
      */
-    public function getFiles()
+    public function getFiles(): array
     {
         return $this->files;
     }
 
     /**
      * Add a file to this project.
-     *
-     * @param File $file
      */
-    public function addFile(File $file)
+    public function addFile(File $file): void
     {
         $this->files[$file->getPath()] = $file;
     }
@@ -86,27 +88,23 @@ final class Project implements ProjectInterface
      *
      * @return Namespace_[]
      */
-    public function getNamespaces()
+    public function getNamespaces(): array
     {
         return $this->namespaces;
     }
 
     /**
      * Add a namespace to the project.
-     *
-     * @param Namespace_ $namespace
      */
-    public function addNamespace(Namespace_ $namespace)
+    public function addNamespace(Namespace_ $namespace): void
     {
-        $this->namespaces[(string)$namespace->getFqsen()] = $namespace;
+        $this->namespaces[(string) $namespace->getFqsen()] = $namespace;
     }
 
     /**
      * Returns the root (global) namespace.
-     *
-     * @return Namespace_
      */
-    public function getRootNamespace()
+    public function getRootNamespace(): ?Namespace_
     {
         return $this->rootNamespace;
     }

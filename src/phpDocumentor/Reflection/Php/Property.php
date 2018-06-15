@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
@@ -16,7 +18,6 @@ use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
-use phpDocumentor\Reflection\Php\Visibility;
 
 /**
  * Descriptor representing a property.
@@ -34,16 +35,16 @@ final class Property implements Element
     private $docBlock;
 
     /** @var string[] $types */
-    private $types = array();
+    private $types = [];
 
-    /** @var string $default */
+    /** @var null|string $default */
     private $default = null;
 
     /** @var bool $static */
     private $static = false;
 
-    /** @var Visibility $visibility */
-    private $visibility;
+    /** @var null|Visibility $visibility */
+    private $visibility = null;
 
     /**
      * @var Location
@@ -51,20 +52,18 @@ final class Property implements Element
     private $location;
 
     /**
-     * @param Fqsen $fqsen
      * @param Visibility|null $visibility when null is provided a default 'public' is set.
      * @param DocBlock|null $docBlock
      * @param null|string $default
-     * @param bool $static
      * @param Location|null $location
      */
     public function __construct(
         Fqsen $fqsen,
-        Visibility $visibility = null,
-        DocBlock $docBlock = null,
-        $default = null,
-        $static = false,
-        Location $location = null
+        ?Visibility $visibility = null,
+        ?DocBlock $docBlock = null,
+        ?string $default = null,
+        bool $static = false,
+        ?Location $location = null
     ) {
         if ($location === null) {
             $location = new Location(-1);
@@ -80,25 +79,20 @@ final class Property implements Element
         if ($this->visibility === null) {
             $this->visibility = new Visibility('public');
         }
-
     }
 
     /**
      * returns the default value of this property.
-     *
-     * @return string
      */
-    public function getDefault()
+    public function getDefault(): ?string
     {
         return $this->default;
     }
 
     /**
      * Returns true when this method is static. Otherwise returns false.
-     *
-     * @return bool
      */
-    public function isStatic()
+    public function isStatic(): bool
     {
         return $this->static;
     }
@@ -108,66 +102,52 @@ final class Property implements Element
      *
      * @return string[]
      */
-    public function getTypes()
+    public function getTypes(): array
     {
         return $this->types;
     }
 
     /**
      * Add a type to this property
-     *
-     * @param string $type
-     * @return void
      */
-    public function addType($type)
+    public function addType(string $type): void
     {
         $this->types[] = $type;
     }
 
     /**
      * Return visibility of the property.
-     *
-     * @return Visibility
      */
-    public function getVisibility()
+    public function getVisibility(): ?Visibility
     {
         return $this->visibility;
     }
 
     /**
      * Returns the Fqsen of the element.
-     *
-     * @return Fqsen
      */
-    public function getFqsen()
+    public function getFqsen(): Fqsen
     {
         return $this->fqsen;
     }
 
     /**
      * Returns the name of the element.
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->fqsen->getName();
     }
 
     /**
      * Returns the DocBlock of this property.
-     *
-     * @return DocBlock|null
      */
-    public function getDocBlock()
+    public function getDocBlock(): ?DocBlock
     {
         return $this->docBlock;
     }
 
-    /**
-     * @return Location
-     */
-    public function getLocation()
+    public function getLocation(): Location
     {
         return $this->location;
     }

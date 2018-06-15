@@ -1,0 +1,50 @@
+parameters:
+    ignoreErrors:
+        #
+        # all these $fqsen errors indicate the need for a decorator class around PhpParser\Node to hold the public $fqsen that Reflection is giving it)
+        #
+        # src/phpDocumentor/Reflection/NodeVisitor/ElementNameResolver.php
+        - '#Access to an undefined property PhpParser\\Node\\Stmt\\Namespace_::\$fqsen\.#'
+        - '#Access to an undefined property PhpParser\\Node\\Stmt\\Interface_::\$fqsen\.#'
+        - '#Access to an undefined property PhpParser\\Node\\Stmt\\Function_::\$fqsen\.#'
+        - '#Access to an undefined property PhpParser\\Node\\Stmt\\ClassMethod::\$fqsen\.#'
+        - '#Access to an undefined property PhpParser\\Node\\Const_::\$fqsen\.#'
+        - '#Access to an undefined property PhpParser\\Node\\Stmt\\PropertyProperty::\$fqsen\.#'
+        #
+        # src/phpDocumentor/Reflection/Php/Factory/Class_.php
+        - '#Access to an undefined property PhpParser\\Node\\Stmt\\Class_::\$fqsen\.#'
+        #
+        # src/phpDocumentor/Reflection/Php/Factory/Trait_.php
+        - '#Access to an undefined property PhpParser\\Node\\Stmt\\Trait_::\$fqsen\.#'
+        #
+        #
+        # this is a mismatch inside php-parser, not reflection
+        - '#Parameter \#1 \$nodes of method PhpParser\\NodeTraverser::traverse\(\) expects array\<PhpParser\\Node>, array\<PhpParser\\Node>\|null given\.#'
+        #
+        #
+        # there is one test case that prevents changing PropertyIterator::getDefault() to just return Expr (this is set in PhpParser)
+        # src/phpDocumentor/Reflection/Php/Factory/Property.php
+        - '#Parameter \#1 \$node of method PhpParser\\PrettyPrinterAbstract::prettyPrintExpr\(\) expects PhpParser\\Node\\Expr, PhpParser\\Node\\Expr\|string given\.#'
+        #
+        #
+        # there are some Elements doubling as Arguments, so we should probably tie their classes together somehow
+        # src/phpDocumentor/Reflection/Php/Factory/Function_.php
+        - '#Parameter \#1 \$argument of method phpDocumentor\\Reflection\\Php\\Function\_::addArgument\(\) expects phpDocumentor\\Reflection\\Php\\Argument, phpDocumentor\\Reflection\\Element given\.#'
+        #
+        #
+        # many classes here that should have relationship to Element
+        # src/phpDocumentor/Reflection/Php/Factory/File.php
+        - '#Parameter \#1 \$class of method phpDocumentor\\Reflection\\Php\\File::addClass\(\) expects phpDocumentor\\Reflection\\Php\\Class\_, phpDocumentor\\Reflection\\Element given\.#'
+        - '#Parameter \#1 \$function of method phpDocumentor\\Reflection\\Php\\File::addFunction\(\) expects phpDocumentor\\Reflection\\Php\\Function\_, phpDocumentor\\Reflection\\Element given\.#'
+        - '#Parameter \#1 \$interface of method phpDocumentor\\Reflection\\Php\\File::addInterface\(\) expects phpDocumentor\\Reflection\\Php\\Interface\_, phpDocumentor\\Reflection\\Element given\.#'
+        - '#Parameter \#1 \$trait of method phpDocumentor\\Reflection\\Php\\File::addTrait\(\) expects phpDocumentor\\Reflection\\Php\\Trait\_, phpDocumentor\\Reflection\\Element given\.#'
+        #
+        #
+        # another class with relationship to Element
+        # src/phpDocumentor/Reflection/Php/ProjectFactory.php
+        - '#Parameter \#1 \$file of method phpDocumentor\\Reflection\\Php\\Project::addFile\(\) expects phpDocumentor\\Reflection\\Php\\File, phpDocumentor\\Reflection\\Element given\.#'
+        #
+        #
+        # until I can make $object arg ?$object...
+        # src/phpDocumentor/Reflection/Php/Factory/DocBlock.php
+        - '#Strict comparison using === between PhpParser\\Comment\\Doc and null will always evaluate to false\.#'
