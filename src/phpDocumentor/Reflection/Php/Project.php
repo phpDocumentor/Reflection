@@ -22,10 +22,14 @@ use phpDocumentor\Reflection\Project as ProjectInterface;
  */
 final class Project implements ProjectInterface
 {
-    /** @var string $name */
+    /**
+     * @var string
+     */
     private $name = '';
 
-    /** @var Namespace_|null */
+    /**
+     * @var Namespace_|null
+     */
     private $rootNamespace;
 
     /**

@@ -36,19 +36,29 @@ final class Method implements Element
      */
     private $fqsen;
 
-    /** @var bool $abstract */
+    /**
+     * @var bool
+     */
     private $abstract = false;
 
-    /** @var bool $final */
+    /**
+     * @var bool
+     */
     private $final = false;
 
-    /** @var bool $static */
+    /**
+     * @var bool
+     */
     private $static = false;
 
-    /** @var null|Visibility visibility of this method */
+    /**
+     * @var null|Visibility visibility of this method
+     */
     private $visibility = null;
 
-    /** @var Argument[] */
+    /**
+     * @var Argument[]
+     */
     private $arguments = [];
 
     /**

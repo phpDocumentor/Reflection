@@ -27,42 +27,63 @@ final class File
      */
     private $docBlock = null;
 
-    /** @var string $hash */
+    /**
+     * @var string
+     */
     private $hash;
 
-    /** @var string $name */
+    /**
+     * @var string
+     */
     private $name = null;
 
-    /** @var string $path */
+    /**
+     * @var string
+     */
     private $path = null;
 
-    /** @var string $source */
+    /**
+     * @var string
+     */
     private $source = null;
 
-    /** @var Fqsen[] $namespaces */
+    /**
+     * @var Fqsen[]
+     */
     private $namespaces = [];
 
-    /** @var string[] $includes */
+    /**
+     * @var string[]
+     */
     private $includes = [];
 
-    /** @var Function_[] $functions */
+    /**
+     * @var Function_[]
+     */
     private $functions = [];
 
-    /** @var Constant[] $constants */
+    /**
+     * @var Constant[]
+     */
     private $constants = [];
 
-    /** @var Class_[] $classes */
+    /**
+     * @var Class_[]
+     */
     private $classes = [];
 
-    /** @var Interface_[] $interfaces */
+    /**
+     * @var Interface_[]
+     */
     private $interfaces = [];
 
-    /** @var Trait_[] $traits */
+    /**
+     * @var Trait_[]
+     */
     private $traits = [];
 
     /**
      * Initializes a new file descriptor with the given hash of its contents.
-     *
      *
      * @param string $hash An MD5 hash of the contents if this file.
      */

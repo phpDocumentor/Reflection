@@ -36,10 +36,14 @@ final class Class_ implements Element
      */
     private $docBlock = null;
 
-    /** @var boolean $abstract Whether this is an abstract class. */
+    /**
+     * @var boolean Whether this is an abstract class.
+     */
     private $abstract = false;
 
-    /** @var boolean $final Whether this class is marked as final and can't be subclassed. */
+    /**
+     * @var boolean Whether this class is marked as final and can't be subclassed.
+     */
     private $final = false;
 
     /**
@@ -47,19 +51,29 @@ final class Class_ implements Element
      */
     private $parent = null;
 
-    /** @var Fqsen[] $implements References to interfaces that are implemented by this class. */
+    /**
+     * @var Fqsen[] References to interfaces that are implemented by this class.
+     */
     private $implements = [];
 
-    /** @var Constant[] $constants References to constants defined in this class. */
+    /**
+     * @var Constant[] References to constants defined in this class.
+     */
     private $constants = [];
 
-    /** @var Property[] $properties References to properties defined in this class. */
+    /**
+     * @var Property[] References to properties defined in this class.
+     */
     private $properties = [];
 
-    /** @var Method[] $methods References to methods defined in this class. */
+    /**
+     * @var Method[] References to methods defined in this class.
+     */
     private $methods = [];
 
-    /** @var Fqsen[] $usedTraits References to traits consumed by this class */
+    /**
+     * @var Fqsen[] References to traits consumed by this class
+     */
     private $usedTraits = [];
 
     /**

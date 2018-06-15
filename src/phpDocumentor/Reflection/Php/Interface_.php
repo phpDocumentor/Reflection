@@ -36,13 +36,19 @@ final class Interface_ implements Element
      */
     private $docBlock;
 
-    /** @var Constant[] $constants */
+    /**
+     * @var Constant[]
+     */
     private $constants = [];
 
-    /** @var Method[] $methods */
+    /**
+     * @var Method[]
+     */
     private $methods = [];
 
-    /** @var Fqsen[] $parents */
+    /**
+     * @var Fqsen[]
+     */
     private $parents = [];
 
     /**

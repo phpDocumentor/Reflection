@@ -31,7 +31,9 @@ final class PropertyIterator implements Iterator
      */
     private $property;
 
-    /** @var int index of the current propertyProperty to use */
+    /**
+     * @var int index of the current propertyProperty to use
+     */
     private $index = 0;
 
     /**

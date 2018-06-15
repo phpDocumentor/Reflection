@@ -29,19 +29,29 @@ final class Namespace_ implements Element
      */
     private $fqsen;
 
-    /** @var Fqsen[] $functions fqsen of all functions in this namespace */
+    /**
+     * @var Fqsen[] fqsen of all functions in this namespace
+     */
     private $functions = [];
 
-    /** @var Fqsen[] $constants fqsen of all constants in this namespace */
+    /**
+     * @var Fqsen[] fqsen of all constants in this namespace
+     */
     private $constants = [];
 
-    /** @var Fqsen[] $classes fqsen of all classes in this namespace */
+    /**
+     * @var Fqsen[] fqsen of all classes in this namespace
+     */
     private $classes = [];
 
-    /** @var Fqsen[] $interfaces fqsen of all interfaces in this namespace */
+    /**
+     * @var Fqsen[] fqsen of all interfaces in this namespace
+     */
     private $interfaces = [];
 
-    /** @var Fqsen[] $traits fqsen of all traits in this namespace */
+    /**
+     * @var Fqsen[] fqsen of all traits in this namespace
+     */
     private $traits = [];
 
     /**

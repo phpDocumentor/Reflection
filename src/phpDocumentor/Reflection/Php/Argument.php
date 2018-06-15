@@ -24,16 +24,24 @@ final class Argument
      */
     private $name = null;
 
-    /** @var string[] $type an array of normalized types that should be in this Argument */
+    /**
+     * @var mixed[] an array of normalized types that should be in this Argument
+     */
     private $types = [];
 
-    /** @var string|null $default the default value for an argument or null if none is provided */
+    /**
+     * @var string|null the default value for an argument or null if none is provided
+     */
     private $default = null;
 
-    /** @var bool $byReference whether the argument passes the parameter by reference instead of by value */
+    /**
+     * @var bool whether the argument passes the parameter by reference instead of by value
+     */
     private $byReference = false;
 
-    /** @var boolean Determines if this Argument represents a variadic argument */
+    /**
+     * @var boolean Determines if this Argument represents a variadic argument
+     */
     private $isVariadic = false;
 
     /**
