@@ -41,3 +41,19 @@ parameters:
         SlevomatCodingStandard\Sniffs\Classes\UnusedPrivateElementsSniff:
             - tests/component/project/Luigi/Pizza.php
             - tests/example.file.php
+        PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer:
+            - tests/example.file.php
+        PhpCsFixer\Fixer\ClassNotation\SingleClassElementPerStatementFixer:
+            - tests/example.file.php
+        PhpCsFixer\Fixer\ClassNotation\VisibilityRequiredFixer:
+            - tests/example.file.php
+        PhpCsFixer\Fixer\Phpdoc\PhpdocIndentFixer:
+            - tests/example.file.php
+        PhpCsFixer\Fixer\Phpdoc\PhpdocNoEmptyReturnFixer:
+            - tests/example.file.php
+        PhpCsFixer\Fixer\Phpdoc\PhpdocTrimFixer:
+            - tests/example.file.php
+        PhpCsFixer\Fixer\Phpdoc\PhpdocVarWithoutNameFixer:
+            - tests/example.file.php
+        Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDocBlockFixer:
+            - tests/example.file.php
