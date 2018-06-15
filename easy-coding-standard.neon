@@ -37,23 +37,37 @@ parameters:
             - tests/unit/phpDocumentor/Reflection/Php/Namespace_Test.php
             - tests/unit/phpDocumentor/Reflection/Php/Trait_Test.php
         PHP_CodeSniffer\Standards\Squiz\Sniffs\Scope\MethodScopeSniff:
+            - tests/component/project/Luigi/Pizza.php
+            - tests/component/project/Luigi/Valued.php
             - tests/example.file.php
         SlevomatCodingStandard\Sniffs\Classes\UnusedPrivateElementsSniff:
             - tests/component/project/Luigi/Pizza.php
             - tests/example.file.php
-        PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer:
-            - tests/example.file.php
         PhpCsFixer\Fixer\ClassNotation\SingleClassElementPerStatementFixer:
+            - tests/component/project/Luigi/Pizza.php
+            - tests/example.file.php
+        PhpCsFixer\Fixer\NamespaceNotation\BlankLineAfterNamespaceFixer:
+            - tests/component/project/Luigi/Pizza.php
+        PhpCsFixer\Fixer\NamespaceNotation\SingleBlankLineBeforeNamespaceFixer:
+            - tests/component/project/Luigi/Pizza.php
+        PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer:
+            - tests/component/project/Luigi/Pizza.php
             - tests/example.file.php
         PhpCsFixer\Fixer\ClassNotation\VisibilityRequiredFixer:
+            - tests/component/project/Luigi/Pizza.php
+            - tests/component/project/Luigi/Valued.php
             - tests/example.file.php
         PhpCsFixer\Fixer\Phpdoc\PhpdocIndentFixer:
             - tests/example.file.php
         PhpCsFixer\Fixer\Phpdoc\PhpdocNoEmptyReturnFixer:
+            - tests/component/project/Luigi/Pizza.php
             - tests/example.file.php
         PhpCsFixer\Fixer\Phpdoc\PhpdocTrimFixer:
+            - tests/component/project/Luigi/Pizza.php
             - tests/example.file.php
         PhpCsFixer\Fixer\Phpdoc\PhpdocVarWithoutNameFixer:
+            - tests/component/project/Luigi/Pizza.php
             - tests/example.file.php
         Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDocBlockFixer:
+            - tests/component/project/Luigi/Pizza.php
             - tests/example.file.php

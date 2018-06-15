@@ -1,4 +1,5 @@
 <?php
+// phpcs:ignoreFile
 /**
  * This file is part of phpDocumentor.
  *
@@ -22,5 +23,5 @@ interface Valued
 {
     const BASE_PRICE = 1;
 
-    public function getPrice();
+    function getPrice();
 }
