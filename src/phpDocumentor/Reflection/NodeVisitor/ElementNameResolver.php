@@ -66,6 +66,12 @@ final class ElementNameResolver extends NodeVisitorAbstract
 
     /**
      * Adds fqsen property to a node when applicable.
+     *
+     * @todo this method is decorating the Node with an $fqsen property...
+     *       since we can't declare it in PhpParser/NodeAbstract,
+     *       we should add a decorator class wrapper in Reflection...
+     *       that should clear up the PHPSTAN errors about
+     *       "access to an undefined property ::$fqsen".
      */
     public function enterNode(Node $node): ?int
     {
