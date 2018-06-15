@@ -45,7 +45,7 @@ final class Method implements Element
     /** @var bool $static */
     private $static = false;
 
-    /** @var Visibility visibility of this method */
+    /** @var null|Visibility visibility of this method */
     private $visibility = null;
 
     /** @var Argument[] */
@@ -71,13 +71,13 @@ final class Method implements Element
      */
     public function __construct(
         Fqsen $fqsen,
-        Visibility $visibility = null,
-        DocBlock $docBlock = null,
+        ?Visibility $visibility = null,
+        ?DocBlock $docBlock = null,
         bool $abstract = false,
         bool $static = false,
         bool $final = false,
-        Location $location = null,
-        Type $returnType = null
+        ?Location $location = null,
+        ?Type $returnType = null
     ) {
         $this->fqsen = $fqsen;
         $this->visibility = $visibility;
@@ -129,7 +129,7 @@ final class Method implements Element
     /**
      * Returns the Visibility of this method.
      */
-    public function getVisibility(): Visibility
+    public function getVisibility(): ?Visibility
     {
         return $this->visibility;
     }

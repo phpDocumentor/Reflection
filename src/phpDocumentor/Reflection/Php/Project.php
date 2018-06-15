@@ -25,7 +25,7 @@ final class Project implements ProjectInterface
     /** @var string $name */
     private $name = '';
 
-    /** @var Namespace_ $rootNamespace */
+    /** @var Namespace_|null */
     private $rootNamespace;
 
     /**
@@ -100,7 +100,7 @@ final class Project implements ProjectInterface
     /**
      * Returns the root (global) namespace.
      */
-    public function getRootNamespace(): Namespace_
+    public function getRootNamespace(): ?Namespace_
     {
         return $this->rootNamespace;
     }

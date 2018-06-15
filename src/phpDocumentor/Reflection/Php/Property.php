@@ -37,14 +37,14 @@ final class Property implements Element
     /** @var string[] $types */
     private $types = [];
 
-    /** @var string $default */
+    /** @var null|string $default */
     private $default = null;
 
     /** @var bool $static */
     private $static = false;
 
-    /** @var Visibility $visibility */
-    private $visibility;
+    /** @var null|Visibility $visibility */
+    private $visibility = null;
 
     /**
      * @var Location
@@ -59,11 +59,11 @@ final class Property implements Element
      */
     public function __construct(
         Fqsen $fqsen,
-        Visibility $visibility = null,
-        DocBlock $docBlock = null,
-        string $default = null,
+        ?Visibility $visibility = null,
+        ?DocBlock $docBlock = null,
+        ?string $default = null,
         bool $static = false,
-        Location $location = null
+        ?Location $location = null
     ) {
         if ($location === null) {
             $location = new Location(-1);
@@ -120,7 +120,7 @@ final class Property implements Element
     /**
      * Return visibility of the property.
      */
-    public function getVisibility(): Visibility
+    public function getVisibility(): ?Visibility
     {
         return $this->visibility;
     }

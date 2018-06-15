@@ -67,7 +67,7 @@ final class DocBlock implements ProjectFactoryStrategy
      */
     public function create($object, StrategyContainer $strategies, ?Context $context = null)
     {
-        if ($object === null) {
+        if ($object == null) {
             return null;
         }
 

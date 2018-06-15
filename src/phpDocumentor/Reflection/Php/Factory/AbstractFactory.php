@@ -45,9 +45,9 @@ abstract class AbstractFactory implements ProjectFactoryStrategy
     /**
      * @return null|DocBlockInstance
      */
-    protected function createDocBlock(StrategyContainer $strategies, ?Doc $docBlock = null, ?Context $context = null)
+    protected function createDocBlock(?StrategyContainer $strategies = null, ?Doc $docBlock = null, ?Context $context = null)
     {
-        if ($docBlock === null) {
+        if ($docBlock === null || $strategies === null) {
             return null;
         }
 

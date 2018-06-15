@@ -121,7 +121,7 @@ final class ElementNameResolver extends NodeVisitorAbstract
     /**
      * Builds the name of the current node using the parts that are pushed to the parts list.
      */
-    private function buildName(): ?string
+    private function buildName(): string
     {
         $name = null;
         foreach ($this->parts as $part) {

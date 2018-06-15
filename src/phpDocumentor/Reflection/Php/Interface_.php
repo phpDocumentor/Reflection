@@ -58,8 +58,8 @@ final class Interface_ implements Element
     public function __construct(
         Fqsen $fqsen,
         array $parents = [],
-        DocBlock $docBlock = null,
-        Location $location = null
+        ?DocBlock $docBlock = null,
+        ?Location $location = null
     ) {
         if ($location === null) {
             $location = new Location(-1);

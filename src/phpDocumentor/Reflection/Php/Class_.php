@@ -43,7 +43,7 @@ final class Class_ implements Element
     private $final = false;
 
     /**
-     * @var Class_ The class this class is extending.
+     * @var null|Fqsen The class this class is extending.
      */
     private $parent = null;
 
@@ -75,11 +75,11 @@ final class Class_ implements Element
      */
     public function __construct(
         Fqsen $fqsen,
-        DocBlock $docBlock = null,
-        Fqsen $parent = null,
+        ?DocBlock $docBlock = null,
+        ?Fqsen $parent = null,
         bool $abstract = false,
         bool $final = false,
-        Location $location = null
+        ?Location $location = null
     ) {
         if ($location === null) {
             $location = new Location(-1);

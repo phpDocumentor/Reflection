@@ -89,7 +89,7 @@ final class PropertyIterator implements Iterator
      *
      * The doc comment has to be the last comment associated with the node.
      *
-     * @return null|string|Doc Doc comment object or null
+     * @return null|Doc Doc comment object or null
      */
     public function getDocComment()
     {
