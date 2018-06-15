@@ -43,3 +43,8 @@ parameters:
         # another class with relationship to Element
         # src/phpDocumentor/Reflection/Php/ProjectFactory.php
         - '#Parameter \#1 \$file of method phpDocumentor\\Reflection\\Php\\Project::addFile\(\) expects phpDocumentor\\Reflection\\Php\\File, phpDocumentor\\Reflection\\Element given\.#'
+        #
+        #
+        # until I can make $object arg ?$object...
+        # src/phpDocumentor/Reflection/Php/Factory/DocBlock.php
+        - '#Strict comparison using === between PhpParser\\Comment\\Doc and null will always evaluate to false\.#'
