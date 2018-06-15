@@ -45,6 +45,11 @@ final class File extends AbstractFactory implements ProjectFactoryStrategy
     private $nodesFactory;
 
     /**
+     * @var callable
+     */
+    private $middlewareChain;
+
+    /**
      * Initializes the object.
      *
      * @param Middleware[] $middleware

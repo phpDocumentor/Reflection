@@ -34,7 +34,7 @@ abstract class AbstractFactory implements ProjectFactoryStrategy
 
     /**
      * @param Node|PropertyIterator|ClassConstantIterator|Doc $stmt
-     * @return Element
+     * @return mixed a child of Element
      */
     protected function createMember($stmt, StrategyContainer $strategies, ?Context $context = null)
     {

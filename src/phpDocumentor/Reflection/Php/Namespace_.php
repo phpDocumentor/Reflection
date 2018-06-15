@@ -82,8 +82,6 @@ final class Namespace_ implements Element
 
     /**
      * Add a Constant to this Namespace.
-     *
-     * @param Fqsen|Constant $contant
      */
     public function addConstant(Fqsen $contant): void
     {
