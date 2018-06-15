@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
-use phpDocumentor\Reflection\DocBlock;
+use phpDocumentor\Reflection\DocBlock as DocBlockInstance;
 use phpDocumentor\Reflection\File as FileSystemFile;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Middleware\ChainFactory;
@@ -160,7 +160,7 @@ final class File extends AbstractFactory implements ProjectFactoryStrategy
         ?StrategyContainer $strategies = null,
         ?Context $context = null,
         array $nodes = []
-    ): ?DocBlock {
+    ): ?DocBlockInstance {
         $node = current($nodes);
         if (!$node instanceof Node) {
             return null;
