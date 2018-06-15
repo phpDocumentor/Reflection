@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
-use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Interface_ as InterfaceElement;
@@ -32,12 +31,6 @@ use PhpParser\Node\Stmt\Interface_ as InterfaceNode;
 final class Interface_ extends AbstractFactory implements ProjectFactoryStrategy
 // @codingStandardsIgnoreEnd
 {
-    /**
-     * Returns true when the strategy is able to handle the object.
-     *
-     *
-     * @param mixed $object object to check.
-     */
     public function matches($object): bool
     {
         return $object instanceof InterfaceNode;

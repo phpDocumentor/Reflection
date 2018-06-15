@@ -33,12 +33,6 @@ use PhpParser\Node\Stmt\Function_ as FunctionNode;
 final class Function_ extends AbstractFactory implements ProjectFactoryStrategy
 // @codingStandardsIgnoreEnd
 {
-    /**
-     * Returns true when the strategy is able to handle the object.
-     *
-     *
-     * @param mixed $object object to check.
-     */
     public function matches($object): bool
     {
         return $object instanceof FunctionNode;

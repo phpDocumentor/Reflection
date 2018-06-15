@@ -65,12 +65,6 @@ final class File extends AbstractFactory implements ProjectFactoryStrategy
         $this->middlewareChain = ChainFactory::createExecutionChain($middleware, $lastCallable);
     }
 
-    /**
-     * Returns true when the strategy is able to handle the object.
-     *
-     *
-     * @param mixed $file path to check.
-     */
     public function matches($file): bool
     {
         return $file instanceof FileSystemFile;

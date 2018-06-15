@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use phpDocumentor\Reflection\DocBlock as DocBlockInstance;
-use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Types\Context;
@@ -13,6 +12,11 @@ use PhpParser\Node;
 
 abstract class AbstractFactory implements ProjectFactoryStrategy
 {
+    /**
+     * Returns true when the strategy is able to handle the object.
+     *
+     * @param mixed $object object to check.
+     */
     abstract public function matches($object): bool;
 
     final public function create($object, StrategyContainer $strategies, ?Context $context = null)

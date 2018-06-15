@@ -42,12 +42,6 @@ final class Argument extends AbstractFactory implements ProjectFactoryStrategy
         $this->valueConverter = $prettyPrinter;
     }
 
-    /**
-     * Returns true when the strategy is able to handle the object.
-     *
-     *
-     * @param mixed $object object to check.
-     */
     public function matches($object): bool
     {
         return $object instanceof Param;
