@@ -77,15 +77,12 @@ final class Class_ implements Element
     private $usedTraits = [];
 
     /**
-     * @var null|Location
+     * @var Location
      */
     private $location;
 
     /**
      * Initializes a number of properties with the given values. Others are initialized by definition.
-     *
-     *
-     * @param Location|null $location
      */
     public function __construct(
         Fqsen $fqsen,
@@ -237,15 +234,12 @@ final class Class_ implements Element
         return $this->fqsen->getName();
     }
 
-    /**
-     * @returns null|DocBlock
-     */
     public function getDocBlock(): ?DocBlock
     {
         return $this->docBlock;
     }
 
-    public function getLocation(): ?Location
+    public function getLocation(): Location
     {
         return $this->location;
     }

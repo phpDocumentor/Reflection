@@ -30,7 +30,9 @@ final class ClassConstantIterator implements Iterator
      */
     private $classConstants;
 
-    /** @var int index of the current ClassConst to use */
+    /**
+     * @var int index of the current ClassConst to use
+     */
     private $index = 0;
 
     /**
@@ -90,8 +92,6 @@ final class ClassConstantIterator implements Iterator
     }
 
     /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
-     * Return the current element
      * @link http://php.net/manual/en/iterator.current.php
      */
     public function current(): self
@@ -100,8 +100,6 @@ final class ClassConstantIterator implements Iterator
     }
 
     /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
-     * Move forward to next element
      * @link http://php.net/manual/en/iterator.next.php
      */
     public function next(): void
@@ -110,8 +108,6 @@ final class ClassConstantIterator implements Iterator
     }
 
     /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
-     * Return the key of the current element
      * @link http://php.net/manual/en/iterator.key.php
      */
     public function key(): ?int
@@ -120,11 +116,7 @@ final class ClassConstantIterator implements Iterator
     }
 
     /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
-     * Checks if current position is valid
      * @link http://php.net/manual/en/iterator.valid.php
-     * @return boolean The return value will be casted to boolean and then evaluated.
-     * Returns true on success or false on failure.
      */
     public function valid(): bool
     {
@@ -132,8 +124,6 @@ final class ClassConstantIterator implements Iterator
     }
 
     /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
-     * Rewind the Iterator to the first element
      * @link http://php.net/manual/en/iterator.rewind.php
      */
     public function rewind(): void

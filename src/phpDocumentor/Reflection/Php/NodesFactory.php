@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace phpDocumentor\Reflection\Php;
 
 use phpDocumentor\Reflection\NodeVisitor\ElementNameResolver;
+use PhpParser\Node;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitor\NameResolver;
 use PhpParser\Parser;
@@ -72,7 +73,7 @@ class NodesFactory
      * Will convert the provided code to nodes.
      *
      * @param string $code code to process.
-     * @return \PhpParser\Node[]
+     * @return Node[]
      */
     public function create(string $code): array
     {

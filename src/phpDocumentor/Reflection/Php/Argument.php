@@ -64,7 +64,7 @@ final class Argument
     }
 
     /**
-     * {@inheritDoc}
+     * @return mixed[]
      */
     public function getTypes(): array
     {
@@ -80,25 +80,16 @@ final class Argument
         $this->types[] = $type;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getDefault(): ?string
     {
         return $this->default;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function isByReference(): bool
     {
         return $this->byReference;
     }
 
-    /**
-     * Returns whether this argument represents a variadic argument.
-     */
     public function isVariadic(): bool
     {
         return $this->isVariadic;

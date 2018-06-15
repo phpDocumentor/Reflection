@@ -52,8 +52,6 @@ final class Trait_ implements Element
 
     /**
      * Initializes the all properties
-     *
-     * @param DocBlock|null $docBlock
      */
     public function __construct(Fqsen $fqsen, ?DocBlock $docBlock = null, ?Location $location = null)
     {

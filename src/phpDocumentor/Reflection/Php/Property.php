@@ -83,8 +83,6 @@ final class Property implements Element
 
     /**
      * returns the default value of this property.
-     *
-     * @return string
      */
     public function getDefault(): ?string
     {

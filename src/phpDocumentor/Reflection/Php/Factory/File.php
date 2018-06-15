@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
+use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\File as FileSystemFile;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Middleware\ChainFactory;
@@ -117,7 +118,7 @@ final class File extends AbstractFactory implements ProjectFactoryStrategy
     /**
      * @param Node[] $nodes
      */
-    private function createElements(Fqsen $namespace, $nodes, FileElement $file, StrategyContainer $strategies)
+    private function createElements(Fqsen $namespace, array $nodes, FileElement $file, StrategyContainer $strategies): void
     {
         $contextFactory = new ContextFactory();
         $context = $contextFactory->createForNamespace((string) $namespace, $file->getSource());
@@ -153,14 +154,13 @@ final class File extends AbstractFactory implements ProjectFactoryStrategy
 
     /**
      * @param Node[] $nodes
-     * @return null|\phpDocumentor\Reflection\DocBlock
      */
     protected function createFileDocBlock(
-        Doc $docBlock = null,
-        StrategyContainer $strategies = null,
-        Context $context = null,
-        $nodes = []
-    ) {
+        ?Doc $docBlock = null,
+        ?StrategyContainer $strategies = null,
+        ?Context $context = null,
+        array $nodes = []
+    ): ?DocBlock {
         $node = current($nodes);
         if (!$node instanceof Node) {
             return null;

@@ -33,7 +33,9 @@ final class Function_ implements Element
      */
     private $fqsen;
 
-    /** @var Argument[] $arguments */
+    /**
+     * @var Argument[]
+     */
     private $arguments = [];
 
     /**
@@ -60,9 +62,9 @@ final class Function_ implements Element
      */
     public function __construct(
         Fqsen $fqsen,
-        DocBlock $docBlock = null,
-        Location $location = null,
-        Type $returnType = null
+        ?DocBlock $docBlock = null,
+        ?Location $location = null,
+        ?Type $returnType = null
     ) {
         if ($location === null) {
             $location = new Location(-1);

@@ -74,10 +74,7 @@ final class Method implements Element
     /**
      * Initializes the all properties.
      *
-     *
      * @param Visibility|null $visibility when null is provided a default 'public' is set.
-     * @param DocBlock|null $docBlock
-     * @param Location|null $location
      */
     public function __construct(
         Fqsen $fqsen,

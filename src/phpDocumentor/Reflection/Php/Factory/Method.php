@@ -78,10 +78,8 @@ final class Method extends AbstractFactory implements ProjectFactoryStrategy
 
     /**
      * Converts the visibility of the method to a valid Visibility object.
-     *
-     * @return Visibility
      */
-    private function buildVisibility(ClassMethod $node)
+    private function buildVisibility(ClassMethod $node): Visibility
     {
         if ($node->isPrivate()) {
             return new Visibility(Visibility::PRIVATE_);

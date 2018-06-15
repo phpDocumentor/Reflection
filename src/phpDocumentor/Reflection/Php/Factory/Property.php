@@ -80,10 +80,8 @@ final class Property extends AbstractFactory implements ProjectFactoryStrategy
 
     /**
      * Converts the visibility of the property to a valid Visibility object.
-     *
-     * @return Visibility
      */
-    private function buildVisibility(PropertyIterator $node)
+    private function buildVisibility(PropertyIterator $node): Visibility
     {
         if ($node->isPrivate()) {
             return new Visibility(Visibility::PRIVATE_);
