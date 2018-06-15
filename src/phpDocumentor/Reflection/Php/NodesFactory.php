@@ -62,7 +62,7 @@ class NodesFactory
     public static function createInstance($kind = ParserFactory::PREFER_PHP7): self
     {
         $parser = (new ParserFactory())->create($kind);
-        $traverser = new NodeTraverser(false);
+        $traverser = new NodeTraverser();
         $traverser->addVisitor(new NameResolver());
         $traverser->addVisitor(new ElementNameResolver());
         return new static($parser, $traverser);
