@@ -65,10 +65,11 @@ final class ProjectFactory implements ProjectFactoryInterface
     /**
      * Creates a project from the set of files.
      *
+     * @param string $name
      * @param File[] $files
      * @throws Exception when no matching strategy was found.
      */
-    public function create(string $name, array $files): ProjectInterface
+    public function create($name, array $files): ProjectInterface
     {
         $project = new Project($name);
 
