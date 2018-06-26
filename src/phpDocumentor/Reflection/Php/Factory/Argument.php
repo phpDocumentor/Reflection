@@ -64,6 +64,11 @@ final class Argument extends AbstractFactory implements ProjectFactoryStrategy
             $default = $this->valueConverter->prettyPrintExpr($object->default);
         }
 
-        return new ArgumentDescriptor($object->name, $default, $object->byRef, $object->variadic);
+        $descriptor = new ArgumentDescriptor($object->name, $default, $object->byRef, $object->variadic);
+
+        if (!empty($object->type)) {
+            $descriptor->addType((string)$object->type);
+        }
+        return $descriptor;
     }
 }
