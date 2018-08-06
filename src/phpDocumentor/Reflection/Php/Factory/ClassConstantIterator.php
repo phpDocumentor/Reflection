@@ -58,7 +58,7 @@ final class ClassConstantIterator implements Iterator
      */
     public function getName(): string
     {
-        return $this->classConstants->consts[$this->index]->name;
+        return (string) $this->classConstants->consts[$this->index]->name;
     }
 
     /**
