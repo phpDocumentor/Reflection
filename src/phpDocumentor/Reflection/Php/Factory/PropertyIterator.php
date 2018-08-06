@@ -104,7 +104,7 @@ final class PropertyIterator implements Iterator
      */
     public function getName(): string
     {
-        return $this->property->props[$this->index]->name;
+        return (string) $this->property->props[$this->index]->name;
     }
 
     /**
