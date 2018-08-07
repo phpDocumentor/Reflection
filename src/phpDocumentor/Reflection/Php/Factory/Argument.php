@@ -61,8 +61,8 @@ final class Argument extends AbstractFactory implements ProjectFactoryStrategy
      */
     protected function doCreate($object, StrategyContainer $strategies, ?Context $context = null)
     {
-        Assert::isInstanceOf(Param::class, $object);
-        Assert::isInstanceOf(Variable::class, $object->var);
+        Assert::isInstanceOf($object, Param::class);
+        Assert::isInstanceOf($object->var, Variable::class);
         $default = null;
         if ($object->default !== null) {
             $default = $this->valueConverter->prettyPrintExpr($object->default);

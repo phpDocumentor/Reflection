@@ -54,8 +54,7 @@ class ArgumentTest extends TestCase
         $factory = new ProjectFactoryStrategies([]);
 
         $argMock = m::mock(Param::class);
-        $argMock->var = new stdClass;
-        $argMock->var->name = 'myArgument';
+        $argMock->var = new \PhpParser\Node\Expr\Variable('myArgument');
         $argMock->default = new String_('MyDefault');
         $argMock->byRef = true;
         $argMock->variadic = true;
