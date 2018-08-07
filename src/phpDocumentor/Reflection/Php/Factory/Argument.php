@@ -19,7 +19,9 @@ use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\PrettyPrinter;
 use phpDocumentor\Reflection\Types\Context;
+use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Param;
+use Webmozart\Assert\Assert;
 
 /**
  * Strategy to convert Param to Argument
@@ -59,6 +61,8 @@ final class Argument extends AbstractFactory implements ProjectFactoryStrategy
      */
     protected function doCreate($object, StrategyContainer $strategies, ?Context $context = null)
     {
+        Assert::isInstanceOf(Param::class, $object);
+        Assert::isInstanceOf(Variable::class, $object->var);
         $default = null;
         if ($object->default !== null) {
             $default = $this->valueConverter->prettyPrintExpr($object->default);

@@ -134,6 +134,6 @@ final class ElementNameResolver extends NodeVisitorAbstract
             $name .= $part;
         }
 
-        return rtrim($name, '\\');
+        return rtrim((string) $name, '\\');
     }
 }
