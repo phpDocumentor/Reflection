@@ -42,9 +42,9 @@ class ClassConstantIteratorTest extends TestCase
     public function testIterateProps()
     {
         $const1 = new Const_('\Space\MyClass::MY_CONST1', new Variable('a'));
-        $const1->fqsen = new Fqsen((string)$const1->name);
+        $const1->fqsen = new Fqsen((string) $const1->name);
         $const2 = new Const_('\Space\MyClass::MY_CONST2', new Variable('b'));
-        $const2->fqsen = new Fqsen((string)$const2->name);
+        $const2->fqsen = new Fqsen((string) $const2->name);
 
         $classConstantNode = new ClassConst([$const1, $const2]);
 
