@@ -40,7 +40,7 @@ final class LocalFile implements File
      */
     public function getContents(): string
     {
-        return file_get_contents($this->path);
+        return (string) file_get_contents($this->path);
     }
 
     /**

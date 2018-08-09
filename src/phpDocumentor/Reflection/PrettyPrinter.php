@@ -57,6 +57,6 @@ class PrettyPrinter extends Standard
             return $node->value;
         }
 
-        return $this->pNoIndent($node->getAttribute('originalValue'));
+        return (string) $node->getAttribute('originalValue');
     }
 }
