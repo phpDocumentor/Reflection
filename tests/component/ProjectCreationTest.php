@@ -105,6 +105,7 @@ class ProjectCreationTest extends TestCase
         );
 
         $this->assertEquals('style', $methods['\\Luigi\\Pizza::__construct()']->getArguments()[0]->getName());
+        $this->assertEquals([new Object_(new Fqsen('\\Luigi\\Pizza\Style'))], $methods['\\Luigi\\Pizza::__construct()']->getArguments()[0]->getTypes());
     }
 
     public function testDocblockOfMethodIsProcessed()

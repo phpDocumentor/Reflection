@@ -18,8 +18,11 @@ use phpDocumentor\Reflection\Php\Argument as ArgumentDescriptor;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\PrettyPrinter;
+use phpDocumentor\Reflection\Type;
+use phpDocumentor\Reflection\TypeResolver;
 use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\NullableType;
 use PhpParser\Node\Param;
 use Webmozart\Assert\Assert;
 
@@ -68,6 +71,23 @@ final class Argument extends AbstractFactory implements ProjectFactoryStrategy
             $default = $this->valueConverter->prettyPrintExpr($object->default);
         }
 
-        return new ArgumentDescriptor((string) $object->var->name, $default, $object->byRef, $object->variadic);
+        $argumentDescriptor = new ArgumentDescriptor((string) $object->var->name, $default, $object->byRef, $object->variadic);
+
+        if (!empty($object->type)) {
+            $argumentDescriptor->addType($this->createType($object));
+        }
+
+        return $argumentDescriptor;
+    }
+
+    private function createType(Param $arg, ?Context $context = null): Type
+    {
+        $typeResolver = new TypeResolver();
+        $typeString = (string) $arg->type;
+        if ($arg->type instanceof NullableType) {
+            $typeString = '?' . $arg->type;
+        }
+
+        return $typeResolver->resolve($typeString, $context);
     }
 }
