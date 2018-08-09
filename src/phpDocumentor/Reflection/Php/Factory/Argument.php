@@ -83,9 +83,10 @@ final class Argument extends AbstractFactory implements ProjectFactoryStrategy
     private function createType(Param $arg, ?Context $context = null): Type
     {
         $typeResolver = new TypeResolver();
-        $typeString = (string) $arg->type;
         if ($arg->type instanceof NullableType) {
-            $typeString = '?' . $arg->type;
+            $typeString = '?' . $arg->type->type;
+        } else {
+            $typeString = (string) $arg->type;
         }
 
         return $typeResolver->resolve($typeString, $context);
