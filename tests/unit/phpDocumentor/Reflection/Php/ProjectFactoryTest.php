@@ -68,10 +68,7 @@ class ProjectFactoryTest extends TestCase
         $this->assertEquals($files, $projectFilePaths);
     }
 
-    /**
-     * @expectedException \OutOfBoundsException
-     */
-    public function testCreateThrowsExceptionWhenStrategyNotFound()
+    public function testSilentlyFailsWhenStrategyNotFound()
     {
         $projectFactory = new ProjectFactory([]);
         $projectFactory->create('MyProject', ['aa']);
