@@ -187,6 +187,30 @@ class ProjectFactoryTest extends TestCase
         $this->assertCount(1, $namespaces['\mySpace']->getClasses());
     }
 
+    public function testErrorScenarioWhenFileStrategyReturnsNull()
+    {
+        $fileStrategyMock = m::mock(ProjectFactoryStrategy::class);
+        $fileStrategyMock->shouldReceive('matches')->twice()->andReturn(true);
+        $fileStrategyMock->shouldReceive('create')
+            ->twice()
+            ->andReturnValues(
+                [
+                    null,
+                    new File(md5('some/other.php'), 'some/other.php'),
+                ]
+            );
+
+        $projectFactory = new ProjectFactory([$fileStrategyMock]);
+
+        $files = ['some/file.php', 'some/other.php'];
+        $project = $projectFactory->create('MyProject', $files);
+
+        $this->assertInstanceOf(Project::class, $project);
+
+        $projectFilePaths = array_keys($project->getFiles());
+        $this->assertEquals(['some/other.php'], $projectFilePaths);
+    }
+
     /**
      * Uses the ProjectFactory to create a Project and returns the namespaces created by the factory.
      *

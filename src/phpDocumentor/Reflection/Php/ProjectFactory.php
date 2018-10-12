@@ -76,7 +76,9 @@ final class ProjectFactory implements ProjectFactoryInterface
         foreach ($files as $filePath) {
             $strategy = $this->strategies->findMatching($filePath);
             $file = $strategy->create($filePath, $this->strategies);
-            $project->addFile($file);
+            if ($file !== null) {
+                $project->addFile($file);
+            }
         }
 
         $this->buildNamespaces($project);
