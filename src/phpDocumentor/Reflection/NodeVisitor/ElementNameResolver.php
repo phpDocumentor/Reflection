@@ -94,11 +94,11 @@ final class ElementNameResolver extends NodeVisitorAbstract
             case Function_::class:
                 $this->parts->push($node->name . '()');
                 $node->fqsen = new Fqsen($this->buildName());
-                break;
+                return NodeTraverser::DONT_TRAVERSE_CHILDREN;
             case ClassMethod::class:
                 $this->parts->push('::' . $node->name . '()');
                 $node->fqsen = new Fqsen($this->buildName());
-                break;
+                return NodeTraverser::DONT_TRAVERSE_CHILDREN;
             case ClassConst::class:
                 $this->parts->push('::');
                 break;
