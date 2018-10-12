@@ -74,17 +74,9 @@ final class ProjectFactory implements ProjectFactoryInterface
         $project = new Project($name);
 
         foreach ($files as $filePath) {
-            try {
-                $strategy = $this->strategies->findMatching($filePath);
-                $file = $strategy->create($filePath, $this->strategies);
-                $project->addFile($file);
-            } catch (\Exception $exception) {
-                // TODO: Add logging
-                // For now; silently ignore when there is an issue with a file so that
-                // parsing continues for other files and this is not a showstopper.
-                // The class responsible for failing also emits a log, so it should 
-                // not go unnoticed
-            }
+            $strategy = $this->strategies->findMatching($filePath);
+            $file = $strategy->create($filePath, $this->strategies);
+            $project->addFile($file);
         }
 
         $this->buildNamespaces($project);
