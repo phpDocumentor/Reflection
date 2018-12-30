@@ -12,26 +12,26 @@
 
 namespace phpDocumentor\Reflection\Php;
 
+use phpDocumentor\Reflection\Types\Mixed_;
+use phpDocumentor\Reflection\Types\String_;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the functionality for the Argument class.
- * @coversDefaultClass phpDocumentor\Reflection\Php\Argument
+ * @coversDefaultClass \phpDocumentor\Reflection\Php\Argument
  */
 class ArgumentTest extends TestCase
 {
     /**
-     * @covers ::getTypes
-     * @covers ::addType
+     * @covers ::getType
      */
     public function testGetTypes()
     {
-        $argument = new Argument('myArgument', 'myDefaultValue', true, true);
-        $this->assertSame([], $argument->getTypes());
+        $argument = new Argument('myArgument', null,'myDefaultValue', true, true);
+        $this->assertInstanceOf(Mixed_::class, $argument->getType());
 
-        $argument->addType(1);
-
-        $this->assertSame([1], $argument->getTypes());
+        $argument = new Argument('myArgument', new String_(),'myDefaultValue', true, true);
+        $this->assertEquals(new String_(), $argument->getType());
     }
 
     /**
@@ -50,10 +50,10 @@ class ArgumentTest extends TestCase
      */
     public function testGetDefault()
     {
-        $argument = new Argument('myArgument', 'myDefaultValue', true, true);
+        $argument = new Argument('myArgument', null,'myDefaultValue', true, true);
         $this->assertEquals('myDefaultValue', $argument->getDefault());
 
-        $argument = new Argument('myArgument', null, true, true);
+        $argument = new Argument('myArgument', null, null, true, true);
         $this->assertNull($argument->getDefault());
     }
 
@@ -63,10 +63,10 @@ class ArgumentTest extends TestCase
      */
     public function testGetWhetherArgumentIsPassedByReference()
     {
-        $argument = new Argument('myArgument', 'myDefaultValue', true, true);
+        $argument = new Argument('myArgument', null,'myDefaultValue', true, true);
         $this->assertTrue($argument->isByReference());
 
-        $argument = new Argument('myArgument', null, false, true);
+        $argument = new Argument('myArgument', null, null, false, true);
         $this->assertFalse($argument->isByReference());
     }
 
@@ -76,10 +76,10 @@ class ArgumentTest extends TestCase
      */
     public function testGetWhetherArgumentisVariadic()
     {
-        $argument = new Argument('myArgument', 'myDefaultValue', true, true);
+        $argument = new Argument('myArgument', null,'myDefaultValue', true, true);
         $this->assertTrue($argument->isVariadic());
 
-        $argument = new Argument('myArgument', 'myDefaultValue', true, false);
+        $argument = new Argument('myArgument', null, 'myDefaultValue', true, false);
         $this->assertFalse($argument->isVariadic());
     }
 }
