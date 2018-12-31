@@ -27,10 +27,16 @@ class ArgumentTest extends TestCase
      */
     public function testGetTypes()
     {
-        $argument = new Argument('myArgument', null,'myDefaultValue', true, true);
+        $argument = new Argument('myArgument', null, 'myDefaultValue', true, true);
         $this->assertInstanceOf(Mixed_::class, $argument->getType());
 
-        $argument = new Argument('myArgument', new String_(),'myDefaultValue', true, true);
+        $argument = new Argument(
+            'myArgument',
+            new String_(),
+            'myDefaultValue',
+            true,
+            true
+        );
         $this->assertEquals(new String_(), $argument->getType());
     }
 
@@ -50,7 +56,7 @@ class ArgumentTest extends TestCase
      */
     public function testGetDefault()
     {
-        $argument = new Argument('myArgument', null,'myDefaultValue', true, true);
+        $argument = new Argument('myArgument', null, 'myDefaultValue', true, true);
         $this->assertEquals('myDefaultValue', $argument->getDefault());
 
         $argument = new Argument('myArgument', null, null, true, true);
@@ -63,7 +69,7 @@ class ArgumentTest extends TestCase
      */
     public function testGetWhetherArgumentIsPassedByReference()
     {
-        $argument = new Argument('myArgument', null,'myDefaultValue', true, true);
+        $argument = new Argument('myArgument', null, 'myDefaultValue', true, true);
         $this->assertTrue($argument->isByReference());
 
         $argument = new Argument('myArgument', null, null, false, true);
@@ -76,7 +82,7 @@ class ArgumentTest extends TestCase
      */
     public function testGetWhetherArgumentisVariadic()
     {
-        $argument = new Argument('myArgument', null,'myDefaultValue', true, true);
+        $argument = new Argument('myArgument', null, 'myDefaultValue', true, true);
         $this->assertTrue($argument->isVariadic());
 
         $argument = new Argument('myArgument', null, 'myDefaultValue', true, false);
