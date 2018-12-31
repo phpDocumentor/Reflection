@@ -28,7 +28,7 @@ final class Argument
     private $name;
 
     /**
-     * @var mixed[] an array of normalized types that should be in this Argument
+     * @var Type a normalized type that should be in this Argument
      */
     private $type;
 
@@ -71,9 +71,6 @@ final class Argument
         return $this->name;
     }
 
-    /**
-     * @return mixed[]
-     */
     public function getType(): ?Type
     {
         return $this->type;
