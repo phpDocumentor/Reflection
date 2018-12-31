@@ -35,6 +35,7 @@ final class LocalFile implements File
         if (!file_exists($path)) {
             throw new \InvalidArgumentException(sprintf('File "%s" does not exist', $path));
         }
+
         $this->path = $path;
     }
 
