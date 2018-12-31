@@ -71,13 +71,12 @@ final class Argument extends AbstractFactory implements ProjectFactoryStrategy
             $default = $this->valueConverter->prettyPrintExpr($object->default);
         }
 
-        $argumentDescriptor = new ArgumentDescriptor((string) $object->var->name, $default, $object->byRef, $object->variadic);
-
+        $type = null;
         if (!empty($object->type)) {
-            $argumentDescriptor->addType($this->createType($object));
+            $type = $this->createType($object);
         }
 
-        return $argumentDescriptor;
+        return new ArgumentDescriptor((string) $object->var->name, $type, $default, $object->byRef, $object->variadic);
     }
 
     private function createType(Param $arg, ?Context $context = null): Type

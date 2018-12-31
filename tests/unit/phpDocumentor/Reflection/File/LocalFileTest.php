@@ -39,6 +39,15 @@ class LocalFileTest extends TestCase
     }
 
     /**
+     * @covers ::__construct
+     * @expectedException \InvalidArgumentException
+     */
+    public function testNotExistingFileThrowsException()
+    {
+        new LocalFile('aa');
+    }
+
+    /**
      * @covers ::path
      */
     public function testPath()
