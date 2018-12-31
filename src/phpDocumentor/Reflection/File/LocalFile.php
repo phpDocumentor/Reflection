@@ -32,6 +32,9 @@ final class LocalFile implements File
      */
     public function __construct(string $path)
     {
+        if (!file_exists($path)) {
+            throw new \InvalidArgumentException(sprintf('File "%s" does not exist', $path));
+        }
         $this->path = $path;
     }
 
