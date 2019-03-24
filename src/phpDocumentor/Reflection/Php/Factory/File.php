@@ -26,6 +26,7 @@ use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Types\Context;
 use phpDocumentor\Reflection\Types\ContextFactory;
+use phpDocumentor\Reflection\Types\NamespaceNodeToContext;
 use PhpParser\Comment\Doc;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_ as ClassNode;
@@ -98,10 +99,7 @@ final class File extends AbstractFactory implements ProjectFactoryStrategy
         $code = $file->getContents();
         $nodes = $this->nodesFactory->create($code);
 
-        $contextFactory = new ContextFactory();
-        $context = $contextFactory->createForNamespace('\\', $code);
-
-        $docBlock = $this->createFileDocBlock(null, $command->getStrategies(), $context, $nodes);
+        $docBlock = $this->createFileDocBlock(null, $command->getStrategies(), null, $nodes);
 
         $result = new FileElement(
             $file->md5(),
@@ -110,7 +108,7 @@ final class File extends AbstractFactory implements ProjectFactoryStrategy
             $docBlock
         );
 
-        $this->createElements(new Fqsen('\\'), $nodes, $result, $command->getStrategies());
+        $this->createElements($nodes, $result, $command->getStrategies(), null);
 
         return $result;
     }
@@ -118,10 +116,12 @@ final class File extends AbstractFactory implements ProjectFactoryStrategy
     /**
      * @param Node[] $nodes
      */
-    private function createElements(Fqsen $namespace, array $nodes, FileElement $file, StrategyContainer $strategies): void
-    {
-        $contextFactory = new ContextFactory();
-        $context = $contextFactory->createForNamespace((string) $namespace, $file->getSource());
+    private function createElements(
+        array $nodes,
+        FileElement $file,
+        StrategyContainer $strategies,
+        ?Context $context
+    ): void {
         foreach ($nodes as $node) {
             switch (get_class($node)) {
                 case ClassNode::class:
@@ -140,8 +140,9 @@ final class File extends AbstractFactory implements ProjectFactoryStrategy
                     $file->addInterface($interface);
                     break;
                 case NamespaceNode::class:
+                    $context = (new NamespaceNodeToContext())($node);
                     $file->addNamespace($node->fqsen);
-                    $this->createElements($node->fqsen, $node->stmts, $file, $strategies);
+                    $this->createElements($node->stmts, $file, $strategies, $context);
                     break;
                 case TraitNode::class:
                     $strategy = $strategies->findMatching($node);
