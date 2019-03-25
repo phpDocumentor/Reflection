@@ -16,6 +16,7 @@ namespace phpDocumentor\Reflection\Php;
 
 use phpDocumentor\Reflection\DocBlockFactory;
 use phpDocumentor\Reflection\Exception;
+use phpDocumentor\Reflection\File as SourceFile;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\PrettyPrinter;
 use phpDocumentor\Reflection\Project as ProjectInterface;
@@ -66,7 +67,7 @@ final class ProjectFactory implements ProjectFactoryInterface
      * Creates a project from the set of files.
      *
      * @param string $name
-     * @param File[] $files
+     * @param SourceFile[] $files
      * @throws Exception when no matching strategy was found.
      */
     public function create($name, array $files): ProjectInterface

@@ -44,7 +44,7 @@ class NamespaceNodeToContext
     }
 
     /**
-     * @param null|Namespace_ $namespace
+     * @param Namespace_ $namespace
      *
      * @return Use_[]|GroupUse[]
      */

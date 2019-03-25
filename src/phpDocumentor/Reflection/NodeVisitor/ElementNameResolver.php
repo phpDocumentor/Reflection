@@ -39,7 +39,7 @@ final class ElementNameResolver extends NodeVisitorAbstract
     /**
      * Resets the object to a known state before start processing.
      */
-    public function beforeTraverse(array $nodes): void
+    public function beforeTraverse(array $nodes)
     {
         $this->resetState('\\');
     }
@@ -47,7 +47,7 @@ final class ElementNameResolver extends NodeVisitorAbstract
     /**
      * Performs a reset of the added element when needed.
      */
-    public function leaveNode(Node $node): void
+    public function leaveNode(Node $node)
     {
         switch (get_class($node)) {
             case Namespace_::class:
@@ -83,12 +83,11 @@ final class ElementNameResolver extends NodeVisitorAbstract
             case Class_::class:
             case Trait_::class:
             case Interface_::class:
-                $this->parts->push((string) $node->name);
-
                 if (empty($node->name)) {
                     return NodeTraverser::DONT_TRAVERSE_CHILDREN;
                 }
 
+                $this->parts->push((string)$node->name);
                 $node->fqsen = new Fqsen($this->buildName());
                 break;
             case Function_::class:
