@@ -59,7 +59,9 @@ final class ElementNameResolver extends NodeVisitorAbstract
             case Const_::class:
             case Interface_::class:
             case Function_::class:
-                $this->parts->pop();
+                if (!$this->parts->isEmpty()) {
+                    $this->parts->pop();
+                }
                 break;
         }
     }
