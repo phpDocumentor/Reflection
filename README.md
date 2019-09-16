@@ -59,7 +59,7 @@ By default the php7 parser is prefered. And php5 is used as a fallback. See the 
 
 At this point we are ready to analyze your complete project or just one file at the time. Just pass an array of file paths to the `create` method of the project factory.
 
-    $projectFiles = [\phpDocumentor\Reflection\File\LocalFile('tests/example.file.php')];
+    $projectFiles = [new \phpDocumentor\Reflection\File\LocalFile('tests/example.file.php')];
     $project = $projectFactory->create('My Project', $projectFiles);
 
 When the process is ready a new object of type `phpDocumentor\Reflection\Php\Project` will be returned that
