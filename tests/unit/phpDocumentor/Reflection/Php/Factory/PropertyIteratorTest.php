@@ -1,13 +1,14 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      http://phpdoc.org
+ * @link http://phpdoc.org
  */
 
 namespace phpDocumentor\Reflection\Php\Factory;
@@ -20,11 +21,12 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Class PropertyIteratorTest
+ *
  * @coversDefaultClass \phpDocumentor\Reflection\Php\Factory\PropertyIterator
  */
 class PropertyIteratorTest extends TestCase
 {
-    protected function tearDown()
+    protected function tearDown() : void
     {
         m::close();
     }
@@ -36,7 +38,7 @@ class PropertyIteratorTest extends TestCase
      * @covers ::rewind()
      * @covers ::getName()
      */
-    public function testIterateProps()
+    public function testIterateProps() : void
     {
         $prop1 = new PropertyProperty('prop1');
         $prop2 = new PropertyProperty('prop2');
@@ -54,7 +56,7 @@ class PropertyIteratorTest extends TestCase
      * @covers ::key()
      * @covers ::next()
      */
-    public function testKey()
+    public function testKey() : void
     {
         $propertyMock = m::mock(PropertyNode::class);
 
@@ -73,7 +75,7 @@ class PropertyIteratorTest extends TestCase
      * @covers ::isStatic
      * @covers ::getLine
      */
-    public function testProxyMethods()
+    public function testProxyMethods() : void
     {
         $propertyMock = m::mock(PropertyNode::class);
         $propertyMock->shouldReceive('isPublic')->once()->andReturn(true);
@@ -95,11 +97,11 @@ class PropertyIteratorTest extends TestCase
      * @covers ::__construct
      * @covers ::getDefault
      */
-    public function testGetDefault()
+    public function testGetDefault() : void
     {
-        $prop = m::mock(PropertyProperty::class);
+        $prop          = m::mock(PropertyProperty::class);
         $prop->default = 'myDefault';
-        $property = new PropertyNode(1, [$prop]);
+        $property      = new PropertyNode(1, [$prop]);
 
         $fixture = new PropertyIterator($property);
 
@@ -109,10 +111,10 @@ class PropertyIteratorTest extends TestCase
     /**
      * @covers ::getDocComment
      */
-    public function testGetDocCommentPropFirst()
+    public function testGetDocCommentPropFirst() : void
     {
-        $prop = m::mock(PropertyProperty::class);
-        $propertyNode = m::mock(PropertyNode::class);
+        $prop                = m::mock(PropertyProperty::class);
+        $propertyNode        = m::mock(PropertyNode::class);
         $propertyNode->props = [$prop];
 
         $prop->shouldReceive('getDocComment')->once()->andReturn(new Doc('test'));
@@ -126,10 +128,10 @@ class PropertyIteratorTest extends TestCase
     /**
      * @covers ::getDocComment
      */
-    public function testGetDocComment()
+    public function testGetDocComment() : void
     {
-        $prop = m::mock(PropertyProperty::class);
-        $propertyNode = m::mock(PropertyNode::class);
+        $prop                = m::mock(PropertyProperty::class);
+        $propertyNode        = m::mock(PropertyNode::class);
         $propertyNode->props = [$prop];
 
         $prop->shouldReceive('getDocComment')->once()->andReturnNull();

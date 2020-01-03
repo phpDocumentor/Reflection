@@ -1,13 +1,14 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      http://phpdoc.org
+ * @link http://phpdoc.org
  */
 
 namespace phpDocumentor\Reflection\Php;
@@ -20,45 +21,38 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the functionality for the Class_ class.
+ *
  * @coversDefaultClass phpDocumentor\Reflection\Php\Class_
  */
 // @codingStandardsIgnoreStart
 class Class_Test extends TestCase
 // @codingStandardsIgnoreEnd
 {
-    /**
-     * @var Class_
-     */
+    /** @var Class_ */
     private $fixture;
 
-    /**
-     * @var Fqsen
-     */
+    /** @var Fqsen */
     private $parent;
 
-    /**
-     * @var Fqsen
-     */
+    /** @var Fqsen */
     private $fqsen;
 
-    /**
-     * @var DocBlock
-     */
+    /** @var DocBlock */
     private $docBlock;
 
     /**
      * Creates a new (emoty) fixture object.
      */
-    protected function setUp()
+    protected function setUp() : void
     {
-        $this->parent = new Fqsen('\MyParentClass');
-        $this->fqsen = new Fqsen('\MyClass');
+        $this->parent   = new Fqsen('\MyParentClass');
+        $this->fqsen    = new Fqsen('\MyClass');
         $this->docBlock = new DocBlock('');
 
         $this->fixture = new Class_($this->fqsen, $this->docBlock, null, false, false, new Location(1));
     }
 
-    protected function tearDown()
+    protected function tearDown() : void
     {
         m::close();
     }
@@ -67,7 +61,7 @@ class Class_Test extends TestCase
      * @covers ::getParent
      * @covers ::__construct
      */
-    public function testGettingParent()
+    public function testGettingParent() : void
     {
         $class = new Class_($this->fqsen, $this->docBlock, null, false, false, null);
         $this->assertNull($class->getParent());
@@ -80,7 +74,7 @@ class Class_Test extends TestCase
      * @covers ::getInterfaces
      * @covers ::AddInterface
      */
-    public function testAddAndGettingInterfaces()
+    public function testAddAndGettingInterfaces() : void
     {
         $this->assertEmpty($this->fixture->getInterfaces());
 
@@ -95,7 +89,7 @@ class Class_Test extends TestCase
      * @covers ::getConstants
      * @covers ::addConstant
      */
-    public function testAddAndGettingConstants()
+    public function testAddAndGettingConstants() : void
     {
         $this->assertEmpty($this->fixture->getConstants());
 
@@ -110,7 +104,7 @@ class Class_Test extends TestCase
      * @covers ::addProperty
      * @covers ::getProperties
      */
-    public function testAddAndGettingProperties()
+    public function testAddAndGettingProperties() : void
     {
         $this->assertEmpty($this->fixture->getProperties());
 
@@ -125,7 +119,7 @@ class Class_Test extends TestCase
      * @covers ::addMethod
      * @covers ::getMethods
      */
-    public function testAddAndGettingMethods()
+    public function testAddAndGettingMethods() : void
     {
         $this->assertEmpty($this->fixture->getMethods());
 
@@ -140,7 +134,7 @@ class Class_Test extends TestCase
      * @covers ::getUsedTraits
      * @covers ::AddUsedTrait
      */
-    public function testAddAndGettingUsedTrait()
+    public function testAddAndGettingUsedTrait() : void
     {
         $this->assertEmpty($this->fixture->getUsedTraits());
 
@@ -155,7 +149,7 @@ class Class_Test extends TestCase
      * @covers ::isAbstract
      * @covers ::__construct
      */
-    public function testGettingWhetherClassIsAbstract()
+    public function testGettingWhetherClassIsAbstract() : void
     {
         $class = new Class_($this->fqsen, $this->docBlock, null, false, false);
         $this->assertFalse($class->isAbstract());
@@ -168,7 +162,7 @@ class Class_Test extends TestCase
      * @covers ::isFinal
      * @covers ::__construct
      */
-    public function testGettingWhetherClassIsFinal()
+    public function testGettingWhetherClassIsFinal() : void
     {
         $class = new Class_($this->fqsen, $this->docBlock, null, false, false);
         $this->assertFalse($class->isFinal());

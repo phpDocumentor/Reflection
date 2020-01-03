@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -7,9 +8,7 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      http://phpdoc.org
+ * @link http://phpdoc.org
  */
 
 namespace phpDocumentor\Reflection\Php\Factory;
@@ -20,8 +19,8 @@ use phpDocumentor\Reflection\Middleware\ChainFactory;
 use phpDocumentor\Reflection\Middleware\Middleware;
 use phpDocumentor\Reflection\Php\Factory\File\CreateCommand;
 use phpDocumentor\Reflection\Php\File as FileElement;
+use phpDocumentor\Reflection\Php\File as PhpFile;
 use phpDocumentor\Reflection\Php\NodesFactory;
-use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Types\Context;
 use phpDocumentor\Reflection\Types\NamespaceNodeToContext;
@@ -33,21 +32,20 @@ use PhpParser\Node\Stmt\Function_ as FunctionNode;
 use PhpParser\Node\Stmt\Interface_ as InterfaceNode;
 use PhpParser\Node\Stmt\Namespace_ as NamespaceNode;
 use PhpParser\Node\Stmt\Trait_ as TraitNode;
+use function current;
+use function get_class;
+use function is_array;
 
 /**
  * Strategy to create File element from the provided filename.
  * This class supports extra middle wares to add extra steps to the creation process.
  */
-final class File extends AbstractFactory implements ProjectFactoryStrategy
+final class File extends AbstractFactory
 {
-    /**
-     * @var NodesFactory
-     */
+    /** @var NodesFactory */
     private $nodesFactory;
 
-    /**
-     * @var callable
-     */
+    /** @var callable */
     private $middlewareChain;
 
     /**
@@ -66,6 +64,9 @@ final class File extends AbstractFactory implements ProjectFactoryStrategy
         $this->middlewareChain = ChainFactory::createExecutionChain($middleware, $lastCallable);
     }
 
+    /**
+     * @param mixed $file
+     */
     public function matches($file) : bool
     {
         return $file instanceof FileSystemFile;
@@ -79,7 +80,8 @@ final class File extends AbstractFactory implements ProjectFactoryStrategy
      *
      * @param FileSystemFile $object path to the file to convert to an File object.
      * @param StrategyContainer $strategies used to convert nested objects.
-     * @return File
+     *
+     * @return PhpFile
      */
     protected function doCreate($object, StrategyContainer $strategies, ?Context $context = null)
     {
@@ -89,10 +91,7 @@ final class File extends AbstractFactory implements ProjectFactoryStrategy
         return $middlewareChain($command);
     }
 
-    /**
-     * @return FileElement
-     */
-    private function createFile(CreateCommand $command)
+    private function createFile(CreateCommand $command) : FileElement
     {
         $file = $command->getFile();
         $code = $file->getContents();

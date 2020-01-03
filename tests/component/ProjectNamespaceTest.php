@@ -30,20 +30,20 @@ class ProjectNamespaceTest extends TestCase
      */
     private $fixture;
 
-    protected function setUp()
+    protected function setUp() : void
     {
         $this->fixture = $this->fixture = ProjectFactory::createInstance();
     }
 
-    protected function tearDown()
+    protected function tearDown() : void
     {
         m::close();
     }
 
-    public function testWithNamespacedClass()
+    public function testWithNamespacedClass() : void
     {
         $fileName = __DIR__ . '/project/Luigi/Pizza.php';
-        $project = $this->fixture->create('My Project', [
+        $project  = $this->fixture->create('My Project', [
             new LocalFile($fileName),
         ]);
 

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -7,9 +8,7 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      http://phpdoc.org
+ * @link http://phpdoc.org
  */
 
 namespace phpDocumentor\Reflection\Php\Factory;
@@ -17,6 +16,7 @@ namespace phpDocumentor\Reflection\Php\Factory;
 use Iterator;
 use phpDocumentor\Reflection\Fqsen;
 use PhpParser\Comment\Doc;
+use PhpParser\Node\Expr;
 use PhpParser\Node\Stmt\ClassConst;
 
 /**
@@ -25,14 +25,10 @@ use PhpParser\Node\Stmt\ClassConst;
  */
 final class ClassConstantIterator implements Iterator
 {
-    /**
-     * @var ClassConst
-     */
+    /** @var ClassConst */
     private $classConstants;
 
-    /**
-     * @var int index of the current ClassConst to use
-     */
+    /** @var int index of the current ClassConst to use */
     private $index = 0;
 
     /**
@@ -48,7 +44,7 @@ final class ClassConstantIterator implements Iterator
      *
      * @return int Line
      */
-    public function getLine(): int
+    public function getLine() : int
     {
         return $this->classConstants->getLine();
     }
@@ -56,7 +52,7 @@ final class ClassConstantIterator implements Iterator
     /**
      * Returns the name of the current constant.
      */
-    public function getName(): string
+    public function getName() : string
     {
         return (string) $this->classConstants->consts[$this->index]->name;
     }
@@ -64,7 +60,7 @@ final class ClassConstantIterator implements Iterator
     /**
      * Returns the fqsen of the current constant.
      */
-    public function getFqsen(): Fqsen
+    public function getFqsen() : Fqsen
     {
         return $this->classConstants->consts[$this->index]->fqsen;
     }
@@ -74,7 +70,7 @@ final class ClassConstantIterator implements Iterator
      *
      * The doc comment has to be the last comment associated with the node.
      */
-    public function getDocComment(): ?Doc
+    public function getDocComment() : ?Doc
     {
         $docComment = $this->classConstants->consts[$this->index]->getDocComment();
         if ($docComment === null) {
@@ -84,7 +80,7 @@ final class ClassConstantIterator implements Iterator
         return $docComment;
     }
 
-    public function getValue()
+    public function getValue() : Expr
     {
         return $this->classConstants->consts[$this->index]->value;
     }
@@ -92,7 +88,7 @@ final class ClassConstantIterator implements Iterator
     /**
      * @link http://php.net/manual/en/iterator.current.php
      */
-    public function current(): self
+    public function current() : self
     {
         return $this;
     }
@@ -100,7 +96,7 @@ final class ClassConstantIterator implements Iterator
     /**
      * @link http://php.net/manual/en/iterator.next.php
      */
-    public function next(): void
+    public function next() : void
     {
         ++$this->index;
     }
@@ -108,7 +104,7 @@ final class ClassConstantIterator implements Iterator
     /**
      * @link http://php.net/manual/en/iterator.key.php
      */
-    public function key(): ?int
+    public function key() : ?int
     {
         return $this->index;
     }
@@ -116,7 +112,7 @@ final class ClassConstantIterator implements Iterator
     /**
      * @link http://php.net/manual/en/iterator.valid.php
      */
-    public function valid(): bool
+    public function valid() : bool
     {
         return isset($this->classConstants->consts[$this->index]);
     }
@@ -124,7 +120,7 @@ final class ClassConstantIterator implements Iterator
     /**
      * @link http://php.net/manual/en/iterator.rewind.php
      */
-    public function rewind(): void
+    public function rewind() : void
     {
         $this->index = 0;
     }

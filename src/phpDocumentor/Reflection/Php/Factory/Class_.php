@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -7,9 +8,7 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      http://phpdoc.org
+ * @link http://phpdoc.org
  */
 
 namespace phpDocumentor\Reflection\Php\Factory;
@@ -25,27 +24,31 @@ use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property as PropertyNode;
 use PhpParser\Node\Stmt\TraitUse;
+use function get_class;
 
 /**
  * Strategy to create a ClassElement including all sub elements.
  */
-// @codingStandardsIgnoreStart
 final class Class_ extends AbstractFactory implements ProjectFactoryStrategy
-// @codingStandardsIgnoreEnd
 {
-    public function matches($object): bool
+    /**
+     * @param mixed $object
+     */
+    public function matches($object) : bool
     {
         return $object instanceof ClassNode;
     }
 
     /**
      * Creates an ClassElement out of the given object.
+     *
      * Since an object might contain other objects that need to be converted the $factory is passed so it can be
      * used to create nested Elements.
      *
      * @param ClassNode $object object to convert to an Element
      * @param StrategyContainer $strategies used to convert nested objects.
      * @param Context $context of the created object
+     *
      * @return ClassElement
      */
     protected function doCreate($object, StrategyContainer $strategies, ?Context $context = null)

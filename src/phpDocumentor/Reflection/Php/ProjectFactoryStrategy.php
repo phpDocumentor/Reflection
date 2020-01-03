@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -7,13 +8,12 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      http://phpdoc.org
+ * @link http://phpdoc.org
  */
 
 namespace phpDocumentor\Reflection\Php;
 
+use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Types\Context;
 
@@ -26,19 +26,18 @@ interface ProjectFactoryStrategy
      * Returns true when the strategy is able to handle the object.
      *
      * @param mixed $object object to check.
-     * @return boolean
      */
-    public function matches($object): bool;
+    public function matches($object) : bool;
 
     /**
      * Creates an Element out of the given object.
      * Since an object might contain other objects that need to be converted the $factory is passed so it can be
      * used to create nested Elements.
      *
-     * @param object $object object to convert to an Element
+     * @param object            $object     object to convert to an Element
      * @param StrategyContainer $strategies used to convert nested objects.
-     * @param Context $context
-     * @return Element
+     *
+     * @return Element|DocBlock|File|Argument|null
      */
     public function create($object, StrategyContainer $strategies, ?Context $context = null);
 }

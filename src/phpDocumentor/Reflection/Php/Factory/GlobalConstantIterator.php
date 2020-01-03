@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -7,9 +8,7 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      http://phpdoc.org
+ * @link http://phpdoc.org
  */
 
 namespace phpDocumentor\Reflection\Php\Factory;
@@ -17,18 +16,15 @@ namespace phpDocumentor\Reflection\Php\Factory;
 use Iterator;
 use phpDocumentor\Reflection\Fqsen;
 use PhpParser\Comment\Doc;
+use PhpParser\Node\Expr;
 use PhpParser\Node\Stmt\Const_;
 
 final class GlobalConstantIterator implements Iterator
 {
-    /**
-     * @var Const_
-     */
+    /** @var Const_ */
     private $constant;
 
-    /**
-     * @var int index of the current constant to use
-     */
+    /** @var int index of the current constant to use */
     private $index = 0;
 
     /**
@@ -80,7 +76,7 @@ final class GlobalConstantIterator implements Iterator
         return $docComment;
     }
 
-    public function getValue()
+    public function getValue() : Expr
     {
         return $this->constant->consts[$this->index]->value;
     }

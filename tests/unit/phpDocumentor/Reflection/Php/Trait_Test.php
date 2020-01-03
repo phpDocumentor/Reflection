@@ -1,24 +1,26 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      http://phpdoc.org
+ * @link http://phpdoc.org
  */
 
 namespace phpDocumentor\Reflection\Php;
 
-use \Mockery as m;
+use Mockery as m;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the functionality for the Trait_ class.
+ *
  * @coversDefaultClass phpDocumentor\Reflection\Php\Trait_
  */
 // @codingStandardsIgnoreStart
@@ -28,27 +30,23 @@ class Trait_Test extends TestCase
     /** @var Trait_ $fixture */
     protected $fixture;
 
-    /**
-     * @var Fqsen
-     */
+    /** @var Fqsen */
     private $fqsen;
 
-    /**
-     * @var DocBlock
-     */
+    /** @var DocBlock */
     private $docBlock;
 
     /**
      * Creates a new (empty) fixture object.
      */
-    protected function setUp()
+    protected function setUp() : void
     {
-        $this->fqsen = new Fqsen('\MyTrait');
+        $this->fqsen    = new Fqsen('\MyTrait');
         $this->docBlock = new DocBlock('');
-        $this->fixture = new Trait_($this->fqsen, $this->docBlock);
+        $this->fixture  = new Trait_($this->fqsen, $this->docBlock);
     }
 
-    protected function tearDown()
+    protected function tearDown() : void
     {
         m::close();
     }
@@ -58,7 +56,7 @@ class Trait_Test extends TestCase
      * @covers ::getName
      * @covers ::__construct
      */
-    public function testGetFqsenAndGetName()
+    public function testGetFqsenAndGetName() : void
     {
         $this->assertSame($this->fqsen, $this->fixture->getFqsen());
         $this->assertEquals($this->fqsen->getName(), $this->fixture->getName());
@@ -68,7 +66,7 @@ class Trait_Test extends TestCase
      * @covers ::addProperty
      * @covers ::getProperties
      */
-    public function testAddAndGettingProperties()
+    public function testAddAndGettingProperties() : void
     {
         $this->assertEquals([], $this->fixture->getProperties());
 
@@ -83,7 +81,7 @@ class Trait_Test extends TestCase
      * @covers ::addMethod
      * @covers ::getMethods
      */
-    public function testAddAndGettingMethods()
+    public function testAddAndGettingMethods() : void
     {
         $this->assertEquals([], $this->fixture->getMethods());
 
@@ -98,7 +96,7 @@ class Trait_Test extends TestCase
      * @covers ::getUsedTraits
      * @covers ::AddUsedTrait
      */
-    public function testAddAndGettingUsedTrait()
+    public function testAddAndGettingUsedTrait() : void
     {
         $this->assertEmpty($this->fixture->getUsedTraits());
 
@@ -113,7 +111,7 @@ class Trait_Test extends TestCase
      * @covers ::__construct
      * @covers ::getDocBlock
      */
-    public function testGetDocblock()
+    public function testGetDocblock() : void
     {
         $this->assertSame($this->docBlock, $this->fixture->getDocBlock());
     }

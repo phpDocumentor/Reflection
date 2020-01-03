@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Types;
@@ -13,21 +14,26 @@ use PhpParser\Node\Stmt\UseUse;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \phpDocumentor\Reflection\Types\NamespaceNodeToContext
+ * @coversDefaultClass \phpDocumentor\Reflection\Types\NamespaceNodeToContext
+ * @covers ::<private>
  */
-class NamespaceNodeToContextTest extends TestCase
+final class NamespaceNodeToContextTest extends TestCase
 {
     /**
      * @dataProvider expectedContextsProvider
+     * @covers ::__invoke
      */
-    public function testConversion(?Namespace_ $namespace, Context $expectedContext): void
+    public function testConversion(?Namespace_ $namespace, Context $expectedContext) : void
     {
-        self::assertEquals($expectedContext, (new NamespaceNodeToContext())->__invoke($namespace));
+        $this->assertEquals($expectedContext, (new NamespaceNodeToContext())->__invoke($namespace));
     }
 
-    public function expectedContextsProvider()
+    /**
+     * @return (Namespace|Context|null)[][]
+     */
+    public function expectedContextsProvider() : array
     {
-         $namespaceWithImports = new Namespace_(
+        $namespaceWithImports = new Namespace_(
             new Name('With\\Imports'),
             [
                 (new Use_('ClassName', UseStatement::TYPE_NORMAL))->getNode(),

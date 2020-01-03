@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -7,9 +8,7 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      http://phpdoc.org
+ * @link http://phpdoc.org
  */
 
 namespace phpDocumentor\Reflection\Php\Factory;
@@ -22,6 +21,7 @@ use phpDocumentor\Reflection\TypeResolver;
 use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Node\NullableType;
 use PhpParser\Node\Stmt\Function_ as FunctionNode;
+use PhpParser\Node\UnionType;
 
 /**
  * Strategy to convert Function_ to FunctionDescriptor
@@ -29,9 +29,7 @@ use PhpParser\Node\Stmt\Function_ as FunctionNode;
  * @see FunctionDescriptor
  * @see \PhpParser\Node\
  */
-// @codingStandardsIgnoreStart
 final class Function_ extends AbstractFactory implements ProjectFactoryStrategy
-// @codingStandardsIgnoreEnd
 {
     public function matches($object) : bool
     {
@@ -44,6 +42,7 @@ final class Function_ extends AbstractFactory implements ProjectFactoryStrategy
      * @param \PhpParser\Node\Stmt\Function_ $object object to convert to an Element
      * @param StrategyContainer $strategies used to convert nested objects.
      * @param Context $context of the created object
+     *
      * @return FunctionDescriptor
      */
     protected function doCreate($object, StrategyContainer $strategies, ?Context $context = null)
@@ -55,8 +54,10 @@ final class Function_ extends AbstractFactory implements ProjectFactoryStrategy
             $typeResolver = new TypeResolver();
             if ($object->getReturnType() instanceof NullableType) {
                 $typeString = '?' . $object->getReturnType()->type;
+            } elseif ($object->getReturnType() instanceof UnionType) {
+                $typeString = $object->getReturnType()->getType();
             } else {
-                $typeString = (string) $object->getReturnType();
+                $typeString = $object->getReturnType()->toString();
             }
 
             $returnType = $typeResolver->resolve($typeString, $context);

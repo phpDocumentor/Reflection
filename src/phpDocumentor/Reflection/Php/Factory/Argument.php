@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -7,9 +8,7 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      http://phpdoc.org
+ * @link http://phpdoc.org
  */
 
 namespace phpDocumentor\Reflection\Php\Factory;
@@ -24,19 +23,18 @@ use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\NullableType;
 use PhpParser\Node\Param;
+use PhpParser\Node\UnionType;
 use Webmozart\Assert\Assert;
 
 /**
  * Strategy to convert Param to Argument
  *
- * @see \phpDocumentor\Descriptor\Argument
+ * @see ArgumentDescriptor
  * @see \PhpParser\Node\Arg
  */
 final class Argument extends AbstractFactory implements ProjectFactoryStrategy
 {
-    /**
-     * @var PrettyPrinter
-     */
+    /** @var PrettyPrinter */
     private $valueConverter;
 
     /**
@@ -47,19 +45,21 @@ final class Argument extends AbstractFactory implements ProjectFactoryStrategy
         $this->valueConverter = $prettyPrinter;
     }
 
-    public function matches($object): bool
+    public function matches($object) : bool
     {
         return $object instanceof Param;
     }
 
     /**
      * Creates an ArgumentDescriptor out of the given object.
+     *
      * Since an object might contain other objects that need to be converted the $factory is passed so it can be
      * used to create nested Elements.
      *
      * @param Param $object object to convert to an Element
      * @param StrategyContainer $strategies used to convert nested objects.
      * @param Context $context of the created object
+     *
      * @return ArgumentDescriptor
      */
     protected function doCreate($object, StrategyContainer $strategies, ?Context $context = null)
@@ -79,13 +79,19 @@ final class Argument extends AbstractFactory implements ProjectFactoryStrategy
         return new ArgumentDescriptor((string) $object->var->name, $type, $default, $object->byRef, $object->variadic);
     }
 
-    private function createType(Param $arg, ?Context $context = null): Type
+    private function createType(Param $arg, ?Context $context = null) : ?Type
     {
+        if ($arg->type === null) {
+            return null;
+        }
+
         $typeResolver = new TypeResolver();
         if ($arg->type instanceof NullableType) {
             $typeString = '?' . $arg->type->type;
+        } elseif ($arg->type instanceof UnionType) {
+            $typeString = $arg->type->getType();
         } else {
-            $typeString = (string) $arg->type;
+            $typeString = $arg->type->toString();
         }
 
         return $typeResolver->resolve($typeString, $context);

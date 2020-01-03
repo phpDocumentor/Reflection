@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -7,9 +8,7 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      http://phpdoc.org
+ * @link http://phpdoc.org
  */
 
 namespace phpDocumentor\Reflection\Php\Factory;
@@ -24,12 +23,11 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property as PropertyNode;
 use PhpParser\Node\Stmt\Trait_ as TraitNode;
 use PhpParser\Node\Stmt\TraitUse;
+use function get_class;
 
-// @codingStandardsIgnoreStart
 final class Trait_ extends AbstractFactory implements ProjectFactoryStrategy
-// @codingStandardsIgnoreEnd
 {
-    public function matches($object): bool
+    public function matches($object) : bool
     {
         return $object instanceof TraitNode;
     }
@@ -42,6 +40,7 @@ final class Trait_ extends AbstractFactory implements ProjectFactoryStrategy
      *
      * @param TraitNode $object object to convert to an TraitElement
      * @param StrategyContainer $strategies used to convert nested objects.
+     *
      * @return TraitElement
      */
     protected function doCreate($object, StrategyContainer $strategies, ?Context $context = null)

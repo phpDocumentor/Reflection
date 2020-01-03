@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -7,9 +8,7 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      http://phpdoc.org
+ * @link http://phpdoc.org
  */
 
 namespace phpDocumentor\Reflection\NodeVisitor;
@@ -28,24 +27,30 @@ use PhpParser\Node\Stmt\Trait_;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitorAbstract;
 use SplDoublyLinkedList;
+use function get_class;
+use function rtrim;
 
 final class ElementNameResolver extends NodeVisitorAbstract
 {
-    /**
-     * @var SplDoublyLinkedList
-     */
+    /** @var SplDoublyLinkedList */
     private $parts = null;
 
     /**
      * Resets the object to a known state before start processing.
+     *
+     * @inheritDoc
      */
     public function beforeTraverse(array $nodes)
     {
         $this->resetState('\\');
+
+        return null;
     }
 
     /**
      * Performs a reset of the added element when needed.
+     *
+     * @inheritDoc
      */
     public function leaveNode(Node $node)
     {
@@ -64,6 +69,8 @@ final class ElementNameResolver extends NodeVisitorAbstract
                 }
                 break;
         }
+
+        return null;
     }
 
     /**
@@ -75,7 +82,7 @@ final class ElementNameResolver extends NodeVisitorAbstract
      *       that should clear up the PHPSTAN errors about
      *       "access to an undefined property ::$fqsen".
      */
-    public function enterNode(Node $node): ?int
+    public function enterNode(Node $node) : ?int
     {
         switch (get_class($node)) {
             case Namespace_::class:
@@ -89,7 +96,7 @@ final class ElementNameResolver extends NodeVisitorAbstract
                     return NodeTraverser::DONT_TRAVERSE_CHILDREN;
                 }
 
-                $this->parts->push((string)$node->name);
+                $this->parts->push((string) $node->name);
                 $node->fqsen = new Fqsen($this->buildName());
                 break;
             case Function_::class:
@@ -119,7 +126,7 @@ final class ElementNameResolver extends NodeVisitorAbstract
     /**
      * Resets the state of the object to an empty state.
      */
-    private function resetState(?string $namespace = null): void
+    private function resetState(?string $namespace = null) : void
     {
         $this->parts = new SplDoublyLinkedList();
         $this->parts->push($namespace);
@@ -128,7 +135,7 @@ final class ElementNameResolver extends NodeVisitorAbstract
     /**
      * Builds the name of the current node using the parts that are pushed to the parts list.
      */
-    private function buildName(): string
+    private function buildName() : string
     {
         $name = null;
         foreach ($this->parts as $part) {
