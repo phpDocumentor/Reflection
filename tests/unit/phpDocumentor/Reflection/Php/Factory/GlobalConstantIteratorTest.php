@@ -1,13 +1,14 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      http://phpdoc.org
+ * @link http://phpdoc.org
  */
 
 namespace phpDocumentor\Reflection\Php\Factory;
@@ -18,10 +19,8 @@ use PhpParser\Comment\Doc;
 use PhpParser\Node\Const_;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\Const_ as ConstStatement;
-use PHPUnit\Framework\TestCase;
 
 /**
- * Class PropertyIteratorTest
  * @coversDefaultClass \phpDocumentor\Reflection\Php\Factory\GlobalConstantIterator
  * @covers ::__construct
  * @covers ::<private>
@@ -36,7 +35,7 @@ final class GlobalConstantIteratorTest extends m\Adapter\Phpunit\MockeryTestCase
      * @covers ::getName()
      * @covers ::getFqsen()
      */
-    public function testIterateProps()
+    public function testIterateProps() : void
     {
         $const1 = new Const_('\Space\MY_CONST1', new Variable('a'));
         $const1->fqsen = new Fqsen((string) $const1->name);
@@ -58,7 +57,7 @@ final class GlobalConstantIteratorTest extends m\Adapter\Phpunit\MockeryTestCase
      * @covers ::key()
      * @covers ::next()
      */
-    public function testKey()
+    public function testKey() : void
     {
         $constant = m::mock(ConstStatement::class);
 
@@ -73,7 +72,7 @@ final class GlobalConstantIteratorTest extends m\Adapter\Phpunit\MockeryTestCase
      * @covers ::__construct
      * @covers ::getLine
      */
-    public function testProxyMethods()
+    public function testProxyMethods() : void
     {
         $constant = m::mock(ConstStatement::class);
         $constant->shouldReceive('getLine')->once()->andReturn(10);
@@ -86,7 +85,7 @@ final class GlobalConstantIteratorTest extends m\Adapter\Phpunit\MockeryTestCase
     /**
      * @covers ::getDocComment
      */
-    public function testGetDocCommentPropFirst()
+    public function testGetDocCommentPropFirst() : void
     {
         $const = m::mock(Const_::class);
         $constants = m::mock(ConstStatement::class);
@@ -103,7 +102,7 @@ final class GlobalConstantIteratorTest extends m\Adapter\Phpunit\MockeryTestCase
     /**
      * @covers ::getDocComment
      */
-    public function testGetDocComment()
+    public function testGetDocComment() : void
     {
         $const = m::mock(Const_::class);
         $constants = m::mock(ConstStatement::class);

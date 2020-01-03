@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -7,9 +8,7 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      http://phpdoc.org
+ * @link http://phpdoc.org
  */
 
 namespace phpDocumentor\Reflection\Php;
@@ -26,34 +25,22 @@ use phpDocumentor\Reflection\Location;
 final class Interface_ implements Element
 // @codingStandardsIgnoreEnd
 {
-    /**
-     * @var Fqsen Full Qualified Structural Element Name
-     */
+    /** @var Fqsen Full Qualified Structural Element Name */
     private $fqsen;
 
-    /**
-     * @var DocBlock|null
-     */
+    /** @var DocBlock|null */
     private $docBlock;
 
-    /**
-     * @var Constant[]
-     */
+    /** @var Constant[] */
     private $constants = [];
 
-    /**
-     * @var Method[]
-     */
+    /** @var Method[] */
     private $methods = [];
 
-    /**
-     * @var Fqsen[]
-     */
+    /** @var Fqsen[] */
     private $parents = [];
 
-    /**
-     * @var Location
-     */
+    /** @var Location */
     private $location;
 
     /**
@@ -71,9 +58,9 @@ final class Interface_ implements Element
             $location = new Location(-1);
         }
 
-        $this->fqsen = $fqsen;
+        $this->fqsen    = $fqsen;
         $this->docBlock = $docBlock;
-        $this->parents = $parents;
+        $this->parents  = $parents;
         $this->location = $location;
     }
 
@@ -82,7 +69,7 @@ final class Interface_ implements Element
      *
      * @return Constant[]
      */
-    public function getConstants(): array
+    public function getConstants() : array
     {
         return $this->constants;
     }
@@ -90,7 +77,7 @@ final class Interface_ implements Element
     /**
      * Add constant to this interface.
      */
-    public function addConstant(Constant $constant): void
+    public function addConstant(Constant $constant) : void
     {
         $this->constants[(string) $constant->getFqsen()] = $constant;
     }
@@ -100,7 +87,7 @@ final class Interface_ implements Element
      *
      * @return Method[]
      */
-    public function getMethods(): array
+    public function getMethods() : array
     {
         return $this->methods;
     }
@@ -108,7 +95,7 @@ final class Interface_ implements Element
     /**
      * Add method to this interface.
      */
-    public function addMethod(Method $method): void
+    public function addMethod(Method $method) : void
     {
         $this->methods[(string) $method->getFqsen()] = $method;
     }
@@ -116,7 +103,7 @@ final class Interface_ implements Element
     /**
      * Returns the Fqsen of the element.
      */
-    public function getFqsen(): Fqsen
+    public function getFqsen() : Fqsen
     {
         return $this->fqsen;
     }
@@ -124,7 +111,7 @@ final class Interface_ implements Element
     /**
      * Returns the name of the element.
      */
-    public function getName(): string
+    public function getName() : string
     {
         return $this->fqsen->getName();
     }
@@ -132,7 +119,7 @@ final class Interface_ implements Element
     /**
      * Returns the DocBlock of this interface if available.
      */
-    public function getDocBlock(): ?DocBlock
+    public function getDocBlock() : ?DocBlock
     {
         return $this->docBlock;
     }
@@ -142,12 +129,12 @@ final class Interface_ implements Element
      *
      * @return Fqsen[]
      */
-    public function getParents(): array
+    public function getParents() : array
     {
         return $this->parents;
     }
 
-    public function getLocation(): Location
+    public function getLocation() : Location
     {
         return $this->location;
     }

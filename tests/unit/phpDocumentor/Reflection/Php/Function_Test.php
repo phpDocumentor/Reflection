@@ -1,18 +1,19 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      http://phpdoc.org
+ * @link http://phpdoc.org
  */
 
 namespace phpDocumentor\Reflection\Php;
 
-use \Mockery as m;
+use Mockery as m;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Types\Mixed_;
@@ -21,7 +22,8 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the functionality for the Function_ class.
- * @coversDefaultClass phpDocumentor\Reflection\Php\Function_
+ *
+ * @coversDefaultClass \phpDocumentor\Reflection\Php\Function_
  */
 // @codingStandardsIgnoreStart
 class Function_Test extends TestCase
@@ -39,14 +41,14 @@ class Function_Test extends TestCase
     /**
      * Creates a new (emoty) fixture object.
      */
-    protected function setUp()
+    protected function setUp() : void
     {
-        $this->fqsen = new Fqsen('\space\MyFunction()');
+        $this->fqsen    = new Fqsen('\space\MyFunction()');
         $this->docBlock = new DocBlock('aa');
-        $this->fixture = new Function_($this->fqsen, $this->docBlock);
+        $this->fixture  = new Function_($this->fqsen, $this->docBlock);
     }
 
-    protected function tearDown()
+    protected function tearDown() : void
     {
         m::close();
     }
@@ -55,7 +57,7 @@ class Function_Test extends TestCase
      * @covers ::__construct
      * @covers ::getName
      */
-    public function testGetName()
+    public function testGetName() : void
     {
         $this->assertEquals('MyFunction', $this->fixture->getName());
     }
@@ -64,7 +66,7 @@ class Function_Test extends TestCase
      * @covers ::addArgument
      * @covers ::getArguments
      */
-    public function testAddAndGetArguments()
+    public function testAddAndGetArguments() : void
     {
         $argument = new Argument('firstArgument');
         $this->fixture->addArgument($argument);
@@ -76,7 +78,7 @@ class Function_Test extends TestCase
      * @covers ::__construct
      * @covers ::getFqsen
      */
-    public function testGetFqsen()
+    public function testGetFqsen() : void
     {
         $this->assertSame($this->fqsen, $this->fixture->getFqsen());
     }
@@ -85,7 +87,7 @@ class Function_Test extends TestCase
      * @covers ::__construct
      * @covers ::getDocBlock
      */
-    public function testGetDocblock()
+    public function testGetDocblock() : void
     {
         $this->assertSame($this->docBlock, $this->fixture->getDocBlock());
     }
@@ -94,7 +96,7 @@ class Function_Test extends TestCase
      * @covers ::getReturnType
      * @covers ::__construct
      */
-    public function testGetDefaultReturnType()
+    public function testGetDefaultReturnType() : void
     {
         $method = new Function_($this->fqsen);
         $this->assertEquals(new Mixed_(), $method->getReturnType());
@@ -104,10 +106,10 @@ class Function_Test extends TestCase
      * @covers ::getReturnType
      * @covers ::__construct
      */
-    public function testGetReturnTypeFromConstructor()
+    public function testGetReturnTypeFromConstructor() : void
     {
         $returnType = new String_();
-        $method = new Function_(
+        $method     = new Function_(
             $this->fqsen,
             null,
             null,

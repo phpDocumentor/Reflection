@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -7,9 +8,7 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      http://phpdoc.org
+ * @link http://phpdoc.org
  */
 
 namespace phpDocumentor\Reflection\Php;
@@ -28,37 +27,23 @@ use phpDocumentor\Reflection\Types\Mixed_;
 final class Function_ implements Element
 // // @codingStandardsIgnoreEnd
 {
-    /**
-     * @var Fqsen Full Qualified Structural Element Name
-     */
+    /** @var Fqsen Full Qualified Structural Element Name */
     private $fqsen;
 
-    /**
-     * @var Argument[]
-     */
+    /** @var Argument[] */
     private $arguments = [];
 
-    /**
-     * @var DocBlock|null
-     */
+    /** @var DocBlock|null */
     private $docBlock;
 
-    /**
-     * @var Location
-     */
+    /** @var Location */
     private $location;
 
-    /**
-     * @var Type
-     */
+    /** @var Type */
     private $returnType;
 
     /**
      * Initializes the object.
-     *
-     * @param DocBlock|null $docBlock
-     * @param Location|null $location
-     * @param Type|null $returnType
      */
     public function __construct(
         Fqsen $fqsen,
@@ -74,9 +59,9 @@ final class Function_ implements Element
             $returnType = new Mixed_();
         }
 
-        $this->fqsen = $fqsen;
-        $this->docBlock = $docBlock;
-        $this->location = $location;
+        $this->fqsen      = $fqsen;
+        $this->docBlock   = $docBlock;
+        $this->location   = $location;
         $this->returnType = $returnType;
     }
 
@@ -85,7 +70,7 @@ final class Function_ implements Element
      *
      * @return Argument[]
      */
-    public function getArguments(): array
+    public function getArguments() : array
     {
         return $this->arguments;
     }
@@ -93,7 +78,7 @@ final class Function_ implements Element
     /**
      * Add an argument to the function.
      */
-    public function addArgument(Argument $argument): void
+    public function addArgument(Argument $argument) : void
     {
         $this->arguments[] = $argument;
     }
@@ -101,7 +86,7 @@ final class Function_ implements Element
     /**
      * Returns the Fqsen of the element.
      */
-    public function getFqsen(): Fqsen
+    public function getFqsen() : Fqsen
     {
         return $this->fqsen;
     }
@@ -109,7 +94,7 @@ final class Function_ implements Element
     /**
      * Returns the name of the element.
      */
-    public function getName(): string
+    public function getName() : string
     {
         return $this->fqsen->getName();
     }
@@ -117,17 +102,17 @@ final class Function_ implements Element
     /**
      * Returns the DocBlock of the element if available
      */
-    public function getDocBlock(): ?DocBlock
+    public function getDocBlock() : ?DocBlock
     {
         return $this->docBlock;
     }
 
-    public function getLocation(): Location
+    public function getLocation() : Location
     {
         return $this->location;
     }
 
-    public function getReturnType(): Type
+    public function getReturnType() : Type
     {
         return $this->returnType;
     }

@@ -1,13 +1,14 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      http://phpdoc.org
+ * @link http://phpdoc.org
  */
 
 namespace phpDocumentor\Reflection\Php\Factory;
@@ -22,11 +23,12 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Class PropertyIteratorTest
+ *
  * @coversDefaultClass \phpDocumentor\Reflection\Php\Factory\ClassConstantIterator
  */
 class ClassConstantIteratorTest extends TestCase
 {
-    protected function tearDown()
+    protected function tearDown() : void
     {
         m::close();
     }
@@ -39,11 +41,11 @@ class ClassConstantIteratorTest extends TestCase
      * @covers ::getName()
      * @covers ::getFqsen()
      */
-    public function testIterateProps()
+    public function testIterateProps() : void
     {
-        $const1 = new Const_('\Space\MyClass::MY_CONST1', new Variable('a'));
+        $const1        = new Const_('\Space\MyClass::MY_CONST1', new Variable('a'));
         $const1->fqsen = new Fqsen((string) $const1->name);
-        $const2 = new Const_('\Space\MyClass::MY_CONST2', new Variable('b'));
+        $const2        = new Const_('\Space\MyClass::MY_CONST2', new Variable('b'));
         $const2->fqsen = new Fqsen((string) $const2->name);
 
         $classConstantNode = new ClassConst([$const1, $const2]);
@@ -61,7 +63,7 @@ class ClassConstantIteratorTest extends TestCase
      * @covers ::key()
      * @covers ::next()
      */
-    public function testKey()
+    public function testKey() : void
     {
         $propertyMock = m::mock(ClassConst::class);
 
@@ -76,7 +78,7 @@ class ClassConstantIteratorTest extends TestCase
      * @covers ::__construct
      * @covers ::getLine
      */
-    public function testProxyMethods()
+    public function testProxyMethods() : void
     {
         $propertyMock = m::mock(ClassConst::class);
         $propertyMock->shouldReceive('getLine')->once()->andReturn(10);
@@ -89,10 +91,10 @@ class ClassConstantIteratorTest extends TestCase
     /**
      * @covers ::getDocComment
      */
-    public function testGetDocCommentPropFirst()
+    public function testGetDocCommentPropFirst() : void
     {
-        $const = m::mock(Const_::class);
-        $classConstants = m::mock(ClassConst::class);
+        $const                  = m::mock(Const_::class);
+        $classConstants         = m::mock(ClassConst::class);
         $classConstants->consts = [$const];
 
         $const->shouldReceive('getDocComment')->once()->andReturn(new Doc('test'));
@@ -106,10 +108,10 @@ class ClassConstantIteratorTest extends TestCase
     /**
      * @covers ::getDocComment
      */
-    public function testGetDocComment()
+    public function testGetDocComment() : void
     {
-        $const = m::mock(Const_::class);
-        $classConstants = m::mock(ClassConst::class);
+        $const                  = m::mock(Const_::class);
+        $classConstants         = m::mock(ClassConst::class);
         $classConstants->consts = [$const];
 
         $const->shouldReceive('getDocComment')->once()->andReturnNull();

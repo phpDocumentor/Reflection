@@ -1,18 +1,19 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      http://phpdoc.org
+ * @link http://phpdoc.org
  */
 
 namespace phpDocumentor\Reflection\Php;
 
-use \Mockery as m;
+use Mockery as m;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Types\Mixed_;
@@ -21,6 +22,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the functionality for the Method class.
+ *
  * @coversDefaultClass phpDocumentor\Reflection\Php\Method
  */
 class MethodTest extends TestCase
@@ -28,20 +30,23 @@ class MethodTest extends TestCase
     /** @var Method $fixture */
     protected $fixture;
 
+    /** @var Fqsen */
     private $fqsen;
 
+    /** @var Visibility */
     private $visibility;
 
+    /** @var DocBlock */
     private $docblock;
 
-    protected function setUp()
+    protected function setUp() : void
     {
-        $this->fqsen = new Fqsen('\My\Space::MyMethod()');
+        $this->fqsen      = new Fqsen('\My\Space::MyMethod()');
         $this->visibility = new Visibility('private');
-        $this->docblock = new DocBlock('');
+        $this->docblock   = new DocBlock('');
     }
 
-    protected function tearDown()
+    protected function tearDown() : void
     {
         m::close();
     }
@@ -51,7 +56,7 @@ class MethodTest extends TestCase
      * @covers ::getName
      * @covers ::__construct
      */
-    public function testGetFqsenAndGetName()
+    public function testGetFqsenAndGetName() : void
     {
         $method = new Method($this->fqsen);
 
@@ -63,7 +68,7 @@ class MethodTest extends TestCase
      * @covers ::getDocblock
      * @covers ::__construct
      */
-    public function testGetDocBlock()
+    public function testGetDocBlock() : void
     {
         $method = new Method($this->fqsen, $this->visibility, $this->docblock);
 
@@ -74,7 +79,7 @@ class MethodTest extends TestCase
      * @covers ::getArguments
      * @covers ::addArgument
      */
-    public function testAddingAndGettingArguments()
+    public function testAddingAndGettingArguments() : void
     {
         $method = new Method($this->fqsen);
         $this->assertEquals([], $method->getArguments());
@@ -89,7 +94,7 @@ class MethodTest extends TestCase
      * @covers ::isAbstract
      * @covers ::__construct
      */
-    public function testGettingWhetherMethodIsAbstract()
+    public function testGettingWhetherMethodIsAbstract() : void
     {
         $method = new Method($this->fqsen, $this->visibility, $this->docblock, false);
         $this->assertFalse($method->isAbstract());
@@ -102,7 +107,7 @@ class MethodTest extends TestCase
      * @covers ::isFinal
      * @covers ::__construct
      */
-    public function testGettingWhetherMethodIsFinal()
+    public function testGettingWhetherMethodIsFinal() : void
     {
         $method = new Method($this->fqsen, $this->visibility, $this->docblock, false, false, false);
         $this->assertFalse($method->isFinal());
@@ -115,7 +120,7 @@ class MethodTest extends TestCase
      * @covers ::isStatic
      * @covers ::__construct
      */
-    public function testGettingWhetherMethodIsStatic()
+    public function testGettingWhetherMethodIsStatic() : void
     {
         $method = new Method($this->fqsen, $this->visibility, $this->docblock, false, false, false);
         $this->assertFalse($method->isStatic());
@@ -128,7 +133,7 @@ class MethodTest extends TestCase
      * @covers ::getVisibility
      * @covers ::__construct
      */
-    public function testGettingVisibility()
+    public function testGettingVisibility() : void
     {
         $method = new Method($this->fqsen, $this->visibility, $this->docblock, false, false, false);
         $this->assertSame($this->visibility, $method->getVisibility());
@@ -138,7 +143,7 @@ class MethodTest extends TestCase
      * @covers ::getVisibility
      * @covers ::__construct
      */
-    public function testGetDefaultVisibility()
+    public function testGetDefaultVisibility() : void
     {
         $method = new Method($this->fqsen);
         $this->assertEquals(new Visibility('public'), $method->getVisibility());
@@ -148,7 +153,7 @@ class MethodTest extends TestCase
      * @covers ::getReturnType
      * @covers ::__construct
      */
-    public function testGetDefaultReturnType()
+    public function testGetDefaultReturnType() : void
     {
         $method = new Method($this->fqsen);
         $this->assertEquals(new Mixed_(), $method->getReturnType());
@@ -158,10 +163,10 @@ class MethodTest extends TestCase
      * @covers ::getReturnType
      * @covers ::__construct
      */
-    public function testGetReturnTypeFromConstructor()
+    public function testGetReturnTypeFromConstructor() : void
     {
         $returnType = new String_();
-        $method = new Method(
+        $method     = new Method(
             $this->fqsen,
             new Visibility('public'),
             null,

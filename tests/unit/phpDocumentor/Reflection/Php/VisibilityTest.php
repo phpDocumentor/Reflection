@@ -1,13 +1,14 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      http://phpdoc.org
+ * @link http://phpdoc.org
  */
 
 namespace phpDocumentor\Reflection\Php;
@@ -16,7 +17,8 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Test case for Visibility
- * @coversDefaultClass phpDocumentor\Reflection\Php\Visibility
+ *
+ * @coversDefaultClass \phpDocumentor\Reflection\Php\Visibility
  */
 class VisibilityTest extends TestCase
 {
@@ -25,14 +27,17 @@ class VisibilityTest extends TestCase
      * @covers ::__construct
      * @covers ::__toString
      */
-    public function testVisibility($input, $expected)
+    public function testVisibility(string $input, string $expected) : void
     {
         $visibility = new Visibility($input);
 
         $this->assertEquals($expected, (string) $visibility);
     }
 
-    public function visibilityProvider()
+    /**
+     * @return string[][]
+     */
+    public function visibilityProvider() : array
     {
         return [
             ['public', 'public'],
@@ -43,11 +48,11 @@ class VisibilityTest extends TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
      * @covers ::__construct
      */
-    public function testVisibilityChecksInput()
+    public function testVisibilityChecksInput() : void
     {
+        $this->expectException('InvalidArgumentException');
         new Visibility('fooBar');
     }
 }

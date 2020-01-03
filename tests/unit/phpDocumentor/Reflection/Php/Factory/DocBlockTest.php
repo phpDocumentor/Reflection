@@ -1,13 +1,14 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      http://phpdoc.org
+ * @link http://phpdoc.org
  */
 
 namespace phpDocumentor\Reflection\Php\Factory;
@@ -17,40 +18,41 @@ use phpDocumentor\Reflection\DocBlock as DocblockDescriptor;
 use phpDocumentor\Reflection\DocBlockFactoryInterface;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use PhpParser\Comment\Doc;
+use stdClass;
 
 /**
  * Test case for \phpDocumentor\Reflection\Php\Factory\DocBlock
+ *
  * @coversDefaultClass \phpDocumentor\Reflection\Php\Factory\DocBlock
  */
 class DocBlockTest extends TestCase
 {
-    /**
-     * @var m\MockInterface
-     */
+    /** @var m\MockInterface|DocBlockFactoryInterface */
     private $factoryMock;
 
+    /** @var m\MockInterface|StrategyContainer */
     private $strategiesMock;
 
-    protected function setUp()
+    protected function setUp() : void
     {
-        $this->factoryMock = m::mock(DocBlockFactoryInterface::class);
+        $this->factoryMock    = m::mock(DocBlockFactoryInterface::class);
         $this->strategiesMock = m::mock(StrategyContainer::class);
-        $this->fixture = new DocBlock($this->factoryMock);
+        $this->fixture        = new DocBlock($this->factoryMock);
     }
 
     /**
      * @covers ::matches
      */
-    public function testMatches()
+    public function testMatches() : void
     {
-        $this->assertFalse($this->fixture->matches(new \stdClass()));
+        $this->assertFalse($this->fixture->matches(new stdClass()));
         $this->assertTrue($this->fixture->matches(m::mock(Doc::class)));
     }
 
     /**
      * @covers ::create
      */
-    public function testCreateWithNullReturnsNull()
+    public function testCreateWithNullReturnsNull() : void
     {
         $this->assertNull($this->fixture->create(null, $this->strategiesMock));
     }
@@ -59,7 +61,7 @@ class DocBlockTest extends TestCase
      * @covers ::__construct
      * @covers ::create
      */
-    public function testCreateCallsFactory()
+    public function testCreateCallsFactory() : void
     {
         $expected = new DocblockDescriptor('');
         $this->factoryMock->shouldReceive('create')->once()->andReturn($expected);

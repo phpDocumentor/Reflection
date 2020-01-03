@@ -1,13 +1,14 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      http://phpdoc.org
+ * @link http://phpdoc.org
  */
 
 namespace phpDocumentor\Reflection\Php\Factory;
@@ -31,9 +32,11 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property as PropertyNode;
 use PhpParser\Node\Stmt\PropertyProperty;
 use PhpParser\Node\Stmt\TraitUse;
+use stdClass;
 
 /**
  * Class Class_Test
+ *
  * @coversDefaultClass phpDocumentor\Reflection\Php\Factory\Class_
  * @covers ::<!public>
  */
@@ -41,7 +44,7 @@ use PhpParser\Node\Stmt\TraitUse;
 class Class_Test extends TestCase
 // @codingStandardsIgnoreEnd
 {
-    protected function setUp()
+    protected function setUp() : void
     {
         $this->fixture = new Class_();
     }
@@ -49,19 +52,19 @@ class Class_Test extends TestCase
     /**
      * @covers ::matches
      */
-    public function testMatches()
+    public function testMatches() : void
     {
-        $this->assertFalse($this->fixture->matches(new \stdClass()));
+        $this->assertFalse($this->fixture->matches(new stdClass()));
         $this->assertTrue($this->fixture->matches(m::mock(ClassNode::class)));
     }
 
     /**
      * @covers ::create
      */
-    public function testSimpleCreate()
+    public function testSimpleCreate() : void
     {
         $containerMock = m::mock(StrategyContainer::class);
-        $classMock = $this->buildClassMock();
+        $classMock     = $this->buildClassMock();
         $classMock->shouldReceive('getDocComment')->andReturnNull();
 
         /** @var ClassElement $class */
@@ -77,10 +80,10 @@ class Class_Test extends TestCase
     /**
      * @covers ::create
      */
-    public function testClassWithParent()
+    public function testClassWithParent() : void
     {
         $containerMock = m::mock(StrategyContainer::class);
-        $classMock = $this->buildClassMock();
+        $classMock     = $this->buildClassMock();
         $classMock->shouldReceive('getDocComment')->andReturnNull();
         $classMock->extends = 'Space\MyParent';
 
@@ -95,12 +98,12 @@ class Class_Test extends TestCase
     /**
      * @covers ::create
      */
-    public function testClassImplementingInterface()
+    public function testClassImplementingInterface() : void
     {
         $containerMock = m::mock(StrategyContainer::class);
-        $classMock = $this->buildClassMock();
+        $classMock     = $this->buildClassMock();
         $classMock->shouldReceive('getDocComment')->andReturnNull();
-        $classMock->extends = 'Space\MyParent';
+        $classMock->extends    = 'Space\MyParent';
         $classMock->implements = [
             new Name('MyInterface'),
         ];
@@ -120,17 +123,15 @@ class Class_Test extends TestCase
     /**
      * @covers ::create
      */
-    public function testWithMethodMembers()
+    public function testWithMethodMembers() : void
     {
-        $method1 = new ClassMethod('MyClass::method1');
+        $method1           = new ClassMethod('MyClass::method1');
         $method1Descriptor = new MethodElement(new Fqsen('\MyClass::method1'));
-        $strategyMock = m::mock(ProjectFactoryStrategy::class);
-        $containerMock = m::mock(StrategyContainer::class);
-        $classMock = $this->buildClassMock();
+        $strategyMock      = m::mock(ProjectFactoryStrategy::class);
+        $containerMock     = m::mock(StrategyContainer::class);
+        $classMock         = $this->buildClassMock();
         $classMock->shouldReceive('getDocComment')->andReturnNull();
-        $classMock->stmts = [
-            $method1,
-        ];
+        $classMock->stmts = [$method1];
 
         $strategyMock->shouldReceive('create')
             ->with($method1, $containerMock, null)
@@ -154,18 +155,16 @@ class Class_Test extends TestCase
     /**
      * @covers ::create
      */
-    public function testWithPropertyMembers()
+    public function testWithPropertyMembers() : void
     {
-        $propertyProperty = new PropertyProperty('\MyClass::$property');
-        $property = new PropertyNode(1, [$propertyProperty]);
+        $propertyProperty   = new PropertyProperty('\MyClass::$property');
+        $property           = new PropertyNode(1, [$propertyProperty]);
         $propertyDescriptor = new PropertyElement(new Fqsen('\MyClass::$property'));
-        $strategyMock = m::mock(ProjectFactoryStrategy::class);
-        $containerMock = m::mock(StrategyContainer::class);
-        $classMock = $this->buildClassMock();
+        $strategyMock       = m::mock(ProjectFactoryStrategy::class);
+        $containerMock      = m::mock(StrategyContainer::class);
+        $classMock          = $this->buildClassMock();
         $classMock->shouldReceive('getDocComment')->andReturnNull();
-        $classMock->stmts = [
-            $property,
-        ];
+        $classMock->stmts = [$property];
 
         $strategyMock->shouldReceive('create')
             ->with(m::type(PropertyIterator::class), $containerMock, null)
@@ -189,16 +188,14 @@ class Class_Test extends TestCase
     /**
      * @covers ::create
      */
-    public function testWithUsedTraits()
+    public function testWithUsedTraits() : void
     {
-        $trait = new TraitUse([new Name('MyTrait'), new Name('OtherTrait')]);
+        $trait         = new TraitUse([new Name('MyTrait'), new Name('OtherTrait')]);
         $containerMock = m::mock(StrategyContainer::class);
         $containerMock->shouldReceive('findMatching')->never();
         $classMock = $this->buildClassMock();
         $classMock->shouldReceive('getDocComment')->andReturnNull();
-        $classMock->stmts = [
-            $trait,
-        ];
+        $classMock->stmts = [$trait];
 
         /** @var ClassElement $class */
         $class = $this->fixture->create($classMock, $containerMock);
@@ -215,13 +212,13 @@ class Class_Test extends TestCase
     /**
      * @covers ::create
      */
-    public function testWithConstants()
+    public function testWithConstants() : void
     {
-        $const = new Const_('\Space\MyClass::MY_CONST', new Variable('a'));
+        $const    = new Const_('\Space\MyClass::MY_CONST', new Variable('a'));
         $constant = new ClassConst([$const]);
 
-        $result = new ConstantElement(new Fqsen('\Space\MyClass::MY_CONST'));
-        $strategyMock = m::mock(ProjectFactoryStrategy::class);
+        $result        = new ConstantElement(new Fqsen('\Space\MyClass::MY_CONST'));
+        $strategyMock  = m::mock(ProjectFactoryStrategy::class);
         $containerMock = m::mock(StrategyContainer::class);
 
         $strategyMock->shouldReceive('create')
@@ -234,17 +231,13 @@ class Class_Test extends TestCase
 
         $classMock = $this->buildClassMock();
         $classMock->shouldReceive('getDocComment')->andReturnNull();
-        $classMock->stmts = [
-            $constant,
-        ];
+        $classMock->stmts = [$constant];
 
         /** @var ClassElement $class */
         $class = $this->fixture->create($classMock, $containerMock);
 
         $this->assertEquals(
-            [
-                '\Space\MyClass::MY_CONST' => $result,
-            ],
+            ['\Space\MyClass::MY_CONST' => $result],
             $class->getConstants()
         );
     }
@@ -252,15 +245,15 @@ class Class_Test extends TestCase
     /**
      * @covers ::create
      */
-    public function testCreateWithDocBlock()
+    public function testCreateWithDocBlock() : void
     {
-        $doc = m::mock(Doc::class);
+        $doc       = m::mock(Doc::class);
         $classMock = $this->buildClassMock();
         $classMock->shouldReceive('getDocComment')->andReturn($doc);
 
         $docBlock = new DocBlockElement('');
 
-        $strategyMock = m::mock(ProjectFactoryStrategy::class);
+        $strategyMock  = m::mock(ProjectFactoryStrategy::class);
         $containerMock = m::mock(StrategyContainer::class);
 
         $strategyMock->shouldReceive('create')
@@ -282,7 +275,7 @@ class Class_Test extends TestCase
      */
     private function buildClassMock()
     {
-        $classMock = m::mock(ClassNode::class);
+        $classMock        = m::mock(ClassNode::class);
         $classMock->fqsen = new Fqsen('\Space\MyClass');
         $classMock->shouldReceive('isFinal')->andReturn(true);
         $classMock->shouldReceive('isAbstract')->andReturn(true);

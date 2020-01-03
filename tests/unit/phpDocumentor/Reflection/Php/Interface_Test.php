@@ -1,13 +1,14 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      http://phpdoc.org
+ * @link http://phpdoc.org
  */
 
 namespace phpDocumentor\Reflection\Php;
@@ -19,6 +20,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the functionality for the Interface_ class.
+ *
  * @coversDefaultClass phpDocumentor\Reflection\Php\Interface_
  */
 // @codingStandardsIgnoreStart
@@ -28,27 +30,23 @@ class Interface_Test extends TestCase
     /** @var Interface_ $fixture */
     private $fixture;
 
-    /**
-     * @var Fqsen
-     */
+    /** @var Fqsen */
     private $fqsen;
 
-    /**
-     * @var DocBlock
-     */
+    /** @var DocBlock */
     private $docBlock;
 
     /**
      * Creates a new (empty) fixture object.
      */
-    protected function setUp()
+    protected function setUp() : void
     {
-        $this->fqsen = new Fqsen('\MySpace\MyInterface');
+        $this->fqsen    = new Fqsen('\MySpace\MyInterface');
         $this->docBlock = new DocBlock('');
-        $this->fixture = new Interface_($this->fqsen, [], $this->docBlock);
+        $this->fixture  = new Interface_($this->fqsen, [], $this->docBlock);
     }
 
-    protected function tearDown()
+    protected function tearDown() : void
     {
         m::close();
     }
@@ -57,7 +55,7 @@ class Interface_Test extends TestCase
      * @covers ::__construct
      * @covers ::getFqsen
      */
-    public function testGetFqsen()
+    public function testGetFqsen() : void
     {
         $this->assertSame($this->fqsen, $this->fixture->getFqsen());
     }
@@ -66,7 +64,7 @@ class Interface_Test extends TestCase
      * @covers ::__construct
      * @covers ::getDocBlock
      */
-    public function testGetDocblock()
+    public function testGetDocblock() : void
     {
         $this->assertSame($this->docBlock, $this->fixture->getDocBlock());
     }
@@ -75,7 +73,7 @@ class Interface_Test extends TestCase
      * @covers ::addConstant
      * @covers ::getConstants
      */
-    public function testSettingAndGettingConstants()
+    public function testSettingAndGettingConstants() : void
     {
         $this->assertEquals([], $this->fixture->getConstants());
 
@@ -90,7 +88,7 @@ class Interface_Test extends TestCase
      * @covers ::addMethod
      * @covers ::getMethods
      */
-    public function testSettingAndGettingMethods()
+    public function testSettingAndGettingMethods() : void
     {
         $this->assertEquals([], $this->fixture->getMethods());
 
