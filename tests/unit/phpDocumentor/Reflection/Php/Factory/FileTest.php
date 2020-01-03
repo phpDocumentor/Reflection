@@ -1,12 +1,13 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
 
@@ -33,49 +34,48 @@ use PhpParser\Node\Stmt\Function_ as FunctionNode;
 use PhpParser\Node\Stmt\Interface_ as InterfaceNode;
 use PhpParser\Node\Stmt\Namespace_ as NamespaceNode;
 use PhpParser\Node\Stmt\Trait_ as TraitNode;
+use stdClass;
+use function file_get_contents;
 
 /**
  * Test case for \phpDocumentor\Reflection\Php\Factory\File
+ *
  * @coversDefaultClass \phpDocumentor\Reflection\Php\Factory\File
  * @covers ::<!public>
  * @covers ::__construct
  */
 class FileTest extends TestCase
 {
-    /**
-     * @var m\MockInterface
-     */
+    /** @var m\MockInterface */
     private $nodesFactoryMock;
 
-    protected function setUp()
+    protected function setUp() : void
     {
         $this->nodesFactoryMock = m::mock(NodesFactory::class);
-        $this->fixture = new File($this->nodesFactoryMock);
+        $this->fixture          = new File($this->nodesFactoryMock);
     }
 
     /**
      * @covers ::matches
      */
-    public function testMatches()
+    public function testMatches() : void
     {
-        $this->assertFalse($this->fixture->matches(new \stdClass()));
+        $this->assertFalse($this->fixture->matches(new stdClass()));
         $this->assertTrue($this->fixture->matches(m::mock(SourceFile::class)));
     }
 
     /**
      * @covers ::create
      */
-    public function testFileWithFunction()
+    public function testFileWithFunction() : void
     {
         $functionNode = new FunctionNode('myFunction');
         $this->nodesFactoryMock->shouldReceive('create')
             ->with(file_get_contents(__FILE__))
             ->andReturn(
-                [
-                    $functionNode,
-                ]
+                [$functionNode]
             );
-        $strategyMock = m::mock(ProjectFactoryStrategy::class);
+        $strategyMock  = m::mock(ProjectFactoryStrategy::class);
         $containerMock = m::mock(StrategyContainer::class);
 
         $strategyMock->shouldReceive('create')
@@ -96,17 +96,15 @@ class FileTest extends TestCase
     /**
      * @covers ::create
      */
-    public function testFileWithClass()
+    public function testFileWithClass() : void
     {
         $classNode = new ClassNode('myClass');
         $this->nodesFactoryMock->shouldReceive('create')
             ->with(file_get_contents(__FILE__))
             ->andReturn(
-                [
-                    $classNode,
-                ]
+                [$classNode]
             );
-        $strategyMock = m::mock(ProjectFactoryStrategy::class);
+        $strategyMock  = m::mock(ProjectFactoryStrategy::class);
         $containerMock = m::mock(StrategyContainer::class);
 
         $strategyMock->shouldReceive('create')
@@ -127,16 +125,14 @@ class FileTest extends TestCase
     /**
      * @covers ::create
      */
-    public function testFileWithNamespace()
+    public function testFileWithNamespace() : void
     {
-        $namespaceNode = new NamespaceNode(new Name('mySpace'));
+        $namespaceNode        = new NamespaceNode(new Name('mySpace'));
         $namespaceNode->fqsen = new Fqsen('\mySpace');
         $this->nodesFactoryMock->shouldReceive('create')
             ->with(file_get_contents(__FILE__))
             ->andReturn(
-                [
-                    $namespaceNode,
-                ]
+                [$namespaceNode]
             );
 
         $containerMock = m::mock(StrategyContainer::class);
@@ -151,17 +147,15 @@ class FileTest extends TestCase
     /**
      * @covers ::create
      */
-    public function testFileWithInterface()
+    public function testFileWithInterface() : void
     {
         $interfaceNode = new InterfaceNode('myInterface');
         $this->nodesFactoryMock->shouldReceive('create')
             ->with(file_get_contents(__FILE__))
             ->andReturn(
-                [
-                    $interfaceNode,
-                ]
+                [$interfaceNode]
             );
-        $strategyMock = m::mock(ProjectFactoryStrategy::class);
+        $strategyMock  = m::mock(ProjectFactoryStrategy::class);
         $containerMock = m::mock(StrategyContainer::class);
 
         $strategyMock->shouldReceive('create')
@@ -182,17 +176,15 @@ class FileTest extends TestCase
     /**
      * @covers ::create
      */
-    public function testFileWithTrait()
+    public function testFileWithTrait() : void
     {
         $traitNode = new TraitNode('\myTrait');
         $this->nodesFactoryMock->shouldReceive('create')
             ->with(file_get_contents(__FILE__))
             ->andReturn(
-                [
-                    $traitNode,
-                ]
+                [$traitNode]
             );
-        $strategyMock = m::mock(ProjectFactoryStrategy::class);
+        $strategyMock  = m::mock(ProjectFactoryStrategy::class);
         $containerMock = m::mock(StrategyContainer::class);
 
         $strategyMock->shouldReceive('create')
@@ -213,7 +205,7 @@ class FileTest extends TestCase
     /**
      * @covers ::create
      */
-    public function testMiddlewareIsExecuted()
+    public function testMiddlewareIsExecuted() : void
     {
         $file = new FileElement('aa', __FILE__);
         $this->nodesFactoryMock->shouldReceive('create')
@@ -227,28 +219,26 @@ class FileTest extends TestCase
         $fixture = new File($this->nodesFactoryMock, [$middleware]);
 
         $containerMock = m::mock(StrategyContainer::class);
-        $result = $fixture->create(new SourceFile\LocalFile(__FILE__), $containerMock);
+        $result        = $fixture->create(new SourceFile\LocalFile(__FILE__), $containerMock);
 
         $this->assertSame($result, $file);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testMiddlewareIsChecked()
+    public function testMiddlewareIsChecked() : void
     {
-        new File($this->nodesFactoryMock, [new \stdClass()]);
+        $this->expectException('InvalidArgumentException');
+        new File($this->nodesFactoryMock, [new stdClass()]);
     }
 
     /**
      * @covers ::create
      */
-    public function testFileDocBlockWithNamespace()
+    public function testFileDocBlockWithNamespace() : void
     {
-        $docBlockNode = new DocBlockNode('');
+        $docBlockNode       = new DocBlockNode('');
         $docBlockDescriptor = new DocBlockDescriptor('');
 
-        $namespaceNode = new NamespaceNode(new Name('mySpace'));
+        $namespaceNode        = new NamespaceNode(new Name('mySpace'));
         $namespaceNode->fqsen = new Fqsen('\mySpace');
         $namespaceNode->setAttribute('comments', [$docBlockNode]);
 
@@ -256,7 +246,7 @@ class FileTest extends TestCase
             ->with(file_get_contents(__FILE__))
             ->andReturn([$namespaceNode]);
 
-        $strategyMock = m::mock(ProjectFactoryStrategy::class);
+        $strategyMock  = m::mock(ProjectFactoryStrategy::class);
         $containerMock = m::mock(StrategyContainer::class);
 
         $strategyMock->shouldReceive('create')
@@ -276,9 +266,9 @@ class FileTest extends TestCase
     /**
      * @covers ::create
      */
-    public function testFileDocBlockWithClass()
+    public function testFileDocBlockWithClass() : void
     {
-        $docBlockNode = new DocBlockNode('');
+        $docBlockNode       = new DocBlockNode('');
         $docBlockDescriptor = new DocBlockDescriptor('');
 
         $classNode = new ClassNode('myClass');
@@ -288,7 +278,7 @@ class FileTest extends TestCase
             ->with(file_get_contents(__FILE__))
             ->andReturn([$classNode]);
 
-        $strategyMock = m::mock(ProjectFactoryStrategy::class);
+        $strategyMock  = m::mock(ProjectFactoryStrategy::class);
         $containerMock = m::mock(StrategyContainer::class);
 
         $strategyMock->shouldReceive('create')
@@ -316,12 +306,12 @@ class FileTest extends TestCase
     /**
      * @covers ::create
      */
-    public function testFileDocBlockWithComments()
+    public function testFileDocBlockWithComments() : void
     {
-        $docBlockNode = new DocBlockNode('');
+        $docBlockNode       = new DocBlockNode('');
         $docBlockDescriptor = new DocBlockDescriptor('');
 
-        $namespaceNode = new NamespaceNode(new Name('mySpace'));
+        $namespaceNode        = new NamespaceNode(new Name('mySpace'));
         $namespaceNode->fqsen = new Fqsen('\mySpace');
         $namespaceNode->setAttribute('comments', [new CommentNode('@codingStandardsIgnoreStart'), $docBlockNode]);
 
@@ -329,7 +319,7 @@ class FileTest extends TestCase
             ->with(file_get_contents(__FILE__))
             ->andReturn([$namespaceNode]);
 
-        $strategyMock = m::mock(ProjectFactoryStrategy::class);
+        $strategyMock  = m::mock(ProjectFactoryStrategy::class);
         $containerMock = m::mock(StrategyContainer::class);
 
         $strategyMock->shouldReceive('create')

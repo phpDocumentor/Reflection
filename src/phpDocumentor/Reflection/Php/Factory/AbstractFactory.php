@@ -1,14 +1,21 @@
 <?php
+
 declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
+use InvalidArgumentException;
 use phpDocumentor\Reflection\DocBlock as DocBlockInstance;
+use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Comment\Doc;
 use PhpParser\Node;
+use function get_class;
+use function gettype;
+use function is_object;
+use function sprintf;
 
 abstract class AbstractFactory implements ProjectFactoryStrategy
 {
@@ -17,15 +24,15 @@ abstract class AbstractFactory implements ProjectFactoryStrategy
      *
      * @param mixed $object object to check.
      */
-    abstract public function matches($object): bool;
+    abstract public function matches($object) : bool;
 
-    final public function create($object, StrategyContainer $strategies, ?Context $context = null)
+    public function create($object, StrategyContainer $strategies, ?Context $context = null)
     {
         if (!$this->matches($object)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf(
                     '%s cannot handle objects with the type %s',
-                    __CLASS__,
+                    self::class,
                     is_object($object) ? get_class($object) : gettype($object)
                 )
             );
@@ -38,6 +45,7 @@ abstract class AbstractFactory implements ProjectFactoryStrategy
 
     /**
      * @param Node|PropertyIterator|ClassConstantIterator|Doc $stmt
+     *
      * @return mixed a child of Element
      */
     protected function createMember($stmt, StrategyContainer $strategies, ?Context $context = null)
@@ -46,10 +54,7 @@ abstract class AbstractFactory implements ProjectFactoryStrategy
         return $strategy->create($stmt, $strategies, $context);
     }
 
-    /**
-     * @return null|DocBlockInstance
-     */
-    protected function createDocBlock(?StrategyContainer $strategies = null, ?Doc $docBlock = null, ?Context $context = null)
+    protected function createDocBlock(?StrategyContainer $strategies = null, ?Doc $docBlock = null, ?Context $context = null) : ?DocBlockInstance
     {
         if ($docBlock === null || $strategies === null) {
             return null;

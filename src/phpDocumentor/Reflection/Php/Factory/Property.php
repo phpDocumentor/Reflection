@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -7,8 +8,6 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
 
@@ -30,9 +29,7 @@ use phpDocumentor\Reflection\Types\Context;
  */
 final class Property extends AbstractFactory implements ProjectFactoryStrategy
 {
-    /**
-     * @var PrettyPrinter
-     */
+    /** @var PrettyPrinter */
     private $valueConverter;
 
     /**
@@ -43,7 +40,7 @@ final class Property extends AbstractFactory implements ProjectFactoryStrategy
         $this->valueConverter = $prettyPrinter;
     }
 
-    public function matches($object): bool
+    public function matches($object) : bool
     {
         return $object instanceof PropertyIterator;
     }
@@ -54,14 +51,14 @@ final class Property extends AbstractFactory implements ProjectFactoryStrategy
      * Since an object might contain other objects that need to be converted the $factory is passed so it can be
      * used to create nested Elements.
      *
-     * @param PropertyIterator $object object to convert to an PropertyDescriptor
+     * @param PropertyIterator  $object     object to convert to an PropertyDescriptor
      * @param StrategyContainer $strategies used to convert nested objects.
      * @return PropertyDescriptor
      */
     protected function doCreate($object, StrategyContainer $strategies, ?Context $context = null)
     {
         $visibility = $this->buildVisibility($object);
-        $default = null;
+        $default    = null;
         if ($object->getDefault() !== null) {
             $default = $this->valueConverter->prettyPrintExpr($object->getDefault());
         }
@@ -81,7 +78,7 @@ final class Property extends AbstractFactory implements ProjectFactoryStrategy
     /**
      * Converts the visibility of the property to a valid Visibility object.
      */
-    private function buildVisibility(PropertyIterator $node): Visibility
+    private function buildVisibility(PropertyIterator $node) : Visibility
     {
         if ($node->isPrivate()) {
             return new Visibility(Visibility::PRIVATE_);

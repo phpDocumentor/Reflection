@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -7,8 +8,6 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
 
@@ -26,59 +25,37 @@ use phpDocumentor\Reflection\Location;
 final class Class_ implements Element
 // @codingStandardsIgnoreEnd
 {
-    /**
-     * @var Fqsen Full Qualified Structural Element Name
-     */
+    /** @var Fqsen Full Qualified Structural Element Name */
     private $fqsen;
 
-    /**
-     * @var DocBlock|null
-     */
+    /** @var DocBlock|null */
     private $docBlock = null;
 
-    /**
-     * @var boolean Whether this is an abstract class.
-     */
+    /** @var bool Whether this is an abstract class. */
     private $abstract = false;
 
-    /**
-     * @var boolean Whether this class is marked as final and can't be subclassed.
-     */
+    /** @var bool Whether this class is marked as final and can't be subclassed. */
     private $final = false;
 
-    /**
-     * @var null|Fqsen The class this class is extending.
-     */
+    /** @var Fqsen|null The class this class is extending. */
     private $parent = null;
 
-    /**
-     * @var Fqsen[] References to interfaces that are implemented by this class.
-     */
+    /** @var Fqsen[] References to interfaces that are implemented by this class. */
     private $implements = [];
 
-    /**
-     * @var Constant[] References to constants defined in this class.
-     */
+    /** @var Constant[] References to constants defined in this class. */
     private $constants = [];
 
-    /**
-     * @var Property[] References to properties defined in this class.
-     */
+    /** @var Property[] References to properties defined in this class. */
     private $properties = [];
 
-    /**
-     * @var Method[] References to methods defined in this class.
-     */
+    /** @var Method[] References to methods defined in this class. */
     private $methods = [];
 
-    /**
-     * @var Fqsen[] References to traits consumed by this class
-     */
+    /** @var Fqsen[] References to traits consumed by this class */
     private $usedTraits = [];
 
-    /**
-     * @var Location
-     */
+    /** @var Location */
     private $location;
 
     /**
@@ -96,18 +73,18 @@ final class Class_ implements Element
             $location = new Location(-1);
         }
 
-        $this->fqsen = $fqsen;
-        $this->parent = $parent;
+        $this->fqsen    = $fqsen;
+        $this->parent   = $parent;
         $this->docBlock = $docBlock;
         $this->abstract = $abstract;
-        $this->final = $final;
+        $this->final    = $final;
         $this->location = $location;
     }
 
     /**
      * Returns true when this class is final. Otherwise returns false.
      */
-    public function isFinal(): bool
+    public function isFinal() : bool
     {
         return $this->final;
     }
@@ -115,7 +92,7 @@ final class Class_ implements Element
     /**
      * Returns true when this class is abstract. Otherwise returns false.
      */
-    public function isAbstract(): bool
+    public function isAbstract() : bool
     {
         return $this->abstract;
     }
@@ -123,7 +100,7 @@ final class Class_ implements Element
     /**
      * Returns the superclass this class is extending if available.
      */
-    public function getParent(): ?Fqsen
+    public function getParent() : ?Fqsen
     {
         return $this->parent;
     }
@@ -133,7 +110,7 @@ final class Class_ implements Element
      *
      * @return Fqsen[]
      */
-    public function getInterfaces(): array
+    public function getInterfaces() : array
     {
         return $this->implements;
     }
@@ -141,7 +118,7 @@ final class Class_ implements Element
     /**
      * Add a interface Fqsen this class is implementing.
      */
-    public function addInterface(Fqsen $interface): void
+    public function addInterface(Fqsen $interface) : void
     {
         $this->implements[(string) $interface] = $interface;
     }
@@ -151,7 +128,7 @@ final class Class_ implements Element
      *
      * @return Constant[]
      */
-    public function getConstants(): array
+    public function getConstants() : array
     {
         return $this->constants;
     }
@@ -159,7 +136,7 @@ final class Class_ implements Element
     /**
      * Add Constant to this class.
      */
-    public function addConstant(Constant $constant): void
+    public function addConstant(Constant $constant) : void
     {
         $this->constants[(string) $constant->getFqsen()] = $constant;
     }
@@ -169,7 +146,7 @@ final class Class_ implements Element
      *
      * @return Method[]
      */
-    public function getMethods(): array
+    public function getMethods() : array
     {
         return $this->methods;
     }
@@ -177,7 +154,7 @@ final class Class_ implements Element
     /**
      * Add a method to this class.
      */
-    public function addMethod(Method $method): void
+    public function addMethod(Method $method) : void
     {
         $this->methods[(string) $method->getFqsen()] = $method;
     }
@@ -187,7 +164,7 @@ final class Class_ implements Element
      *
      * @return Property[]
      */
-    public function getProperties(): array
+    public function getProperties() : array
     {
         return $this->properties;
     }
@@ -195,7 +172,7 @@ final class Class_ implements Element
     /**
      * Add a property to this class.
      */
-    public function addProperty(Property $property): void
+    public function addProperty(Property $property) : void
     {
         $this->properties[(string) $property->getFqsen()] = $property;
     }
@@ -205,7 +182,7 @@ final class Class_ implements Element
      *
      * @return Fqsen[]
      */
-    public function getUsedTraits(): array
+    public function getUsedTraits() : array
     {
         return $this->usedTraits;
     }
@@ -213,7 +190,7 @@ final class Class_ implements Element
     /**
      * Add trait fqsen used by this class.
      */
-    public function addUsedTrait(Fqsen $fqsen): void
+    public function addUsedTrait(Fqsen $fqsen) : void
     {
         $this->usedTraits[(string) $fqsen] = $fqsen;
     }
@@ -221,7 +198,7 @@ final class Class_ implements Element
     /**
      * Returns the Fqsen of the element.
      */
-    public function getFqsen(): Fqsen
+    public function getFqsen() : Fqsen
     {
         return $this->fqsen;
     }
@@ -229,17 +206,17 @@ final class Class_ implements Element
     /**
      * Returns the name of the element.
      */
-    public function getName(): string
+    public function getName() : string
     {
         return $this->fqsen->getName();
     }
 
-    public function getDocBlock(): ?DocBlock
+    public function getDocBlock() : ?DocBlock
     {
         return $this->docBlock;
     }
 
-    public function getLocation(): Location
+    public function getLocation() : Location
     {
         return $this->location;
     }

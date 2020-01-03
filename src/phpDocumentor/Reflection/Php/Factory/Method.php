@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -7,8 +8,6 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
 
@@ -29,7 +28,7 @@ use PhpParser\Node\Stmt\ClassMethod;
  */
 final class Method extends AbstractFactory implements ProjectFactoryStrategy
 {
-    public function matches($object): bool
+    public function matches($object) : bool
     {
         return $object instanceof ClassMethod;
     }
@@ -37,9 +36,9 @@ final class Method extends AbstractFactory implements ProjectFactoryStrategy
     /**
      * Creates an MethodDescriptor out of the given object including its child elements.
      *
-     * @param ClassMethod $object object to convert to an MethodDescriptor
+     * @param ClassMethod       $object     object to convert to an MethodDescriptor
      * @param StrategyContainer $strategies used to convert nested objects.
-     * @param Context $context of the created object
+     * @param Context           $context    of the created object
      * @return MethodDescriptor
      */
     protected function doCreate($object, StrategyContainer $strategies, ?Context $context = null)
@@ -79,7 +78,7 @@ final class Method extends AbstractFactory implements ProjectFactoryStrategy
     /**
      * Converts the visibility of the method to a valid Visibility object.
      */
-    private function buildVisibility(ClassMethod $node): Visibility
+    private function buildVisibility(ClassMethod $node) : Visibility
     {
         if ($node->isPrivate()) {
             return new Visibility(Visibility::PRIVATE_);

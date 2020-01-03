@@ -1,12 +1,13 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
 
@@ -25,17 +26,16 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Testcase for FqsenResolver
+ *
  * @coversDefaultClass phpDocumentor\Reflection\NodeVisitor\ElementNameResolver
  * @covers ::<private>
  */
 class ElementNameResolverTest extends TestCase
 {
-    /**
-     * @var ElementNameResolver
-     */
+    /** @var ElementNameResolver */
     private $fixture;
 
-    protected function setUp()
+    protected function setUp() : void
     {
         $this->fixture = new ElementNameResolver();
         $this->fixture->beforeTraverse([]);
@@ -44,7 +44,7 @@ class ElementNameResolverTest extends TestCase
     /**
      * @covers ::enterNode
      */
-    public function testFunctionWithoutNamespace()
+    public function testFunctionWithoutNamespace() : void
     {
         $function = new Function_('myFunction');
         $this->fixture->enterNode($function);
@@ -55,7 +55,7 @@ class ElementNameResolverTest extends TestCase
     /**
      * @covers ::enterNode
      */
-    public function testWithClass()
+    public function testWithClass() : void
     {
         $class = new Class_('myClass');
         $this->fixture->enterNode($class);
@@ -69,7 +69,7 @@ class ElementNameResolverTest extends TestCase
      *
      * @covers ::enterNode
      */
-    public function testDoesNotEnterAnonymousClass()
+    public function testDoesNotEnterAnonymousClass() : void
     {
         $class = new Class_(null);
         $this->assertEquals(
@@ -80,10 +80,11 @@ class ElementNameResolverTest extends TestCase
 
     /**
      * @link https://github.com/phpDocumentor/Reflection/issues/103
+     *
      * @covers ::enterNode
      * @covers ::leaveNode
      */
-    public function testAnonymousClassDoesNotPopParts()
+    public function testAnonymousClassDoesNotPopParts() : void
     {
         $anonymousClass = new Class_(null);
 
@@ -104,11 +105,11 @@ class ElementNameResolverTest extends TestCase
     /**
      * @covers ::enterNode
      */
-    public function testClassConstant()
+    public function testClassConstant() : void
     {
-        $const = new Const_('MY_CLASS', new String_('value'));
+        $const      = new Const_('MY_CLASS', new String_('value'));
         $classConst = new ClassConst([$const]);
-        $class = new Class_('myClass');
+        $class      = new Class_('myClass');
 
         $this->fixture->enterNode($class);
         $this->fixture->enterNode($classConst);
@@ -120,9 +121,9 @@ class ElementNameResolverTest extends TestCase
     /**
      * @covers ::enterNode
      */
-    public function testNamespacedConstant()
+    public function testNamespacedConstant() : void
     {
-        $const = new Const_('MY_CLASS', new String_('value'));
+        $const     = new Const_('MY_CLASS', new String_('value'));
         $namespace = new Namespace_(new Name('name'));
 
         $this->fixture->enterNode($namespace);

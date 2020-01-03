@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -7,8 +8,6 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel / Naenius (http://www.naenius.com)
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
 
@@ -24,14 +23,10 @@ use phpDocumentor\Reflection\Php\StrategyContainer;
  */
 final class CreateCommand implements Command
 {
-    /**
-     * @var File
-     */
+    /** @var File */
     private $file;
 
-    /**
-     * @var StrategyContainer
-     */
+    /** @var StrategyContainer */
     private $strategies;
 
     /**
@@ -39,19 +34,19 @@ final class CreateCommand implements Command
      */
     public function __construct(File $file, StrategyContainer $strategies)
     {
-        $this->file = $file;
+        $this->file       = $file;
         $this->strategies = $strategies;
     }
 
     /**
      * Returns the strategyContainer in this command context.
      */
-    public function getStrategies(): StrategyContainer
+    public function getStrategies() : StrategyContainer
     {
         return $this->strategies;
     }
 
-    public function getFile(): File
+    public function getFile() : File
     {
         return $this->file;
     }

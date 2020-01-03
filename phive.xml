@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phive xmlns="https://phar.io/phive">
-  <phar name="phpstan" version="^0.9.1" installed="0.11.4" location="./tools/phpstan" copy="true"/>
-  <phar name="phpunit" version="^7.0" installed="7.5.7" location="./tools/phpunit" copy="true"/>
+  <phar name="phpunit" version="^8.4.3" installed="8.4.3" location="./tools/phpunit" copy="true"/>
+  <phar name="phpstan" version="^0.12" installed="0.12.2" location="./tools/phpstan" copy="true"/>
   <phar name="phpbench" version="^0.16.9" installed="0.16.9" location="./tools/phpbench" copy="true"/>
 </phive>

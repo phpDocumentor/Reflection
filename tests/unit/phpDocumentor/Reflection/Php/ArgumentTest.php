@@ -1,12 +1,13 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
 
@@ -18,6 +19,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the functionality for the Argument class.
+ *
  * @coversDefaultClass \phpDocumentor\Reflection\Php\Argument
  */
 class ArgumentTest extends TestCase
@@ -25,7 +27,7 @@ class ArgumentTest extends TestCase
     /**
      * @covers ::getType
      */
-    public function testGetTypes()
+    public function testGetTypes() : void
     {
         $argument = new Argument('myArgument', null, 'myDefaultValue', true, true);
         $this->assertInstanceOf(Mixed_::class, $argument->getType());
@@ -44,9 +46,9 @@ class ArgumentTest extends TestCase
      * @covers ::__construct
      * @covers ::getName
      */
-    public function testGetName()
+    public function testGetName() : void
     {
-        $argument = new Argument('myArgument', null, true, true);
+        $argument = new Argument('myArgument', null,  'myDefault', true, true);
         $this->assertEquals('myArgument', $argument->getName());
     }
 
@@ -54,7 +56,7 @@ class ArgumentTest extends TestCase
      * @covers ::__construct
      * @covers ::getDefault
      */
-    public function testGetDefault()
+    public function testGetDefault() : void
     {
         $argument = new Argument('myArgument', null, 'myDefaultValue', true, true);
         $this->assertEquals('myDefaultValue', $argument->getDefault());
@@ -67,7 +69,7 @@ class ArgumentTest extends TestCase
      * @covers ::__construct
      * @covers ::isByReference
      */
-    public function testGetWhetherArgumentIsPassedByReference()
+    public function testGetWhetherArgumentIsPassedByReference() : void
     {
         $argument = new Argument('myArgument', null, 'myDefaultValue', true, true);
         $this->assertTrue($argument->isByReference());
@@ -80,7 +82,7 @@ class ArgumentTest extends TestCase
      * @covers ::__construct
      * @covers ::isVariadic
      */
-    public function testGetWhetherArgumentisVariadic()
+    public function testGetWhetherArgumentisVariadic() : void
     {
         $argument = new Argument('myArgument', null, 'myDefaultValue', true, true);
         $this->assertTrue($argument->isVariadic());

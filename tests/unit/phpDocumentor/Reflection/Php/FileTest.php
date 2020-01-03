@@ -1,18 +1,19 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
 
 namespace phpDocumentor\Reflection\Php;
 
-use \Mockery as m;
+use Mockery as m;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
 use PHPUnit\Framework\TestCase;
@@ -24,31 +25,29 @@ use PHPUnit\Framework\TestCase;
  */
 class FileTest extends TestCase
 {
-    const EXAMPLE_HASH = 'a-hash-string';
+    public const EXAMPLE_HASH = 'a-hash-string';
 
-    const EXAMPLE_PATH = 'a-path-string';
+    public const EXAMPLE_PATH = 'a-path-string';
 
-    const EXAMPLE_SOURCE = 'a-source-string';
+    public const EXAMPLE_SOURCE = 'a-source-string';
 
     /** @var File $fixture */
     protected $fixture;
 
-    /**
-     * @var DocBlock
-     */
+    /** @var DocBlock */
     private $docBlock;
 
     /**
      * Creates a new (emoty) fixture object.
      */
-    protected function setUp()
+    protected function setUp() : void
     {
         $this->docBlock = new DocBlock('');
 
         $this->fixture = new File(static::EXAMPLE_HASH, static::EXAMPLE_PATH, static::EXAMPLE_SOURCE, $this->docBlock);
     }
 
-    protected function tearDown()
+    protected function tearDown() : void
     {
         m::close();
     }
@@ -58,7 +57,7 @@ class FileTest extends TestCase
      * @covers ::getClasses
      * @covers ::AddClass
      */
-    public function testAddAndGetClasses()
+    public function testAddAndGetClasses() : void
     {
         $this->assertEmpty($this->fixture->getClasses());
 
@@ -73,7 +72,7 @@ class FileTest extends TestCase
      * @covers ::getConstants
      * @covers ::addConstant
      */
-    public function testAddAndGetConstants()
+    public function testAddAndGetConstants() : void
     {
         $this->assertEmpty($this->fixture->getConstants());
 
@@ -88,7 +87,7 @@ class FileTest extends TestCase
      * @covers ::getFunctions
      * @covers ::addFunction
      */
-    public function testAddAndGetFunctions()
+    public function testAddAndGetFunctions() : void
     {
         $this->assertEmpty($this->fixture->getFunctions());
 
@@ -103,7 +102,7 @@ class FileTest extends TestCase
      * @covers ::getInterfaces
      * @covers ::addInterface
      */
-    public function testAddAndGetInterfaces()
+    public function testAddAndGetInterfaces() : void
     {
         $this->assertEmpty($this->fixture->getInterfaces());
 
@@ -118,7 +117,7 @@ class FileTest extends TestCase
      * @covers ::getTraits
      * @covers ::addTrait
      */
-    public function testAddAndGetTraits()
+    public function testAddAndGetTraits() : void
     {
         $this->assertEmpty($this->fixture->getTraits());
 
@@ -132,7 +131,7 @@ class FileTest extends TestCase
      * @covers ::__construct
      * @covers ::getDocBlock
      */
-    public function testGetDocBlock()
+    public function testGetDocBlock() : void
     {
         $this->assertSame($this->docBlock, $this->fixture->getDocBlock());
     }
@@ -141,7 +140,7 @@ class FileTest extends TestCase
      * @covers ::__construct
      * @covers ::getHash
      */
-    public function testGetHash()
+    public function testGetHash() : void
     {
         $this->assertSame(self::EXAMPLE_HASH, $this->fixture->getHash());
     }
@@ -149,7 +148,7 @@ class FileTest extends TestCase
     /**
      * @covers ::getPath
      */
-    public function testSetAndGetPath()
+    public function testSetAndGetPath() : void
     {
         $this->assertSame(self::EXAMPLE_PATH, $this->fixture->getPath());
     }
@@ -157,7 +156,7 @@ class FileTest extends TestCase
     /**
      * @covers ::getSource
      */
-    public function testSetAndGetSource()
+    public function testSetAndGetSource() : void
     {
         $this->assertSame(self::EXAMPLE_SOURCE, $this->fixture->getSource());
     }
@@ -166,7 +165,7 @@ class FileTest extends TestCase
      * @covers ::addNamespace
      * @covers ::getNamespaces
      */
-    public function testSetAndGetNamespaceAliases()
+    public function testSetAndGetNamespaceAliases() : void
     {
         $this->assertEmpty($this->fixture->getNamespaces());
 
@@ -179,7 +178,7 @@ class FileTest extends TestCase
      * @covers ::getIncludes
      * @covers ::addInclude
      */
-    public function testAddAndGetIncludes()
+    public function testAddAndGetIncludes() : void
     {
         $this->assertEmpty($this->fixture->getIncludes());
 

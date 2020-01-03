@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -7,8 +8,6 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
 
@@ -44,12 +43,12 @@ class NodesFactory
     /**
      * Initializes the object.
      *
-     * @param Parser $parser used to parse the code
+     * @param Parser        $parser    used to parse the code
      * @param NodeTraverser $traverser used to do some post processing on the nodes
      */
     public function __construct(Parser $parser, NodeTraverser $traverser)
     {
-        $this->parser = $parser;
+        $this->parser    = $parser;
         $this->traverser = $traverser;
     }
 
@@ -58,11 +57,12 @@ class NodesFactory
      *
      * @param int $kind One of ParserFactory::PREFER_PHP7,
      *  ParserFactory::PREFER_PHP5, ParserFactory::ONLY_PHP7 or ParserFactory::ONLY_PHP5
+     *
      * @return static
      */
-    public static function createInstance($kind = ParserFactory::PREFER_PHP7): self
+    public static function createInstance(int $kind = ParserFactory::PREFER_PHP7) : self
     {
-        $parser = (new ParserFactory())->create($kind);
+        $parser    = (new ParserFactory())->create($kind);
         $traverser = new NodeTraverser();
         $traverser->addVisitor(new NameResolver());
         $traverser->addVisitor(new ElementNameResolver());
@@ -73,9 +73,10 @@ class NodesFactory
      * Will convert the provided code to nodes.
      *
      * @param string $code code to process.
+     *
      * @return Node[]
      */
-    public function create(string $code): array
+    public function create(string $code) : array
     {
         $stmt = $this->parser->parse($code);
         return $this->traverser->traverse($stmt);

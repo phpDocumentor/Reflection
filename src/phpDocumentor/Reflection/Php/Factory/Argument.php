@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -7,8 +8,6 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
 
@@ -34,9 +33,7 @@ use Webmozart\Assert\Assert;
  */
 final class Argument extends AbstractFactory implements ProjectFactoryStrategy
 {
-    /**
-     * @var PrettyPrinter
-     */
+    /** @var PrettyPrinter */
     private $valueConverter;
 
     /**
@@ -47,7 +44,7 @@ final class Argument extends AbstractFactory implements ProjectFactoryStrategy
         $this->valueConverter = $prettyPrinter;
     }
 
-    public function matches($object): bool
+    public function matches($object) : bool
     {
         return $object instanceof Param;
     }
@@ -57,9 +54,9 @@ final class Argument extends AbstractFactory implements ProjectFactoryStrategy
      * Since an object might contain other objects that need to be converted the $factory is passed so it can be
      * used to create nested Elements.
      *
-     * @param Param $object object to convert to an Element
+     * @param Param             $object     object to convert to an Element
      * @param StrategyContainer $strategies used to convert nested objects.
-     * @param Context $context of the created object
+     * @param Context           $context    of the created object
      * @return ArgumentDescriptor
      */
     protected function doCreate($object, StrategyContainer $strategies, ?Context $context = null)
@@ -79,7 +76,7 @@ final class Argument extends AbstractFactory implements ProjectFactoryStrategy
         return new ArgumentDescriptor((string) $object->var->name, $type, $default, $object->byRef, $object->variadic);
     }
 
-    private function createType(Param $arg, ?Context $context = null): Type
+    private function createType(Param $arg, ?Context $context = null) : Type
     {
         $typeResolver = new TypeResolver();
         if ($arg->type instanceof NullableType) {

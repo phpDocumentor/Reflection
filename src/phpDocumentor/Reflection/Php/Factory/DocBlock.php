@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -7,8 +8,6 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
 
@@ -22,9 +21,14 @@ use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Comment\Doc;
+use function get_class;
+use function gettype;
+use function is_object;
+use function sprintf;
 
 /**
  * Strategy as wrapper around the DocBlockFactoryInterface.
+ *
  * @see DocBlockFactoryInterface
  * @see DocBlockDescriptor
  */
@@ -32,6 +36,7 @@ final class DocBlock implements ProjectFactoryStrategy
 {
     /**
      * Wrapped DocBlock factory
+     *
      * @var DocBlockFactoryInterface
      */
     private $docblockFactory;
@@ -44,7 +49,7 @@ final class DocBlock implements ProjectFactoryStrategy
         $this->docblockFactory = $docBlockFactory;
     }
 
-    public function matches($object): bool
+    public function matches($object) : bool
     {
         return $object instanceof Doc;
     }
@@ -54,12 +59,12 @@ final class DocBlock implements ProjectFactoryStrategy
      * Since an object might contain other objects that need to be converted the $factory is passed so it can be
      * used to create nested Elements.
      *
-     * @param Doc $object object to convert to an Element
+     * @param Doc               $object     object to convert to an Element
      * @param StrategyContainer $strategies used to convert nested objects.
-     * @param Context $context of the created object
+     * @param Context           $context    of the created object
      * @return null|DocBlockDescriptor
      */
-    public function create($object, StrategyContainer $strategies, ?Context $context = null): ?DocBlockDescriptor
+    public function create($object, StrategyContainer $strategies, ?Context $context = null)
     {
         if ($object === null) {
             return null;
@@ -69,7 +74,7 @@ final class DocBlock implements ProjectFactoryStrategy
             throw new InvalidArgumentException(
                 sprintf(
                     '%s cannot handle objects with the type %s',
-                    __CLASS__,
+                    self::class,
                     is_object($object) ? get_class($object) : gettype($object)
                 )
             );

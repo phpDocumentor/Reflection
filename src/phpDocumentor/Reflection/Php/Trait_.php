@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -7,8 +8,6 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
 
@@ -26,14 +25,10 @@ use phpDocumentor\Reflection\Location;
 final class Trait_ implements Element
 // @codingStandardsIgnoreEnd
 {
-    /**
-     * @var Fqsen Full Qualified Structural Element Name
-     */
+    /** @var Fqsen Full Qualified Structural Element Name */
     private $fqsen;
 
-    /**
-     * @var DocBlock|null
-     */
+    /** @var DocBlock|null */
     private $docBlock;
 
     /** @var Property[] $properties */
@@ -45,9 +40,7 @@ final class Trait_ implements Element
     /** @var Fqsen[] $usedTraits References to traits consumed by this trait */
     private $usedTraits = [];
 
-    /**
-     * @var Location
-     */
+    /** @var Location */
     private $location;
 
     /**
@@ -59,7 +52,7 @@ final class Trait_ implements Element
             $location = new Location(-1);
         }
 
-        $this->fqsen = $fqsen;
+        $this->fqsen    = $fqsen;
         $this->docBlock = $docBlock;
         $this->location = $location;
     }
@@ -69,7 +62,7 @@ final class Trait_ implements Element
      *
      * @return Method[]
      */
-    public function getMethods(): array
+    public function getMethods() : array
     {
         return $this->methods;
     }
@@ -77,7 +70,7 @@ final class Trait_ implements Element
     /**
      * Add a method to this Trait
      */
-    public function addMethod(Method $method): void
+    public function addMethod(Method $method) : void
     {
         $this->methods[(string) $method->getFqsen()] = $method;
     }
@@ -87,7 +80,7 @@ final class Trait_ implements Element
      *
      * @return Property[]
      */
-    public function getProperties(): array
+    public function getProperties() : array
     {
         return $this->properties;
     }
@@ -95,7 +88,7 @@ final class Trait_ implements Element
     /**
      * Add a property to this Trait.
      */
-    public function addProperty(Property $property): void
+    public function addProperty(Property $property) : void
     {
         $this->properties[(string) $property->getFqsen()] = $property;
     }
@@ -103,7 +96,7 @@ final class Trait_ implements Element
     /**
      * Returns the Fqsen of the element.
      */
-    public function getFqsen(): Fqsen
+    public function getFqsen() : Fqsen
     {
         return $this->fqsen;
     }
@@ -111,12 +104,12 @@ final class Trait_ implements Element
     /**
      * Returns the name of the element.
      */
-    public function getName(): string
+    public function getName() : string
     {
         return $this->fqsen->getName();
     }
 
-    public function getDocBlock(): ?DocBlock
+    public function getDocBlock() : ?DocBlock
     {
         return $this->docBlock;
     }
@@ -126,7 +119,7 @@ final class Trait_ implements Element
      *
      * @return Fqsen[]
      */
-    public function getUsedTraits(): array
+    public function getUsedTraits() : array
     {
         return $this->usedTraits;
     }
@@ -134,12 +127,12 @@ final class Trait_ implements Element
     /**
      * Add reference to trait used by this trait.
      */
-    public function addUsedTrait(Fqsen $fqsen): void
+    public function addUsedTrait(Fqsen $fqsen) : void
     {
         $this->usedTraits[(string) $fqsen] = $fqsen;
     }
 
-    public function getLocation(): Location
+    public function getLocation() : Location
     {
         return $this->location;
     }

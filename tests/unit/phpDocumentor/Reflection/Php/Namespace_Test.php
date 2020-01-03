@@ -1,12 +1,13 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
 
@@ -28,22 +29,18 @@ class Namespace_Test extends TestCase
     /** @var Namespace_ $fixture */
     protected $fixture;
 
-    /**
-     * @var Fqsen
-     */
+    /** @var Fqsen */
     private $fqsen;
 
-    /**
-     * @var DocBlock
-     */
+    /** @var DocBlock */
     private $docBlock;
 
     /**
      * Creates a new (emoty) fixture object.
      */
-    protected function setUp()
+    protected function setUp() : void
     {
-        $this->fqsen = new Fqsen('\MySpace');
+        $this->fqsen    = new Fqsen('\MySpace');
         $this->docBlock = new DocBlock('');
 
         $this->fixture = new Namespace_($this->fqsen, $this->docBlock);
@@ -54,7 +51,7 @@ class Namespace_Test extends TestCase
      * @covers ::getClasses
      * @covers ::AddClass
      */
-    public function testAddAndGetClasses()
+    public function testAddAndGetClasses() : void
     {
         $this->assertEmpty($this->fixture->getClasses());
 
@@ -69,7 +66,7 @@ class Namespace_Test extends TestCase
      * @covers ::getConstants
      * @covers ::addConstant
      */
-    public function testAddAndGetConstants()
+    public function testAddAndGetConstants() : void
     {
         $this->assertEmpty($this->fixture->getConstants());
 
@@ -84,7 +81,7 @@ class Namespace_Test extends TestCase
      * @covers ::getFunctions
      * @covers ::addFunction
      */
-    public function testAddAndGetFunctions()
+    public function testAddAndGetFunctions() : void
     {
         $this->assertEmpty($this->fixture->getFunctions());
 
@@ -99,7 +96,7 @@ class Namespace_Test extends TestCase
      * @covers ::getInterfaces
      * @covers ::addInterface
      */
-    public function testAddAndGetInterfaces()
+    public function testAddAndGetInterfaces() : void
     {
         $this->assertEmpty($this->fixture->getInterfaces());
 
@@ -114,7 +111,7 @@ class Namespace_Test extends TestCase
      * @covers ::getTraits
      * @covers ::addTrait
      */
-    public function testAddAndGetTraits()
+    public function testAddAndGetTraits() : void
     {
         $this->assertEmpty($this->fixture->getTraits());
 
@@ -129,7 +126,7 @@ class Namespace_Test extends TestCase
      * @covers ::getFqsen
      * @covers ::getName
      */
-    public function testGetFqsen()
+    public function testGetFqsen() : void
     {
         $this->assertSame($this->fqsen, $this->fixture->getFqsen());
         $this->assertEquals($this->fqsen->getName(), $this->fixture->getName());

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -7,8 +8,6 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
 
@@ -22,29 +21,19 @@ use phpDocumentor\Reflection\Types\Mixed_;
  */
 final class Argument
 {
-    /**
-     * @var string name of the Argument
-     */
+    /** @var string name of the Argument */
     private $name;
 
-    /**
-     * @var Type a normalized type that should be in this Argument
-     */
+    /** @var Type a normalized type that should be in this Argument */
     private $type;
 
-    /**
-     * @var string|null the default value for an argument or null if none is provided
-     */
+    /** @var string|null the default value for an argument or null if none is provided */
     private $default;
 
-    /**
-     * @var bool whether the argument passes the parameter by reference instead of by value
-     */
+    /** @var bool whether the argument passes the parameter by reference instead of by value */
     private $byReference;
 
-    /**
-     * @var boolean Determines if this Argument represents a variadic argument
-     */
+    /** @var bool Determines if this Argument represents a variadic argument */
     private $isVariadic;
 
     /**
@@ -52,10 +41,10 @@ final class Argument
      */
     public function __construct(string $name, ?Type $type = null, ?string $default = null, bool $byReference = false, bool $isVariadic = false)
     {
-        $this->name = $name;
-        $this->default = $default;
+        $this->name        = $name;
+        $this->default     = $default;
         $this->byReference = $byReference;
-        $this->isVariadic = $isVariadic;
+        $this->isVariadic  = $isVariadic;
         if ($type === null) {
             $type = new Mixed_();
         }
@@ -66,27 +55,27 @@ final class Argument
     /**
      * Returns the name of this argument.
      */
-    public function getName(): string
+    public function getName() : string
     {
         return $this->name;
     }
 
-    public function getType(): ?Type
+    public function getType() : ?Type
     {
         return $this->type;
     }
 
-    public function getDefault(): ?string
+    public function getDefault() : ?string
     {
         return $this->default;
     }
 
-    public function isByReference(): bool
+    public function isByReference() : bool
     {
         return $this->byReference;
     }
 
-    public function isVariadic(): bool
+    public function isVariadic() : bool
     {
         return $this->isVariadic;
     }

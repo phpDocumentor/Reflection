@@ -1,12 +1,13 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
 
@@ -22,7 +23,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ProjectTest extends TestCase
 {
-    const EXAMPLE_NAME = 'Initial name';
+    public const EXAMPLE_NAME = 'Initial name';
 
     /** @var Project */
     private $fixture;
@@ -30,7 +31,7 @@ class ProjectTest extends TestCase
     /**
      * Initializes the fixture object.
      */
-    protected function setUp()
+    protected function setUp() : void
     {
         $this->fixture = new Project(self::EXAMPLE_NAME);
     }
@@ -39,7 +40,7 @@ class ProjectTest extends TestCase
      * @covers ::__construct
      * @covers ::getName
      */
-    public function testGetSetName()
+    public function testGetSetName() : void
     {
         $this->assertEquals(self::EXAMPLE_NAME, $this->fixture->getName());
     }
@@ -48,7 +49,7 @@ class ProjectTest extends TestCase
      * @covers ::getFiles
      * @covers ::addFile
      */
-    public function testGetAddFiles()
+    public function testGetAddFiles() : void
     {
         $this->assertEmpty($this->fixture->getFiles());
 
@@ -62,12 +63,12 @@ class ProjectTest extends TestCase
      * @covers ::__construct
      * @covers ::getRootNamespace
      */
-    public function testGetRootNamespace()
+    public function testGetRootNamespace() : void
     {
         $this->assertInstanceOf(Namespace_::class, $this->fixture->getRootNamespace());
 
         $namespaceDescriptor = new Namespace_(new Fqsen('\MySpace'));
-        $project = new Project(self::EXAMPLE_NAME, $namespaceDescriptor);
+        $project             = new Project(self::EXAMPLE_NAME, $namespaceDescriptor);
 
         $this->assertSame($namespaceDescriptor, $project->getRootNamespace());
     }
@@ -76,7 +77,7 @@ class ProjectTest extends TestCase
      * @covers ::getNamespaces
      * @covers ::addNamespace
      */
-    public function testGetAddNamespace()
+    public function testGetAddNamespace() : void
     {
         $this->assertEmpty($this->fixture->getNamespaces());
 

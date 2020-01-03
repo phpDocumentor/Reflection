@@ -1,18 +1,20 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
 
 namespace phpDocumentor\Reflection\File;
 
 use PHPUnit\Framework\TestCase;
+use function md5_file;
 
 /**
  * @coversDefaultClass phpDocumentor\Reflection\File\LocalFile
@@ -23,7 +25,7 @@ class LocalFileTest extends TestCase
     /**
      * @covers ::getContents
      */
-    public function testGetContents()
+    public function testGetContents() : void
     {
         $file = new LocalFile(__FILE__);
         $this->assertStringEqualsFile(__FILE__, $file->getContents());
@@ -32,7 +34,7 @@ class LocalFileTest extends TestCase
     /**
      * @covers ::md5
      */
-    public function testMd5()
+    public function testMd5() : void
     {
         $file = new LocalFile(__FILE__);
         $this->assertEquals(md5_file(__FILE__), $file->md5());
@@ -40,17 +42,17 @@ class LocalFileTest extends TestCase
 
     /**
      * @covers ::__construct
-     * @expectedException \InvalidArgumentException
      */
-    public function testNotExistingFileThrowsException()
+    public function testNotExistingFileThrowsException() : void
     {
+        $this->expectException('InvalidArgumentException');
         new LocalFile('aa');
     }
 
     /**
      * @covers ::path
      */
-    public function testPath()
+    public function testPath() : void
     {
         $file = new LocalFile(__FILE__);
         $this->assertEquals(__FILE__, $file->path());

@@ -32,12 +32,12 @@ class ProjectCreationTest extends TestCase
      */
     private $fixture;
 
-    protected function setUp()
+    protected function setUp() : void
     {
         $this->fixture = ProjectFactory::createInstance();
     }
 
-    protected function tearDown()
+    protected function tearDown() : void
     {
         m::close();
     }
@@ -57,7 +57,7 @@ class ProjectCreationTest extends TestCase
     public function testCreateProjectWithClass()
     {
         $fileName = __DIR__ . '/project/Pizza.php';
-        $project = $this->fixture->create('MyProject', [
+        $project  = $this->fixture->create('MyProject', [
             new LocalFile($fileName),
         ]);
 
@@ -75,7 +75,7 @@ class ProjectCreationTest extends TestCase
     public function testFileWithDocBlock()
     {
         $fileName = __DIR__ . '/project/Pizza.php';
-        $project = $this->fixture->create('MyProject', [
+        $project  = $this->fixture->create('MyProject', [
             new LocalFile($fileName),
         ]);
 
@@ -86,7 +86,7 @@ class ProjectCreationTest extends TestCase
     public function testWithNamespacedClass()
     {
         $fileName = __DIR__ . '/project/Luigi/Pizza.php';
-        $project = $this->fixture->create('MyProject', [
+        $project  = $this->fixture->create('MyProject', [
             new LocalFile($fileName),
         ]);
 
@@ -111,7 +111,7 @@ class ProjectCreationTest extends TestCase
     public function testDocblockOfMethodIsProcessed()
     {
         $fileName = __DIR__ . '/project/Luigi/Pizza.php';
-        $project = $this->fixture->create('MyProject', [
+        $project  = $this->fixture->create('MyProject', [
             new LocalFile($fileName),
         ]);
 
@@ -136,7 +136,7 @@ class ProjectCreationTest extends TestCase
     public function testWithUsedParent()
     {
         $fileName = __DIR__ . '/project/Luigi/StyleFactory.php';
-        $project = $this->fixture->create('MyProject', [
+        $project  = $this->fixture->create('MyProject', [
             new LocalFile($fileName),
         ]);
 
@@ -151,7 +151,7 @@ class ProjectCreationTest extends TestCase
     public function testWithInterface()
     {
         $fileName = __DIR__ . '/project/Luigi/Valued.php';
-        $project = $this->fixture->create('MyProject', [
+        $project  = $this->fixture->create('MyProject', [
             new LocalFile($fileName),
         ]);
 
@@ -161,7 +161,7 @@ class ProjectCreationTest extends TestCase
     public function testWithTrait()
     {
         $fileName = __DIR__ . '/project/Luigi/ExampleNestedTrait.php';
-        $project = $this->fixture->create('MyProject', [
+        $project  = $this->fixture->create('MyProject', [
             new LocalFile($fileName),
         ]);
 
@@ -171,7 +171,7 @@ class ProjectCreationTest extends TestCase
     public function testInterfaceExtends()
     {
         $fileName = __DIR__ . '/project/Luigi/Packing.php';
-        $project = $this->fixture->create('MyProject', [
+        $project  = $this->fixture->create('MyProject', [
             new LocalFile($fileName),
         ]);
 
@@ -184,7 +184,7 @@ class ProjectCreationTest extends TestCase
     public function testMethodReturnType()
     {
         $fileName = __DIR__ . '/project/Packing.php';
-        $project = $this->fixture->create('MyProject', [
+        $project  = $this->fixture->create('MyProject', [
             new LocalFile($fileName),
         ]);
 
@@ -197,7 +197,7 @@ class ProjectCreationTest extends TestCase
     public function testFileDocblock()
     {
         $fileName = __DIR__ . '/project/empty.php';
-        $project = $this->fixture->create('MyProject', [
+        $project  = $this->fixture->create('MyProject', [
             new LocalFile($fileName),
         ]);
 

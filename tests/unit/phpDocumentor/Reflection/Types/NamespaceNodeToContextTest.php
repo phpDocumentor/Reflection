@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Types;
@@ -20,7 +21,7 @@ class NamespaceNodeToContextTest extends TestCase
     /**
      * @dataProvider expectedContextsProvider
      */
-    public function testConversion(?Namespace_ $namespace, Context $expectedContext): void
+    public function testConversion(?Namespace_ $namespace, Context $expectedContext) : void
     {
         self::assertEquals($expectedContext, (new NamespaceNodeToContext())->__invoke($namespace));
     }
@@ -28,29 +29,29 @@ class NamespaceNodeToContextTest extends TestCase
     public function expectedContextsProvider()
     {
          $namespaceWithImports = new Namespace_(
-            new Name('With\\Imports'),
-            [
-                (new Use_('ClassName', UseStatement::TYPE_NORMAL))->getNode(),
-                (new Use_('ConstantName', UseStatement::TYPE_CONSTANT))->getNode(),
-                (new Use_('FunctionName', UseStatement::TYPE_FUNCTION))->getNode(),
-                (new Use_('UnknownName', UseStatement::TYPE_UNKNOWN))->getNode(),
-                (new Use_('AAA\\BBB', UseStatement::TYPE_NORMAL))->getNode(),
-                (new Use_('BBB\\CCC\\DDD', UseStatement::TYPE_NORMAL))->getNode(),
-                (new Use_('Foo\\EEE\\FFF', UseStatement::TYPE_NORMAL))->getNode(),
-                (new Use_('Foo', UseStatement::TYPE_NORMAL))->getNode(),
-                (new Use_('GGG', UseStatement::TYPE_NORMAL))->as('HHH')->getNode(),
-                (new Use_('III', UseStatement::TYPE_NORMAL))->as('JJJ')->getNode(),
-                new GroupUse(
-                    new Name('LLL'),
-                    [
-                        new UseUse(new Name('MMM')),
-                        new UseUse(new Name('NNN'), 'OOO'),
-                    ]
-                ),
-                (new Use_('\\PPP', UseStatement::TYPE_NORMAL))->getNode(),
-                new Class_('ClassNode'), // class node, should be ignored
-            ]
-        );
+             new Name('With\\Imports'),
+             [
+                 (new Use_('ClassName', UseStatement::TYPE_NORMAL))->getNode(),
+                 (new Use_('ConstantName', UseStatement::TYPE_CONSTANT))->getNode(),
+                 (new Use_('FunctionName', UseStatement::TYPE_FUNCTION))->getNode(),
+                 (new Use_('UnknownName', UseStatement::TYPE_UNKNOWN))->getNode(),
+                 (new Use_('AAA\\BBB', UseStatement::TYPE_NORMAL))->getNode(),
+                 (new Use_('BBB\\CCC\\DDD', UseStatement::TYPE_NORMAL))->getNode(),
+                 (new Use_('Foo\\EEE\\FFF', UseStatement::TYPE_NORMAL))->getNode(),
+                 (new Use_('Foo', UseStatement::TYPE_NORMAL))->getNode(),
+                 (new Use_('GGG', UseStatement::TYPE_NORMAL))->as('HHH')->getNode(),
+                 (new Use_('III', UseStatement::TYPE_NORMAL))->as('JJJ')->getNode(),
+                 new GroupUse(
+                     new Name('LLL'),
+                     [
+                         new UseUse(new Name('MMM')),
+                         new UseUse(new Name('NNN'), 'OOO'),
+                     ]
+                 ),
+                 (new Use_('\\PPP', UseStatement::TYPE_NORMAL))->getNode(),
+                 new Class_('ClassNode'), // class node, should be ignored
+             ]
+         );
 
         return [
             'No namespace' => [

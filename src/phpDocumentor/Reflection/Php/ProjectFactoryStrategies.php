@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -7,20 +8,20 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
 
 namespace phpDocumentor\Reflection\Php;
 
 use OutOfBoundsException;
+use function get_class;
+use function is_object;
+use function print_r;
+use function sprintf;
 
 final class ProjectFactoryStrategies implements StrategyContainer
 {
-    /**
-     * @var ProjectFactoryStrategy[]
-     */
+    /** @var ProjectFactoryStrategy[] */
     private $strategies;
 
     /**
@@ -40,11 +41,11 @@ final class ProjectFactoryStrategies implements StrategyContainer
     /**
      * Find the ProjectFactoryStrategy that matches $object.
      *
-     *
      * @param mixed $object
-     * @throws OutOfBoundsException when no matching strategy was found.
+     *
+     * @throws OutOfBoundsException When no matching strategy was found.
      */
-    public function findMatching($object): ProjectFactoryStrategy
+    public function findMatching($object) : ProjectFactoryStrategy
     {
         foreach ($this->strategies as $strategy) {
             if ($strategy->matches($object)) {
@@ -63,7 +64,7 @@ final class ProjectFactoryStrategies implements StrategyContainer
     /**
      * Add a strategy to this container.
      */
-    public function addStrategy(ProjectFactoryStrategy $strategy): void
+    public function addStrategy(ProjectFactoryStrategy $strategy) : void
     {
         $this->strategies[] = $strategy;
     }

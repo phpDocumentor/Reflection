@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -7,8 +8,6 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
 
@@ -23,6 +22,7 @@ use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Interface_ as InterfaceNode;
+use function get_class;
 
 /**
  * Strategy to create a InterfaceElement including all sub elements.
@@ -31,7 +31,7 @@ use PhpParser\Node\Stmt\Interface_ as InterfaceNode;
 final class Interface_ extends AbstractFactory implements ProjectFactoryStrategy
 // @codingStandardsIgnoreEnd
 {
-    public function matches($object): bool
+    public function matches($object) : bool
     {
         return $object instanceof InterfaceNode;
     }
@@ -41,15 +41,14 @@ final class Interface_ extends AbstractFactory implements ProjectFactoryStrategy
      * Since an object might contain other objects that need to be converted the $factory is passed so it can be
      * used to create nested Elements.
      *
-     * @param InterfaceNode $object object to convert to an Element
+     * @param InterfaceNode     $object     object to convert to an Element
      * @param StrategyContainer $strategies used to convert nested objects.
-     * @param Context $context of the created object
-     * @return InterfaceElement
+     * @param Context           $context    of the created object
      */
     protected function doCreate($object, StrategyContainer $strategies, ?Context $context = null)
     {
         $docBlock = $this->createDocBlock($strategies, $object->getDocComment(), $context);
-        $parents = [];
+        $parents  = [];
         foreach ($object->extends as $extend) {
             $parents['\\' . (string) $extend] = new Fqsen('\\' . (string) $extend);
         }

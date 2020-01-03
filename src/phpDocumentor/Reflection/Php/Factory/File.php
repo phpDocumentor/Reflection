@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -7,8 +8,6 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
 
@@ -16,7 +15,6 @@ namespace phpDocumentor\Reflection\Php\Factory;
 
 use phpDocumentor\Reflection\DocBlock as DocBlockInstance;
 use phpDocumentor\Reflection\File as FileSystemFile;
-use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Middleware\ChainFactory;
 use phpDocumentor\Reflection\Middleware\Middleware;
 use phpDocumentor\Reflection\Php\Factory\File\CreateCommand;
@@ -25,7 +23,6 @@ use phpDocumentor\Reflection\Php\NodesFactory;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Types\Context;
-use phpDocumentor\Reflection\Types\ContextFactory;
 use phpDocumentor\Reflection\Types\NamespaceNodeToContext;
 use PhpParser\Comment\Doc;
 use PhpParser\Node;
@@ -34,21 +31,20 @@ use PhpParser\Node\Stmt\Function_ as FunctionNode;
 use PhpParser\Node\Stmt\Interface_ as InterfaceNode;
 use PhpParser\Node\Stmt\Namespace_ as NamespaceNode;
 use PhpParser\Node\Stmt\Trait_ as TraitNode;
+use function current;
+use function get_class;
+use function is_array;
 
 /**
  * Strategy to create File element from the provided filename.
  * This class supports extra middle wares to add extra steps to the creation process.
  */
-final class File extends AbstractFactory implements ProjectFactoryStrategy
+final class File extends AbstractFactory
 {
-    /**
-     * @var NodesFactory
-     */
+    /** @var NodesFactory */
     private $nodesFactory;
 
-    /**
-     * @var callable
-     */
+    /** @var callable */
     private $middlewareChain;
 
     /**
@@ -67,7 +63,7 @@ final class File extends AbstractFactory implements ProjectFactoryStrategy
         $this->middlewareChain = ChainFactory::createExecutionChain($middleware, $lastCallable);
     }
 
-    public function matches($file): bool
+    public function matches($file) : bool
     {
         return $file instanceof FileSystemFile;
     }
@@ -78,25 +74,22 @@ final class File extends AbstractFactory implements ProjectFactoryStrategy
      * Since an object might contain other objects that need to be converted the $factory is passed so it can be
      * used to create nested Elements.
      *
-     * @param FileSystemFile $object path to the file to convert to an File object.
+     * @param FileSystemFile    $object     path to the file to convert to an File object.
      * @param StrategyContainer $strategies used to convert nested objects.
      * @return File
      */
     protected function doCreate($object, StrategyContainer $strategies, ?Context $context = null)
     {
-        $command = new CreateCommand($object, $strategies);
+        $command         = new CreateCommand($object, $strategies);
         $middlewareChain = $this->middlewareChain;
 
         return $middlewareChain($command);
     }
 
-    /**
-     * @return FileElement
-     */
-    private function createFile(CreateCommand $command)
+    private function createFile(CreateCommand $command) : FileElement
     {
-        $file = $command->getFile();
-        $code = $file->getContents();
+        $file  = $command->getFile();
+        $code  = $file->getContents();
         $nodes = $this->nodesFactory->create($code);
 
         $docBlock = $this->createFileDocBlock(null, $command->getStrategies(), null, $nodes);
@@ -121,12 +114,12 @@ final class File extends AbstractFactory implements ProjectFactoryStrategy
         FileElement $file,
         StrategyContainer $strategies,
         ?Context $context
-    ): void {
+    ) : void {
         foreach ($nodes as $node) {
             switch (get_class($node)) {
                 case ClassNode::class:
                     $strategy = $strategies->findMatching($node);
-                    $class = $strategy->create($node, $strategies, $context);
+                    $class    = $strategy->create($node, $strategies, $context);
                     $file->addClass($class);
                     break;
                 case FunctionNode::class:
@@ -135,7 +128,7 @@ final class File extends AbstractFactory implements ProjectFactoryStrategy
                     $file->addFunction($function);
                     break;
                 case InterfaceNode::class:
-                    $strategy = $strategies->findMatching($node);
+                    $strategy  = $strategies->findMatching($node);
                     $interface = $strategy->create($node, $strategies, $context);
                     $file->addInterface($interface);
                     break;
@@ -146,7 +139,7 @@ final class File extends AbstractFactory implements ProjectFactoryStrategy
                     break;
                 case TraitNode::class:
                     $strategy = $strategies->findMatching($node);
-                    $trait = $strategy->create($node, $strategies, $context);
+                    $trait    = $strategy->create($node, $strategies, $context);
                     $file->addTrait($trait);
                     break;
             }
@@ -161,7 +154,7 @@ final class File extends AbstractFactory implements ProjectFactoryStrategy
         ?StrategyContainer $strategies = null,
         ?Context $context = null,
         array $nodes = []
-    ): ?DocBlockInstance {
+    ) : ?DocBlockInstance {
         $node = current($nodes);
         if (!$node instanceof Node) {
             return null;
@@ -172,7 +165,7 @@ final class File extends AbstractFactory implements ProjectFactoryStrategy
             return null;
         }
 
-        $found = 0;
+        $found         = 0;
         $firstDocBlock = null;
         foreach ($comments as $comment) {
             if (!$comment instanceof Doc) {

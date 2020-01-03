@@ -1,32 +1,39 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
 
 namespace phpDocumentor\Reflection\Php;
 
 use Mockery as m;
+use phpDocumentor\Reflection\Exception;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\Factory\DummyFactoryStrategy;
 use PHPUnit\Framework\TestCase;
+use function array_keys;
+use function count;
+use function current;
+use function key;
+use function md5;
 
 /**
  * Test case for ProjectFactory
  *
- * @coversDefaultClass phpDocumentor\Reflection\Php\ProjectFactory
+ * @coversDefaultClass \phpDocumentor\Reflection\Php\ProjectFactory
  * @covers ::create
  * @covers ::<private>
  */
 class ProjectFactoryTest extends TestCase
 {
-    protected function tearDown()
+    protected function tearDown() : void
     {
         m::close();
     }
@@ -34,13 +41,13 @@ class ProjectFactoryTest extends TestCase
     /**
      * @covers ::__construct
      */
-    public function testStrategiesAreChecked()
+    public function testStrategiesAreChecked() : void
     {
         new ProjectFactory([new DummyFactoryStrategy()]);
         $this->assertTrue(true);
     }
 
-    public function testCreate()
+    public function testCreate() : void
     {
         $someOtherStrategy = m::mock(ProjectFactoryStrategy::class);
         $someOtherStrategy->shouldReceive('matches')->twice()->andReturn(false);
@@ -59,7 +66,7 @@ class ProjectFactoryTest extends TestCase
 
         $projectFactory = new ProjectFactory([$someOtherStrategy, $fileStrategyMock]);
 
-        $files = ['some/file.php', 'some/other.php'];
+        $files   = ['some/file.php', 'some/other.php'];
         $project = $projectFactory->create('MyProject', $files);
 
         $this->assertInstanceOf(Project::class, $project);
@@ -68,16 +75,14 @@ class ProjectFactoryTest extends TestCase
         $this->assertEquals($files, $projectFilePaths);
     }
 
-    /**
-     * @expectedException \OutOfBoundsException
-     */
-    public function testCreateThrowsExceptionWhenStrategyNotFound()
+    public function testCreateThrowsExceptionWhenStrategyNotFound() : void
     {
+        $this->expectException('OutOfBoundsException');
         $projectFactory = new ProjectFactory([]);
         $projectFactory->create('MyProject', ['aa']);
     }
 
-    public function testCreateProjectFromFileWithNamespacedClass()
+    public function testCreateProjectFromFileWithNamespacedClass() : void
     {
         $file = new File(md5('some/file.php'), 'some/file.php');
         $file->addNamespace(new Fqsen('\mySpace'));
@@ -94,7 +99,7 @@ class ProjectFactoryTest extends TestCase
         $this->assertEquals('\mySpace\MyClass', key($mySpace->getClasses()));
     }
 
-    public function testWithNamespacedInterface()
+    public function testWithNamespacedInterface() : void
     {
         $file = new File(md5('some/file.php'), 'some/file.php');
         $file->addNamespace(new Fqsen('\mySpace'));
@@ -109,7 +114,7 @@ class ProjectFactoryTest extends TestCase
         $this->assertEquals('\mySpace\MyInterface', key($mySpace->getInterfaces()));
     }
 
-    public function testWithNamespacedFunction()
+    public function testWithNamespacedFunction() : void
     {
         $file = new File(md5('some/file.php'), 'some/file.php');
         $file->addNamespace(new Fqsen('\mySpace'));
@@ -124,7 +129,7 @@ class ProjectFactoryTest extends TestCase
         $this->assertEquals('\mySpace\function()', key($mySpace->getFunctions()));
     }
 
-    public function testWithNamespacedConstant()
+    public function testWithNamespacedConstant() : void
     {
         $file = new File(md5('some/file.php'), 'some/file.php');
         $file->addNamespace(new Fqsen('\mySpace'));
@@ -139,7 +144,7 @@ class ProjectFactoryTest extends TestCase
         $this->assertEquals('\mySpace::MY_CONST', key($mySpace->getConstants()));
     }
 
-    public function testWithNamespacedTrait()
+    public function testWithNamespacedTrait() : void
     {
         $file = new File(md5('some/file.php'), 'some/file.php');
         $file->addNamespace(new Fqsen('\mySpace'));
@@ -154,7 +159,7 @@ class ProjectFactoryTest extends TestCase
         $this->assertEquals('\mySpace\MyTrait', key($mySpace->getTraits()));
     }
 
-    public function testNamespaceSpreadOverMultipleFiles()
+    public function testNamespaceSpreadOverMultipleFiles() : void
     {
         $someFile = new File(md5('some/file.php'), 'some/file.php');
         $someFile->addNamespace(new Fqsen('\mySpace'));
@@ -170,7 +175,7 @@ class ProjectFactoryTest extends TestCase
         $this->assertCount(2, current($namespaces)->getClasses());
     }
 
-    public function testSingleFileMultipleNamespaces()
+    public function testSingleFileMultipleNamespaces() : void
     {
         $someFile = new File(md5('some/file.php'), 'some/file.php');
         $someFile->addNamespace(new Fqsen('\mySpace'));
@@ -187,7 +192,7 @@ class ProjectFactoryTest extends TestCase
         $this->assertCount(1, $namespaces['\mySpace']->getClasses());
     }
 
-    public function testErrorScenarioWhenFileStrategyReturnsNull()
+    public function testErrorScenarioWhenFileStrategyReturnsNull() : void
     {
         $fileStrategyMock = m::mock(ProjectFactoryStrategy::class);
         $fileStrategyMock->shouldReceive('matches')->twice()->andReturn(true);
@@ -202,7 +207,7 @@ class ProjectFactoryTest extends TestCase
 
         $projectFactory = new ProjectFactory([$fileStrategyMock]);
 
-        $files = ['some/file.php', 'some/other.php'];
+        $files   = ['some/file.php', 'some/other.php'];
         $project = $projectFactory->create('MyProject', $files);
 
         $this->assertInstanceOf(Project::class, $project);
@@ -215,8 +220,10 @@ class ProjectFactoryTest extends TestCase
      * Uses the ProjectFactory to create a Project and returns the namespaces created by the factory.
      *
      * @return Namespace_[] Namespaces of the project
+     *
+     * @throws Exception
      */
-    private function fetchNamespacesFromSingleFile(File $file)
+    private function fetchNamespacesFromSingleFile(File $file) : array
     {
         return $this->fetchNamespacesFromMultipleFiles([$file]);
     }
@@ -225,9 +232,12 @@ class ProjectFactoryTest extends TestCase
      * Uses the ProjectFactory to create a Project and returns the namespaces created by the factory.
      *
      * @param File[] $files
+     *
      * @return Namespace_[] Namespaces of the project
+     *
+     * @throws Exception
      */
-    private function fetchNamespacesFromMultipleFiles($files)
+    private function fetchNamespacesFromMultipleFiles(array $files) : array
     {
         $fileStrategyMock = m::mock(ProjectFactoryStrategy::class);
         $fileStrategyMock->shouldReceive('matches')->times(count($files))->andReturn(true);
@@ -238,7 +248,7 @@ class ProjectFactoryTest extends TestCase
             );
 
         $projectFactory = new ProjectFactory([$fileStrategyMock]);
-        $project = $projectFactory->create('My Project', $files);
+        $project        = $projectFactory->create('My Project', $files);
 
         return $project->getNamespaces();
     }

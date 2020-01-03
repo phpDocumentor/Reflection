@@ -1,11 +1,12 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * phpDocumentor
  *
  * PHP Version 5.5
  *
- * @copyright 2010-2018 Mike van Riel / Naenius (http://www.naenius.com)
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
 
@@ -15,24 +16,26 @@ use Mockery as m;
 use phpDocumentor\Reflection\Php\Argument as ArgumentDescriptor;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategies;
 use phpDocumentor\Reflection\PrettyPrinter;
+use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Param;
 use PhpParser\Node\Scalar\String_;
 use stdClass;
 
 /**
  * Class ArgumentTest
+ *
  * @coversDefaultClass \phpDocumentor\Reflection\Php\Factory\Argument
  * @covers ::__construct
  * @covers ::<!public>
  */
 class ArgumentTest extends TestCase
 {
-    protected function setUp()
+    protected function setUp() : void
     {
         $this->fixture = new Argument(new PrettyPrinter());
     }
 
-    protected function tearDown()
+    protected function tearDown() : void
     {
         m::close();
     }
@@ -40,7 +43,7 @@ class ArgumentTest extends TestCase
     /**
      * @covers ::matches
      */
-    public function testMatches()
+    public function testMatches() : void
     {
         $this->assertFalse($this->fixture->matches(new stdClass()));
         $this->assertTrue($this->fixture->matches(m::mock(Param::class)));
@@ -49,14 +52,14 @@ class ArgumentTest extends TestCase
     /**
      * @covers ::create
      */
-    public function testCreate()
+    public function testCreate() : void
     {
         $factory = new ProjectFactoryStrategies([]);
 
-        $argMock = m::mock(Param::class);
-        $argMock->var = new \PhpParser\Node\Expr\Variable('myArgument');
-        $argMock->default = new String_('MyDefault');
-        $argMock->byRef = true;
+        $argMock           = m::mock(Param::class);
+        $argMock->var      = new Variable('myArgument');
+        $argMock->default  = new String_('MyDefault');
+        $argMock->byRef    = true;
         $argMock->variadic = true;
 
         $argument = $this->fixture->create($argMock, $factory);

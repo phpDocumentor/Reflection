@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -7,8 +8,6 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
 
@@ -24,38 +23,29 @@ use phpDocumentor\Reflection\Location;
  */
 final class Property implements Element
 {
-    /**
-     * @var Fqsen
-     */
+    /** @var Fqsen */
     private $fqsen;
 
-    /**
-     * @var DocBlock|null
-     */
+    /** @var DocBlock|null */
     private $docBlock;
 
     /** @var string[] $types */
     private $types = [];
 
-    /** @var null|string $default */
+    /** @var string|null $default */
     private $default = null;
 
     /** @var bool $static */
     private $static = false;
 
-    /** @var null|Visibility $visibility */
+    /** @var Visibility|null $visibility */
     private $visibility = null;
 
-    /**
-     * @var Location
-     */
+    /** @var Location */
     private $location;
 
     /**
      * @param Visibility|null $visibility when null is provided a default 'public' is set.
-     * @param DocBlock|null $docBlock
-     * @param null|string $default
-     * @param Location|null $location
      */
     public function __construct(
         Fqsen $fqsen,
@@ -69,22 +59,24 @@ final class Property implements Element
             $location = new Location(-1);
         }
 
-        $this->fqsen = $fqsen;
+        $this->fqsen      = $fqsen;
         $this->visibility = $visibility;
-        $this->docBlock = $docBlock;
-        $this->default = $default;
-        $this->static = $static;
-        $this->location = $location;
+        $this->docBlock   = $docBlock;
+        $this->default    = $default;
+        $this->static     = $static;
+        $this->location   = $location;
 
-        if ($this->visibility === null) {
-            $this->visibility = new Visibility('public');
+        if ($this->visibility !== null) {
+            return;
         }
+
+        $this->visibility = new Visibility('public');
     }
 
     /**
      * returns the default value of this property.
      */
-    public function getDefault(): ?string
+    public function getDefault() : ?string
     {
         return $this->default;
     }
@@ -92,7 +84,7 @@ final class Property implements Element
     /**
      * Returns true when this method is static. Otherwise returns false.
      */
-    public function isStatic(): bool
+    public function isStatic() : bool
     {
         return $this->static;
     }
@@ -102,7 +94,7 @@ final class Property implements Element
      *
      * @return string[]
      */
-    public function getTypes(): array
+    public function getTypes() : array
     {
         return $this->types;
     }
@@ -110,7 +102,7 @@ final class Property implements Element
     /**
      * Add a type to this property
      */
-    public function addType(string $type): void
+    public function addType(string $type) : void
     {
         $this->types[] = $type;
     }
@@ -118,7 +110,7 @@ final class Property implements Element
     /**
      * Return visibility of the property.
      */
-    public function getVisibility(): ?Visibility
+    public function getVisibility() : ?Visibility
     {
         return $this->visibility;
     }
@@ -126,7 +118,7 @@ final class Property implements Element
     /**
      * Returns the Fqsen of the element.
      */
-    public function getFqsen(): Fqsen
+    public function getFqsen() : Fqsen
     {
         return $this->fqsen;
     }
@@ -134,7 +126,7 @@ final class Property implements Element
     /**
      * Returns the name of the element.
      */
-    public function getName(): string
+    public function getName() : string
     {
         return $this->fqsen->getName();
     }
@@ -142,12 +134,12 @@ final class Property implements Element
     /**
      * Returns the DocBlock of this property.
      */
-    public function getDocBlock(): ?DocBlock
+    public function getDocBlock() : ?DocBlock
     {
         return $this->docBlock;
     }
 
-    public function getLocation(): Location
+    public function getLocation() : Location
     {
         return $this->location;
     }

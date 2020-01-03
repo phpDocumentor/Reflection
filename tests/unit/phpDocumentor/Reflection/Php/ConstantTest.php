@@ -1,12 +1,13 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
 
@@ -18,6 +19,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the functionality for the Constant class.
+ *
  * @coversDefaultClass phpDocumentor\Reflection\Php\Constant
  */
 class ConstantTest extends TestCase
@@ -25,36 +27,30 @@ class ConstantTest extends TestCase
     /** @var Constant $fixture */
     protected $fixture;
 
-    /**
-     * @var Fqsen
-     */
+    /** @var Fqsen */
     private $fqsen;
 
-    /**
-     * @var DocBlock
-     */
+    /** @var DocBlock */
     private $docBlock;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $value = 'Value';
 
     /**
      * Creates a new (empty) fixture object.
      */
-    protected function setUp()
+    protected function setUp() : void
     {
-        $this->fqsen = new Fqsen('\MySpace\CONSTANT');
+        $this->fqsen    = new Fqsen('\MySpace\CONSTANT');
         $this->docBlock = new DocBlock('');
-        $this->fixture = new Constant($this->fqsen, $this->docBlock, $this->value);
+        $this->fixture  = new Constant($this->fqsen, $this->docBlock, $this->value);
     }
 
     /**
      * @covers ::getValue
      * @covers ::__construct
      */
-    public function testGetValue()
+    public function testGetValue() : void
     {
         $this->assertSame($this->value, $this->fixture->getValue());
     }
@@ -64,7 +60,7 @@ class ConstantTest extends TestCase
      * @covers ::getFqsen
      * @covers ::getName
      */
-    public function testGetFqsen()
+    public function testGetFqsen() : void
     {
         $this->assertSame($this->fqsen, $this->fixture->getFqsen());
         $this->assertSame($this->fqsen->getName(), $this->fixture->getName());
@@ -74,7 +70,7 @@ class ConstantTest extends TestCase
      * @covers ::__construct
      * @covers ::getDocBlock
      */
-    public function testGetDocblock()
+    public function testGetDocblock() : void
     {
         $this->assertSame($this->docBlock, $this->fixture->getDocBlock());
     }

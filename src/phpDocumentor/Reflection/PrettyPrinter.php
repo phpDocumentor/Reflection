@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -7,9 +8,6 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @author    Mike van Riel <mike.vanriel@naenius.com>
- * @copyright 2010-2018 Mike van Riel / Naenius (http://www.naenius.com)
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
 
@@ -28,8 +26,6 @@ use PhpParser\PrettyPrinter\Standard;
  * If the interpreted version was to be used then the XML interpretation would
  * fail because of special characters.
  *
- * @author  Mike van Riel <mike.vanriel@naenius.com>
- * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link    http://phpdoc.org
  */
 class PrettyPrinter extends Standard
@@ -43,11 +39,9 @@ class PrettyPrinter extends Standard
      * Since we do not want such conversions we take the original that is
      * injected by our own custom Lexer.
      *
-     * @param String_ $node The node to return a string representation of.
-     *
      * @see Lexer where the originalValue is injected.
      *
-     * @return string
+     * @param String_ $node The node to return a string representation of.
      */
     // @codingStandardsIgnoreStart
     public function pScalar_String(String_ $node): string
