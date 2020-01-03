@@ -5,27 +5,33 @@
     "homepage": "http://www.phpdoc.org",
     "license": "MIT",
     "autoload": {
-        "psr-0": {
-            "phpDocumentor": ["src/", "tests/unit/", "tests/mocks/"]
+        "psr-4": {
+            "phpDocumentor\\": "src/phpDocumentor"
         }
     },
-    "require": {
-        "php": ">=5.3.3",
-        "psr/log": "~1.0",
-        "nikic/php-parser": "^1.0",
-        "phpdocumentor/reflection-docblock": "~2.0"
+    "autoload-dev": {
+        "psr-4": {
+            "phpDocumentor\\": [
+                "tests/component/",
+                "tests/unit/phpDocumentor",
+                "tests/bench/"
+            ]
+        }
     },
-    "suggests": {
-        "symfony/event-dispatcher": "~2.1"
+    "minimum-stability": "alpha",
+    "require": {
+        "php": ">=7.1",
+        "psr/log": "~1.0",
+        "nikic/php-parser": "^4.0",
+        "phpdocumentor/reflection-docblock": "^5"
     },
     "require-dev": {
-        "behat/behat": "~2.4",
-        "phpunit/phpunit": "~4.0",
-        "mockery/mockery": "~0.8"
+        "mockery/mockery": "~1.0",
+        "mikey179/vfsstream": "~1.2"
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "3.0.x-dev"
+            "dev-develop": "4.0.x-dev"
         }
     }
 }

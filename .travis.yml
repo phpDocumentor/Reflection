@@ -1,32 +1,48 @@
 language: php
-php:
-  - 5.3.3
-  - 5.3
-  - 5.4
-  - 5.5
-  - 5.6
-  - hhvm
-  - hhvm-nightly
+php: [ 7.1, 7.2, 7.3, nightly ]
+sudo: false
+
+env:
 
 matrix:
-    allow_failures:
-        - php: hhvm
-        - php: hhvm-nightly
+  fast_finish: true
+  allow_failures:
+    - php: nightly
+
+install:
+  - travis_retry composer install --no-interaction --prefer-dist --optimize-autoloader
+  - travis_retry composer global require phpunit/phpunit "^6" # cannot use phpunit.phar or require-dev, because this package is a phpunit dep
+  - travis_retry wget --no-verbose https://phar.io/releases/phive.phar
 
 script:
- - vendor/bin/phpunit
+  - /home/travis/.composer/vendor/bin/phpunit --no-coverage
 
-before_script:
- - sudo apt-get -qq update > /dev/null
- - phpenv rehash > /dev/null
- - composer selfupdate --quiet
- - composer install --no-interaction --prefer-source --dev
- - vendor/bin/phpunit
- - composer update --no-interaction --prefer-source --dev
+jobs:
+  include:
+    - stage: coverage
+      php: 7.1
+      script:
+        - /home/travis/.composer/vendor/bin/phpunit
+      after_script:
+        - travis_retry php phive.phar --no-progress install --trust-gpg-keys E82B2FB314E9906E php-coveralls/php-coveralls && ./tools/php-coveralls --verbose
+        - travis_retry wget --no-verbose https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml
+
+    - stage: lint
+      php: 7.1
+      before_script:
+        - travis_retry php phive.phar --no-progress install --trust-gpg-keys 8E730BA25823D8B5 phpstan
+      script:
+        - ./tools/phpstan analyse src --level max --configuration phpstan.neon
+
+cache:
+  directories:
+  - $HOME/.composer/cache/files
+  - $HOME/.phive
 
 notifications:
   irc: "irc.freenode.org#phpdocumentor"
+  slack:
+    secure: "fjumM0h+4w3EYM4dpgqvpiCug7m4sSIC5+HATgwga/Nrc6IjlbWvGOv3JPgD3kQUhi18VmZfUYPmCv916SIbMnv8JWcrSaJXnPCgmxidvYkuzQDIw1HDJbVppGnkmwQA/qjIrM3sIEMfnu/arLRJQLI363aStZzGPxwIa4PDKcg="
   email:
-    - mike.vanriel@naenius.com
-    - ashnazg@php.net
-    - boen.robot@gmail.com
+  - me@mikevanriel.com
+  - ashnazg@php.net

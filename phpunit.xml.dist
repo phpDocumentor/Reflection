@@ -1,16 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<phpunit bootstrap="vendor/autoload.php" colors="true" strict="true">
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/7.4/phpunit.xsd"
+    bootstrap="vendor/autoload.php"
+    colors="true"
+    verbose="true"
+    forceCoversAnnotation="true"
+>
     <testsuites>
-        <testsuite name="phpDocumentor">
+        <testsuite name="unit">
             <directory>./tests/unit/</directory>
+        </testsuite>
+        <testsuite name="component">
+            <directory>./tests/component/</directory>
         </testsuite>
     </testsuites>
     <filter>
         <whitelist>
-            <directory suffix=".php">src/phpDocumentor</directory>
+            <directory suffix=".php">src</directory>
         </whitelist>
     </filter>
+    <logging>
+        <log type="coverage-html"
+            target="build/coverage"
+            lowUpperBound="35"
+            highLowerBound="70" />
+        <log type="coverage-clover" target="build/logs/clover.xml"/>
+        <log type="junit" target="build/logs/junit.xml" />
+    </logging>
     <listeners>
         <listener class="Mockery\Adapter\Phpunit\TestListener"
             file="vendor/mockery/mockery/library/Mockery/Adapter/Phpunit/TestListener.php"></listener>

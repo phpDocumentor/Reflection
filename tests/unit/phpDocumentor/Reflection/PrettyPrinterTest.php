@@ -1,33 +1,32 @@
 <?php
 /**
- * phpDocumentor
+ * This file is part of phpDocumentor.
  *
- * PHP Version 5
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  *
- * @author    Vasil Rangelov <boen.robot@gmail.com>
- * @copyright 2010-2011 Mike van Riel / Naenius (http://www.naenius.com)
+ * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
+
 namespace phpDocumentor\Reflection;
 
 use PhpParser\Node\Scalar\String_;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class for testing the PrettyPrinter.
  *
  * @author    Vasil Rangelov <boen.robot@gmail.com>
- * @copyright 2010-2011 Mike van Riel / Naenius (http://www.naenius.com)
+ * @copyright 2010-2018 Mike van Riel / Naenius (http://www.naenius.com)
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
-class PrettyPrinterTest extends PHPUnit_Framework_TestCase
+class PrettyPrinterTest extends TestCase
 {
     /**
      * @covers \phpDocumentor\Reflection\PrettyPrinter::pScalar_String
-     *
-     * @return void
      */
     public function testScalarStringPrinting()
     {
@@ -37,7 +36,7 @@ class PrettyPrinterTest extends PHPUnit_Framework_TestCase
             $object->pScalar_String(
                 new String_(
                     'Value',
-                    array('originalValue' => 'Another value')
+                    ['originalValue' => 'Another value']
                 )
             )
         );
