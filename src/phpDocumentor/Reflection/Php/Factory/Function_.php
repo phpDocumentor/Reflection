@@ -33,13 +33,13 @@ use PhpParser\Node\Stmt\Function_ as FunctionNode;
 final class Function_ extends AbstractFactory implements ProjectFactoryStrategy
 // @codingStandardsIgnoreEnd
 {
-    public function matches($object): bool
+    public function matches($object) : bool
     {
         return $object instanceof FunctionNode;
     }
 
     /**
-     * Creates an FunctionDescriptor out of the given object including its child elements.
+     * Creates a FunctionDescriptor out of the given object including its child elements.
      *
      * @param \PhpParser\Node\Stmt\Function_ $object object to convert to an Element
      * @param StrategyContainer $strategies used to convert nested objects.

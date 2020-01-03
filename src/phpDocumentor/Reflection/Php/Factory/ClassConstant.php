@@ -26,7 +26,7 @@ use phpDocumentor\Reflection\Types\Context;
  * @see ConstantElement
  * @see ClassConstantIterator
  */
-final class Constant extends AbstractFactory
+final class ClassConstant extends AbstractFactory
 {
     /**
      * @var PrettyPrinter

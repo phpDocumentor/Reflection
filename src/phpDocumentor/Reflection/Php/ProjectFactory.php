@@ -51,7 +51,8 @@ final class ProjectFactory implements ProjectFactoryInterface
             [
                 new Factory\Argument(new PrettyPrinter()),
                 new Factory\Class_(),
-                new Factory\Constant(new PrettyPrinter()),
+                new Factory\GlobalConstant(new PrettyPrinter()),
+                new Factory\ClassConstant(new PrettyPrinter()),
                 new Factory\DocBlock(DocBlockFactory::createInstance()),
                 new Factory\File(NodesFactory::createInstance()),
                 new Factory\Function_(),

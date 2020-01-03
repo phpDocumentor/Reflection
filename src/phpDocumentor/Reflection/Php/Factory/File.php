@@ -16,7 +16,6 @@ namespace phpDocumentor\Reflection\Php\Factory;
 
 use phpDocumentor\Reflection\DocBlock as DocBlockInstance;
 use phpDocumentor\Reflection\File as FileSystemFile;
-use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Middleware\ChainFactory;
 use phpDocumentor\Reflection\Middleware\Middleware;
 use phpDocumentor\Reflection\Php\Factory\File\CreateCommand;
@@ -25,11 +24,11 @@ use phpDocumentor\Reflection\Php\NodesFactory;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Types\Context;
-use phpDocumentor\Reflection\Types\ContextFactory;
 use phpDocumentor\Reflection\Types\NamespaceNodeToContext;
 use PhpParser\Comment\Doc;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_ as ClassNode;
+use PhpParser\Node\Stmt\Const_ as ConstantNode;
 use PhpParser\Node\Stmt\Function_ as FunctionNode;
 use PhpParser\Node\Stmt\Interface_ as InterfaceNode;
 use PhpParser\Node\Stmt\Namespace_ as NamespaceNode;
@@ -67,7 +66,7 @@ final class File extends AbstractFactory implements ProjectFactoryStrategy
         $this->middlewareChain = ChainFactory::createExecutionChain($middleware, $lastCallable);
     }
 
-    public function matches($file): bool
+    public function matches($file) : bool
     {
         return $file instanceof FileSystemFile;
     }
@@ -121,13 +120,21 @@ final class File extends AbstractFactory implements ProjectFactoryStrategy
         FileElement $file,
         StrategyContainer $strategies,
         ?Context $context
-    ): void {
+    ) : void {
         foreach ($nodes as $node) {
             switch (get_class($node)) {
                 case ClassNode::class:
                     $strategy = $strategies->findMatching($node);
                     $class = $strategy->create($node, $strategies, $context);
                     $file->addClass($class);
+                    break;
+                case ConstantNode::class:
+                    $constants = new GlobalConstantIterator($node);
+                    foreach ($constants as $constant) {
+                        $strategy = $strategies->findMatching($constant);
+                        $constant = $strategy->create($constant, $strategies, $context);
+                        $file->addConstant($constant);
+                    }
                     break;
                 case FunctionNode::class:
                     $strategy = $strategies->findMatching($node);
@@ -161,7 +168,7 @@ final class File extends AbstractFactory implements ProjectFactoryStrategy
         ?StrategyContainer $strategies = null,
         ?Context $context = null,
         array $nodes = []
-    ): ?DocBlockInstance {
+    ) : ?DocBlockInstance {
         $node = current($nodes);
         if (!$node instanceof Node) {
             return null;
@@ -179,8 +186,9 @@ final class File extends AbstractFactory implements ProjectFactoryStrategy
                 continue;
             }
 
-            //If current node cannot have a docblock return the first comment as docblock for the file.
+            // If current node cannot have a docblock return the first comment as docblock for the file.
             if (!(
+                $node instanceof ConstantNode ||
                 $node instanceof ClassNode ||
                 $node instanceof FunctionNode ||
                 $node instanceof InterfaceNode ||

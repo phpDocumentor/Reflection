@@ -168,6 +168,16 @@ class ProjectCreationTest extends TestCase
         $this->assertArrayHasKey('\\Luigi\\ExampleNestedTrait', $project->getFiles()[$fileName]->getTraits());
     }
 
+    public function testWithGlobalConstants()
+    {
+        $fileName = __DIR__ . '/project/Luigi/constants.php';
+        $project = $this->fixture->create('MyProject', [
+            new LocalFile($fileName),
+        ]);
+
+        $this->assertArrayHasKey('\\Luigi\\OVEN_TEMPERATURE', $project->getFiles()[$fileName]->getConstants());
+    }
+
     public function testInterfaceExtends()
     {
         $fileName = __DIR__ . '/project/Luigi/Packing.php';

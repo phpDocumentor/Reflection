@@ -18,6 +18,7 @@ use phpDocumentor\Reflection\File as SourceFile;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Middleware\Middleware;
 use phpDocumentor\Reflection\Php\Class_ as ClassElement;
+use phpDocumentor\Reflection\Php\Constant as ConstantElement;
 use phpDocumentor\Reflection\Php\File as FileElement;
 use phpDocumentor\Reflection\Php\Function_ as FunctionElement;
 use phpDocumentor\Reflection\Php\Interface_ as InterfaceElement;
@@ -27,8 +28,11 @@ use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Php\Trait_ as TraitElement;
 use PhpParser\Comment as CommentNode;
 use PhpParser\Comment\Doc as DocBlockNode;
+use PhpParser\Node\Const_ as ConstNode;
 use PhpParser\Node\Name;
+use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Class_ as ClassNode;
+use PhpParser\Node\Stmt\Const_ as ConstantNode;
 use PhpParser\Node\Stmt\Function_ as FunctionNode;
 use PhpParser\Node\Stmt\Interface_ as InterfaceNode;
 use PhpParser\Node\Stmt\Namespace_ as NamespaceNode;
@@ -40,7 +44,7 @@ use PhpParser\Node\Stmt\Trait_ as TraitNode;
  * @covers ::<!public>
  * @covers ::__construct
  */
-class FileTest extends TestCase
+final class FileTest extends TestCase
 {
     /**
      * @var m\MockInterface
@@ -60,6 +64,37 @@ class FileTest extends TestCase
     {
         $this->assertFalse($this->fixture->matches(new \stdClass()));
         $this->assertTrue($this->fixture->matches(m::mock(SourceFile::class)));
+    }
+
+    /**
+     * @covers ::create
+     */
+    public function testFileWithConstant()
+    {
+        $constantNode = new ConstantNode([new ConstNode('MY_CONSTANT', new String_('value'))]);
+        $this->nodesFactoryMock->shouldReceive('create')
+            ->with(file_get_contents(__FILE__))
+            ->andReturn(
+                [
+                    $constantNode,
+                ]
+            );
+        $strategyMock = m::mock(ProjectFactoryStrategy::class);
+        $containerMock = m::mock(StrategyContainer::class);
+
+        $strategyMock->shouldReceive('create')
+            ->with(m::type(GlobalConstantIterator::class), $containerMock, m::any())
+            ->andReturn(new ConstantElement(new Fqsen('\MY_CONSTANT')));
+
+        $containerMock->shouldReceive('findMatching')
+            ->with(m::type(GlobalConstantIterator::class))
+            ->andReturn($strategyMock);
+
+        /** @var FileElement $file */
+        $file = $this->fixture->create(new SourceFile\LocalFile(__FILE__), $containerMock);
+
+        $this->assertEquals(__FILE__, $file->getPath());
+        $this->assertArrayHasKey('\MY_CONSTANT', $file->getConstants());
     }
 
     /**
