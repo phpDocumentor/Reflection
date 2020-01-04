@@ -15,6 +15,7 @@ namespace phpDocumentor\Reflection\Php;
 
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Types\Mixed_;
 use phpDocumentor\Reflection\Types\String_;
 use PHPUnit\Framework\TestCase;
@@ -28,9 +29,6 @@ use PHPUnit\Framework\TestCase;
  */
 final class MethodTest extends TestCase
 {
-    /** @var Method $fixture */
-    protected $fixture;
-
     /** @var Fqsen */
     private $fqsen;
 
@@ -88,7 +86,6 @@ final class MethodTest extends TestCase
 
     /**
      * @covers ::isAbstract
-     * @covers ::__construct
      */
     public function testGettingWhetherMethodIsAbstract() : void
     {
@@ -101,7 +98,6 @@ final class MethodTest extends TestCase
 
     /**
      * @covers ::isFinal
-     * @covers ::__construct
      */
     public function testGettingWhetherMethodIsFinal() : void
     {
@@ -114,7 +110,6 @@ final class MethodTest extends TestCase
 
     /**
      * @covers ::isStatic
-     * @covers ::__construct
      */
     public function testGettingWhetherMethodIsStatic() : void
     {
@@ -127,7 +122,6 @@ final class MethodTest extends TestCase
 
     /**
      * @covers ::getVisibility
-     * @covers ::__construct
      */
     public function testGettingVisibility() : void
     {
@@ -137,7 +131,6 @@ final class MethodTest extends TestCase
 
     /**
      * @covers ::getVisibility
-     * @covers ::__construct
      */
     public function testGetDefaultVisibility() : void
     {
@@ -147,7 +140,6 @@ final class MethodTest extends TestCase
 
     /**
      * @covers ::getReturnType
-     * @covers ::__construct
      */
     public function testGetDefaultReturnType() : void
     {
@@ -157,7 +149,6 @@ final class MethodTest extends TestCase
 
     /**
      * @covers ::getReturnType
-     * @covers ::__construct
      */
     public function testGetReturnTypeFromConstructor() : void
     {
@@ -174,5 +165,29 @@ final class MethodTest extends TestCase
         );
 
         $this->assertSame($returnType, $method->getReturnType());
+    }
+
+    /**
+     * @covers ::getLocation
+     */
+    public function testLineNumberIsMinusOneWhenNoneIsProvided() : void
+    {
+        $fixture = new Method($this->fqsen);
+
+        $this->assertSame(-1, $fixture->getLocation()->getLineNumber());
+        $this->assertSame(0, $fixture->getLocation()->getColumnNumber());
+    }
+
+    /**
+     * @uses \phpDocumentor\Reflection\Location
+     *
+     * @covers ::getLocation
+     */
+    public function testLineAndColumnNumberIsReturnedWhenALocationIsProvided() : void
+    {
+        $fixture = new Method($this->fqsen, null, null, false, false, false, new Location(100, 20));
+
+        $this->assertSame(100, $fixture->getLocation()->getLineNumber());
+        $this->assertSame(20, $fixture->getLocation()->getColumnNumber());
     }
 }

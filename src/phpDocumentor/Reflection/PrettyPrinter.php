@@ -26,7 +26,7 @@ use PhpParser\PrettyPrinter\Standard;
  * If the interpreted version was to be used then the XML interpretation would
  * fail because of special characters.
  */
-class PrettyPrinter extends Standard
+final class PrettyPrinter extends Standard
 {
     /**
      * Converts the string into it's original representation without converting

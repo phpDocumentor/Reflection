@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php;
 
-use Mockery as m;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
@@ -49,28 +48,46 @@ final class Class_Test extends TestCase
      */
     protected function setUp() : void
     {
-        $this->parent   = new Fqsen('\MyParentClass');
-        $this->fqsen    = new Fqsen('\MyClass');
+        $this->parent = new Fqsen('\MyParentClass');
+        $this->fqsen = new Fqsen('\MyClass');
         $this->docBlock = new DocBlock('');
 
-        $this->fixture = new Class_($this->fqsen, $this->docBlock, null, false, false, new Location(1));
+        $this->fixture = new Class_($this->fqsen, $this->docBlock);
     }
 
-    protected function tearDown() : void
+    /**
+     * @covers ::getName
+     */
+    public function testGettingName() : void
     {
-        m::close();
+        $this->assertSame($this->fqsen->getName(), $this->fixture->getName());
+    }
+
+    /**
+     * @covers ::getFqsen
+     */
+    public function testGettingFqsen() : void
+    {
+        $this->assertSame($this->fqsen, $this->fixture->getFqsen());
+    }
+
+    /**
+     * @covers ::getDocBlock
+     */
+    public function testGettingDocBlock() : void
+    {
+        $this->assertSame($this->docBlock, $this->fixture->getDocBlock());
     }
 
     /**
      * @covers ::getParent
-     * @covers ::__construct
      */
     public function testGettingParent() : void
     {
-        $class = new Class_($this->fqsen, $this->docBlock, null, false, false, null);
+        $class = new Class_($this->fqsen, $this->docBlock);
         $this->assertNull($class->getParent());
 
-        $class = new Class_($this->fqsen, $this->docBlock, $this->parent, false, false, null);
+        $class = new Class_($this->fqsen, $this->docBlock, $this->parent);
         $this->assertSame($this->parent, $class->getParent());
     }
 
@@ -151,27 +168,47 @@ final class Class_Test extends TestCase
 
     /**
      * @covers ::isAbstract
-     * @covers ::__construct
      */
     public function testGettingWhetherClassIsAbstract() : void
     {
-        $class = new Class_($this->fqsen, $this->docBlock, null, false, false);
+        $class = new Class_($this->fqsen, $this->docBlock);
         $this->assertFalse($class->isAbstract());
 
-        $class = new Class_($this->fqsen, $this->docBlock, null, true, false);
+        $class = new Class_($this->fqsen, $this->docBlock, null, true);
         $this->assertTrue($class->isAbstract());
     }
 
     /**
      * @covers ::isFinal
-     * @covers ::__construct
      */
     public function testGettingWhetherClassIsFinal() : void
     {
-        $class = new Class_($this->fqsen, $this->docBlock, null, false, false);
+        $class = new Class_($this->fqsen, $this->docBlock);
         $this->assertFalse($class->isFinal());
 
         $class = new Class_($this->fqsen, $this->docBlock, null, false, true);
         $this->assertTrue($class->isFinal());
+    }
+
+    /**
+     * @covers ::getLocation
+     */
+    public function testLineNumberIsMinusOneWhenNoneIsProvided() : void
+    {
+        $this->assertSame(-1, $this->fixture->getLocation()->getLineNumber());
+        $this->assertSame(0, $this->fixture->getLocation()->getColumnNumber());
+    }
+
+    /**
+     * @uses \phpDocumentor\Reflection\Location
+     *
+     * @covers ::getLocation
+     */
+    public function testLineAndColumnNumberIsReturnedWhenALocationIsProvided() : void
+    {
+        $fixture = new Class_($this->fqsen, $this->docBlock, null, false, false, new Location(100, 20));
+
+        $this->assertSame(100, $fixture->getLocation()->getLineNumber());
+        $this->assertSame(20, $fixture->getLocation()->getColumnNumber());
     }
 }

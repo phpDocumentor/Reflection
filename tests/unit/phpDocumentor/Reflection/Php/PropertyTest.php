@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php;
 
-use Mockery as m;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\Location;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -25,7 +25,7 @@ use PHPUnit\Framework\TestCase;
  * @covers ::__construct
  * @covers ::<private>
  */
-class PropertyTest extends TestCase
+final class PropertyTest extends TestCase
 {
     /** @var Fqsen */
     private $fqsen;
@@ -38,14 +38,9 @@ class PropertyTest extends TestCase
 
     protected function setUp() : void
     {
-        $this->fqsen      = new Fqsen('\My\Class::$property');
+        $this->fqsen = new Fqsen('\My\Class::$property');
         $this->visibility = new Visibility('private');
-        $this->docBlock   = new DocBlock('');
-    }
-
-    protected function tearDown() : void
-    {
-        m::close();
+        $this->docBlock = new DocBlock('');
     }
 
     /**
@@ -128,5 +123,32 @@ class PropertyTest extends TestCase
     {
         $property = new Property($this->fqsen, $this->visibility, $this->docBlock, null, false);
         $this->assertSame($this->docBlock, $property->getDocBlock());
+    }
+
+    /**
+     * @uses \phpDocumentor\Reflection\Php\Visibility
+     *
+     * @covers ::getLocation
+     */
+    public function testLineNumberIsMinusOneWhenNoneIsProvided() : void
+    {
+        $fixture = new Property($this->fqsen);
+
+        $this->assertSame(-1, $fixture->getLocation()->getLineNumber());
+        $this->assertSame(0, $fixture->getLocation()->getColumnNumber());
+    }
+
+    /**
+     * @uses \phpDocumentor\Reflection\Php\Visibility
+     * @uses \phpDocumentor\Reflection\Location
+     *
+     * @covers ::getLocation
+     */
+    public function testLineAndColumnNumberIsReturnedWhenALocationIsProvided() : void
+    {
+        $fixture = new Property($this->fqsen, null, null, null, false, new Location(100, 20));
+
+        $this->assertSame(100, $fixture->getLocation()->getLineNumber());
+        $this->assertSame(20, $fixture->getLocation()->getColumnNumber());
     }
 }

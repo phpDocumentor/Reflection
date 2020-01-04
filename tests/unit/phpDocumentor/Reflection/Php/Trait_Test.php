@@ -16,15 +16,14 @@ namespace phpDocumentor\Reflection\Php;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\Location;
 
 /**
- * Tests the functionality for the Trait_ class.
- *
  * @coversDefaultClass \phpDocumentor\Reflection\Php\Trait_
  * @covers ::__construct
  * @covers ::<private>
  */
-class Trait_Test extends MockeryTestCase
+final class Trait_Test extends MockeryTestCase
 {
     /** @var Trait_ $fixture */
     protected $fixture;
@@ -107,11 +106,32 @@ class Trait_Test extends MockeryTestCase
     }
 
     /**
-     * @covers ::__construct
      * @covers ::getDocBlock
      */
     public function testGetDocblock() : void
     {
         $this->assertSame($this->docBlock, $this->fixture->getDocBlock());
+    }
+
+    /**
+     * @covers ::getLocation
+     */
+    public function testLineNumberIsMinusOneWhenNoneIsProvided() : void
+    {
+        $this->assertSame(-1, $this->fixture->getLocation()->getLineNumber());
+        $this->assertSame(0, $this->fixture->getLocation()->getColumnNumber());
+    }
+
+    /**
+     * @uses \phpDocumentor\Reflection\Location
+     *
+     * @covers ::getLocation
+     */
+    public function testLineAndColumnNumberIsReturnedWhenALocationIsProvided() : void
+    {
+        $fixture = new Trait_($this->fqsen, $this->docBlock, new Location(100, 20));
+
+        $this->assertSame(100, $fixture->getLocation()->getLineNumber());
+        $this->assertSame(20, $fixture->getLocation()->getColumnNumber());
     }
 }
