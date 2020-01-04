@@ -1,8 +1,8 @@
 <?php
 
-function simpleFunction()
+function simpleFunction(array $options = []): void
 {
-    return true;
+    return;
 }
 
 exit();
