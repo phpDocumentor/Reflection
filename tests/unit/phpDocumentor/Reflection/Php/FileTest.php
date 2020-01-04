@@ -13,15 +13,21 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php;
 
-use Mockery as m;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Tests the functionality for the File class.
+ * @uses \phpDocumentor\Reflection\Php\Trait_
+ * @uses \phpDocumentor\Reflection\Php\Interface_
+ * @uses \phpDocumentor\Reflection\Php\Class_
+ * @uses \phpDocumentor\Reflection\Php\Namespace_
+ * @uses \phpDocumentor\Reflection\Php\Function_
+ * @uses \phpDocumentor\Reflection\Php\Constant
  *
- * @coversDefaultClass phpDocumentor\Reflection\Php\File
+ * @coversDefaultClass \phpDocumentor\Reflection\Php\File
+ * @covers ::__construct
+ * @covers ::<private>
  */
 class FileTest extends TestCase
 {
@@ -47,13 +53,7 @@ class FileTest extends TestCase
         $this->fixture = new File(static::EXAMPLE_HASH, static::EXAMPLE_PATH, static::EXAMPLE_SOURCE, $this->docBlock);
     }
 
-    protected function tearDown() : void
-    {
-        m::close();
-    }
-
     /**
-     * @covers ::__construct
      * @covers ::getClasses
      * @covers ::AddClass
      */
@@ -68,7 +68,6 @@ class FileTest extends TestCase
     }
 
     /**
-     * @covers ::__construct
      * @covers ::getConstants
      * @covers ::addConstant
      */
@@ -83,7 +82,6 @@ class FileTest extends TestCase
     }
 
     /**
-     * @covers ::__construct
      * @covers ::getFunctions
      * @covers ::addFunction
      */
@@ -98,7 +96,6 @@ class FileTest extends TestCase
     }
 
     /**
-     * @covers ::__construct
      * @covers ::getInterfaces
      * @covers ::addInterface
      */
@@ -113,7 +110,6 @@ class FileTest extends TestCase
     }
 
     /**
-     * @covers ::__construct
      * @covers ::getTraits
      * @covers ::addTrait
      */
@@ -128,7 +124,6 @@ class FileTest extends TestCase
     }
 
     /**
-     * @covers ::__construct
      * @covers ::getDocBlock
      */
     public function testGetDocBlock() : void
@@ -137,7 +132,6 @@ class FileTest extends TestCase
     }
 
     /**
-     * @covers ::__construct
      * @covers ::getHash
      */
     public function testGetHash() : void

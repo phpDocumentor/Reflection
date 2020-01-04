@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use Mockery as m;
+use Mockery\Adapter\Phpunit\MockeryTestCase;
 use phpDocumentor\Reflection\DocBlock as DocBlockDescriptor;
 use phpDocumentor\Reflection\File as SourceFile;
 use phpDocumentor\Reflection\Fqsen;
@@ -42,13 +43,13 @@ use stdClass;
 use function file_get_contents;
 
 /**
- * Test case for \phpDocumentor\Reflection\Php\Factory\File
+ * @uses \phpDocumentor\Reflection\Php\File
  *
  * @coversDefaultClass \phpDocumentor\Reflection\Php\Factory\File
- * @covers ::<!public>
  * @covers ::__construct
+ * @covers ::<private>
  */
-final class FileTest extends TestCase
+final class FileTest extends MockeryTestCase
 {
     /** @var m\MockInterface */
     private $nodesFactoryMock;
