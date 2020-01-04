@@ -17,26 +17,29 @@ use PhpParser\Node\Scalar\String_;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class for testing the PrettyPrinter.
- *
- * @link      http://phpdoc.org
+ * @coversDefaultClass \phpDocumentor\Reflection\PrettyPrinter
  */
-class PrettyPrinterTest extends TestCase
+final class PrettyPrinterTest extends TestCase
 {
     /**
-     * @covers \phpDocumentor\Reflection\PrettyPrinter::pScalar_String
+     * @covers ::pScalar_String
      */
-    public function testScalarStringPrinting() : void
+    public function testReturnsUnmodifiedValueWhenSet() : void
     {
         $object = new PrettyPrinter();
-        $this->assertEquals(
-            'Another value',
-            $object->pScalar_String(
-                new String_(
-                    'Value',
-                    ['originalValue' => 'Another value']
-                )
-            )
-        );
+        $exampleString = new String_('Value', ['originalValue' => 'Another value']);
+
+        $this->assertSame('Another value', $object->pScalar_String($exampleString));
+    }
+
+    /**
+     * @covers ::pScalar_String
+     */
+    public function testReturnsModifiedValueWhenNoUnmodifiedIsSet() : void
+    {
+        $object = new PrettyPrinter();
+        $exampleString = new String_('Value');
+
+        $this->assertSame('Value', $object->pScalar_String($exampleString));
     }
 }

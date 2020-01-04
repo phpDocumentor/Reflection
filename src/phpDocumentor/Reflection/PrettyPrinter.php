@@ -25,8 +25,6 @@ use PhpParser\PrettyPrinter\Standard;
  *
  * If the interpreted version was to be used then the XML interpretation would
  * fail because of special characters.
- *
- * @link    http://phpdoc.org
  */
 class PrettyPrinter extends Standard
 {
@@ -43,10 +41,8 @@ class PrettyPrinter extends Standard
      *
      * @param String_ $node The node to return a string representation of.
      */
-    // @codingStandardsIgnoreStart
-    public function pScalar_String(String_ $node): string
+    public function pScalar_String(String_ $node) : string
     {
-        // @codingStandardsIgnoreStart
         if (!$node->getAttribute('originalValue')) {
             return $node->value;
         }
