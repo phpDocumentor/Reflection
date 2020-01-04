@@ -73,7 +73,7 @@ jobs:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           composer global require cedx/coveralls
-          coveralls build/logs/clover.xml
+          /root/.composer/vendor/bin/coveralls build/logs/clover.xml
 
   phpunit:
     runs-on: ${{ matrix.operating-system }}
