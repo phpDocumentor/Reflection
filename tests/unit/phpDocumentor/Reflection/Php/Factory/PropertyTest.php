@@ -28,11 +28,14 @@ use PhpParser\Node\Stmt\PropertyProperty;
 use stdClass;
 
 /**
- * Class ArgumentTest
+ * @uses \phpDocumentor\Reflection\Php\Factory\PropertyIterator
+ * @uses \phpDocumentor\Reflection\Php\Property
+ * @uses \phpDocumentor\Reflection\Php\Visibility
+ * @uses \phpDocumentor\Reflection\PrettyPrinter
+ * @uses \phpDocumentor\Reflection\Php\ProjectFactoryStrategies
  *
- * @coversDefaultClass \phpDocumentor\Reflection\Php\Factory\Property
- * @covers ::<!public>
- * @covers ::__construct
+ * @covers \phpDocumentor\Reflection\Php\Factory\Property
+ * @covers \phpDocumentor\Reflection\Php\Factory\AbstractFactory
  */
 class PropertyTest extends TestCase
 {
@@ -41,18 +44,12 @@ class PropertyTest extends TestCase
         $this->fixture = new Property(new PrettyPrinter());
     }
 
-    /**
-     * @covers ::matches
-     */
     public function testMatches() : void
     {
         $this->assertFalse($this->fixture->matches(new stdClass()));
         $this->assertTrue($this->fixture->matches(new PropertyIterator(new PropertyNode(1, []))));
     }
 
-    /**
-     * @covers ::create
-     */
     public function testPrivateCreate() : void
     {
         $factory = new ProjectFactoryStrategies([]);
@@ -65,9 +62,6 @@ class PropertyTest extends TestCase
         $this->assertProperty($property, 'private');
     }
 
-    /**
-     * @covers ::create
-     */
     public function testProtectedCreate() : void
     {
         $factory = new ProjectFactoryStrategies([]);
@@ -80,9 +74,6 @@ class PropertyTest extends TestCase
         $this->assertProperty($property, 'protected');
     }
 
-    /**
-     * @covers ::create
-     */
     public function testCreatePublic() : void
     {
         $factory = new ProjectFactoryStrategies([]);
@@ -95,9 +86,6 @@ class PropertyTest extends TestCase
         $this->assertProperty($property, 'public');
     }
 
-    /**
-     * @covers ::create
-     */
     public function testCreateWithDocBlock() : void
     {
         $doc      = m::mock(Doc::class);

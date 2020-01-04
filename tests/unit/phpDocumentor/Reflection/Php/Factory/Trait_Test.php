@@ -31,32 +31,28 @@ use PhpParser\Node\Stmt\TraitUse;
 use stdClass;
 
 /**
- * Test case for Trait_
+ * @uses \phpDocumentor\Reflection\Php\Trait_
+ * @uses \phpDocumentor\Reflection\Php\Method
+ * @uses \phpDocumentor\Reflection\Php\Visibility
+ * @uses \phpDocumentor\Reflection\Php\Property
+ * @uses \phpDocumentor\Reflection\Php\Factory\PropertyIterator
  *
- * @coversDefaultClass phpDocumentor\Reflection\Php\Factory\Trait_
- * @covers ::<!public>
+ * @covers \phpDocumentor\Reflection\Php\Factory\Trait_
+ * @covers \phpDocumentor\Reflection\Php\Factory\AbstractFactory
  */
-// @codingStandardsIgnoreStart
-class Trait_Test extends TestCase
-// @codingStandardsIgnoreEnd
+final class Trait_Test extends TestCase
 {
     protected function setUp() : void
     {
         $this->fixture = new Trait_();
     }
 
-    /**
-     * @covers ::matches
-     */
     public function testMatches() : void
     {
         $this->assertFalse($this->fixture->matches(new stdClass()));
         $this->assertTrue($this->fixture->matches(m::mock(TraitNode::class)));
     }
 
-    /**
-     * @covers ::create
-     */
     public function testSimpleCreate() : void
     {
         $containerMock = m::mock(StrategyContainer::class);
@@ -70,18 +66,15 @@ class Trait_Test extends TestCase
         $this->assertEquals('\Space\MyTrait', (string) $trait->getFqsen());
     }
 
-    /**
-     * @covers ::create
-     */
     public function testCreateWithDocBlock() : void
     {
-        $doc           = m::mock(Doc::class);
+        $doc = m::mock(Doc::class);
         $interfaceMock = $this->buildTraitMock();
         $interfaceMock->shouldReceive('getDocComment')->andReturn($doc);
 
         $docBlock = new DocBlockElement('');
 
-        $strategyMock  = m::mock(ProjectFactoryStrategy::class);
+        $strategyMock = m::mock(ProjectFactoryStrategy::class);
         $containerMock = m::mock(StrategyContainer::class);
 
         $strategyMock->shouldReceive('create')
@@ -98,17 +91,14 @@ class Trait_Test extends TestCase
         $this->assertSame($docBlock, $trait->getDocBlock());
     }
 
-    /**
-     * @covers ::create
-     */
     public function testWithPropertyMembers() : void
     {
-        $propertyProperty   = new PropertyProperty('\Space\MyTrait::$property');
-        $property           = new PropertyNode(1, [$propertyProperty]);
+        $propertyProperty = new PropertyProperty('\Space\MyTrait::$property');
+        $property = new PropertyNode(1, [$propertyProperty]);
         $propertyDescriptor = new PropertyElement(new Fqsen('\Space\MyTrait::$property'));
-        $strategyMock       = m::mock(ProjectFactoryStrategy::class);
-        $containerMock      = m::mock(StrategyContainer::class);
-        $traitMock          = $this->buildTraitMock();
+        $strategyMock = m::mock(ProjectFactoryStrategy::class);
+        $containerMock = m::mock(StrategyContainer::class);
+        $traitMock = $this->buildTraitMock();
         $traitMock->shouldReceive('getDocComment')->andReturnNull();
         $traitMock->stmts = [$property];
 
@@ -131,16 +121,13 @@ class Trait_Test extends TestCase
         );
     }
 
-    /**
-     * @covers ::create
-     */
     public function testWithMethodMembers() : void
     {
-        $method1           = new ClassMethod('MyTrait::method1');
+        $method1 = new ClassMethod('MyTrait::method1');
         $method1Descriptor = new MethodElement(new Fqsen('\MyTrait::method1'));
-        $strategyMock      = m::mock(ProjectFactoryStrategy::class);
-        $containerMock     = m::mock(StrategyContainer::class);
-        $traitMock         = $this->buildTraitMock();
+        $strategyMock = m::mock(ProjectFactoryStrategy::class);
+        $containerMock = m::mock(StrategyContainer::class);
+        $traitMock = $this->buildTraitMock();
         $traitMock->shouldReceive('getDocComment')->andReturnNull();
         $traitMock->stmts = [$method1];
 
@@ -163,12 +150,9 @@ class Trait_Test extends TestCase
         );
     }
 
-    /**
-     * @covers ::create
-     */
     public function testWithUsedTraits() : void
     {
-        $trait         = new TraitUse([new Name('MyTrait')]);
+        $trait = new TraitUse([new Name('MyTrait')]);
         $containerMock = m::mock(StrategyContainer::class);
         $containerMock->shouldReceive('findMatching')->never();
         $traitMock = $this->buildTraitMock();
@@ -191,9 +175,10 @@ class Trait_Test extends TestCase
      */
     private function buildTraitMock()
     {
-        $mock        = m::mock(TraitNode::class);
+        $mock = m::mock(TraitNode::class);
         $mock->fqsen = new Fqsen('\Space\MyTrait');
         $mock->shouldReceive('getLine')->andReturn(1);
+
         return $mock;
     }
 }

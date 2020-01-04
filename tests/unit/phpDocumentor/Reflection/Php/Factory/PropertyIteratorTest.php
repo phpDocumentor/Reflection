@@ -14,23 +14,20 @@ declare(strict_types=1);
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use Mockery as m;
+use Mockery\Adapter\Phpunit\MockeryTestCase;
 use PhpParser\Comment\Doc;
 use PhpParser\Node\Stmt\Property as PropertyNode;
 use PhpParser\Node\Stmt\PropertyProperty;
-use PHPUnit\Framework\TestCase;
 
 /**
  * Class PropertyIteratorTest
  *
  * @coversDefaultClass \phpDocumentor\Reflection\Php\Factory\PropertyIterator
+ * @covers ::__construct
+ * @covers ::<private>
  */
-class PropertyIteratorTest extends TestCase
+class PropertyIteratorTest extends MockeryTestCase
 {
-    protected function tearDown() : void
-    {
-        m::close();
-    }
-
     /**
      * @covers ::current()
      * @covers ::next()
@@ -99,9 +96,9 @@ class PropertyIteratorTest extends TestCase
      */
     public function testGetDefault() : void
     {
-        $prop          = m::mock(PropertyProperty::class);
+        $prop = m::mock(PropertyProperty::class);
         $prop->default = 'myDefault';
-        $property      = new PropertyNode(1, [$prop]);
+        $property = new PropertyNode(1, [$prop]);
 
         $fixture = new PropertyIterator($property);
 
@@ -113,8 +110,8 @@ class PropertyIteratorTest extends TestCase
      */
     public function testGetDocCommentPropFirst() : void
     {
-        $prop                = m::mock(PropertyProperty::class);
-        $propertyNode        = m::mock(PropertyNode::class);
+        $prop = m::mock(PropertyProperty::class);
+        $propertyNode = m::mock(PropertyNode::class);
         $propertyNode->props = [$prop];
 
         $prop->shouldReceive('getDocComment')->once()->andReturn(new Doc('test'));
@@ -130,8 +127,8 @@ class PropertyIteratorTest extends TestCase
      */
     public function testGetDocComment() : void
     {
-        $prop                = m::mock(PropertyProperty::class);
-        $propertyNode        = m::mock(PropertyNode::class);
+        $prop = m::mock(PropertyProperty::class);
+        $propertyNode = m::mock(PropertyNode::class);
         $propertyNode->props = [$prop];
 
         $prop->shouldReceive('getDocComment')->once()->andReturnNull();

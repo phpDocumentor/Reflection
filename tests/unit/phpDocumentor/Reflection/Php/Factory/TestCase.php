@@ -14,27 +14,19 @@ declare(strict_types=1);
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use Mockery as m;
+use Mockery\Adapter\Phpunit\MockeryTestCase;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
-use PHPUnit\Framework\TestCase as BaseTestCase;
 use stdClass;
 
 /**
  * Base test case for all strategies, to be sure that they check if the can handle objects before handeling them.
  */
-abstract class TestCase extends BaseTestCase
+abstract class TestCase extends MockeryTestCase
 {
     /** @var ProjectFactoryStrategy */
     protected $fixture;
 
-    protected function tearDown() : void
-    {
-        m::close();
-    }
-
-    /**
-     * @covers ::create
-     */
     public function testCreateThrowsException() : void
     {
         $this->expectException('InvalidArgumentException');

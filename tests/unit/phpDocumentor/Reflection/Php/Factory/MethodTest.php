@@ -3,11 +3,12 @@
 declare(strict_types=1);
 
 /**
- * phpDocumentor
+ * This file is part of phpDocumentor.
  *
- * PHP Version 5.5
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  *
- * @link      http://phpdoc.org
+ * @link http://phpdoc.org
  */
 
 namespace phpDocumentor\Reflection\Php\Factory;
@@ -29,10 +30,15 @@ use PhpParser\Node\Stmt\ClassMethod;
 use stdClass;
 
 /**
- * Test case for \phpDocumentor\Reflection\Php\Factory\Method
+ * @uses   \phpDocumentor\Reflection\Php\Method
+ * @uses   \phpDocumentor\Reflection\Php\Argument
+ * @uses   \phpDocumentor\Reflection\Php\Visibility
+ * @uses \phpDocumentor\Reflection\Php\Factory\Method::matches
  *
  * @coversDefaultClass \phpDocumentor\Reflection\Php\Factory\Method
- * @covers ::<!public>
+ * @covers \phpDocumentor\Reflection\Php\Factory\AbstractFactory
+ * @covers ::<protected>
+ * @covers ::<private>
  */
 class MethodTest extends TestCase
 {
@@ -55,7 +61,7 @@ class MethodTest extends TestCase
      */
     public function testCreateWithoutParameters() : void
     {
-        $classMethodMock         = $this->buildClassMethodMock();
+        $classMethodMock = $this->buildClassMethodMock();
         $classMethodMock->params = [];
         $classMethodMock->shouldReceive('isPrivate')->once()->andReturn(false);
         $classMethodMock->shouldReceive('isProtected')->once()->andReturn(false);
@@ -72,9 +78,12 @@ class MethodTest extends TestCase
         $this->assertEquals('public', (string) $method->getVisibility());
     }
 
+    /**
+     * @covers ::create
+     */
     public function testCreateProtectedMethod() : void
     {
-        $classMethodMock         = $this->buildClassMethodMock();
+        $classMethodMock = $this->buildClassMethodMock();
         $classMethodMock->params = [];
         $classMethodMock->shouldReceive('isPrivate')->once()->andReturn(false);
         $classMethodMock->shouldReceive('isProtected')->once()->andReturn(true);
@@ -96,13 +105,13 @@ class MethodTest extends TestCase
      */
     public function testCreateWithParameters() : void
     {
-        $classMethodMock         = $this->buildClassMethodMock();
+        $classMethodMock = $this->buildClassMethodMock();
         $classMethodMock->params = ['param1'];
         $classMethodMock->shouldReceive('isPrivate')->once()->andReturn(true);
         $classMethodMock->shouldReceive('getDocComment')->once()->andReturnNull();
         $classMethodMock->shouldReceive('getReturnType')->once()->andReturn(null);
 
-        $strategyMock  = m::mock(ProjectFactoryStrategy::class);
+        $strategyMock = m::mock(ProjectFactoryStrategy::class);
         $containerMock = m::mock(StrategyContainer::class);
 
         $strategyMock->shouldReceive('create')
@@ -128,7 +137,7 @@ class MethodTest extends TestCase
      */
     public function testReturnTypeResolving() : void
     {
-        $classMethodMock         = $this->buildClassMethodMock();
+        $classMethodMock = $this->buildClassMethodMock();
         $classMethodMock->params = [];
         $classMethodMock->shouldReceive('isPrivate')->once()->andReturn(true);
         $classMethodMock->shouldReceive('getDocComment')->once()->andReturnNull();
@@ -148,7 +157,7 @@ class MethodTest extends TestCase
      */
     public function testReturnTypeNullableResolving() : void
     {
-        $classMethodMock         = $this->buildClassMethodMock();
+        $classMethodMock = $this->buildClassMethodMock();
         $classMethodMock->params = [];
         $classMethodMock->shouldReceive('isPrivate')->once()->andReturn(true);
         $classMethodMock->shouldReceive('getDocComment')->once()->andReturnNull();
@@ -168,15 +177,15 @@ class MethodTest extends TestCase
      */
     public function testCreateWithDocBlock() : void
     {
-        $doc                     = m::mock(Doc::class);
-        $classMethodMock         = $this->buildClassMethodMock();
+        $doc = m::mock(Doc::class);
+        $classMethodMock = $this->buildClassMethodMock();
         $classMethodMock->params = [];
         $classMethodMock->shouldReceive('isPrivate')->once()->andReturn(true);
         $classMethodMock->shouldReceive('getDocComment')->andReturn($doc);
         $classMethodMock->shouldReceive('getReturnType')->once()->andReturn(null);
 
-        $docBlock      = new DocBlockDescriptor('');
-        $strategyMock  = m::mock(ProjectFactoryStrategy::class);
+        $docBlock = new DocBlockDescriptor('');
+        $strategyMock = m::mock(ProjectFactoryStrategy::class);
         $containerMock = m::mock(StrategyContainer::class);
 
         $strategyMock->shouldReceive('create')
@@ -199,8 +208,8 @@ class MethodTest extends TestCase
      */
     private function buildClassMethodMock() : MockInterface
     {
-        $methodMock        = m::mock(ClassMethod::class);
-        $methodMock->name  = 'function';
+        $methodMock = m::mock(ClassMethod::class);
+        $methodMock->name = 'function';
         $methodMock->fqsen = new Fqsen('\SomeSpace\Class::function()');
 
         $methodMock->shouldReceive('isStatic')->once()->andReturn(true);
