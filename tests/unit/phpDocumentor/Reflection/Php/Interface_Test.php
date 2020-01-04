@@ -13,19 +13,22 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php;
 
-use Mockery as m;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Tests the functionality for the Interface_ class.
+ * @uses \phpDocumentor\Reflection\DocBlock
+ * @uses \phpDocumentor\Reflection\Fqsen
+ * @uses \phpDocumentor\Reflection\Php\Method
+ * @uses \phpDocumentor\Reflection\Php\Constant
+ * @uses \phpDocumentor\Reflection\Php\Visibility
  *
- * @coversDefaultClass phpDocumentor\Reflection\Php\Interface_
+ * @coversDefaultClass \phpDocumentor\Reflection\Php\Interface_
+ * @covers ::__construct
+ * @covers ::<private>
  */
-// @codingStandardsIgnoreStart
 class Interface_Test extends TestCase
-// @codingStandardsIgnoreEnd
 {
     /** @var Interface_ $fixture */
     private $fixture;
@@ -44,11 +47,6 @@ class Interface_Test extends TestCase
         $this->fqsen    = new Fqsen('\MySpace\MyInterface');
         $this->docBlock = new DocBlock('');
         $this->fixture  = new Interface_($this->fqsen, [], $this->docBlock);
-    }
-
-    protected function tearDown() : void
-    {
-        m::close();
     }
 
     /**

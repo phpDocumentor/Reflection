@@ -18,9 +18,12 @@ use phpDocumentor\Reflection\Fqsen;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Tests the functionality for the Constant class.
+ * @uses \phpDocumentor\Reflection\DocBlock
+ * @uses \phpDocumentor\Reflection\Fqsen
  *
- * @coversDefaultClass phpDocumentor\Reflection\Php\Constant
+ * @coversDefaultClass \phpDocumentor\Reflection\Php\Constant
+ * @covers ::__construct
+ * @covers ::<private>
  */
 class ConstantTest extends TestCase
 {

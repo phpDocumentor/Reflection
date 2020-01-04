@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php;
 
-use Mockery as m;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Types\Mixed_;
@@ -21,40 +20,36 @@ use phpDocumentor\Reflection\Types\String_;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Tests the functionality for the Function_ class.
+ * @uses \phpDocumentor\Reflection\Php\Argument
+ * @uses \phpDocumentor\Reflection\DocBlock
+ * @uses \phpDocumentor\Reflection\Fqsen
  *
  * @coversDefaultClass \phpDocumentor\Reflection\Php\Function_
+ * @covers ::__construct
+ * @covers ::<private>
  */
-// @codingStandardsIgnoreStart
-class Function_Test extends TestCase
-// @codingStandardsIgnoreEnd
+final class Function_Test extends TestCase
 {
     /** @var Function_ $fixture */
-    protected $fixture;
+    private $fixture;
 
     /** @var Fqsen */
-    protected $fqsen;
+    private $fqsen;
 
     /** @var DocBlock */
-    protected $docBlock;
+    private $docBlock;
 
     /**
      * Creates a new (emoty) fixture object.
      */
     protected function setUp() : void
     {
-        $this->fqsen    = new Fqsen('\space\MyFunction()');
+        $this->fqsen = new Fqsen('\space\MyFunction()');
         $this->docBlock = new DocBlock('aa');
-        $this->fixture  = new Function_($this->fqsen, $this->docBlock);
-    }
-
-    protected function tearDown() : void
-    {
-        m::close();
+        $this->fixture = new Function_($this->fqsen, $this->docBlock);
     }
 
     /**
-     * @covers ::__construct
      * @covers ::getName
      */
     public function testGetName() : void
@@ -75,7 +70,6 @@ class Function_Test extends TestCase
     }
 
     /**
-     * @covers ::__construct
      * @covers ::getFqsen
      */
     public function testGetFqsen() : void
@@ -84,7 +78,6 @@ class Function_Test extends TestCase
     }
 
     /**
-     * @covers ::__construct
      * @covers ::getDocBlock
      */
     public function testGetDocblock() : void
@@ -94,7 +87,6 @@ class Function_Test extends TestCase
 
     /**
      * @covers ::getReturnType
-     * @covers ::__construct
      */
     public function testGetDefaultReturnType() : void
     {
@@ -104,12 +96,11 @@ class Function_Test extends TestCase
 
     /**
      * @covers ::getReturnType
-     * @covers ::__construct
      */
     public function testGetReturnTypeFromConstructor() : void
     {
         $returnType = new String_();
-        $method     = new Function_(
+        $method = new Function_(
             $this->fqsen,
             null,
             null,

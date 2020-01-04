@@ -68,7 +68,7 @@ jobs:
         run: tools/ocular code-coverage:upload --format=php-clover build/logs/clover.xml
       - name: Quick check code coverage level
         run: php tests/coverage-checker.php 43
-    - name: Upload coverage results to Coveralls
+      - name: Upload coverage results to Coveralls
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
