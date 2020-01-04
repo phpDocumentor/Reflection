@@ -13,19 +13,18 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php;
 
-use Mockery as m;
+use Mockery\Adapter\Phpunit\MockeryTestCase;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
-use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the functionality for the Trait_ class.
  *
- * @coversDefaultClass phpDocumentor\Reflection\Php\Trait_
+ * @coversDefaultClass \phpDocumentor\Reflection\Php\Trait_
+ * @covers ::__construct
+ * @covers ::<private>
  */
-// @codingStandardsIgnoreStart
-class Trait_Test extends TestCase
-// @codingStandardsIgnoreEnd
+class Trait_Test extends MockeryTestCase
 {
     /** @var Trait_ $fixture */
     protected $fixture;
@@ -41,20 +40,14 @@ class Trait_Test extends TestCase
      */
     protected function setUp() : void
     {
-        $this->fqsen    = new Fqsen('\MyTrait');
+        $this->fqsen = new Fqsen('\MyTrait');
         $this->docBlock = new DocBlock('');
-        $this->fixture  = new Trait_($this->fqsen, $this->docBlock);
-    }
-
-    protected function tearDown() : void
-    {
-        m::close();
+        $this->fixture = new Trait_($this->fqsen, $this->docBlock);
     }
 
     /**
      * @covers ::getFqsen
      * @covers ::getName
-     * @covers ::__construct
      */
     public function testGetFqsenAndGetName() : void
     {
@@ -63,6 +56,9 @@ class Trait_Test extends TestCase
     }
 
     /**
+     * @uses \phpDocumentor\Reflection\Php\Property
+     * @uses \phpDocumentor\Reflection\Php\Visibility
+     *
      * @covers ::addProperty
      * @covers ::getProperties
      */
@@ -78,6 +74,9 @@ class Trait_Test extends TestCase
     }
 
     /**
+     * @uses \phpDocumentor\Reflection\Php\Method
+     * @uses \phpDocumentor\Reflection\Php\Visibility
+     *
      * @covers ::addMethod
      * @covers ::getMethods
      */

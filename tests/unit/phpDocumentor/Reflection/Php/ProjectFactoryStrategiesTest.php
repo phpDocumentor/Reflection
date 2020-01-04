@@ -19,12 +19,13 @@ use PHPUnit\Framework\TestCase;
 /**
  * Test case for ProjectFactoryStrategies
  *
- * @coversDefaultClass phpDocumentor\Reflection\Php\ProjectFactoryStrategies
+ * @coversDefaultClass \phpDocumentor\Reflection\Php\ProjectFactoryStrategies
+ * @covers ::__construct
+ * @covers ::<private>
  */
 class ProjectFactoryStrategiesTest extends TestCase
 {
     /**
-     * @covers ::__construct
      * @covers ::addStrategy
      */
     public function testStrategiesAreChecked() : void
@@ -35,7 +36,7 @@ class ProjectFactoryStrategiesTest extends TestCase
 
     /**
      * @covers ::findMatching
-     * @covers ::<private>
+     * @covers ::addStrategy
      */
     public function testFindMatching() : void
     {
@@ -48,7 +49,6 @@ class ProjectFactoryStrategiesTest extends TestCase
 
     /**
      * @covers ::findMatching
-     * @covers ::<private>
      */
     public function testCreateThrowsExceptionWhenStrategyNotFound() : void
     {

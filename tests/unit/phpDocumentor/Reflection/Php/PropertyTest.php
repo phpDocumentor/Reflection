@@ -21,7 +21,9 @@ use PHPUnit\Framework\TestCase;
 /**
  * Tests the functionality for the Property class.
  *
- * @coversDefaultClass phpDocumentor\Reflection\Php\Property
+ * @coversDefaultClass \phpDocumentor\Reflection\Php\Property
+ * @covers ::__construct
+ * @covers ::<private>
  */
 class PropertyTest extends TestCase
 {
@@ -47,9 +49,10 @@ class PropertyTest extends TestCase
     }
 
     /**
+     * @uses \phpDocumentor\Reflection\Php\Visibility
+     *
      * @covers ::getFqsen
      * @covers ::getName
-     * @covers ::__construct
      */
     public function testGetFqsenAndGetName() : void
     {
@@ -60,6 +63,8 @@ class PropertyTest extends TestCase
     }
 
     /**
+     * @uses \phpDocumentor\Reflection\Php\Visibility
+     *
      * @covers ::isStatic
      * @covers ::__construct
      */
@@ -73,6 +78,8 @@ class PropertyTest extends TestCase
     }
 
     /**
+     * @uses \phpDocumentor\Reflection\Php\Visibility
+     *
      * @covers ::getVisibility
      * @covers ::__construct
      */
@@ -84,6 +91,8 @@ class PropertyTest extends TestCase
     }
 
     /**
+     * @uses \phpDocumentor\Reflection\Php\Visibility
+     *
      * @covers ::getTypes
      * @covers ::addType
      */
@@ -97,8 +106,9 @@ class PropertyTest extends TestCase
     }
 
     /**
+     * @uses \phpDocumentor\Reflection\Php\Visibility
+     *
      * @covers ::getDefault
-     * @covers ::__construct
      */
     public function testGetDefault() : void
     {
@@ -110,8 +120,9 @@ class PropertyTest extends TestCase
     }
 
     /**
+     * @uses \phpDocumentor\Reflection\Php\Visibility
+     *
      * @covers ::getDocBlock
-     * @covers ::__construct
      */
     public function testGetDocBlock() : void
     {

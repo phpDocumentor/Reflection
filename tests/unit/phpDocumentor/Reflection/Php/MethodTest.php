@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php;
 
-use Mockery as m;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Types\Mixed_;
@@ -21,11 +20,13 @@ use phpDocumentor\Reflection\Types\String_;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Tests the functionality for the Method class.
+ * @uses \phpDocumentor\Reflection\Php\Visibility
  *
- * @coversDefaultClass phpDocumentor\Reflection\Php\Method
+ * @coversDefaultClass \phpDocumentor\Reflection\Php\Method
+ * @covers ::__construct
+ * @covers ::<private>
  */
-class MethodTest extends TestCase
+final class MethodTest extends TestCase
 {
     /** @var Method $fixture */
     protected $fixture;
@@ -41,20 +42,14 @@ class MethodTest extends TestCase
 
     protected function setUp() : void
     {
-        $this->fqsen      = new Fqsen('\My\Space::MyMethod()');
+        $this->fqsen = new Fqsen('\My\Space::MyMethod()');
         $this->visibility = new Visibility('private');
-        $this->docblock   = new DocBlock('');
-    }
-
-    protected function tearDown() : void
-    {
-        m::close();
+        $this->docblock = new DocBlock('');
     }
 
     /**
      * @covers ::getFqsen
      * @covers ::getName
-     * @covers ::__construct
      */
     public function testGetFqsenAndGetName() : void
     {
@@ -66,7 +61,6 @@ class MethodTest extends TestCase
 
     /**
      * @covers ::getDocblock
-     * @covers ::__construct
      */
     public function testGetDocBlock() : void
     {
@@ -76,6 +70,8 @@ class MethodTest extends TestCase
     }
 
     /**
+     * @uses \phpDocumentor\Reflection\Php\Argument
+     *
      * @covers ::getArguments
      * @covers ::addArgument
      */
@@ -166,7 +162,7 @@ class MethodTest extends TestCase
     public function testGetReturnTypeFromConstructor() : void
     {
         $returnType = new String_();
-        $method     = new Method(
+        $method = new Method(
             $this->fqsen,
             new Visibility('public'),
             null,

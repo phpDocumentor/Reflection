@@ -67,7 +67,13 @@ jobs:
       - name: Upload to Scrutinizer
         run: tools/ocular code-coverage:upload --format=php-clover build/logs/clover.xml
       - name: Quick check code coverage level
-        run: php tests/coverage-checker.php 27
+        run: php tests/coverage-checker.php 43
+    - name: Upload coverage results to Coveralls
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          composer global require cedx/coveralls
+          coveralls build/logs/clover.xml
 
   phpunit:
     runs-on: ${{ matrix.operating-system }}

@@ -14,10 +14,10 @@ declare(strict_types=1);
 namespace phpDocumentor\Reflection\Php;
 
 use Mockery as m;
+use Mockery\Adapter\Phpunit\MockeryTestCase;
 use phpDocumentor\Reflection\Exception;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\Factory\DummyFactoryStrategy;
-use PHPUnit\Framework\TestCase;
 use function array_keys;
 use function count;
 use function current;
@@ -25,19 +25,22 @@ use function key;
 use function md5;
 
 /**
- * Test case for ProjectFactory
+ * @uses \phpDocumentor\Reflection\Php\Project
+ * @uses \phpDocumentor\Reflection\Php\Namespace_
+ * @uses \phpDocumentor\Reflection\Php\Class_
+ * @uses \phpDocumentor\Reflection\Php\Interface_
+ * @uses \phpDocumentor\Reflection\Php\Trait_
+ * @uses \phpDocumentor\Reflection\Php\Constant
+ * @uses \phpDocumentor\Reflection\Php\File
+ * @uses \phpDocumentor\Reflection\Php\Function_
+ * @uses \phpDocumentor\Reflection\Php\ProjectFactoryStrategies
  *
  * @coversDefaultClass \phpDocumentor\Reflection\Php\ProjectFactory
- * @covers ::create
+ * @covers ::__construct
  * @covers ::<private>
  */
-class ProjectFactoryTest extends TestCase
+final class ProjectFactoryTest extends MockeryTestCase
 {
-    protected function tearDown() : void
-    {
-        m::close();
-    }
-
     /**
      * @covers ::__construct
      */
@@ -47,6 +50,9 @@ class ProjectFactoryTest extends TestCase
         $this->assertTrue(true);
     }
 
+    /**
+     * @covers ::create
+     */
     public function testCreate() : void
     {
         $someOtherStrategy = m::mock(ProjectFactoryStrategy::class);
@@ -66,7 +72,7 @@ class ProjectFactoryTest extends TestCase
 
         $projectFactory = new ProjectFactory([$someOtherStrategy, $fileStrategyMock]);
 
-        $files   = ['some/file.php', 'some/other.php'];
+        $files = ['some/file.php', 'some/other.php'];
         $project = $projectFactory->create('MyProject', $files);
 
         $this->assertInstanceOf(Project::class, $project);
@@ -75,6 +81,9 @@ class ProjectFactoryTest extends TestCase
         $this->assertEquals($files, $projectFilePaths);
     }
 
+    /**
+     * @covers ::create
+     */
     public function testCreateThrowsExceptionWhenStrategyNotFound() : void
     {
         $this->expectException('OutOfBoundsException');
@@ -82,6 +91,9 @@ class ProjectFactoryTest extends TestCase
         $projectFactory->create('MyProject', ['aa']);
     }
 
+    /**
+     * @covers ::create
+     */
     public function testCreateProjectFromFileWithNamespacedClass() : void
     {
         $file = new File(md5('some/file.php'), 'some/file.php');
@@ -99,6 +111,9 @@ class ProjectFactoryTest extends TestCase
         $this->assertEquals('\mySpace\MyClass', key($mySpace->getClasses()));
     }
 
+    /**
+     * @covers ::create
+     */
     public function testWithNamespacedInterface() : void
     {
         $file = new File(md5('some/file.php'), 'some/file.php');
@@ -114,6 +129,9 @@ class ProjectFactoryTest extends TestCase
         $this->assertEquals('\mySpace\MyInterface', key($mySpace->getInterfaces()));
     }
 
+    /**
+     * @covers ::create
+     */
     public function testWithNamespacedFunction() : void
     {
         $file = new File(md5('some/file.php'), 'some/file.php');
@@ -129,6 +147,9 @@ class ProjectFactoryTest extends TestCase
         $this->assertEquals('\mySpace\function()', key($mySpace->getFunctions()));
     }
 
+    /**
+     * @covers ::create
+     */
     public function testWithNamespacedConstant() : void
     {
         $file = new File(md5('some/file.php'), 'some/file.php');
@@ -144,6 +165,9 @@ class ProjectFactoryTest extends TestCase
         $this->assertEquals('\mySpace::MY_CONST', key($mySpace->getConstants()));
     }
 
+    /**
+     * @covers ::create
+     */
     public function testWithNamespacedTrait() : void
     {
         $file = new File(md5('some/file.php'), 'some/file.php');
@@ -159,6 +183,9 @@ class ProjectFactoryTest extends TestCase
         $this->assertEquals('\mySpace\MyTrait', key($mySpace->getTraits()));
     }
 
+    /**
+     * @covers ::create
+     */
     public function testNamespaceSpreadOverMultipleFiles() : void
     {
         $someFile = new File(md5('some/file.php'), 'some/file.php');
@@ -175,6 +202,9 @@ class ProjectFactoryTest extends TestCase
         $this->assertCount(2, current($namespaces)->getClasses());
     }
 
+    /**
+     * @covers ::create
+     */
     public function testSingleFileMultipleNamespaces() : void
     {
         $someFile = new File(md5('some/file.php'), 'some/file.php');
@@ -192,6 +222,9 @@ class ProjectFactoryTest extends TestCase
         $this->assertCount(1, $namespaces['\mySpace']->getClasses());
     }
 
+    /**
+     * @covers ::create
+     */
     public function testErrorScenarioWhenFileStrategyReturnsNull() : void
     {
         $fileStrategyMock = m::mock(ProjectFactoryStrategy::class);
@@ -207,7 +240,7 @@ class ProjectFactoryTest extends TestCase
 
         $projectFactory = new ProjectFactory([$fileStrategyMock]);
 
-        $files   = ['some/file.php', 'some/other.php'];
+        $files = ['some/file.php', 'some/other.php'];
         $project = $projectFactory->create('MyProject', $files);
 
         $this->assertInstanceOf(Project::class, $project);
@@ -248,7 +281,7 @@ class ProjectFactoryTest extends TestCase
             );
 
         $projectFactory = new ProjectFactory([$fileStrategyMock]);
-        $project        = $projectFactory->create('My Project', $files);
+        $project = $projectFactory->create('My Project', $files);
 
         return $project->getNamespaces();
     }

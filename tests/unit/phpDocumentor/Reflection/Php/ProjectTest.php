@@ -19,7 +19,9 @@ use PHPUnit\Framework\TestCase;
 /**
  * Tests the functionality for the Project class.
  *
- * @coversDefaultClass phpDocumentor\Reflection\Php\Project
+ * @coversDefaultClass \phpDocumentor\Reflection\Php\Project
+ * @covers ::__construct
+ * @covers ::<private>
  */
 class ProjectTest extends TestCase
 {
@@ -37,7 +39,8 @@ class ProjectTest extends TestCase
     }
 
     /**
-     * @covers ::__construct
+     * @uses \phpDocumentor\Reflection\Php\Namespace_
+     *
      * @covers ::getName
      */
     public function testGetSetName() : void
@@ -46,6 +49,9 @@ class ProjectTest extends TestCase
     }
 
     /**
+     * @uses \phpDocumentor\Reflection\Php\Namespace_
+     * @uses \phpDocumentor\Reflection\Php\File
+     *
      * @covers ::getFiles
      * @covers ::addFile
      */
@@ -60,7 +66,8 @@ class ProjectTest extends TestCase
     }
 
     /**
-     * @covers ::__construct
+     * @uses \phpDocumentor\Reflection\Php\Namespace_
+     *
      * @covers ::getRootNamespace
      */
     public function testGetRootNamespace() : void
@@ -74,6 +81,8 @@ class ProjectTest extends TestCase
     }
 
     /**
+     * @uses \phpDocumentor\Reflection\Php\Namespace_
+     *
      * @covers ::getNamespaces
      * @covers ::addNamespace
      */

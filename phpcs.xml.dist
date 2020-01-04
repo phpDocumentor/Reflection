@@ -21,6 +21,7 @@
 
     <rule ref="Squiz.Classes.ValidClassName.NotCamelCaps">
         <exclude-pattern>*/src/*_.php</exclude-pattern>
+        <exclude-pattern>*/tests/*_Test.php</exclude-pattern>
     </rule>
 
     <rule ref="SlevomatCodingStandard.Classes.SuperfluousAbstractClassNaming.SuperfluousPrefix">
