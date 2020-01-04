@@ -21,8 +21,11 @@ use PHPUnit\Framework\TestCase;
  * Tests the functionality for the Argument class.
  *
  * @coversDefaultClass \phpDocumentor\Reflection\Php\Argument
+ * @covers ::__construct
+ * @covers ::<private>
+ * @covers ::<protected>
  */
-class ArgumentTest extends TestCase
+final class ArgumentTest extends TestCase
 {
     /**
      * @covers ::getType
@@ -43,7 +46,6 @@ class ArgumentTest extends TestCase
     }
 
     /**
-     * @covers ::__construct
      * @covers ::getName
      */
     public function testGetName() : void
@@ -53,7 +55,6 @@ class ArgumentTest extends TestCase
     }
 
     /**
-     * @covers ::__construct
      * @covers ::getDefault
      */
     public function testGetDefault() : void
@@ -66,7 +67,6 @@ class ArgumentTest extends TestCase
     }
 
     /**
-     * @covers ::__construct
      * @covers ::isByReference
      */
     public function testGetWhetherArgumentIsPassedByReference() : void
@@ -79,7 +79,6 @@ class ArgumentTest extends TestCase
     }
 
     /**
-     * @covers ::__construct
      * @covers ::isVariadic
      */
     public function testGetWhetherArgumentisVariadic() : void

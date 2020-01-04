@@ -35,10 +35,19 @@ use PhpParser\Node\Stmt\TraitUse;
 use stdClass;
 
 /**
- * Class Class_Test
+ * @uses \phpDocumentor\Reflection\Php\Class_
+ * @uses \phpDocumentor\Reflection\Php\Constant
+ * @uses \phpDocumentor\Reflection\Php\Property
+ * @uses \phpDocumentor\Reflection\Php\Visibility
+ * @uses \phpDocumentor\Reflection\Php\Method
+ * @uses \phpDocumentor\Reflection\Php\Factory\Class_::matches
+ * @uses \phpDocumentor\Reflection\Php\Factory\ClassConstantIterator
+ * @uses \phpDocumentor\Reflection\Php\Factory\PropertyIterator
  *
- * @coversDefaultClass phpDocumentor\Reflection\Php\Factory\Class_
- * @covers ::<!public>
+ * @coversDefaultClass \phpDocumentor\Reflection\Php\Factory\Class_
+ * @covers \phpDocumentor\Reflection\Php\Factory\AbstractFactory
+ * @covers ::<protected>
+ * @covers ::<private>
  */
 // @codingStandardsIgnoreStart
 class Class_Test extends TestCase

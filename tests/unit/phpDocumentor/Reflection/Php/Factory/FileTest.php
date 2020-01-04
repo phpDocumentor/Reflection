@@ -44,9 +44,22 @@ use function file_get_contents;
 
 /**
  * @uses \phpDocumentor\Reflection\Php\File
+ * @uses \phpDocumentor\Reflection\Php\Factory\File::matches
+ * @uses \phpDocumentor\Reflection\File\LocalFile
+ * @uses \phpDocumentor\Reflection\Middleware\ChainFactory
+ * @uses \phpDocumentor\Reflection\Php\Class_
+ * @uses \phpDocumentor\Reflection\Php\Trait_
+ * @uses \phpDocumentor\Reflection\Php\Interface_
+ * @uses \phpDocumentor\Reflection\Php\Function_
+ * @uses \phpDocumentor\Reflection\Php\Constant
+ * @uses \phpDocumentor\Reflection\Php\Factory\GlobalConstantIterator
+ * @uses \phpDocumentor\Reflection\Types\NamespaceNodeToContext
+ * @uses \phpDocumentor\Reflection\Php\Factory\File\CreateCommand
  *
  * @coversDefaultClass \phpDocumentor\Reflection\Php\Factory\File
+ * @covers \phpDocumentor\Reflection\Php\Factory\AbstractFactory
  * @covers ::__construct
+ * @covers ::<protected>
  * @covers ::<private>
  */
 final class FileTest extends MockeryTestCase

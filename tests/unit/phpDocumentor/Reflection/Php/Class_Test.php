@@ -20,13 +20,17 @@ use phpDocumentor\Reflection\Location;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Tests the functionality for the Class_ class.
+ * @uses \phpDocumentor\Reflection\Php\Property
+ * @uses \phpDocumentor\Reflection\Php\Constant
+ * @uses \phpDocumentor\Reflection\Php\Method
+ * @uses \phpDocumentor\Reflection\Php\Visibility
  *
- * @coversDefaultClass phpDocumentor\Reflection\Php\Class_
+ * @coversDefaultClass \phpDocumentor\Reflection\Php\Class_
+ * @covers ::__construct
+ * @covers ::<private>
+ * @covers ::<protected>
  */
-// @codingStandardsIgnoreStart
-class Class_Test extends TestCase
-// @codingStandardsIgnoreEnd
+final class Class_Test extends TestCase
 {
     /** @var Class_ */
     private $fixture;

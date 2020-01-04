@@ -3,11 +3,12 @@
 declare(strict_types=1);
 
 /**
- * phpDocumentor
+ * This file is part of phpDocumentor.
  *
- * PHP Version 5.5
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  *
- * @link      http://phpdoc.org
+ * @link http://phpdoc.org
  */
 
 namespace phpDocumentor\Reflection\Php\Factory;
@@ -22,22 +23,22 @@ use PhpParser\Node\Scalar\String_;
 use stdClass;
 
 /**
- * Class ArgumentTest
+ * @uses \phpDocumentor\Reflection\Php\Argument
+ * @uses \phpDocumentor\Reflection\Php\Factory\Argument::matches
+ * @uses \phpDocumentor\Reflection\PrettyPrinter
+ * @uses \phpDocumentor\Reflection\Php\ProjectFactoryStrategies
  *
  * @coversDefaultClass \phpDocumentor\Reflection\Php\Factory\Argument
+ * @covers \phpDocumentor\Reflection\Php\Factory\AbstractFactory
  * @covers ::__construct
- * @covers ::<!public>
+ * @covers ::<protected>
+ * @covers ::<private>
  */
 class ArgumentTest extends TestCase
 {
     protected function setUp() : void
     {
         $this->fixture = new Argument(new PrettyPrinter());
-    }
-
-    protected function tearDown() : void
-    {
-        m::close();
     }
 
     /**
@@ -56,10 +57,10 @@ class ArgumentTest extends TestCase
     {
         $factory = new ProjectFactoryStrategies([]);
 
-        $argMock           = m::mock(Param::class);
-        $argMock->var      = new Variable('myArgument');
-        $argMock->default  = new String_('MyDefault');
-        $argMock->byRef    = true;
+        $argMock = m::mock(Param::class);
+        $argMock->var = new Variable('myArgument');
+        $argMock->default = new String_('MyDefault');
+        $argMock->byRef = true;
         $argMock->variadic = true;
 
         $argument = $this->fixture->create($argMock, $factory);

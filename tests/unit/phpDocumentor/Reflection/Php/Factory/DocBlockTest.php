@@ -21,9 +21,14 @@ use PhpParser\Comment\Doc;
 use stdClass;
 
 /**
- * Test case for \phpDocumentor\Reflection\Php\Factory\DocBlock
+ * @uses \phpDocumentor\Reflection\Php\Factory\DocBlock::matches
+ * @uses \phpDocumentor\Reflection\Php\Factory\DocBlock::create
  *
  * @coversDefaultClass \phpDocumentor\Reflection\Php\Factory\DocBlock
+ * @covers \phpDocumentor\Reflection\Php\Factory\AbstractFactory
+ * @covers ::__construct
+ * @covers ::<private>
+ * @covers ::<protected>
  */
 class DocBlockTest extends TestCase
 {
@@ -58,8 +63,8 @@ class DocBlockTest extends TestCase
     }
 
     /**
-     * @covers ::__construct
      * @covers ::create
+     * @covers ::matches
      */
     public function testCreateCallsFactory() : void
     {

@@ -3,11 +3,12 @@
 declare(strict_types=1);
 
 /**
- * phpDocumentor
+ * This file is part of phpDocumentor.
  *
- * PHP Version 5.5
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  *
- * @link      http://phpdoc.org
+ * @link http://phpdoc.org
  */
 
 namespace phpDocumentor\Reflection\Php\Factory;
@@ -27,14 +28,16 @@ use PhpParser\Node\NullableType;
 use stdClass;
 
 /**
- * Test case for \phpDocumentor\Reflection\Php\Factory\Function_
+ * @uses \phpDocumentor\Reflection\Php\Factory\Function_::matches
+ * @uses \phpDocumentor\Reflection\Php\Function_
+ * @uses \phpDocumentor\Reflection\Php\Argument
  *
  * @coversDefaultClass \phpDocumentor\Reflection\Php\Factory\Function_
- * @covers ::<!public>
+ * @covers \phpDocumentor\Reflection\Php\Factory\AbstractFactory
+ * @covers ::<private>
+ * @covers ::<protected>
  */
-// @codingStandardsIgnoreStart
-class Function_Test extends TestCase
-// @codingStandardsIgnoreEnd
+final class Function_Test extends TestCase
 {
     protected function setUp() : void
     {
@@ -55,8 +58,8 @@ class Function_Test extends TestCase
      */
     public function testCreateWithoutParameters() : void
     {
-        $functionMock         = m::mock(\PhpParser\Node\Stmt\Function_::class);
-        $functionMock->fqsen  = new Fqsen('\SomeSpace::function()');
+        $functionMock = m::mock(\PhpParser\Node\Stmt\Function_::class);
+        $functionMock->fqsen = new Fqsen('\SomeSpace::function()');
         $functionMock->params = [];
         $functionMock->shouldReceive('getDocComment')->andReturnNull();
         $functionMock->shouldReceive('getLine')->andReturn(1);
@@ -76,14 +79,14 @@ class Function_Test extends TestCase
      */
     public function testCreateWithParameters() : void
     {
-        $functionMock         = m::mock(\PhpParser\Node\Stmt\Function_::class);
-        $functionMock->fqsen  = new Fqsen('\SomeSpace::function()');
+        $functionMock = m::mock(\PhpParser\Node\Stmt\Function_::class);
+        $functionMock->fqsen = new Fqsen('\SomeSpace::function()');
         $functionMock->params = ['param1'];
         $functionMock->shouldReceive('getDocComment')->andReturnNull();
         $functionMock->shouldReceive('getLine')->andReturn(1);
         $functionMock->shouldReceive('getReturnType')->andReturnNull();
 
-        $strategyMock  = m::mock(ProjectFactoryStrategy::class);
+        $strategyMock = m::mock(ProjectFactoryStrategy::class);
         $containerMock = m::mock(StrategyContainer::class);
 
         $strategyMock->shouldReceive('create')
@@ -105,8 +108,8 @@ class Function_Test extends TestCase
      */
     public function testReturnTypeResolving() : void
     {
-        $functionMock         = m::mock(\PhpParser\Node\Stmt\Function_::class);
-        $functionMock->fqsen  = new Fqsen('\SomeSpace::function()');
+        $functionMock = m::mock(\PhpParser\Node\Stmt\Function_::class);
+        $functionMock->fqsen = new Fqsen('\SomeSpace::function()');
         $functionMock->params = [];
         $functionMock->shouldReceive('getDocComment')->andReturnNull();
         $functionMock->shouldReceive('getLine')->andReturn(1);
@@ -126,8 +129,8 @@ class Function_Test extends TestCase
      */
     public function testReturnTypeNullableResolving() : void
     {
-        $functionMock         = m::mock(\PhpParser\Node\Stmt\Function_::class);
-        $functionMock->fqsen  = new Fqsen('\SomeSpace::function()');
+        $functionMock = m::mock(\PhpParser\Node\Stmt\Function_::class);
+        $functionMock->fqsen = new Fqsen('\SomeSpace::function()');
         $functionMock->params = [];
         $functionMock->shouldReceive('getDocComment')->andReturnNull();
         $functionMock->shouldReceive('getLine')->andReturn(1);
@@ -147,16 +150,16 @@ class Function_Test extends TestCase
      */
     public function testCreateWithDocBlock() : void
     {
-        $doc                  = m::mock(Doc::class);
-        $functionMock         = m::mock(\PhpParser\Node\Stmt\Function_::class);
-        $functionMock->fqsen  = new Fqsen('\SomeSpace::function()');
+        $doc = m::mock(Doc::class);
+        $functionMock = m::mock(\PhpParser\Node\Stmt\Function_::class);
+        $functionMock->fqsen = new Fqsen('\SomeSpace::function()');
         $functionMock->params = [];
         $functionMock->shouldReceive('getDocComment')->andReturn($doc);
         $functionMock->shouldReceive('getLine')->andReturn(1);
         $functionMock->shouldReceive('getReturnType')->andReturnNull();
 
-        $docBlock      = new DocBlockDescriptor('');
-        $strategyMock  = m::mock(ProjectFactoryStrategy::class);
+        $docBlock = new DocBlockDescriptor('');
+        $strategyMock = m::mock(ProjectFactoryStrategy::class);
         $containerMock = m::mock(StrategyContainer::class);
 
         $strategyMock->shouldReceive('create')

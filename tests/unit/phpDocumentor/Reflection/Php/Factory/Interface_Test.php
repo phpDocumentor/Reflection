@@ -30,14 +30,19 @@ use PhpParser\Node\Stmt\Interface_ as InterfaceNode;
 use stdClass;
 
 /**
- * Test case for Interface_
+ * @uses \phpDocumentor\Reflection\Php\Interface_
+ * @uses \phpDocumentor\Reflection\Php\Constant
+ * @uses \phpDocumentor\Reflection\Php\Method
+ * @uses \phpDocumentor\Reflection\Php\Visibility
+ * @uses \phpDocumentor\Reflection\Php\Factory\Interface_::matches
+ * @uses \phpDocumentor\Reflection\Php\Factory\ClassConstantIterator
  *
- * @coversDefaultClass phpDocumentor\Reflection\Php\Factory\Interface_
- * @covers ::<!public>
+ * @coversDefaultClass \phpDocumentor\Reflection\Php\Factory\Interface_
+ * @covers \phpDocumentor\Reflection\Php\Factory\AbstractFactory
+ * @covers ::<private>
+ * @covers ::<protected>
  */
-// @codingStandardsIgnoreStart
 class Interface_Test extends TestCase
-// @codingStandardsIgnoreEnd
 {
     protected function setUp() : void
     {

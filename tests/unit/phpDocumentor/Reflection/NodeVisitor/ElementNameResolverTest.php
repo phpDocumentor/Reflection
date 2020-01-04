@@ -25,9 +25,9 @@ use PhpParser\NodeTraverser;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Testcase for FqsenResolver
+ * @uses \phpDocumentor\Reflection\NodeVisitor\ElementNameResolver::beforeTraverse
  *
- * @coversDefaultClass phpDocumentor\Reflection\NodeVisitor\ElementNameResolver
+ * @coversDefaultClass \phpDocumentor\Reflection\NodeVisitor\ElementNameResolver
  * @covers ::<private>
  */
 class ElementNameResolverTest extends TestCase

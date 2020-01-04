@@ -14,25 +14,20 @@ declare(strict_types=1);
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use Mockery as m;
+use Mockery\Adapter\Phpunit\MockeryTestCase;
 use phpDocumentor\Reflection\Fqsen;
 use PhpParser\Comment\Doc;
 use PhpParser\Node\Const_;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\ClassConst;
-use PHPUnit\Framework\TestCase;
 
 /**
- * Class PropertyIteratorTest
- *
  * @coversDefaultClass \phpDocumentor\Reflection\Php\Factory\ClassConstantIterator
+ * @covers ::__construct
+ * @covers ::<private>
  */
-class ClassConstantIteratorTest extends TestCase
+final class ClassConstantIteratorTest extends MockeryTestCase
 {
-    protected function tearDown() : void
-    {
-        m::close();
-    }
-
     /**
      * @covers ::current()
      * @covers ::next()
@@ -43,9 +38,9 @@ class ClassConstantIteratorTest extends TestCase
      */
     public function testIterateProps() : void
     {
-        $const1        = new Const_('\Space\MyClass::MY_CONST1', new Variable('a'));
+        $const1 = new Const_('\Space\MyClass::MY_CONST1', new Variable('a'));
         $const1->fqsen = new Fqsen((string) $const1->name);
-        $const2        = new Const_('\Space\MyClass::MY_CONST2', new Variable('b'));
+        $const2 = new Const_('\Space\MyClass::MY_CONST2', new Variable('b'));
         $const2->fqsen = new Fqsen((string) $const2->name);
 
         $classConstantNode = new ClassConst([$const1, $const2]);
@@ -93,8 +88,8 @@ class ClassConstantIteratorTest extends TestCase
      */
     public function testGetDocCommentPropFirst() : void
     {
-        $const                  = m::mock(Const_::class);
-        $classConstants         = m::mock(ClassConst::class);
+        $const = m::mock(Const_::class);
+        $classConstants = m::mock(ClassConst::class);
         $classConstants->consts = [$const];
 
         $const->shouldReceive('getDocComment')->once()->andReturn(new Doc('test'));
@@ -110,8 +105,8 @@ class ClassConstantIteratorTest extends TestCase
      */
     public function testGetDocComment() : void
     {
-        $const                  = m::mock(Const_::class);
-        $classConstants         = m::mock(ClassConst::class);
+        $const = m::mock(Const_::class);
+        $classConstants = m::mock(ClassConst::class);
         $classConstants->consts = [$const];
 
         $const->shouldReceive('getDocComment')->once()->andReturnNull();
