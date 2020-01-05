@@ -187,6 +187,7 @@ class ProjectCreationTest extends MockeryTestCase
         );
 
         $this->assertArrayHasKey('\\Luigi\\OVEN_TEMPERATURE', $project->getFiles()[$fileName]->getConstants());
+        $this->assertArrayHasKey('\\Luigi\\MAX_OVEN_TEMPERATURE', $project->getFiles()[$fileName]->getConstants());
     }
 
     public function testInterfaceExtends() : void

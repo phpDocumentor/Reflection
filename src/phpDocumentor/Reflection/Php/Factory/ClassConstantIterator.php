@@ -66,6 +66,30 @@ final class ClassConstantIterator implements Iterator
     }
 
     /**
+     * returns true when the current property is public.
+     */
+    public function isPublic() : bool
+    {
+        return $this->classConstants->isPublic();
+    }
+
+    /**
+     * returns true when the current property is protected.
+     */
+    public function isProtected() : bool
+    {
+        return $this->classConstants->isProtected();
+    }
+
+    /**
+     * returns true when the current property is private.
+     */
+    public function isPrivate() : bool
+    {
+        return $this->classConstants->isPrivate();
+    }
+
+    /**
      * Gets the doc comment of the node.
      *
      * The doc comment has to be the last comment associated with the node.

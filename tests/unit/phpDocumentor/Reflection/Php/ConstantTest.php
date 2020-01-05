@@ -20,6 +20,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @uses \phpDocumentor\Reflection\DocBlock
+ * @uses \phpDocumentor\Reflection\Php\Visibility
  * @uses \phpDocumentor\Reflection\Fqsen
  *
  * @coversDefaultClass \phpDocumentor\Reflection\Php\Constant
@@ -75,6 +76,14 @@ final class ConstantTest extends TestCase
     public function testGetDocblock() : void
     {
         $this->assertSame($this->docBlock, $this->fixture->getDocBlock());
+    }
+
+    /**
+     * @covers ::getVisibility
+     */
+    public function testGetVisibility() : void
+    {
+        $this->assertEquals(new Visibility(Visibility::PUBLIC_), $this->fixture->getVisibility());
     }
 
     /**

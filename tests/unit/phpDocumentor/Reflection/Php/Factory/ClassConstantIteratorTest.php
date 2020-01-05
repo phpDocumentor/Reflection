@@ -60,9 +60,9 @@ final class ClassConstantIteratorTest extends MockeryTestCase
      */
     public function testKey() : void
     {
-        $propertyMock = m::mock(ClassConst::class);
+        $constantMock = m::mock(ClassConst::class);
 
-        $fixture = new ClassConstantIterator($propertyMock);
+        $fixture = new ClassConstantIterator($constantMock);
 
         $this->assertEquals(0, $fixture->key());
         $fixture->next();
@@ -75,10 +75,10 @@ final class ClassConstantIteratorTest extends MockeryTestCase
      */
     public function testProxyMethods() : void
     {
-        $propertyMock = m::mock(ClassConst::class);
-        $propertyMock->shouldReceive('getLine')->once()->andReturn(10);
+        $constantMock = m::mock(ClassConst::class);
+        $constantMock->shouldReceive('getLine')->once()->andReturn(10);
 
-        $fixture = new ClassConstantIterator($propertyMock);
+        $fixture = new ClassConstantIterator($constantMock);
 
         $this->assertEquals(10, $fixture->getLine());
     }

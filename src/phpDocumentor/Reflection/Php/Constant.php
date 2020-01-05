@@ -35,6 +35,9 @@ final class Constant implements Element
     /** @var Location */
     private $location;
 
+    /** @var Visibility */
+    private $visibility;
+
     /**
      * Initializes the object.
      */
@@ -42,17 +45,14 @@ final class Constant implements Element
         Fqsen $fqsen,
         ?DocBlock $docBlock = null,
         ?string $value = null,
-        ?Location $location = null
+        ?Location $location = null,
+        ?Visibility $visibility = null
     ) {
         $this->fqsen = $fqsen;
         $this->docBlock = $docBlock;
         $this->value = $value;
-
-        if ($location === null) {
-            $location = new Location(-1);
-        }
-
-        $this->location = $location;
+        $this->location = $location ?: new Location(-1);
+        $this->visibility = $visibility ?: new Visibility(Visibility::PUBLIC_);
     }
 
     /**
@@ -90,5 +90,10 @@ final class Constant implements Element
     public function getLocation() : Location
     {
         return $this->location;
+    }
+
+    public function getVisibility() : Visibility
+    {
+        return $this->visibility;
     }
 }

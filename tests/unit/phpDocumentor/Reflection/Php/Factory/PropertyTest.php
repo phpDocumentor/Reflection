@@ -3,11 +3,12 @@
 declare(strict_types=1);
 
 /**
- * phpDocumentor
+ * This file is part of phpDocumentor.
  *
- * PHP Version 5.5
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  *
- * @link      http://phpdoc.org
+ * @link http://phpdoc.org
  */
 
 namespace phpDocumentor\Reflection\Php\Factory;
@@ -37,7 +38,7 @@ use stdClass;
  * @covers \phpDocumentor\Reflection\Php\Factory\Property
  * @covers \phpDocumentor\Reflection\Php\Factory\AbstractFactory
  */
-class PropertyTest extends TestCase
+final class PropertyTest extends TestCase
 {
     protected function setUp() : void
     {

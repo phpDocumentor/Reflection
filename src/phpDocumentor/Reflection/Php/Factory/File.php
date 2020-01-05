@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
+use OutOfBoundsException;
 use phpDocumentor\Reflection\DocBlock as DocBlockInstance;
 use phpDocumentor\Reflection\File as FileSystemFile;
 use phpDocumentor\Reflection\Middleware\ChainFactory;
@@ -122,6 +123,15 @@ final class File extends AbstractFactory
     ) : void {
         foreach ($nodes as $node) {
             switch (get_class($node)) {
+                case Node\Stmt\Expression::class:
+                    try {
+                        $strategy = $strategies->findMatching($node);
+                        $constant = $strategy->create($node, $strategies, $context);
+                        $file->addConstant($constant);
+                    } catch (OutOfBoundsException $exception) {
+                        // ignore, we are only interested when it is a define statement
+                    }
+                    break;
                 case ClassNode::class:
                     $strategy = $strategies->findMatching($node);
                     $class = $strategy->create($node, $strategies, $context);

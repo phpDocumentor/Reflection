@@ -49,9 +49,7 @@ use stdClass;
  * @covers ::<protected>
  * @covers ::<private>
  */
-// @codingStandardsIgnoreStart
-class Class_Test extends TestCase
-// @codingStandardsIgnoreEnd
+final class Class_Test extends TestCase
 {
     protected function setUp() : void
     {
@@ -289,6 +287,7 @@ class Class_Test extends TestCase
         $classMock->shouldReceive('isFinal')->andReturn(true);
         $classMock->shouldReceive('isAbstract')->andReturn(true);
         $classMock->shouldReceive('getLine')->andReturn(1);
+
         return $classMock;
     }
 }

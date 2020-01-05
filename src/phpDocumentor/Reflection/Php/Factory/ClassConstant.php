@@ -16,6 +16,7 @@ namespace phpDocumentor\Reflection\Php\Factory;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Constant as ConstantElement;
 use phpDocumentor\Reflection\Php\StrategyContainer;
+use phpDocumentor\Reflection\Php\Visibility;
 use phpDocumentor\Reflection\PrettyPrinter;
 use phpDocumentor\Reflection\Types\Context;
 
@@ -63,6 +64,26 @@ final class ClassConstant extends AbstractFactory
             $default = $this->valueConverter->prettyPrintExpr($object->getValue());
         }
 
-        return new ConstantElement($object->getFqsen(), $docBlock, $default, new Location($object->getLine()));
+        return new ConstantElement(
+            $object->getFqsen(),
+            $docBlock,
+            $default,
+            new Location($object->getLine()),
+            $this->buildVisibility($object)
+        );
+    }
+
+    /**
+     * Converts the visibility of the constant to a valid Visibility object.
+     */
+    private function buildVisibility(ClassConstantIterator $node) : Visibility
+    {
+        if ($node->isPrivate()) {
+            return new Visibility(Visibility::PRIVATE_);
+        } elseif ($node->isProtected()) {
+            return new Visibility(Visibility::PROTECTED_);
+        }
+
+        return new Visibility(Visibility::PUBLIC_);
     }
 }

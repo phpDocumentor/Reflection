@@ -68,6 +68,8 @@ class FileTest extends TestCase
     }
 
     /**
+     * @uses \phpDocumentor\Reflection\Php\Visibility
+     *
      * @covers ::getConstants
      * @covers ::addConstant
      */

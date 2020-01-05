@@ -52,6 +52,7 @@ use function file_get_contents;
  * @uses \phpDocumentor\Reflection\Php\Interface_
  * @uses \phpDocumentor\Reflection\Php\Function_
  * @uses \phpDocumentor\Reflection\Php\Constant
+ * @uses \phpDocumentor\Reflection\Php\Visibility
  * @uses \phpDocumentor\Reflection\Php\Factory\GlobalConstantIterator
  * @uses \phpDocumentor\Reflection\Types\NamespaceNodeToContext
  * @uses \phpDocumentor\Reflection\Php\Factory\File\CreateCommand

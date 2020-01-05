@@ -34,6 +34,7 @@ use function md5;
  * @uses \phpDocumentor\Reflection\Php\File
  * @uses \phpDocumentor\Reflection\Php\Function_
  * @uses \phpDocumentor\Reflection\Php\ProjectFactoryStrategies
+ * @uses \phpDocumentor\Reflection\Php\Visibility
  *
  * @coversDefaultClass \phpDocumentor\Reflection\Php\ProjectFactory
  * @covers ::__construct
