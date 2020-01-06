@@ -57,12 +57,11 @@ final class GlobalConstant extends AbstractFactory
      */
     protected function doCreate($object, StrategyContainer $strategies, ?Context $context = null)
     {
-        $docBlock = $this->createDocBlock($strategies, $object->getDocComment(), $context);
-        $default = null;
-        if ($object->getValue() !== null) {
-            $default = $this->valueConverter->prettyPrintExpr($object->getValue());
-        }
-
-        return new ConstantElement($object->getFqsen(), $docBlock, $default, new Location($object->getLine()));
+        return new ConstantElement(
+            $object->getFqsen(),
+            $this->createDocBlock($strategies, $object->getDocComment(), $context),
+            $object->getValue() !== null ? $this->valueConverter->prettyPrintExpr($object->getValue()) : null,
+            new Location($object->getLine())
+        );
     }
 }

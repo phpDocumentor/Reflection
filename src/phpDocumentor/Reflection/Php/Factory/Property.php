@@ -58,21 +58,19 @@ final class Property extends AbstractFactory implements ProjectFactoryStrategy
      */
     protected function doCreate($object, StrategyContainer $strategies, ?Context $context = null)
     {
-        $visibility = $this->buildVisibility($object);
         $default = null;
         if ($object->getDefault() !== null) {
             $default = $this->valueConverter->prettyPrintExpr($object->getDefault());
         }
 
-        $docBlock = $this->createDocBlock($strategies, $object->getDocComment(), $context);
-
         return new PropertyDescriptor(
             $object->getFqsen(),
-            $visibility,
-            $docBlock,
+            $this->buildVisibility($object),
+            $this->createDocBlock($strategies, $object->getDocComment(), $context),
             $default,
             $object->isStatic(),
-            new Location($object->getLine())
+            new Location($object->getLine()),
+            (new Type())->fromPhpParser($object->getType())
         );
     }
 

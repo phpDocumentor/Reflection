@@ -17,6 +17,7 @@ use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
+use phpDocumentor\Reflection\Type;
 
 /**
  * Descriptor representing a property.
@@ -44,6 +45,9 @@ final class Property implements Element
     /** @var Location */
     private $location;
 
+    /** @var Type|null */
+    private $type;
+
     /**
      * @param Visibility|null $visibility when null is provided a default 'public' is set.
      */
@@ -53,24 +57,16 @@ final class Property implements Element
         ?DocBlock $docBlock = null,
         ?string $default = null,
         bool $static = false,
-        ?Location $location = null
+        ?Location $location = null,
+        ?Type $type = null
     ) {
-        if ($location === null) {
-            $location = new Location(-1);
-        }
-
-        $this->fqsen      = $fqsen;
-        $this->visibility = $visibility;
-        $this->docBlock   = $docBlock;
-        $this->default    = $default;
-        $this->static     = $static;
-        $this->location   = $location;
-
-        if ($this->visibility !== null) {
-            return;
-        }
-
-        $this->visibility = new Visibility('public');
+        $this->fqsen = $fqsen;
+        $this->visibility = $visibility ?: new Visibility('public');
+        $this->docBlock = $docBlock;
+        $this->default = $default;
+        $this->static = $static;
+        $this->location = $location ?: new Location(-1);
+        $this->type = $type;
     }
 
     /**
@@ -142,5 +138,10 @@ final class Property implements Element
     public function getLocation() : Location
     {
         return $this->location;
+    }
+
+    public function getType() : ?Type
+    {
+        return $this->type;
     }
 }

@@ -17,13 +17,9 @@ use phpDocumentor\Reflection\Php\Argument as ArgumentDescriptor;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\PrettyPrinter;
-use phpDocumentor\Reflection\Type;
-use phpDocumentor\Reflection\TypeResolver;
 use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Node\Expr\Variable;
-use PhpParser\Node\NullableType;
 use PhpParser\Node\Param;
-use PhpParser\Node\UnionType;
 use Webmozart\Assert\Assert;
 
 /**
@@ -66,34 +62,13 @@ final class Argument extends AbstractFactory implements ProjectFactoryStrategy
     {
         Assert::isInstanceOf($object, Param::class);
         Assert::isInstanceOf($object->var, Variable::class);
-        $default = null;
-        if ($object->default !== null) {
-            $default = $this->valueConverter->prettyPrintExpr($object->default);
-        }
 
-        $type = null;
-        if (!empty($object->type)) {
-            $type = $this->createType($object);
-        }
-
-        return new ArgumentDescriptor((string) $object->var->name, $type, $default, $object->byRef, $object->variadic);
-    }
-
-    private function createType(Param $arg, ?Context $context = null) : ?Type
-    {
-        if ($arg->type === null) {
-            return null;
-        }
-
-        $typeResolver = new TypeResolver();
-        if ($arg->type instanceof NullableType) {
-            $typeString = '?' . $arg->type->type;
-        } elseif ($arg->type instanceof UnionType) {
-            $typeString = $arg->type->getType();
-        } else {
-            $typeString = $arg->type->toString();
-        }
-
-        return $typeResolver->resolve($typeString, $context);
+        return new ArgumentDescriptor(
+            (string) $object->var->name,
+            (new Type())->fromPhpParser($object->type),
+            $object->default !== null ? $this->valueConverter->prettyPrintExpr($object->default) : null,
+            $object->byRef,
+            $object->variadic
+        );
     }
 }

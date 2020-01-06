@@ -17,7 +17,11 @@ use Iterator;
 use phpDocumentor\Reflection\Fqsen;
 use PhpParser\Comment\Doc;
 use PhpParser\Node\Expr;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Name;
+use PhpParser\Node\NullableType;
 use PhpParser\Node\Stmt\Property as PropertyNode;
+use PhpParser\Node\UnionType;
 
 /**
  * This class acts like a combination of a PropertyNode and PropertyProperty to
@@ -77,6 +81,16 @@ final class PropertyIterator implements Iterator
     public function getLine() : int
     {
         return $this->property->getLine();
+    }
+
+    /**
+     * Gets the type of the property.
+     *
+     * @return Identifier|Name|NullableType|UnionType|null
+     */
+    public function getType()
+    {
+        return $this->property->type;
     }
 
     /**

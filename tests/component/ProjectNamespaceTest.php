@@ -12,14 +12,12 @@
 
 namespace phpDocumentor\Reflection;
 
-use Mockery as m;
 use phpDocumentor\Reflection\File\LocalFile;
-use phpDocumentor\Reflection\Php\Factory\File;
 use phpDocumentor\Reflection\Php\ProjectFactory;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Intergration tests to check the correct working of processing a namespace into a project.
+ * Integration tests to check the correct working of processing a namespace into a project.
  *
  * @coversNothing
  */
@@ -35,17 +33,13 @@ class ProjectNamespaceTest extends TestCase
         $this->fixture = $this->fixture = ProjectFactory::createInstance();
     }
 
-    protected function tearDown() : void
-    {
-        m::close();
-    }
-
     public function testWithNamespacedClass() : void
     {
         $fileName = __DIR__ . '/project/Luigi/Pizza.php';
-        $project  = $this->fixture->create('My Project', [
-            new LocalFile($fileName),
-        ]);
+        $project = $this->fixture->create(
+            'My Project',
+            [ new LocalFile($fileName) ]
+        );
 
         $this->assertArrayHasKey($fileName, $project->getFiles());
         $this->assertArrayHasKey('\\Luigi', $project->getNamespaces());

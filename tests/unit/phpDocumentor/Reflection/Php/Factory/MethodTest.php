@@ -21,11 +21,7 @@ use phpDocumentor\Reflection\Php\Argument as ArgumentDescriptor;
 use phpDocumentor\Reflection\Php\Method as MethodDescriptor;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
-use phpDocumentor\Reflection\Types\Integer;
-use phpDocumentor\Reflection\Types\Nullable;
 use PhpParser\Comment\Doc;
-use PhpParser\Node\Name;
-use PhpParser\Node\NullableType;
 use PhpParser\Node\Stmt\ClassMethod;
 use stdClass;
 
@@ -33,7 +29,8 @@ use stdClass;
  * @uses   \phpDocumentor\Reflection\Php\Method
  * @uses   \phpDocumentor\Reflection\Php\Argument
  * @uses   \phpDocumentor\Reflection\Php\Visibility
- * @uses \phpDocumentor\Reflection\Php\Factory\Method::matches
+ * @uses   \phpDocumentor\Reflection\Php\Factory\Method::matches
+ * @uses   \phpDocumentor\Reflection\Php\Factory\Type
  *
  * @coversDefaultClass \phpDocumentor\Reflection\Php\Factory\Method
  * @covers \phpDocumentor\Reflection\Php\Factory\AbstractFactory
@@ -130,46 +127,6 @@ class MethodTest extends TestCase
         $this->assertTrue($method->isFinal());
         $this->assertTrue($method->isStatic());
         $this->assertEquals('private', (string) $method->getVisibility());
-    }
-
-    /**
-     * @covers ::create
-     */
-    public function testReturnTypeResolving() : void
-    {
-        $classMethodMock = $this->buildClassMethodMock();
-        $classMethodMock->params = [];
-        $classMethodMock->shouldReceive('isPrivate')->once()->andReturn(true);
-        $classMethodMock->shouldReceive('getDocComment')->once()->andReturnNull();
-        $classMethodMock->shouldReceive('getReturnType')->times(4)->andReturn(new Name('int'));
-
-        $containerMock = m::mock(StrategyContainer::class);
-        $containerMock->shouldReceive('findMatching')->never();
-
-        /** @var MethodDescriptor $method */
-        $method = $this->fixture->create($classMethodMock, $containerMock);
-
-        $this->assertEquals(new Integer(), $method->getReturnType());
-    }
-
-    /**
-     * @covers ::create
-     */
-    public function testReturnTypeNullableResolving() : void
-    {
-        $classMethodMock = $this->buildClassMethodMock();
-        $classMethodMock->params = [];
-        $classMethodMock->shouldReceive('isPrivate')->once()->andReturn(true);
-        $classMethodMock->shouldReceive('getDocComment')->once()->andReturnNull();
-        $classMethodMock->shouldReceive('getReturnType')->times(3)->andReturn(new NullableType('int'));
-
-        $containerMock = m::mock(StrategyContainer::class);
-        $containerMock->shouldReceive('findMatching')->never();
-
-        /** @var MethodDescriptor $method */
-        $method = $this->fixture->create($classMethodMock, $containerMock);
-
-        $this->assertEquals(new Nullable(new Integer()), $method->getReturnType());
     }
 
     /**

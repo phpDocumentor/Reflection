@@ -27,6 +27,7 @@ use stdClass;
  * @uses \phpDocumentor\Reflection\Php\Factory\Argument::matches
  * @uses \phpDocumentor\Reflection\PrettyPrinter
  * @uses \phpDocumentor\Reflection\Php\ProjectFactoryStrategies
+ * @uses \phpDocumentor\Reflection\Php\Factory\Type
  *
  * @coversDefaultClass \phpDocumentor\Reflection\Php\Factory\Argument
  * @covers \phpDocumentor\Reflection\Php\Factory\AbstractFactory

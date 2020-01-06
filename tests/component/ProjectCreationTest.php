@@ -15,8 +15,10 @@ namespace phpDocumentor\Reflection;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use phpDocumentor\Reflection\DocBlock\Tags\Param;
 use phpDocumentor\Reflection\File\LocalFile;
+use phpDocumentor\Reflection\Php\Class_;
 use phpDocumentor\Reflection\Php\Function_;
 use phpDocumentor\Reflection\Php\ProjectFactory;
+use phpDocumentor\Reflection\Types\Integer;
 use phpDocumentor\Reflection\Types\Object_;
 use phpDocumentor\Reflection\Types\String_;
 
@@ -71,6 +73,20 @@ class ProjectCreationTest extends MockeryTestCase
         $constant = $project->getFiles()[$fileName]->getClasses()['\\Pizza']->getConstants()['\\Pizza::PACKAGING'];
 
         $this->assertEquals('box', $constant->getValue());
+    }
+
+    public function testTypedPropertiesReturnTheirType() : void
+    {
+        $fileName = __DIR__ . '/project/Luigi/Pizza.php';
+        $project = $this->fixture->create(
+            'MyProject',
+            [new LocalFile($fileName)]
+        );
+
+        /** @var Class_ $pizzaClass */
+        $pizzaClass = $project->getFiles()[$fileName]->getClasses()['\\Luigi\\Pizza'];
+        $this->assertArrayHasKey('\\Luigi\\Pizza::$size', $pizzaClass->getProperties());
+        $this->assertEquals(new Integer(), $pizzaClass->getProperties()['\\Luigi\\Pizza::$size']->getType());
     }
 
     public function testFileWithDocBlock() : void

@@ -34,6 +34,7 @@ use stdClass;
  * @uses \phpDocumentor\Reflection\Php\Visibility
  * @uses \phpDocumentor\Reflection\PrettyPrinter
  * @uses \phpDocumentor\Reflection\Php\ProjectFactoryStrategies
+ * @uses \phpDocumentor\Reflection\Php\Factory\Type
  *
  * @covers \phpDocumentor\Reflection\Php\Factory\Property
  * @covers \phpDocumentor\Reflection\Php\Factory\AbstractFactory

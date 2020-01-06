@@ -45,9 +45,11 @@ final class Trait_ extends AbstractFactory implements ProjectFactoryStrategy
      */
     protected function doCreate($object, StrategyContainer $strategies, ?Context $context = null)
     {
-        $docBlock = $this->createDocBlock($strategies, $object->getDocComment(), $context);
-
-        $trait = new TraitElement($object->fqsen, $docBlock, new Location($object->getLine()));
+        $trait = new TraitElement(
+            $object->fqsen,
+            $this->createDocBlock($strategies, $object->getDocComment(), $context),
+            new Location($object->getLine())
+        );
 
         if (isset($object->stmts)) {
             foreach ($object->stmts as $stmt) {
@@ -55,13 +57,11 @@ final class Trait_ extends AbstractFactory implements ProjectFactoryStrategy
                     case PropertyNode::class:
                         $properties = new PropertyIterator($stmt);
                         foreach ($properties as $property) {
-                            $element = $this->createMember($property, $strategies, $context);
-                            $trait->addProperty($element);
+                            $trait->addProperty($this->createMember($property, $strategies, $context));
                         }
                         break;
                     case ClassMethod::class:
-                        $method = $this->createMember($stmt, $strategies, $context);
-                        $trait->addMethod($method);
+                        $trait->addMethod($this->createMember($stmt, $strategies, $context));
                         break;
                     case TraitUse::class:
                         foreach ($stmt->traits as $use) {

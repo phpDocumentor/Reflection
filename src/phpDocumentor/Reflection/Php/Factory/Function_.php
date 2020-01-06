@@ -17,11 +17,8 @@ use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Function_ as FunctionDescriptor;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
-use phpDocumentor\Reflection\TypeResolver;
 use phpDocumentor\Reflection\Types\Context;
-use PhpParser\Node\NullableType;
 use PhpParser\Node\Stmt\Function_ as FunctionNode;
-use PhpParser\Node\UnionType;
 
 /**
  * Strategy to convert Function_ to FunctionDescriptor
@@ -47,23 +44,12 @@ final class Function_ extends AbstractFactory implements ProjectFactoryStrategy
      */
     protected function doCreate($object, StrategyContainer $strategies, ?Context $context = null)
     {
-        $docBlock = $this->createDocBlock($strategies, $object->getDocComment(), $context);
-
-        $returnType = null;
-        if ($object->getReturnType() !== null) {
-            $typeResolver = new TypeResolver();
-            if ($object->getReturnType() instanceof NullableType) {
-                $typeString = '?' . $object->getReturnType()->type;
-            } elseif ($object->getReturnType() instanceof UnionType) {
-                $typeString = $object->getReturnType()->getType();
-            } else {
-                $typeString = $object->getReturnType()->toString();
-            }
-
-            $returnType = $typeResolver->resolve($typeString, $context);
-        }
-
-        $function = new FunctionDescriptor($object->fqsen, $docBlock, new Location($object->getLine()), $returnType);
+        $function = new FunctionDescriptor(
+            $object->fqsen,
+            $this->createDocBlock($strategies, $object->getDocComment(), $context),
+            new Location($object->getLine()),
+            (new Type())->fromPhpParser($object->getReturnType())
+        );
 
         foreach ($object->params as $param) {
             $strategy = $strategies->findMatching($param);

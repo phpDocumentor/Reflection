@@ -16,6 +16,7 @@ namespace phpDocumentor\Reflection\Php;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
+use phpDocumentor\Reflection\Types\Integer;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -150,5 +151,30 @@ final class PropertyTest extends TestCase
 
         $this->assertSame(100, $fixture->getLocation()->getLineNumber());
         $this->assertSame(20, $fixture->getLocation()->getColumnNumber());
+    }
+
+    /**
+     * @uses \phpDocumentor\Reflection\Php\Visibility
+     * @uses \phpDocumentor\Reflection\Types\Integer
+     *
+     * @covers ::getType
+     */
+    public function testGetType() : void
+    {
+        $type = new Integer();
+        $fixture = new Property(
+            $this->fqsen,
+            null,
+            null,
+            null,
+            false,
+            null,
+            $type
+        );
+
+        $this->assertSame($type, $fixture->getType());
+
+        $fixture = new Property($this->fqsen);
+        $this->assertNull($fixture->getType());
     }
 }

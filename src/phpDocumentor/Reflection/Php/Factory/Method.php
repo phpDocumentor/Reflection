@@ -18,11 +18,8 @@ use phpDocumentor\Reflection\Php\Method as MethodDescriptor;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Php\Visibility;
-use phpDocumentor\Reflection\TypeResolver;
 use phpDocumentor\Reflection\Types\Context;
-use PhpParser\Node\NullableType;
 use PhpParser\Node\Stmt\ClassMethod;
-use PhpParser\Node\UnionType;
 
 /**
  * Strategy to create MethodDescriptor and arguments when applicable.
@@ -45,31 +42,15 @@ final class Method extends AbstractFactory implements ProjectFactoryStrategy
      */
     protected function doCreate($object, StrategyContainer $strategies, ?Context $context = null)
     {
-        $docBlock = $this->createDocBlock($strategies, $object->getDocComment(), $context);
-
-        $returnType = null;
-        if ($object->getReturnType() !== null) {
-            $typeResolver = new TypeResolver();
-            if ($object->getReturnType() instanceof NullableType) {
-                $typeString = '?' . $object->getReturnType()->type;
-            } elseif ($object->getReturnType() instanceof UnionType) {
-                $typeString = $object->getReturnType()->getType();
-            } else {
-                $typeString = $object->getReturnType()->toString();
-            }
-
-            $returnType = $typeResolver->resolve($typeString, $context);
-        }
-
         $method = new MethodDescriptor(
             $object->fqsen,
             $this->buildVisibility($object),
-            $docBlock,
+            $this->createDocBlock($strategies, $object->getDocComment(), $context),
             $object->isAbstract(),
             $object->isStatic(),
             $object->isFinal(),
             new Location($object->getLine()),
-            $returnType
+            (new Type())->fromPhpParser($object->getReturnType())
         );
 
         foreach ($object->params as $param) {
