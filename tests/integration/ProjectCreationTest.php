@@ -1,13 +1,14 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      http://phpdoc.org
+ * @link http://phpdoc.org
  */
 
 namespace phpDocumentor\Reflection;
@@ -39,7 +40,7 @@ class ProjectCreationTest extends MockeryTestCase
 
     public function testCreateProjectWithFunctions() : void
     {
-        $fileName = __DIR__ . '/project/simpleFunction.php';
+        $fileName = __DIR__ . '/data/simpleFunction.php';
 
         $project = $this->fixture->create(
             'MyProject',
@@ -58,7 +59,7 @@ class ProjectCreationTest extends MockeryTestCase
 
     public function testCreateProjectWithClass() : void
     {
-        $fileName = __DIR__ . '/project/Pizza.php';
+        $fileName = __DIR__ . '/data/Pizza.php';
         $project = $this->fixture->create(
             'MyProject',
             [new LocalFile($fileName)]
@@ -77,7 +78,7 @@ class ProjectCreationTest extends MockeryTestCase
 
     public function testTypedPropertiesReturnTheirType() : void
     {
-        $fileName = __DIR__ . '/project/Luigi/Pizza.php';
+        $fileName = __DIR__ . '/data/Luigi/Pizza.php';
         $project = $this->fixture->create(
             'MyProject',
             [new LocalFile($fileName)]
@@ -91,7 +92,7 @@ class ProjectCreationTest extends MockeryTestCase
 
     public function testFileWithDocBlock() : void
     {
-        $fileName = __DIR__ . '/project/Pizza.php';
+        $fileName = __DIR__ . '/data/Pizza.php';
         $project = $this->fixture->create(
             'MyProject',
             [new LocalFile($fileName)]
@@ -103,7 +104,7 @@ class ProjectCreationTest extends MockeryTestCase
 
     public function testWithNamespacedClass() : void
     {
-        $fileName = __DIR__ . '/project/Luigi/Pizza.php';
+        $fileName = __DIR__ . '/data/Luigi/Pizza.php';
         $project = $this->fixture->create(
             'MyProject',
             [new LocalFile($fileName)]
@@ -132,7 +133,7 @@ class ProjectCreationTest extends MockeryTestCase
 
     public function testDocblockOfMethodIsProcessed() : void
     {
-        $fileName = __DIR__ . '/project/Luigi/Pizza.php';
+        $fileName = __DIR__ . '/data/Luigi/Pizza.php';
         $project = $this->fixture->create(
             'MyProject',
             [new LocalFile($fileName)]
@@ -158,7 +159,7 @@ class ProjectCreationTest extends MockeryTestCase
 
     public function testWithUsedParent() : void
     {
-        $fileName = __DIR__ . '/project/Luigi/StyleFactory.php';
+        $fileName = __DIR__ . '/data/Luigi/StyleFactory.php';
         $project = $this->fixture->create(
             'MyProject',
             [new LocalFile($fileName)]
@@ -174,7 +175,7 @@ class ProjectCreationTest extends MockeryTestCase
 
     public function testWithInterface() : void
     {
-        $fileName = __DIR__ . '/project/Luigi/Valued.php';
+        $fileName = __DIR__ . '/data/Luigi/Valued.php';
         $project = $this->fixture->create(
             'MyProject',
             [new LocalFile($fileName)]
@@ -185,7 +186,7 @@ class ProjectCreationTest extends MockeryTestCase
 
     public function testWithTrait() : void
     {
-        $fileName = __DIR__ . '/project/Luigi/ExampleNestedTrait.php';
+        $fileName = __DIR__ . '/data/Luigi/ExampleNestedTrait.php';
         $project = $this->fixture->create(
             'MyProject',
             [new LocalFile($fileName)]
@@ -196,7 +197,7 @@ class ProjectCreationTest extends MockeryTestCase
 
     public function testWithGlobalConstants() : void
     {
-        $fileName = __DIR__ . '/project/Luigi/constants.php';
+        $fileName = __DIR__ . '/data/Luigi/constants.php';
         $project = $this->fixture->create(
             'MyProject',
             [new LocalFile($fileName)]
@@ -208,7 +209,7 @@ class ProjectCreationTest extends MockeryTestCase
 
     public function testInterfaceExtends() : void
     {
-        $fileName = __DIR__ . '/project/Luigi/Packing.php';
+        $fileName = __DIR__ . '/data/Luigi/Packing.php';
         $project = $this->fixture->create(
             'MyProject',
             [new LocalFile($fileName)]
@@ -222,7 +223,7 @@ class ProjectCreationTest extends MockeryTestCase
 
     public function testMethodReturnType() : void
     {
-        $fileName = __DIR__ . '/project/Packing.php';
+        $fileName = __DIR__ . '/data/Packing.php';
         $project = $this->fixture->create(
             'MyProject',
             [new LocalFile($fileName)]
@@ -236,7 +237,7 @@ class ProjectCreationTest extends MockeryTestCase
 
     public function testFileDocblock() : void
     {
-        $fileName = __DIR__ . '/project/empty.php';
+        $fileName = __DIR__ . '/data/empty.php';
         $project = $this->fixture->create(
             'MyProject',
             [new LocalFile($fileName)]
