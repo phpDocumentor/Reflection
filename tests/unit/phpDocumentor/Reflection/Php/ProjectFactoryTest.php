@@ -17,7 +17,6 @@ use Mockery as m;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use phpDocumentor\Reflection\Exception;
 use phpDocumentor\Reflection\Fqsen;
-use phpDocumentor\Reflection\Php\Factory\DummyFactoryStrategy;
 use function array_keys;
 use function count;
 use function current;
@@ -43,12 +42,33 @@ use function md5;
 final class ProjectFactoryTest extends MockeryTestCase
 {
     /**
-     * @covers ::__construct
+     * Tests whether a factory can be instantiated using recommended factories.
+     *
+     * This test is unable to test which exact factories are instantiated because that is not exposed by
+     * the factory. Even using assertEquals to do a regression test against a pre-populated factory does not
+     * work because there is a piece of randomness inside one of the properties; causing the tests to fail when
+     * you try to do it like that.
+     *
+     * @uses \phpDocumentor\Reflection\Middleware\ChainFactory
+     * @uses \phpDocumentor\Reflection\Php\Factory\Property
+     * @uses \phpDocumentor\Reflection\Php\Factory\Argument
+     * @uses \phpDocumentor\Reflection\Php\Factory\Method
+     * @uses \phpDocumentor\Reflection\Php\Factory\Class_
+     * @uses \phpDocumentor\Reflection\Php\Factory\Interface_
+     * @uses \phpDocumentor\Reflection\Php\Factory\ClassConstant
+     * @uses \phpDocumentor\Reflection\Php\Factory\Define
+     * @uses \phpDocumentor\Reflection\Php\Factory\GlobalConstant
+     * @uses \phpDocumentor\Reflection\Php\Factory\Argument
+     * @uses \phpDocumentor\Reflection\Php\Factory\Trait_
+     * @uses \phpDocumentor\Reflection\Php\Factory\DocBlock
+     * @uses \phpDocumentor\Reflection\Php\Factory\File
+     * @uses \phpDocumentor\Reflection\Php\NodesFactory
+     *
+     * @covers ::createInstance
      */
-    public function testStrategiesAreChecked() : void
+    public function testCreatingAnInstanceInstantiatesItWithTheRecommendedStrategies()
     {
-        new ProjectFactory([new DummyFactoryStrategy()]);
-        $this->assertTrue(true);
+        $this->assertInstanceOf(ProjectFactory::class, ProjectFactory::createInstance());
     }
 
     /**
