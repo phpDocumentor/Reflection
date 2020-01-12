@@ -29,11 +29,13 @@ use PHPUnit\Framework\TestCase;
  * @covers ::__construct
  * @covers ::<private>
  */
-class FileTest extends TestCase
+final class FileTest extends TestCase
 {
     public const EXAMPLE_HASH = 'a-hash-string';
 
-    public const EXAMPLE_PATH = 'a-path-string';
+    public const EXAMPLE_NAME = 'a-path-string';
+
+    public const EXAMPLE_PATH = 'example/' . self::EXAMPLE_NAME;
 
     public const EXAMPLE_SOURCE = 'a-source-string';
 
@@ -139,6 +141,14 @@ class FileTest extends TestCase
     public function testGetHash() : void
     {
         $this->assertSame(self::EXAMPLE_HASH, $this->fixture->getHash());
+    }
+
+    /**
+     * @covers ::getName
+     */
+    public function testGetName() : void
+    {
+        $this->assertSame(self::EXAMPLE_NAME, $this->fixture->getName());
     }
 
     /**

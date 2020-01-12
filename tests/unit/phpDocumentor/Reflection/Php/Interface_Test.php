@@ -13,8 +13,10 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php;
 
+use InvalidArgumentException;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\Location;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -28,7 +30,7 @@ use PHPUnit\Framework\TestCase;
  * @covers ::__construct
  * @covers ::<private>
  */
-class Interface_Test extends TestCase
+final class Interface_Test extends TestCase
 {
     /** @var Interface_ $fixture */
     private $fixture;
@@ -39,18 +41,33 @@ class Interface_Test extends TestCase
     /** @var DocBlock */
     private $docBlock;
 
+    /** @var Fqsen[] */
+    private $exampleParents;
+
     /**
      * Creates a new (empty) fixture object.
      */
     protected function setUp() : void
     {
+        $this->exampleParents = [
+            new Fqsen('\MySpace\MyParent'),
+            new Fqsen('\MySpace\MyOtherParent'),
+        ];
+
         $this->fqsen    = new Fqsen('\MySpace\MyInterface');
         $this->docBlock = new DocBlock('');
-        $this->fixture  = new Interface_($this->fqsen, [], $this->docBlock);
+        $this->fixture  = new Interface_($this->fqsen, $this->exampleParents, $this->docBlock);
     }
 
     /**
-     * @covers ::__construct
+     * @covers ::getName
+     */
+    public function testGetName() : void
+    {
+        $this->assertSame($this->fqsen->getName(), $this->fixture->getName());
+    }
+
+    /**
      * @covers ::getFqsen
      */
     public function testGetFqsen() : void
@@ -59,7 +76,6 @@ class Interface_Test extends TestCase
     }
 
     /**
-     * @covers ::__construct
      * @covers ::getDocBlock
      */
     public function testGetDocblock() : void
@@ -95,5 +111,45 @@ class Interface_Test extends TestCase
         $this->fixture->addMethod($method);
 
         $this->assertEquals(['\MySpace\MyInterface::myMethod()' => $method], $this->fixture->getMethods());
+    }
+
+    /**
+     * @covers ::getParents
+     */
+    public function testReturningTheParentsOfThisInterface() : void
+    {
+        $this->assertSame($this->exampleParents, $this->fixture->getParents());
+    }
+
+    /**
+     * @covers ::getLocation
+     */
+    public function testLineNumberIsMinusOneWhenNoneIsProvided() : void
+    {
+        $this->assertSame(-1, $this->fixture->getLocation()->getLineNumber());
+        $this->assertSame(0, $this->fixture->getLocation()->getColumnNumber());
+    }
+
+    /**
+     * @uses \phpDocumentor\Reflection\Location
+     *
+     * @covers ::getLocation
+     */
+    public function testLineAndColumnNumberIsReturnedWhenALocationIsProvided() : void
+    {
+        $fixture = new Interface_($this->fqsen, [], $this->docBlock, new Location(100, 20));
+
+        $this->assertSame(100, $fixture->getLocation()->getLineNumber());
+        $this->assertSame(20, $fixture->getLocation()->getColumnNumber());
+    }
+
+    /**
+     * @covers ::__construct
+     */
+    public function testArrayWithParentsMustBeFqsenObjects() : void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        new Interface_(new Fqsen('\MyInterface'), ['InvalidInterface']);
     }
 }

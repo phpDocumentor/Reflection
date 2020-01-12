@@ -36,15 +36,15 @@ final class ChainFactoryTest extends TestCase
 
         $chain = ChainFactory::createExecutionChain(
             [$middleware1, $middleware2],
-            function () {
+            static function () {
                 $result = new stdClass();
                 $result->counter = 'a';
                 return $result;
             }
         );
 
-        $this->assertInstanceOf(stdClass::class, $chain(new $exampleCommand));
-        $this->assertSame('abc', $chain(new $exampleCommand)->counter);
+        $this->assertInstanceOf(stdClass::class, $chain(new $exampleCommand()));
+        $this->assertSame('abc', $chain(new $exampleCommand())->counter);
     }
 
     /**
@@ -60,7 +60,7 @@ final class ChainFactoryTest extends TestCase
 
         ChainFactory::createExecutionChain(
             [$middleware],
-            function () {
+            static function () {
                 return new stdClass();
             }
         );
@@ -69,6 +69,7 @@ final class ChainFactoryTest extends TestCase
     private function givenAMiddleware(string $exampleValue) : Middleware
     {
         return new class($exampleValue) implements Middleware {
+            /** @var string */
             private $exampleAddedValue;
 
             public function __construct(string $exampleAddedValue)

@@ -17,13 +17,12 @@ use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
+use Webmozart\Assert\Assert;
 
 /**
  * Descriptor representing an Interface.
  */
-// @codingStandardsIgnoreStart
 final class Interface_ implements Element
-// @codingStandardsIgnoreEnd
 {
     /** @var Fqsen Full Qualified Structural Element Name */
     private $fqsen;
@@ -54,14 +53,12 @@ final class Interface_ implements Element
         ?DocBlock $docBlock = null,
         ?Location $location = null
     ) {
-        if ($location === null) {
-            $location = new Location(-1);
-        }
+        Assert::allIsInstanceOf($parents, Fqsen::class);
 
         $this->fqsen    = $fqsen;
         $this->docBlock = $docBlock;
         $this->parents  = $parents;
-        $this->location = $location;
+        $this->location = $location ?: $location = new Location(-1);
     }
 
     /**
