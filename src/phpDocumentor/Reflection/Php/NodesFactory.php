@@ -16,12 +16,14 @@ namespace phpDocumentor\Reflection\Php;
 use phpDocumentor\Reflection\NodeVisitor\ElementNameResolver;
 use PhpParser\Node;
 use PhpParser\NodeTraverser;
+use PhpParser\NodeTraverserInterface;
 use PhpParser\NodeVisitor\NameResolver;
 use PhpParser\Parser;
 use PhpParser\ParserFactory;
 
 /**
  * Factory to create a array of nodes from a provided file.
+ *
  * This factory will use PhpParser and NodeTraverser to do the real processing.
  */
 class NodesFactory
@@ -41,14 +43,12 @@ class NodesFactory
     private $traverser;
 
     /**
-     * Initializes the object.
-     *
-     * @param Parser        $parser    used to parse the code
+     * @param Parser $parser used to parse the code
      * @param NodeTraverser $traverser used to do some post processing on the nodes
      */
-    final public function __construct(Parser $parser, NodeTraverser $traverser)
+    final public function __construct(Parser $parser, NodeTraverserInterface $traverser)
     {
-        $this->parser    = $parser;
+        $this->parser = $parser;
         $this->traverser = $traverser;
     }
 
@@ -62,10 +62,11 @@ class NodesFactory
      */
     public static function createInstance(int $kind = ParserFactory::PREFER_PHP7) : self
     {
-        $parser    = (new ParserFactory())->create($kind);
+        $parser = (new ParserFactory())->create($kind);
         $traverser = new NodeTraverser();
         $traverser->addVisitor(new NameResolver());
         $traverser->addVisitor(new ElementNameResolver());
+
         return new static($parser, $traverser);
     }
 
@@ -78,7 +79,6 @@ class NodesFactory
      */
     public function create(string $code) : array
     {
-        $stmt = $this->parser->parse($code);
-        return $this->traverser->traverse($stmt);
+        return $this->traverser->traverse($this->parser->parse($code));
     }
 }
