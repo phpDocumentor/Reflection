@@ -112,16 +112,16 @@
         },
         {
             "name": "phpdocumentor/reflection-docblock",
-            "version": "5.0.0-alpha7",
+            "version": "5.0.0-alpha8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
-                "reference": "c5a39003d5c0ef8e605d123d23355b1cb4112735"
+                "reference": "f256f0b49e236c3b4705804d9998379282e0f75d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/c5a39003d5c0ef8e605d123d23355b1cb4112735",
-                "reference": "c5a39003d5c0ef8e605d123d23355b1cb4112735",
+                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/f256f0b49e236c3b4705804d9998379282e0f75d",
+                "reference": "f256f0b49e236c3b4705804d9998379282e0f75d",
                 "shasum": ""
             },
             "require": {
@@ -161,7 +161,7 @@
                 }
             ],
             "description": "With this component, a library can provide support for annotations via DocBlocks or otherwise retrieve information that is embedded in a DocBlock.",
-            "time": "2019-12-27T20:42:04+00:00"
+            "time": "2020-01-12T12:26:24+00:00"
         },
         {
             "name": "phpdocumentor/type-resolver",
@@ -527,7 +527,9 @@
     ],
     "aliases": [],
     "minimum-stability": "alpha",
-    "stability-flags": [],
+    "stability-flags": {
+        "phpdocumentor/reflection-docblock": 15
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
