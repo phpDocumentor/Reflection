@@ -17,9 +17,9 @@ use phpDocumentor\Reflection\DocBlockFactory;
 use phpDocumentor\Reflection\Exception;
 use phpDocumentor\Reflection\File as SourceFile;
 use phpDocumentor\Reflection\Fqsen;
-use phpDocumentor\Reflection\PrettyPrinter;
 use phpDocumentor\Reflection\Project as ProjectInterface;
 use phpDocumentor\Reflection\ProjectFactory as ProjectFactoryInterface;
+use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
 
 /**
  * Factory class to transform files into a project description.

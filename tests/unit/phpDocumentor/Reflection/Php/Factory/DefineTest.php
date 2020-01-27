@@ -19,7 +19,6 @@ use phpDocumentor\Reflection\Php\Constant as ConstantDescriptor;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategies;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
-use phpDocumentor\Reflection\PrettyPrinter;
 use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Comment\Doc;
 use PhpParser\Node\Arg;
@@ -28,13 +27,13 @@ use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Name;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Expression;
+use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
 use stdClass;
 
 /**
  * @uses   \phpDocumentor\Reflection\Php\ProjectFactoryStrategies
  * @uses   \phpDocumentor\Reflection\Php\Constant
  * @uses   \phpDocumentor\Reflection\Php\Visibility
- * @uses   \phpDocumentor\Reflection\PrettyPrinter
  *
  * @covers \phpDocumentor\Reflection\Php\Factory\Define
  * @covers \phpDocumentor\Reflection\Php\Factory\AbstractFactory
@@ -127,7 +126,7 @@ final class DefineTest extends TestCase
     {
         $this->assertInstanceOf(ConstantDescriptor::class, $constant);
         $this->assertEquals('\Space\MyClass\MY_CONST1', (string) $constant->getFqsen());
-        $this->assertEquals('a', $constant->getValue());
+        $this->assertEquals('\'a\'', $constant->getValue());
         $this->assertEquals('public', (string) $constant->getVisibility());
     }
 }

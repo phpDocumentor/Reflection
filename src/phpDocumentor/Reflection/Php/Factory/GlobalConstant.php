@@ -16,8 +16,8 @@ namespace phpDocumentor\Reflection\Php\Factory;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Constant as ConstantElement;
 use phpDocumentor\Reflection\Php\StrategyContainer;
-use phpDocumentor\Reflection\PrettyPrinter;
 use phpDocumentor\Reflection\Types\Context;
+use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
 
 /**
  * Strategy to convert GlobalConstantIterator to ConstantElement

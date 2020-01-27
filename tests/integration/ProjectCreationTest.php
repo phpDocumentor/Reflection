@@ -73,7 +73,7 @@ class ProjectCreationTest extends MockeryTestCase
         );
         $constant = $project->getFiles()[$fileName]->getClasses()['\\Pizza']->getConstants()['\\Pizza::PACKAGING'];
 
-        $this->assertEquals('box', $constant->getValue());
+        $this->assertEquals('\'box\'', $constant->getValue());
     }
 
     public function testTypedPropertiesReturnTheirType() : void

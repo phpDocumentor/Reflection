@@ -18,8 +18,8 @@ use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\Property as PropertyDescriptor;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Php\Visibility;
-use phpDocumentor\Reflection\PrettyPrinter;
 use phpDocumentor\Reflection\Types\Context;
+use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
 
 /**
  * Strategy to convert PropertyIterator to PropertyDescriptor

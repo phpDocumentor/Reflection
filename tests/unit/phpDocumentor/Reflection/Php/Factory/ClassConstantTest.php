@@ -20,12 +20,12 @@ use phpDocumentor\Reflection\Php\Constant as ConstantDescriptor;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategies;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
-use phpDocumentor\Reflection\PrettyPrinter;
 use PhpParser\Comment\Doc;
 use PhpParser\Node\Const_;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Class_ as ClassNode;
 use PhpParser\Node\Stmt\ClassConst;
+use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
 use stdClass;
 
 /**
@@ -33,7 +33,6 @@ use stdClass;
  * @uses   \phpDocumentor\Reflection\Php\ProjectFactoryStrategies
  * @uses   \phpDocumentor\Reflection\Php\Constant
  * @uses   \phpDocumentor\Reflection\Php\Visibility
- * @uses   \phpDocumentor\Reflection\PrettyPrinter
  *
  * @covers \phpDocumentor\Reflection\Php\Factory\ClassConstant
  * @covers \phpDocumentor\Reflection\Php\Factory\AbstractFactory
@@ -126,7 +125,7 @@ final class ClassConstantTest extends TestCase
     {
         $this->assertInstanceOf(ConstantDescriptor::class, $constant);
         $this->assertEquals('\Space\MyClass::MY_CONST1', (string) $constant->getFqsen());
-        $this->assertEquals('a', $constant->getValue());
+        $this->assertEquals('\'a\'', $constant->getValue());
         $this->assertEquals($visibility, (string) $constant->getVisibility());
     }
 }

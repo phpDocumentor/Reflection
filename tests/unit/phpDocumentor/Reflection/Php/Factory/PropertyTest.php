@@ -20,19 +20,18 @@ use phpDocumentor\Reflection\Php\ProjectFactoryStrategies;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\Property as PropertyDescriptor;
 use phpDocumentor\Reflection\Php\StrategyContainer;
-use phpDocumentor\Reflection\PrettyPrinter;
 use PhpParser\Comment\Doc;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Class_ as ClassNode;
 use PhpParser\Node\Stmt\Property as PropertyNode;
 use PhpParser\Node\Stmt\PropertyProperty;
+use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
 use stdClass;
 
 /**
  * @uses \phpDocumentor\Reflection\Php\Factory\PropertyIterator
  * @uses \phpDocumentor\Reflection\Php\Property
  * @uses \phpDocumentor\Reflection\Php\Visibility
- * @uses \phpDocumentor\Reflection\PrettyPrinter
  * @uses \phpDocumentor\Reflection\Php\ProjectFactoryStrategies
  * @uses \phpDocumentor\Reflection\Php\Factory\Type
  *
@@ -128,7 +127,7 @@ final class PropertyTest extends TestCase
         $this->assertInstanceOf(PropertyDescriptor::class, $property);
         $this->assertEquals('\myClass::$property', (string) $property->getFqsen());
         $this->assertTrue($property->isStatic());
-        $this->assertEquals('MyDefault', $property->getDefault());
+        $this->assertEquals('\'MyDefault\'', $property->getDefault());
         $this->assertEquals($visibility, (string) $property->getVisibility());
     }
 }

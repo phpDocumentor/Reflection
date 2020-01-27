@@ -16,16 +16,15 @@ namespace phpDocumentor\Reflection\Php\Factory;
 use Mockery as m;
 use phpDocumentor\Reflection\Php\Argument as ArgumentDescriptor;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategies;
-use phpDocumentor\Reflection\PrettyPrinter;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Param;
 use PhpParser\Node\Scalar\String_;
+use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
 use stdClass;
 
 /**
  * @uses \phpDocumentor\Reflection\Php\Argument
  * @uses \phpDocumentor\Reflection\Php\Factory\Argument::matches
- * @uses \phpDocumentor\Reflection\PrettyPrinter
  * @uses \phpDocumentor\Reflection\Php\ProjectFactoryStrategies
  * @uses \phpDocumentor\Reflection\Php\Factory\Type
  *
@@ -70,6 +69,6 @@ class ArgumentTest extends TestCase
         $this->assertEquals('myArgument', $argument->getName());
         $this->assertTrue($argument->isByReference());
         $this->assertTrue($argument->isVariadic());
-        $this->assertEquals('MyDefault', $argument->getDefault());
+        $this->assertEquals('\'MyDefault\'', $argument->getDefault());
     }
 }

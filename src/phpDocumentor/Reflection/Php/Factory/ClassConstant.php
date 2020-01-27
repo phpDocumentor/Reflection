@@ -17,8 +17,8 @@ use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Constant as ConstantElement;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Php\Visibility;
-use phpDocumentor\Reflection\PrettyPrinter;
 use phpDocumentor\Reflection\Types\Context;
+use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
 
 /**
  * Strategy to convert ClassConstantIterator to ConstantElement
