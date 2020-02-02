@@ -13,7 +13,7 @@ setup: install-phive
 
 .PHONY: phpcs
 phpcs:
-	docker run -it --rm -v${CURDIR}:/opt/project -w /opt/project phpdoc/phpcs-ga:latest -d memory_limit=1024M -s
+	docker run -it --rm -v${CURDIR}:/opt/project -w /opt/project phpdoc/phpcs-ga:v1.0.0 -s
 
 .PHONY: phpstan
 phpstan:
