@@ -60,6 +60,9 @@ final class ClassesTest extends MockeryTestCase
         $constant = $class->getConstants()[$constantName];
 
         $this->assertInstanceOf(Constant::class, $constant);
+
+        $this->assertArrayHasKey('\\OVEN_TEMPERATURE', $file->getConstants());
+        $this->assertArrayHasKey('\\MAX_OVEN_TEMPERATURE', $file->getConstants());
     }
 
     public function testTypedPropertiesReturnTheirType() : void

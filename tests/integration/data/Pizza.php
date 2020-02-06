@@ -10,6 +10,12 @@
  * @link      http://phpdoc.org
  */
 
+/**
+ * This needs a docblock to separate from
+ * file docblock
+ */
+const OVEN_TEMPERATURE = 9001;
+define('MAX_OVEN_TEMPERATURE', 9002);
 
 /**
  * Pizza base class
