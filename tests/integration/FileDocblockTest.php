@@ -10,8 +10,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Integration tests to check the correct working of processing a namespace into a project.
- *
- * @coversNothing
  */
 final class FileDocblockTest extends TestCase
 {
@@ -39,13 +37,30 @@ final class FileDocblockTest extends TestCase
         );
     }
 
-
-    public function fileProvider(string $file)
+    public function fileProvider() : array
     {
         return [
             [ __DIR__ . '/data/GlobalFiles/empty.php' ],
             [ __DIR__ . '/data/GlobalFiles/empty_with_declare.php' ],
             [ __DIR__ . '/data/GlobalFiles/empty_shebang.php' ],
         ];
+    }
+
+    /**
+     * @covers \phpDocumentor\Reflection\Php\Factory\File::create
+     * @covers \phpDocumentor\Reflection\Php\Factory\File::<private>
+     */
+    public function testConditionalFunctionDefine() : void
+    {
+        $fileName =  __DIR__ . '/data/GlobalFiles/conditional_function.php';
+        $project = $this->fixture->create(
+            'MyProject',
+            [new LocalFile($fileName)]
+        );
+
+        $this->assertCount(
+            4,
+            $project->getFiles()[$fileName]->getFunctions()
+        );
     }
 }

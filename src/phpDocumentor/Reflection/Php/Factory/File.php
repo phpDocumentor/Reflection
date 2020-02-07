@@ -130,6 +130,17 @@ final class File extends AbstractFactory
     ) : void {
         foreach ($nodes as $node) {
             switch (get_class($node)) {
+                case Node\Stmt\If_::class:
+                    $this->createElements($node->stmts, $file, $strategies, $context);
+
+                    foreach ($node->elseifs as $subNode) {
+                        $this->createElements($subNode->stmts, $file, $strategies, $context);
+                    }
+
+                    if ($node->else instanceof Node\Stmt\Else_) {
+                        $this->createElements($node->else->stmts, $file, $strategies, $context);
+                    }
+                    break;
                 case Node\Stmt\Expression::class:
                     try {
                         $strategy = $strategies->findMatching($node);
