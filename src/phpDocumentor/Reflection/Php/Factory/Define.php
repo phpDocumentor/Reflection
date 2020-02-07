@@ -115,6 +115,10 @@ final class Define extends AbstractFactory
         $nameString = $name->value;
         $namespace = $context ? $context->getNamespace() : '';
 
+        if (empty($namespace)) {
+            return new Fqsen(sprintf('\\%s', $nameString->value));
+        }
+
         return new Fqsen(sprintf('\\%s\\%s', $namespace, $nameString->value));
     }
 }

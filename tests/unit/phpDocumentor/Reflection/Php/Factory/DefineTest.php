@@ -67,7 +67,21 @@ final class DefineTest extends TestCase
             new Context('Space\MyClass')
         );
 
-        $this->assertConstant($constant);
+        $this->assertConstant($constant, '\\Space\\MyClass');
+    }
+
+    public function testCreateGlobal() : void
+    {
+        $constantStub = $this->buildDefineStub();
+
+        /** @var ConstantDescriptor $constant */
+        $constant = $this->fixture->create(
+            $constantStub,
+            new ProjectFactoryStrategies([]),
+            new Context('')
+        );
+
+        $this->assertConstant($constant, '');
     }
 
     public function testCreateWithDocBlock() : void
@@ -105,7 +119,7 @@ final class DefineTest extends TestCase
             $context
         );
 
-        $this->assertConstant($constant);
+        $this->assertConstant($constant, '\\Space\\MyClass');
         $this->assertSame($docBlock, $constant->getDocBlock());
     }
 
@@ -122,10 +136,10 @@ final class DefineTest extends TestCase
         );
     }
 
-    private function assertConstant(ConstantDescriptor $constant) : void
+    private function assertConstant(ConstantDescriptor $constant, string $namespace) : void
     {
         $this->assertInstanceOf(ConstantDescriptor::class, $constant);
-        $this->assertEquals('\Space\MyClass\MY_CONST1', (string) $constant->getFqsen());
+        $this->assertEquals($namespace . '\\MY_CONST1', (string) $constant->getFqsen());
         $this->assertEquals('\'a\'', $constant->getValue());
         $this->assertEquals('public', (string) $constant->getVisibility());
     }
