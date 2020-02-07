@@ -1,5 +1,10 @@
+includes:
+    - /composer/vendor/phpstan/phpstan-webmozart-assert/extension.neon
+    - /composer/vendor/phpstan/phpstan-php-parser/extension.neon
+
 parameters:
     checkGenericClassInNonGenericObjectType: false
+    level: max
     ignoreErrors:
 
         - '#Method phpDocumentor\\Reflection\\File\\LocalFile::\md5\(\) should return string but returns string\|false\.#'
@@ -16,9 +21,6 @@ parameters:
         - '#Access to an undefined property PhpParser\\Node\\Const_::\$fqsen\.#'
         - '#Access to an undefined property PhpParser\\Node\\Stmt\\PropertyProperty::\$fqsen\.#'
         #
-        # src/phpDocumentor/Reflection/Php/Factory/Argument.php
-        - '#Access to an undefined property PhpParser\\Node\\Expr\\Error\|PhpParser\\Node\\Expr\\Variable::\$name\.#'
-        #
         # src/phpDocumentor/Reflection/Php/Factory/Class_.php
         - '#Access to an undefined property PhpParser\\Node\\Stmt\\Class_::\$fqsen\.#'
         #
@@ -27,7 +29,7 @@ parameters:
         #
         #
         # this is a mismatch inside php-parser, not reflection
-        - '#Parameter \#1 \$nodes of method PhpParser\\NodeTraverser::traverse\(\) expects array\<PhpParser\\Node>, array\<PhpParser\\Node\\Stmt\>|null given\.#'
+        - '#Parameter \#1 \$nodes of method PhpParser\\NodeTraverser::traverse\(\) expects array\<PhpParser\\Node>, array\<PhpParser\\Node\\Stmt\>\|null given\.#'
         #
         #
         # there is one test case that prevents changing PropertyIterator::getDefault() to just return Expr (this is set in PhpParser)
@@ -40,3 +42,33 @@ parameters:
         # until I can make $object arg ?$object...
         # src/phpDocumentor/Reflection/Php/Factory/DocBlock.php
         - '#Strict comparison using === between PhpParser\\Comment\\Doc and null will always evaluate to false\.#'
+
+        -
+                message: "#^Parameter \\#1 \\$constant of method phpDocumentor\\\\Reflection\\\\Php\\\\File\\:\\:addConstant\\(\\) expects phpDocumentor\\\\Reflection\\\\Php\\\\Constant, phpDocumentor\\\\Reflection\\\\DocBlock\\|phpDocumentor\\\\Reflection\\\\Element\\|phpDocumentor\\\\Reflection\\\\Php\\\\Argument\\|phpDocumentor\\\\Reflection\\\\Php\\\\File\\|null given\\.$#"
+                count: 2
+                path: src/phpDocumentor/Reflection/Php/Factory/File.php
+
+        -
+                message: "#^Parameter \\#1 \\$class of method phpDocumentor\\\\Reflection\\\\Php\\\\File\\:\\:addClass\\(\\) expects phpDocumentor\\\\Reflection\\\\Php\\\\Class_, phpDocumentor\\\\Reflection\\\\DocBlock\\|phpDocumentor\\\\Reflection\\\\Element\\|phpDocumentor\\\\Reflection\\\\Php\\\\Argument\\|phpDocumentor\\\\Reflection\\\\Php\\\\File\\|null given\\.$#"
+                count: 1
+                path: src/phpDocumentor/Reflection/Php/Factory/File.php
+
+        -
+                message: "#^Parameter \\#1 \\$function of method phpDocumentor\\\\Reflection\\\\Php\\\\File\\:\\:addFunction\\(\\) expects phpDocumentor\\\\Reflection\\\\Php\\\\Function_, phpDocumentor\\\\Reflection\\\\DocBlock\\|phpDocumentor\\\\Reflection\\\\Element\\|phpDocumentor\\\\Reflection\\\\Php\\\\Argument\\|phpDocumentor\\\\Reflection\\\\Php\\\\File\\|null given\\.$#"
+                count: 1
+                path: src/phpDocumentor/Reflection/Php/Factory/File.php
+
+        -
+                message: "#^Parameter \\#1 \\$interface of method phpDocumentor\\\\Reflection\\\\Php\\\\File\\:\\:addInterface\\(\\) expects phpDocumentor\\\\Reflection\\\\Php\\\\Interface_, phpDocumentor\\\\Reflection\\\\DocBlock\\|phpDocumentor\\\\Reflection\\\\Element\\|phpDocumentor\\\\Reflection\\\\Php\\\\Argument\\|phpDocumentor\\\\Reflection\\\\Php\\\\File\\|null given\\.$#"
+                count: 1
+                path: src/phpDocumentor/Reflection/Php/Factory/File.php
+
+        -
+                message: "#^Parameter \\#1 \\$trait of method phpDocumentor\\\\Reflection\\\\Php\\\\File\\:\\:addTrait\\(\\) expects phpDocumentor\\\\Reflection\\\\Php\\\\Trait_, phpDocumentor\\\\Reflection\\\\DocBlock\\|phpDocumentor\\\\Reflection\\\\Element\\|phpDocumentor\\\\Reflection\\\\Php\\\\Argument\\|phpDocumentor\\\\Reflection\\\\Php\\\\File\\|null given\\.$#"
+                count: 1
+                path: src/phpDocumentor/Reflection/Php/Factory/File.php
+
+        -
+                message: "#^Parameter \\#1 \\$argument of method phpDocumentor\\\\Reflection\\\\Php\\\\Function_\\:\\:addArgument\\(\\) expects phpDocumentor\\\\Reflection\\\\Php\\\\Argument, phpDocumentor\\\\Reflection\\\\DocBlock\\|phpDocumentor\\\\Reflection\\\\Element\\|phpDocumentor\\\\Reflection\\\\Php\\\\Argument\\|phpDocumentor\\\\Reflection\\\\Php\\\\File\\|null given\\.$#"
+                count: 1
+                path: src/phpDocumentor/Reflection/Php/Factory/Function_.php

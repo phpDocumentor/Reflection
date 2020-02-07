@@ -29,12 +29,14 @@ use PhpParser\Comment\Doc;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_ as ClassNode;
 use PhpParser\Node\Stmt\Const_ as ConstantNode;
+use PhpParser\Node\Stmt\Declare_ as DeclareNode;
 use PhpParser\Node\Stmt\Function_ as FunctionNode;
+use PhpParser\Node\Stmt\InlineHTML;
 use PhpParser\Node\Stmt\Interface_ as InterfaceNode;
 use PhpParser\Node\Stmt\Namespace_ as NamespaceNode;
 use PhpParser\Node\Stmt\Trait_ as TraitNode;
-use function current;
 use function get_class;
+use function in_array;
 use function is_array;
 
 /**
@@ -43,6 +45,11 @@ use function is_array;
  */
 final class File extends AbstractFactory
 {
+    private const SKIPPED_NODE_TYPES = [
+        DeclareNode::class,
+        InlineHTML::class,
+    ];
+
     /** @var NodesFactory */
     private $nodesFactory;
 
@@ -178,7 +185,14 @@ final class File extends AbstractFactory
         ?Context $context = null,
         array $nodes = []
     ) : ?DocBlockInstance {
-        $node = current($nodes);
+        $node = null;
+        foreach ($nodes as $n) {
+            if (!in_array(get_class($n), self::SKIPPED_NODE_TYPES)) {
+                $node = $n;
+                break;
+            }
+        }
+
         if (!$node instanceof Node) {
             return null;
         }

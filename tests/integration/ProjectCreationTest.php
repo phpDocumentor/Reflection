@@ -234,18 +234,4 @@ class ProjectCreationTest extends MockeryTestCase
 
         $this->assertEquals(new String_(), $interface->getMethods()['\Packing::getName()']->getReturnType());
     }
-
-    public function testFileDocblock() : void
-    {
-        $fileName = __DIR__ . '/data/empty.php';
-        $project = $this->fixture->create(
-            'MyProject',
-            [new LocalFile($fileName)]
-        );
-
-        $this->assertEquals(
-            'This file is part of phpDocumentor.',
-            $project->getFiles()[$fileName]->getDocBlock()->getSummary()
-        );
-    }
 }

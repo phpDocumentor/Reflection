@@ -15,6 +15,10 @@ setup: install-phive
 phpcs:
 	docker run -it --rm -v${CURDIR}:/opt/project -w /opt/project phpdoc/phpcs-ga:v1.0.0 -s
 
+.PHONY: phpcbf
+phpcbf:
+	docker run -it --rm -v${CURDIR}:/opt/project -w /opt/project phpdoc/phpcs-ga:v1.0.0 phpcbf
+
 .PHONY: phpstan
 phpstan:
 	docker run -it --rm -v${CURDIR}:/opt/project -w /opt/project phpdoc/phpstan-ga:latest analyse src --no-progress --level max --configuration phpstan.neon
