@@ -26,6 +26,8 @@ use PhpParser\Node\UnionType;
 /**
  * This class acts like a combination of a PropertyNode and PropertyProperty to
  * be able to create property descriptors using a normal strategy.
+ *
+ * @template-implements Iterator<int, PropertyIterator>
  */
 final class PropertyIterator implements Iterator
 {

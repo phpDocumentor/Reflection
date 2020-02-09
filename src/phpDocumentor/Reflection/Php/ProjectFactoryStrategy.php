@@ -25,9 +25,9 @@ interface ProjectFactoryStrategy
     /**
      * Returns true when the strategy is able to handle the object.
      *
-     * @param mixed $object object to check.
+     * @param object $object object to check.
      */
-    public function matches($object) : bool;
+    public function matches(object $object) : bool;
 
     /**
      * Creates an Element out of the given object.
@@ -39,5 +39,5 @@ interface ProjectFactoryStrategy
      *
      * @return Element|DocBlock|File|Argument|null
      */
-    public function create($object, StrategyContainer $strategies, ?Context $context = null);
+    public function create(?object $object, StrategyContainer $strategies, ?Context $context = null);
 }

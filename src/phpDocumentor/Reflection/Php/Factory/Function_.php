@@ -14,11 +14,12 @@ declare(strict_types=1);
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use phpDocumentor\Reflection\Location;
+use phpDocumentor\Reflection\Php\Argument as ArgumentDescriptor;
 use phpDocumentor\Reflection\Php\Function_ as FunctionDescriptor;
-use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Node\Stmt\Function_ as FunctionNode;
+use Webmozart\Assert\Assert;
 
 /**
  * Strategy to convert Function_ to FunctionDescriptor
@@ -26,7 +27,7 @@ use PhpParser\Node\Stmt\Function_ as FunctionNode;
  * @see FunctionDescriptor
  * @see \PhpParser\Node\
  */
-final class Function_ extends AbstractFactory implements ProjectFactoryStrategy
+final class Function_ extends AbstractFactory
 {
     public function matches($object) : bool
     {
@@ -36,7 +37,7 @@ final class Function_ extends AbstractFactory implements ProjectFactoryStrategy
     /**
      * Creates a FunctionDescriptor out of the given object including its child elements.
      *
-     * @param \PhpParser\Node\Stmt\Function_ $object object to convert to an Element
+     * @param FunctionNode $object object to convert to an Element
      * @param StrategyContainer $strategies used to convert nested objects.
      * @param Context $context of the created object
      *
@@ -53,7 +54,9 @@ final class Function_ extends AbstractFactory implements ProjectFactoryStrategy
 
         foreach ($object->params as $param) {
             $strategy = $strategies->findMatching($param);
-            $function->addArgument($strategy->create($param, $strategies, $context));
+            $argument = $strategy->create($param, $strategies, $context);
+            Assert::isInstanceOf($argument, ArgumentDescriptor::class);
+            $function->addArgument($argument);
         }
 
         return $function;

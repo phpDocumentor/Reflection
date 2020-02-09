@@ -18,11 +18,16 @@ use phpDocumentor\Reflection\DocBlock as DocBlockInstance;
 use phpDocumentor\Reflection\File as FileSystemFile;
 use phpDocumentor\Reflection\Middleware\ChainFactory;
 use phpDocumentor\Reflection\Middleware\Middleware;
+use phpDocumentor\Reflection\Php\Class_;
+use phpDocumentor\Reflection\Php\Constant;
 use phpDocumentor\Reflection\Php\Factory\File\CreateCommand;
 use phpDocumentor\Reflection\Php\File as FileElement;
 use phpDocumentor\Reflection\Php\File as PhpFile;
+use phpDocumentor\Reflection\Php\Function_;
+use phpDocumentor\Reflection\Php\Interface_;
 use phpDocumentor\Reflection\Php\NodesFactory;
 use phpDocumentor\Reflection\Php\StrategyContainer;
+use phpDocumentor\Reflection\Php\Trait_;
 use phpDocumentor\Reflection\Types\Context;
 use phpDocumentor\Reflection\Types\NamespaceNodeToContext;
 use PhpParser\Comment\Doc;
@@ -35,6 +40,8 @@ use PhpParser\Node\Stmt\InlineHTML;
 use PhpParser\Node\Stmt\Interface_ as InterfaceNode;
 use PhpParser\Node\Stmt\Namespace_ as NamespaceNode;
 use PhpParser\Node\Stmt\Trait_ as TraitNode;
+use Webmozart\Assert\Assert;
+
 use function get_class;
 use function in_array;
 use function is_array;
@@ -72,10 +79,7 @@ final class File extends AbstractFactory
         $this->middlewareChain = ChainFactory::createExecutionChain($middleware, $lastCallable);
     }
 
-    /**
-     * @param mixed $file
-     */
-    public function matches($file) : bool
+    public function matches(object $file) : bool
     {
         return $file instanceof FileSystemFile;
     }
@@ -145,6 +149,7 @@ final class File extends AbstractFactory
                     try {
                         $strategy = $strategies->findMatching($node);
                         $constant = $strategy->create($node, $strategies, $context);
+                        Assert::isInstanceOf($constant, Constant::class);
                         $file->addConstant($constant);
                     } catch (OutOfBoundsException $exception) {
                         // ignore, we are only interested when it is a define statement
@@ -153,6 +158,7 @@ final class File extends AbstractFactory
                 case ClassNode::class:
                     $strategy = $strategies->findMatching($node);
                     $class = $strategy->create($node, $strategies, $context);
+                    Assert::isInstanceOf($class, Class_::class);
                     $file->addClass($class);
                     break;
                 case ConstantNode::class:
@@ -160,17 +166,20 @@ final class File extends AbstractFactory
                     foreach ($constants as $constant) {
                         $strategy = $strategies->findMatching($constant);
                         $constant = $strategy->create($constant, $strategies, $context);
+                        Assert::isInstanceOf($constant, Constant::class);
                         $file->addConstant($constant);
                     }
                     break;
                 case FunctionNode::class:
                     $strategy = $strategies->findMatching($node);
                     $function = $strategy->create($node, $strategies, $context);
+                    Assert::isInstanceOf($function, Function_::class);
                     $file->addFunction($function);
                     break;
                 case InterfaceNode::class:
                     $strategy = $strategies->findMatching($node);
                     $interface = $strategy->create($node, $strategies, $context);
+                    Assert::isInstanceOf($interface, Interface_::class);
                     $file->addInterface($interface);
                     break;
                 case NamespaceNode::class:
@@ -181,6 +190,7 @@ final class File extends AbstractFactory
                 case TraitNode::class:
                     $strategy = $strategies->findMatching($node);
                     $trait = $strategy->create($node, $strategies, $context);
+                    Assert::isInstanceOf($trait, Trait_::class);
                     $file->addTrait($trait);
                     break;
             }
@@ -198,7 +208,7 @@ final class File extends AbstractFactory
     ) : ?DocBlockInstance {
         $node = null;
         foreach ($nodes as $n) {
-            if (!in_array(get_class($n), self::SKIPPED_NODE_TYPES)) {
+            if (!in_array(get_class($n), self::SKIPPED_NODE_TYPES, true)) {
                 $node = $n;
                 break;
             }

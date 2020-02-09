@@ -15,6 +15,7 @@ namespace phpDocumentor\Reflection\File;
 
 use InvalidArgumentException;
 use phpDocumentor\Reflection\File;
+use Webmozart\Assert\Assert;
 use function file_exists;
 use function file_get_contents;
 use function md5_file;
@@ -54,7 +55,9 @@ final class LocalFile implements File
      */
     public function md5() : string
     {
-        return md5_file($this->path);
+        $md5 = md5_file($this->path);
+        Assert::string($md5);
+        return $md5;
     }
 
     /**

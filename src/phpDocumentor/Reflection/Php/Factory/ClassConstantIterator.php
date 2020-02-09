@@ -22,6 +22,8 @@ use PhpParser\Node\Stmt\ClassConst;
 /**
  * This class acts like a combination of a ClassConst and Const_
  * to be able to create constant descriptors using a normal strategy.
+ *
+ * @template-implements Iterator<int, ClassConstantIterator>
  */
 final class ClassConstantIterator implements Iterator
 {

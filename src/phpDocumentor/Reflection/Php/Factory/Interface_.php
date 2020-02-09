@@ -16,7 +16,6 @@ namespace phpDocumentor\Reflection\Php\Factory;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Interface_ as InterfaceElement;
-use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Node\Stmt\ClassConst;
@@ -27,9 +26,9 @@ use function get_class;
 /**
  * Strategy to create a InterfaceElement including all sub elements.
  */
-final class Interface_ extends AbstractFactory implements ProjectFactoryStrategy
+final class Interface_ extends AbstractFactory
 {
-    public function matches($object) : bool
+    public function matches(object $object) : bool
     {
         return $object instanceof InterfaceNode;
     }

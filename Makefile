@@ -21,7 +21,7 @@ phpcbf:
 
 .PHONY: phpstan
 phpstan:
-	docker run -it --rm -v${CURDIR}:/opt/project -w /opt/project phpdoc/phpstan-ga:latest analyse src --no-progress --level max --configuration phpstan.neon
+	docker run -it --rm -v${CURDIR}:/opt/project -w /opt/project phpdoc/phpstan-ga:latest analyse src --no-progress --configuration phpstan.neon
 
 .PHONY: psalm
 psalm:
@@ -30,7 +30,7 @@ psalm:
 .PHONY: test
 test:
 	docker run -it --rm -v${CURDIR}:/github/workspace phpdoc/phpunit-ga
-	docker run -it --rm -v${CURDIR}:/data -w /data php:7.2 -f ./tests/coverage-checker.php 94
+	docker run -it --rm -v${CURDIR}:/data -w /data php:7.2 -f ./tests/coverage-checker.php 92
 
 .PHONY: pre-commit-test
 pre-commit-test: test phpcs phpstan

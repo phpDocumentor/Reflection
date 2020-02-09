@@ -15,9 +15,8 @@ use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Comment\Doc;
 use PhpParser\Node;
 use PhpParser\NodeAbstract;
+use Webmozart\Assert\Assert;
 use function get_class;
-use function gettype;
-use function is_object;
 use function sprintf;
 
 abstract class AbstractFactory implements ProjectFactoryStrategy
@@ -25,21 +24,23 @@ abstract class AbstractFactory implements ProjectFactoryStrategy
     /**
      * Returns true when the strategy is able to handle the object.
      *
-     * @param mixed $object object to check.
+     * @param object $object object to check.
      */
-    abstract public function matches($object) : bool;
+    abstract public function matches(object $object) : bool;
 
     /**
      * @inheritDoc
      */
-    public function create($object, StrategyContainer $strategies, ?Context $context = null)
+    public function create(?object $object, StrategyContainer $strategies, ?Context $context = null)
     {
+        Assert::notNull($object);
+
         if (!$this->matches($object)) {
             throw new InvalidArgumentException(
                 sprintf(
                     '%s cannot handle objects with the type %s',
                     self::class,
-                    is_object($object) ? get_class($object) : gettype($object)
+                    get_class($object)
                 )
             );
         }

@@ -15,7 +15,6 @@ namespace phpDocumentor\Reflection\Php\Factory;
 
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Method as MethodDescriptor;
-use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Php\Visibility;
 use phpDocumentor\Reflection\Types\Context;
@@ -24,9 +23,9 @@ use PhpParser\Node\Stmt\ClassMethod;
 /**
  * Strategy to create MethodDescriptor and arguments when applicable.
  */
-final class Method extends AbstractFactory implements ProjectFactoryStrategy
+final class Method extends AbstractFactory
 {
-    public function matches($object) : bool
+    public function matches(object $object) : bool
     {
         return $object instanceof ClassMethod;
     }

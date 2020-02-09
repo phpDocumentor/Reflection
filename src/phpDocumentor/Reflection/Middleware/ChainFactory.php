@@ -15,8 +15,8 @@ namespace phpDocumentor\Reflection\Middleware;
 
 use InvalidArgumentException;
 use function array_pop;
-use function get_class;
 use function gettype;
+use function get_class;
 use function is_object;
 use function sprintf;
 

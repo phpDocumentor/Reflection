@@ -35,7 +35,7 @@ class NamespaceNodeToContext
     {
         // flatten(flatten(map(stuff)))
         return array_merge([], ...array_merge([], ...array_map(static function ($use) : array {
-            /** @var $use Use_|GroupUse */
+            /** @var Use_|GroupUse $use */
 
             return array_map(static function (UseUse $useUse) use ($use) : array {
                 if ($use instanceof GroupUse) {

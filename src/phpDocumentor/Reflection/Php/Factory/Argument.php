@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use phpDocumentor\Reflection\Php\Argument as ArgumentDescriptor;
-use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Node\Expr\Variable;
@@ -28,7 +27,7 @@ use Webmozart\Assert\Assert;
  * @see ArgumentDescriptor
  * @see \PhpParser\Node\Arg
  */
-final class Argument extends AbstractFactory implements ProjectFactoryStrategy
+final class Argument extends AbstractFactory
 {
     /** @var PrettyPrinter */
     private $valueConverter;
@@ -41,7 +40,7 @@ final class Argument extends AbstractFactory implements ProjectFactoryStrategy
         $this->valueConverter = $prettyPrinter;
     }
 
-    public function matches($object) : bool
+    public function matches(object $object) : bool
     {
         return $object instanceof Param;
     }

@@ -39,12 +39,10 @@ final class DummyFactoryStrategy implements ProjectFactoryStrategy
      * Since an object might contain other objects that need to be converted the $factory is passed so it can be
      * used to create nested Elements.
      *
-     * @param mixed $object object to convert to an Element
+     * @param object $object object to convert to an Element
      * @param StrategyContainer $strategies used to convert nested objects.
-     *
-     * @return mixed
      */
-    public function create($object, StrategyContainer $strategies, ?Context $context = null)
+    public function create(?object $object, StrategyContainer $strategies, ?Context $context = null): ClassModel
     {
         return new ClassModel(new Fqsen('\Dummy'));
     }

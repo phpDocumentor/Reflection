@@ -46,7 +46,7 @@ final class Define extends AbstractFactory
         $this->valueConverter = $prettyPrinter;
     }
 
-    public function matches($object) : bool
+    public function matches(object $object) : bool
     {
         if (!$object instanceof Expression) {
             return false;
@@ -113,12 +113,11 @@ final class Define extends AbstractFactory
     {
         /** @var String_ $nameString */
         $nameString = $name->value;
-        $namespace = $context ? $context->getNamespace() : '';
 
-        if (empty($namespace)) {
+        if($context === null || $context->getNamespace() === ''){
             return new Fqsen(sprintf('\\%s', $nameString->value));
         }
 
-        return new Fqsen(sprintf('\\%s\\%s', $namespace, $nameString->value));
+        return new Fqsen(sprintf('\\%s\\%s', $context->getNamespace(), $nameString->value));
     }
 }

@@ -16,7 +16,6 @@ namespace phpDocumentor\Reflection\Php\Factory;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Class_ as ClassElement;
-use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Node\Stmt\Class_ as ClassNode;
@@ -29,12 +28,9 @@ use function get_class;
 /**
  * Strategy to create a ClassElement including all sub elements.
  */
-final class Class_ extends AbstractFactory implements ProjectFactoryStrategy
+final class Class_ extends AbstractFactory
 {
-    /**
-     * @param mixed $object
-     */
-    public function matches($object) : bool
+    public function matches(object $object) : bool
     {
         return $object instanceof ClassNode;
     }

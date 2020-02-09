@@ -38,7 +38,7 @@ final class GlobalConstant extends AbstractFactory
         $this->valueConverter = $prettyPrinter;
     }
 
-    public function matches($object) : bool
+    public function matches(object $object) : bool
     {
         return $object instanceof GlobalConstantIterator;
     }
@@ -60,7 +60,7 @@ final class GlobalConstant extends AbstractFactory
         return new ConstantElement(
             $object->getFqsen(),
             $this->createDocBlock($strategies, $object->getDocComment(), $context),
-            $object->getValue() !== null ? $this->valueConverter->prettyPrintExpr($object->getValue()) : null,
+            $this->valueConverter->prettyPrintExpr($object->getValue()),
             new Location($object->getLine())
         );
     }

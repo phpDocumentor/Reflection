@@ -22,8 +22,6 @@ use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Comment\Doc;
 use function get_class;
-use function gettype;
-use function is_object;
 use function sprintf;
 
 /**
@@ -49,10 +47,7 @@ final class DocBlock implements ProjectFactoryStrategy
         $this->docblockFactory = $docBlockFactory;
     }
 
-    /**
-     * @param mixed $object
-     */
-    public function matches($object) : bool
+    public function matches(object $object) : bool
     {
         return $object instanceof Doc;
     }
@@ -69,7 +64,7 @@ final class DocBlock implements ProjectFactoryStrategy
      *
      * @return DocBlockDescriptor|null
      */
-    public function create($object, StrategyContainer $strategies, ?Context $context = null)
+    public function create(?object $object, StrategyContainer $strategies, ?Context $context = null)
     {
         if ($object === null) {
             return null;
@@ -80,7 +75,7 @@ final class DocBlock implements ProjectFactoryStrategy
                 sprintf(
                     '%s cannot handle objects with the type %s',
                     self::class,
-                    is_object($object) ? get_class($object) : gettype($object)
+                    get_class($object)
                 )
             );
         }

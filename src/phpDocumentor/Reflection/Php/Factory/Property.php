@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use phpDocumentor\Reflection\Location;
-use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\Property as PropertyDescriptor;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Php\Visibility;
@@ -27,7 +26,7 @@ use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
  * @see PropertyDescriptor
  * @see PropertyIterator
  */
-final class Property extends AbstractFactory implements ProjectFactoryStrategy
+final class Property extends AbstractFactory
 {
     /** @var PrettyPrinter */
     private $valueConverter;
@@ -40,7 +39,7 @@ final class Property extends AbstractFactory implements ProjectFactoryStrategy
         $this->valueConverter = $prettyPrinter;
     }
 
-    public function matches($object) : bool
+    public function matches(object $object) : bool
     {
         return $object instanceof PropertyIterator;
     }

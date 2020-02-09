@@ -15,7 +15,6 @@ namespace phpDocumentor\Reflection\Php\Factory;
 
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
-use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Php\Trait_ as TraitElement;
 use phpDocumentor\Reflection\Types\Context;
@@ -25,9 +24,9 @@ use PhpParser\Node\Stmt\Trait_ as TraitNode;
 use PhpParser\Node\Stmt\TraitUse;
 use function get_class;
 
-final class Trait_ extends AbstractFactory implements ProjectFactoryStrategy
+final class Trait_ extends AbstractFactory
 {
-    public function matches($object) : bool
+    public function matches(object $object) : bool
     {
         return $object instanceof TraitNode;
     }
