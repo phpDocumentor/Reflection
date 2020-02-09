@@ -18,7 +18,6 @@
             ]
         }
     },
-    "minimum-stability": "alpha",
     "require": {
         "php": ">=7.2",
         "psr/log": "~1.0",
@@ -34,7 +33,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-develop": "4.0.x-dev"
+            "dev-master": "4.0.x-dev"
         }
     }
 }
