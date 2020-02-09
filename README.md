@@ -1,6 +1,5 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Travis Status](https://img.shields.io/travis/phpDocumentor/Reflection.svg?label=Linux)](https://travis-ci.org/phpDocumentor/Reflection)
-[![Appveyor Status](https://img.shields.io/appveyor/ci/phpDocumentor/Reflection.svg?label=Windows)](https://ci.appveyor.com/project/phpDocumentor/Reflection/branch/master)
+![Qa workflow](https://github.com/phpDocumentor/Reflection/workflows/Qa%20workflow/badge.svg)
 [![Coveralls Coverage](https://img.shields.io/coveralls/github/phpDocumentor/Reflection.svg)](https://coveralls.io/github/phpDocumentor/Reflection?branch=master)
 [![Scrutinizer Code Coverage](https://img.shields.io/scrutinizer/coverage/g/phpDocumentor/Reflection.svg)](https://scrutinizer-ci.com/g/phpDocumentor/Reflection/?branch=master)
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/phpDocumentor/Reflection.svg)](https://scrutinizer-ci.com/g/phpDocumentor/Reflection/?branch=master)
@@ -68,7 +67,6 @@ all namespaces and packages as a hierarchical tree.
 
 > See the [example] script for a detailed and commented example
 
-[Build Status]:            https://secure.travis-ci.org/phpDocumentor/Reflection.png
 [PSR-4]:                   http://php-fig.com
 [example]:                 example.php
 [composer]:                http://getcomposer.org
