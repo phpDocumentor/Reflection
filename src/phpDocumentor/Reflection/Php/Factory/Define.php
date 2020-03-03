@@ -26,6 +26,7 @@ use PhpParser\Node\Stmt\Expression;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
 use RuntimeException;
 use function sprintf;
+use function strpos;
 
 /**
  * Strategy to convert `define` expressions to ConstantElement
@@ -93,7 +94,7 @@ final class Define extends AbstractFactory
         [$name, $value] = $expression->args;
 
         return new ConstantElement(
-            $this->determineFqsen($context, $name),
+            $this->determineFqsen($name),
             $this->createDocBlock($strategies, $object->getDocComment(), $context),
             $this->determineValue($value),
             new Location($object->getLine())
@@ -109,16 +110,15 @@ final class Define extends AbstractFactory
         return $this->valueConverter->prettyPrintExpr($value->value);
     }
 
-    private function determineFqsen(?Context $context, Arg $name) : Fqsen
+    private function determineFqsen(Arg $name) : Fqsen
     {
         /** @var String_ $nameString */
         $nameString = $name->value;
-        $namespace = $context ? $context->getNamespace() : '';
 
-        if (empty($namespace)) {
+        if (strpos($nameString->value, '\\') === false) {
             return new Fqsen(sprintf('\\%s', $nameString->value));
         }
 
-        return new Fqsen(sprintf('\\%s\\%s', $namespace, $nameString->value));
+        return new Fqsen(sprintf('%s', $nameString->value));
     }
 }
