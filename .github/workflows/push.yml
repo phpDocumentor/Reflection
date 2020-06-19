@@ -1,14 +1,14 @@
 on:
   push:
     branches:
-      - master
+      - 4.x
   pull_request:
 name: Qa workflow
 jobs:
   setup:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v2
       - name: Restore/cache vendor folder
         uses: actions/cache@v1
         with:
@@ -47,7 +47,7 @@ jobs:
     name: Unit tests
     needs: setup
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v2
       - name: Restore/cache vendor folder
         uses: actions/cache@v1
         with:
@@ -93,7 +93,7 @@ jobs:
       - setup
       - phpunit-with-coverage
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v2
       - name: Restore/cache vendor folder
         uses: actions/cache@v1
         with:
@@ -111,7 +111,7 @@ jobs:
             all-tools-${{ github.sha }}-
             all-tools-
       - name: Setup PHP
-        uses: shivammathur/setup-php@master
+        uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
           extension-csv: mbstring, intl, iconv, libxml, dom, json, simplexml, zlib
@@ -124,7 +124,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [setup]
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v2
       - name: Restore/cache vendor folder
         uses: actions/cache@v1
         with:
@@ -140,7 +140,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [phpunit-with-coverage]
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v2
       - name: Restore/cache vendor folder
         uses: actions/cache@v1
         with:
@@ -160,7 +160,7 @@ jobs:
 #    runs-on: ubuntu-latest
 #    needs: [phpunit-with-coverage]
 #    steps:
-#      - uses: actions/checkout@master
+#      - uses: actions/checkout@v2
 #      - name: Restore/cache vendor folder
 #        uses: actions/cache@v1
 #        with:
