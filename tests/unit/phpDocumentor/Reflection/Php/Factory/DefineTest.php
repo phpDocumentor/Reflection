@@ -64,10 +64,24 @@ final class DefineTest extends TestCase
         $constant = $this->fixture->create(
             $constantStub,
             new ProjectFactoryStrategies([]),
-            new Context('Space\MyClass')
+            new Context('Space\\MyClass')
         );
 
-        $this->assertConstant($constant, '\\Space\\MyClass');
+        $this->assertConstant($constant, '');
+    }
+
+    public function testCreateNamespace() : void
+    {
+        $constantStub = $this->buildDefineStub('\\OtherSpace\\MyClass');
+
+        /** @var ConstantDescriptor $constant */
+        $constant = $this->fixture->create(
+            $constantStub,
+            new ProjectFactoryStrategies([]),
+            new Context('Space\\MyClass')
+        );
+
+        $this->assertConstant($constant, '\\OtherSpace\\MyClass');
     }
 
     public function testCreateGlobal() : void
@@ -99,7 +113,7 @@ final class DefineTest extends TestCase
             ),
             ['comments' => [$doc]]
         );
-        $context = new Context('Space\MyClass');
+        $context = new Context('Space\\MyClass');
 
         $strategyMock = m::mock(ProjectFactoryStrategy::class);
         $containerMock = m::mock(StrategyContainer::class);
@@ -119,17 +133,17 @@ final class DefineTest extends TestCase
             $context
         );
 
-        $this->assertConstant($constant, '\\Space\\MyClass');
+        $this->assertConstant($constant, '');
         $this->assertSame($docBlock, $constant->getDocBlock());
     }
 
-    private function buildDefineStub() : Expression
+    private function buildDefineStub($namespace = '') : Expression
     {
         return new Expression(
             new FuncCall(
                 new Name('define'),
                 [
-                    new Arg(new String_('MY_CONST1')),
+                    new Arg(new String_($namespace ?  $namespace . '\\MY_CONST1' : 'MY_CONST1')),
                     new Arg(new String_('a')),
                 ]
             )

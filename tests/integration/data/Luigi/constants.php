@@ -3,4 +3,5 @@
 namespace Luigi;
 
 const OVEN_TEMPERATURE = 9001;
-define('MAX_OVEN_TEMPERATURE', 9002);
+define('\\Luigi\\MAX_OVEN_TEMPERATURE', 9002);
+define('OUTSIDE_OVEN_TEMPERATURE', 9002);

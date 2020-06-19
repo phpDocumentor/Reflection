@@ -49,4 +49,23 @@ class ProjectNamespaceTest extends TestCase
             $project->getNamespaces()['\\Luigi']->getClasses()
         );
     }
+
+    public function testWithNamespacedConstant() : void
+    {
+        $fileName = __DIR__ . '/data/Luigi/constants.php';
+        $project = $this->fixture->create(
+            'My Project',
+            [ new LocalFile($fileName) ]
+        );
+
+        $this->assertArrayHasKey($fileName, $project->getFiles());
+        $this->assertArrayHasKey('\\Luigi', $project->getNamespaces());
+        $this->assertEquals(
+            [
+                '\\Luigi\\OVEN_TEMPERATURE' => new Fqsen('\\Luigi\\OVEN_TEMPERATURE'),
+                '\\Luigi\\MAX_OVEN_TEMPERATURE' => new Fqsen('\\Luigi\\MAX_OVEN_TEMPERATURE'),
+                ],
+            $project->getNamespaces()['\\Luigi']->getConstants()
+        );
+    }
 }
