@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Restore/cache vendor folder
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: vendor
           key: all-build-${{ hashFiles('**/composer.lock') }}
@@ -18,7 +18,7 @@ jobs:
             all-build-${{ hashFiles('**/composer.lock') }}
             all-build-
       - name: Restore/cache tools folder
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: tools
           key: all-tools-${{ github.sha }}
@@ -49,7 +49,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Restore/cache vendor folder
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: vendor
           key: all-build-${{ hashFiles('**/composer.lock') }}
@@ -57,7 +57,7 @@ jobs:
             all-build-${{ hashFiles('**/composer.lock') }}
             all-build-
       - name: Restore/cache tools folder
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: tools
           key: all-tools-${{ github.sha }}
@@ -95,7 +95,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Restore/cache vendor folder
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: vendor
           key: all-build-${{ hashFiles('**/composer.lock') }}
@@ -103,7 +103,7 @@ jobs:
             all-build-${{ hashFiles('**/composer.lock') }}
             all-build-
       - name: Restore/cache tools folder
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: tools
           key: all-tools-${{ github.sha }}
@@ -126,7 +126,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Restore/cache vendor folder
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: vendor
           key: all-build-${{ hashFiles('**/composer.lock') }}
@@ -142,7 +142,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Restore/cache vendor folder
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: vendor
           key: all-build-${{ hashFiles('**/composer.lock') }}
@@ -162,7 +162,7 @@ jobs:
 #    steps:
 #      - uses: actions/checkout@v2
 #      - name: Restore/cache vendor folder
-#        uses: actions/cache@v1
+#        uses: actions/cache@v2
 #        with:
 #          path: vendor
 #          key: all-build-${{ hashFiles('**/composer.lock') }}
@@ -170,7 +170,7 @@ jobs:
 #            all-build-${{ hashFiles('**/composer.lock') }}
 #            all-build-
 #      - name: Restore/cache tools folder
-#        uses: actions/cache@v1
+#        uses: actions/cache@v2
 #        with:
 #          path: tools
 #          key: all-tools-${{ github.sha }}
