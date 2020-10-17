@@ -20,6 +20,8 @@ interface Middleware
 {
     /**
      * Executes this middle ware class.
+     *
+     * @param callable(Command): object $next
      */
     public function execute(Command $command, callable $next) : object;
 }
