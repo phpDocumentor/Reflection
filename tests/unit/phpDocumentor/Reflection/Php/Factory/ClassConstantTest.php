@@ -27,6 +27,7 @@ use PhpParser\Node\Stmt\Class_ as ClassNode;
 use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
 use stdClass;
+use function assert;
 
 /**
  * @uses   \phpDocumentor\Reflection\Php\Factory\ClassConstantIterator
@@ -56,8 +57,8 @@ final class ClassConstantTest extends TestCase
 
         $constantStub = $this->buildConstantIteratorStub(ClassNode::MODIFIER_PRIVATE);
 
-        /** @var ConstantDescriptor $constant */
         $constant = $this->fixture->create($constantStub, $factory);
+        assert($constant instanceof ConstantDescriptor);
 
         $this->assertConstant($constant, 'private');
     }
@@ -68,8 +69,8 @@ final class ClassConstantTest extends TestCase
 
         $constantStub = $this->buildConstantIteratorStub(ClassNode::MODIFIER_PROTECTED);
 
-        /** @var ConstantDescriptor $constant */
         $constant = $this->fixture->create($constantStub, $factory);
+        assert($constant instanceof ConstantDescriptor);
 
         $this->assertConstant($constant, 'protected');
     }
@@ -80,8 +81,8 @@ final class ClassConstantTest extends TestCase
 
         $constantStub = $this->buildConstantIteratorStub(ClassNode::MODIFIER_PUBLIC);
 
-        /** @var ConstantDescriptor $constant */
         $constant = $this->fixture->create($constantStub, $factory);
+        assert($constant instanceof ConstantDescriptor);
 
         $this->assertConstant($constant, 'public');
     }
@@ -106,8 +107,8 @@ final class ClassConstantTest extends TestCase
             ->with($doc)
             ->andReturn($strategyMock);
 
-        /** @var ConstantDescriptor $property */
         $property = $this->fixture->create($constantStub, $containerMock);
+        assert($property instanceof ConstantDescriptor);
 
         $this->assertConstant($property, 'public');
         $this->assertSame($docBlock, $property->getDocBlock());

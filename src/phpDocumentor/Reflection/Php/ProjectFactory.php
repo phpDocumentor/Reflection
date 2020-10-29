@@ -65,12 +65,11 @@ final class ProjectFactory implements ProjectFactoryInterface
     /**
      * Creates a project from the set of files.
      *
-     * @param string $name
      * @param SourceFile[] $files
      *
      * @throws Exception When no matching strategy was found.
      */
-    public function create($name, array $files) : ProjectInterface
+    public function create(string $name, array $files) : ProjectInterface
     {
         $project = new Project($name);
 
@@ -115,6 +114,7 @@ final class ProjectFactory implements ProjectFactoryInterface
 
         $namespace = new Namespace_(new Fqsen($name));
         $project->addNamespace($namespace);
+
         return $namespace;
     }
 

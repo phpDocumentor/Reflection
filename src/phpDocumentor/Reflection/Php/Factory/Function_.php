@@ -39,10 +39,8 @@ final class Function_ extends AbstractFactory implements ProjectFactoryStrategy
      * @param \PhpParser\Node\Stmt\Function_ $object object to convert to an Element
      * @param StrategyContainer $strategies used to convert nested objects.
      * @param Context $context of the created object
-     *
-     * @return FunctionDescriptor
      */
-    protected function doCreate($object, StrategyContainer $strategies, ?Context $context = null)
+    protected function doCreate(object $object, StrategyContainer $strategies, ?Context $context = null) : FunctionDescriptor
     {
         $function = new FunctionDescriptor(
             $object->fqsen,

@@ -32,7 +32,7 @@ abstract class AbstractFactory implements ProjectFactoryStrategy
     /**
      * @inheritDoc
      */
-    public function create($object, StrategyContainer $strategies, ?Context $context = null)
+    public function create(object $object, StrategyContainer $strategies, ?Context $context = null)
     {
         if (!$this->matches($object)) {
             throw new InvalidArgumentException(
@@ -59,7 +59,7 @@ abstract class AbstractFactory implements ProjectFactoryStrategy
      *
      * @return DocBlock|Element|PhpFile|ArgumentElement
      */
-    abstract protected function doCreate($object, StrategyContainer $strategies, ?Context $context = null);
+    abstract protected function doCreate(object $object, StrategyContainer $strategies, ?Context $context = null);
 
     /**
      * @param Node|PropertyIterator|ClassConstantIterator|Doc $stmt
@@ -69,6 +69,7 @@ abstract class AbstractFactory implements ProjectFactoryStrategy
     protected function createMember($stmt, StrategyContainer $strategies, ?Context $context = null)
     {
         $strategy = $strategies->findMatching($stmt);
+
         return $strategy->create($stmt, $strategies, $context);
     }
 

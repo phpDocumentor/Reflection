@@ -39,5 +39,5 @@ interface ProjectFactoryStrategy
      *
      * @return Element|DocBlock|File|Argument|null
      */
-    public function create($object, StrategyContainer $strategies, ?Context $context = null);
+    public function create(object $object, StrategyContainer $strategies, ?Context $context = null);
 }

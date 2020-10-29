@@ -37,10 +37,8 @@ final class Method extends AbstractFactory implements ProjectFactoryStrategy
      * @param ClassMethod $object object to convert to an MethodDescriptor
      * @param StrategyContainer $strategies used to convert nested objects.
      * @param Context $context of the created object
-     *
-     * @return MethodDescriptor
      */
-    protected function doCreate($object, StrategyContainer $strategies, ?Context $context = null)
+    protected function doCreate(object $object, StrategyContainer $strategies, ?Context $context = null) : MethodDescriptor
     {
         $method = new MethodDescriptor(
             $object->fqsen,
@@ -67,7 +65,9 @@ final class Method extends AbstractFactory implements ProjectFactoryStrategy
     {
         if ($node->isPrivate()) {
             return new Visibility(Visibility::PRIVATE_);
-        } elseif ($node->isProtected()) {
+        }
+
+        if ($node->isProtected()) {
             return new Visibility(Visibility::PROTECTED_);
         }
 

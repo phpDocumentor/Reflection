@@ -40,6 +40,7 @@ use PhpParser\Node\Stmt\Interface_ as InterfaceNode;
 use PhpParser\Node\Stmt\Namespace_ as NamespaceNode;
 use PhpParser\Node\Stmt\Trait_ as TraitNode;
 use stdClass;
+use function assert;
 use function file_get_contents;
 
 /**
@@ -103,8 +104,8 @@ final class FileTest extends MockeryTestCase
             ->with(m::type(GlobalConstantIterator::class))
             ->andReturn($strategyMock);
 
-        /** @var FileElement $file */
         $file = $this->fixture->create(new SourceFile\LocalFile(__FILE__), $containerMock);
+        assert($file instanceof FileElement);
 
         $this->assertEquals(__FILE__, $file->getPath());
         $this->assertArrayHasKey('\MY_CONSTANT', $file->getConstants());
@@ -132,8 +133,8 @@ final class FileTest extends MockeryTestCase
             ->with($functionNode)
             ->andReturn($strategyMock);
 
-        /** @var FileElement $file */
         $file = $this->fixture->create(new SourceFile\LocalFile(__FILE__), $containerMock);
+        assert($file instanceof FileElement);
 
         $this->assertEquals(__FILE__, $file->getPath());
         $this->assertArrayHasKey('\myFunction()', $file->getFunctions());
@@ -161,8 +162,8 @@ final class FileTest extends MockeryTestCase
             ->with($classNode)
             ->andReturn($strategyMock);
 
-        /** @var FileElement $file */
         $file = $this->fixture->create(new SourceFile\LocalFile(__FILE__), $containerMock);
+        assert($file instanceof FileElement);
 
         $this->assertEquals(__FILE__, $file->getPath());
         $this->assertArrayHasKey('\myClass', $file->getClasses());
@@ -183,8 +184,8 @@ final class FileTest extends MockeryTestCase
 
         $containerMock = m::mock(StrategyContainer::class);
 
-        /** @var FileElement $file */
         $file = $this->fixture->create(new SourceFile\LocalFile(__FILE__), $containerMock);
+        assert($file instanceof FileElement);
 
         $this->assertEquals(__FILE__, $file->getPath());
         $this->assertArrayHasKey('\mySpace', $file->getNamespaces());
@@ -212,8 +213,8 @@ final class FileTest extends MockeryTestCase
             ->with($interfaceNode)
             ->andReturn($strategyMock);
 
-        /** @var FileElement $file */
         $file = $this->fixture->create(new SourceFile\LocalFile(__FILE__), $containerMock);
+        assert($file instanceof FileElement);
 
         $this->assertEquals(__FILE__, $file->getPath());
         $this->assertArrayHasKey('\myInterface', $file->getInterfaces());
@@ -241,8 +242,8 @@ final class FileTest extends MockeryTestCase
             ->with($traitNode)
             ->andReturn($strategyMock);
 
-        /** @var FileElement $file */
         $file = $this->fixture->create(new SourceFile\LocalFile(__FILE__), $containerMock);
+        assert($file instanceof FileElement);
 
         $this->assertEquals(__FILE__, $file->getPath());
         $this->assertArrayHasKey('\myTrait', $file->getTraits());
@@ -303,8 +304,8 @@ final class FileTest extends MockeryTestCase
             ->with($docBlockNode)
             ->andReturn($strategyMock);
 
-        /** @var FileElement $file */
         $file = $this->fixture->create(new SourceFile\LocalFile(__FILE__), $containerMock);
+        assert($file instanceof FileElement);
 
         $this->assertSame($docBlockDescriptor, $file->getDocBlock());
     }
@@ -343,8 +344,8 @@ final class FileTest extends MockeryTestCase
             ->with($docBlockNode)
             ->andReturn($strategyMock);
 
-        /** @var FileElement $file */
         $file = $this->fixture->create(new SourceFile\LocalFile(__FILE__), $containerMock);
+        assert($file instanceof FileElement);
 
         $this->assertSame($docBlockDescriptor, $file->getDocBlock());
     }
@@ -376,8 +377,8 @@ final class FileTest extends MockeryTestCase
             ->with($docBlockNode)
             ->andReturn($strategyMock);
 
-        /** @var FileElement $file */
         $file = $this->fixture->create(new SourceFile\LocalFile(__FILE__), $containerMock);
+        assert($file instanceof FileElement);
 
         $this->assertSame($docBlockDescriptor, $file->getDocBlock());
     }

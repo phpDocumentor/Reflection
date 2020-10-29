@@ -28,6 +28,7 @@ use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Interface_ as InterfaceNode;
 use stdClass;
+use function assert;
 
 /**
  * @uses \phpDocumentor\Reflection\Php\Interface_
@@ -67,7 +68,6 @@ class Interface_Test extends TestCase
         $interfaceMock = $this->buildClassMock();
         $interfaceMock->shouldReceive('getDocComment')->andReturnNull();
 
-        /** @var InterfaceElement $class */
         $class = $this->fixture->create($interfaceMock, $containerMock);
 
         $this->assertInstanceOf(InterfaceElement::class, $class);
@@ -95,7 +95,6 @@ class Interface_Test extends TestCase
             ->with($doc)
             ->andReturn($strategyMock);
 
-        /** @var InterfaceElement $interface */
         $interface = $this->fixture->create($interfaceMock, $containerMock);
 
         $this->assertSame($docBlock, $interface->getDocBlock());
@@ -124,7 +123,6 @@ class Interface_Test extends TestCase
 
         $this->fixture->create($interfaceMock, $containerMock);
 
-        /** @var InterfaceElement $interface */
         $interface = $this->fixture->create($interfaceMock, $containerMock);
 
         $this->assertInstanceOf(InterfaceElement::class, $interface);
@@ -159,7 +157,6 @@ class Interface_Test extends TestCase
         $classMock->shouldReceive('getDocComment')->andReturnNull();
         $classMock->stmts = [$constant];
 
-        /** @var ClassElement $class */
         $class = $this->fixture->create($classMock, $containerMock);
 
         $this->assertEquals(
@@ -177,6 +174,7 @@ class Interface_Test extends TestCase
         $interfaceMock->fqsen   = new Fqsen('\Space\MyInterface');
         $interfaceMock->extends = [];
         $interfaceMock->shouldReceive('getLine')->andReturn(1);
+
         return $interfaceMock;
     }
 }

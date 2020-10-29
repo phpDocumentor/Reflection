@@ -33,6 +33,7 @@ use PhpParser\Node\Stmt\Property as PropertyNode;
 use PhpParser\Node\Stmt\PropertyProperty;
 use PhpParser\Node\Stmt\TraitUse;
 use stdClass;
+use function assert;
 
 /**
  * @uses \phpDocumentor\Reflection\Php\Class_
@@ -74,7 +75,6 @@ final class Class_Test extends TestCase
         $classMock     = $this->buildClassMock();
         $classMock->shouldReceive('getDocComment')->andReturnNull();
 
-        /** @var ClassElement $class */
         $class = $this->fixture->create($classMock, $containerMock);
 
         $this->assertInstanceOf(ClassElement::class, $class);
@@ -94,7 +94,6 @@ final class Class_Test extends TestCase
         $classMock->shouldReceive('getDocComment')->andReturnNull();
         $classMock->extends = 'Space\MyParent';
 
-        /** @var ClassElement $class */
         $class = $this->fixture->create($classMock, $containerMock);
 
         $this->assertInstanceOf(ClassElement::class, $class);
@@ -115,7 +114,6 @@ final class Class_Test extends TestCase
             new Name('MyInterface'),
         ];
 
-        /** @var ClassElement $class */
         $class = $this->fixture->create($classMock, $containerMock);
 
         $this->assertInstanceOf(ClassElement::class, $class);
@@ -148,7 +146,6 @@ final class Class_Test extends TestCase
             ->with($method1)
             ->andReturn($strategyMock);
 
-        /** @var ClassDescriptor $class */
         $class = $this->fixture->create($classMock, $containerMock);
 
         $this->assertInstanceOf(ClassElement::class, $class);
@@ -181,7 +178,6 @@ final class Class_Test extends TestCase
             ->with(m::type(PropertyIterator::class))
             ->andReturn($strategyMock);
 
-        /** @var ClassElement $class */
         $class = $this->fixture->create($classMock, $containerMock);
 
         $this->assertInstanceOf(ClassElement::class, $class);
@@ -204,7 +200,6 @@ final class Class_Test extends TestCase
         $classMock->shouldReceive('getDocComment')->andReturnNull();
         $classMock->stmts = [$trait];
 
-        /** @var ClassElement $class */
         $class = $this->fixture->create($classMock, $containerMock);
 
         $this->assertEquals(
@@ -240,7 +235,6 @@ final class Class_Test extends TestCase
         $classMock->shouldReceive('getDocComment')->andReturnNull();
         $classMock->stmts = [$constant];
 
-        /** @var ClassElement $class */
         $class = $this->fixture->create($classMock, $containerMock);
 
         $this->assertEquals(
@@ -271,7 +265,6 @@ final class Class_Test extends TestCase
             ->with($doc)
             ->andReturn($strategyMock);
 
-        /** @var ClassElement $class */
         $class = $this->fixture->create($classMock, $containerMock);
 
         $this->assertSame($docBlock, $class->getDocBlock());

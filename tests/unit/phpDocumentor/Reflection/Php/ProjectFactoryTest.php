@@ -16,8 +16,10 @@ namespace phpDocumentor\Reflection\Php;
 use Mockery as m;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use phpDocumentor\Reflection\Exception;
+use phpDocumentor\Reflection\File\LocalFile;
 use phpDocumentor\Reflection\Fqsen;
 use function array_keys;
+use function assert;
 use function count;
 use function current;
 use function key;
@@ -66,7 +68,7 @@ final class ProjectFactoryTest extends MockeryTestCase
      *
      * @covers ::createInstance
      */
-    public function testCreatingAnInstanceInstantiatesItWithTheRecommendedStrategies()
+    public function testCreatingAnInstanceInstantiatesItWithTheRecommendedStrategies() : void
     {
         $this->assertInstanceOf(ProjectFactory::class, ProjectFactory::createInstance());
     }
@@ -93,13 +95,13 @@ final class ProjectFactoryTest extends MockeryTestCase
 
         $projectFactory = new ProjectFactory([$someOtherStrategy, $fileStrategyMock]);
 
-        $files = ['some/file.php', 'some/other.php'];
+        $files = [new LocalFile(__FILE__), new LocalFile(__FILE__)];
         $project = $projectFactory->create('MyProject', $files);
 
         $this->assertInstanceOf(Project::class, $project);
 
         $projectFilePaths = array_keys($project->getFiles());
-        $this->assertEquals($files, $projectFilePaths);
+        $this->assertEquals(['some/file.php', 'some/other.php'], $projectFilePaths);
     }
 
     /**
@@ -125,7 +127,6 @@ final class ProjectFactoryTest extends MockeryTestCase
 
         $this->assertEquals('\mySpace', key($namespaces));
 
-        /** @var Namespace_ $mySpace */
         $mySpace = current($namespaces);
 
         $this->assertInstanceOf(Namespace_::class, $mySpace);
@@ -143,7 +144,6 @@ final class ProjectFactoryTest extends MockeryTestCase
 
         $namespaces = $this->fetchNamespacesFromSingleFile($file);
 
-        /** @var Namespace_ $mySpace */
         $mySpace = current($namespaces);
 
         $this->assertInstanceOf(Namespace_::class, $mySpace);
@@ -161,7 +161,6 @@ final class ProjectFactoryTest extends MockeryTestCase
 
         $namespaces = $this->fetchNamespacesFromSingleFile($file);
 
-        /** @var Namespace_ $mySpace */
         $mySpace = current($namespaces);
 
         $this->assertInstanceOf(Namespace_::class, $mySpace);
@@ -179,7 +178,6 @@ final class ProjectFactoryTest extends MockeryTestCase
 
         $namespaces = $this->fetchNamespacesFromSingleFile($file);
 
-        /** @var Namespace_ $mySpace */
         $mySpace = current($namespaces);
 
         $this->assertInstanceOf(Namespace_::class, $mySpace);
@@ -197,7 +195,6 @@ final class ProjectFactoryTest extends MockeryTestCase
 
         $namespaces = $this->fetchNamespacesFromSingleFile($file);
 
-        /** @var Namespace_ $mySpace */
         $mySpace = current($namespaces);
 
         $this->assertInstanceOf(Namespace_::class, $mySpace);
@@ -261,7 +258,7 @@ final class ProjectFactoryTest extends MockeryTestCase
 
         $projectFactory = new ProjectFactory([$fileStrategyMock]);
 
-        $files = ['some/file.php', 'some/other.php'];
+        $files = [new LocalFile(__FILE__), new LocalFile(__FILE__)];
         $project = $projectFactory->create('MyProject', $files);
 
         $this->assertInstanceOf(Project::class, $project);

@@ -29,6 +29,7 @@ use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Expression;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
 use stdClass;
+use function assert;
 
 /**
  * @uses   \phpDocumentor\Reflection\Php\ProjectFactoryStrategies
@@ -60,12 +61,12 @@ final class DefineTest extends TestCase
     {
         $constantStub = $this->buildDefineStub();
 
-        /** @var ConstantDescriptor $constant */
         $constant = $this->fixture->create(
             $constantStub,
             new ProjectFactoryStrategies([]),
             new Context('Space\\MyClass')
         );
+        assert($constant instanceof ConstantDescriptor);
 
         $this->assertConstant($constant, '');
     }
@@ -74,12 +75,12 @@ final class DefineTest extends TestCase
     {
         $constantStub = $this->buildDefineStub('\\OtherSpace\\MyClass');
 
-        /** @var ConstantDescriptor $constant */
         $constant = $this->fixture->create(
             $constantStub,
             new ProjectFactoryStrategies([]),
             new Context('Space\\MyClass')
         );
+        assert($constant instanceof ConstantDescriptor);
 
         $this->assertConstant($constant, '\\OtherSpace\\MyClass');
     }
@@ -88,12 +89,12 @@ final class DefineTest extends TestCase
     {
         $constantStub = $this->buildDefineStub();
 
-        /** @var ConstantDescriptor $constant */
         $constant = $this->fixture->create(
             $constantStub,
             new ProjectFactoryStrategies([]),
             new Context('')
         );
+        assert($constant instanceof ConstantDescriptor);
 
         $this->assertConstant($constant, '');
     }
@@ -126,12 +127,12 @@ final class DefineTest extends TestCase
             ->with($doc)
             ->andReturn($strategyMock);
 
-        /** @var ConstantDescriptor $constant */
         $constant = $this->fixture->create(
             $constantStub,
             $containerMock,
             $context
         );
+        assert($constant instanceof ConstantDescriptor);
 
         $this->assertConstant($constant, '');
         $this->assertSame($docBlock, $constant->getDocBlock());

@@ -67,6 +67,7 @@ final class ElementNameResolver extends NodeVisitorAbstract
                 if (!$this->parts->isEmpty()) {
                     $this->parts->pop();
                 }
+
                 break;
         }
 
@@ -102,10 +103,12 @@ final class ElementNameResolver extends NodeVisitorAbstract
             case Function_::class:
                 $this->parts->push($node->name . '()');
                 $node->fqsen = new Fqsen($this->buildName());
+
                 return NodeTraverser::DONT_TRAVERSE_CHILDREN;
             case ClassMethod::class:
                 $this->parts->push('::' . $node->name . '()');
                 $node->fqsen = new Fqsen($this->buildName());
+
                 return NodeTraverser::DONT_TRAVERSE_CHILDREN;
             case ClassConst::class:
                 $this->parts->push('::');

@@ -38,11 +38,6 @@ parameters:
         #
         # Type hint in php-parser is incorrect.
         - '#Cannot cast PhpParser\\Node\\Expr\|string to string.#'
-        #
-        # until I can make $object arg ?$object...
-        # src/phpDocumentor/Reflection/Php/Factory/DocBlock.php
-        - '#Strict comparison using === between PhpParser\\Comment\\Doc and null will always evaluate to false\.#'
-
         -
                 message: "#^Parameter \\#1 \\$constant of method phpDocumentor\\\\Reflection\\\\Php\\\\File\\:\\:addConstant\\(\\) expects phpDocumentor\\\\Reflection\\\\Php\\\\Constant, phpDocumentor\\\\Reflection\\\\DocBlock\\|phpDocumentor\\\\Reflection\\\\Element\\|phpDocumentor\\\\Reflection\\\\Php\\\\Argument\\|phpDocumentor\\\\Reflection\\\\Php\\\\File\\|null given\\.$#"
                 count: 2

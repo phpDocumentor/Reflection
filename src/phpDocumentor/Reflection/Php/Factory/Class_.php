@@ -48,10 +48,8 @@ final class Class_ extends AbstractFactory implements ProjectFactoryStrategy
      * @param ClassNode $object object to convert to an Element
      * @param StrategyContainer $strategies used to convert nested objects.
      * @param Context $context of the created object
-     *
-     * @return ClassElement
      */
-    protected function doCreate($object, StrategyContainer $strategies, ?Context $context = null)
+    protected function doCreate(object $object, StrategyContainer $strategies, ?Context $context = null) : ClassElement
     {
         $docBlock = $this->createDocBlock($strategies, $object->getDocComment(), $context);
 
@@ -79,6 +77,7 @@ final class Class_ extends AbstractFactory implements ProjectFactoryStrategy
                         foreach ($stmt->traits as $use) {
                             $classElement->addUsedTrait(new Fqsen('\\' . $use->toString()));
                         }
+
                         break;
                     case PropertyNode::class:
                         $properties = new PropertyIterator($stmt);
@@ -86,6 +85,7 @@ final class Class_ extends AbstractFactory implements ProjectFactoryStrategy
                             $element = $this->createMember($property, $strategies, $context);
                             $classElement->addProperty($element);
                         }
+
                         break;
                     case ClassMethod::class:
                         $method = $this->createMember($stmt, $strategies, $context);
@@ -97,6 +97,7 @@ final class Class_ extends AbstractFactory implements ProjectFactoryStrategy
                             $element = $this->createMember($const, $strategies, $context);
                             $classElement->addConstant($element);
                         }
+
                         break;
                 }
             }

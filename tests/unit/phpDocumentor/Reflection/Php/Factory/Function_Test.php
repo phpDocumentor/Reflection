@@ -21,7 +21,10 @@ use phpDocumentor\Reflection\Php\Function_ as FunctionDescriptor;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use PhpParser\Comment\Doc;
+use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Param;
 use stdClass;
+use function assert;
 
 /**
  * @uses   \phpDocumentor\Reflection\Php\Factory\Function_::matches
@@ -65,8 +68,8 @@ final class Function_Test extends TestCase
         $containerMock = m::mock(StrategyContainer::class);
         $containerMock->shouldReceive('findMatching')->never();
 
-        /** @var FunctionDescriptor $function */
         $function = $this->fixture->create($functionMock, $containerMock);
+        assert($function instanceof FunctionDescriptor);
 
         $this->assertEquals('\SomeSpace::function()', (string) $function->getFqsen());
     }
@@ -76,9 +79,10 @@ final class Function_Test extends TestCase
      */
     public function testCreateWithParameters() : void
     {
+        $param1 = new Param(new Variable('param1'));
         $functionMock = m::mock(\PhpParser\Node\Stmt\Function_::class);
         $functionMock->fqsen = new Fqsen('\SomeSpace::function()');
-        $functionMock->params = ['param1'];
+        $functionMock->params = [$param1];
         $functionMock->shouldReceive('getDocComment')->andReturnNull();
         $functionMock->shouldReceive('getLine')->andReturn(1);
         $functionMock->shouldReceive('getReturnType')->andReturnNull();
@@ -87,15 +91,15 @@ final class Function_Test extends TestCase
         $containerMock = m::mock(StrategyContainer::class);
 
         $strategyMock->shouldReceive('create')
-            ->with('param1', $containerMock, null)
+            ->with($param1, $containerMock, null)
             ->andReturn(new Argument('param1'));
 
         $containerMock->shouldReceive('findMatching')
-            ->with('param1')
+            ->with($param1)
             ->andReturn($strategyMock);
 
-        /** @var FunctionDescriptor $function */
         $function = $this->fixture->create($functionMock, $containerMock);
+        assert($function instanceof FunctionDescriptor);
 
         $this->assertEquals('\SomeSpace::function()', (string) $function->getFqsen());
     }
@@ -125,8 +129,8 @@ final class Function_Test extends TestCase
             ->with($doc)
             ->andReturn($strategyMock);
 
-        /** @var FunctionDescriptor $function */
         $function = $this->fixture->create($functionMock, $containerMock);
+        assert($function instanceof FunctionDescriptor);
 
         $this->assertEquals('\SomeSpace::function()', (string) $function->getFqsen());
         $this->assertSame($docBlock, $function->getDocBlock());

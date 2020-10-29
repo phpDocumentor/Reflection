@@ -27,6 +27,7 @@ use PhpParser\Node\Stmt\Property as PropertyNode;
 use PhpParser\Node\Stmt\PropertyProperty;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
 use stdClass;
+use function assert;
 
 /**
  * @uses \phpDocumentor\Reflection\Php\Factory\PropertyIterator
@@ -57,8 +58,8 @@ final class PropertyTest extends TestCase
 
         $propertyMock = $this->buildPropertyMock(ClassNode::MODIFIER_PRIVATE);
 
-        /** @var PropertyDescriptor $property */
         $property = $this->fixture->create($propertyMock, $factory);
+        assert($property instanceof PropertyDescriptor);
 
         $this->assertProperty($property, 'private');
     }
@@ -69,8 +70,8 @@ final class PropertyTest extends TestCase
 
         $propertyMock = $this->buildPropertyMock(ClassNode::MODIFIER_PROTECTED);
 
-        /** @var PropertyDescriptor $property */
         $property = $this->fixture->create($propertyMock, $factory);
+        assert($property instanceof PropertyDescriptor);
 
         $this->assertProperty($property, 'protected');
     }
@@ -81,8 +82,8 @@ final class PropertyTest extends TestCase
 
         $propertyMock = $this->buildPropertyMock(ClassNode::MODIFIER_PUBLIC);
 
-        /** @var PropertyDescriptor $property */
         $property = $this->fixture->create($propertyMock, $factory);
+        assert($property instanceof PropertyDescriptor);
 
         $this->assertProperty($property, 'public');
     }
@@ -108,8 +109,8 @@ final class PropertyTest extends TestCase
             ->with($doc)
             ->andReturn($strategyMock);
 
-        /** @var PropertyDescriptor $property */
         $property = $this->fixture->create($propertyMock, $containerMock);
+        assert($property instanceof PropertyDescriptor);
 
         $this->assertProperty($property, 'private');
         $this->assertSame($docBlock, $property->getDocBlock());
@@ -119,6 +120,7 @@ final class PropertyTest extends TestCase
     {
         $property        = new PropertyProperty('property', new String_('MyDefault'));
         $property->fqsen = new Fqsen('\myClass::$property');
+
         return new PropertyIterator(new PropertyNode($modifier | ClassNode::MODIFIER_STATIC, [$property]));
     }
 

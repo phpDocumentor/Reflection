@@ -40,10 +40,8 @@ final class Trait_ extends AbstractFactory implements ProjectFactoryStrategy
      *
      * @param TraitNode $object object to convert to an TraitElement
      * @param StrategyContainer $strategies used to convert nested objects.
-     *
-     * @return TraitElement
      */
-    protected function doCreate($object, StrategyContainer $strategies, ?Context $context = null)
+    protected function doCreate(object $object, StrategyContainer $strategies, ?Context $context = null) : TraitElement
     {
         $trait = new TraitElement(
             $object->fqsen,
@@ -59,6 +57,7 @@ final class Trait_ extends AbstractFactory implements ProjectFactoryStrategy
                         foreach ($properties as $property) {
                             $trait->addProperty($this->createMember($property, $strategies, $context));
                         }
+
                         break;
                     case ClassMethod::class:
                         $trait->addMethod($this->createMember($stmt, $strategies, $context));
@@ -67,6 +66,7 @@ final class Trait_ extends AbstractFactory implements ProjectFactoryStrategy
                         foreach ($stmt->traits as $use) {
                             $trait->addUsedTrait(new Fqsen('\\' . $use->toString()));
                         }
+
                         break;
                 }
             }

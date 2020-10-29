@@ -58,7 +58,7 @@ final class Argument extends AbstractFactory implements ProjectFactoryStrategy
      *
      * @return ArgumentDescriptor
      */
-    protected function doCreate($object, StrategyContainer $strategies, ?Context $context = null)
+    protected function doCreate(object $object, StrategyContainer $strategies, ?Context $context = null)
     {
         Assert::isInstanceOf($object, Param::class);
         Assert::isInstanceOf($object->var, Variable::class);

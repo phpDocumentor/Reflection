@@ -20,8 +20,6 @@ use PhpParser\Node\Stmt\Property as PropertyNode;
 use PhpParser\Node\Stmt\PropertyProperty;
 
 /**
- * Class PropertyIteratorTest
- *
  * @coversDefaultClass \phpDocumentor\Reflection\Php\Factory\PropertyIterator
  * @covers ::__construct
  * @covers ::<private>

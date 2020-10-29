@@ -47,7 +47,7 @@ final class NodesFactoryTest extends TestCase
     /**
      * @covers ::create
      */
-    public function testThatCodeGetsConvertedIntoNodes()
+    public function testThatCodeGetsConvertedIntoNodes() : void
     {
         $parser = $this->prophesize(Parser::class);
         $parser->parse('this is my code')->willReturn(['parsed code']);

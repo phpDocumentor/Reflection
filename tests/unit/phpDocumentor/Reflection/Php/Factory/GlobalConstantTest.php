@@ -26,6 +26,7 @@ use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Const_ as ConstStatement;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
 use stdClass;
+use function assert;
 
 /**
  * @uses   \phpDocumentor\Reflection\Php\Factory\GlobalConstantIterator
@@ -55,8 +56,8 @@ final class GlobalConstantTest extends TestCase
 
         $constantStub = $this->buildConstantIteratorStub();
 
-        /** @var ConstantDescriptor $constant */
         $constant = $this->fixture->create($constantStub, $factory);
+        assert($constant instanceof ConstantDescriptor);
 
         $this->assertConstant($constant);
     }
@@ -81,8 +82,8 @@ final class GlobalConstantTest extends TestCase
             ->with($doc)
             ->andReturn($strategyMock);
 
-        /** @var ConstantDescriptor $constant */
         $constant = $this->fixture->create($constantStub, $containerMock);
+        assert($constant instanceof ConstantDescriptor);
 
         $this->assertConstant($constant);
         $this->assertSame($docBlock, $constant->getDocBlock());

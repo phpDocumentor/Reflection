@@ -53,10 +53,8 @@ final class Property extends AbstractFactory implements ProjectFactoryStrategy
      *
      * @param PropertyIterator $object object to convert to an PropertyDescriptor
      * @param StrategyContainer $strategies used to convert nested objects.
-     *
-     * @return PropertyDescriptor
      */
-    protected function doCreate($object, StrategyContainer $strategies, ?Context $context = null)
+    protected function doCreate(object $object, StrategyContainer $strategies, ?Context $context = null) : PropertyDescriptor
     {
         $default = null;
         if ($object->getDefault() !== null) {
@@ -81,7 +79,9 @@ final class Property extends AbstractFactory implements ProjectFactoryStrategy
     {
         if ($node->isPrivate()) {
             return new Visibility(Visibility::PRIVATE_);
-        } elseif ($node->isProtected()) {
+        }
+
+        if ($node->isProtected()) {
             return new Visibility(Visibility::PROTECTED_);
         }
 

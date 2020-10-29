@@ -43,10 +43,8 @@ final class Interface_ extends AbstractFactory implements ProjectFactoryStrategy
      * @param InterfaceNode     $object     object to convert to an Element
      * @param StrategyContainer $strategies used to convert nested objects.
      * @param Context           $context    of the created object
-     *
-     * @return InterfaceElement
      */
-    protected function doCreate($object, StrategyContainer $strategies, ?Context $context = null)
+    protected function doCreate(object $object, StrategyContainer $strategies, ?Context $context = null) : InterfaceElement
     {
         $docBlock = $this->createDocBlock($strategies, $object->getDocComment(), $context);
         $parents  = [];
@@ -69,6 +67,7 @@ final class Interface_ extends AbstractFactory implements ProjectFactoryStrategy
                             $element = $this->createMember($const, $strategies, $context);
                             $interface->addConstant($element);
                         }
+
                         break;
                 }
             }

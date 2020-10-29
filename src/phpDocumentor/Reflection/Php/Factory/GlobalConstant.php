@@ -52,10 +52,8 @@ final class GlobalConstant extends AbstractFactory
      * @param GlobalConstantIterator $object object to convert to an Element
      * @param StrategyContainer $strategies used to convert nested objects.
      * @param Context $context of the created object
-     *
-     * @return ConstantElement
      */
-    protected function doCreate($object, StrategyContainer $strategies, ?Context $context = null)
+    protected function doCreate(object $object, StrategyContainer $strategies, ?Context $context = null) : ConstantElement
     {
         return new ConstantElement(
             $object->getFqsen(),

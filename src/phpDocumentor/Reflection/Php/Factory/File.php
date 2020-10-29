@@ -61,7 +61,7 @@ final class File extends AbstractFactory
      *
      * @param Middleware[] $middleware
      */
-    public function __construct(NodesFactory $nodesFactory, $middleware = [])
+    public function __construct(NodesFactory $nodesFactory, array $middleware = [])
     {
         $this->nodesFactory = $nodesFactory;
 
@@ -91,7 +91,7 @@ final class File extends AbstractFactory
      *
      * @return PhpFile
      */
-    protected function doCreate($object, StrategyContainer $strategies, ?Context $context = null)
+    protected function doCreate(object $object, StrategyContainer $strategies, ?Context $context = null)
     {
         $command = new CreateCommand($object, $strategies);
         $middlewareChain = $this->middlewareChain;
@@ -140,6 +140,7 @@ final class File extends AbstractFactory
                     if ($node->else instanceof Node\Stmt\Else_) {
                         $this->createElements($node->else->stmts, $file, $strategies, $context);
                     }
+
                     break;
                 case Node\Stmt\Expression::class:
                     try {
@@ -149,6 +150,7 @@ final class File extends AbstractFactory
                     } catch (OutOfBoundsException $exception) {
                         // ignore, we are only interested when it is a define statement
                     }
+
                     break;
                 case ClassNode::class:
                     $strategy = $strategies->findMatching($node);
@@ -162,6 +164,7 @@ final class File extends AbstractFactory
                         $constant = $strategy->create($constant, $strategies, $context);
                         $file->addConstant($constant);
                     }
+
                     break;
                 case FunctionNode::class:
                     $strategy = $strategies->findMatching($node);

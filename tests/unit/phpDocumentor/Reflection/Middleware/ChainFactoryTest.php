@@ -26,7 +26,7 @@ final class ChainFactoryTest extends TestCase
     /**
      * @covers ::createExecutionChain
      */
-    public function testItCreatesAChainOfCallablesThatWillInvokeAllMiddlewares()
+    public function testItCreatesAChainOfCallablesThatWillInvokeAllMiddlewares() : void
     {
         $exampleCommand = new class implements Command {
         };
@@ -39,6 +39,7 @@ final class ChainFactoryTest extends TestCase
             static function () {
                 $result = new stdClass();
                 $result->counter = 'a';
+
                 return $result;
             }
         );
@@ -50,7 +51,7 @@ final class ChainFactoryTest extends TestCase
     /**
      * @covers ::createExecutionChain
      */
-    public function testItThrowsAnExceptionIfAnythingOtherThanAMiddlewareIsPassed()
+    public function testItThrowsAnExceptionIfAnythingOtherThanAMiddlewareIsPassed() : void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
@@ -81,6 +82,7 @@ final class ChainFactoryTest extends TestCase
             {
                 $result = $next($command);
                 $result->counter .= $this->exampleAddedValue;
+
                 return $result;
             }
         };

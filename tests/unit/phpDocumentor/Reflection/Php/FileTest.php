@@ -52,7 +52,7 @@ final class FileTest extends TestCase
     {
         $this->docBlock = new DocBlock('');
 
-        $this->fixture = new File(static::EXAMPLE_HASH, static::EXAMPLE_PATH, static::EXAMPLE_SOURCE, $this->docBlock);
+        $this->fixture = new File(self::EXAMPLE_HASH, self::EXAMPLE_PATH, self::EXAMPLE_SOURCE, $this->docBlock);
     }
 
     /**
@@ -188,9 +188,9 @@ final class FileTest extends TestCase
     {
         $this->assertEmpty($this->fixture->getIncludes());
 
-        $include = static::EXAMPLE_PATH;
+        $include = self::EXAMPLE_PATH;
         $this->fixture->addInclude($include);
 
-        $this->assertSame([static::EXAMPLE_PATH => static::EXAMPLE_PATH], $this->fixture->getIncludes());
+        $this->assertSame([self::EXAMPLE_PATH => self::EXAMPLE_PATH], $this->fixture->getIncludes());
     }
 }

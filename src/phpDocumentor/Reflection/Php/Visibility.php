@@ -49,7 +49,7 @@ final class Visibility
     {
         $visibility = strtolower($visibility);
 
-        if ($visibility !== static::PUBLIC_ && $visibility !== static::PROTECTED_ && $visibility !== static::PRIVATE_) {
+        if ($visibility !== self::PUBLIC_ && $visibility !== self::PROTECTED_ && $visibility !== self::PRIVATE_) {
             throw new InvalidArgumentException(
                 sprintf('""%s" is not a valid visibility value.', $visibility)
             );

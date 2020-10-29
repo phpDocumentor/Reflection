@@ -25,6 +25,7 @@ use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Expression;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
 use RuntimeException;
+use function assert;
 use function sprintf;
 use function strpos;
 
@@ -62,11 +63,7 @@ final class Define extends AbstractFactory
             return false;
         }
 
-        if ((string) $expression->name !== 'define') {
-            return false;
-        }
-
-        return true;
+        return (string) $expression->name === 'define';
     }
 
     /**
@@ -78,10 +75,8 @@ final class Define extends AbstractFactory
      * @param Expression $object object to convert to an Element
      * @param StrategyContainer $strategies used to convert nested objects.
      * @param Context $context of the created object
-     *
-     * @return ConstantElement
      */
-    protected function doCreate($object, StrategyContainer $strategies, ?Context $context = null)
+    protected function doCreate(object $object, StrategyContainer $strategies, ?Context $context = null) : ConstantElement
     {
         $expression = $object->expr;
         if (!$expression instanceof FuncCall) {
@@ -112,8 +107,8 @@ final class Define extends AbstractFactory
 
     private function determineFqsen(Arg $name) : Fqsen
     {
-        /** @var String_ $nameString */
         $nameString = $name->value;
+        assert($nameString instanceof String_);
 
         if (strpos($nameString->value, '\\') === false) {
             return new Fqsen(sprintf('\\%s', $nameString->value));

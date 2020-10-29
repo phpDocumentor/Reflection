@@ -29,6 +29,7 @@ use PhpParser\Node\Stmt\PropertyProperty;
 use PhpParser\Node\Stmt\Trait_ as TraitNode;
 use PhpParser\Node\Stmt\TraitUse;
 use stdClass;
+use function assert;
 
 /**
  * @uses \phpDocumentor\Reflection\Php\Trait_
@@ -59,8 +60,8 @@ final class Trait_Test extends TestCase
         $interfaceMock = $this->buildTraitMock();
         $interfaceMock->shouldReceive('getDocComment')->andReturnNull();
 
-        /** @var TraitElement $trait */
         $trait = $this->fixture->create($interfaceMock, $containerMock);
+        assert($trait instanceof TraitElement);
 
         $this->assertInstanceOf(TraitElement::class, $trait);
         $this->assertEquals('\Space\MyTrait', (string) $trait->getFqsen());
@@ -85,8 +86,8 @@ final class Trait_Test extends TestCase
             ->with($doc)
             ->andReturn($strategyMock);
 
-        /** @var TraitElement $trait */
         $trait = $this->fixture->create($interfaceMock, $containerMock);
+        assert($trait instanceof TraitElement);
 
         $this->assertSame($docBlock, $trait->getDocBlock());
     }
@@ -110,8 +111,8 @@ final class Trait_Test extends TestCase
             ->with(m::type(PropertyIterator::class))
             ->andReturn($strategyMock);
 
-        /** @var TraitElement $trait */
         $trait = $this->fixture->create($traitMock, $containerMock);
+        assert($trait instanceof TraitElement);
 
         $this->assertInstanceOf(TraitElement::class, $trait);
         $this->assertEquals('\Space\MyTrait', (string) $trait->getFqsen());
@@ -139,8 +140,8 @@ final class Trait_Test extends TestCase
             ->with($method1)
             ->andReturn($strategyMock);
 
-        /** @var TraitElement $class */
         $class = $this->fixture->create($traitMock, $containerMock);
+        assert($class instanceof TraitElement);
 
         $this->assertInstanceOf(TraitElement::class, $class);
         $this->assertEquals('\Space\MyTrait', (string) $class->getFqsen());
@@ -159,8 +160,8 @@ final class Trait_Test extends TestCase
         $traitMock->shouldReceive('getDocComment')->andReturnNull();
         $traitMock->stmts = [$trait];
 
-        /** @var TraitElement $trait */
         $trait = $this->fixture->create($traitMock, $containerMock);
+        assert($trait instanceof TraitElement);
 
         $this->assertEquals(
             [

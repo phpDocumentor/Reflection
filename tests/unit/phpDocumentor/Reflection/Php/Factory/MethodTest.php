@@ -22,8 +22,11 @@ use phpDocumentor\Reflection\Php\Method as MethodDescriptor;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use PhpParser\Comment\Doc;
+use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\ClassMethod;
 use stdClass;
+use function assert;
 
 /**
  * @uses   \phpDocumentor\Reflection\Php\Method
@@ -68,8 +71,8 @@ class MethodTest extends TestCase
         $containerMock = m::mock(StrategyContainer::class);
         $containerMock->shouldReceive('findMatching')->never();
 
-        /** @var MethodDescriptor $method */
         $method = $this->fixture->create($classMethodMock, $containerMock);
+        assert($method instanceof MethodDescriptor);
 
         $this->assertEquals('\SomeSpace\Class::function()', (string) $method->getFqsen());
         $this->assertEquals('public', (string) $method->getVisibility());
@@ -90,8 +93,8 @@ class MethodTest extends TestCase
         $containerMock = m::mock(StrategyContainer::class);
         $containerMock->shouldReceive('findMatching')->never();
 
-        /** @var MethodDescriptor $method */
         $method = $this->fixture->create($classMethodMock, $containerMock);
+        assert($method instanceof MethodDescriptor);
 
         $this->assertEquals('\SomeSpace\Class::function()', (string) $method->getFqsen());
         $this->assertEquals('protected', (string) $method->getVisibility());
@@ -102,8 +105,9 @@ class MethodTest extends TestCase
      */
     public function testCreateWithParameters() : void
     {
+        $param1 = new Param(new Variable('param1'));
         $classMethodMock = $this->buildClassMethodMock();
-        $classMethodMock->params = ['param1'];
+        $classMethodMock->params = [$param1];
         $classMethodMock->shouldReceive('isPrivate')->once()->andReturn(true);
         $classMethodMock->shouldReceive('getDocComment')->once()->andReturnNull();
         $classMethodMock->shouldReceive('getReturnType')->once()->andReturn(null);
@@ -112,15 +116,15 @@ class MethodTest extends TestCase
         $containerMock = m::mock(StrategyContainer::class);
 
         $strategyMock->shouldReceive('create')
-            ->with('param1', $containerMock, null)
+            ->with($param1, $containerMock, null)
             ->andReturn(new ArgumentDescriptor('param1'));
 
         $containerMock->shouldReceive('findMatching')
-            ->with('param1')
+            ->with($param1)
             ->andReturn($strategyMock);
 
-        /** @var MethodDescriptor $method */
         $method = $this->fixture->create($classMethodMock, $containerMock);
+        assert($method instanceof MethodDescriptor);
 
         $this->assertEquals('\SomeSpace\Class::function()', (string) $method->getFqsen());
         $this->assertTrue($method->isAbstract());
@@ -153,8 +157,8 @@ class MethodTest extends TestCase
             ->with($doc)
             ->andReturn($strategyMock);
 
-        /** @var MethodDescriptor $method */
         $method = $this->fixture->create($classMethodMock, $containerMock);
+        assert($method instanceof MethodDescriptor);
 
         $this->assertEquals('\SomeSpace\Class::function()', (string) $method->getFqsen());
         $this->assertSame($docBlock, $method->getDocBlock());
