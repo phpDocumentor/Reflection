@@ -4,43 +4,27 @@ on:
       - 4.x
   pull_request:
 name: Qa workflow
+env:
+  phiveGPGKeys: 4AA394086372C20A,D2CCAC42F6295E7D,E82B2FB314E9906E,8A03EA3B385DBAA1
 jobs:
   setup:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Restore/cache vendor folder
-        uses: actions/cache@v2
-        with:
-          path: vendor
-          key: all-build-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            all-build-${{ hashFiles('**/composer.lock') }}
-            all-build-
-      - name: Restore/cache tools folder
-        uses: actions/cache@v2
-        with:
-          path: tools
-          key: all-tools-${{ github.sha }}
-          restore-keys: |
-            all-tools-${{ github.sha }}-
-            all-tools-
+
       - name: composer
         uses: docker://composer
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           args: install --no-interaction --prefer-dist --optimize-autoloader
+
       - name: composer-require-checker
         uses: docker://phpga/composer-require-checker-ga
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           args: check --config-file ./composer-require-config.json composer.json
-      - name: Install dependencies
-        run: make install-phive
-      - name: Install PHAR dependencies
-        run: tools/phive.phar --no-progress install --copy --trust-gpg-keys 4AA394086372C20A,D2CCAC42F6295E7D,E82B2FB314E9906E,8E730BA25823D8B5,D0254321FB74703A,CF1A108D0E7AE720 --force-accept-unsigned
 
   phpunit-with-coverage:
     runs-on: ubuntu-latest
@@ -48,32 +32,24 @@ jobs:
     needs: setup
     steps:
       - uses: actions/checkout@v2
-      - name: Restore/cache vendor folder
-        uses: actions/cache@v2
+
+      - name: composer
+        uses: docker://composer
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          path: vendor
-          key: all-build-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            all-build-${{ hashFiles('**/composer.lock') }}
-            all-build-
-      - name: Restore/cache tools folder
-        uses: actions/cache@v2
-        with:
-          path: tools
-          key: all-tools-${{ github.sha }}
-          restore-keys: |
-            all-tools-${{ github.sha }}-
-            all-tools-
+          args: install --no-interaction --prefer-dist --optimize-autoloader
+
       - name: PHPUnit
         uses: docker://phpdoc/phpunit-ga:latest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Upload to Scrutinizer
-        run: tools/ocular code-coverage:upload --format=php-clover build/logs/clover.xml
+
       - name: Quick check code coverage level
         run: php tests/coverage-checker.php 94
 
   phpunit:
+    name: Unit tests for PHP version ${{ matrix.php-versions }} on ${{ matrix.operating-system }}
     runs-on: ${{ matrix.operating-system }}
     strategy:
       matrix:
@@ -81,48 +57,72 @@ jobs:
           - ubuntu-latest
           - windows-latest
           - macOS-latest
-        php-versions:
-          - '7.2'
-          - '7.3'
-          - '7.4'
-        exclude: # already covered in pre-test with coverage above
-          - operating-system: 'ubuntu-latest'
-            php-versions: '7.2'
-    name: Unit tests for PHP version ${{ matrix.php-versions }} on ${{ matrix.operating-system }}
+        php-versions: ['7.2', '7.3', '7.4', '8.0']
+    env:
+      extensions: mbstring
+      key: cache-v1 # can be any string, change to clear the extension cache.
+
     needs:
       - setup
       - phpunit-with-coverage
+
     steps:
       - uses: actions/checkout@v2
-      - name: Restore/cache vendor folder
+
+      - name: Setup cache environment
+        id: cache-env
+        uses: shivammathur/cache-extensions@v1
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: ${{ env.extensions }}
+          key: ${{ env.key }}
+
+      - name: Cache extensions
         uses: actions/cache@v2
         with:
-          path: vendor
-          key: all-build-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            all-build-${{ hashFiles('**/composer.lock') }}
-            all-build-
-      - name: Restore/cache tools folder
-        uses: actions/cache@v2
-        with:
-          path: tools
-          key: all-tools-${{ github.sha }}
-          restore-keys: |
-            all-tools-${{ github.sha }}-
-            all-tools-
+          path: ${{ steps.cache-env.outputs.dir }}
+          key: ${{ steps.cache-env.outputs.key }}
+
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-          extension-csv: mbstring, intl, iconv, libxml, dom, json, simplexml, zlib
-          ini-values-csv: memory_limit=2G, display_errors=On, error_reporting=-1
-          pecl: false
+          extensions: ${{ env.extensions }}
+          ini-values: memory_limit=2G, display_errors=On, error_reporting=-1
+          tools: phive
+
+      - name: Install PHAR dependencies
+        env:
+          GITHUB_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: phive --no-progress install --copy --trust-gpg-keys ${{ env.phiveGPGKeys }} --force-accept-unsigned
+
+      - name: Install phpunit 8 for php 7.2
+        if: matrix.php-versions == '7.2'
+        env:
+          GITHUB_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: phive --no-progress install --copy --trust-gpg-keys ${{ env.phiveGPGKeys }} phpunit:^8.5
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+
       - name: Run PHPUnit
+        continue-on-error: true
         run: php tools/phpunit
 
   codestyle:
     runs-on: ubuntu-latest
-    needs: [setup]
+    needs: [setup, phpunit]
     steps:
       - uses: actions/checkout@v2
       - name: Restore/cache vendor folder
@@ -134,50 +134,95 @@ jobs:
             all-build-${{ hashFiles('**/composer.lock') }}
             all-build-
       - name: Code style check
-        uses: phpDocumentor/coding-standard@v1.0.0
+        uses: phpDocumentor/coding-standard@latest
+        with:
+          args: -s
 
   phpstan:
     runs-on: ubuntu-latest
-    needs: [phpunit-with-coverage]
+    needs: [setup, phpunit]
     steps:
       - uses: actions/checkout@v2
-      - name: Restore/cache vendor folder
-        uses: actions/cache@v2
+      - name: composer
+        uses: docker://composer
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          path: vendor
-          key: all-build-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            all-build-${{ hashFiles('**/composer.lock') }}
-            all-build-
+          args: install --no-interaction --prefer-dist --optimize-autoloader
+
       - name: PHPStan
-        uses: phpDocumentor/phpstan-ga@master
+        uses: phpDocumentor/phpstan-ga@0.12.9
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           args: analyse src --configuration phpstan.neon
 
 #  psalm:
-#    runs-on: ubuntu-latest
-#    needs: [phpunit-with-coverage]
+#    name: Psalm
+#    runs-on: ${{ matrix.operating-system }}
+#    strategy:
+#      matrix:
+#        operating-system:
+#          - ubuntu-latest
+#        php-versions: ['7.2']
+#    env:
+#      extensions: mbstring
+#      key: cache-v1 # can be any string, change to clear the extension cache.
+#
+#    needs:
+#      - setup
+#      - phpunit
+#
 #    steps:
 #      - uses: actions/checkout@v2
-#      - name: Restore/cache vendor folder
+#
+#      - name: Setup cache environment
+#        id: cache-env
+#        uses: shivammathur/cache-extensions@v1
+#        with:
+#          php-version: ${{ matrix.php-versions }}
+#          extensions: ${{ env.extensions }}
+#          key: ${{ env.key }}
+#
+#      - name: Cache extensions
 #        uses: actions/cache@v2
 #        with:
-#          path: vendor
-#          key: all-build-${{ hashFiles('**/composer.lock') }}
-#          restore-keys: |
-#            all-build-${{ hashFiles('**/composer.lock') }}
-#            all-build-
-#      - name: Restore/cache tools folder
+#          path: ${{ steps.cache-env.outputs.dir }}
+#          key: ${{ steps.cache-env.outputs.key }}
+#
+#      - name: Setup PHP
+#        uses: shivammathur/setup-php@v2
+#        with:
+#          php-version: ${{ matrix.php-versions }}
+#          extensions: ${{ env.extensions }}
+#          tools: psalm
+#          ini-values: memory_limit=2G, display_errors=On, error_reporting=-1
+#
+#      - name: Get composer cache directory
+#        id: composer-cache
+#        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+#
+#      - name: Cache dependencies
 #        uses: actions/cache@v2
 #        with:
-#          path: tools
-#          key: all-tools-${{ github.sha }}
-#          restore-keys: |
-#            all-tools-${{ github.sha }}-
-#            all-tools-
-#      - name: Psalm
-#        uses: docker://mickaelandrieu/psalm-ga
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#          path: ${{ steps.composer-cache.outputs.dir }}
+#          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+#          restore-keys: ${{ runner.os }}-composer-
+#
+#      - name: Install dependencies
+#        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+#
+#      - name: Run psalm
+#        run: psalm --output-format=github
+#
+#
+#  bc_check:
+#    name: BC Check
+#    runs-on: ubuntu-latest
+#    needs: [setup, phpunit]
+#    steps:
+#      - uses: actions/checkout@v2
+#      - name: fetch tags
+#        run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
+#      - name: BC Check
+#        uses: docker://nyholm/roave-bc-check-ga
