@@ -42,7 +42,7 @@ class ProjectFactoryStrategiesTest extends TestCase
     {
         $strategy  = new DummyFactoryStrategy();
         $container = new ProjectFactoryStrategies([$strategy]);
-        $actual    = $container->findMatching(['aa']);
+        $actual    = $container->findMatching(new \stdClass());
 
         $this->assertSame($strategy, $actual);
     }
@@ -54,6 +54,6 @@ class ProjectFactoryStrategiesTest extends TestCase
     {
         $this->expectException('OutOfBoundsException');
         $container = new ProjectFactoryStrategies([]);
-        $container->findMatching(['aa']);
+        $container->findMatching(new \stdClass());
     }
 }
