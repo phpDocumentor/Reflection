@@ -48,7 +48,7 @@ final class Define extends AbstractFactory
         $this->valueConverter = $prettyPrinter;
     }
 
-    public function matches($object) : bool
+    public function matches(object $object) : bool
     {
         if (!$object instanceof Expression) {
             return false;
@@ -76,8 +76,11 @@ final class Define extends AbstractFactory
      * @param StrategyContainer $strategies used to convert nested objects.
      * @param Context $context of the created object
      */
-    protected function doCreate(object $object, StrategyContainer $strategies, ?Context $context = null) : ConstantElement
-    {
+    protected function doCreate(
+        object $object,
+        StrategyContainer $strategies,
+        ?Context $context = null
+    ) : ConstantElement {
         $expression = $object->expr;
         if (!$expression instanceof FuncCall) {
             throw new RuntimeException(

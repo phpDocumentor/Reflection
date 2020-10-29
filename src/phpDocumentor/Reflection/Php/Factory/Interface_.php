@@ -29,7 +29,7 @@ use function get_class;
  */
 final class Interface_ extends AbstractFactory implements ProjectFactoryStrategy
 {
-    public function matches($object) : bool
+    public function matches(object $object) : bool
     {
         return $object instanceof InterfaceNode;
     }
@@ -44,8 +44,11 @@ final class Interface_ extends AbstractFactory implements ProjectFactoryStrategy
      * @param StrategyContainer $strategies used to convert nested objects.
      * @param Context           $context    of the created object
      */
-    protected function doCreate(object $object, StrategyContainer $strategies, ?Context $context = null) : InterfaceElement
-    {
+    protected function doCreate(
+        object $object,
+        StrategyContainer $strategies,
+        ?Context $context = null
+    ) : InterfaceElement {
         $docBlock = $this->createDocBlock($strategies, $object->getDocComment(), $context);
         $parents  = [];
         foreach ($object->extends as $extend) {

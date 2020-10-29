@@ -19,7 +19,6 @@ use phpDocumentor\Reflection\Exception;
 use phpDocumentor\Reflection\File\LocalFile;
 use phpDocumentor\Reflection\Fqsen;
 use function array_keys;
-use function assert;
 use function count;
 use function current;
 use function key;

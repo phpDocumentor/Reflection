@@ -31,10 +31,7 @@ use function get_class;
  */
 final class Class_ extends AbstractFactory implements ProjectFactoryStrategy
 {
-    /**
-     * @param mixed $object
-     */
-    public function matches($object) : bool
+    public function matches(object $object) : bool
     {
         return $object instanceof ClassNode;
     }

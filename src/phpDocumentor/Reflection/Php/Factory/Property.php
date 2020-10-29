@@ -40,7 +40,7 @@ final class Property extends AbstractFactory implements ProjectFactoryStrategy
         $this->valueConverter = $prettyPrinter;
     }
 
-    public function matches($object) : bool
+    public function matches(object $object) : bool
     {
         return $object instanceof PropertyIterator;
     }
@@ -54,8 +54,11 @@ final class Property extends AbstractFactory implements ProjectFactoryStrategy
      * @param PropertyIterator $object object to convert to an PropertyDescriptor
      * @param StrategyContainer $strategies used to convert nested objects.
      */
-    protected function doCreate(object $object, StrategyContainer $strategies, ?Context $context = null) : PropertyDescriptor
-    {
+    protected function doCreate(
+        object $object,
+        StrategyContainer $strategies,
+        ?Context $context = null
+    ) : PropertyDescriptor {
         $default = null;
         if ($object->getDefault() !== null) {
             $default = $this->valueConverter->prettyPrintExpr($object->getDefault());

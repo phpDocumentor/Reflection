@@ -33,7 +33,6 @@ use PhpParser\Node\Stmt\Property as PropertyNode;
 use PhpParser\Node\Stmt\PropertyProperty;
 use PhpParser\Node\Stmt\TraitUse;
 use stdClass;
-use function assert;
 
 /**
  * @uses \phpDocumentor\Reflection\Php\Class_

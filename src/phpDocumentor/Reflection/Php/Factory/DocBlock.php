@@ -49,10 +49,7 @@ final class DocBlock implements ProjectFactoryStrategy
         $this->docblockFactory = $docBlockFactory;
     }
 
-    /**
-     * @param mixed $object
-     */
-    public function matches($object) : bool
+    public function matches(object $object) : bool
     {
         return $object instanceof Doc;
     }
@@ -63,12 +60,15 @@ final class DocBlock implements ProjectFactoryStrategy
      * Since an object might contain other objects that need to be converted the $factory is passed so it can be
      * used to create nested Elements.
      *
-     * @param Doc $object object to convert to an Element
+     * @param Doc|null $object object to convert to an Element
      * @param StrategyContainer $strategies used to convert nested objects.
      * @param Context $context of the created object
      */
-    public function create(?object $object, StrategyContainer $strategies, ?Context $context = null) : ?DocBlockDescriptor
-    {
+    public function create(
+        ?object $object,
+        StrategyContainer $strategies,
+        ?Context $context = null
+    ) : ?DocBlockDescriptor {
         if ($object === null) {
             return null;
         }

@@ -24,10 +24,8 @@ interface ProjectFactoryStrategy
 {
     /**
      * Returns true when the strategy is able to handle the object.
-     *
-     * @param mixed $object object to check.
      */
-    public function matches($object) : bool;
+    public function matches(object $object) : bool;
 
     /**
      * Creates an Element out of the given object.

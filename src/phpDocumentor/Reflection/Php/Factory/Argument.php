@@ -41,7 +41,7 @@ final class Argument extends AbstractFactory implements ProjectFactoryStrategy
         $this->valueConverter = $prettyPrinter;
     }
 
-    public function matches($object) : bool
+    public function matches(object $object) : bool
     {
         return $object instanceof Param;
     }
@@ -55,11 +55,12 @@ final class Argument extends AbstractFactory implements ProjectFactoryStrategy
      * @param Param $object object to convert to an Element
      * @param StrategyContainer $strategies used to convert nested objects.
      * @param Context $context of the created object
-     *
-     * @return ArgumentDescriptor
      */
-    protected function doCreate(object $object, StrategyContainer $strategies, ?Context $context = null)
-    {
+    protected function doCreate(
+        object $object,
+        StrategyContainer $strategies,
+        ?Context $context = null
+    ) : ArgumentDescriptor {
         Assert::isInstanceOf($object, Param::class);
         Assert::isInstanceOf($object->var, Variable::class);
 

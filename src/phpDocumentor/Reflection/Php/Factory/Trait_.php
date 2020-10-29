@@ -27,7 +27,7 @@ use function get_class;
 
 final class Trait_ extends AbstractFactory implements ProjectFactoryStrategy
 {
-    public function matches($object) : bool
+    public function matches(object $object) : bool
     {
         return $object instanceof TraitNode;
     }

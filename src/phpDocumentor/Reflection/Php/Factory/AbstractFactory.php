@@ -25,9 +25,9 @@ abstract class AbstractFactory implements ProjectFactoryStrategy
     /**
      * Returns true when the strategy is able to handle the object.
      *
-     * @param mixed $object object to check.
+     * @param object $object object to check.
      */
-    abstract public function matches($object) : bool;
+    abstract public function matches(object $object) : bool;
 
     /**
      * @inheritDoc

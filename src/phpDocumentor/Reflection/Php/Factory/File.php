@@ -72,12 +72,9 @@ final class File extends AbstractFactory
         $this->middlewareChain = ChainFactory::createExecutionChain($middleware, $lastCallable);
     }
 
-    /**
-     * @param mixed $file
-     */
-    public function matches($file) : bool
+    public function matches(object $object) : bool
     {
-        return $file instanceof FileSystemFile;
+        return $object instanceof FileSystemFile;
     }
 
     /**
@@ -88,10 +85,8 @@ final class File extends AbstractFactory
      *
      * @param FileSystemFile $object path to the file to convert to an File object.
      * @param StrategyContainer $strategies used to convert nested objects.
-     *
-     * @return PhpFile
      */
-    protected function doCreate(object $object, StrategyContainer $strategies, ?Context $context = null)
+    protected function doCreate(object $object, StrategyContainer $strategies, ?Context $context = null) : PhpFile
     {
         $command = new CreateCommand($object, $strategies);
         $middlewareChain = $this->middlewareChain;

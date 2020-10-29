@@ -26,7 +26,7 @@ use PhpParser\Node\Stmt\ClassMethod;
  */
 final class Method extends AbstractFactory implements ProjectFactoryStrategy
 {
-    public function matches($object) : bool
+    public function matches(object $object) : bool
     {
         return $object instanceof ClassMethod;
     }
@@ -38,8 +38,11 @@ final class Method extends AbstractFactory implements ProjectFactoryStrategy
      * @param StrategyContainer $strategies used to convert nested objects.
      * @param Context $context of the created object
      */
-    protected function doCreate(object $object, StrategyContainer $strategies, ?Context $context = null) : MethodDescriptor
-    {
+    protected function doCreate(
+        object $object,
+        StrategyContainer $strategies,
+        ?Context $context = null
+    ) : MethodDescriptor {
         $method = new MethodDescriptor(
             $object->fqsen,
             $this->buildVisibility($object),

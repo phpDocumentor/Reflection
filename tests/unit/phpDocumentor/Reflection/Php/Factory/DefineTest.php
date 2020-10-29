@@ -138,7 +138,7 @@ final class DefineTest extends TestCase
         $this->assertSame($docBlock, $constant->getDocBlock());
     }
 
-    private function buildDefineStub($namespace = '') : Expression
+    private function buildDefineStub(string $namespace = '') : Expression
     {
         return new Expression(
             new FuncCall(

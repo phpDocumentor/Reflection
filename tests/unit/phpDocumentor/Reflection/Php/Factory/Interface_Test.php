@@ -28,7 +28,6 @@ use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Interface_ as InterfaceNode;
 use stdClass;
-use function assert;
 
 /**
  * @uses \phpDocumentor\Reflection\Php\Interface_

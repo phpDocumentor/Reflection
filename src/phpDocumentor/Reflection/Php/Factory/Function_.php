@@ -28,7 +28,7 @@ use PhpParser\Node\Stmt\Function_ as FunctionNode;
  */
 final class Function_ extends AbstractFactory implements ProjectFactoryStrategy
 {
-    public function matches($object) : bool
+    public function matches(object $object) : bool
     {
         return $object instanceof FunctionNode;
     }
@@ -40,8 +40,11 @@ final class Function_ extends AbstractFactory implements ProjectFactoryStrategy
      * @param StrategyContainer $strategies used to convert nested objects.
      * @param Context $context of the created object
      */
-    protected function doCreate(object $object, StrategyContainer $strategies, ?Context $context = null) : FunctionDescriptor
-    {
+    protected function doCreate(
+        object $object,
+        StrategyContainer $strategies,
+        ?Context $context = null
+    ) : FunctionDescriptor {
         $function = new FunctionDescriptor(
             $object->fqsen,
             $this->createDocBlock($strategies, $object->getDocComment(), $context),

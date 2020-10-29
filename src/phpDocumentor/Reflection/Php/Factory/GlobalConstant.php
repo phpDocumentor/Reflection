@@ -38,7 +38,7 @@ final class GlobalConstant extends AbstractFactory
         $this->valueConverter = $prettyPrinter;
     }
 
-    public function matches($object) : bool
+    public function matches(object $object) : bool
     {
         return $object instanceof GlobalConstantIterator;
     }
@@ -53,8 +53,11 @@ final class GlobalConstant extends AbstractFactory
      * @param StrategyContainer $strategies used to convert nested objects.
      * @param Context $context of the created object
      */
-    protected function doCreate(object $object, StrategyContainer $strategies, ?Context $context = null) : ConstantElement
-    {
+    protected function doCreate(
+        object $object,
+        StrategyContainer $strategies,
+        ?Context $context = null
+    ) : ConstantElement {
         return new ConstantElement(
             $object->getFqsen(),
             $this->createDocBlock($strategies, $object->getDocComment(), $context),
