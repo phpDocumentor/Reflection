@@ -13,21 +13,21 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
-use Mockery as m;
 use phpDocumentor\Reflection\DocBlock as DocBlockDescriptor;
+use phpDocumentor\Reflection\DocBlockFactoryInterface;
 use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\Php\Class_ as ClassElement;
 use phpDocumentor\Reflection\Php\Constant as ConstantDescriptor;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategies;
-use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
-use phpDocumentor\Reflection\Php\StrategyContainer;
 use PhpParser\Comment\Doc;
 use PhpParser\Node\Const_;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Class_ as ClassNode;
 use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
+use Prophecy\Prophecy\ObjectProphecy;
 use stdClass;
-use function assert;
+use function current;
 
 /**
  * @uses   \phpDocumentor\Reflection\Php\Factory\ClassConstantIterator
@@ -40,9 +40,16 @@ use function assert;
  */
 final class ClassConstantTest extends TestCase
 {
+    /** @var ObjectProphecy */
+    private $docBlockFactory;
+
     protected function setUp() : void
     {
-        $this->fixture = new ClassConstant(new PrettyPrinter());
+        $this->docBlockFactory = $this->prophesize(DocBlockFactoryInterface::class);
+        $this->fixture = new ClassConstant(
+            $this->docBlockFactory->reveal(),
+            new PrettyPrinter()
+        );
     }
 
     public function testMatches() : void
@@ -51,75 +58,59 @@ final class ClassConstantTest extends TestCase
         $this->assertTrue($this->fixture->matches($this->buildConstantIteratorStub()));
     }
 
-    public function testCreatePrivate() : void
+    /** @dataProvider visibilityProvider */
+    public function testCreateWithVisibility(int $input, string $expectedVisibility) : void
     {
-        $factory = new ProjectFactoryStrategies([]);
+        $constantStub = $this->buildConstantIteratorStub($input);
 
-        $constantStub = $this->buildConstantIteratorStub(ClassNode::MODIFIER_PRIVATE);
+        $class = $this->performCreate($constantStub);
 
-        $constant = $this->fixture->create($constantStub, $factory);
-        assert($constant instanceof ConstantDescriptor);
-
-        $this->assertConstant($constant, 'private');
+        $constant = current($class->getConstants());
+        $this->assertConstant($constant, $expectedVisibility);
     }
 
-    public function testCreateProtected() : void
+    /** @return array<string|int[]> */
+    public function visibilityProvider() : array
     {
-        $factory = new ProjectFactoryStrategies([]);
-
-        $constantStub = $this->buildConstantIteratorStub(ClassNode::MODIFIER_PROTECTED);
-
-        $constant = $this->fixture->create($constantStub, $factory);
-        assert($constant instanceof ConstantDescriptor);
-
-        $this->assertConstant($constant, 'protected');
-    }
-
-    public function testCreatePublic() : void
-    {
-        $factory = new ProjectFactoryStrategies([]);
-
-        $constantStub = $this->buildConstantIteratorStub(ClassNode::MODIFIER_PUBLIC);
-
-        $constant = $this->fixture->create($constantStub, $factory);
-        assert($constant instanceof ConstantDescriptor);
-
-        $this->assertConstant($constant, 'public');
+        return [
+            [
+                ClassNode::MODIFIER_PUBLIC,
+                'public',
+            ],
+            [
+                ClassNode::MODIFIER_PROTECTED,
+                'protected',
+            ],
+            [
+                ClassNode::MODIFIER_PRIVATE,
+                'private',
+            ],
+        ];
     }
 
     public function testCreateWithDocBlock() : void
     {
-        $doc = m::mock(Doc::class);
-        $docBlock = new DocBlockDescriptor('');
+        $doc = new Doc('text');
+        $docBlock = new DocBlockDescriptor('text');
+        $this->docBlockFactory->create('text', null)->willReturn($docBlock);
 
         $const = new Const_('\Space\MyClass::MY_CONST1', new String_('a'), ['comments' => [$doc]]);
         $const->fqsen = new Fqsen((string) $const->name);
+        $constantStub = new ClassConst([$const], ClassNode::MODIFIER_PUBLIC);
 
-        $constantStub = new ClassConstantIterator(new ClassConst([$const], ClassNode::MODIFIER_PUBLIC));
-        $strategyMock = m::mock(ProjectFactoryStrategy::class);
-        $containerMock = m::mock(StrategyContainer::class);
+        $class = $this->performCreate($constantStub);
 
-        $strategyMock->shouldReceive('create')
-            ->with($doc, $containerMock, null)
-            ->andReturn($docBlock);
-
-        $containerMock->shouldReceive('findMatching')
-            ->with($doc)
-            ->andReturn($strategyMock);
-
-        $property = $this->fixture->create($constantStub, $containerMock);
-        assert($property instanceof ConstantDescriptor);
-
-        $this->assertConstant($property, 'public');
-        $this->assertSame($docBlock, $property->getDocBlock());
+        $constant = current($class->getConstants());
+        $this->assertConstant($constant, 'public');
+        $this->assertSame($docBlock, $constant->getDocBlock());
     }
 
-    private function buildConstantIteratorStub(int $modifier = ClassNode::MODIFIER_PUBLIC) : ClassConstantIterator
+    private function buildConstantIteratorStub(int $modifier = ClassNode::MODIFIER_PUBLIC) : ClassConst
     {
         $const = new Const_('\Space\MyClass::MY_CONST1', new String_('a'));
         $const->fqsen = new Fqsen((string) $const->name);
 
-        return new ClassConstantIterator(new ClassConst([$const], $modifier));
+        return new ClassConst([$const], $modifier);
     }
 
     private function assertConstant(ConstantDescriptor $constant, string $visibility) : void
@@ -128,5 +119,14 @@ final class ClassConstantTest extends TestCase
         $this->assertEquals('\Space\MyClass::MY_CONST1', (string) $constant->getFqsen());
         $this->assertEquals('\'a\'', $constant->getValue());
         $this->assertEquals($visibility, (string) $constant->getVisibility());
+    }
+
+    private function performCreate(ClassConst $constantStub) : ClassElement
+    {
+        $factory = new ProjectFactoryStrategies([]);
+        $class = new ClassElement(new Fqsen('\myClass'));
+        $this->fixture->create(self::createContext(null)->push($class), $constantStub, $factory);
+
+        return $class;
     }
 }

@@ -15,4 +15,8 @@
     <rule ref="SlevomatCodingStandard.Classes.SuperfluousAbstractClassNaming.SuperfluousPrefix">
         <exclude-pattern>*/src/*/Abstract*.php</exclude-pattern>
     </rule>
+
+    <rule ref="SlevomatCodingStandard.Functions.StaticClosure.ClosureNotStatic">
+        <exclude-pattern>*/tests/unit/**</exclude-pattern>
+    </rule>
 </ruleset>

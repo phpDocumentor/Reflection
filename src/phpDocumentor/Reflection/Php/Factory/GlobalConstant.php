@@ -13,11 +13,14 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
+use phpDocumentor\Reflection\DocBlockFactoryInterface;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Constant as ConstantElement;
+use phpDocumentor\Reflection\Php\File as FileElement;
 use phpDocumentor\Reflection\Php\StrategyContainer;
-use phpDocumentor\Reflection\Types\Context;
+use PhpParser\Node\Stmt\Const_;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
+use Webmozart\Assert\Assert;
 
 /**
  * Strategy to convert GlobalConstantIterator to ConstantElement
@@ -33,14 +36,15 @@ final class GlobalConstant extends AbstractFactory
     /**
      * Initializes the object.
      */
-    public function __construct(PrettyPrinter $prettyPrinter)
+    public function __construct(DocBlockFactoryInterface $docBlockFactory, PrettyPrinter $prettyPrinter)
     {
         $this->valueConverter = $prettyPrinter;
+        parent::__construct($docBlockFactory);
     }
 
     public function matches(object $object) : bool
     {
-        return $object instanceof GlobalConstantIterator;
+        return $object instanceof Const_;
     }
 
     /**
@@ -49,20 +53,28 @@ final class GlobalConstant extends AbstractFactory
      * Since an object might contain other objects that need to be converted the $factory is passed so it can be
      * used to create nested Elements.
      *
-     * @param GlobalConstantIterator $object object to convert to an Element
+     * @param ContextStack $context of the created object
+     * @param Const_ $object object to convert to an Element
      * @param StrategyContainer $strategies used to convert nested objects.
-     * @param Context $context of the created object
      */
     protected function doCreate(
+        ContextStack $context,
         object $object,
-        StrategyContainer $strategies,
-        ?Context $context = null
-    ) : ConstantElement {
-        return new ConstantElement(
-            $object->getFqsen(),
-            $this->createDocBlock($strategies, $object->getDocComment(), $context),
-            $object->getValue() !== null ? $this->valueConverter->prettyPrintExpr($object->getValue()) : null,
-            new Location($object->getLine())
-        );
+        StrategyContainer $strategies
+    ) : void {
+        $constants = new GlobalConstantIterator($object);
+        $file = $context->peek();
+        Assert::isInstanceOf($file, FileElement::class);
+
+        foreach ($constants as $const) {
+            $file->addConstant(
+                new ConstantElement(
+                    $const->getFqsen(),
+                    $this->createDocBlock($const->getDocComment(), $context->getTypeContext()),
+                    $const->getValue() !== null ? $this->valueConverter->prettyPrintExpr($const->getValue()) : null,
+                    new Location($const->getLine())
+                )
+            );
+        }
     }
 }

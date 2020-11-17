@@ -15,6 +15,7 @@ namespace phpDocumentor\Reflection\Php\Factory\File;
 
 use phpDocumentor\Reflection\File;
 use phpDocumentor\Reflection\Middleware\Command;
+use phpDocumentor\Reflection\Php\Factory\ContextStack;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 
 /**
@@ -29,13 +30,17 @@ final class CreateCommand implements Command
     /** @var StrategyContainer */
     private $strategies;
 
+    /** @var ContextStack */
+    private $context;
+
     /**
      * Initializes this command.
      */
-    public function __construct(File $file, StrategyContainer $strategies)
+    public function __construct(ContextStack $context, File $file, StrategyContainer $strategies)
     {
         $this->file       = $file;
         $this->strategies = $strategies;
+        $this->context = $context;
     }
 
     /**
@@ -49,5 +54,10 @@ final class CreateCommand implements Command
     public function getFile() : File
     {
         return $this->file;
+    }
+
+    public function getContext() : ContextStack
+    {
+        return $this->context;
     }
 }

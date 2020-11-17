@@ -19,8 +19,10 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassConst;
+use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
 use PhpParser\Node\Stmt\Namespace_;
+use PhpParser\Node\Stmt\PropertyProperty;
 use PhpParser\NodeTraverser;
 use PHPUnit\Framework\TestCase;
 
@@ -61,6 +63,34 @@ class ElementNameResolverTest extends TestCase
         $this->fixture->enterNode($class);
 
         $this->assertEquals('\myClass', (string) $class->fqsen);
+    }
+
+    /**
+     * @covers ::enterNode
+     */
+    public function testWithClassMethod() : void
+    {
+        $class = new Class_('myClass');
+        $this->fixture->enterNode($class);
+
+        $method = new ClassMethod('method');
+        $this->fixture->enterNode($method);
+
+        $this->assertEquals('\myClass::method()', (string) $method->fqsen);
+    }
+
+    /**
+     * @covers ::enterNode
+     */
+    public function testWithClassProperty() : void
+    {
+        $class = new Class_('myClass');
+        $this->fixture->enterNode($class);
+
+        $method = new PropertyProperty('name');
+        $this->fixture->enterNode($method);
+
+        $this->assertEquals('\myClass::$name', (string) $method->fqsen);
     }
 
     /**

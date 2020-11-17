@@ -15,8 +15,10 @@ namespace phpDocumentor\Reflection\Php\Factory;
 
 use Mockery as m;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
+use phpDocumentor\Reflection\Php\Project;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
+use phpDocumentor\Reflection\Types\Context;
 use stdClass;
 
 /**
@@ -27,9 +29,20 @@ abstract class TestCase extends MockeryTestCase
     /** @var ProjectFactoryStrategy */
     protected $fixture;
 
+    public static function createContext(?Context $typeContext = null) : ContextStack
+    {
+        return new ContextStack(
+            new Project('test'),
+            $typeContext
+        );
+    }
+
+    /**
+     * @covers \phpDocumentor\Reflection\Php\Factory\AbstractFactory::create
+     */
     public function testCreateThrowsException() : void
     {
         $this->expectException('InvalidArgumentException');
-        $this->fixture->create(new stdClass(), m::mock(StrategyContainer::class));
+        $this->fixture->create(self::createContext(null), new stdClass(), m::mock(StrategyContainer::class));
     }
 }

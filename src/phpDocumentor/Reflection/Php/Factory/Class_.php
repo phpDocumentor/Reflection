@@ -16,15 +16,11 @@ namespace phpDocumentor\Reflection\Php\Factory;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Class_ as ClassElement;
+use phpDocumentor\Reflection\Php\File as FileElement;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
-use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Node\Stmt\Class_ as ClassNode;
-use PhpParser\Node\Stmt\ClassConst;
-use PhpParser\Node\Stmt\ClassMethod;
-use PhpParser\Node\Stmt\Property as PropertyNode;
-use PhpParser\Node\Stmt\TraitUse;
-use function get_class;
+use function assert;
 
 /**
  * Strategy to create a ClassElement including all sub elements.
@@ -42,13 +38,12 @@ final class Class_ extends AbstractFactory implements ProjectFactoryStrategy
      * Since an object might contain other objects that need to be converted the $factory is passed so it can be
      * used to create nested Elements.
      *
-     * @param ClassNode $object object to convert to an Element
-     * @param StrategyContainer $strategies used to convert nested objects.
-     * @param Context $context of the created object
+     * @param ContextStack $context of the created object
+     * @param ClassNode $object
      */
-    protected function doCreate(object $object, StrategyContainer $strategies, ?Context $context = null) : ClassElement
+    protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies) : void
     {
-        $docBlock = $this->createDocBlock($strategies, $object->getDocComment(), $context);
+        $docBlock = $this->createDocBlock($object->getDocComment(), $context->getTypeContext());
 
         $classElement = new ClassElement(
             $object->fqsen,
@@ -67,39 +62,17 @@ final class Class_ extends AbstractFactory implements ProjectFactoryStrategy
             }
         }
 
-        if (isset($object->stmts)) {
-            foreach ($object->stmts as $stmt) {
-                switch (get_class($stmt)) {
-                    case TraitUse::class:
-                        foreach ($stmt->traits as $use) {
-                            $classElement->addUsedTrait(new Fqsen('\\' . $use->toString()));
-                        }
+        $file = $context->peek();
+        assert($file instanceof FileElement);
+        $file->addClass($classElement);
 
-                        break;
-                    case PropertyNode::class:
-                        $properties = new PropertyIterator($stmt);
-                        foreach ($properties as $property) {
-                            $element = $this->createMember($property, $strategies, $context);
-                            $classElement->addProperty($element);
-                        }
-
-                        break;
-                    case ClassMethod::class:
-                        $method = $this->createMember($stmt, $strategies, $context);
-                        $classElement->addMethod($method);
-                        break;
-                    case ClassConst::class:
-                        $constants = new ClassConstantIterator($stmt);
-                        foreach ($constants as $const) {
-                            $element = $this->createMember($const, $strategies, $context);
-                            $classElement->addConstant($element);
-                        }
-
-                        break;
-                }
-            }
+        if (!isset($object->stmts)) {
+            return;
         }
 
-        return $classElement;
+        foreach ($object->stmts as $stmt) {
+            $strategy = $strategies->findMatching($stmt);
+            $strategy->create($context->push($classElement), $stmt, $strategies);
+        }
     }
 }

@@ -15,14 +15,12 @@ namespace phpDocumentor\Reflection\Php\Factory;
 
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
+use phpDocumentor\Reflection\Php\File as FileElement;
 use phpDocumentor\Reflection\Php\Interface_ as InterfaceElement;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
-use phpDocumentor\Reflection\Types\Context;
-use PhpParser\Node\Stmt\ClassConst;
-use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Interface_ as InterfaceNode;
-use function get_class;
+use Webmozart\Assert\Assert;
 
 /**
  * Strategy to create a InterfaceElement including all sub elements.
@@ -40,42 +38,33 @@ final class Interface_ extends AbstractFactory implements ProjectFactoryStrategy
      * Since an object might contain other objects that need to be converted the $factory is passed so it can be
      * used to create nested Elements.
      *
+     * @param ContextStack      $context    of the created object
      * @param InterfaceNode     $object     object to convert to an Element
      * @param StrategyContainer $strategies used to convert nested objects.
-     * @param Context           $context    of the created object
      */
     protected function doCreate(
+        ContextStack $context,
         object $object,
-        StrategyContainer $strategies,
-        ?Context $context = null
-    ) : InterfaceElement {
-        $docBlock = $this->createDocBlock($strategies, $object->getDocComment(), $context);
+        StrategyContainer $strategies
+    ) : void {
+        $docBlock = $this->createDocBlock($object->getDocComment(), $context->getTypeContext());
         $parents  = [];
         foreach ($object->extends as $extend) {
             $parents['\\' . (string) $extend] = new Fqsen('\\' . (string) $extend);
         }
 
         $interface = new InterfaceElement($object->fqsen, $parents, $docBlock, new Location($object->getLine()));
+        $file = $context->peek();
+        Assert::isInstanceOf($file, FileElement::class);
+        $file->addInterface($interface);
 
-        if (isset($object->stmts)) {
-            foreach ($object->stmts as $stmt) {
-                switch (get_class($stmt)) {
-                    case ClassMethod::class:
-                        $method = $this->createMember($stmt, $strategies, $context);
-                        $interface->addMethod($method);
-                        break;
-                    case ClassConst::class:
-                        $constants = new ClassConstantIterator($stmt);
-                        foreach ($constants as $const) {
-                            $element = $this->createMember($const, $strategies, $context);
-                            $interface->addConstant($element);
-                        }
-
-                        break;
-                }
-            }
+        if (!isset($object->stmts)) {
+            return;
         }
 
-        return $interface;
+        foreach ($object->stmts as $stmt) {
+            $strategy = $strategies->findMatching($stmt);
+            $strategy->create($context->push($interface), $stmt, $strategies);
+        }
     }
 }

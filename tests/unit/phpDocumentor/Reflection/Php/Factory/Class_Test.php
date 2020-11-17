@@ -15,24 +15,21 @@ namespace phpDocumentor\Reflection\Php\Factory;
 
 use Mockery as m;
 use phpDocumentor\Reflection\DocBlock as DocBlockElement;
+use phpDocumentor\Reflection\DocBlockFactoryInterface;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\Class_ as ClassElement;
-use phpDocumentor\Reflection\Php\Constant as ConstantElement;
+use phpDocumentor\Reflection\Php\File;
 use phpDocumentor\Reflection\Php\Method as MethodElement;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
-use phpDocumentor\Reflection\Php\Property as PropertyElement;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use PhpParser\Comment\Doc;
-use PhpParser\Node\Const_;
-use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_ as ClassNode;
-use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassMethod;
-use PhpParser\Node\Stmt\Property as PropertyNode;
-use PhpParser\Node\Stmt\PropertyProperty;
-use PhpParser\Node\Stmt\TraitUse;
+use Prophecy\Argument;
+use Prophecy\Prophecy\ObjectProphecy;
 use stdClass;
+use function current;
 
 /**
  * @uses \phpDocumentor\Reflection\Php\Class_
@@ -51,9 +48,13 @@ use stdClass;
  */
 final class Class_Test extends TestCase
 {
+    /** @var ObjectProphecy */
+    private $docblockFactory;
+
     protected function setUp() : void
     {
-        $this->fixture = new Class_();
+        $this->docblockFactory = $this->prophesize(DocBlockFactoryInterface::class);
+        $this->fixture = new Class_($this->docblockFactory->reveal());
     }
 
     /**
@@ -74,7 +75,7 @@ final class Class_Test extends TestCase
         $classMock     = $this->buildClassMock();
         $classMock->shouldReceive('getDocComment')->andReturnNull();
 
-        $class = $this->fixture->create($classMock, $containerMock);
+        $class = $this->performCreate($classMock, $containerMock);
 
         $this->assertInstanceOf(ClassElement::class, $class);
         $this->assertEquals('\Space\MyClass', (string) $class->getFqsen());
@@ -93,7 +94,7 @@ final class Class_Test extends TestCase
         $classMock->shouldReceive('getDocComment')->andReturnNull();
         $classMock->extends = 'Space\MyParent';
 
-        $class = $this->fixture->create($classMock, $containerMock);
+        $class = $this->performCreate($classMock, $containerMock);
 
         $this->assertInstanceOf(ClassElement::class, $class);
         $this->assertEquals('\Space\MyClass', (string) $class->getFqsen());
@@ -113,7 +114,7 @@ final class Class_Test extends TestCase
             new Name('MyInterface'),
         ];
 
-        $class = $this->fixture->create($classMock, $containerMock);
+        $class = $this->performCreate($classMock, $containerMock);
 
         $this->assertInstanceOf(ClassElement::class, $class);
         $this->assertEquals('\Space\MyClass', (string) $class->getFqsen());
@@ -127,25 +128,25 @@ final class Class_Test extends TestCase
     /**
      * @covers ::create
      */
-    public function testWithMethodMembers() : void
+    public function testIteratesStatements() : void
     {
         $method1           = new ClassMethod('MyClass::method1');
         $method1Descriptor = new MethodElement(new Fqsen('\MyClass::method1'));
-        $strategyMock      = m::mock(ProjectFactoryStrategy::class);
-        $containerMock     = m::mock(StrategyContainer::class);
+        $strategyMock      = $this->prophesize(ProjectFactoryStrategy::class);
+        $containerMock     = $this->prophesize(StrategyContainer::class);
         $classMock         = $this->buildClassMock();
         $classMock->shouldReceive('getDocComment')->andReturnNull();
         $classMock->stmts = [$method1];
 
-        $strategyMock->shouldReceive('create')
-            ->with($method1, $containerMock, null)
-            ->andReturn($method1Descriptor);
+        $strategyMock->create(Argument::type(ContextStack::class), $method1, $containerMock)
+            ->will(function ($args) use ($method1Descriptor) : void {
+                $args[0]->peek()->addMethod($method1Descriptor);
+            })
+            ->shouldBeCalled();
 
-        $containerMock->shouldReceive('findMatching')
-            ->with($method1)
-            ->andReturn($strategyMock);
+        $containerMock->findMatching($method1)->willReturn($strategyMock->reveal());
 
-        $class = $this->fixture->create($classMock, $containerMock);
+        $class = $this->performCreate($classMock, $containerMock->reveal());
 
         $this->assertInstanceOf(ClassElement::class, $class);
         $this->assertEquals('\Space\MyClass', (string) $class->getFqsen());
@@ -158,113 +159,16 @@ final class Class_Test extends TestCase
     /**
      * @covers ::create
      */
-    public function testWithPropertyMembers() : void
-    {
-        $propertyProperty   = new PropertyProperty('\MyClass::$property');
-        $property           = new PropertyNode(1, [$propertyProperty]);
-        $propertyDescriptor = new PropertyElement(new Fqsen('\MyClass::$property'));
-        $strategyMock       = m::mock(ProjectFactoryStrategy::class);
-        $containerMock      = m::mock(StrategyContainer::class);
-        $classMock          = $this->buildClassMock();
-        $classMock->shouldReceive('getDocComment')->andReturnNull();
-        $classMock->stmts = [$property];
-
-        $strategyMock->shouldReceive('create')
-            ->with(m::type(PropertyIterator::class), $containerMock, null)
-            ->andReturn($propertyDescriptor);
-
-        $containerMock->shouldReceive('findMatching')
-            ->with(m::type(PropertyIterator::class))
-            ->andReturn($strategyMock);
-
-        $class = $this->fixture->create($classMock, $containerMock);
-
-        $this->assertInstanceOf(ClassElement::class, $class);
-        $this->assertEquals('\Space\MyClass', (string) $class->getFqsen());
-        $this->assertEquals(
-            ['\MyClass::$property' => $propertyDescriptor],
-            $class->getProperties()
-        );
-    }
-
-    /**
-     * @covers ::create
-     */
-    public function testWithUsedTraits() : void
-    {
-        $trait         = new TraitUse([new Name('MyTrait'), new Name('OtherTrait')]);
-        $containerMock = m::mock(StrategyContainer::class);
-        $containerMock->shouldReceive('findMatching')->never();
-        $classMock = $this->buildClassMock();
-        $classMock->shouldReceive('getDocComment')->andReturnNull();
-        $classMock->stmts = [$trait];
-
-        $class = $this->fixture->create($classMock, $containerMock);
-
-        $this->assertEquals(
-            [
-                '\MyTrait' => new Fqsen('\MyTrait'),
-                '\OtherTrait' => new Fqsen('\OtherTrait'),
-            ],
-            $class->getUsedTraits()
-        );
-    }
-
-    /**
-     * @covers ::create
-     */
-    public function testWithConstants() : void
-    {
-        $const    = new Const_('\Space\MyClass::MY_CONST', new Variable('a'));
-        $constant = new ClassConst([$const]);
-
-        $result        = new ConstantElement(new Fqsen('\Space\MyClass::MY_CONST'));
-        $strategyMock  = m::mock(ProjectFactoryStrategy::class);
-        $containerMock = m::mock(StrategyContainer::class);
-
-        $strategyMock->shouldReceive('create')
-            ->with(m::type(ClassConstantIterator::class), $containerMock, null)
-            ->andReturn($result);
-
-        $containerMock->shouldReceive('findMatching')
-            ->with(m::type(ClassConstantIterator::class))
-            ->andReturn($strategyMock);
-
-        $classMock = $this->buildClassMock();
-        $classMock->shouldReceive('getDocComment')->andReturnNull();
-        $classMock->stmts = [$constant];
-
-        $class = $this->fixture->create($classMock, $containerMock);
-
-        $this->assertEquals(
-            ['\Space\MyClass::MY_CONST' => $result],
-            $class->getConstants()
-        );
-    }
-
-    /**
-     * @covers ::create
-     */
     public function testCreateWithDocBlock() : void
     {
-        $doc       = m::mock(Doc::class);
+        $doc       = new Doc('Text');
         $classMock = $this->buildClassMock();
         $classMock->shouldReceive('getDocComment')->andReturn($doc);
-
         $docBlock = new DocBlockElement('');
-
-        $strategyMock  = m::mock(ProjectFactoryStrategy::class);
+        $this->docblockFactory->create('Text', null)->willReturn($docBlock);
         $containerMock = m::mock(StrategyContainer::class);
 
-        $strategyMock->shouldReceive('create')
-            ->with($doc, $containerMock, null)
-            ->andReturn($docBlock);
-
-        $containerMock->shouldReceive('findMatching')
-            ->with($doc)
-            ->andReturn($strategyMock);
-
-        $class = $this->fixture->create($classMock, $containerMock);
+        $class = $this->performCreate($classMock, $containerMock);
 
         $this->assertSame($docBlock, $class->getDocBlock());
     }
@@ -281,5 +185,13 @@ final class Class_Test extends TestCase
         $classMock->shouldReceive('getLine')->andReturn(1);
 
         return $classMock;
+    }
+
+    private function performCreate(ClassNode $classMock, StrategyContainer $containerMock) : ClassElement
+    {
+        $file = new File('hash', 'path');
+        $this->fixture->create(self::createContext(null)->push($file), $classMock, $containerMock);
+
+        return current($file->getClasses());
     }
 }

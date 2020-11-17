@@ -14,12 +14,15 @@ declare(strict_types=1);
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use phpDocumentor\Reflection\Location;
+use phpDocumentor\Reflection\Php\Class_;
+use phpDocumentor\Reflection\Php\Interface_;
 use phpDocumentor\Reflection\Php\Method as MethodDescriptor;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
+use phpDocumentor\Reflection\Php\Trait_;
 use phpDocumentor\Reflection\Php\Visibility;
-use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Node\Stmt\ClassMethod;
+use Webmozart\Assert\Assert;
 
 /**
  * Strategy to create MethodDescriptor and arguments when applicable.
@@ -35,30 +38,39 @@ final class Method extends AbstractFactory implements ProjectFactoryStrategy
      * Creates an MethodDescriptor out of the given object including its child elements.
      *
      * @param ClassMethod $object object to convert to an MethodDescriptor
-     * @param StrategyContainer $strategies used to convert nested objects.
-     * @param Context $context of the created object
+     * @param ContextStack $context of the created object
      */
     protected function doCreate(
+        ContextStack $context,
         object $object,
-        StrategyContainer $strategies,
-        ?Context $context = null
-    ) : MethodDescriptor {
+        StrategyContainer $strategies
+    ) : void {
+        $methodContainer = $context->peek();
+        Assert::isInstanceOfAny(
+            $methodContainer,
+            [
+                Class_::class,
+                Interface_::class,
+                Trait_::class,
+            ]
+        );
+
         $method = new MethodDescriptor(
             $object->fqsen,
             $this->buildVisibility($object),
-            $this->createDocBlock($strategies, $object->getDocComment(), $context),
+            $this->createDocBlock($object->getDocComment(), $context->getTypeContext()),
             $object->isAbstract(),
             $object->isStatic(),
             $object->isFinal(),
             new Location($object->getLine()),
             (new Type())->fromPhpParser($object->getReturnType())
         );
+        $methodContainer->addMethod($method);
 
         foreach ($object->params as $param) {
-            $method->addArgument($this->createMember($param, $strategies, $context));
+            $strategy = $strategies->findMatching($param);
+            $strategy->create($context->push($method), $param, $strategies);
         }
-
-        return $method;
     }
 
     /**

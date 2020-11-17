@@ -13,13 +13,14 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php;
 
-use Mockery as m;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use phpDocumentor\Reflection\Exception;
 use phpDocumentor\Reflection\File\LocalFile;
 use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\Php\Factory\ContextStack;
+use Prophecy\Argument as ProphesizeArgument;
 use function array_keys;
-use function count;
+use function assert;
 use function current;
 use function key;
 use function md5;
@@ -77,22 +78,32 @@ final class ProjectFactoryTest extends MockeryTestCase
      */
     public function testCreate() : void
     {
-        $someOtherStrategy = m::mock(ProjectFactoryStrategy::class);
-        $someOtherStrategy->shouldReceive('matches')->twice()->andReturn(false);
-        $someOtherStrategy->shouldReceive('create')->never();
+        $expected = ['some/file.php', 'some/other.php'];
+        $calls = 0;
+        $someOtherStrategy = $this->prophesize(ProjectFactoryStrategy::class);
+        $someOtherStrategy->matches(ProphesizeArgument::any())->willReturn(false);
+        $someOtherStrategy->create(
+            ProphesizeArgument::any(),
+            ProphesizeArgument::any(),
+            ProphesizeArgument::any()
+        )->shouldNotBeCalled();
 
-        $fileStrategyMock = m::mock(ProjectFactoryStrategy::class);
-        $fileStrategyMock->shouldReceive('matches')->twice()->andReturn(true);
-        $fileStrategyMock->shouldReceive('create')
-            ->twice()
-            ->andReturnValues(
-                [
-                    new File(md5('some/file.php'), 'some/file.php'),
-                    new File(md5('some/other.php'), 'some/other.php'),
-                ]
-            );
+        $fileStrategyMock = $this->prophesize(ProjectFactoryStrategy::class);
+        $fileStrategyMock->matches(ProphesizeArgument::any())->willReturn(true);
+        $fileStrategyMock->create(
+            ProphesizeArgument::type(ContextStack::class),
+            ProphesizeArgument::type(LocalFile::class),
+            ProphesizeArgument::any()
+        )->will(function ($args) use (&$calls, $expected) : void {
+            $context = $args[0];
+            assert($context instanceof ContextStack);
 
-        $projectFactory = new ProjectFactory([$someOtherStrategy, $fileStrategyMock]);
+            $file = $args[1];
+            assert($file instanceof LocalFile);
+            $context->getProject()->addFile(new File($file->md5(), $expected[$calls++]));
+        });
+
+        $projectFactory = new ProjectFactory([$someOtherStrategy->reveal(), $fileStrategyMock->reveal()]);
 
         $files = [new LocalFile(__FILE__), new LocalFile(__FILE__)];
         $project = $projectFactory->create('MyProject', $files);
@@ -240,33 +251,6 @@ final class ProjectFactoryTest extends MockeryTestCase
     }
 
     /**
-     * @covers ::create
-     */
-    public function testErrorScenarioWhenFileStrategyReturnsNull() : void
-    {
-        $fileStrategyMock = m::mock(ProjectFactoryStrategy::class);
-        $fileStrategyMock->shouldReceive('matches')->twice()->andReturn(true);
-        $fileStrategyMock->shouldReceive('create')
-            ->twice()
-            ->andReturnValues(
-                [
-                    null,
-                    new File(md5('some/other.php'), 'some/other.php'),
-                ]
-            );
-
-        $projectFactory = new ProjectFactory([$fileStrategyMock]);
-
-        $files = [new LocalFile(__FILE__), new LocalFile(__FILE__)];
-        $project = $projectFactory->create('MyProject', $files);
-
-        $this->assertInstanceOf(Project::class, $project);
-
-        $projectFilePaths = array_keys($project->getFiles());
-        $this->assertEquals(['some/other.php'], $projectFilePaths);
-    }
-
-    /**
      * Uses the ProjectFactory to create a Project and returns the namespaces created by the factory.
      *
      * @return Namespace_[] Namespaces of the project
@@ -289,15 +273,22 @@ final class ProjectFactoryTest extends MockeryTestCase
      */
     private function fetchNamespacesFromMultipleFiles(array $files) : array
     {
-        $fileStrategyMock = m::mock(ProjectFactoryStrategy::class);
-        $fileStrategyMock->shouldReceive('matches')->times(count($files))->andReturn(true);
-        $fileStrategyMock->shouldReceive('create')
-            ->times(count($files))
-            ->andReturnValues(
-                $files
-            );
+        $fileStrategyMock = $this->prophesize(ProjectFactoryStrategy::class);
+        $fileStrategyMock->matches(ProphesizeArgument::any())->willReturn(true);
+        $fileStrategyMock->create(
+            ProphesizeArgument::type(ContextStack::class),
+            ProphesizeArgument::type(File::class),
+            ProphesizeArgument::any()
+        )->will(function ($args) : void {
+            $context = $args[0];
+            assert($context instanceof ContextStack);
 
-        $projectFactory = new ProjectFactory([$fileStrategyMock]);
+            $file = $args[1];
+            assert($file instanceof File);
+            $context->getProject()->addFile($file);
+        });
+
+        $projectFactory = new ProjectFactory([$fileStrategyMock->reveal()]);
         $project = $projectFactory->create('My Project', $files);
 
         return $project->getNamespaces();

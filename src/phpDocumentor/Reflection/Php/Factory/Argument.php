@@ -14,9 +14,10 @@ declare(strict_types=1);
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use phpDocumentor\Reflection\Php\Argument as ArgumentDescriptor;
+use phpDocumentor\Reflection\Php\Function_;
+use phpDocumentor\Reflection\Php\Method;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
-use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Param;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
@@ -52,24 +53,35 @@ final class Argument extends AbstractFactory implements ProjectFactoryStrategy
      * Since an object might contain other objects that need to be converted the $factory is passed so it can be
      * used to create nested Elements.
      *
+     * @param ContextStack $context of the created object
      * @param Param $object object to convert to an Element
      * @param StrategyContainer $strategies used to convert nested objects.
-     * @param Context $context of the created object
      */
     protected function doCreate(
+        ContextStack $context,
         object $object,
-        StrategyContainer $strategies,
-        ?Context $context = null
-    ) : ArgumentDescriptor {
+        StrategyContainer $strategies
+    ) : void {
         Assert::isInstanceOf($object, Param::class);
         Assert::isInstanceOf($object->var, Variable::class);
 
-        return new ArgumentDescriptor(
-            (string) $object->var->name,
-            (new Type())->fromPhpParser($object->type),
-            $object->default !== null ? $this->valueConverter->prettyPrintExpr($object->default) : null,
-            $object->byRef,
-            $object->variadic
+        $method = $context->peek();
+        Assert::isInstanceOfAny(
+            $method,
+            [
+                Method::class,
+                Function_::class,
+            ]
+        );
+
+        $method->addArgument(
+            new ArgumentDescriptor(
+                (string) $object->var->name,
+                (new Type())->fromPhpParser($object->type),
+                $object->default !== null ? $this->valueConverter->prettyPrintExpr($object->default) : null,
+                $object->byRef,
+                $object->variadic
+            )
         );
     }
 }

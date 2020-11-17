@@ -15,16 +15,19 @@ namespace phpDocumentor\Reflection\Php\Factory;
 
 use Mockery as m;
 use phpDocumentor\Reflection\DocBlock as DocBlockDescriptor;
+use phpDocumentor\Reflection\DocBlockFactoryInterface;
 use phpDocumentor\Reflection\Fqsen;
-use phpDocumentor\Reflection\Php\Argument;
+use phpDocumentor\Reflection\Php\File;
 use phpDocumentor\Reflection\Php\Function_ as FunctionDescriptor;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use PhpParser\Comment\Doc;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Param;
+use Prophecy\Argument;
+use Prophecy\Prophecy\ObjectProphecy;
 use stdClass;
-use function assert;
+use function current;
 
 /**
  * @uses   \phpDocumentor\Reflection\Php\Factory\Function_::matches
@@ -39,9 +42,13 @@ use function assert;
  */
 final class Function_Test extends TestCase
 {
+    /** @var ObjectProphecy */
+    private $docBlockFactory;
+
     protected function setUp() : void
     {
-        $this->fixture = new Function_();
+        $this->docBlockFactory = $this->prophesize(DocBlockFactoryInterface::class);
+        $this->fixture = new Function_($this->docBlockFactory->reveal());
     }
 
     /**
@@ -58,19 +65,20 @@ final class Function_Test extends TestCase
      */
     public function testCreateWithoutParameters() : void
     {
-        $functionMock = m::mock(\PhpParser\Node\Stmt\Function_::class);
+        $functionMock = $this->prophesize(\PhpParser\Node\Stmt\Function_::class);
         $functionMock->fqsen = new Fqsen('\SomeSpace::function()');
         $functionMock->params = [];
-        $functionMock->shouldReceive('getDocComment')->andReturnNull();
-        $functionMock->shouldReceive('getLine')->andReturn(1);
-        $functionMock->shouldReceive('getReturnType')->andReturnNull();
+        $functionMock->getDocComment()->willReturn(null);
+        $functionMock->getLine()->willReturn(1);
+        $functionMock->getReturnType()->willReturn(null);
 
-        $containerMock = m::mock(StrategyContainer::class);
-        $containerMock->shouldReceive('findMatching')->never();
+        $containerMock = $this->prophesize(StrategyContainer::class);
+        $file = new File('hash', 'path');
 
-        $function = $this->fixture->create($functionMock, $containerMock);
-        assert($function instanceof FunctionDescriptor);
+        $this->fixture->create(self::createContext()->push($file), $functionMock->reveal(), $containerMock->reveal());
 
+        $function = current($file->getFunctions());
+        $this->assertInstanceOf(FunctionDescriptor::class, $function);
         $this->assertEquals('\SomeSpace::function()', (string) $function->getFqsen());
     }
 
@@ -80,27 +88,35 @@ final class Function_Test extends TestCase
     public function testCreateWithParameters() : void
     {
         $param1 = new Param(new Variable('param1'));
-        $functionMock = m::mock(\PhpParser\Node\Stmt\Function_::class);
+        $functionMock = $this->prophesize(\PhpParser\Node\Stmt\Function_::class);
         $functionMock->fqsen = new Fqsen('\SomeSpace::function()');
         $functionMock->params = [$param1];
-        $functionMock->shouldReceive('getDocComment')->andReturnNull();
-        $functionMock->shouldReceive('getLine')->andReturn(1);
-        $functionMock->shouldReceive('getReturnType')->andReturnNull();
+        $functionMock->getDocComment()->willReturn(null);
+        $functionMock->getLine()->willReturn(1);
+        $functionMock->getReturnType()->willReturn(null);
 
-        $strategyMock = m::mock(ProjectFactoryStrategy::class);
-        $containerMock = m::mock(StrategyContainer::class);
+        $argumentStrategy = $this->prophesize(ProjectFactoryStrategy::class);
+        $containerMock = $this->prophesize(StrategyContainer::class);
+        $containerMock->findMatching($param1)->willReturn($argumentStrategy);
+        $argumentStrategy->create(
+            Argument::that(function ($agument) {
+                return $agument->peek() instanceof FunctionDescriptor;
+            }),
+            $param1,
+            $containerMock->reveal()
+        )->shouldBeCalled();
 
-        $strategyMock->shouldReceive('create')
-            ->with($param1, $containerMock, null)
-            ->andReturn(new Argument('param1'));
+        $file = new File('hash', 'path');
 
-        $containerMock->shouldReceive('findMatching')
-            ->with($param1)
-            ->andReturn($strategyMock);
+        $this->fixture->create(
+            self::createContext(null)->push($file),
+            $functionMock->reveal(),
+            $containerMock->reveal()
+        );
 
-        $function = $this->fixture->create($functionMock, $containerMock);
-        assert($function instanceof FunctionDescriptor);
+        $function = current($file->getFunctions());
 
+        self::assertInstanceOf(FunctionDescriptor::class, $function);
         $this->assertEquals('\SomeSpace::function()', (string) $function->getFqsen());
     }
 
@@ -109,28 +125,22 @@ final class Function_Test extends TestCase
      */
     public function testCreateWithDocBlock() : void
     {
-        $doc = m::mock(Doc::class);
-        $functionMock = m::mock(\PhpParser\Node\Stmt\Function_::class);
+        $doc = new Doc('Text');
+        $functionMock = $this->prophesize(\PhpParser\Node\Stmt\Function_::class);
         $functionMock->fqsen = new Fqsen('\SomeSpace::function()');
         $functionMock->params = [];
-        $functionMock->shouldReceive('getDocComment')->andReturn($doc);
-        $functionMock->shouldReceive('getLine')->andReturn(1);
-        $functionMock->shouldReceive('getReturnType')->andReturnNull();
+        $functionMock->getDocComment()->willReturn($doc);
+        $functionMock->getLine()->willReturn(1);
+        $functionMock->getReturnType()->willReturn(null);
 
         $docBlock = new DocBlockDescriptor('');
-        $strategyMock = m::mock(ProjectFactoryStrategy::class);
-        $containerMock = m::mock(StrategyContainer::class);
+        $this->docBlockFactory->create('Text', null)->willReturn($docBlock);
 
-        $strategyMock->shouldReceive('create')
-            ->with($doc, $containerMock, null)
-            ->andReturn($docBlock);
+        $containerMock = $this->prophesize(StrategyContainer::class);
+        $file = new File('hash', 'path');
+        $this->fixture->create(self::createContext()->push($file), $functionMock->reveal(), $containerMock->reveal());
 
-        $containerMock->shouldReceive('findMatching')
-            ->with($doc)
-            ->andReturn($strategyMock);
-
-        $function = $this->fixture->create($functionMock, $containerMock);
-        assert($function instanceof FunctionDescriptor);
+        $function = current($file->getFunctions());
 
         $this->assertEquals('\SomeSpace::function()', (string) $function->getFqsen());
         $this->assertSame($docBlock, $function->getDocBlock());

@@ -15,19 +15,20 @@ namespace phpDocumentor\Reflection\Php\Factory;
 
 use Mockery as m;
 use phpDocumentor\Reflection\DocBlock as DocBlockElement;
+use phpDocumentor\Reflection\DocBlockFactoryInterface;
 use phpDocumentor\Reflection\Fqsen;
-use phpDocumentor\Reflection\Php\Constant as ConstantElement;
+use phpDocumentor\Reflection\Php\File as FileElement;
 use phpDocumentor\Reflection\Php\Interface_ as InterfaceElement;
 use phpDocumentor\Reflection\Php\Method as MethodElement;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use PhpParser\Comment\Doc;
-use PhpParser\Node\Const_;
-use PhpParser\Node\Expr\Variable;
-use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Interface_ as InterfaceNode;
+use Prophecy\Argument;
+use Prophecy\Prophecy\ObjectProphecy;
 use stdClass;
+use function current;
 
 /**
  * @uses \phpDocumentor\Reflection\Php\Interface_
@@ -44,9 +45,13 @@ use stdClass;
  */
 class Interface_Test extends TestCase
 {
+    /** @var ObjectProphecy */
+    private $docBlockFactory;
+
     protected function setUp() : void
     {
-        $this->fixture = new Interface_();
+        $this->docBlockFactory = $this->prophesize(DocBlockFactoryInterface::class);
+        $this->fixture = new Interface_($this->docBlockFactory->reveal());
     }
 
     /**
@@ -63,14 +68,14 @@ class Interface_Test extends TestCase
      */
     public function testSimpleCreate() : void
     {
-        $containerMock = m::mock(StrategyContainer::class);
         $interfaceMock = $this->buildClassMock();
         $interfaceMock->shouldReceive('getDocComment')->andReturnNull();
+        $containerMock = $this->prophesize(StrategyContainer::class);
 
-        $class = $this->fixture->create($interfaceMock, $containerMock);
+        $interface = $this->performCreate($interfaceMock, $containerMock->reveal());
 
-        $this->assertInstanceOf(InterfaceElement::class, $class);
-        $this->assertEquals('\Space\MyInterface', (string) $class->getFqsen());
+        $this->assertInstanceOf(InterfaceElement::class, $interface);
+        $this->assertEquals('\Space\MyInterface', (string) $interface->getFqsen());
     }
 
     /**
@@ -78,23 +83,15 @@ class Interface_Test extends TestCase
      */
     public function testCreateWithDocBlock() : void
     {
-        $doc           = m::mock(Doc::class);
+        $doc           = new Doc('Text');
+        $docBlock      = new DocBlockElement('');
+        $this->docBlockFactory->create('Text', null)->willReturn($docBlock);
+        $containerMock = $this->prophesize(StrategyContainer::class);
+
         $interfaceMock = $this->buildClassMock();
         $interfaceMock->shouldReceive('getDocComment')->andReturn($doc);
 
-        $docBlock      = new DocBlockElement('');
-        $strategyMock  = m::mock(ProjectFactoryStrategy::class);
-        $containerMock = m::mock(StrategyContainer::class);
-
-        $strategyMock->shouldReceive('create')
-            ->with($doc, $containerMock, null)
-            ->andReturn($docBlock);
-
-        $containerMock->shouldReceive('findMatching')
-            ->with($doc)
-            ->andReturn($strategyMock);
-
-        $interface = $this->fixture->create($interfaceMock, $containerMock);
+        $interface = $this->performCreate($interfaceMock, $containerMock->reveal());
 
         $this->assertSame($docBlock, $interface->getDocBlock());
     }
@@ -102,65 +99,31 @@ class Interface_Test extends TestCase
     /**
      * @covers ::create
      */
-    public function testWithMethodMembers() : void
+    public function testIteratesStatements() : void
     {
-        $method1           = new ClassMethod('\Space\MyInterface::method1');
-        $method1Descriptor = new MethodElement(new Fqsen('\Space\MyInterface::method1'));
-        $strategyMock      = m::mock(ProjectFactoryStrategy::class);
-        $containerMock     = m::mock(StrategyContainer::class);
-        $interfaceMock     = $this->buildClassMock();
-        $interfaceMock->shouldReceive('getDocComment')->andReturnNull();
-        $interfaceMock->stmts = [$method1];
-
-        $strategyMock->shouldReceive('create')
-            ->with($method1, $containerMock, null)
-            ->andReturn($method1Descriptor);
-
-        $containerMock->shouldReceive('findMatching')
-            ->with($method1)
-            ->andReturn($strategyMock);
-
-        $this->fixture->create($interfaceMock, $containerMock);
-
-        $interface = $this->fixture->create($interfaceMock, $containerMock);
-
-        $this->assertInstanceOf(InterfaceElement::class, $interface);
-        $this->assertEquals('\Space\MyInterface', (string) $interface->getFqsen());
-        $this->assertEquals(
-            ['\Space\MyInterface::method1' => $method1Descriptor],
-            $interface->getMethods()
-        );
-    }
-
-    /**
-     * @covers ::create
-     */
-    public function testWithConstants() : void
-    {
-        $const    = new Const_('\Space\MyClass::MY_CONST', new Variable('a'));
-        $constant = new ClassConst([$const]);
-
-        $result        = new ConstantElement(new Fqsen('\Space\MyClass::MY_CONST'));
-        $strategyMock  = m::mock(ProjectFactoryStrategy::class);
-        $containerMock = m::mock(StrategyContainer::class);
-
-        $strategyMock->shouldReceive('create')
-            ->with(m::type(ClassConstantIterator::class), $containerMock, null)
-            ->andReturn($result);
-
-        $containerMock->shouldReceive('findMatching')
-            ->with(m::type(ClassConstantIterator::class))
-            ->andReturn($strategyMock);
-
-        $classMock = $this->buildClassMock();
+        $method1           = new ClassMethod('MyClass::method1');
+        $method1Descriptor = new MethodElement(new Fqsen('\MyClass::method1'));
+        $strategyMock      = $this->prophesize(ProjectFactoryStrategy::class);
+        $containerMock     = $this->prophesize(StrategyContainer::class);
+        $classMock         = $this->buildClassMock();
         $classMock->shouldReceive('getDocComment')->andReturnNull();
-        $classMock->stmts = [$constant];
+        $classMock->stmts = [$method1];
 
-        $class = $this->fixture->create($classMock, $containerMock);
+        $strategyMock->create(Argument::type(ContextStack::class), $method1, $containerMock)
+            ->will(function ($args) use ($method1Descriptor) : void {
+                $args[0]->peek()->addMethod($method1Descriptor);
+            })
+            ->shouldBeCalled();
 
+        $containerMock->findMatching($method1)->willReturn($strategyMock->reveal());
+
+        $class = $this->performCreate($classMock, $containerMock->reveal());
+
+        $this->assertInstanceOf(InterfaceElement::class, $class);
+        $this->assertEquals('\Space\MyInterface', (string) $class->getFqsen());
         $this->assertEquals(
-            ['\Space\MyClass::MY_CONST' => $result],
-            $class->getConstants()
+            ['\MyClass::method1' => $method1Descriptor],
+            $class->getMethods()
         );
     }
 
@@ -175,5 +138,17 @@ class Interface_Test extends TestCase
         $interfaceMock->shouldReceive('getLine')->andReturn(1);
 
         return $interfaceMock;
+    }
+
+    private function performCreate(m\MockInterface $interfaceMock, StrategyContainer $containerMock) : InterfaceElement
+    {
+        $file = new FileElement('hash', 'path');
+        $this->fixture->create(
+            self::createContext(null)->push($file),
+            $interfaceMock,
+            $containerMock
+        );
+
+        return current($file->getInterfaces());
     }
 }

@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace phpDocumentor\Reflection\Php;
 
 use OutOfBoundsException;
+use SplPriorityQueue;
 use function get_class;
 use function is_object;
 use function print_r;
@@ -21,7 +22,9 @@ use function sprintf;
 
 final class ProjectFactoryStrategies implements StrategyContainer
 {
-    /** @var ProjectFactoryStrategy[] */
+    public const DEFAULT_PRIORITY = 1000;
+
+    /** @var SplPriorityQueue<ProjectFactoryStrategy> */
     private $strategies;
 
     /**
@@ -31,11 +34,10 @@ final class ProjectFactoryStrategies implements StrategyContainer
      */
     public function __construct(array $strategies)
     {
+        $this->strategies = new SplPriorityQueue();
         foreach ($strategies as $strategy) {
             $this->addStrategy($strategy);
         }
-
-        $this->strategies = $strategies;
     }
 
     /**
@@ -47,7 +49,7 @@ final class ProjectFactoryStrategies implements StrategyContainer
      */
     public function findMatching($object) : ProjectFactoryStrategy
     {
-        foreach ($this->strategies as $strategy) {
+        foreach (clone $this->strategies as $strategy) {
             if ($strategy->matches($object)) {
                 return $strategy;
             }
@@ -64,8 +66,8 @@ final class ProjectFactoryStrategies implements StrategyContainer
     /**
      * Add a strategy to this container.
      */
-    public function addStrategy(ProjectFactoryStrategy $strategy) : void
+    public function addStrategy(ProjectFactoryStrategy $strategy, int $priority = self::DEFAULT_PRIORITY) : void
     {
-        $this->strategies[] = $strategy;
+        $this->strategies->insert($strategy, $priority);
     }
 }

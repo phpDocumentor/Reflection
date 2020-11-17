@@ -13,11 +13,12 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
+use phpDocumentor\Reflection\DocBlockFactoryInterface;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Constant as ConstantElement;
+use phpDocumentor\Reflection\Php\File as FileElement;
 use phpDocumentor\Reflection\Php\StrategyContainer;
-use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Name;
@@ -43,8 +44,9 @@ final class Define extends AbstractFactory
     /**
      * Initializes the object.
      */
-    public function __construct(PrettyPrinter $prettyPrinter)
+    public function __construct(DocBlockFactoryInterface $docBlockFactory, PrettyPrinter $prettyPrinter)
     {
+        parent::__construct($docBlockFactory);
         $this->valueConverter = $prettyPrinter;
     }
 
@@ -74,13 +76,12 @@ final class Define extends AbstractFactory
      *
      * @param Expression $object object to convert to an Element
      * @param StrategyContainer $strategies used to convert nested objects.
-     * @param Context $context of the created object
      */
     protected function doCreate(
+        ContextStack $context,
         object $object,
-        StrategyContainer $strategies,
-        ?Context $context = null
-    ) : ConstantElement {
+        StrategyContainer $strategies
+    ) : void {
         $expression = $object->expr;
         if (!$expression instanceof FuncCall) {
             throw new RuntimeException(
@@ -91,12 +92,17 @@ final class Define extends AbstractFactory
 
         [$name, $value] = $expression->args;
 
-        return new ConstantElement(
+        $file = $context->peek();
+        assert($file instanceof FileElement);
+
+        $constant = new ConstantElement(
             $this->determineFqsen($name),
-            $this->createDocBlock($strategies, $object->getDocComment(), $context),
+            $this->createDocBlock($object->getDocComment(), $context->getTypeContext()),
             $this->determineValue($value),
             new Location($object->getLine())
         );
+
+        $file->addConstant($constant);
     }
 
     private function determineValue(?Arg $value) : ?string

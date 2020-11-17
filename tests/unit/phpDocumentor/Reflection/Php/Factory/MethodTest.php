@@ -16,8 +16,9 @@ namespace phpDocumentor\Reflection\Php\Factory;
 use Mockery as m;
 use Mockery\MockInterface;
 use phpDocumentor\Reflection\DocBlock as DocBlockDescriptor;
+use phpDocumentor\Reflection\DocBlockFactoryInterface;
 use phpDocumentor\Reflection\Fqsen;
-use phpDocumentor\Reflection\Php\Argument as ArgumentDescriptor;
+use phpDocumentor\Reflection\Php\Class_ as ClassElement;
 use phpDocumentor\Reflection\Php\Method as MethodDescriptor;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
@@ -25,8 +26,10 @@ use PhpParser\Comment\Doc;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\ClassMethod;
+use Prophecy\Argument;
+use Prophecy\Prophecy\ObjectProphecy;
 use stdClass;
-use function assert;
+use function current;
 
 /**
  * @uses   \phpDocumentor\Reflection\Php\Method
@@ -42,9 +45,13 @@ use function assert;
  */
 class MethodTest extends TestCase
 {
+    /** @var ObjectProphecy */
+    private $docBlockFactory;
+
     protected function setUp() : void
     {
-        $this->fixture = new Method();
+        $this->docBlockFactory = $this->prophesize(DocBlockFactoryInterface::class);
+        $this->fixture = new Method($this->docBlockFactory->reveal());
     }
 
     /**
@@ -71,9 +78,11 @@ class MethodTest extends TestCase
         $containerMock = m::mock(StrategyContainer::class);
         $containerMock->shouldReceive('findMatching')->never();
 
-        $method = $this->fixture->create($classMethodMock, $containerMock);
-        assert($method instanceof MethodDescriptor);
+        $class = new ClassElement(new Fqsen('\\MyClass'));
+        $this->fixture->create(self::createContext(null)->push($class), $classMethodMock, $containerMock);
 
+        $method = current($class->getMethods());
+        $this->assertInstanceOf(MethodDescriptor::class, $method);
         $this->assertEquals('\SomeSpace\Class::function()', (string) $method->getFqsen());
         $this->assertEquals('public', (string) $method->getVisibility());
     }
@@ -93,9 +102,11 @@ class MethodTest extends TestCase
         $containerMock = m::mock(StrategyContainer::class);
         $containerMock->shouldReceive('findMatching')->never();
 
-        $method = $this->fixture->create($classMethodMock, $containerMock);
-        assert($method instanceof MethodDescriptor);
+        $class = new ClassElement(new Fqsen('\\MyClass'));
+        $this->fixture->create(self::createContext(null)->push($class), $classMethodMock, $containerMock);
 
+        $method = current($class->getMethods());
+        $this->assertInstanceOf(MethodDescriptor::class, $method);
         $this->assertEquals('\SomeSpace\Class::function()', (string) $method->getFqsen());
         $this->assertEquals('protected', (string) $method->getVisibility());
     }
@@ -112,20 +123,22 @@ class MethodTest extends TestCase
         $classMethodMock->shouldReceive('getDocComment')->once()->andReturnNull();
         $classMethodMock->shouldReceive('getReturnType')->once()->andReturn(null);
 
-        $strategyMock = m::mock(ProjectFactoryStrategy::class);
-        $containerMock = m::mock(StrategyContainer::class);
+        $argumentStrategy = $this->prophesize(ProjectFactoryStrategy::class);
+        $containerMock = $this->prophesize(StrategyContainer::class);
+        $containerMock->findMatching($param1)->willReturn($argumentStrategy);
+        $argumentStrategy->create(
+            Argument::that(static function ($agument) {
+                return $agument->peek() instanceof MethodDescriptor;
+            }),
+            $param1,
+            $containerMock->reveal()
+        )->shouldBeCalled();
 
-        $strategyMock->shouldReceive('create')
-            ->with($param1, $containerMock, null)
-            ->andReturn(new ArgumentDescriptor('param1'));
+        $class = new ClassElement(new Fqsen('\\MyClass'));
+        $this->fixture->create(self::createContext(null)->push($class), $classMethodMock, $containerMock->reveal());
 
-        $containerMock->shouldReceive('findMatching')
-            ->with($param1)
-            ->andReturn($strategyMock);
-
-        $method = $this->fixture->create($classMethodMock, $containerMock);
-        assert($method instanceof MethodDescriptor);
-
+        $method = current($class->getMethods());
+        $this->assertInstanceOf(MethodDescriptor::class, $method);
         $this->assertEquals('\SomeSpace\Class::function()', (string) $method->getFqsen());
         $this->assertTrue($method->isAbstract());
         $this->assertTrue($method->isFinal());
@@ -138,7 +151,7 @@ class MethodTest extends TestCase
      */
     public function testCreateWithDocBlock() : void
     {
-        $doc = m::mock(Doc::class);
+        $doc = new Doc('Text');
         $classMethodMock = $this->buildClassMethodMock();
         $classMethodMock->params = [];
         $classMethodMock->shouldReceive('isPrivate')->once()->andReturn(true);
@@ -146,20 +159,14 @@ class MethodTest extends TestCase
         $classMethodMock->shouldReceive('getReturnType')->once()->andReturn(null);
 
         $docBlock = new DocBlockDescriptor('');
-        $strategyMock = m::mock(ProjectFactoryStrategy::class);
-        $containerMock = m::mock(StrategyContainer::class);
+        $this->docBlockFactory->create('Text', null)->willReturn($docBlock);
+        $containerMock = $this->prophesize(StrategyContainer::class);
 
-        $strategyMock->shouldReceive('create')
-            ->with($doc, $containerMock, null)
-            ->andReturn($docBlock);
+        $class = new ClassElement(new Fqsen('\\MyClass'));
+        $this->fixture->create(self::createContext(null)->push($class), $classMethodMock, $containerMock->reveal());
 
-        $containerMock->shouldReceive('findMatching')
-            ->with($doc)
-            ->andReturn($strategyMock);
-
-        $method = $this->fixture->create($classMethodMock, $containerMock);
-        assert($method instanceof MethodDescriptor);
-
+        $method = current($class->getMethods());
+        $this->assertInstanceOf(MethodDescriptor::class, $method);
         $this->assertEquals('\SomeSpace\Class::function()', (string) $method->getFqsen());
         $this->assertSame($docBlock, $method->getDocBlock());
     }

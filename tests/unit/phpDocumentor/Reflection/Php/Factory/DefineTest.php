@@ -13,12 +13,11 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
-use Mockery as m;
 use phpDocumentor\Reflection\DocBlock as DocBlockDescriptor;
+use phpDocumentor\Reflection\DocBlockFactoryInterface;
 use phpDocumentor\Reflection\Php\Constant as ConstantDescriptor;
+use phpDocumentor\Reflection\Php\File as FileElement;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategies;
-use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
-use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Comment\Doc;
 use PhpParser\Node\Arg;
@@ -28,8 +27,9 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Expression;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
+use Prophecy\Prophecy\ObjectProphecy;
 use stdClass;
-use function assert;
+use function current;
 
 /**
  * @uses   \phpDocumentor\Reflection\Php\ProjectFactoryStrategies
@@ -41,9 +41,13 @@ use function assert;
  */
 final class DefineTest extends TestCase
 {
+    /** @var ObjectProphecy */
+    private $docBlockFactory;
+
     protected function setUp() : void
     {
-        $this->fixture = new Define(new PrettyPrinter());
+        $this->docBlockFactory = $this->prophesize(DocBlockFactoryInterface::class);
+        $this->fixture = new Define($this->docBlockFactory->reveal(), new PrettyPrinter());
     }
 
     public function testMatches() : void
@@ -60,13 +64,12 @@ final class DefineTest extends TestCase
     public function testCreate() : void
     {
         $constantStub = $this->buildDefineStub();
+        $file = new FileElement('hash', 'path');
+        $contextStack = self::createContext(new Context('Space\\MyClass'))->push($file);
 
-        $constant = $this->fixture->create(
-            $constantStub,
-            new ProjectFactoryStrategies([]),
-            new Context('Space\\MyClass')
-        );
-        assert($constant instanceof ConstantDescriptor);
+        $this->fixture->create($contextStack, $constantStub, new ProjectFactoryStrategies([]));
+
+        $constant = current($file->getConstants());
 
         $this->assertConstant($constant, '');
     }
@@ -74,13 +77,12 @@ final class DefineTest extends TestCase
     public function testCreateNamespace() : void
     {
         $constantStub = $this->buildDefineStub('\\OtherSpace\\MyClass');
+        $file = new FileElement('hash', 'path');
+        $contextStack = self::createContext(new Context('Space\\MyClass'))->push($file);
 
-        $constant = $this->fixture->create(
-            $constantStub,
-            new ProjectFactoryStrategies([]),
-            new Context('Space\\MyClass')
-        );
-        assert($constant instanceof ConstantDescriptor);
+        $this->fixture->create($contextStack, $constantStub, new ProjectFactoryStrategies([]));
+
+        $constant = current($file->getConstants());
 
         $this->assertConstant($constant, '\\OtherSpace\\MyClass');
     }
@@ -88,20 +90,19 @@ final class DefineTest extends TestCase
     public function testCreateGlobal() : void
     {
         $constantStub = $this->buildDefineStub();
+        $file = new FileElement('hash', 'path');
+        $contextStack = self::createContext()->push($file);
 
-        $constant = $this->fixture->create(
-            $constantStub,
-            new ProjectFactoryStrategies([]),
-            new Context('')
-        );
-        assert($constant instanceof ConstantDescriptor);
+        $this->fixture->create($contextStack, $constantStub, new ProjectFactoryStrategies([]));
+
+        $constant = current($file->getConstants());
 
         $this->assertConstant($constant, '');
     }
 
     public function testCreateWithDocBlock() : void
     {
-        $doc = m::mock(Doc::class);
+        $doc = new Doc('Text');
         $docBlock = new DocBlockDescriptor('');
 
         $constantStub = new Expression(
@@ -114,26 +115,16 @@ final class DefineTest extends TestCase
             ),
             ['comments' => [$doc]]
         );
-        $context = new Context('Space\\MyClass');
+        $typeContext = new Context('Space\\MyClass');
 
-        $strategyMock = m::mock(ProjectFactoryStrategy::class);
-        $containerMock = m::mock(StrategyContainer::class);
+        $this->docBlockFactory->create('Text', $typeContext)->willReturn($docBlock);
 
-        $strategyMock->shouldReceive('create')
-            ->with($doc, $containerMock, $context)
-            ->andReturn($docBlock);
+        $file = new FileElement('hash', 'path');
+        $contextStack = self::createContext($typeContext)->push($file);
 
-        $containerMock->shouldReceive('findMatching')
-            ->with($doc)
-            ->andReturn($strategyMock);
+        $this->fixture->create($contextStack, $constantStub, new ProjectFactoryStrategies([]));
 
-        $constant = $this->fixture->create(
-            $constantStub,
-            $containerMock,
-            $context
-        );
-        assert($constant instanceof ConstantDescriptor);
-
+        $constant = current($file->getConstants());
         $this->assertConstant($constant, '');
         $this->assertSame($docBlock, $constant->getDocBlock());
     }

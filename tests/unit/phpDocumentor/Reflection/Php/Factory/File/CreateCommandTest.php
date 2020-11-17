@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace phpDocumentor\Reflection\Php\Factory\File;
 
 use phpDocumentor\Reflection\File\LocalFile;
+use phpDocumentor\Reflection\Php\Factory\ContextStack;
+use phpDocumentor\Reflection\Php\Project;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategies;
 use PHPUnit\Framework\TestCase;
 
@@ -39,7 +41,11 @@ class CreateCommandTest extends TestCase
     {
         $this->file       = new LocalFile(__FILE__);
         $this->strategies = new ProjectFactoryStrategies([]);
-        $this->fixture    = new CreateCommand($this->file, $this->strategies);
+        $this->fixture    = new CreateCommand(
+            new ContextStack(new Project('test')),
+            $this->file,
+            $this->strategies
+        );
     }
 
     /**

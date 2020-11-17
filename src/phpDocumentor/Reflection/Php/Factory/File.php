@@ -13,18 +13,16 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
-use OutOfBoundsException;
 use phpDocumentor\Reflection\DocBlock as DocBlockInstance;
+use phpDocumentor\Reflection\DocBlockFactoryInterface;
 use phpDocumentor\Reflection\File as FileSystemFile;
 use phpDocumentor\Reflection\Middleware\ChainFactory;
 use phpDocumentor\Reflection\Middleware\Middleware;
 use phpDocumentor\Reflection\Php\Factory\File\CreateCommand;
 use phpDocumentor\Reflection\Php\File as FileElement;
-use phpDocumentor\Reflection\Php\File as PhpFile;
 use phpDocumentor\Reflection\Php\NodesFactory;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Types\Context;
-use phpDocumentor\Reflection\Types\NamespaceNodeToContext;
 use PhpParser\Comment\Doc;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_ as ClassNode;
@@ -33,7 +31,6 @@ use PhpParser\Node\Stmt\Declare_ as DeclareNode;
 use PhpParser\Node\Stmt\Function_ as FunctionNode;
 use PhpParser\Node\Stmt\InlineHTML;
 use PhpParser\Node\Stmt\Interface_ as InterfaceNode;
-use PhpParser\Node\Stmt\Namespace_ as NamespaceNode;
 use PhpParser\Node\Stmt\Trait_ as TraitNode;
 use function get_class;
 use function in_array;
@@ -61,9 +58,13 @@ final class File extends AbstractFactory
      *
      * @param Middleware[] $middleware
      */
-    public function __construct(NodesFactory $nodesFactory, array $middleware = [])
-    {
+    public function __construct(
+        DocBlockFactoryInterface $docBlockFactory,
+        NodesFactory $nodesFactory,
+        array $middleware = []
+    ) {
         $this->nodesFactory = $nodesFactory;
+        parent::__construct($docBlockFactory);
 
         $lastCallable = function ($command) {
             return $this->createFile($command);
@@ -83,15 +84,21 @@ final class File extends AbstractFactory
      * Since an object might contain other objects that need to be converted the $factory is passed so it can be
      * used to create nested Elements.
      *
+     * @param ContextStack $context used to convert nested objects.
      * @param FileSystemFile $object path to the file to convert to an File object.
      * @param StrategyContainer $strategies used to convert nested objects.
      */
-    protected function doCreate(object $object, StrategyContainer $strategies, ?Context $context = null) : PhpFile
+    protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies) : void
     {
-        $command = new CreateCommand($object, $strategies);
+        $command = new CreateCommand($context, $object, $strategies);
         $middlewareChain = $this->middlewareChain;
 
-        return $middlewareChain($command);
+        $file = $middlewareChain($command);
+        if ($file === null) {
+            return;
+        }
+
+        $context->getProject()->addFile($file);
     }
 
     private function createFile(CreateCommand $command) : FileElement
@@ -100,7 +107,7 @@ final class File extends AbstractFactory
         $code = $file->getContents();
         $nodes = $this->nodesFactory->create($code);
 
-        $docBlock = $this->createFileDocBlock(null, $command->getStrategies(), null, $nodes);
+        $docBlock = $this->createFileDocBlock(null, $nodes);
 
         $result = new FileElement(
             $file->md5(),
@@ -109,7 +116,7 @@ final class File extends AbstractFactory
             $docBlock
         );
 
-        $this->createElements($nodes, $result, $command->getStrategies(), null);
+        $this->createElements($command->getContext()->push($result), $nodes, $command->getStrategies());
 
         return $result;
     }
@@ -118,70 +125,13 @@ final class File extends AbstractFactory
      * @param Node[] $nodes
      */
     private function createElements(
+        ContextStack $contextStack,
         array $nodes,
-        FileElement $file,
-        StrategyContainer $strategies,
-        ?Context $context
+        StrategyContainer $strategies
     ) : void {
         foreach ($nodes as $node) {
-            switch (get_class($node)) {
-                case Node\Stmt\If_::class:
-                    $this->createElements($node->stmts, $file, $strategies, $context);
-
-                    foreach ($node->elseifs as $subNode) {
-                        $this->createElements($subNode->stmts, $file, $strategies, $context);
-                    }
-
-                    if ($node->else instanceof Node\Stmt\Else_) {
-                        $this->createElements($node->else->stmts, $file, $strategies, $context);
-                    }
-
-                    break;
-                case Node\Stmt\Expression::class:
-                    try {
-                        $strategy = $strategies->findMatching($node);
-                        $constant = $strategy->create($node, $strategies, $context);
-                        $file->addConstant($constant);
-                    } catch (OutOfBoundsException $exception) {
-                        // ignore, we are only interested when it is a define statement
-                    }
-
-                    break;
-                case ClassNode::class:
-                    $strategy = $strategies->findMatching($node);
-                    $class = $strategy->create($node, $strategies, $context);
-                    $file->addClass($class);
-                    break;
-                case ConstantNode::class:
-                    $constants = new GlobalConstantIterator($node);
-                    foreach ($constants as $constant) {
-                        $strategy = $strategies->findMatching($constant);
-                        $constant = $strategy->create($constant, $strategies, $context);
-                        $file->addConstant($constant);
-                    }
-
-                    break;
-                case FunctionNode::class:
-                    $strategy = $strategies->findMatching($node);
-                    $function = $strategy->create($node, $strategies, $context);
-                    $file->addFunction($function);
-                    break;
-                case InterfaceNode::class:
-                    $strategy = $strategies->findMatching($node);
-                    $interface = $strategy->create($node, $strategies, $context);
-                    $file->addInterface($interface);
-                    break;
-                case NamespaceNode::class:
-                    $context = (new NamespaceNodeToContext())($node);
-                    $file->addNamespace($node->fqsen);
-                    $this->createElements($node->stmts, $file, $strategies, $context);
-                    break;
-                case TraitNode::class:
-                    $strategy = $strategies->findMatching($node);
-                    $trait = $strategy->create($node, $strategies, $context);
-                    $file->addTrait($trait);
-                    break;
-            }
+            $strategy = $strategies->findMatching($node);
+            $strategy->create($contextStack, $node, $strategies);
         }
     }
 
@@ -189,8 +139,6 @@ final class File extends AbstractFactory
      * @param Node[] $nodes
      */
     protected function createFileDocBlock(
-        ?Doc $docBlock = null,
-        ?StrategyContainer $strategies = null,
         ?Context $context = null,
         array $nodes = []
     ) : ?DocBlockInstance {
@@ -226,7 +174,7 @@ final class File extends AbstractFactory
                 $node instanceof InterfaceNode ||
                 $node instanceof TraitNode
             )) {
-                return $this->createDocBlock($strategies, $comment, $context);
+                return $this->createDocBlock($comment, $context);
             }
 
             ++$found;
@@ -238,7 +186,7 @@ final class File extends AbstractFactory
         }
 
         if ($found === 2) {
-            return $this->createDocBlock($strategies, $firstDocBlock, $context);
+            return $this->createDocBlock($firstDocBlock, $context);
         }
 
         return null;

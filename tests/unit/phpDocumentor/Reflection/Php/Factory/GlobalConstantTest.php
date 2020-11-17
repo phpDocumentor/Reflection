@@ -15,18 +15,20 @@ namespace phpDocumentor\Reflection\Php\Factory;
 
 use Mockery as m;
 use phpDocumentor\Reflection\DocBlock as DocBlockDescriptor;
+use phpDocumentor\Reflection\DocBlockFactoryInterface;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\Constant as ConstantDescriptor;
+use phpDocumentor\Reflection\Php\File as FileElement;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategies;
-use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use PhpParser\Comment\Doc;
 use PhpParser\Node\Const_;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Const_ as ConstStatement;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
+use Prophecy\Prophecy\ObjectProphecy;
 use stdClass;
-use function assert;
+use function current;
 
 /**
  * @uses   \phpDocumentor\Reflection\Php\Factory\GlobalConstantIterator
@@ -39,9 +41,13 @@ use function assert;
  */
 final class GlobalConstantTest extends TestCase
 {
+    /** @var ObjectProphecy */
+    private $docBlockFactory;
+
     protected function setUp() : void
     {
-        $this->fixture = new GlobalConstant(new PrettyPrinter());
+        $this->docBlockFactory = $this->prophesize(DocBlockFactoryInterface::class);
+        $this->fixture = new GlobalConstant($this->docBlockFactory->reveal(), new PrettyPrinter());
     }
 
     public function testMatches() : void
@@ -56,45 +62,39 @@ final class GlobalConstantTest extends TestCase
 
         $constantStub = $this->buildConstantIteratorStub();
 
-        $constant = $this->fixture->create($constantStub, $factory);
-        assert($constant instanceof ConstantDescriptor);
+        $file = new FileElement('hash', 'path');
+        $this->fixture->create(self::createContext(null)->push($file), $constantStub, $factory);
+        $constant = current($file->getConstants());
 
         $this->assertConstant($constant);
     }
 
     public function testCreateWithDocBlock() : void
     {
-        $doc = m::mock(Doc::class);
+        $doc = new Doc('Text');
         $docBlock = new DocBlockDescriptor('');
 
         $const = new Const_('\Space\MyClass\MY_CONST1', new String_('a'), ['comments' => [$doc]]);
         $const->fqsen = new Fqsen((string) $const->name);
 
-        $constantStub = new GlobalConstantIterator(new ConstStatement([$const]));
-        $strategyMock = m::mock(ProjectFactoryStrategy::class);
+        $constantStub = new ConstStatement([$const]);
         $containerMock = m::mock(StrategyContainer::class);
+        $this->docBlockFactory->create('Text', null)->willReturn($docBlock);
 
-        $strategyMock->shouldReceive('create')
-            ->with($doc, $containerMock, null)
-            ->andReturn($docBlock);
-
-        $containerMock->shouldReceive('findMatching')
-            ->with($doc)
-            ->andReturn($strategyMock);
-
-        $constant = $this->fixture->create($constantStub, $containerMock);
-        assert($constant instanceof ConstantDescriptor);
+        $file = new FileElement('hash', 'path');
+        $this->fixture->create(self::createContext(null)->push($file), $constantStub, $containerMock);
+        $constant = current($file->getConstants());
 
         $this->assertConstant($constant);
         $this->assertSame($docBlock, $constant->getDocBlock());
     }
 
-    private function buildConstantIteratorStub() : GlobalConstantIterator
+    private function buildConstantIteratorStub() : ConstStatement
     {
         $const = new Const_('\Space\MyClass\MY_CONST1', new String_('a'));
         $const->fqsen = new Fqsen((string) $const->name);
 
-        return new GlobalConstantIterator(new ConstStatement([$const]));
+        return new ConstStatement([$const]);
     }
 
     private function assertConstant(ConstantDescriptor $constant) : void

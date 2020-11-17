@@ -14,7 +14,9 @@ declare(strict_types=1);
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use Mockery as m;
+use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\Argument as ArgumentDescriptor;
+use phpDocumentor\Reflection\Php\Method as MethodElement;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategies;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Param;
@@ -56,14 +58,19 @@ class ArgumentTest extends TestCase
     public function testCreate() : void
     {
         $factory = new ProjectFactoryStrategies([]);
+        $method = new MethodElement(new Fqsen('\Class::method()'));
 
-        $argMock = m::mock(Param::class);
-        $argMock->var = new Variable('myArgument');
-        $argMock->default = new String_('MyDefault');
-        $argMock->byRef = true;
-        $argMock->variadic = true;
+        $argMock = new Param(
+            new Variable('myArgument'),
+            new String_('MyDefault'),
+            null,
+            true,
+            true
+        );
 
-        $argument = $this->fixture->create($argMock, $factory);
+        $this->fixture->create(self::createContext(null)->push($method), $argMock, $factory);
+
+        $argument = $method->getArguments()[0];
 
         $this->assertInstanceOf(ArgumentDescriptor::class, $argument);
         $this->assertEquals('myArgument', $argument->getName());

@@ -38,32 +38,5 @@ parameters:
         #
         # Type hint in php-parser is incorrect.
         - '#Cannot cast PhpParser\\Node\\Expr\|string to string.#'
-        -
-                message: "#^Parameter \\#1 \\$constant of method phpDocumentor\\\\Reflection\\\\Php\\\\File\\:\\:addConstant\\(\\) expects phpDocumentor\\\\Reflection\\\\Php\\\\Constant, phpDocumentor\\\\Reflection\\\\DocBlock\\|phpDocumentor\\\\Reflection\\\\Element\\|phpDocumentor\\\\Reflection\\\\Php\\\\Argument\\|phpDocumentor\\\\Reflection\\\\Php\\\\File\\|null given\\.$#"
-                count: 2
-                path: src/phpDocumentor/Reflection/Php/Factory/File.php
 
-        -
-                message: "#^Parameter \\#1 \\$class of method phpDocumentor\\\\Reflection\\\\Php\\\\File\\:\\:addClass\\(\\) expects phpDocumentor\\\\Reflection\\\\Php\\\\Class_, phpDocumentor\\\\Reflection\\\\DocBlock\\|phpDocumentor\\\\Reflection\\\\Element\\|phpDocumentor\\\\Reflection\\\\Php\\\\Argument\\|phpDocumentor\\\\Reflection\\\\Php\\\\File\\|null given\\.$#"
-                count: 1
-                path: src/phpDocumentor/Reflection/Php/Factory/File.php
-
-        -
-                message: "#^Parameter \\#1 \\$function of method phpDocumentor\\\\Reflection\\\\Php\\\\File\\:\\:addFunction\\(\\) expects phpDocumentor\\\\Reflection\\\\Php\\\\Function_, phpDocumentor\\\\Reflection\\\\DocBlock\\|phpDocumentor\\\\Reflection\\\\Element\\|phpDocumentor\\\\Reflection\\\\Php\\\\Argument\\|phpDocumentor\\\\Reflection\\\\Php\\\\File\\|null given\\.$#"
-                count: 1
-                path: src/phpDocumentor/Reflection/Php/Factory/File.php
-
-        -
-                message: "#^Parameter \\#1 \\$interface of method phpDocumentor\\\\Reflection\\\\Php\\\\File\\:\\:addInterface\\(\\) expects phpDocumentor\\\\Reflection\\\\Php\\\\Interface_, phpDocumentor\\\\Reflection\\\\DocBlock\\|phpDocumentor\\\\Reflection\\\\Element\\|phpDocumentor\\\\Reflection\\\\Php\\\\Argument\\|phpDocumentor\\\\Reflection\\\\Php\\\\File\\|null given\\.$#"
-                count: 1
-                path: src/phpDocumentor/Reflection/Php/Factory/File.php
-
-        -
-                message: "#^Parameter \\#1 \\$trait of method phpDocumentor\\\\Reflection\\\\Php\\\\File\\:\\:addTrait\\(\\) expects phpDocumentor\\\\Reflection\\\\Php\\\\Trait_, phpDocumentor\\\\Reflection\\\\DocBlock\\|phpDocumentor\\\\Reflection\\\\Element\\|phpDocumentor\\\\Reflection\\\\Php\\\\Argument\\|phpDocumentor\\\\Reflection\\\\Php\\\\File\\|null given\\.$#"
-                count: 1
-                path: src/phpDocumentor/Reflection/Php/Factory/File.php
-
-        -
-                message: "#^Parameter \\#1 \\$argument of method phpDocumentor\\\\Reflection\\\\Php\\\\Function_\\:\\:addArgument\\(\\) expects phpDocumentor\\\\Reflection\\\\Php\\\\Argument, phpDocumentor\\\\Reflection\\\\DocBlock\\|phpDocumentor\\\\Reflection\\\\Element\\|phpDocumentor\\\\Reflection\\\\Php\\\\Argument\\|phpDocumentor\\\\Reflection\\\\Php\\\\File\\|null given\\.$#"
-                count: 1
-                path: src/phpDocumentor/Reflection/Php/Factory/Function_.php
+        - '#Call to an undefined method phpDocumentor\\Reflection\\Element\|phpDocumentor\\Reflection\\Php\\File::add.*\(\)#'

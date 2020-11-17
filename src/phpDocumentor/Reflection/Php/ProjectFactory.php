@@ -17,9 +17,13 @@ use phpDocumentor\Reflection\DocBlockFactory;
 use phpDocumentor\Reflection\Exception;
 use phpDocumentor\Reflection\File as SourceFile;
 use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\Php\Factory\ContextStack;
+use phpDocumentor\Reflection\Php\Factory\Noop;
 use phpDocumentor\Reflection\Project as ProjectInterface;
 use phpDocumentor\Reflection\ProjectFactory as ProjectFactoryInterface;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
+use function is_array;
+use const PHP_INT_MAX;
 
 /**
  * Factory class to transform files into a project description.
@@ -32,11 +36,11 @@ final class ProjectFactory implements ProjectFactoryInterface
     /**
      * Initializes the factory with a number of strategies.
      *
-     * @param ProjectFactoryStrategy[] $strategies
+     * @param ProjectFactoryStrategy[]|ProjectFactoryStrategies $strategies
      */
-    public function __construct(array $strategies)
+    public function __construct($strategies)
     {
-        $this->strategies = new ProjectFactoryStrategies($strategies);
+        $this->strategies = is_array($strategies) ? new ProjectFactoryStrategies($strategies) : $strategies;
     }
 
     /**
@@ -44,21 +48,30 @@ final class ProjectFactory implements ProjectFactoryInterface
      */
     public static function createInstance() : self
     {
-        return new static(
+        $docblockFactory = DocBlockFactory::createInstance();
+
+        $strategies = new ProjectFactoryStrategies(
             [
+                new \phpDocumentor\Reflection\Php\Factory\Namespace_(),
                 new Factory\Argument(new PrettyPrinter()),
-                new Factory\Class_(),
-                new Factory\Define(new PrettyPrinter()),
-                new Factory\GlobalConstant(new PrettyPrinter()),
-                new Factory\ClassConstant(new PrettyPrinter()),
-                new Factory\DocBlock(DocBlockFactory::createInstance()),
-                new Factory\File(NodesFactory::createInstance()),
-                new Factory\Function_(),
-                new Factory\Interface_(),
-                new Factory\Method(),
-                new Factory\Property(new PrettyPrinter()),
-                new Factory\Trait_(),
+                new Factory\Class_($docblockFactory),
+                new Factory\Define($docblockFactory, new PrettyPrinter()),
+                new Factory\GlobalConstant($docblockFactory, new PrettyPrinter()),
+                new Factory\ClassConstant($docblockFactory, new PrettyPrinter()),
+                new Factory\File($docblockFactory, NodesFactory::createInstance()),
+                new Factory\Function_($docblockFactory),
+                new Factory\Interface_($docblockFactory),
+                new Factory\Method($docblockFactory),
+                new Factory\Property($docblockFactory, new PrettyPrinter()),
+                new Factory\Trait_($docblockFactory),
+                new Factory\IfStatement(),
             ]
+        );
+
+        $strategies->addStrategy(new Noop(), -PHP_INT_MAX);
+
+        return new static(
+            $strategies
         );
     }
 
@@ -71,18 +84,14 @@ final class ProjectFactory implements ProjectFactoryInterface
      */
     public function create(string $name, array $files) : ProjectInterface
     {
-        $project = new Project($name);
+        $contextStack = new ContextStack(new Project($name), null);
 
         foreach ($files as $filePath) {
             $strategy = $this->strategies->findMatching($filePath);
-            $file     = $strategy->create($filePath, $this->strategies);
-            if (!$file instanceof File) {
-                continue;
-            }
-
-            $project->addFile($file);
+            $strategy->create($contextStack, $filePath, $this->strategies);
         }
 
+        $project = $contextStack->getProject();
         $this->buildNamespaces($project);
 
         return $project;

@@ -14,11 +14,12 @@ declare(strict_types=1);
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use phpDocumentor\Reflection\Location;
+use phpDocumentor\Reflection\Php\File as FileElement;
 use phpDocumentor\Reflection\Php\Function_ as FunctionDescriptor;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
-use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Node\Stmt\Function_ as FunctionNode;
+use Webmozart\Assert\Assert;
 
 /**
  * Strategy to convert Function_ to FunctionDescriptor
@@ -36,27 +37,29 @@ final class Function_ extends AbstractFactory implements ProjectFactoryStrategy
     /**
      * Creates a FunctionDescriptor out of the given object including its child elements.
      *
-     * @param \PhpParser\Node\Stmt\Function_ $object object to convert to an Element
-     * @param StrategyContainer $strategies used to convert nested objects.
-     * @param Context $context of the created object
+     * @param ContextStack $context of the created object
+     * @param FunctionNode $object
      */
     protected function doCreate(
+        ContextStack $context,
         object $object,
-        StrategyContainer $strategies,
-        ?Context $context = null
-    ) : FunctionDescriptor {
+        StrategyContainer $strategies
+    ) : void {
+        $file = $context->peek();
+        Assert::isInstanceOf($file, FileElement::class);
+
         $function = new FunctionDescriptor(
             $object->fqsen,
-            $this->createDocBlock($strategies, $object->getDocComment(), $context),
+            $this->createDocBlock($object->getDocComment(), $context->getTypeContext()),
             new Location($object->getLine()),
             (new Type())->fromPhpParser($object->getReturnType())
         );
 
+        $file->addFunction($function);
+
         foreach ($object->params as $param) {
             $strategy = $strategies->findMatching($param);
-            $function->addArgument($strategy->create($param, $strategies, $context));
+            $strategy->create($context->push($function), $param, $strategies);
         }
-
-        return $function;
     }
 }

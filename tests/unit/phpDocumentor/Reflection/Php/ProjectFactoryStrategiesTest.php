@@ -15,6 +15,7 @@ namespace phpDocumentor\Reflection\Php;
 
 use phpDocumentor\Reflection\Php\Factory\DummyFactoryStrategy;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 
 /**
  * Test case for ProjectFactoryStrategies
@@ -42,7 +43,7 @@ class ProjectFactoryStrategiesTest extends TestCase
     {
         $strategy  = new DummyFactoryStrategy();
         $container = new ProjectFactoryStrategies([$strategy]);
-        $actual    = $container->findMatching(new \stdClass());
+        $actual    = $container->findMatching(new stdClass());
 
         $this->assertSame($strategy, $actual);
     }
@@ -54,6 +55,6 @@ class ProjectFactoryStrategiesTest extends TestCase
     {
         $this->expectException('OutOfBoundsException');
         $container = new ProjectFactoryStrategies([]);
-        $container->findMatching(new \stdClass());
+        $container->findMatching(new stdClass());
     }
 }

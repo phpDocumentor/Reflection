@@ -6,14 +6,11 @@ namespace phpDocumentor\Reflection\Php\Factory;
 
 use InvalidArgumentException;
 use phpDocumentor\Reflection\DocBlock;
-use phpDocumentor\Reflection\Element;
-use phpDocumentor\Reflection\Php\Argument as ArgumentElement;
-use phpDocumentor\Reflection\Php\File as PhpFile;
+use phpDocumentor\Reflection\DocBlockFactoryInterface;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Comment\Doc;
-use PhpParser\Node;
 use PhpParser\NodeAbstract;
 use function get_class;
 use function gettype;
@@ -22,6 +19,14 @@ use function sprintf;
 
 abstract class AbstractFactory implements ProjectFactoryStrategy
 {
+    /** @var DocBlockFactoryInterface */
+    private $docBlockFactory;
+
+    public function __construct(DocBlockFactoryInterface $docBlockFactory)
+    {
+        $this->docBlockFactory = $docBlockFactory;
+    }
+
     /**
      * Returns true when the strategy is able to handle the object.
      *
@@ -29,10 +34,7 @@ abstract class AbstractFactory implements ProjectFactoryStrategy
      */
     abstract public function matches(object $object) : bool;
 
-    /**
-     * @inheritDoc
-     */
-    public function create(object $object, StrategyContainer $strategies, ?Context $context = null)
+    public function create(ContextStack $context, object $object, StrategyContainer $strategies) : void
     {
         if (!$this->matches($object)) {
             throw new InvalidArgumentException(
@@ -44,7 +46,7 @@ abstract class AbstractFactory implements ProjectFactoryStrategy
             );
         }
 
-        return $this->doCreate($object, $strategies, $context);
+        $this->doCreate($context, $object, $strategies);
     }
 
     /**
@@ -54,34 +56,15 @@ abstract class AbstractFactory implements ProjectFactoryStrategy
      * used to create nested Elements.
      *
      * @param NodeAbstract|object $object object to convert to an Element
-     * @param StrategyContainer $strategies used to convert nested objects.
-     * @param Context $context of the created object
-     *
-     * @return DocBlock|Element|PhpFile|ArgumentElement
      */
-    abstract protected function doCreate(object $object, StrategyContainer $strategies, ?Context $context = null);
+    abstract protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies) : void;
 
-    /**
-     * @param Node|PropertyIterator|ClassConstantIterator|Doc $stmt
-     *
-     * @return mixed a child of Element
-     */
-    protected function createMember($stmt, StrategyContainer $strategies, ?Context $context = null)
+    protected function createDocBlock(?Doc $docBlock = null, ?Context $context = null) : ?DocBlock
     {
-        $strategy = $strategies->findMatching($stmt);
-
-        return $strategy->create($stmt, $strategies, $context);
-    }
-
-    protected function createDocBlock(
-        ?StrategyContainer $strategies = null,
-        ?Doc $docBlock = null,
-        ?Context $context = null
-    ) : ?DocBlock {
-        if ($docBlock === null || $strategies === null) {
+        if ($docBlock === null) {
             return null;
         }
 
-        return $this->createMember($docBlock, $strategies, $context);
+        return $this->docBlockFactory->create($docBlock->getText(), $context);
     }
 }

@@ -12,11 +12,8 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
-use phpDocumentor\Reflection\Fqsen;
-use phpDocumentor\Reflection\Php\Class_ as ClassModel;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
-use phpDocumentor\Reflection\Types\Context;
 
 /**
  * Stub for test purpose only.
@@ -44,8 +41,7 @@ final class DummyFactoryStrategy implements ProjectFactoryStrategy
      *
      * @return mixed
      */
-    public function create($object, StrategyContainer $strategies, ?Context $context = null)
+    public function create(ContextStack $context, object $object, StrategyContainer $strategies) : void
     {
-        return new ClassModel(new Fqsen('\Dummy'));
     }
 }

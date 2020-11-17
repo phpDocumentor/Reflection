@@ -13,12 +13,16 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
+use phpDocumentor\Reflection\DocBlockFactoryInterface;
 use phpDocumentor\Reflection\Location;
+use phpDocumentor\Reflection\Php\Class_;
 use phpDocumentor\Reflection\Php\Constant as ConstantElement;
+use phpDocumentor\Reflection\Php\Interface_;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Php\Visibility;
-use phpDocumentor\Reflection\Types\Context;
+use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
+use Webmozart\Assert\Assert;
 
 /**
  * Strategy to convert ClassConstantIterator to ConstantElement
@@ -31,17 +35,15 @@ final class ClassConstant extends AbstractFactory
     /** @var PrettyPrinter */
     private $valueConverter;
 
-    /**
-     * Initializes the object.
-     */
-    public function __construct(PrettyPrinter $prettyPrinter)
+    public function __construct(DocBlockFactoryInterface $blockFactory, PrettyPrinter $prettyPrinter)
     {
         $this->valueConverter = $prettyPrinter;
+        parent::__construct($blockFactory);
     }
 
     public function matches(object $object) : bool
     {
-        return $object instanceof ClassConstantIterator;
+        return $object instanceof ClassConst;
     }
 
     /**
@@ -50,22 +52,35 @@ final class ClassConstant extends AbstractFactory
      * Since an object might contain other objects that need to be converted the $factory is passed so it can be
      * used to create nested Elements.
      *
-     * @param ClassConstantIterator $object object to convert to an Element
+     * @param ContextStack $context of the created object
+     * @param ClassConst $object object to convert to an Element
      * @param StrategyContainer $strategies used to convert nested objects.
-     * @param Context $context of the created object
      */
     protected function doCreate(
+        ContextStack $context,
         object $object,
-        StrategyContainer $strategies,
-        ?Context $context = null
-    ) : ConstantElement {
-        return new ConstantElement(
-            $object->getFqsen(),
-            $this->createDocBlock($strategies, $object->getDocComment(), $context),
-            $object->getValue() !== null ? $this->valueConverter->prettyPrintExpr($object->getValue()) : null,
-            new Location($object->getLine()),
-            $this->buildVisibility($object)
+        StrategyContainer $strategies
+    ) : void {
+        $constantContainer = $context->peek();
+        Assert::isInstanceOfAny(
+            $constantContainer,
+            [
+                Class_::class,
+                Interface_::class,
+            ]
         );
+
+        $constants = new ClassConstantIterator($object);
+
+        foreach ($constants as $const) {
+            $constantContainer->addConstant(new ConstantElement(
+                $const->getFqsen(),
+                $this->createDocBlock($const->getDocComment(), $context->getTypeContext()),
+                $const->getValue() !== null ? $this->valueConverter->prettyPrintExpr($const->getValue()) : null,
+                new Location($const->getLine()),
+                $this->buildVisibility($const)
+            ));
+        }
     }
 
     /**
