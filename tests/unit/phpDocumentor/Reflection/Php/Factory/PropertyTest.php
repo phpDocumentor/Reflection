@@ -52,8 +52,8 @@ final class PropertyTest extends TestCase
 
     public function testMatches() : void
     {
-        $this->assertFalse($this->fixture->matches(new stdClass()));
-        $this->assertTrue($this->fixture->matches(new PropertyNode(1, [])));
+        $this->assertFalse($this->fixture->matches(self::createContext(null), new stdClass()));
+        $this->assertTrue($this->fixture->matches(self::createContext(null), new PropertyNode(1, [])));
     }
 
     /** @dataProvider visibilityProvider */

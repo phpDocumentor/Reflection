@@ -54,8 +54,8 @@ final class Trait_Test extends TestCase
 
     public function testMatches() : void
     {
-        $this->assertFalse($this->fixture->matches(new stdClass()));
-        $this->assertTrue($this->fixture->matches(m::mock(TraitNode::class)));
+        $this->assertFalse($this->fixture->matches(self::createContext(null), new stdClass()));
+        $this->assertTrue($this->fixture->matches(self::createContext(null), m::mock(TraitNode::class)));
     }
 
     /**
@@ -94,7 +94,10 @@ final class Trait_Test extends TestCase
             })
             ->shouldBeCalled();
 
-        $containerMock->findMatching($method1)->willReturn($strategyMock->reveal());
+        $containerMock->findMatching(
+            Argument::type(ContextStack::class),
+            $method1
+        )->willReturn($strategyMock->reveal());
 
         $trait = $this->performCreate($classMock, $containerMock->reveal());
 

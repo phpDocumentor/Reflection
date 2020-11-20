@@ -42,7 +42,7 @@ final class Argument extends AbstractFactory implements ProjectFactoryStrategy
         $this->valueConverter = $prettyPrinter;
     }
 
-    public function matches(object $object) : bool
+    public function matches(ContextStack $context, object $object) : bool
     {
         return $object instanceof Param;
     }

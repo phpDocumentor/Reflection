@@ -76,8 +76,8 @@ final class FileTest extends TestCase
      */
     public function testMatches() : void
     {
-        $this->assertFalse($this->fixture->matches(new stdClass()));
-        $this->assertTrue($this->fixture->matches(m::mock(SourceFile::class)));
+        $this->assertFalse($this->fixture->matches(self::createContext(null), new stdClass()));
+        $this->assertTrue($this->fixture->matches(self::createContext(null), m::mock(SourceFile::class)));
     }
 
     /**
@@ -119,7 +119,7 @@ final class FileTest extends TestCase
         $this->docBlockFactory->create('Text', null)->willReturn($docblock);
 
         $strategies = $this->prophesize(StrategyContainer::class);
-        $strategies->findMatching($node)->willReturn(
+        $strategies->findMatching(Argument::type(ContextStack::class), $node)->willReturn(
             $this->prophesize(ProjectFactoryStrategy::class)->reveal()
         );
 

@@ -55,10 +55,10 @@ final class DefineTest extends TestCase
         $invalidExpressionType = new Expression(new Exit_());
         $invalidFunctionCall = new Expression(new FuncCall(new Name('print')));
 
-        $this->assertFalse($this->fixture->matches(new stdClass()));
-        $this->assertFalse($this->fixture->matches($invalidExpressionType));
-        $this->assertFalse($this->fixture->matches($invalidFunctionCall));
-        $this->assertTrue($this->fixture->matches($this->buildDefineStub()));
+        $this->assertFalse($this->fixture->matches(self::createContext(null), new stdClass()));
+        $this->assertFalse($this->fixture->matches(self::createContext(null), $invalidExpressionType));
+        $this->assertFalse($this->fixture->matches(self::createContext(null), $invalidFunctionCall));
+        $this->assertTrue($this->fixture->matches(self::createContext(null), $this->buildDefineStub()));
     }
 
     public function testCreate() : void

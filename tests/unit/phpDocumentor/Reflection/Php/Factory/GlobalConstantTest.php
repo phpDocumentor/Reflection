@@ -52,8 +52,8 @@ final class GlobalConstantTest extends TestCase
 
     public function testMatches() : void
     {
-        $this->assertFalse($this->fixture->matches(new stdClass()));
-        $this->assertTrue($this->fixture->matches($this->buildConstantIteratorStub()));
+        $this->assertFalse($this->fixture->matches(self::createContext(null), new stdClass()));
+        $this->assertTrue($this->fixture->matches(self::createContext(null), $this->buildConstantIteratorStub()));
     }
 
     public function testCreate() : void

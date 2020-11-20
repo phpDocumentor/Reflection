@@ -31,8 +31,11 @@ final class Namespace_Test extends TestCase
      */
     public function testMatches() : void
     {
-        $this->assertFalse($this->fixture->matches(new stdClass()));
-        $this->assertTrue($this->fixture->matches($this->prophesize(NamespaceNode::class)->reveal()));
+        $this->assertFalse($this->fixture->matches(self::createContext(null), new stdClass()));
+        $this->assertTrue($this->fixture->matches(
+            self::createContext(null),
+            $this->prophesize(NamespaceNode::class)->reveal()
+        ));
     }
 
     /**
@@ -67,7 +70,10 @@ final class Namespace_Test extends TestCase
             })
             ->shouldBeCalled();
 
-        $containerMock->findMatching($class)->willReturn($strategyMock->reveal());
+        $containerMock->findMatching(
+            Argument::type(ContextStack::class),
+            $class
+        )->willReturn($strategyMock->reveal());
 
         $file = new File('hash', 'path');
         $this->fixture->create(self::createContext(null)->push($file), $namespace, $containerMock->reveal());

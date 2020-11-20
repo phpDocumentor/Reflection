@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace phpDocumentor\Reflection\Php;
 
 use phpDocumentor\Reflection\Exception;
+use phpDocumentor\Reflection\Php\Factory\ContextStack;
 
 /**
  * Interface for strategy containers.
@@ -27,5 +28,5 @@ interface StrategyContainer
      *
      * @throws Exception When no matching strategy was found.
      */
-    public function findMatching($object) : ProjectFactoryStrategy;
+    public function findMatching(ContextStack $context, $object) : ProjectFactoryStrategy;
 }

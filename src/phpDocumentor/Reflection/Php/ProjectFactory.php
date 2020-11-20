@@ -50,6 +50,8 @@ final class ProjectFactory implements ProjectFactoryInterface
     {
         $docblockFactory = DocBlockFactory::createInstance();
 
+        $methodStrategy =  new Factory\Method($docblockFactory);
+
         $strategies = new ProjectFactoryStrategies(
             [
                 new \phpDocumentor\Reflection\Php\Factory\Namespace_(),
@@ -61,13 +63,17 @@ final class ProjectFactory implements ProjectFactoryInterface
                 new Factory\File($docblockFactory, NodesFactory::createInstance()),
                 new Factory\Function_($docblockFactory),
                 new Factory\Interface_($docblockFactory),
-                new Factory\Method($docblockFactory),
+                $methodStrategy,
                 new Factory\Property($docblockFactory, new PrettyPrinter()),
                 new Factory\Trait_($docblockFactory),
                 new Factory\IfStatement(),
             ]
         );
 
+        $strategies->addStrategy(
+            new Factory\ConstructorPromotion($methodStrategy, $docblockFactory, new PrettyPrinter()),
+            1100
+        );
         $strategies->addStrategy(new Noop(), -PHP_INT_MAX);
 
         return new static(
@@ -87,7 +93,7 @@ final class ProjectFactory implements ProjectFactoryInterface
         $contextStack = new ContextStack(new Project($name), null);
 
         foreach ($files as $filePath) {
-            $strategy = $this->strategies->findMatching($filePath);
+            $strategy = $this->strategies->findMatching($contextStack, $filePath);
             $strategy->create($contextStack, $filePath, $this->strategies);
         }
 

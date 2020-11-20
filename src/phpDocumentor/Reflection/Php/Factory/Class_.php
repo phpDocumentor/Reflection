@@ -27,7 +27,7 @@ use function assert;
  */
 final class Class_ extends AbstractFactory implements ProjectFactoryStrategy
 {
-    public function matches(object $object) : bool
+    public function matches(ContextStack $context, object $object) : bool
     {
         return $object instanceof ClassNode;
     }
@@ -71,8 +71,9 @@ final class Class_ extends AbstractFactory implements ProjectFactoryStrategy
         }
 
         foreach ($object->stmts as $stmt) {
-            $strategy = $strategies->findMatching($stmt);
-            $strategy->create($context->push($classElement), $stmt, $strategies);
+            $thisContext = $context->push($classElement);
+            $strategy = $strategies->findMatching($thisContext, $stmt);
+            $strategy->create($thisContext, $stmt, $strategies);
         }
     }
 }

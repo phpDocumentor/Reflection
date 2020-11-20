@@ -59,8 +59,8 @@ class MethodTest extends TestCase
      */
     public function testMatches() : void
     {
-        $this->assertFalse($this->fixture->matches(new stdClass()));
-        $this->assertTrue($this->fixture->matches(m::mock(ClassMethod::class)));
+        $this->assertFalse($this->fixture->matches(self::createContext(null), new stdClass()));
+        $this->assertTrue($this->fixture->matches(self::createContext(null), m::mock(ClassMethod::class)));
     }
 
     /**
@@ -125,7 +125,11 @@ class MethodTest extends TestCase
 
         $argumentStrategy = $this->prophesize(ProjectFactoryStrategy::class);
         $containerMock = $this->prophesize(StrategyContainer::class);
-        $containerMock->findMatching($param1)->willReturn($argumentStrategy);
+        $containerMock->findMatching(
+            Argument::type(ContextStack::class),
+            $param1
+        )->willReturn($argumentStrategy);
+
         $argumentStrategy->create(
             Argument::that(static function ($agument) {
                 return $agument->peek() instanceof MethodDescriptor;

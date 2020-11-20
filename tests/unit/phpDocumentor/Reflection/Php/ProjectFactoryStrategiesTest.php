@@ -13,7 +13,9 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php;
 
+use phpDocumentor\Reflection\Php\Factory\ContextStack;
 use phpDocumentor\Reflection\Php\Factory\DummyFactoryStrategy;
+use phpDocumentor\Reflection\Types\Context;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
@@ -43,7 +45,10 @@ class ProjectFactoryStrategiesTest extends TestCase
     {
         $strategy  = new DummyFactoryStrategy();
         $container = new ProjectFactoryStrategies([$strategy]);
-        $actual    = $container->findMatching(new stdClass());
+        $actual    = $container->findMatching(
+            new ContextStack(new Project('name'), new Context('global')),
+            new stdClass()
+        );
 
         $this->assertSame($strategy, $actual);
     }
@@ -55,6 +60,9 @@ class ProjectFactoryStrategiesTest extends TestCase
     {
         $this->expectException('OutOfBoundsException');
         $container = new ProjectFactoryStrategies([]);
-        $container->findMatching(new stdClass());
+        $container->findMatching(
+            new ContextStack(new Project('name'), new Context('global')),
+            new stdClass()
+        );
     }
 }

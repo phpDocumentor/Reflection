@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
-use Mockery as m;
 use phpDocumentor\Reflection\DocBlock as DocBlockDescriptor;
 use phpDocumentor\Reflection\DocBlockFactoryInterface;
 use phpDocumentor\Reflection\Fqsen;
@@ -56,8 +55,11 @@ final class Function_Test extends TestCase
      */
     public function testMatches() : void
     {
-        $this->assertFalse($this->fixture->matches(new stdClass()));
-        $this->assertTrue($this->fixture->matches(m::mock(\PhpParser\Node\Stmt\Function_::class)));
+        $this->assertFalse($this->fixture->matches(self::createContext(null), new stdClass()));
+        $this->assertTrue($this->fixture->matches(
+            self::createContext(null),
+            $this->prophesize(\PhpParser\Node\Stmt\Function_::class)->reveal()
+        ));
     }
 
     /**
@@ -97,7 +99,7 @@ final class Function_Test extends TestCase
 
         $argumentStrategy = $this->prophesize(ProjectFactoryStrategy::class);
         $containerMock = $this->prophesize(StrategyContainer::class);
-        $containerMock->findMatching($param1)->willReturn($argumentStrategy);
+        $containerMock->findMatching(Argument::type(ContextStack::class), $param1)->willReturn($argumentStrategy);
         $argumentStrategy->create(
             Argument::that(function ($agument) {
                 return $agument->peek() instanceof FunctionDescriptor;

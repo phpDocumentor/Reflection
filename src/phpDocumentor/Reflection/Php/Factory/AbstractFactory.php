@@ -32,11 +32,11 @@ abstract class AbstractFactory implements ProjectFactoryStrategy
      *
      * @param object $object object to check.
      */
-    abstract public function matches(object $object) : bool;
+    abstract public function matches(ContextStack $context, object $object) : bool;
 
     public function create(ContextStack $context, object $object, StrategyContainer $strategies) : void
     {
-        if (!$this->matches($object)) {
+        if (!$this->matches($context, $object)) {
             throw new InvalidArgumentException(
                 sprintf(
                     '%s cannot handle objects with the type %s',

@@ -42,7 +42,7 @@ final class GlobalConstant extends AbstractFactory
         parent::__construct($docBlockFactory);
     }
 
-    public function matches(object $object) : bool
+    public function matches(ContextStack $context, object $object) : bool
     {
         return $object instanceof Const_;
     }

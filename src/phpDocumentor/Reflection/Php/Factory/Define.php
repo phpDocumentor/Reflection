@@ -50,7 +50,7 @@ final class Define extends AbstractFactory
         $this->valueConverter = $prettyPrinter;
     }
 
-    public function matches(object $object) : bool
+    public function matches(ContextStack $context, object $object) : bool
     {
         if (!$object instanceof Expression) {
             return false;

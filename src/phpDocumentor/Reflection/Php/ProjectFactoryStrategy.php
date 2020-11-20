@@ -23,7 +23,7 @@ interface ProjectFactoryStrategy
     /**
      * Returns true when the strategy is able to handle the object.
      */
-    public function matches(object $object) : bool;
+    public function matches(ContextStack $context, object $object) : bool;
 
     /**
      * Creates an Element out of the given object.

@@ -23,7 +23,7 @@ use Webmozart\Assert\Assert;
 
 final class Trait_ extends AbstractFactory implements ProjectFactoryStrategy
 {
-    public function matches(object $object) : bool
+    public function matches(ContextStack $context, object $object) : bool
     {
         return $object instanceof TraitNode;
     }
@@ -54,8 +54,9 @@ final class Trait_ extends AbstractFactory implements ProjectFactoryStrategy
         }
 
         foreach ($object->stmts as $stmt) {
-            $strategy = $strategies->findMatching($stmt);
-            $strategy->create($context->push($trait), $stmt, $strategies);
+            $thisContext = $context->push($trait);
+            $strategy = $strategies->findMatching($thisContext, $stmt);
+            $strategy->create($thisContext, $stmt, $strategies);
         }
     }
 }

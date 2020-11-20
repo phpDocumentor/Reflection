@@ -81,7 +81,11 @@ final class ProjectFactoryTest extends MockeryTestCase
         $expected = ['some/file.php', 'some/other.php'];
         $calls = 0;
         $someOtherStrategy = $this->prophesize(ProjectFactoryStrategy::class);
-        $someOtherStrategy->matches(ProphesizeArgument::any())->willReturn(false);
+        $someOtherStrategy->matches(
+            ProphesizeArgument::type(ContextStack::class),
+            ProphesizeArgument::any()
+        )->willReturn(false);
+
         $someOtherStrategy->create(
             ProphesizeArgument::any(),
             ProphesizeArgument::any(),
@@ -89,7 +93,11 @@ final class ProjectFactoryTest extends MockeryTestCase
         )->shouldNotBeCalled();
 
         $fileStrategyMock = $this->prophesize(ProjectFactoryStrategy::class);
-        $fileStrategyMock->matches(ProphesizeArgument::any())->willReturn(true);
+        $fileStrategyMock->matches(
+            ProphesizeArgument::type(ContextStack::class),
+            ProphesizeArgument::any()
+        )->willReturn(true);
+
         $fileStrategyMock->create(
             ProphesizeArgument::type(ContextStack::class),
             ProphesizeArgument::type(LocalFile::class),
@@ -274,7 +282,11 @@ final class ProjectFactoryTest extends MockeryTestCase
     private function fetchNamespacesFromMultipleFiles(array $files) : array
     {
         $fileStrategyMock = $this->prophesize(ProjectFactoryStrategy::class);
-        $fileStrategyMock->matches(ProphesizeArgument::any())->willReturn(true);
+        $fileStrategyMock->matches(
+            ProphesizeArgument::type(ContextStack::class),
+            ProphesizeArgument::any()
+        )->willReturn(true);
+
         $fileStrategyMock->create(
             ProphesizeArgument::type(ContextStack::class),
             ProphesizeArgument::type(File::class),

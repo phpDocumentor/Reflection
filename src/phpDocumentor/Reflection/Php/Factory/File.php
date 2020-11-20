@@ -73,7 +73,7 @@ final class File extends AbstractFactory
         $this->middlewareChain = ChainFactory::createExecutionChain($middleware, $lastCallable);
     }
 
-    public function matches(object $object) : bool
+    public function matches(ContextStack $context, object $object) : bool
     {
         return $object instanceof FileSystemFile;
     }
@@ -130,7 +130,7 @@ final class File extends AbstractFactory
         StrategyContainer $strategies
     ) : void {
         foreach ($nodes as $node) {
-            $strategy = $strategies->findMatching($node);
+            $strategy = $strategies->findMatching($contextStack, $node);
             $strategy->create($contextStack, $node, $strategies);
         }
     }

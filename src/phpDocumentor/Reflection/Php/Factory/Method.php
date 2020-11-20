@@ -29,7 +29,7 @@ use Webmozart\Assert\Assert;
  */
 final class Method extends AbstractFactory implements ProjectFactoryStrategy
 {
-    public function matches(object $object) : bool
+    public function matches(ContextStack $context, object $object) : bool
     {
         return $object instanceof ClassMethod;
     }
@@ -68,8 +68,9 @@ final class Method extends AbstractFactory implements ProjectFactoryStrategy
         $methodContainer->addMethod($method);
 
         foreach ($object->params as $param) {
-            $strategy = $strategies->findMatching($param);
-            $strategy->create($context->push($method), $param, $strategies);
+            $thisContext = $context->push($method);
+            $strategy = $strategies->findMatching($thisContext, $param);
+            $strategy->create($thisContext, $param, $strategies);
         }
     }
 

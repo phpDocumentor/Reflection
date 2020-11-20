@@ -59,8 +59,8 @@ class Interface_Test extends TestCase
      */
     public function testMatches() : void
     {
-        $this->assertFalse($this->fixture->matches(new stdClass()));
-        $this->assertTrue($this->fixture->matches(m::mock(InterfaceNode::class)));
+        $this->assertFalse($this->fixture->matches(self::createContext(null), new stdClass()));
+        $this->assertTrue($this->fixture->matches(self::createContext(null), m::mock(InterfaceNode::class)));
     }
 
     /**
@@ -115,7 +115,10 @@ class Interface_Test extends TestCase
             })
             ->shouldBeCalled();
 
-        $containerMock->findMatching($method1)->willReturn($strategyMock->reveal());
+        $containerMock->findMatching(
+            Argument::type(ContextStack::class),
+            $method1
+        )->willReturn($strategyMock->reveal());
 
         $class = $this->performCreate($classMock, $containerMock->reveal());
 

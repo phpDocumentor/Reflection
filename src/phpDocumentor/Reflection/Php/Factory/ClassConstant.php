@@ -41,7 +41,7 @@ final class ClassConstant extends AbstractFactory
         parent::__construct($blockFactory);
     }
 
-    public function matches(object $object) : bool
+    public function matches(ContextStack $context, object $object) : bool
     {
         return $object instanceof ClassConst;
     }

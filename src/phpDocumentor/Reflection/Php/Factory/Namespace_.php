@@ -18,7 +18,7 @@ use function sprintf;
 
 class Namespace_ implements ProjectFactoryStrategy
 {
-    public function matches(object $object) : bool
+    public function matches(ContextStack $context, object $object) : bool
     {
         return $object instanceof NamespaceNode;
     }
@@ -28,7 +28,7 @@ class Namespace_ implements ProjectFactoryStrategy
      */
     public function create(ContextStack $context, object $object, StrategyContainer $strategies) : void
     {
-        if (!$this->matches($object)) {
+        if (!$this->matches($context, $object)) {
             throw new InvalidArgumentException(
                 sprintf(
                     '%s cannot handle objects with the type %s',
@@ -43,7 +43,7 @@ class Namespace_ implements ProjectFactoryStrategy
         $file->addNamespace($object->fqsen);
         $typeContext = (new NamespaceNodeToContext())($object);
         foreach ($object->stmts as $stmt) {
-            $strategy = $strategies->findMatching($stmt);
+            $strategy = $strategies->findMatching($context, $stmt);
             $strategy->create($context->withTypeContext($typeContext), $stmt, $strategies);
         }
     }

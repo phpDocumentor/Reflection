@@ -11,7 +11,7 @@ use PhpParser\Node\Stmt\If_;
 
 class IfStatement implements ProjectFactoryStrategy
 {
-    public function matches(object $object) : bool
+    public function matches(ContextStack $context, object $object) : bool
     {
         return $object instanceof If_;
     }
@@ -22,12 +22,12 @@ class IfStatement implements ProjectFactoryStrategy
     public function create(ContextStack $context, object $object, StrategyContainer $strategies) : void
     {
         foreach ($object->stmts as $stmt) {
-            $strategies->findMatching($stmt)->create($context, $stmt, $strategies);
+            $strategies->findMatching($context, $stmt)->create($context, $stmt, $strategies);
         }
 
         foreach ($object->elseifs as $elseIf) {
             foreach ($elseIf->stmts as $stmt) {
-                $strategies->findMatching($stmt)->create($context, $stmt, $strategies);
+                $strategies->findMatching($context, $stmt)->create($context, $stmt, $strategies);
             }
         }
 
@@ -36,7 +36,7 @@ class IfStatement implements ProjectFactoryStrategy
         }
 
         foreach ($object->else->stmts as $stmt) {
-            $strategies->findMatching($stmt)->create($context, $stmt, $strategies);
+            $strategies->findMatching($context, $stmt)->create($context, $stmt, $strategies);
         }
     }
 }

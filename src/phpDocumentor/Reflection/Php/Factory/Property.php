@@ -45,7 +45,7 @@ final class Property extends AbstractFactory implements ProjectFactoryStrategy
         parent::__construct($docBlockFactory);
     }
 
-    public function matches(object $object) : bool
+    public function matches(ContextStack $context, object $object) : bool
     {
         return $object instanceof PropertyNode;
     }

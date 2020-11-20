@@ -9,7 +9,7 @@ use phpDocumentor\Reflection\Php\StrategyContainer;
 
 class Noop implements ProjectFactoryStrategy
 {
-    public function matches(object $object) : bool
+    public function matches(ContextStack $context, object $object) : bool
     {
         return true;
     }
