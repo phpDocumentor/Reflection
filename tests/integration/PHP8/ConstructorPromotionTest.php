@@ -21,6 +21,9 @@ use phpDocumentor\Reflection\Types\Object_;
 use phpDocumentor\Reflection\Types\String_;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @coversNothing
+ */
 class ConstructorPromotionTest extends TestCase
 {
     const FILE = __DIR__ . '/../data/PHP8/ConstructorPromotion.php';
