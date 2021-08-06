@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use InvalidArgumentException;
+use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\File as FileElement;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
@@ -40,7 +41,7 @@ class Namespace_ implements ProjectFactoryStrategy
 
         $file = $context->peek();
         Assert::isInstanceOf($file, FileElement::class);
-        $file->addNamespace($object->fqsen);
+        $file->addNamespace($object->fqsen ?? new Fqsen('\\'));
         $typeContext = (new NamespaceNodeToContext())($object);
         foreach ($object->stmts as $stmt) {
             $strategy = $strategies->findMatching($context, $stmt);

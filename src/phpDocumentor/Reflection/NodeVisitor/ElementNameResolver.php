@@ -87,6 +87,10 @@ final class ElementNameResolver extends NodeVisitorAbstract
     {
         switch (get_class($node)) {
             case Namespace_::class:
+                if ($node->name === null) {
+                    break;
+                }
+
                 $this->resetState('\\' . $node->name . '\\');
                 $node->fqsen = new Fqsen($this->buildName());
                 break;

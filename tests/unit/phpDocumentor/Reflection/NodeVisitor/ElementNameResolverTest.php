@@ -161,4 +161,18 @@ class ElementNameResolverTest extends TestCase
 
         $this->assertEquals('\\name\\MY_CLASS', (string) $const->fqsen);
     }
+
+    /**
+     * @covers ::enterNode
+     */
+    public function testNoNameNamespace() : void
+    {
+        $const     = new Const_('MY_CLASS', new String_('value'));
+        $namespace = new Namespace_(null);
+
+        $this->fixture->enterNode($namespace);
+        $this->fixture->enterNode($const);
+
+        $this->assertEquals('\\MY_CLASS', (string) $const->fqsen);
+    }
 }

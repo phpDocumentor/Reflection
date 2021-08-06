@@ -63,4 +63,22 @@ final class FileDocblockTest extends TestCase
             $project->getFiles()[$fileName]->getFunctions()
         );
     }
+
+    /**
+     * @covers \phpDocumentor\Reflection\Php\Factory\File::create
+     * @covers \phpDocumentor\Reflection\Php\Factory\File::<private>
+     */
+    public function testGlobalNamespacedFunctionDefine() : void
+    {
+        $fileName =  __DIR__ . '/data/GlobalFiles/global_namspaced_function.php';
+        $project = $this->fixture->create(
+            'MyProject',
+            [new LocalFile($fileName)]
+        );
+
+        $this->assertCount(
+            1,
+            $project->getFiles()[$fileName]->getFunctions()
+        );
+    }
 }
