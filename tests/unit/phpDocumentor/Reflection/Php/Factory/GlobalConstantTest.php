@@ -28,6 +28,7 @@ use PhpParser\Node\Stmt\Const_ as ConstStatement;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
 use Prophecy\Prophecy\ObjectProphecy;
 use stdClass;
+
 use function current;
 
 /**
@@ -44,19 +45,19 @@ final class GlobalConstantTest extends TestCase
     /** @var ObjectProphecy */
     private $docBlockFactory;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->docBlockFactory = $this->prophesize(DocBlockFactoryInterface::class);
         $this->fixture = new GlobalConstant($this->docBlockFactory->reveal(), new PrettyPrinter());
     }
 
-    public function testMatches() : void
+    public function testMatches(): void
     {
         $this->assertFalse($this->fixture->matches(self::createContext(null), new stdClass()));
         $this->assertTrue($this->fixture->matches(self::createContext(null), $this->buildConstantIteratorStub()));
     }
 
-    public function testCreate() : void
+    public function testCreate(): void
     {
         $factory = new ProjectFactoryStrategies([]);
 
@@ -69,7 +70,7 @@ final class GlobalConstantTest extends TestCase
         $this->assertConstant($constant);
     }
 
-    public function testCreateWithDocBlock() : void
+    public function testCreateWithDocBlock(): void
     {
         $doc = new Doc('Text');
         $docBlock = new DocBlockDescriptor('');
@@ -89,7 +90,7 @@ final class GlobalConstantTest extends TestCase
         $this->assertSame($docBlock, $constant->getDocBlock());
     }
 
-    private function buildConstantIteratorStub() : ConstStatement
+    private function buildConstantIteratorStub(): ConstStatement
     {
         $const = new Const_('\Space\MyClass\MY_CONST1', new String_('a'));
         $const->fqsen = new Fqsen((string) $const->name);
@@ -97,7 +98,7 @@ final class GlobalConstantTest extends TestCase
         return new ConstStatement([$const]);
     }
 
-    private function assertConstant(ConstantDescriptor $constant) : void
+    private function assertConstant(ConstantDescriptor $constant): void
     {
         $this->assertInstanceOf(ConstantDescriptor::class, $constant);
         $this->assertEquals('\Space\MyClass\MY_CONST1', (string) $constant->getFqsen());

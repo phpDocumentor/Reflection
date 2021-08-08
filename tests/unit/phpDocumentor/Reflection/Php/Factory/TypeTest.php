@@ -33,7 +33,7 @@ final class TypeTest extends PhpUnitTestCase
     /**
      * @covers ::fromPhpParser
      */
-    public function testReturnsNullWhenNoTypeIsPassed() : void
+    public function testReturnsNullWhenNoTypeIsPassed(): void
     {
         $factory = new Type();
 
@@ -45,7 +45,7 @@ final class TypeTest extends PhpUnitTestCase
     /**
      * @covers ::fromPhpParser
      */
-    public function testReturnsReflectedType() : void
+    public function testReturnsReflectedType(): void
     {
         $factory = new Type();
         $given = new Name('integer');
@@ -59,7 +59,7 @@ final class TypeTest extends PhpUnitTestCase
     /**
      * @covers ::fromPhpParser
      */
-    public function testReturnsNullableTypeWhenPassedAPhpParserNullable() : void
+    public function testReturnsNullableTypeWhenPassedAPhpParserNullable(): void
     {
         $factory = new Type();
         $given = new NullableType('integer');
@@ -73,7 +73,7 @@ final class TypeTest extends PhpUnitTestCase
     /**
      * @covers ::fromPhpParser
      */
-    public function testReturnsUnion() : void
+    public function testReturnsUnion(): void
     {
         $factory = new Type();
         $given = new UnionType(['integer', 'string']);
@@ -87,7 +87,7 @@ final class TypeTest extends PhpUnitTestCase
     /**
      * @covers ::fromPhpParser
      */
-    public function testReturnsUnionGivenVariousTypes() : void
+    public function testReturnsUnionGivenVariousTypes(): void
     {
         $factory = new Type();
         $given = new UnionType(['integer', new Name('string'), new Identifier('float')]);

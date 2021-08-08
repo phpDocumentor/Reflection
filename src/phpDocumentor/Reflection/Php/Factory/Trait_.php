@@ -23,7 +23,7 @@ use Webmozart\Assert\Assert;
 
 final class Trait_ extends AbstractFactory implements ProjectFactoryStrategy
 {
-    public function matches(ContextStack $context, object $object) : bool
+    public function matches(ContextStack $context, object $object): bool
     {
         return $object instanceof TraitNode;
     }
@@ -37,7 +37,7 @@ final class Trait_ extends AbstractFactory implements ProjectFactoryStrategy
      * @param ContextStack $context used to convert nested objects.
      * @param TraitNode $object
      */
-    protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies) : void
+    protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies): void
     {
         $trait = new TraitElement(
             $object->fqsen,

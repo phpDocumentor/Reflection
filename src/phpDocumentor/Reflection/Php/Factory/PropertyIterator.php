@@ -46,7 +46,7 @@ final class PropertyIterator implements Iterator
     /**
      * returns true when the current property is public.
      */
-    public function isPublic() : bool
+    public function isPublic(): bool
     {
         return $this->property->isPublic();
     }
@@ -54,7 +54,7 @@ final class PropertyIterator implements Iterator
     /**
      * returns true when the current property is protected.
      */
-    public function isProtected() : bool
+    public function isProtected(): bool
     {
         return $this->property->isProtected();
     }
@@ -62,7 +62,7 @@ final class PropertyIterator implements Iterator
     /**
      * returns true when the current property is private.
      */
-    public function isPrivate() : bool
+    public function isPrivate(): bool
     {
         return $this->property->isPrivate();
     }
@@ -70,7 +70,7 @@ final class PropertyIterator implements Iterator
     /**
      * returns true when the current property is static.
      */
-    public function isStatic() : bool
+    public function isStatic(): bool
     {
         return $this->property->isStatic();
     }
@@ -78,7 +78,7 @@ final class PropertyIterator implements Iterator
     /**
      * Gets line the node started in.
      */
-    public function getLine() : int
+    public function getLine(): int
     {
         return $this->property->getLine();
     }
@@ -98,7 +98,7 @@ final class PropertyIterator implements Iterator
      *
      * The doc comment has to be the last comment associated with the node.
      */
-    public function getDocComment() : ?Doc
+    public function getDocComment(): ?Doc
     {
         $docComment = $this->property->props[$this->index]->getDocComment();
         if ($docComment === null) {
@@ -111,7 +111,7 @@ final class PropertyIterator implements Iterator
     /**
      * returns the name of the current property.
      */
-    public function getName() : string
+    public function getName(): string
     {
         return (string) $this->property->props[$this->index]->name;
     }
@@ -129,7 +129,7 @@ final class PropertyIterator implements Iterator
     /**
      * Returns the fqsen of the current property.
      */
-    public function getFqsen() : Fqsen
+    public function getFqsen(): Fqsen
     {
         return $this->property->props[$this->index]->fqsen;
     }
@@ -137,7 +137,7 @@ final class PropertyIterator implements Iterator
     /**
      * @link http://php.net/manual/en/iterator.current.php
      */
-    public function current() : self
+    public function current(): self
     {
         return $this;
     }
@@ -145,7 +145,7 @@ final class PropertyIterator implements Iterator
     /**
      * @link http://php.net/manual/en/iterator.next.php
      */
-    public function next() : void
+    public function next(): void
     {
         ++$this->index;
     }
@@ -153,7 +153,7 @@ final class PropertyIterator implements Iterator
     /**
      * @link http://php.net/manual/en/iterator.key.php
      */
-    public function key() : ?int
+    public function key(): ?int
     {
         return $this->index;
     }
@@ -161,7 +161,7 @@ final class PropertyIterator implements Iterator
     /**
      * @link http://php.net/manual/en/iterator.valid.php
      */
-    public function valid() : bool
+    public function valid(): bool
     {
         return isset($this->property->props[$this->index]);
     }
@@ -169,7 +169,7 @@ final class PropertyIterator implements Iterator
     /**
      * @link http://php.net/manual/en/iterator.rewind.php
      */
-    public function rewind() : void
+    public function rewind(): void
     {
         $this->index = 0;
     }

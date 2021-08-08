@@ -29,6 +29,7 @@ use PhpParser\Node\Stmt\Expression;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
 use Prophecy\Prophecy\ObjectProphecy;
 use stdClass;
+
 use function current;
 
 /**
@@ -44,13 +45,13 @@ final class DefineTest extends TestCase
     /** @var ObjectProphecy */
     private $docBlockFactory;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->docBlockFactory = $this->prophesize(DocBlockFactoryInterface::class);
         $this->fixture = new Define($this->docBlockFactory->reveal(), new PrettyPrinter());
     }
 
-    public function testMatches() : void
+    public function testMatches(): void
     {
         $invalidExpressionType = new Expression(new Exit_());
         $invalidFunctionCall = new Expression(new FuncCall(new Name('print')));
@@ -61,7 +62,7 @@ final class DefineTest extends TestCase
         $this->assertTrue($this->fixture->matches(self::createContext(null), $this->buildDefineStub()));
     }
 
-    public function testCreate() : void
+    public function testCreate(): void
     {
         $constantStub = $this->buildDefineStub();
         $file = new FileElement('hash', 'path');
@@ -74,7 +75,7 @@ final class DefineTest extends TestCase
         $this->assertConstant($constant, '');
     }
 
-    public function testCreateNamespace() : void
+    public function testCreateNamespace(): void
     {
         $constantStub = $this->buildDefineStub('\\OtherSpace\\MyClass');
         $file = new FileElement('hash', 'path');
@@ -87,7 +88,7 @@ final class DefineTest extends TestCase
         $this->assertConstant($constant, '\\OtherSpace\\MyClass');
     }
 
-    public function testCreateGlobal() : void
+    public function testCreateGlobal(): void
     {
         $constantStub = $this->buildDefineStub();
         $file = new FileElement('hash', 'path');
@@ -100,7 +101,7 @@ final class DefineTest extends TestCase
         $this->assertConstant($constant, '');
     }
 
-    public function testCreateWithDocBlock() : void
+    public function testCreateWithDocBlock(): void
     {
         $doc = new Doc('Text');
         $docBlock = new DocBlockDescriptor('');
@@ -129,7 +130,7 @@ final class DefineTest extends TestCase
         $this->assertSame($docBlock, $constant->getDocBlock());
     }
 
-    private function buildDefineStub(string $namespace = '') : Expression
+    private function buildDefineStub(string $namespace = ''): Expression
     {
         return new Expression(
             new FuncCall(
@@ -142,7 +143,7 @@ final class DefineTest extends TestCase
         );
     }
 
-    private function assertConstant(ConstantDescriptor $constant, string $namespace) : void
+    private function assertConstant(ConstantDescriptor $constant, string $namespace): void
     {
         $this->assertInstanceOf(ConstantDescriptor::class, $constant);
         $this->assertEquals($namespace . '\\MY_CONST1', (string) $constant->getFqsen());

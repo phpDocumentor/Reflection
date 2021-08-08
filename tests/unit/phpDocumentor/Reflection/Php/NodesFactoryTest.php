@@ -36,7 +36,7 @@ final class NodesFactoryTest extends TestCase
      *
      * @covers ::createInstance
      */
-    public function testThatAFactoryWithRecommendedComponentsCanBeInstantiated() : void
+    public function testThatAFactoryWithRecommendedComponentsCanBeInstantiated(): void
     {
         $factory = NodesFactory::createInstance();
 
@@ -47,7 +47,7 @@ final class NodesFactoryTest extends TestCase
     /**
      * @covers ::create
      */
-    public function testThatCodeGetsConvertedIntoNodes() : void
+    public function testThatCodeGetsConvertedIntoNodes(): void
     {
         $parser = $this->prophesize(Parser::class);
         $parser->parse('this is my code')->willReturn(['parsed code']);
@@ -62,7 +62,7 @@ final class NodesFactoryTest extends TestCase
         $this->assertSame(['traversed code'], $result);
     }
 
-    private function givenTheExpectedDefaultNodesFactory() : NodesFactory
+    private function givenTheExpectedDefaultNodesFactory(): NodesFactory
     {
         $parser = (new ParserFactory())->create(ParserFactory::PREFER_PHP7);
         $traverser = new NodeTraverser();

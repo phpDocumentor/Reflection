@@ -14,6 +14,7 @@ use PhpParser\Node\Stmt\Class_ as ClassNode;
 use PhpParser\Node\Stmt\Namespace_ as NamespaceNode;
 use Prophecy\Argument;
 use stdClass;
+
 use function current;
 
 /**
@@ -21,7 +22,7 @@ use function current;
  */
 final class Namespace_Test extends TestCase
 {
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->fixture = new Namespace_();
     }
@@ -29,7 +30,7 @@ final class Namespace_Test extends TestCase
     /**
      * @covers ::matches
      */
-    public function testMatches() : void
+    public function testMatches(): void
     {
         $this->assertFalse($this->fixture->matches(self::createContext(null), new stdClass()));
         $this->assertTrue($this->fixture->matches(
@@ -41,7 +42,7 @@ final class Namespace_Test extends TestCase
     /**
      * @covers ::create
      */
-    public function testCreateThrowsException() : void
+    public function testCreateThrowsException(): void
     {
         $this->expectException('InvalidArgumentException');
         $this->fixture->create(
@@ -54,7 +55,7 @@ final class Namespace_Test extends TestCase
     /**
      * @covers ::create
      */
-    public function testIteratesStatements() : void
+    public function testIteratesStatements(): void
     {
         $class           = new ClassNode('\MyClass');
         $classElement = new ClassElement(new Fqsen('\MyClass'));
@@ -65,7 +66,7 @@ final class Namespace_Test extends TestCase
         $namespace->stmts = [$class];
 
         $strategyMock->create(Argument::type(ContextStack::class), $class, $containerMock)
-            ->will(function ($args) use ($classElement) : void {
+            ->will(function ($args) use ($classElement): void {
                 $args[0]->peek()->addClass($classElement);
             })
             ->shouldBeCalled();

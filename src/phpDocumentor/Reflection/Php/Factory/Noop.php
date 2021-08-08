@@ -9,12 +9,12 @@ use phpDocumentor\Reflection\Php\StrategyContainer;
 
 class Noop implements ProjectFactoryStrategy
 {
-    public function matches(ContextStack $context, object $object) : bool
+    public function matches(ContextStack $context, object $object): bool
     {
         return true;
     }
 
-    public function create(ContextStack $context, object $object, StrategyContainer $strategies) : void
+    public function create(ContextStack $context, object $object, StrategyContainer $strategies): void
     {
     }
 }

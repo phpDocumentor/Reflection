@@ -46,17 +46,17 @@ final class CreateCommand implements Command
     /**
      * Returns the strategyContainer in this command context.
      */
-    public function getStrategies() : StrategyContainer
+    public function getStrategies(): StrategyContainer
     {
         return $this->strategies;
     }
 
-    public function getFile() : File
+    public function getFile(): File
     {
         return $this->file;
     }
 
-    public function getContext() : ContextStack
+    public function getContext(): ContextStack
     {
         return $this->context;
     }

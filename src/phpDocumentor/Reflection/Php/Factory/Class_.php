@@ -20,6 +20,7 @@ use phpDocumentor\Reflection\Php\File as FileElement;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use PhpParser\Node\Stmt\Class_ as ClassNode;
+
 use function assert;
 
 /**
@@ -27,7 +28,7 @@ use function assert;
  */
 final class Class_ extends AbstractFactory implements ProjectFactoryStrategy
 {
-    public function matches(ContextStack $context, object $object) : bool
+    public function matches(ContextStack $context, object $object): bool
     {
         return $object instanceof ClassNode;
     }
@@ -41,7 +42,7 @@ final class Class_ extends AbstractFactory implements ProjectFactoryStrategy
      * @param ContextStack $context of the created object
      * @param ClassNode $object
      */
-    protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies) : void
+    protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies): void
     {
         $docBlock = $this->createDocBlock($object->getDocComment(), $context->getTypeContext());
 

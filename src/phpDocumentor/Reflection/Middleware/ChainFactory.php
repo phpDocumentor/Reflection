@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace phpDocumentor\Reflection\Middleware;
 
 use InvalidArgumentException;
+
 use function array_pop;
 use function get_class;
 use function gettype;
@@ -25,7 +26,7 @@ final class ChainFactory
     /**
      * @param Middleware[] $middlewareList
      */
-    public static function createExecutionChain(array $middlewareList, callable $lastCallable) : callable
+    public static function createExecutionChain(array $middlewareList, callable $lastCallable): callable
     {
         while ($middleware = array_pop($middlewareList)) {
             if (!$middleware instanceof Middleware) {

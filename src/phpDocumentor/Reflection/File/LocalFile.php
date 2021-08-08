@@ -15,6 +15,7 @@ namespace phpDocumentor\Reflection\File;
 
 use InvalidArgumentException;
 use phpDocumentor\Reflection\File;
+
 use function file_exists;
 use function file_get_contents;
 use function md5_file;
@@ -44,7 +45,7 @@ final class LocalFile implements File
     /**
      * Returns the content of the file as a string.
      */
-    public function getContents() : string
+    public function getContents(): string
     {
         return (string) file_get_contents($this->path);
     }
@@ -52,7 +53,7 @@ final class LocalFile implements File
     /**
      * Returns md5 hash of the file.
      */
-    public function md5() : string
+    public function md5(): string
     {
         return md5_file($this->path);
     }
@@ -60,7 +61,7 @@ final class LocalFile implements File
     /**
      * Returns an relative path to the file.
      */
-    public function path() : string
+    public function path(): string
     {
         return $this->path;
     }

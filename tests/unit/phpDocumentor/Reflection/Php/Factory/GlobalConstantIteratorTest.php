@@ -35,7 +35,7 @@ final class GlobalConstantIteratorTest extends m\Adapter\Phpunit\MockeryTestCase
      * @covers ::getName()
      * @covers ::getFqsen()
      */
-    public function testIterateProps() : void
+    public function testIterateProps(): void
     {
         $const1 = new Const_('\Space\MY_CONST1', new Variable('a'));
         $const1->fqsen = new Fqsen((string) $const1->name);
@@ -57,7 +57,7 @@ final class GlobalConstantIteratorTest extends m\Adapter\Phpunit\MockeryTestCase
      * @covers ::key()
      * @covers ::next()
      */
-    public function testKey() : void
+    public function testKey(): void
     {
         $constant = m::mock(ConstStatement::class);
 
@@ -72,7 +72,7 @@ final class GlobalConstantIteratorTest extends m\Adapter\Phpunit\MockeryTestCase
      * @covers ::__construct
      * @covers ::getLine
      */
-    public function testProxyMethods() : void
+    public function testProxyMethods(): void
     {
         $constant = m::mock(ConstStatement::class);
         $constant->shouldReceive('getLine')->once()->andReturn(10);
@@ -85,7 +85,7 @@ final class GlobalConstantIteratorTest extends m\Adapter\Phpunit\MockeryTestCase
     /**
      * @covers ::getDocComment
      */
-    public function testGetDocCommentPropFirst() : void
+    public function testGetDocCommentPropFirst(): void
     {
         $const = m::mock(Const_::class);
         $constants = m::mock(ConstStatement::class);
@@ -102,7 +102,7 @@ final class GlobalConstantIteratorTest extends m\Adapter\Phpunit\MockeryTestCase
     /**
      * @covers ::getDocComment
      */
-    public function testGetDocComment() : void
+    public function testGetDocComment(): void
     {
         $const = m::mock(Const_::class);
         $constants = m::mock(ConstStatement::class);

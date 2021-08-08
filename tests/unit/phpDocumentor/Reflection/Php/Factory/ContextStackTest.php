@@ -21,7 +21,7 @@ final class ContextStackTest extends PHPUnitTestCase
      * @covers ::getTypeContext
      * @covers ::getProject
      */
-    public function testCreate() : void
+    public function testCreate(): void
     {
         $project = new Project('myProject');
         $typeContext = new Context('myNamespace');
@@ -35,7 +35,7 @@ final class ContextStackTest extends PHPUnitTestCase
      * @covers ::__construct
      * @covers ::peek
      */
-    public function testPeekThowsWhenEmpty() : void
+    public function testPeekThowsWhenEmpty(): void
     {
         $this->expectException(OutOfBoundsException::class);
         $project = new Project('myProject');
@@ -53,7 +53,7 @@ final class ContextStackTest extends PHPUnitTestCase
      * @covers ::getProject
      * @covers ::createFromSelf
      */
-    public function testPeekReturnsTopOfStack() : void
+    public function testPeekReturnsTopOfStack(): void
     {
         $class = new ClassElement(new Fqsen('\MyClass'));
 
@@ -76,7 +76,7 @@ final class ContextStackTest extends PHPUnitTestCase
      * @covers ::getProject
      * @covers ::createFromSelf
      */
-    public function testCreateWithTypeContext() : void
+    public function testCreateWithTypeContext(): void
     {
         $class = new ClassElement(new Fqsen('\MyClass'));
 

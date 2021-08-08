@@ -27,6 +27,7 @@ use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
 use Prophecy\Prophecy\ObjectProphecy;
 use stdClass;
+
 use function current;
 
 /**
@@ -43,7 +44,7 @@ final class ClassConstantTest extends TestCase
     /** @var ObjectProphecy */
     private $docBlockFactory;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->docBlockFactory = $this->prophesize(DocBlockFactoryInterface::class);
         $this->fixture = new ClassConstant(
@@ -52,14 +53,14 @@ final class ClassConstantTest extends TestCase
         );
     }
 
-    public function testMatches() : void
+    public function testMatches(): void
     {
         $this->assertFalse($this->fixture->matches(self::createContext(null), new stdClass()));
         $this->assertTrue($this->fixture->matches(self::createContext(null), $this->buildConstantIteratorStub()));
     }
 
     /** @dataProvider visibilityProvider */
-    public function testCreateWithVisibility(int $input, string $expectedVisibility) : void
+    public function testCreateWithVisibility(int $input, string $expectedVisibility): void
     {
         $constantStub = $this->buildConstantIteratorStub($input);
 
@@ -70,7 +71,7 @@ final class ClassConstantTest extends TestCase
     }
 
     /** @return array<string|int[]> */
-    public function visibilityProvider() : array
+    public function visibilityProvider(): array
     {
         return [
             [
@@ -88,7 +89,7 @@ final class ClassConstantTest extends TestCase
         ];
     }
 
-    public function testCreateWithDocBlock() : void
+    public function testCreateWithDocBlock(): void
     {
         $doc = new Doc('text');
         $docBlock = new DocBlockDescriptor('text');
@@ -105,7 +106,7 @@ final class ClassConstantTest extends TestCase
         $this->assertSame($docBlock, $constant->getDocBlock());
     }
 
-    private function buildConstantIteratorStub(int $modifier = ClassNode::MODIFIER_PUBLIC) : ClassConst
+    private function buildConstantIteratorStub(int $modifier = ClassNode::MODIFIER_PUBLIC): ClassConst
     {
         $const = new Const_('\Space\MyClass::MY_CONST1', new String_('a'));
         $const->fqsen = new Fqsen((string) $const->name);
@@ -113,7 +114,7 @@ final class ClassConstantTest extends TestCase
         return new ClassConst([$const], $modifier);
     }
 
-    private function assertConstant(ConstantDescriptor $constant, string $visibility) : void
+    private function assertConstant(ConstantDescriptor $constant, string $visibility): void
     {
         $this->assertInstanceOf(ConstantDescriptor::class, $constant);
         $this->assertEquals('\Space\MyClass::MY_CONST1', (string) $constant->getFqsen());
@@ -121,7 +122,7 @@ final class ClassConstantTest extends TestCase
         $this->assertEquals($visibility, (string) $constant->getVisibility());
     }
 
-    private function performCreate(ClassConst $constantStub) : ClassElement
+    private function performCreate(ClassConst $constantStub): ClassElement
     {
         $factory = new ProjectFactoryStrategies([]);
         $class = new ClassElement(new Fqsen('\myClass'));

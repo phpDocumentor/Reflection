@@ -12,6 +12,7 @@ use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Comment\Doc;
 use PhpParser\NodeAbstract;
+
 use function get_class;
 use function gettype;
 use function is_object;
@@ -32,9 +33,9 @@ abstract class AbstractFactory implements ProjectFactoryStrategy
      *
      * @param object $object object to check.
      */
-    abstract public function matches(ContextStack $context, object $object) : bool;
+    abstract public function matches(ContextStack $context, object $object): bool;
 
-    public function create(ContextStack $context, object $object, StrategyContainer $strategies) : void
+    public function create(ContextStack $context, object $object, StrategyContainer $strategies): void
     {
         if (!$this->matches($context, $object)) {
             throw new InvalidArgumentException(
@@ -57,9 +58,9 @@ abstract class AbstractFactory implements ProjectFactoryStrategy
      *
      * @param NodeAbstract|object $object object to convert to an Element
      */
-    abstract protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies) : void;
+    abstract protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies): void;
 
-    protected function createDocBlock(?Doc $docBlock = null, ?Context $context = null) : ?DocBlock
+    protected function createDocBlock(?Doc $docBlock = null, ?Context $context = null): ?DocBlock
     {
         if ($docBlock === null) {
             return null;

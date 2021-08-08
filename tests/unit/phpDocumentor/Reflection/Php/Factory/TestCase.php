@@ -29,7 +29,7 @@ abstract class TestCase extends MockeryTestCase
     /** @var ProjectFactoryStrategy */
     protected $fixture;
 
-    public static function createContext(?Context $typeContext = null) : ContextStack
+    public static function createContext(?Context $typeContext = null): ContextStack
     {
         return new ContextStack(
             new Project('test'),
@@ -40,7 +40,7 @@ abstract class TestCase extends MockeryTestCase
     /**
      * @covers \phpDocumentor\Reflection\Php\Factory\AbstractFactory::create
      */
-    public function testCreateThrowsException() : void
+    public function testCreateThrowsException(): void
     {
         $this->expectException('InvalidArgumentException');
         $this->fixture->create(self::createContext(null), new stdClass(), m::mock(StrategyContainer::class));

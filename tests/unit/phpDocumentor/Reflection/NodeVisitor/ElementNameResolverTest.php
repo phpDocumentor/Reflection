@@ -37,7 +37,7 @@ class ElementNameResolverTest extends TestCase
     /** @var ElementNameResolver */
     private $fixture;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->fixture = new ElementNameResolver();
         $this->fixture->beforeTraverse([]);
@@ -46,7 +46,7 @@ class ElementNameResolverTest extends TestCase
     /**
      * @covers ::enterNode
      */
-    public function testFunctionWithoutNamespace() : void
+    public function testFunctionWithoutNamespace(): void
     {
         $function = new Function_('myFunction');
         $this->fixture->enterNode($function);
@@ -57,7 +57,7 @@ class ElementNameResolverTest extends TestCase
     /**
      * @covers ::enterNode
      */
-    public function testWithClass() : void
+    public function testWithClass(): void
     {
         $class = new Class_('myClass');
         $this->fixture->enterNode($class);
@@ -68,7 +68,7 @@ class ElementNameResolverTest extends TestCase
     /**
      * @covers ::enterNode
      */
-    public function testWithClassMethod() : void
+    public function testWithClassMethod(): void
     {
         $class = new Class_('myClass');
         $this->fixture->enterNode($class);
@@ -82,7 +82,7 @@ class ElementNameResolverTest extends TestCase
     /**
      * @covers ::enterNode
      */
-    public function testWithClassProperty() : void
+    public function testWithClassProperty(): void
     {
         $class = new Class_('myClass');
         $this->fixture->enterNode($class);
@@ -99,7 +99,7 @@ class ElementNameResolverTest extends TestCase
      *
      * @covers ::enterNode
      */
-    public function testDoesNotEnterAnonymousClass() : void
+    public function testDoesNotEnterAnonymousClass(): void
     {
         $class = new Class_(null);
         $this->assertEquals(
@@ -114,7 +114,7 @@ class ElementNameResolverTest extends TestCase
      * @covers ::enterNode
      * @covers ::leaveNode
      */
-    public function testAnonymousClassDoesNotPopParts() : void
+    public function testAnonymousClassDoesNotPopParts(): void
     {
         $anonymousClass = new Class_(null);
 
@@ -135,7 +135,7 @@ class ElementNameResolverTest extends TestCase
     /**
      * @covers ::enterNode
      */
-    public function testClassConstant() : void
+    public function testClassConstant(): void
     {
         $const      = new Const_('MY_CLASS', new String_('value'));
         $classConst = new ClassConst([$const]);
@@ -151,7 +151,7 @@ class ElementNameResolverTest extends TestCase
     /**
      * @covers ::enterNode
      */
-    public function testNamespacedConstant() : void
+    public function testNamespacedConstant(): void
     {
         $const     = new Const_('MY_CLASS', new String_('value'));
         $namespace = new Namespace_(new Name('name'));
@@ -165,7 +165,7 @@ class ElementNameResolverTest extends TestCase
     /**
      * @covers ::enterNode
      */
-    public function testNoNameNamespace() : void
+    public function testNoNameNamespace(): void
     {
         $const     = new Const_('MY_CLASS', new String_('value'));
         $namespace = new Namespace_(null);

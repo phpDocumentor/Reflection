@@ -33,7 +33,7 @@ class PropertyIteratorTest extends MockeryTestCase
      * @covers ::rewind()
      * @covers ::getName()
      */
-    public function testIterateProps() : void
+    public function testIterateProps(): void
     {
         $prop1 = new PropertyProperty('prop1');
         $prop2 = new PropertyProperty('prop2');
@@ -51,7 +51,7 @@ class PropertyIteratorTest extends MockeryTestCase
      * @covers ::key()
      * @covers ::next()
      */
-    public function testKey() : void
+    public function testKey(): void
     {
         $propertyMock = m::mock(PropertyNode::class);
 
@@ -70,7 +70,7 @@ class PropertyIteratorTest extends MockeryTestCase
      * @covers ::isStatic
      * @covers ::getLine
      */
-    public function testProxyMethods() : void
+    public function testProxyMethods(): void
     {
         $propertyMock = m::mock(PropertyNode::class);
         $propertyMock->shouldReceive('isPublic')->once()->andReturn(true);
@@ -92,7 +92,7 @@ class PropertyIteratorTest extends MockeryTestCase
      * @covers ::__construct
      * @covers ::getDefault
      */
-    public function testGetDefault() : void
+    public function testGetDefault(): void
     {
         $prop = m::mock(PropertyProperty::class);
         $prop->default = 'myDefault';
@@ -106,7 +106,7 @@ class PropertyIteratorTest extends MockeryTestCase
     /**
      * @covers ::getDocComment
      */
-    public function testGetDocCommentPropFirst() : void
+    public function testGetDocCommentPropFirst(): void
     {
         $prop = m::mock(PropertyProperty::class);
         $propertyNode = m::mock(PropertyNode::class);
@@ -123,7 +123,7 @@ class PropertyIteratorTest extends MockeryTestCase
     /**
      * @covers ::getDocComment
      */
-    public function testGetDocComment() : void
+    public function testGetDocComment(): void
     {
         $prop = m::mock(PropertyProperty::class);
         $propertyNode = m::mock(PropertyNode::class);

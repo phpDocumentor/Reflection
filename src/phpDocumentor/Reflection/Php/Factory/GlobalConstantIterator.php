@@ -40,7 +40,7 @@ final class GlobalConstantIterator implements Iterator
      *
      * @return int Line
      */
-    public function getLine() : int
+    public function getLine(): int
     {
         return $this->constant->getLine();
     }
@@ -48,7 +48,7 @@ final class GlobalConstantIterator implements Iterator
     /**
      * Returns the name of the current constant.
      */
-    public function getName() : string
+    public function getName(): string
     {
         return (string) $this->constant->consts[$this->index]->name;
     }
@@ -56,7 +56,7 @@ final class GlobalConstantIterator implements Iterator
     /**
      * Returns the fqsen of the current constant.
      */
-    public function getFqsen() : Fqsen
+    public function getFqsen(): Fqsen
     {
         return $this->constant->consts[$this->index]->fqsen;
     }
@@ -66,7 +66,7 @@ final class GlobalConstantIterator implements Iterator
      *
      * The doc comment has to be the last comment associated with the node.
      */
-    public function getDocComment() : ?Doc
+    public function getDocComment(): ?Doc
     {
         $docComment = $this->constant->consts[$this->index]->getDocComment();
         if ($docComment === null) {
@@ -76,7 +76,7 @@ final class GlobalConstantIterator implements Iterator
         return $docComment;
     }
 
-    public function getValue() : Expr
+    public function getValue(): Expr
     {
         return $this->constant->consts[$this->index]->value;
     }
@@ -84,7 +84,7 @@ final class GlobalConstantIterator implements Iterator
     /**
      * @link http://php.net/manual/en/iterator.current.php
      */
-    public function current() : self
+    public function current(): self
     {
         return $this;
     }
@@ -92,7 +92,7 @@ final class GlobalConstantIterator implements Iterator
     /**
      * @link http://php.net/manual/en/iterator.next.php
      */
-    public function next() : void
+    public function next(): void
     {
         ++$this->index;
     }
@@ -100,7 +100,7 @@ final class GlobalConstantIterator implements Iterator
     /**
      * @link http://php.net/manual/en/iterator.key.php
      */
-    public function key() : ?int
+    public function key(): ?int
     {
         return $this->index;
     }
@@ -108,7 +108,7 @@ final class GlobalConstantIterator implements Iterator
     /**
      * @link http://php.net/manual/en/iterator.valid.php
      */
-    public function valid() : bool
+    public function valid(): bool
     {
         return isset($this->constant->consts[$this->index]);
     }
@@ -116,7 +116,7 @@ final class GlobalConstantIterator implements Iterator
     /**
      * @link http://php.net/manual/en/iterator.rewind.php
      */
-    public function rewind() : void
+    public function rewind(): void
     {
         $this->index = 0;
     }

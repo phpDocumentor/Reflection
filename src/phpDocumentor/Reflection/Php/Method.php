@@ -93,7 +93,7 @@ final class Method implements Element
     /**
      * Returns true when this method is abstract. Otherwise returns false.
      */
-    public function isAbstract() : bool
+    public function isAbstract(): bool
     {
         return $this->abstract;
     }
@@ -101,7 +101,7 @@ final class Method implements Element
     /**
      * Returns true when this method is final. Otherwise returns false.
      */
-    public function isFinal() : bool
+    public function isFinal(): bool
     {
         return $this->final;
     }
@@ -109,7 +109,7 @@ final class Method implements Element
     /**
      * Returns true when this method is static. Otherwise returns false.
      */
-    public function isStatic() : bool
+    public function isStatic(): bool
     {
         return $this->static;
     }
@@ -117,7 +117,7 @@ final class Method implements Element
     /**
      * Returns the Visibility of this method.
      */
-    public function getVisibility() : ?Visibility
+    public function getVisibility(): ?Visibility
     {
         return $this->visibility;
     }
@@ -127,7 +127,7 @@ final class Method implements Element
      *
      * @return Argument[]
      */
-    public function getArguments() : array
+    public function getArguments(): array
     {
         return $this->arguments;
     }
@@ -135,7 +135,7 @@ final class Method implements Element
     /**
      * Add new argument to this method.
      */
-    public function addArgument(Argument $argument) : void
+    public function addArgument(Argument $argument): void
     {
         $this->arguments[] = $argument;
     }
@@ -143,7 +143,7 @@ final class Method implements Element
     /**
      * Returns the Fqsen of the element.
      */
-    public function getFqsen() : Fqsen
+    public function getFqsen(): Fqsen
     {
         return $this->fqsen;
     }
@@ -151,7 +151,7 @@ final class Method implements Element
     /**
      * Returns the name of the element.
      */
-    public function getName() : string
+    public function getName(): string
     {
         return $this->fqsen->getName();
     }
@@ -161,12 +161,12 @@ final class Method implements Element
      *
      * @returns null|DocBlock
      */
-    public function getDocBlock() : ?DocBlock
+    public function getDocBlock(): ?DocBlock
     {
         return $this->docBlock;
     }
 
-    public function getLocation() : Location
+    public function getLocation(): Location
     {
         return $this->location;
     }
@@ -178,7 +178,7 @@ final class Method implements Element
      * return type defined this method will return Mixed_ by default. The return value of this
      * method is not affected by the return tag in your docblock.
      */
-    public function getReturnType() : Type
+    public function getReturnType(): Type
     {
         return $this->returnType;
     }

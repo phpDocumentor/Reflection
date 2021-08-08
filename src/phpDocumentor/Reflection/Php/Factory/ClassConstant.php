@@ -41,7 +41,7 @@ final class ClassConstant extends AbstractFactory
         parent::__construct($blockFactory);
     }
 
-    public function matches(ContextStack $context, object $object) : bool
+    public function matches(ContextStack $context, object $object): bool
     {
         return $object instanceof ClassConst;
     }
@@ -60,7 +60,7 @@ final class ClassConstant extends AbstractFactory
         ContextStack $context,
         object $object,
         StrategyContainer $strategies
-    ) : void {
+    ): void {
         $constantContainer = $context->peek();
         Assert::isInstanceOfAny(
             $constantContainer,
@@ -86,7 +86,7 @@ final class ClassConstant extends AbstractFactory
     /**
      * Converts the visibility of the constant to a valid Visibility object.
      */
-    private function buildVisibility(ClassConstantIterator $node) : Visibility
+    private function buildVisibility(ClassConstantIterator $node): Visibility
     {
         if ($node->isPrivate()) {
             return new Visibility(Visibility::PRIVATE_);

@@ -28,5 +28,5 @@ interface StrategyContainer
      *
      * @throws Exception When no matching strategy was found.
      */
-    public function findMatching(ContextStack $context, $object) : ProjectFactoryStrategy;
+    public function findMatching(ContextStack $context, $object): ProjectFactoryStrategy;
 }

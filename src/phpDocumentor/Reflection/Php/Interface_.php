@@ -66,7 +66,7 @@ final class Interface_ implements Element
      *
      * @return Constant[]
      */
-    public function getConstants() : array
+    public function getConstants(): array
     {
         return $this->constants;
     }
@@ -74,7 +74,7 @@ final class Interface_ implements Element
     /**
      * Add constant to this interface.
      */
-    public function addConstant(Constant $constant) : void
+    public function addConstant(Constant $constant): void
     {
         $this->constants[(string) $constant->getFqsen()] = $constant;
     }
@@ -84,7 +84,7 @@ final class Interface_ implements Element
      *
      * @return Method[]
      */
-    public function getMethods() : array
+    public function getMethods(): array
     {
         return $this->methods;
     }
@@ -92,7 +92,7 @@ final class Interface_ implements Element
     /**
      * Add method to this interface.
      */
-    public function addMethod(Method $method) : void
+    public function addMethod(Method $method): void
     {
         $this->methods[(string) $method->getFqsen()] = $method;
     }
@@ -100,7 +100,7 @@ final class Interface_ implements Element
     /**
      * Returns the Fqsen of the element.
      */
-    public function getFqsen() : Fqsen
+    public function getFqsen(): Fqsen
     {
         return $this->fqsen;
     }
@@ -108,7 +108,7 @@ final class Interface_ implements Element
     /**
      * Returns the name of the element.
      */
-    public function getName() : string
+    public function getName(): string
     {
         return $this->fqsen->getName();
     }
@@ -116,7 +116,7 @@ final class Interface_ implements Element
     /**
      * Returns the DocBlock of this interface if available.
      */
-    public function getDocBlock() : ?DocBlock
+    public function getDocBlock(): ?DocBlock
     {
         return $this->docBlock;
     }
@@ -126,12 +126,12 @@ final class Interface_ implements Element
      *
      * @return Fqsen[]
      */
-    public function getParents() : array
+    public function getParents(): array
     {
         return $this->parents;
     }
 
-    public function getLocation() : Location
+    public function getLocation(): Location
     {
         return $this->location;
     }

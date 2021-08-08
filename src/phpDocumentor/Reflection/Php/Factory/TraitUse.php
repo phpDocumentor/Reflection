@@ -14,7 +14,7 @@ use PhpParser\Node\Stmt\TraitUse as TraitUseNode;
 
 final class TraitUse implements ProjectFactoryStrategy
 {
-    public function matches(ContextStack $context, object $object) : bool
+    public function matches(ContextStack $context, object $object): bool
     {
         return $object instanceof TraitUseNode;
     }
@@ -23,7 +23,7 @@ final class TraitUse implements ProjectFactoryStrategy
      * @param ContextStack $context of the created object
      * @param TraitUseNode $object
      */
-    public function create(ContextStack $context, object $object, StrategyContainer $strategies) : void
+    public function create(ContextStack $context, object $object, StrategyContainer $strategies): void
     {
         if ($this->matches($context, $object) === false) {
             throw new InvalidArgumentException('Does not match expected node');

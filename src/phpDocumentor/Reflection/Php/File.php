@@ -15,6 +15,7 @@ namespace phpDocumentor\Reflection\Php;
 
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
+
 use function basename;
 
 /**
@@ -75,7 +76,7 @@ final class File
     /**
      * Returns the hash of the contents for this file.
      */
-    public function getHash() : string
+    public function getHash(): string
     {
         return $this->hash;
     }
@@ -83,7 +84,7 @@ final class File
     /**
      * Retrieves the contents of this file.
      */
-    public function getSource() : string
+    public function getSource(): string
     {
         return $this->source;
     }
@@ -93,7 +94,7 @@ final class File
      *
      * @return Fqsen[]
      */
-    public function getNamespaces() : array
+    public function getNamespaces(): array
     {
         return $this->namespaces;
     }
@@ -101,7 +102,7 @@ final class File
     /**
      * Add namespace to file
      */
-    public function addNamespace(Fqsen $fqsen) : void
+    public function addNamespace(Fqsen $fqsen): void
     {
         $this->namespaces[(string) $fqsen] = $fqsen;
     }
@@ -111,12 +112,12 @@ final class File
      *
      * @return string[]
      */
-    public function getIncludes() : array
+    public function getIncludes(): array
     {
         return $this->includes;
     }
 
-    public function addInclude(string $include) : void
+    public function addInclude(string $include): void
     {
         $this->includes[$include] = $include;
     }
@@ -126,7 +127,7 @@ final class File
      *
      * @return Constant[]
      */
-    public function getConstants() : array
+    public function getConstants(): array
     {
         return $this->constants;
     }
@@ -134,7 +135,7 @@ final class File
     /**
      * Add constant to this file.
      */
-    public function addConstant(Constant $constant) : void
+    public function addConstant(Constant $constant): void
     {
         $this->constants[(string) $constant->getFqsen()] = $constant;
     }
@@ -144,7 +145,7 @@ final class File
      *
      * @return Function_[]
      */
-    public function getFunctions() : array
+    public function getFunctions(): array
     {
         return $this->functions;
     }
@@ -152,7 +153,7 @@ final class File
     /**
      * Add function to this file.
      */
-    public function addFunction(Function_ $function) : void
+    public function addFunction(Function_ $function): void
     {
         $this->functions[(string) $function->getFqsen()] = $function;
     }
@@ -162,7 +163,7 @@ final class File
      *
      * @return Class_[]
      */
-    public function getClasses() : array
+    public function getClasses(): array
     {
         return $this->classes;
     }
@@ -170,7 +171,7 @@ final class File
     /**
      * Add Class to this file.
      */
-    public function addClass(Class_ $class) : void
+    public function addClass(Class_ $class): void
     {
         $this->classes[(string) $class->getFqsen()] = $class;
     }
@@ -180,7 +181,7 @@ final class File
      *
      * @return Interface_[]
      */
-    public function getInterfaces() : array
+    public function getInterfaces(): array
     {
         return $this->interfaces;
     }
@@ -188,7 +189,7 @@ final class File
     /**
      * Add interface to this file.
      */
-    public function addInterface(Interface_ $interface) : void
+    public function addInterface(Interface_ $interface): void
     {
         $this->interfaces[(string) $interface->getFqsen()] = $interface;
     }
@@ -198,7 +199,7 @@ final class File
      *
      * @return Trait_[]
      */
-    public function getTraits() : array
+    public function getTraits(): array
     {
         return $this->traits;
     }
@@ -206,7 +207,7 @@ final class File
     /**
      * Add trait to this file.
      */
-    public function addTrait(Trait_ $trait) : void
+    public function addTrait(Trait_ $trait): void
     {
         $this->traits[(string) $trait->getFqsen()] = $trait;
     }
@@ -214,7 +215,7 @@ final class File
     /**
      * Returns the file path relative to the project's root.
      */
-    public function getPath() : string
+    public function getPath(): string
     {
         return $this->path;
     }
@@ -222,7 +223,7 @@ final class File
     /**
      * Returns the DocBlock of the element if available
      */
-    public function getDocBlock() : ?DocBlock
+    public function getDocBlock(): ?DocBlock
     {
         return $this->docBlock;
     }
@@ -230,7 +231,7 @@ final class File
     /**
      * Returns the full name of this file
      */
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }

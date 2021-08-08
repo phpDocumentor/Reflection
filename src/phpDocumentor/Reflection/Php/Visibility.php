@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace phpDocumentor\Reflection\Php;
 
 use InvalidArgumentException;
+
 use function sprintf;
 use function strtolower;
 
@@ -61,7 +62,7 @@ final class Visibility
     /**
      * Will return a string representation of visibility.
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         return $this->visibility;
     }

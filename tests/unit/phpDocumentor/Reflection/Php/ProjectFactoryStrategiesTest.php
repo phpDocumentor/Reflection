@@ -31,7 +31,7 @@ class ProjectFactoryStrategiesTest extends TestCase
     /**
      * @covers ::addStrategy
      */
-    public function testStrategiesAreChecked() : void
+    public function testStrategiesAreChecked(): void
     {
         new ProjectFactoryStrategies([new DummyFactoryStrategy()]);
         $this->assertTrue(true);
@@ -41,7 +41,7 @@ class ProjectFactoryStrategiesTest extends TestCase
      * @covers ::findMatching
      * @covers ::addStrategy
      */
-    public function testFindMatching() : void
+    public function testFindMatching(): void
     {
         $strategy  = new DummyFactoryStrategy();
         $container = new ProjectFactoryStrategies([$strategy]);
@@ -56,7 +56,7 @@ class ProjectFactoryStrategiesTest extends TestCase
     /**
      * @covers ::findMatching
      */
-    public function testCreateThrowsExceptionWhenStrategyNotFound() : void
+    public function testCreateThrowsExceptionWhenStrategyNotFound(): void
     {
         $this->expectException('OutOfBoundsException');
         $container = new ProjectFactoryStrategies([]);

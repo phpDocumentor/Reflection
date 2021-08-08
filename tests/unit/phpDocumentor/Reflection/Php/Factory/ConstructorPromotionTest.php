@@ -25,6 +25,7 @@ use PhpParser\PrettyPrinter\Standard;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use stdClass;
+
 use function current;
 
 /**
@@ -37,7 +38,7 @@ final class ConstructorPromotionTest extends TestCase
     /** @var ObjectProphecy */
     private $docblockFactory;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->strategy        = $this->prophesize(ProjectFactoryStrategy::class);
         $this->docblockFactory = $this->prophesize(DocBlockFactoryInterface::class);
@@ -56,7 +57,7 @@ final class ConstructorPromotionTest extends TestCase
      * @covers ::__construct
      * @covers ::matches
      */
-    public function testMatches(ContextStack $context, object $object, bool $expected) : void
+    public function testMatches(ContextStack $context, object $object, bool $expected): void
     {
         self::assertEquals($expected, $this->fixture->matches($context, $object));
     }
@@ -64,7 +65,7 @@ final class ConstructorPromotionTest extends TestCase
     /**
      * @return mixed[][]
      */
-    public function objectProvider() : array
+    public function objectProvider(): array
     {
         $context = new ContextStack(new Project('test'));
 
@@ -98,22 +99,23 @@ final class ConstructorPromotionTest extends TestCase
      * @covers ::promoteParameterToProperty
      * @dataProvider visibilityProvider
      */
-    public function testCreateWithProperty(int $flags, string $visibility) : void
+    public function testCreateWithProperty(int $flags, string $visibility): void
     {
         $methodNode         = new ClassMethod('__construct');
-        $methodNode->params = [new Param(
-            new Variable('myArgument'),
-            new String_('MyDefault'),
-            new Identifier('string'),
-            false,
-            false,
-            [
-                'comments' => [
-                    new Doc('text'),
+        $methodNode->params = [
+            new Param(
+                new Variable('myArgument'),
+                new String_('MyDefault'),
+                new Identifier('string'),
+                false,
+                false,
+                [
+                    'comments' => [
+                        new Doc('text'),
+                    ],
                 ],
-            ],
-            $flags
-        ),
+                $flags
+            ),
         ];
 
         $docBlock = new DocBlock('Test');
@@ -140,7 +142,7 @@ final class ConstructorPromotionTest extends TestCase
     }
 
     /** @return mixed[][] */
-    public function visibilityProvider() : array
+    public function visibilityProvider(): array
     {
         return [
             [

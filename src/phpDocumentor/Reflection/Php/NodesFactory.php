@@ -60,7 +60,7 @@ class NodesFactory
      *
      * @return static
      */
-    public static function createInstance(int $kind = ParserFactory::PREFER_PHP7) : self
+    public static function createInstance(int $kind = ParserFactory::PREFER_PHP7): self
     {
         $parser = (new ParserFactory())->create($kind);
         $traverser = new NodeTraverser();
@@ -77,7 +77,7 @@ class NodesFactory
      *
      * @return Node[]
      */
-    public function create(string $code) : array
+    public function create(string $code): array
     {
         return $this->traverser->traverse($this->parser->parse($code));
     }

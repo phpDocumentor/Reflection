@@ -28,6 +28,7 @@ use PhpParser\Node\Stmt\Interface_ as InterfaceNode;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use stdClass;
+
 use function current;
 
 /**
@@ -48,7 +49,7 @@ class Interface_Test extends TestCase
     /** @var ObjectProphecy */
     private $docBlockFactory;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->docBlockFactory = $this->prophesize(DocBlockFactoryInterface::class);
         $this->fixture = new Interface_($this->docBlockFactory->reveal());
@@ -57,7 +58,7 @@ class Interface_Test extends TestCase
     /**
      * @covers ::matches
      */
-    public function testMatches() : void
+    public function testMatches(): void
     {
         $this->assertFalse($this->fixture->matches(self::createContext(null), new stdClass()));
         $this->assertTrue($this->fixture->matches(self::createContext(null), m::mock(InterfaceNode::class)));
@@ -66,7 +67,7 @@ class Interface_Test extends TestCase
     /**
      * @covers ::create
      */
-    public function testSimpleCreate() : void
+    public function testSimpleCreate(): void
     {
         $interfaceMock = $this->buildClassMock();
         $interfaceMock->shouldReceive('getDocComment')->andReturnNull();
@@ -81,7 +82,7 @@ class Interface_Test extends TestCase
     /**
      * @covers ::create
      */
-    public function testCreateWithDocBlock() : void
+    public function testCreateWithDocBlock(): void
     {
         $doc           = new Doc('Text');
         $docBlock      = new DocBlockElement('');
@@ -99,7 +100,7 @@ class Interface_Test extends TestCase
     /**
      * @covers ::create
      */
-    public function testIteratesStatements() : void
+    public function testIteratesStatements(): void
     {
         $method1           = new ClassMethod('MyClass::method1');
         $method1Descriptor = new MethodElement(new Fqsen('\MyClass::method1'));
@@ -110,7 +111,7 @@ class Interface_Test extends TestCase
         $classMock->stmts = [$method1];
 
         $strategyMock->create(Argument::type(ContextStack::class), $method1, $containerMock)
-            ->will(function ($args) use ($method1Descriptor) : void {
+            ->will(function ($args) use ($method1Descriptor): void {
                 $args[0]->peek()->addMethod($method1Descriptor);
             })
             ->shouldBeCalled();
@@ -143,7 +144,7 @@ class Interface_Test extends TestCase
         return $interfaceMock;
     }
 
-    private function performCreate(m\MockInterface $interfaceMock, StrategyContainer $containerMock) : InterfaceElement
+    private function performCreate(m\MockInterface $interfaceMock, StrategyContainer $containerMock): InterfaceElement
     {
         $file = new FileElement('hash', 'path');
         $this->fixture->create(

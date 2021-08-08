@@ -33,7 +33,7 @@ class ProjectTest extends TestCase
     /**
      * Initializes the fixture object.
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->fixture = new Project(self::EXAMPLE_NAME);
     }
@@ -43,7 +43,7 @@ class ProjectTest extends TestCase
      *
      * @covers ::getName
      */
-    public function testGetSetName() : void
+    public function testGetSetName(): void
     {
         $this->assertEquals(self::EXAMPLE_NAME, $this->fixture->getName());
     }
@@ -55,7 +55,7 @@ class ProjectTest extends TestCase
      * @covers ::getFiles
      * @covers ::addFile
      */
-    public function testGetAddFiles() : void
+    public function testGetAddFiles(): void
     {
         $this->assertEmpty($this->fixture->getFiles());
 
@@ -70,7 +70,7 @@ class ProjectTest extends TestCase
      *
      * @covers ::getRootNamespace
      */
-    public function testGetRootNamespace() : void
+    public function testGetRootNamespace(): void
     {
         $this->assertInstanceOf(Namespace_::class, $this->fixture->getRootNamespace());
 
@@ -86,7 +86,7 @@ class ProjectTest extends TestCase
      * @covers ::getNamespaces
      * @covers ::addNamespace
      */
-    public function testGetAddNamespace() : void
+    public function testGetAddNamespace(): void
     {
         $this->assertEmpty($this->fixture->getNamespaces());
 

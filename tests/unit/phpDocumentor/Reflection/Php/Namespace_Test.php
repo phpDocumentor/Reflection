@@ -38,7 +38,7 @@ class Namespace_Test extends TestCase
     /**
      * Creates a new (emoty) fixture object.
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->fqsen    = new Fqsen('\MySpace');
         $this->docBlock = new DocBlock('');
@@ -51,7 +51,7 @@ class Namespace_Test extends TestCase
      * @covers ::getClasses
      * @covers ::AddClass
      */
-    public function testAddAndGetClasses() : void
+    public function testAddAndGetClasses(): void
     {
         $this->assertEmpty($this->fixture->getClasses());
 
@@ -66,7 +66,7 @@ class Namespace_Test extends TestCase
      * @covers ::getConstants
      * @covers ::addConstant
      */
-    public function testAddAndGetConstants() : void
+    public function testAddAndGetConstants(): void
     {
         $this->assertEmpty($this->fixture->getConstants());
 
@@ -81,7 +81,7 @@ class Namespace_Test extends TestCase
      * @covers ::getFunctions
      * @covers ::addFunction
      */
-    public function testAddAndGetFunctions() : void
+    public function testAddAndGetFunctions(): void
     {
         $this->assertEmpty($this->fixture->getFunctions());
 
@@ -96,7 +96,7 @@ class Namespace_Test extends TestCase
      * @covers ::getInterfaces
      * @covers ::addInterface
      */
-    public function testAddAndGetInterfaces() : void
+    public function testAddAndGetInterfaces(): void
     {
         $this->assertEmpty($this->fixture->getInterfaces());
 
@@ -111,7 +111,7 @@ class Namespace_Test extends TestCase
      * @covers ::getTraits
      * @covers ::addTrait
      */
-    public function testAddAndGetTraits() : void
+    public function testAddAndGetTraits(): void
     {
         $this->assertEmpty($this->fixture->getTraits());
 
@@ -126,7 +126,7 @@ class Namespace_Test extends TestCase
      * @covers ::getFqsen
      * @covers ::getName
      */
-    public function testGetFqsen() : void
+    public function testGetFqsen(): void
     {
         $this->assertSame($this->fqsen, $this->fixture->getFqsen());
         $this->assertEquals($this->fqsen->getName(), $this->fixture->getName());

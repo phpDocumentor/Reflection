@@ -32,6 +32,7 @@ use PhpParser\Node\Stmt\Namespace_ as NamespaceNode;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use stdClass;
+
 use function current;
 use function file_get_contents;
 
@@ -64,7 +65,7 @@ final class FileTest extends TestCase
     /** @var ObjectProphecy */
     private $docBlockFactory;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->docBlockFactory = $this->prophesize(DocBlockFactoryInterface::class);
         $this->nodesFactoryMock = $this->prophesize(NodesFactory::class);
@@ -74,7 +75,7 @@ final class FileTest extends TestCase
     /**
      * @covers ::matches
      */
-    public function testMatches() : void
+    public function testMatches(): void
     {
         $this->assertFalse($this->fixture->matches(self::createContext(null), new stdClass()));
         $this->assertTrue($this->fixture->matches(self::createContext(null), m::mock(SourceFile::class)));
@@ -83,7 +84,7 @@ final class FileTest extends TestCase
     /**
      * @covers ::create
      */
-    public function testMiddlewareIsExecuted() : void
+    public function testMiddlewareIsExecuted(): void
     {
         $file = new FileElement('aa', __FILE__);
         $this->nodesFactoryMock->create(file_get_contents(__FILE__))->willReturn([]);
@@ -103,7 +104,7 @@ final class FileTest extends TestCase
         $this->assertSame($result, $file);
     }
 
-    public function testMiddlewareIsChecked() : void
+    public function testMiddlewareIsChecked(): void
     {
         $this->expectException('InvalidArgumentException');
         new File($this->docBlockFactory->reveal(), $this->nodesFactoryMock->reveal(), [new stdClass()]);
@@ -113,7 +114,7 @@ final class FileTest extends TestCase
      * @covers ::create
      * @dataProvider nodeProvider
      */
-    public function testFileGetsCommentFromFirstNode(Node $node, DocBlockDescriptor $docblock) : void
+    public function testFileGetsCommentFromFirstNode(Node $node, DocBlockDescriptor $docblock): void
     {
         $this->nodesFactoryMock->create(file_get_contents(__FILE__))->willReturn([$node]);
         $this->docBlockFactory->create('Text', null)->willReturn($docblock);
@@ -133,7 +134,7 @@ final class FileTest extends TestCase
     }
 
     /** @return array<string, mixed[]> */
-    public function nodeProvider() : array
+    public function nodeProvider(): array
     {
         $docBlockNode = new DocBlockNode('Text');
         $namespaceNode = new NamespaceNode(new Name('mySpace'));

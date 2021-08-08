@@ -9,6 +9,7 @@ use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Php\File as FileElement;
 use phpDocumentor\Reflection\Php\Project;
 use phpDocumentor\Reflection\Types\Context as TypeContext;
+
 use function end;
 
 final class ContextStack
@@ -28,7 +29,7 @@ final class ContextStack
     }
 
     /** @param (Element|FileElement)[] $elements */
-    private static function createFromSelf(Project $project, ?TypeContext $typeContext, array $elements) : self
+    private static function createFromSelf(Project $project, ?TypeContext $typeContext, array $elements): self
     {
         $self = new self($project, $typeContext);
         $self->elements = $elements;
@@ -37,7 +38,7 @@ final class ContextStack
     }
 
     /** @param  Element|FileElement $element */
-    public function push($element) : self
+    public function push($element): self
     {
         $elements = $this->elements;
         $elements[] = $element;
@@ -45,17 +46,17 @@ final class ContextStack
         return self::createFromSelf($this->project, $this->typeContext, $elements);
     }
 
-    public function withTypeContext(TypeContext $typeContext) : ContextStack
+    public function withTypeContext(TypeContext $typeContext): ContextStack
     {
         return self::createFromSelf($this->project, $typeContext, $this->elements);
     }
 
-    public function getTypeContext() : ?TypeContext
+    public function getTypeContext(): ?TypeContext
     {
         return $this->typeContext;
     }
 
-    public function getProject() : Project
+    public function getProject(): Project
     {
         return $this->project;
     }

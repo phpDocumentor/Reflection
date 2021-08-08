@@ -46,7 +46,7 @@ final class Class_Test extends TestCase
     /**
      * Creates a new (emoty) fixture object.
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->parent = new Fqsen('\MyParentClass');
         $this->fqsen = new Fqsen('\MyClass');
@@ -58,7 +58,7 @@ final class Class_Test extends TestCase
     /**
      * @covers ::getName
      */
-    public function testGettingName() : void
+    public function testGettingName(): void
     {
         $this->assertSame($this->fqsen->getName(), $this->fixture->getName());
     }
@@ -66,7 +66,7 @@ final class Class_Test extends TestCase
     /**
      * @covers ::getFqsen
      */
-    public function testGettingFqsen() : void
+    public function testGettingFqsen(): void
     {
         $this->assertSame($this->fqsen, $this->fixture->getFqsen());
     }
@@ -74,7 +74,7 @@ final class Class_Test extends TestCase
     /**
      * @covers ::getDocBlock
      */
-    public function testGettingDocBlock() : void
+    public function testGettingDocBlock(): void
     {
         $this->assertSame($this->docBlock, $this->fixture->getDocBlock());
     }
@@ -82,7 +82,7 @@ final class Class_Test extends TestCase
     /**
      * @covers ::getParent
      */
-    public function testGettingParent() : void
+    public function testGettingParent(): void
     {
         $class = new Class_($this->fqsen, $this->docBlock);
         $this->assertNull($class->getParent());
@@ -95,7 +95,7 @@ final class Class_Test extends TestCase
      * @covers ::getInterfaces
      * @covers ::AddInterface
      */
-    public function testAddAndGettingInterfaces() : void
+    public function testAddAndGettingInterfaces(): void
     {
         $this->assertEmpty($this->fixture->getInterfaces());
 
@@ -110,7 +110,7 @@ final class Class_Test extends TestCase
      * @covers ::getConstants
      * @covers ::addConstant
      */
-    public function testAddAndGettingConstants() : void
+    public function testAddAndGettingConstants(): void
     {
         $this->assertEmpty($this->fixture->getConstants());
 
@@ -125,7 +125,7 @@ final class Class_Test extends TestCase
      * @covers ::addProperty
      * @covers ::getProperties
      */
-    public function testAddAndGettingProperties() : void
+    public function testAddAndGettingProperties(): void
     {
         $this->assertEmpty($this->fixture->getProperties());
 
@@ -140,7 +140,7 @@ final class Class_Test extends TestCase
      * @covers ::addMethod
      * @covers ::getMethods
      */
-    public function testAddAndGettingMethods() : void
+    public function testAddAndGettingMethods(): void
     {
         $this->assertEmpty($this->fixture->getMethods());
 
@@ -155,7 +155,7 @@ final class Class_Test extends TestCase
      * @covers ::getUsedTraits
      * @covers ::AddUsedTrait
      */
-    public function testAddAndGettingUsedTrait() : void
+    public function testAddAndGettingUsedTrait(): void
     {
         $this->assertEmpty($this->fixture->getUsedTraits());
 
@@ -169,7 +169,7 @@ final class Class_Test extends TestCase
     /**
      * @covers ::isAbstract
      */
-    public function testGettingWhetherClassIsAbstract() : void
+    public function testGettingWhetherClassIsAbstract(): void
     {
         $class = new Class_($this->fqsen, $this->docBlock);
         $this->assertFalse($class->isAbstract());
@@ -181,7 +181,7 @@ final class Class_Test extends TestCase
     /**
      * @covers ::isFinal
      */
-    public function testGettingWhetherClassIsFinal() : void
+    public function testGettingWhetherClassIsFinal(): void
     {
         $class = new Class_($this->fqsen, $this->docBlock);
         $this->assertFalse($class->isFinal());
@@ -193,7 +193,7 @@ final class Class_Test extends TestCase
     /**
      * @covers ::getLocation
      */
-    public function testLineNumberIsMinusOneWhenNoneIsProvided() : void
+    public function testLineNumberIsMinusOneWhenNoneIsProvided(): void
     {
         $this->assertSame(-1, $this->fixture->getLocation()->getLineNumber());
         $this->assertSame(0, $this->fixture->getLocation()->getColumnNumber());
@@ -204,7 +204,7 @@ final class Class_Test extends TestCase
      *
      * @covers ::getLocation
      */
-    public function testLineAndColumnNumberIsReturnedWhenALocationIsProvided() : void
+    public function testLineAndColumnNumberIsReturnedWhenALocationIsProvided(): void
     {
         $fixture = new Class_($this->fqsen, $this->docBlock, null, false, false, new Location(100, 20));
 

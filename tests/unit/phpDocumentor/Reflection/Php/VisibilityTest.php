@@ -27,7 +27,7 @@ class VisibilityTest extends TestCase
      * @covers ::__construct
      * @covers ::__toString
      */
-    public function testVisibility(string $input, string $expected) : void
+    public function testVisibility(string $input, string $expected): void
     {
         $visibility = new Visibility($input);
 
@@ -37,7 +37,7 @@ class VisibilityTest extends TestCase
     /**
      * @return string[][]
      */
-    public function visibilityProvider() : array
+    public function visibilityProvider(): array
     {
         return [
             ['public', 'public'],
@@ -50,7 +50,7 @@ class VisibilityTest extends TestCase
     /**
      * @covers ::__construct
      */
-    public function testVisibilityChecksInput() : void
+    public function testVisibilityChecksInput(): void
     {
         $this->expectException('InvalidArgumentException');
         new Visibility('fooBar');

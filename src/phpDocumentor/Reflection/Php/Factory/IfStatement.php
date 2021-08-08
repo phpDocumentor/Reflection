@@ -11,7 +11,7 @@ use PhpParser\Node\Stmt\If_;
 
 class IfStatement implements ProjectFactoryStrategy
 {
-    public function matches(ContextStack $context, object $object) : bool
+    public function matches(ContextStack $context, object $object): bool
     {
         return $object instanceof If_;
     }
@@ -19,7 +19,7 @@ class IfStatement implements ProjectFactoryStrategy
     /**
      * @param If_ $object
      */
-    public function create(ContextStack $context, object $object, StrategyContainer $strategies) : void
+    public function create(ContextStack $context, object $object, StrategyContainer $strategies): void
     {
         foreach ($object->stmts as $stmt) {
             $strategies->findMatching($context, $stmt)->create($context, $stmt, $strategies);

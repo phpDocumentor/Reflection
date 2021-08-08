@@ -45,7 +45,7 @@ final class Property extends AbstractFactory implements ProjectFactoryStrategy
         parent::__construct($docBlockFactory);
     }
 
-    public function matches(ContextStack $context, object $object) : bool
+    public function matches(ContextStack $context, object $object): bool
     {
         return $object instanceof PropertyNode;
     }
@@ -63,7 +63,7 @@ final class Property extends AbstractFactory implements ProjectFactoryStrategy
         ContextStack $context,
         object $object,
         StrategyContainer $strategies
-    ) : void {
+    ): void {
         $propertyContainer = $context->peek();
         Assert::isInstanceOfAny(
             $propertyContainer,
@@ -97,7 +97,7 @@ final class Property extends AbstractFactory implements ProjectFactoryStrategy
     /**
      * Converts the visibility of the property to a valid Visibility object.
      */
-    private function buildVisibility(PropertyIterator $node) : Visibility
+    private function buildVisibility(PropertyIterator $node): Visibility
     {
         if ($node->isPrivate()) {
             return new Visibility(Visibility::PRIVATE_);

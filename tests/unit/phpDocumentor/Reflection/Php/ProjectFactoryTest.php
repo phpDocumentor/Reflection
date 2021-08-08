@@ -19,6 +19,7 @@ use phpDocumentor\Reflection\File\LocalFile;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\Factory\ContextStack;
 use Prophecy\Argument as ProphesizeArgument;
+
 use function array_keys;
 use function assert;
 use function current;
@@ -68,7 +69,7 @@ final class ProjectFactoryTest extends MockeryTestCase
      *
      * @covers ::createInstance
      */
-    public function testCreatingAnInstanceInstantiatesItWithTheRecommendedStrategies() : void
+    public function testCreatingAnInstanceInstantiatesItWithTheRecommendedStrategies(): void
     {
         $this->assertInstanceOf(ProjectFactory::class, ProjectFactory::createInstance());
     }
@@ -76,7 +77,7 @@ final class ProjectFactoryTest extends MockeryTestCase
     /**
      * @covers ::create
      */
-    public function testCreate() : void
+    public function testCreate(): void
     {
         $expected = ['some/file.php', 'some/other.php'];
         $calls = 0;
@@ -102,7 +103,7 @@ final class ProjectFactoryTest extends MockeryTestCase
             ProphesizeArgument::type(ContextStack::class),
             ProphesizeArgument::type(LocalFile::class),
             ProphesizeArgument::any()
-        )->will(function ($args) use (&$calls, $expected) : void {
+        )->will(function ($args) use (&$calls, $expected): void {
             $context = $args[0];
             assert($context instanceof ContextStack);
 
@@ -125,7 +126,7 @@ final class ProjectFactoryTest extends MockeryTestCase
     /**
      * @covers ::create
      */
-    public function testCreateThrowsExceptionWhenStrategyNotFound() : void
+    public function testCreateThrowsExceptionWhenStrategyNotFound(): void
     {
         $this->expectException('OutOfBoundsException');
         $projectFactory = new ProjectFactory([]);
@@ -135,7 +136,7 @@ final class ProjectFactoryTest extends MockeryTestCase
     /**
      * @covers ::create
      */
-    public function testCreateProjectFromFileWithNamespacedClass() : void
+    public function testCreateProjectFromFileWithNamespacedClass(): void
     {
         $file = new File(md5('some/file.php'), 'some/file.php');
         $file->addNamespace(new Fqsen('\mySpace'));
@@ -154,7 +155,7 @@ final class ProjectFactoryTest extends MockeryTestCase
     /**
      * @covers ::create
      */
-    public function testWithNamespacedInterface() : void
+    public function testWithNamespacedInterface(): void
     {
         $file = new File(md5('some/file.php'), 'some/file.php');
         $file->addNamespace(new Fqsen('\mySpace'));
@@ -171,7 +172,7 @@ final class ProjectFactoryTest extends MockeryTestCase
     /**
      * @covers ::create
      */
-    public function testWithNamespacedFunction() : void
+    public function testWithNamespacedFunction(): void
     {
         $file = new File(md5('some/file.php'), 'some/file.php');
         $file->addNamespace(new Fqsen('\mySpace'));
@@ -188,7 +189,7 @@ final class ProjectFactoryTest extends MockeryTestCase
     /**
      * @covers ::create
      */
-    public function testWithNamespacedConstant() : void
+    public function testWithNamespacedConstant(): void
     {
         $file = new File(md5('some/file.php'), 'some/file.php');
         $file->addNamespace(new Fqsen('\mySpace'));
@@ -205,7 +206,7 @@ final class ProjectFactoryTest extends MockeryTestCase
     /**
      * @covers ::create
      */
-    public function testWithNamespacedTrait() : void
+    public function testWithNamespacedTrait(): void
     {
         $file = new File(md5('some/file.php'), 'some/file.php');
         $file->addNamespace(new Fqsen('\mySpace'));
@@ -222,7 +223,7 @@ final class ProjectFactoryTest extends MockeryTestCase
     /**
      * @covers ::create
      */
-    public function testNamespaceSpreadOverMultipleFiles() : void
+    public function testNamespaceSpreadOverMultipleFiles(): void
     {
         $someFile = new File(md5('some/file.php'), 'some/file.php');
         $someFile->addNamespace(new Fqsen('\mySpace'));
@@ -241,7 +242,7 @@ final class ProjectFactoryTest extends MockeryTestCase
     /**
      * @covers ::create
      */
-    public function testSingleFileMultipleNamespaces() : void
+    public function testSingleFileMultipleNamespaces(): void
     {
         $someFile = new File(md5('some/file.php'), 'some/file.php');
         $someFile->addNamespace(new Fqsen('\mySpace'));
@@ -265,7 +266,7 @@ final class ProjectFactoryTest extends MockeryTestCase
      *
      * @throws Exception
      */
-    private function fetchNamespacesFromSingleFile(File $file) : array
+    private function fetchNamespacesFromSingleFile(File $file): array
     {
         return $this->fetchNamespacesFromMultipleFiles([$file]);
     }
@@ -279,7 +280,7 @@ final class ProjectFactoryTest extends MockeryTestCase
      *
      * @throws Exception
      */
-    private function fetchNamespacesFromMultipleFiles(array $files) : array
+    private function fetchNamespacesFromMultipleFiles(array $files): array
     {
         $fileStrategyMock = $this->prophesize(ProjectFactoryStrategy::class);
         $fileStrategyMock->matches(
@@ -291,7 +292,7 @@ final class ProjectFactoryTest extends MockeryTestCase
             ProphesizeArgument::type(ContextStack::class),
             ProphesizeArgument::type(File::class),
             ProphesizeArgument::any()
-        )->will(function ($args) : void {
+        )->will(function ($args): void {
             $context = $args[0];
             assert($context instanceof ContextStack);
 

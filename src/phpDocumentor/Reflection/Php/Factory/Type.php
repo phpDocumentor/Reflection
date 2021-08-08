@@ -20,6 +20,7 @@ use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\NullableType;
 use PhpParser\Node\UnionType;
+
 use function implode;
 
 final class Type
@@ -27,7 +28,7 @@ final class Type
     /**
      * @param Identifier|Name|NullableType|UnionType|null $type
      */
-    public function fromPhpParser($type, ?Context $context = null) : ?TypeElement
+    public function fromPhpParser($type, ?Context $context = null): ?TypeElement
     {
         if ($type === null) {
             return null;

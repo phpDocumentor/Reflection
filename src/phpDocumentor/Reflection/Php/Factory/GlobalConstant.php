@@ -42,7 +42,7 @@ final class GlobalConstant extends AbstractFactory
         parent::__construct($docBlockFactory);
     }
 
-    public function matches(ContextStack $context, object $object) : bool
+    public function matches(ContextStack $context, object $object): bool
     {
         return $object instanceof Const_;
     }
@@ -61,7 +61,7 @@ final class GlobalConstant extends AbstractFactory
         ContextStack $context,
         object $object,
         StrategyContainer $strategies
-    ) : void {
+    ): void {
         $constants = new GlobalConstantIterator($object);
         $file = $context->peek();
         Assert::isInstanceOf($file, FileElement::class);

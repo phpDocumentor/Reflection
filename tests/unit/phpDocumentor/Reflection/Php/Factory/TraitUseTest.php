@@ -20,7 +20,7 @@ use PhpParser\Node\Stmt\TraitUse as TraitUseNode;
 final class TraitUseTest extends TestCase
 {
     /** @return mixed[][] */
-    public function consumerProvider() : array
+    public function consumerProvider(): array
     {
         return [
             [new Class_Element(new Fqsen('\MyClass'))],
@@ -28,7 +28,7 @@ final class TraitUseTest extends TestCase
         ];
     }
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->fixture = new TraitUse();
     }
@@ -36,7 +36,7 @@ final class TraitUseTest extends TestCase
     /**
      * @covers ::matches
      */
-    public function testMatchesOnlyTraitUseNode() : void
+    public function testMatchesOnlyTraitUseNode(): void
     {
         self::assertTrue(
             $this->fixture->matches(
@@ -47,7 +47,7 @@ final class TraitUseTest extends TestCase
     }
 
     /** @covers ::create */
-    public function testCreateThrowsExceptionWhenStackDoesNotContainClass() : void
+    public function testCreateThrowsExceptionWhenStackDoesNotContainClass(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -61,7 +61,7 @@ final class TraitUseTest extends TestCase
      * @covers ::create
      * @dataProvider consumerProvider
      */
-    public function testCreateWillAddUsedTraitToContextTop(Element $traitConsumer) : void
+    public function testCreateWillAddUsedTraitToContextTop(Element $traitConsumer): void
     {
         $context = self::createContext()->push($traitConsumer);
         $this->fixture->create($context, $this->givenTraitUse(), new ProjectFactoryStrategies([]));
@@ -69,7 +69,7 @@ final class TraitUseTest extends TestCase
         self::assertEquals(['\Foo' => new Fqsen('\Foo')], $traitConsumer->getUsedTraits());
     }
 
-    private function givenTraitUse() : TraitUseNode
+    private function givenTraitUse(): TraitUseNode
     {
         return new TraitUseNode([new FullyQualified('Foo')]);
     }

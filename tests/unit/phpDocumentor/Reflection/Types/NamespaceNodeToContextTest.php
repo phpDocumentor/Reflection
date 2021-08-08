@@ -23,7 +23,7 @@ final class NamespaceNodeToContextTest extends TestCase
      * @dataProvider expectedContextsProvider
      * @covers ::__invoke
      */
-    public function testConversion(?Namespace_ $namespace, Context $expectedContext) : void
+    public function testConversion(?Namespace_ $namespace, Context $expectedContext): void
     {
         $this->assertEquals($expectedContext, (new NamespaceNodeToContext())->__invoke($namespace));
     }
@@ -31,7 +31,7 @@ final class NamespaceNodeToContextTest extends TestCase
     /**
      * @return (Namespace|Context|null)[][]
      */
-    public function expectedContextsProvider() : array
+    public function expectedContextsProvider(): array
     {
         $namespaceWithImports = new Namespace_(
             new Name('With\\Imports'),
