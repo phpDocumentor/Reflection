@@ -168,13 +168,15 @@ final class File extends AbstractFactory
             }
 
             // If current node cannot have a docblock return the first comment as docblock for the file.
-            if (!(
+            if (
+                !(
                 $node instanceof ConstantNode ||
                 $node instanceof ClassNode ||
                 $node instanceof FunctionNode ||
                 $node instanceof InterfaceNode ||
                 $node instanceof TraitNode
-            )) {
+                )
+            ) {
                 return $this->createDocBlock($comment, $context);
             }
 

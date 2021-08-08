@@ -102,19 +102,20 @@ final class ConstructorPromotionTest extends TestCase
     public function testCreateWithProperty(int $flags, string $visibility): void
     {
         $methodNode         = new ClassMethod('__construct');
-        $methodNode->params = [new Param(
-            new Variable('myArgument'),
-            new String_('MyDefault'),
-            new Identifier('string'),
-            false,
-            false,
-            [
-                'comments' => [
-                    new Doc('text'),
+        $methodNode->params = [
+            new Param(
+                new Variable('myArgument'),
+                new String_('MyDefault'),
+                new Identifier('string'),
+                false,
+                false,
+                [
+                    'comments' => [
+                        new Doc('text'),
+                    ],
                 ],
-            ],
-            $flags
-        ),
+                $flags
+            ),
         ];
 
         $docBlock = new DocBlock('Test');

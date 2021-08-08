@@ -69,7 +69,7 @@ final class ChainFactoryTest extends TestCase
 
     private function givenAMiddleware(string $exampleValue): Middleware
     {
-        return new class($exampleValue) implements Middleware {
+        return new class ($exampleValue) implements Middleware {
             /** @var string */
             private $exampleAddedValue;
 

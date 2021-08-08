@@ -167,8 +167,10 @@ final class ProjectFactory implements ProjectFactoryInterface
         }
 
         foreach ($file->getConstants() as $constant) {
-            if ($namespace->getFqsen() . '::' . $constant->getName() !== (string) $constant->getFqsen() &&
-                $namespace->getFqsen() . '\\' . $constant->getName() !== (string) $constant->getFqsen()) {
+            if (
+                $namespace->getFqsen() . '::' . $constant->getName() !== (string) $constant->getFqsen() &&
+                $namespace->getFqsen() . '\\' . $constant->getName() !== (string) $constant->getFqsen()
+            ) {
                 continue;
             }
 
