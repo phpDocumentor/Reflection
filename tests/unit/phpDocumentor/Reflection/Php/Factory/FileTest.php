@@ -32,6 +32,7 @@ use PhpParser\Node\Stmt\Namespace_ as NamespaceNode;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use stdClass;
+
 use function current;
 use function file_get_contents;
 

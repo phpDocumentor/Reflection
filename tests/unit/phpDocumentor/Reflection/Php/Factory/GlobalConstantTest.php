@@ -28,6 +28,7 @@ use PhpParser\Node\Stmt\Const_ as ConstStatement;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
 use Prophecy\Prophecy\ObjectProphecy;
 use stdClass;
+
 use function current;
 
 /**

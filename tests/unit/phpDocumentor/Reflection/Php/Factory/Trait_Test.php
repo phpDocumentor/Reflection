@@ -28,6 +28,7 @@ use PhpParser\Node\Stmt\Trait_ as TraitNode;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use stdClass;
+
 use function current;
 
 /**

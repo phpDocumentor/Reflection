@@ -26,6 +26,7 @@ use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Expression;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
 use RuntimeException;
+
 use function assert;
 use function sprintf;
 use function strpos;

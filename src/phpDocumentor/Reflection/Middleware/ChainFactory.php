@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace phpDocumentor\Reflection\Middleware;
 
 use InvalidArgumentException;
+
 use function array_pop;
 use function get_class;
 use function gettype;

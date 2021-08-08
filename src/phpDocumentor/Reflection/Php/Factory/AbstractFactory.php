@@ -12,6 +12,7 @@ use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Comment\Doc;
 use PhpParser\NodeAbstract;
+
 use function get_class;
 use function gettype;
 use function is_object;

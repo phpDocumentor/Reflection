@@ -16,6 +16,7 @@ namespace phpDocumentor\Reflection\Php;
 use OutOfBoundsException;
 use phpDocumentor\Reflection\Php\Factory\ContextStack;
 use SplPriorityQueue;
+
 use function get_class;
 use function is_object;
 use function print_r;

@@ -19,6 +19,7 @@ use phpDocumentor\Reflection\File\LocalFile;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\Factory\ContextStack;
 use Prophecy\Argument as ProphesizeArgument;
+
 use function array_keys;
 use function assert;
 use function current;

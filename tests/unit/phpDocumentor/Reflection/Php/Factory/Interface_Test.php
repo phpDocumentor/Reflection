@@ -28,6 +28,7 @@ use PhpParser\Node\Stmt\Interface_ as InterfaceNode;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use stdClass;
+
 use function current;
 
 /**

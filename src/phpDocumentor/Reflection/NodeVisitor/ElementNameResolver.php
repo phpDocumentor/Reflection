@@ -27,6 +27,7 @@ use PhpParser\Node\Stmt\Trait_;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitorAbstract;
 use SplDoublyLinkedList;
+
 use function get_class;
 use function rtrim;
 

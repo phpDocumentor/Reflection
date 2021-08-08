@@ -15,6 +15,7 @@ namespace phpDocumentor\Reflection\File;
 
 use InvalidArgumentException;
 use phpDocumentor\Reflection\File;
+
 use function file_exists;
 use function file_get_contents;
 use function md5_file;

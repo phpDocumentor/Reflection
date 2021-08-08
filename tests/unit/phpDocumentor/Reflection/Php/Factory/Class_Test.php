@@ -29,6 +29,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use stdClass;
+
 use function current;
 
 /**

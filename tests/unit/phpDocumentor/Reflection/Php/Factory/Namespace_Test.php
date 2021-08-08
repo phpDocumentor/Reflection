@@ -14,6 +14,7 @@ use PhpParser\Node\Stmt\Class_ as ClassNode;
 use PhpParser\Node\Stmt\Namespace_ as NamespaceNode;
 use Prophecy\Argument;
 use stdClass;
+
 use function current;
 
 /**

@@ -25,6 +25,7 @@ use PhpParser\PrettyPrinter\Standard;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use stdClass;
+
 use function current;
 
 /**

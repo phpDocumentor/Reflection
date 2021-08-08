@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace phpDocumentor\Reflection\Php;
 
 use InvalidArgumentException;
+
 use function sprintf;
 use function strtolower;
 

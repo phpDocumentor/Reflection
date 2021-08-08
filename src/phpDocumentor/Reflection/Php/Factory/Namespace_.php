@@ -12,6 +12,7 @@ use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Types\NamespaceNodeToContext;
 use PhpParser\Node\Stmt\Namespace_ as NamespaceNode;
 use Webmozart\Assert\Assert;
+
 use function get_class;
 use function gettype;
 use function is_object;

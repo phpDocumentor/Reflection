@@ -9,6 +9,7 @@ use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Php\File as FileElement;
 use phpDocumentor\Reflection\Php\Project;
 use phpDocumentor\Reflection\Types\Context as TypeContext;
+
 use function end;
 
 final class ContextStack
