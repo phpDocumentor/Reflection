@@ -19,6 +19,8 @@ class Pizza extends \Pizza
         /** @var string PICKUP   designates that the delivery method is that the customer picks the pizza up. */
         PICKUP = 'pickup';
 
+    use ExampleNestedTrait;
+
     /** @var static contains the active instance for this Pizza. */
     static private $instance;
 

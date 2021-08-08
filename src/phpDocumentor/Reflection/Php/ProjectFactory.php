@@ -19,6 +19,7 @@ use phpDocumentor\Reflection\File as SourceFile;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\Factory\ContextStack;
 use phpDocumentor\Reflection\Php\Factory\Noop;
+use phpDocumentor\Reflection\Php\Factory\TraitUse;
 use phpDocumentor\Reflection\Project as ProjectInterface;
 use phpDocumentor\Reflection\ProjectFactory as ProjectFactoryInterface;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
@@ -67,6 +68,7 @@ final class ProjectFactory implements ProjectFactoryInterface
                 new Factory\Property($docblockFactory, new PrettyPrinter()),
                 new Factory\Trait_($docblockFactory),
                 new Factory\IfStatement(),
+                new TraitUse(),
             ]
         );
 

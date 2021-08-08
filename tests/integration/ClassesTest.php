@@ -79,6 +79,19 @@ final class ClassesTest extends MockeryTestCase
         $this->assertEquals(new Integer(), $pizzaClass->getProperties()['\\Luigi\\Pizza::$size']->getType());
     }
 
+    public function testUsedTraitsAreIncludedInClass() : void
+    {
+        $fileName = self::FILE_LUIGI_PIZZA;
+        $project = $this->fixture->create(
+            'MyProject',
+            [new LocalFile($fileName)]
+        );
+
+        /** @var Class_ $pizzaClass */
+        $pizzaClass = $project->getFiles()[$fileName]->getClasses()['\\Luigi\\Pizza'];
+        $this->assertEquals(['\\Luigi\\ExampleNestedTrait' => new Fqsen('\\Luigi\\ExampleNestedTrait')], $pizzaClass->getUsedTraits());
+    }
+
     public function testWithNamespacedClass() : void
     {
         $fileName = self::FILE_LUIGI_PIZZA;
