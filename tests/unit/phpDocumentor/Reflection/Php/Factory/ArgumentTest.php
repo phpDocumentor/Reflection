@@ -38,7 +38,7 @@ use stdClass;
  */
 class ArgumentTest extends TestCase
 {
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->fixture = new Argument(new PrettyPrinter());
     }
@@ -46,7 +46,7 @@ class ArgumentTest extends TestCase
     /**
      * @covers ::matches
      */
-    public function testMatches() : void
+    public function testMatches(): void
     {
         $this->assertFalse($this->fixture->matches(self::createContext(null), new stdClass()));
         $this->assertTrue($this->fixture->matches(self::createContext(null), m::mock(Param::class)));
@@ -55,7 +55,7 @@ class ArgumentTest extends TestCase
     /**
      * @covers ::create
      */
-    public function testCreate() : void
+    public function testCreate(): void
     {
         $factory = new ProjectFactoryStrategies([]);
         $method = new MethodElement(new Fqsen('\Class::method()'));

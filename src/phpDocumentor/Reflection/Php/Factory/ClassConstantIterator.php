@@ -44,7 +44,7 @@ final class ClassConstantIterator implements Iterator
      *
      * @return int Line
      */
-    public function getLine() : int
+    public function getLine(): int
     {
         return $this->classConstants->getLine();
     }
@@ -52,7 +52,7 @@ final class ClassConstantIterator implements Iterator
     /**
      * Returns the name of the current constant.
      */
-    public function getName() : string
+    public function getName(): string
     {
         return (string) $this->classConstants->consts[$this->index]->name;
     }
@@ -60,7 +60,7 @@ final class ClassConstantIterator implements Iterator
     /**
      * Returns the fqsen of the current constant.
      */
-    public function getFqsen() : Fqsen
+    public function getFqsen(): Fqsen
     {
         return $this->classConstants->consts[$this->index]->fqsen;
     }
@@ -68,7 +68,7 @@ final class ClassConstantIterator implements Iterator
     /**
      * returns true when the current property is public.
      */
-    public function isPublic() : bool
+    public function isPublic(): bool
     {
         return $this->classConstants->isPublic();
     }
@@ -76,7 +76,7 @@ final class ClassConstantIterator implements Iterator
     /**
      * returns true when the current property is protected.
      */
-    public function isProtected() : bool
+    public function isProtected(): bool
     {
         return $this->classConstants->isProtected();
     }
@@ -84,7 +84,7 @@ final class ClassConstantIterator implements Iterator
     /**
      * returns true when the current property is private.
      */
-    public function isPrivate() : bool
+    public function isPrivate(): bool
     {
         return $this->classConstants->isPrivate();
     }
@@ -94,7 +94,7 @@ final class ClassConstantIterator implements Iterator
      *
      * The doc comment has to be the last comment associated with the node.
      */
-    public function getDocComment() : ?Doc
+    public function getDocComment(): ?Doc
     {
         $docComment = $this->classConstants->consts[$this->index]->getDocComment();
         if ($docComment === null) {
@@ -104,7 +104,7 @@ final class ClassConstantIterator implements Iterator
         return $docComment;
     }
 
-    public function getValue() : Expr
+    public function getValue(): Expr
     {
         return $this->classConstants->consts[$this->index]->value;
     }
@@ -112,7 +112,7 @@ final class ClassConstantIterator implements Iterator
     /**
      * @link http://php.net/manual/en/iterator.current.php
      */
-    public function current() : self
+    public function current(): self
     {
         return $this;
     }
@@ -120,7 +120,7 @@ final class ClassConstantIterator implements Iterator
     /**
      * @link http://php.net/manual/en/iterator.next.php
      */
-    public function next() : void
+    public function next(): void
     {
         ++$this->index;
     }
@@ -128,7 +128,7 @@ final class ClassConstantIterator implements Iterator
     /**
      * @link http://php.net/manual/en/iterator.key.php
      */
-    public function key() : ?int
+    public function key(): ?int
     {
         return $this->index;
     }
@@ -136,7 +136,7 @@ final class ClassConstantIterator implements Iterator
     /**
      * @link http://php.net/manual/en/iterator.valid.php
      */
-    public function valid() : bool
+    public function valid(): bool
     {
         return isset($this->classConstants->consts[$this->index]);
     }
@@ -144,7 +144,7 @@ final class ClassConstantIterator implements Iterator
     /**
      * @link http://php.net/manual/en/iterator.rewind.php
      */
-    public function rewind() : void
+    public function rewind(): void
     {
         $this->index = 0;
     }

@@ -42,7 +42,7 @@ final class Argument extends AbstractFactory implements ProjectFactoryStrategy
         $this->valueConverter = $prettyPrinter;
     }
 
-    public function matches(ContextStack $context, object $object) : bool
+    public function matches(ContextStack $context, object $object): bool
     {
         return $object instanceof Param;
     }
@@ -61,7 +61,7 @@ final class Argument extends AbstractFactory implements ProjectFactoryStrategy
         ContextStack $context,
         object $object,
         StrategyContainer $strategies
-    ) : void {
+    ): void {
         Assert::isInstanceOf($object, Param::class);
         Assert::isInstanceOf($object->var, Variable::class);
 

@@ -38,7 +38,7 @@ final class MethodTest extends TestCase
     /** @var DocBlock */
     private $docblock;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->fqsen = new Fqsen('\My\Space::MyMethod()');
         $this->visibility = new Visibility('private');
@@ -49,7 +49,7 @@ final class MethodTest extends TestCase
      * @covers ::getFqsen
      * @covers ::getName
      */
-    public function testGetFqsenAndGetName() : void
+    public function testGetFqsenAndGetName(): void
     {
         $method = new Method($this->fqsen);
 
@@ -60,7 +60,7 @@ final class MethodTest extends TestCase
     /**
      * @covers ::getDocblock
      */
-    public function testGetDocBlock() : void
+    public function testGetDocBlock(): void
     {
         $method = new Method($this->fqsen, $this->visibility, $this->docblock);
 
@@ -73,7 +73,7 @@ final class MethodTest extends TestCase
      * @covers ::getArguments
      * @covers ::addArgument
      */
-    public function testAddingAndGettingArguments() : void
+    public function testAddingAndGettingArguments(): void
     {
         $method = new Method($this->fqsen);
         $this->assertEquals([], $method->getArguments());
@@ -87,7 +87,7 @@ final class MethodTest extends TestCase
     /**
      * @covers ::isAbstract
      */
-    public function testGettingWhetherMethodIsAbstract() : void
+    public function testGettingWhetherMethodIsAbstract(): void
     {
         $method = new Method($this->fqsen, $this->visibility, $this->docblock, false);
         $this->assertFalse($method->isAbstract());
@@ -99,7 +99,7 @@ final class MethodTest extends TestCase
     /**
      * @covers ::isFinal
      */
-    public function testGettingWhetherMethodIsFinal() : void
+    public function testGettingWhetherMethodIsFinal(): void
     {
         $method = new Method($this->fqsen, $this->visibility, $this->docblock, false, false, false);
         $this->assertFalse($method->isFinal());
@@ -111,7 +111,7 @@ final class MethodTest extends TestCase
     /**
      * @covers ::isStatic
      */
-    public function testGettingWhetherMethodIsStatic() : void
+    public function testGettingWhetherMethodIsStatic(): void
     {
         $method = new Method($this->fqsen, $this->visibility, $this->docblock, false, false, false);
         $this->assertFalse($method->isStatic());
@@ -123,7 +123,7 @@ final class MethodTest extends TestCase
     /**
      * @covers ::getVisibility
      */
-    public function testGettingVisibility() : void
+    public function testGettingVisibility(): void
     {
         $method = new Method($this->fqsen, $this->visibility, $this->docblock, false, false, false);
         $this->assertSame($this->visibility, $method->getVisibility());
@@ -132,7 +132,7 @@ final class MethodTest extends TestCase
     /**
      * @covers ::getVisibility
      */
-    public function testGetDefaultVisibility() : void
+    public function testGetDefaultVisibility(): void
     {
         $method = new Method($this->fqsen);
         $this->assertEquals(new Visibility('public'), $method->getVisibility());
@@ -141,7 +141,7 @@ final class MethodTest extends TestCase
     /**
      * @covers ::getReturnType
      */
-    public function testGetDefaultReturnType() : void
+    public function testGetDefaultReturnType(): void
     {
         $method = new Method($this->fqsen);
         $this->assertEquals(new Mixed_(), $method->getReturnType());
@@ -150,7 +150,7 @@ final class MethodTest extends TestCase
     /**
      * @covers ::getReturnType
      */
-    public function testGetReturnTypeFromConstructor() : void
+    public function testGetReturnTypeFromConstructor(): void
     {
         $returnType = new String_();
         $method = new Method(
@@ -170,7 +170,7 @@ final class MethodTest extends TestCase
     /**
      * @covers ::getLocation
      */
-    public function testLineNumberIsMinusOneWhenNoneIsProvided() : void
+    public function testLineNumberIsMinusOneWhenNoneIsProvided(): void
     {
         $fixture = new Method($this->fqsen);
 
@@ -183,7 +183,7 @@ final class MethodTest extends TestCase
      *
      * @covers ::getLocation
      */
-    public function testLineAndColumnNumberIsReturnedWhenALocationIsProvided() : void
+    public function testLineAndColumnNumberIsReturnedWhenALocationIsProvided(): void
     {
         $fixture = new Method($this->fqsen, null, null, false, false, false, new Location(100, 20));
 

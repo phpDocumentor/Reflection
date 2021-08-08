@@ -47,7 +47,7 @@ final class Interface_Test extends TestCase
     /**
      * Creates a new (empty) fixture object.
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->exampleParents = [
             new Fqsen('\MySpace\MyParent'),
@@ -62,7 +62,7 @@ final class Interface_Test extends TestCase
     /**
      * @covers ::getName
      */
-    public function testGetName() : void
+    public function testGetName(): void
     {
         $this->assertSame($this->fqsen->getName(), $this->fixture->getName());
     }
@@ -70,7 +70,7 @@ final class Interface_Test extends TestCase
     /**
      * @covers ::getFqsen
      */
-    public function testGetFqsen() : void
+    public function testGetFqsen(): void
     {
         $this->assertSame($this->fqsen, $this->fixture->getFqsen());
     }
@@ -78,7 +78,7 @@ final class Interface_Test extends TestCase
     /**
      * @covers ::getDocBlock
      */
-    public function testGetDocblock() : void
+    public function testGetDocblock(): void
     {
         $this->assertSame($this->docBlock, $this->fixture->getDocBlock());
     }
@@ -87,7 +87,7 @@ final class Interface_Test extends TestCase
      * @covers ::addConstant
      * @covers ::getConstants
      */
-    public function testSettingAndGettingConstants() : void
+    public function testSettingAndGettingConstants(): void
     {
         $this->assertEquals([], $this->fixture->getConstants());
 
@@ -102,7 +102,7 @@ final class Interface_Test extends TestCase
      * @covers ::addMethod
      * @covers ::getMethods
      */
-    public function testSettingAndGettingMethods() : void
+    public function testSettingAndGettingMethods(): void
     {
         $this->assertEquals([], $this->fixture->getMethods());
 
@@ -116,7 +116,7 @@ final class Interface_Test extends TestCase
     /**
      * @covers ::getParents
      */
-    public function testReturningTheParentsOfThisInterface() : void
+    public function testReturningTheParentsOfThisInterface(): void
     {
         $this->assertSame($this->exampleParents, $this->fixture->getParents());
     }
@@ -124,7 +124,7 @@ final class Interface_Test extends TestCase
     /**
      * @covers ::getLocation
      */
-    public function testLineNumberIsMinusOneWhenNoneIsProvided() : void
+    public function testLineNumberIsMinusOneWhenNoneIsProvided(): void
     {
         $this->assertSame(-1, $this->fixture->getLocation()->getLineNumber());
         $this->assertSame(0, $this->fixture->getLocation()->getColumnNumber());
@@ -135,7 +135,7 @@ final class Interface_Test extends TestCase
      *
      * @covers ::getLocation
      */
-    public function testLineAndColumnNumberIsReturnedWhenALocationIsProvided() : void
+    public function testLineAndColumnNumberIsReturnedWhenALocationIsProvided(): void
     {
         $fixture = new Interface_($this->fqsen, [], $this->docBlock, new Location(100, 20));
 
@@ -146,7 +146,7 @@ final class Interface_Test extends TestCase
     /**
      * @covers ::__construct
      */
-    public function testArrayWithParentsMustBeFqsenObjects() : void
+    public function testArrayWithParentsMustBeFqsenObjects(): void
     {
         $this->expectException(InvalidArgumentException::class);
 

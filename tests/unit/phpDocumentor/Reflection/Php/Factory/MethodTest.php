@@ -48,7 +48,7 @@ class MethodTest extends TestCase
     /** @var ObjectProphecy */
     private $docBlockFactory;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->docBlockFactory = $this->prophesize(DocBlockFactoryInterface::class);
         $this->fixture = new Method($this->docBlockFactory->reveal());
@@ -57,7 +57,7 @@ class MethodTest extends TestCase
     /**
      * @covers ::matches
      */
-    public function testMatches() : void
+    public function testMatches(): void
     {
         $this->assertFalse($this->fixture->matches(self::createContext(null), new stdClass()));
         $this->assertTrue($this->fixture->matches(self::createContext(null), m::mock(ClassMethod::class)));
@@ -66,7 +66,7 @@ class MethodTest extends TestCase
     /**
      * @covers ::create
      */
-    public function testCreateWithoutParameters() : void
+    public function testCreateWithoutParameters(): void
     {
         $classMethodMock = $this->buildClassMethodMock();
         $classMethodMock->params = [];
@@ -90,7 +90,7 @@ class MethodTest extends TestCase
     /**
      * @covers ::create
      */
-    public function testCreateProtectedMethod() : void
+    public function testCreateProtectedMethod(): void
     {
         $classMethodMock = $this->buildClassMethodMock();
         $classMethodMock->params = [];
@@ -114,7 +114,7 @@ class MethodTest extends TestCase
     /**
      * @covers ::create
      */
-    public function testCreateWithParameters() : void
+    public function testCreateWithParameters(): void
     {
         $param1 = new Param(new Variable('param1'));
         $classMethodMock = $this->buildClassMethodMock();
@@ -153,7 +153,7 @@ class MethodTest extends TestCase
     /**
      * @covers ::create
      */
-    public function testCreateWithDocBlock() : void
+    public function testCreateWithDocBlock(): void
     {
         $doc = new Doc('Text');
         $classMethodMock = $this->buildClassMethodMock();
@@ -178,7 +178,7 @@ class MethodTest extends TestCase
     /**
      * @return MockInterface|ClassMethod
      */
-    private function buildClassMethodMock() : MockInterface
+    private function buildClassMethodMock(): MockInterface
     {
         $methodMock = m::mock(ClassMethod::class);
         $methodMock->name = 'function';

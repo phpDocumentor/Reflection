@@ -83,7 +83,7 @@ final class ElementNameResolver extends NodeVisitorAbstract
      *       that should clear up the PHPSTAN errors about
      *       "access to an undefined property ::$fqsen".
      */
-    public function enterNode(Node $node) : ?int
+    public function enterNode(Node $node): ?int
     {
         switch (get_class($node)) {
             case Namespace_::class:
@@ -133,7 +133,7 @@ final class ElementNameResolver extends NodeVisitorAbstract
     /**
      * Resets the state of the object to an empty state.
      */
-    private function resetState(?string $namespace = null) : void
+    private function resetState(?string $namespace = null): void
     {
         $this->parts = new SplDoublyLinkedList();
         $this->parts->push($namespace);
@@ -142,7 +142,7 @@ final class ElementNameResolver extends NodeVisitorAbstract
     /**
      * Builds the name of the current node using the parts that are pushed to the parts list.
      */
-    private function buildName() : string
+    private function buildName(): string
     {
         $name = null;
         foreach ($this->parts as $part) {

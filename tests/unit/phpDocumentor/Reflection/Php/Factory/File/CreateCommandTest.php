@@ -37,7 +37,7 @@ class CreateCommandTest extends TestCase
     /** @var ProjectFactoryStrategies */
     private $strategies;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->file       = new LocalFile(__FILE__);
         $this->strategies = new ProjectFactoryStrategies([]);
@@ -51,7 +51,7 @@ class CreateCommandTest extends TestCase
     /**
      * @covers ::getFile
      */
-    public function testGetFile() : void
+    public function testGetFile(): void
     {
         $this->assertSame($this->file, $this->fixture->getFile());
     }
@@ -59,7 +59,7 @@ class CreateCommandTest extends TestCase
     /**
      * @covers ::getStrategies
      */
-    public function testGetStrategies() : void
+    public function testGetStrategies(): void
     {
         $this->assertSame($this->strategies, $this->fixture->getStrategies());
     }

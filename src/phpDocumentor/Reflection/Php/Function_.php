@@ -70,7 +70,7 @@ final class Function_ implements Element
      *
      * @return Argument[]
      */
-    public function getArguments() : array
+    public function getArguments(): array
     {
         return $this->arguments;
     }
@@ -78,7 +78,7 @@ final class Function_ implements Element
     /**
      * Add an argument to the function.
      */
-    public function addArgument(Argument $argument) : void
+    public function addArgument(Argument $argument): void
     {
         $this->arguments[] = $argument;
     }
@@ -86,7 +86,7 @@ final class Function_ implements Element
     /**
      * Returns the Fqsen of the element.
      */
-    public function getFqsen() : Fqsen
+    public function getFqsen(): Fqsen
     {
         return $this->fqsen;
     }
@@ -94,7 +94,7 @@ final class Function_ implements Element
     /**
      * Returns the name of the element.
      */
-    public function getName() : string
+    public function getName(): string
     {
         return $this->fqsen->getName();
     }
@@ -102,17 +102,17 @@ final class Function_ implements Element
     /**
      * Returns the DocBlock of the element if available
      */
-    public function getDocBlock() : ?DocBlock
+    public function getDocBlock(): ?DocBlock
     {
         return $this->docBlock;
     }
 
-    public function getLocation() : Location
+    public function getLocation(): Location
     {
         return $this->location;
     }
 
-    public function getReturnType() : Type
+    public function getReturnType(): Type
     {
         return $this->returnType;
     }

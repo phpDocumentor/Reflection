@@ -25,7 +25,7 @@ final class DummyFactoryStrategy implements ProjectFactoryStrategy
      *
      * @param mixed $object object to check.
      */
-    public function matches(ContextStack $context, object $object) : bool
+    public function matches(ContextStack $context, object $object): bool
     {
         return true;
     }
@@ -41,7 +41,7 @@ final class DummyFactoryStrategy implements ProjectFactoryStrategy
      *
      * @return mixed
      */
-    public function create(ContextStack $context, object $object, StrategyContainer $strategies) : void
+    public function create(ContextStack $context, object $object, StrategyContainer $strategies): void
     {
     }
 }

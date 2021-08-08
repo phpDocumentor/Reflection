@@ -50,7 +50,7 @@ final class Define extends AbstractFactory
         $this->valueConverter = $prettyPrinter;
     }
 
-    public function matches(ContextStack $context, object $object) : bool
+    public function matches(ContextStack $context, object $object): bool
     {
         if (!$object instanceof Expression) {
             return false;
@@ -81,7 +81,7 @@ final class Define extends AbstractFactory
         ContextStack $context,
         object $object,
         StrategyContainer $strategies
-    ) : void {
+    ): void {
         $expression = $object->expr;
         if (!$expression instanceof FuncCall) {
             throw new RuntimeException(
@@ -105,7 +105,7 @@ final class Define extends AbstractFactory
         $file->addConstant($constant);
     }
 
-    private function determineValue(?Arg $value) : ?string
+    private function determineValue(?Arg $value): ?string
     {
         if ($value === null) {
             return null;
@@ -114,7 +114,7 @@ final class Define extends AbstractFactory
         return $this->valueConverter->prettyPrintExpr($value->value);
     }
 
-    private function determineFqsen(Arg $name) : Fqsen
+    private function determineFqsen(Arg $name): Fqsen
     {
         $nameString = $name->value;
         assert($nameString instanceof String_);

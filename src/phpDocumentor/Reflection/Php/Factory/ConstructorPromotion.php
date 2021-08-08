@@ -37,7 +37,7 @@ class ConstructorPromotion extends AbstractFactory
         $this->methodStrategy = $methodStrategy;
     }
 
-    public function matches(ContextStack $context, object $object) : bool
+    public function matches(ContextStack $context, object $object): bool
     {
         try {
             return $context->peek() instanceof ClassElement &&
@@ -51,7 +51,7 @@ class ConstructorPromotion extends AbstractFactory
     /**
      * @param ClassMethod $object
      */
-    protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies) : void
+    protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies): void
     {
         $this->methodStrategy->create($context, $object, $strategies);
 
@@ -64,7 +64,7 @@ class ConstructorPromotion extends AbstractFactory
         }
     }
 
-    private function promoteParameterToProperty(ContextStack $context, Param $param) : void
+    private function promoteParameterToProperty(ContextStack $context, Param $param): void
     {
         $methodContainer = $context->peek();
         Assert::isInstanceOf($methodContainer, ClassElement::class);
@@ -83,7 +83,7 @@ class ConstructorPromotion extends AbstractFactory
         $methodContainer->addProperty($property);
     }
 
-    private function buildPropertyVisibilty(int $flags) : Visibility
+    private function buildPropertyVisibilty(int $flags): Visibility
     {
         if ((bool) ($flags & Class_::MODIFIER_PRIVATE) === true) {
             return new Visibility(Visibility::PRIVATE_);

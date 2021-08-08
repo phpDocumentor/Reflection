@@ -84,7 +84,7 @@ final class Class_ implements Element
     /**
      * Returns true when this class is final. Otherwise returns false.
      */
-    public function isFinal() : bool
+    public function isFinal(): bool
     {
         return $this->final;
     }
@@ -92,7 +92,7 @@ final class Class_ implements Element
     /**
      * Returns true when this class is abstract. Otherwise returns false.
      */
-    public function isAbstract() : bool
+    public function isAbstract(): bool
     {
         return $this->abstract;
     }
@@ -100,7 +100,7 @@ final class Class_ implements Element
     /**
      * Returns the superclass this class is extending if available.
      */
-    public function getParent() : ?Fqsen
+    public function getParent(): ?Fqsen
     {
         return $this->parent;
     }
@@ -110,7 +110,7 @@ final class Class_ implements Element
      *
      * @return Fqsen[]
      */
-    public function getInterfaces() : array
+    public function getInterfaces(): array
     {
         return $this->implements;
     }
@@ -118,7 +118,7 @@ final class Class_ implements Element
     /**
      * Add a interface Fqsen this class is implementing.
      */
-    public function addInterface(Fqsen $interface) : void
+    public function addInterface(Fqsen $interface): void
     {
         $this->implements[(string) $interface] = $interface;
     }
@@ -128,7 +128,7 @@ final class Class_ implements Element
      *
      * @return Constant[]
      */
-    public function getConstants() : array
+    public function getConstants(): array
     {
         return $this->constants;
     }
@@ -136,7 +136,7 @@ final class Class_ implements Element
     /**
      * Add Constant to this class.
      */
-    public function addConstant(Constant $constant) : void
+    public function addConstant(Constant $constant): void
     {
         $this->constants[(string) $constant->getFqsen()] = $constant;
     }
@@ -146,7 +146,7 @@ final class Class_ implements Element
      *
      * @return Method[]
      */
-    public function getMethods() : array
+    public function getMethods(): array
     {
         return $this->methods;
     }
@@ -154,7 +154,7 @@ final class Class_ implements Element
     /**
      * Add a method to this class.
      */
-    public function addMethod(Method $method) : void
+    public function addMethod(Method $method): void
     {
         $this->methods[(string) $method->getFqsen()] = $method;
     }
@@ -164,7 +164,7 @@ final class Class_ implements Element
      *
      * @return Property[]
      */
-    public function getProperties() : array
+    public function getProperties(): array
     {
         return $this->properties;
     }
@@ -172,7 +172,7 @@ final class Class_ implements Element
     /**
      * Add a property to this class.
      */
-    public function addProperty(Property $property) : void
+    public function addProperty(Property $property): void
     {
         $this->properties[(string) $property->getFqsen()] = $property;
     }
@@ -182,7 +182,7 @@ final class Class_ implements Element
      *
      * @return Fqsen[]
      */
-    public function getUsedTraits() : array
+    public function getUsedTraits(): array
     {
         return $this->usedTraits;
     }
@@ -190,7 +190,7 @@ final class Class_ implements Element
     /**
      * Add trait fqsen used by this class.
      */
-    public function addUsedTrait(Fqsen $fqsen) : void
+    public function addUsedTrait(Fqsen $fqsen): void
     {
         $this->usedTraits[(string) $fqsen] = $fqsen;
     }
@@ -198,7 +198,7 @@ final class Class_ implements Element
     /**
      * Returns the Fqsen of the element.
      */
-    public function getFqsen() : Fqsen
+    public function getFqsen(): Fqsen
     {
         return $this->fqsen;
     }
@@ -206,17 +206,17 @@ final class Class_ implements Element
     /**
      * Returns the name of the element.
      */
-    public function getName() : string
+    public function getName(): string
     {
         return $this->fqsen->getName();
     }
 
-    public function getDocBlock() : ?DocBlock
+    public function getDocBlock(): ?DocBlock
     {
         return $this->docBlock;
     }
 
-    public function getLocation() : Location
+    public function getLocation(): Location
     {
         return $this->location;
     }

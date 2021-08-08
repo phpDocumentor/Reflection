@@ -44,7 +44,7 @@ final class Function_Test extends TestCase
     /** @var ObjectProphecy */
     private $docBlockFactory;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->docBlockFactory = $this->prophesize(DocBlockFactoryInterface::class);
         $this->fixture = new Function_($this->docBlockFactory->reveal());
@@ -53,7 +53,7 @@ final class Function_Test extends TestCase
     /**
      * @covers ::matches
      */
-    public function testMatches() : void
+    public function testMatches(): void
     {
         $this->assertFalse($this->fixture->matches(self::createContext(null), new stdClass()));
         $this->assertTrue($this->fixture->matches(
@@ -65,7 +65,7 @@ final class Function_Test extends TestCase
     /**
      * @covers ::create
      */
-    public function testCreateWithoutParameters() : void
+    public function testCreateWithoutParameters(): void
     {
         $functionMock = $this->prophesize(\PhpParser\Node\Stmt\Function_::class);
         $functionMock->fqsen = new Fqsen('\SomeSpace::function()');
@@ -87,7 +87,7 @@ final class Function_Test extends TestCase
     /**
      * @covers ::create
      */
-    public function testCreateWithParameters() : void
+    public function testCreateWithParameters(): void
     {
         $param1 = new Param(new Variable('param1'));
         $functionMock = $this->prophesize(\PhpParser\Node\Stmt\Function_::class);
@@ -125,7 +125,7 @@ final class Function_Test extends TestCase
     /**
      * @covers ::create
      */
-    public function testCreateWithDocBlock() : void
+    public function testCreateWithDocBlock(): void
     {
         $doc = new Doc('Text');
         $functionMock = $this->prophesize(\PhpParser\Node\Stmt\Function_::class);

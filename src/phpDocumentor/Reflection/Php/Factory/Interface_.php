@@ -27,7 +27,7 @@ use Webmozart\Assert\Assert;
  */
 final class Interface_ extends AbstractFactory implements ProjectFactoryStrategy
 {
-    public function matches(ContextStack $context, object $object) : bool
+    public function matches(ContextStack $context, object $object): bool
     {
         return $object instanceof InterfaceNode;
     }
@@ -46,7 +46,7 @@ final class Interface_ extends AbstractFactory implements ProjectFactoryStrategy
         ContextStack $context,
         object $object,
         StrategyContainer $strategies
-    ) : void {
+    ): void {
         $docBlock = $this->createDocBlock($object->getDocComment(), $context->getTypeContext());
         $parents  = [];
         foreach ($object->extends as $extend) {

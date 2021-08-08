@@ -37,7 +37,7 @@ final class Trait_Test extends MockeryTestCase
     /**
      * Creates a new (empty) fixture object.
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->fqsen = new Fqsen('\MyTrait');
         $this->docBlock = new DocBlock('');
@@ -48,7 +48,7 @@ final class Trait_Test extends MockeryTestCase
      * @covers ::getFqsen
      * @covers ::getName
      */
-    public function testGetFqsenAndGetName() : void
+    public function testGetFqsenAndGetName(): void
     {
         $this->assertSame($this->fqsen, $this->fixture->getFqsen());
         $this->assertEquals($this->fqsen->getName(), $this->fixture->getName());
@@ -61,7 +61,7 @@ final class Trait_Test extends MockeryTestCase
      * @covers ::addProperty
      * @covers ::getProperties
      */
-    public function testAddAndGettingProperties() : void
+    public function testAddAndGettingProperties(): void
     {
         $this->assertEquals([], $this->fixture->getProperties());
 
@@ -79,7 +79,7 @@ final class Trait_Test extends MockeryTestCase
      * @covers ::addMethod
      * @covers ::getMethods
      */
-    public function testAddAndGettingMethods() : void
+    public function testAddAndGettingMethods(): void
     {
         $this->assertEquals([], $this->fixture->getMethods());
 
@@ -94,7 +94,7 @@ final class Trait_Test extends MockeryTestCase
      * @covers ::getUsedTraits
      * @covers ::AddUsedTrait
      */
-    public function testAddAndGettingUsedTrait() : void
+    public function testAddAndGettingUsedTrait(): void
     {
         $this->assertEmpty($this->fixture->getUsedTraits());
 
@@ -108,7 +108,7 @@ final class Trait_Test extends MockeryTestCase
     /**
      * @covers ::getDocBlock
      */
-    public function testGetDocblock() : void
+    public function testGetDocblock(): void
     {
         $this->assertSame($this->docBlock, $this->fixture->getDocBlock());
     }
@@ -116,7 +116,7 @@ final class Trait_Test extends MockeryTestCase
     /**
      * @covers ::getLocation
      */
-    public function testLineNumberIsMinusOneWhenNoneIsProvided() : void
+    public function testLineNumberIsMinusOneWhenNoneIsProvided(): void
     {
         $this->assertSame(-1, $this->fixture->getLocation()->getLineNumber());
         $this->assertSame(0, $this->fixture->getLocation()->getColumnNumber());
@@ -127,7 +127,7 @@ final class Trait_Test extends MockeryTestCase
      *
      * @covers ::getLocation
      */
-    public function testLineAndColumnNumberIsReturnedWhenALocationIsProvided() : void
+    public function testLineAndColumnNumberIsReturnedWhenALocationIsProvided(): void
     {
         $fixture = new Trait_($this->fqsen, $this->docBlock, new Location(100, 20));
 

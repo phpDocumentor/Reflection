@@ -48,7 +48,7 @@ final class FileTest extends TestCase
     /**
      * Creates a new (emoty) fixture object.
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->docBlock = new DocBlock('');
 
@@ -59,7 +59,7 @@ final class FileTest extends TestCase
      * @covers ::getClasses
      * @covers ::AddClass
      */
-    public function testAddAndGetClasses() : void
+    public function testAddAndGetClasses(): void
     {
         $this->assertEmpty($this->fixture->getClasses());
 
@@ -75,7 +75,7 @@ final class FileTest extends TestCase
      * @covers ::getConstants
      * @covers ::addConstant
      */
-    public function testAddAndGetConstants() : void
+    public function testAddAndGetConstants(): void
     {
         $this->assertEmpty($this->fixture->getConstants());
 
@@ -89,7 +89,7 @@ final class FileTest extends TestCase
      * @covers ::getFunctions
      * @covers ::addFunction
      */
-    public function testAddAndGetFunctions() : void
+    public function testAddAndGetFunctions(): void
     {
         $this->assertEmpty($this->fixture->getFunctions());
 
@@ -103,7 +103,7 @@ final class FileTest extends TestCase
      * @covers ::getInterfaces
      * @covers ::addInterface
      */
-    public function testAddAndGetInterfaces() : void
+    public function testAddAndGetInterfaces(): void
     {
         $this->assertEmpty($this->fixture->getInterfaces());
 
@@ -117,7 +117,7 @@ final class FileTest extends TestCase
      * @covers ::getTraits
      * @covers ::addTrait
      */
-    public function testAddAndGetTraits() : void
+    public function testAddAndGetTraits(): void
     {
         $this->assertEmpty($this->fixture->getTraits());
 
@@ -130,7 +130,7 @@ final class FileTest extends TestCase
     /**
      * @covers ::getDocBlock
      */
-    public function testGetDocBlock() : void
+    public function testGetDocBlock(): void
     {
         $this->assertSame($this->docBlock, $this->fixture->getDocBlock());
     }
@@ -138,7 +138,7 @@ final class FileTest extends TestCase
     /**
      * @covers ::getHash
      */
-    public function testGetHash() : void
+    public function testGetHash(): void
     {
         $this->assertSame(self::EXAMPLE_HASH, $this->fixture->getHash());
     }
@@ -146,7 +146,7 @@ final class FileTest extends TestCase
     /**
      * @covers ::getName
      */
-    public function testGetName() : void
+    public function testGetName(): void
     {
         $this->assertSame(self::EXAMPLE_NAME, $this->fixture->getName());
     }
@@ -154,7 +154,7 @@ final class FileTest extends TestCase
     /**
      * @covers ::getPath
      */
-    public function testSetAndGetPath() : void
+    public function testSetAndGetPath(): void
     {
         $this->assertSame(self::EXAMPLE_PATH, $this->fixture->getPath());
     }
@@ -162,7 +162,7 @@ final class FileTest extends TestCase
     /**
      * @covers ::getSource
      */
-    public function testSetAndGetSource() : void
+    public function testSetAndGetSource(): void
     {
         $this->assertSame(self::EXAMPLE_SOURCE, $this->fixture->getSource());
     }
@@ -171,7 +171,7 @@ final class FileTest extends TestCase
      * @covers ::addNamespace
      * @covers ::getNamespaces
      */
-    public function testSetAndGetNamespaceAliases() : void
+    public function testSetAndGetNamespaceAliases(): void
     {
         $this->assertEmpty($this->fixture->getNamespaces());
 
@@ -184,7 +184,7 @@ final class FileTest extends TestCase
      * @covers ::getIncludes
      * @covers ::addInclude
      */
-    public function testAddAndGetIncludes() : void
+    public function testAddAndGetIncludes(): void
     {
         $this->assertEmpty($this->fixture->getIncludes());
 

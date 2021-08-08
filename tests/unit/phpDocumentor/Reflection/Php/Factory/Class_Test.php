@@ -51,7 +51,7 @@ final class Class_Test extends TestCase
     /** @var ObjectProphecy */
     private $docblockFactory;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->docblockFactory = $this->prophesize(DocBlockFactoryInterface::class);
         $this->fixture = new Class_($this->docblockFactory->reveal());
@@ -60,7 +60,7 @@ final class Class_Test extends TestCase
     /**
      * @covers ::matches
      */
-    public function testMatches() : void
+    public function testMatches(): void
     {
         $this->assertFalse($this->fixture->matches(self::createContext(null), new stdClass()));
         $this->assertTrue(
@@ -74,7 +74,7 @@ final class Class_Test extends TestCase
     /**
      * @covers ::create
      */
-    public function testSimpleCreate() : void
+    public function testSimpleCreate(): void
     {
         $containerMock = m::mock(StrategyContainer::class);
         $classMock     = $this->buildClassMock();
@@ -92,7 +92,7 @@ final class Class_Test extends TestCase
     /**
      * @covers ::create
      */
-    public function testClassWithParent() : void
+    public function testClassWithParent(): void
     {
         $containerMock = m::mock(StrategyContainer::class);
         $classMock     = $this->buildClassMock();
@@ -109,7 +109,7 @@ final class Class_Test extends TestCase
     /**
      * @covers ::create
      */
-    public function testClassImplementingInterface() : void
+    public function testClassImplementingInterface(): void
     {
         $containerMock = m::mock(StrategyContainer::class);
         $classMock     = $this->buildClassMock();
@@ -133,7 +133,7 @@ final class Class_Test extends TestCase
     /**
      * @covers ::create
      */
-    public function testIteratesStatements() : void
+    public function testIteratesStatements(): void
     {
         $method1           = new ClassMethod('MyClass::method1');
         $method1Descriptor = new MethodElement(new Fqsen('\MyClass::method1'));
@@ -144,7 +144,7 @@ final class Class_Test extends TestCase
         $classMock->stmts = [$method1];
 
         $strategyMock->create(Argument::type(ContextStack::class), $method1, $containerMock)
-            ->will(function ($args) use ($method1Descriptor) : void {
+            ->will(function ($args) use ($method1Descriptor): void {
                 $args[0]->peek()->addMethod($method1Descriptor);
             })
             ->shouldBeCalled();
@@ -167,7 +167,7 @@ final class Class_Test extends TestCase
     /**
      * @covers ::create
      */
-    public function testCreateWithDocBlock() : void
+    public function testCreateWithDocBlock(): void
     {
         $doc       = new Doc('Text');
         $classMock = $this->buildClassMock();
@@ -195,7 +195,7 @@ final class Class_Test extends TestCase
         return $classMock;
     }
 
-    private function performCreate(ClassNode $classMock, StrategyContainer $containerMock) : ClassElement
+    private function performCreate(ClassNode $classMock, StrategyContainer $containerMock): ClassElement
     {
         $file = new File('hash', 'path');
         $this->fixture->create(self::createContext(null)->push($file), $classMock, $containerMock);

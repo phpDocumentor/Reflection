@@ -53,7 +53,7 @@ final class Project implements ProjectInterface
     /**
      * Returns the name of this project.
      */
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -63,7 +63,7 @@ final class Project implements ProjectInterface
      *
      * @return File[]
      */
-    public function getFiles() : array
+    public function getFiles(): array
     {
         return $this->files;
     }
@@ -71,7 +71,7 @@ final class Project implements ProjectInterface
     /**
      * Add a file to this project.
      */
-    public function addFile(File $file) : void
+    public function addFile(File $file): void
     {
         $this->files[$file->getPath()] = $file;
     }
@@ -81,7 +81,7 @@ final class Project implements ProjectInterface
      *
      * @return Namespace_[]
      */
-    public function getNamespaces() : array
+    public function getNamespaces(): array
     {
         return $this->namespaces;
     }
@@ -89,7 +89,7 @@ final class Project implements ProjectInterface
     /**
      * Add a namespace to the project.
      */
-    public function addNamespace(Namespace_ $namespace) : void
+    public function addNamespace(Namespace_ $namespace): void
     {
         $this->namespaces[(string) $namespace->getFqsen()] = $namespace;
     }
@@ -97,7 +97,7 @@ final class Project implements ProjectInterface
     /**
      * Returns the root (global) namespace.
      */
-    public function getRootNamespace() : ?Namespace_
+    public function getRootNamespace(): ?Namespace_
     {
         return $this->rootNamespace;
     }

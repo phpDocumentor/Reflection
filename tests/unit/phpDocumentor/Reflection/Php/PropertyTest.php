@@ -37,7 +37,7 @@ final class PropertyTest extends TestCase
     /** @var DocBlock */
     private $docBlock;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->fqsen = new Fqsen('\My\Class::$property');
         $this->visibility = new Visibility('private');
@@ -50,7 +50,7 @@ final class PropertyTest extends TestCase
      * @covers ::getFqsen
      * @covers ::getName
      */
-    public function testGetFqsenAndGetName() : void
+    public function testGetFqsenAndGetName(): void
     {
         $property = new Property($this->fqsen);
 
@@ -64,7 +64,7 @@ final class PropertyTest extends TestCase
      * @covers ::isStatic
      * @covers ::__construct
      */
-    public function testGettingWhetherPropertyIsStatic() : void
+    public function testGettingWhetherPropertyIsStatic(): void
     {
         $property = new Property($this->fqsen, $this->visibility, $this->docBlock, null, false);
         $this->assertFalse($property->isStatic());
@@ -79,7 +79,7 @@ final class PropertyTest extends TestCase
      * @covers ::getVisibility
      * @covers ::__construct
      */
-    public function testGettingVisibility() : void
+    public function testGettingVisibility(): void
     {
         $property = new Property($this->fqsen, $this->visibility, $this->docBlock, null, true);
 
@@ -92,7 +92,7 @@ final class PropertyTest extends TestCase
      * @covers ::getTypes
      * @covers ::addType
      */
-    public function testSetAndGetTypes() : void
+    public function testSetAndGetTypes(): void
     {
         $property = new Property($this->fqsen, $this->visibility, $this->docBlock, null, true);
         $this->assertEquals([], $property->getTypes());
@@ -106,7 +106,7 @@ final class PropertyTest extends TestCase
      *
      * @covers ::getDefault
      */
-    public function testGetDefault() : void
+    public function testGetDefault(): void
     {
         $property = new Property($this->fqsen, $this->visibility, $this->docBlock, null, false);
         $this->assertNull($property->getDefault());
@@ -120,7 +120,7 @@ final class PropertyTest extends TestCase
      *
      * @covers ::getDocBlock
      */
-    public function testGetDocBlock() : void
+    public function testGetDocBlock(): void
     {
         $property = new Property($this->fqsen, $this->visibility, $this->docBlock, null, false);
         $this->assertSame($this->docBlock, $property->getDocBlock());
@@ -131,7 +131,7 @@ final class PropertyTest extends TestCase
      *
      * @covers ::getLocation
      */
-    public function testLineNumberIsMinusOneWhenNoneIsProvided() : void
+    public function testLineNumberIsMinusOneWhenNoneIsProvided(): void
     {
         $fixture = new Property($this->fqsen);
 
@@ -145,7 +145,7 @@ final class PropertyTest extends TestCase
      *
      * @covers ::getLocation
      */
-    public function testLineAndColumnNumberIsReturnedWhenALocationIsProvided() : void
+    public function testLineAndColumnNumberIsReturnedWhenALocationIsProvided(): void
     {
         $fixture = new Property($this->fqsen, null, null, null, false, new Location(100, 20));
 
@@ -159,7 +159,7 @@ final class PropertyTest extends TestCase
      *
      * @covers ::getType
      */
-    public function testGetType() : void
+    public function testGetType(): void
     {
         $type = new Integer();
         $fixture = new Property(

@@ -29,7 +29,7 @@ use Webmozart\Assert\Assert;
  */
 final class Function_ extends AbstractFactory implements ProjectFactoryStrategy
 {
-    public function matches(ContextStack $context, object $object) : bool
+    public function matches(ContextStack $context, object $object): bool
     {
         return $object instanceof FunctionNode;
     }
@@ -44,7 +44,7 @@ final class Function_ extends AbstractFactory implements ProjectFactoryStrategy
         ContextStack $context,
         object $object,
         StrategyContainer $strategies
-    ) : void {
+    ): void {
         $file = $context->peek();
         Assert::isInstanceOf($file, FileElement::class);
 

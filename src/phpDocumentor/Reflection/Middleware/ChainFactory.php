@@ -25,7 +25,7 @@ final class ChainFactory
     /**
      * @param Middleware[] $middlewareList
      */
-    public static function createExecutionChain(array $middlewareList, callable $lastCallable) : callable
+    public static function createExecutionChain(array $middlewareList, callable $lastCallable): callable
     {
         while ($middleware = array_pop($middlewareList)) {
             if (!$middleware instanceof Middleware) {

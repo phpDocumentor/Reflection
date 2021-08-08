@@ -43,7 +43,7 @@ final class Function_Test extends TestCase
     /**
      * Creates a new (empty) fixture object.
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->fqsen = new Fqsen('\space\MyFunction()');
         $this->docBlock = new DocBlock('aa');
@@ -53,7 +53,7 @@ final class Function_Test extends TestCase
     /**
      * @covers ::getName
      */
-    public function testGetName() : void
+    public function testGetName(): void
     {
         $this->assertEquals('MyFunction', $this->fixture->getName());
     }
@@ -62,7 +62,7 @@ final class Function_Test extends TestCase
      * @covers ::addArgument
      * @covers ::getArguments
      */
-    public function testAddAndGetArguments() : void
+    public function testAddAndGetArguments(): void
     {
         $argument = new Argument('firstArgument');
         $this->fixture->addArgument($argument);
@@ -73,7 +73,7 @@ final class Function_Test extends TestCase
     /**
      * @covers ::getFqsen
      */
-    public function testGetFqsen() : void
+    public function testGetFqsen(): void
     {
         $this->assertSame($this->fqsen, $this->fixture->getFqsen());
     }
@@ -81,7 +81,7 @@ final class Function_Test extends TestCase
     /**
      * @covers ::getDocBlock
      */
-    public function testGetDocblock() : void
+    public function testGetDocblock(): void
     {
         $this->assertSame($this->docBlock, $this->fixture->getDocBlock());
     }
@@ -89,7 +89,7 @@ final class Function_Test extends TestCase
     /**
      * @covers ::getReturnType
      */
-    public function testGetDefaultReturnType() : void
+    public function testGetDefaultReturnType(): void
     {
         $method = new Function_($this->fqsen);
         $this->assertEquals(new Mixed_(), $method->getReturnType());
@@ -98,7 +98,7 @@ final class Function_Test extends TestCase
     /**
      * @covers ::getReturnType
      */
-    public function testGetReturnTypeFromConstructor() : void
+    public function testGetReturnTypeFromConstructor(): void
     {
         $returnType = new String_();
         $method = new Function_(
@@ -114,7 +114,7 @@ final class Function_Test extends TestCase
     /**
      * @covers ::getLocation
      */
-    public function testLineNumberIsMinusOneWhenNoneIsProvided() : void
+    public function testLineNumberIsMinusOneWhenNoneIsProvided(): void
     {
         $this->assertSame(-1, $this->fixture->getLocation()->getLineNumber());
         $this->assertSame(0, $this->fixture->getLocation()->getColumnNumber());
@@ -125,7 +125,7 @@ final class Function_Test extends TestCase
      *
      * @covers ::getLocation
      */
-    public function testLineAndColumnNumberIsReturnedWhenALocationIsProvided() : void
+    public function testLineAndColumnNumberIsReturnedWhenALocationIsProvided(): void
     {
         $fixture = new Function_($this->fqsen, $this->docBlock, new Location(100, 20));
 

@@ -72,7 +72,7 @@ final class Property implements Element
     /**
      * returns the default value of this property.
      */
-    public function getDefault() : ?string
+    public function getDefault(): ?string
     {
         return $this->default;
     }
@@ -80,7 +80,7 @@ final class Property implements Element
     /**
      * Returns true when this method is static. Otherwise returns false.
      */
-    public function isStatic() : bool
+    public function isStatic(): bool
     {
         return $this->static;
     }
@@ -90,7 +90,7 @@ final class Property implements Element
      *
      * @return string[]
      */
-    public function getTypes() : array
+    public function getTypes(): array
     {
         return $this->types;
     }
@@ -98,7 +98,7 @@ final class Property implements Element
     /**
      * Add a type to this property
      */
-    public function addType(string $type) : void
+    public function addType(string $type): void
     {
         $this->types[] = $type;
     }
@@ -106,7 +106,7 @@ final class Property implements Element
     /**
      * Return visibility of the property.
      */
-    public function getVisibility() : ?Visibility
+    public function getVisibility(): ?Visibility
     {
         return $this->visibility;
     }
@@ -114,7 +114,7 @@ final class Property implements Element
     /**
      * Returns the Fqsen of the element.
      */
-    public function getFqsen() : Fqsen
+    public function getFqsen(): Fqsen
     {
         return $this->fqsen;
     }
@@ -122,7 +122,7 @@ final class Property implements Element
     /**
      * Returns the name of the element.
      */
-    public function getName() : string
+    public function getName(): string
     {
         return $this->fqsen->getName();
     }
@@ -130,17 +130,17 @@ final class Property implements Element
     /**
      * Returns the DocBlock of this property.
      */
-    public function getDocBlock() : ?DocBlock
+    public function getDocBlock(): ?DocBlock
     {
         return $this->docBlock;
     }
 
-    public function getLocation() : Location
+    public function getLocation(): Location
     {
         return $this->location;
     }
 
-    public function getType() : ?Type
+    public function getType(): ?Type
     {
         return $this->type;
     }

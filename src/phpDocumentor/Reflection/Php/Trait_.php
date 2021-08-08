@@ -60,7 +60,7 @@ final class Trait_ implements Element
      *
      * @return Method[]
      */
-    public function getMethods() : array
+    public function getMethods(): array
     {
         return $this->methods;
     }
@@ -68,7 +68,7 @@ final class Trait_ implements Element
     /**
      * Add a method to this Trait
      */
-    public function addMethod(Method $method) : void
+    public function addMethod(Method $method): void
     {
         $this->methods[(string) $method->getFqsen()] = $method;
     }
@@ -78,7 +78,7 @@ final class Trait_ implements Element
      *
      * @return Property[]
      */
-    public function getProperties() : array
+    public function getProperties(): array
     {
         return $this->properties;
     }
@@ -86,7 +86,7 @@ final class Trait_ implements Element
     /**
      * Add a property to this Trait.
      */
-    public function addProperty(Property $property) : void
+    public function addProperty(Property $property): void
     {
         $this->properties[(string) $property->getFqsen()] = $property;
     }
@@ -94,7 +94,7 @@ final class Trait_ implements Element
     /**
      * Returns the Fqsen of the element.
      */
-    public function getFqsen() : Fqsen
+    public function getFqsen(): Fqsen
     {
         return $this->fqsen;
     }
@@ -102,12 +102,12 @@ final class Trait_ implements Element
     /**
      * Returns the name of the element.
      */
-    public function getName() : string
+    public function getName(): string
     {
         return $this->fqsen->getName();
     }
 
-    public function getDocBlock() : ?DocBlock
+    public function getDocBlock(): ?DocBlock
     {
         return $this->docBlock;
     }
@@ -117,7 +117,7 @@ final class Trait_ implements Element
      *
      * @return Fqsen[]
      */
-    public function getUsedTraits() : array
+    public function getUsedTraits(): array
     {
         return $this->usedTraits;
     }
@@ -125,12 +125,12 @@ final class Trait_ implements Element
     /**
      * Add reference to trait used by this trait.
      */
-    public function addUsedTrait(Fqsen $fqsen) : void
+    public function addUsedTrait(Fqsen $fqsen): void
     {
         $this->usedTraits[(string) $fqsen] = $fqsen;
     }
 
-    public function getLocation() : Location
+    public function getLocation(): Location
     {
         return $this->location;
     }

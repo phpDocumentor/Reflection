@@ -25,7 +25,7 @@ class LocalFileTest extends TestCase
     /**
      * @covers ::getContents
      */
-    public function testGetContents() : void
+    public function testGetContents(): void
     {
         $file = new LocalFile(__FILE__);
         $this->assertStringEqualsFile(__FILE__, $file->getContents());
@@ -34,7 +34,7 @@ class LocalFileTest extends TestCase
     /**
      * @covers ::md5
      */
-    public function testMd5() : void
+    public function testMd5(): void
     {
         $file = new LocalFile(__FILE__);
         $this->assertEquals(md5_file(__FILE__), $file->md5());
@@ -43,7 +43,7 @@ class LocalFileTest extends TestCase
     /**
      * @covers ::__construct
      */
-    public function testNotExistingFileThrowsException() : void
+    public function testNotExistingFileThrowsException(): void
     {
         $this->expectException('InvalidArgumentException');
         new LocalFile('aa');
@@ -52,7 +52,7 @@ class LocalFileTest extends TestCase
     /**
      * @covers ::path
      */
-    public function testPath() : void
+    public function testPath(): void
     {
         $file = new LocalFile(__FILE__);
         $this->assertEquals(__FILE__, $file->path());

@@ -46,13 +46,13 @@ final class Trait_Test extends TestCase
     /** @var ObjectProphecy */
     private $docBlockFactory;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->docBlockFactory = $this->prophesize(DocBlockFactoryInterface::class);
         $this->fixture = new Trait_($this->docBlockFactory->reveal());
     }
 
-    public function testMatches() : void
+    public function testMatches(): void
     {
         $this->assertFalse($this->fixture->matches(self::createContext(null), new stdClass()));
         $this->assertTrue($this->fixture->matches(self::createContext(null), m::mock(TraitNode::class)));
@@ -62,7 +62,7 @@ final class Trait_Test extends TestCase
      * @covers ::create
      * @covers ::doCreate
      */
-    public function testSimpleCreate() : void
+    public function testSimpleCreate(): void
     {
         $containerMock = m::mock(StrategyContainer::class);
         $interfaceMock = $this->buildTraitMock();
@@ -78,7 +78,7 @@ final class Trait_Test extends TestCase
      * @covers ::create
      * @covers ::doCreate
      */
-    public function testIteratesStatements() : void
+    public function testIteratesStatements(): void
     {
         $method1           = new ClassMethod('\Space\MyTrait::method1');
         $method1Descriptor = new MethodElement(new Fqsen('\Space\MyTrait::method1'));
@@ -89,7 +89,7 @@ final class Trait_Test extends TestCase
         $classMock->stmts = [$method1];
 
         $strategyMock->create(Argument::type(ContextStack::class), $method1, $containerMock)
-            ->will(function ($args) use ($method1Descriptor) : void {
+            ->will(function ($args) use ($method1Descriptor): void {
                 $args[0]->peek()->addMethod($method1Descriptor);
             })
             ->shouldBeCalled();
@@ -111,7 +111,7 @@ final class Trait_Test extends TestCase
     /**
      * @covers ::create
      */
-    public function testCreateWithDocBlock() : void
+    public function testCreateWithDocBlock(): void
     {
         $doc       = new Doc('Text');
         $traitMock = $this->buildTraitMock();
@@ -137,7 +137,7 @@ final class Trait_Test extends TestCase
         return $mock;
     }
 
-    private function performCreate(TraitNode $traitNode, StrategyContainer $containerMock) : TraitElement
+    private function performCreate(TraitNode $traitNode, StrategyContainer $containerMock): TraitElement
     {
         $file = new File('hash', 'path');
         $this->fixture->create(self::createContext(null)->push($file), $traitNode, $containerMock);

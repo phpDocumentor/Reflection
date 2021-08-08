@@ -19,7 +19,7 @@ use function sprintf;
 
 class Namespace_ implements ProjectFactoryStrategy
 {
-    public function matches(ContextStack $context, object $object) : bool
+    public function matches(ContextStack $context, object $object): bool
     {
         return $object instanceof NamespaceNode;
     }
@@ -27,7 +27,7 @@ class Namespace_ implements ProjectFactoryStrategy
     /**
      * @param NamespaceNode $object
      */
-    public function create(ContextStack $context, object $object, StrategyContainer $strategies) : void
+    public function create(ContextStack $context, object $object, StrategyContainer $strategies): void
     {
         if (!$this->matches($context, $object)) {
             throw new InvalidArgumentException(

@@ -73,7 +73,7 @@ final class File extends AbstractFactory
         $this->middlewareChain = ChainFactory::createExecutionChain($middleware, $lastCallable);
     }
 
-    public function matches(ContextStack $context, object $object) : bool
+    public function matches(ContextStack $context, object $object): bool
     {
         return $object instanceof FileSystemFile;
     }
@@ -88,7 +88,7 @@ final class File extends AbstractFactory
      * @param FileSystemFile $object path to the file to convert to an File object.
      * @param StrategyContainer $strategies used to convert nested objects.
      */
-    protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies) : void
+    protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies): void
     {
         $command = new CreateCommand($context, $object, $strategies);
         $middlewareChain = $this->middlewareChain;
@@ -101,7 +101,7 @@ final class File extends AbstractFactory
         $context->getProject()->addFile($file);
     }
 
-    private function createFile(CreateCommand $command) : FileElement
+    private function createFile(CreateCommand $command): FileElement
     {
         $file = $command->getFile();
         $code = $file->getContents();
@@ -128,7 +128,7 @@ final class File extends AbstractFactory
         ContextStack $contextStack,
         array $nodes,
         StrategyContainer $strategies
-    ) : void {
+    ): void {
         foreach ($nodes as $node) {
             $strategy = $strategies->findMatching($contextStack, $node);
             $strategy->create($contextStack, $node, $strategies);
@@ -141,7 +141,7 @@ final class File extends AbstractFactory
     protected function createFileDocBlock(
         ?Context $context = null,
         array $nodes = []
-    ) : ?DocBlockInstance {
+    ): ?DocBlockInstance {
         $node = null;
         foreach ($nodes as $n) {
             if (!in_array(get_class($n), self::SKIPPED_NODE_TYPES)) {

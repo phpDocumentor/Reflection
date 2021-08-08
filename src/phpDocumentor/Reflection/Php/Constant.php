@@ -58,7 +58,7 @@ final class Constant implements Element
     /**
      * Returns the value of this constant.
      */
-    public function getValue() : ?string
+    public function getValue(): ?string
     {
         return $this->value;
     }
@@ -66,7 +66,7 @@ final class Constant implements Element
     /**
      * Returns the Fqsen of the element.
      */
-    public function getFqsen() : Fqsen
+    public function getFqsen(): Fqsen
     {
         return $this->fqsen;
     }
@@ -74,7 +74,7 @@ final class Constant implements Element
     /**
      * Returns the name of the element.
      */
-    public function getName() : string
+    public function getName(): string
     {
         return $this->fqsen->getName();
     }
@@ -82,17 +82,17 @@ final class Constant implements Element
     /**
      * Returns DocBlock of this constant if available.
      */
-    public function getDocBlock() : ?DocBlock
+    public function getDocBlock(): ?DocBlock
     {
         return $this->docBlock;
     }
 
-    public function getLocation() : Location
+    public function getLocation(): Location
     {
         return $this->location;
     }
 
-    public function getVisibility() : Visibility
+    public function getVisibility(): Visibility
     {
         return $this->visibility;
     }

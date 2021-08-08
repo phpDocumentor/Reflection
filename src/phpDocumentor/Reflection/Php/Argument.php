@@ -60,27 +60,27 @@ final class Argument
     /**
      * Returns the name of this argument.
      */
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function getType() : ?Type
+    public function getType(): ?Type
     {
         return $this->type;
     }
 
-    public function getDefault() : ?string
+    public function getDefault(): ?string
     {
         return $this->default;
     }
 
-    public function isByReference() : bool
+    public function isByReference(): bool
     {
         return $this->byReference;
     }
 
-    public function isVariadic() : bool
+    public function isVariadic(): bool
     {
         return $this->isVariadic;
     }

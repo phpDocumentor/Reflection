@@ -44,7 +44,7 @@ final class ConstantTest extends TestCase
     /**
      * Creates a new (empty) fixture object.
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->fqsen = new Fqsen('\MySpace\CONSTANT');
         $this->docBlock = new DocBlock('');
@@ -55,7 +55,7 @@ final class ConstantTest extends TestCase
      * @covers ::getValue
      * @covers ::__construct
      */
-    public function testGetValue() : void
+    public function testGetValue(): void
     {
         $this->assertSame($this->value, $this->fixture->getValue());
     }
@@ -64,7 +64,7 @@ final class ConstantTest extends TestCase
      * @covers ::getFqsen
      * @covers ::getName
      */
-    public function testGetFqsen() : void
+    public function testGetFqsen(): void
     {
         $this->assertSame($this->fqsen, $this->fixture->getFqsen());
         $this->assertSame($this->fqsen->getName(), $this->fixture->getName());
@@ -73,7 +73,7 @@ final class ConstantTest extends TestCase
     /**
      * @covers ::getDocBlock
      */
-    public function testGetDocblock() : void
+    public function testGetDocblock(): void
     {
         $this->assertSame($this->docBlock, $this->fixture->getDocBlock());
     }
@@ -81,7 +81,7 @@ final class ConstantTest extends TestCase
     /**
      * @covers ::getVisibility
      */
-    public function testGetVisibility() : void
+    public function testGetVisibility(): void
     {
         $this->assertEquals(new Visibility(Visibility::PUBLIC_), $this->fixture->getVisibility());
     }
@@ -89,7 +89,7 @@ final class ConstantTest extends TestCase
     /**
      * @covers ::getLocation
      */
-    public function testLineNumberIsMinusOneWhenNoneIsProvided() : void
+    public function testLineNumberIsMinusOneWhenNoneIsProvided(): void
     {
         $this->assertSame(-1, $this->fixture->getLocation()->getLineNumber());
         $this->assertSame(0, $this->fixture->getLocation()->getColumnNumber());
@@ -100,7 +100,7 @@ final class ConstantTest extends TestCase
      *
      * @covers ::getLocation
      */
-    public function testLineAndColumnNumberIsReturnedWhenALocationIsProvided() : void
+    public function testLineAndColumnNumberIsReturnedWhenALocationIsProvided(): void
     {
         $fixture = new Constant($this->fqsen, $this->docBlock, null, new Location(100, 20));
 

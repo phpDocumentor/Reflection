@@ -47,7 +47,7 @@ final class ProjectFactory implements ProjectFactoryInterface
     /**
      * Creates a new instance of this factory. With all default strategies.
      */
-    public static function createInstance() : self
+    public static function createInstance(): self
     {
         $docblockFactory = DocBlockFactory::createInstance();
 
@@ -90,7 +90,7 @@ final class ProjectFactory implements ProjectFactoryInterface
      *
      * @throws Exception When no matching strategy was found.
      */
-    public function create(string $name, array $files) : ProjectInterface
+    public function create(string $name, array $files): ProjectInterface
     {
         $contextStack = new ContextStack(new Project($name), null);
 
@@ -108,7 +108,7 @@ final class ProjectFactory implements ProjectFactoryInterface
     /**
      * Builds the namespace tree with all elements in the project.
      */
-    private function buildNamespaces(Project $project) : void
+    private function buildNamespaces(Project $project): void
     {
         foreach ($project->getFiles() as $file) {
             foreach ($file->getNamespaces() as $namespaceFqsen) {
@@ -121,7 +121,7 @@ final class ProjectFactory implements ProjectFactoryInterface
     /**
      * Gets Namespace from the project if it exists, otherwise returns a new namepace
      */
-    private function getNamespaceByName(Project $project, string $name) : Namespace_
+    private function getNamespaceByName(Project $project, string $name): Namespace_
     {
         $existingNamespaces = $project->getNamespaces();
 
@@ -138,7 +138,7 @@ final class ProjectFactory implements ProjectFactoryInterface
     /**
      * Adds all elements belonging to the namespace to the namespace.
      */
-    private function buildNamespace(File $file, Namespace_ $namespace) : void
+    private function buildNamespace(File $file, Namespace_ $namespace): void
     {
         foreach ($file->getClasses() as $class) {
             if ($namespace->getFqsen() . '\\' . $class->getName() !== (string) $class->getFqsen()) {

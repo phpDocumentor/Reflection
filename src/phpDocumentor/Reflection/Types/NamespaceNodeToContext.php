@@ -16,7 +16,7 @@ use function in_array;
 
 class NamespaceNodeToContext
 {
-    public function __invoke(?Namespace_ $namespace) : Context
+    public function __invoke(?Namespace_ $namespace): Context
     {
         if (!$namespace) {
             return new Context('');
@@ -31,11 +31,11 @@ class NamespaceNodeToContext
     /**
      * @return string[] indexed by alias
      */
-    private function aliasesToFullyQualifiedNames(Namespace_ $namespace) : array
+    private function aliasesToFullyQualifiedNames(Namespace_ $namespace): array
     {
         // flatten(flatten(map(stuff)))
-        return array_merge([], ...array_merge([], ...array_map(static function ($use) : array {
-            return array_map(static function (UseUse $useUse) use ($use) : array {
+        return array_merge([], ...array_merge([], ...array_map(static function ($use): array {
+            return array_map(static function (UseUse $useUse) use ($use): array {
                 if ($use instanceof GroupUse) {
                     return [
                         (string) $useUse->getAlias() => $use->prefix->toString() . '\\' . $useUse->name->toString(),
@@ -50,11 +50,11 @@ class NamespaceNodeToContext
     /**
      * @return Use_[]|GroupUse[]
      */
-    private function classAlikeUses(Namespace_ $namespace) : array
+    private function classAlikeUses(Namespace_ $namespace): array
     {
         return array_filter(
             $namespace->stmts ?? [],
-            static function (Node $node) : bool {
+            static function (Node $node): bool {
                 return (
                         $node instanceof Use_
                         || $node instanceof GroupUse

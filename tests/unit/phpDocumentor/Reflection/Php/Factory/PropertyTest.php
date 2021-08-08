@@ -44,20 +44,20 @@ final class PropertyTest extends TestCase
     /** @var ObjectProphecy */
     private $docBlockFactory;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->docBlockFactory = $this->prophesize(DocBlockFactoryInterface::class);
         $this->fixture = new Property($this->docBlockFactory->reveal(), new PrettyPrinter());
     }
 
-    public function testMatches() : void
+    public function testMatches(): void
     {
         $this->assertFalse($this->fixture->matches(self::createContext(null), new stdClass()));
         $this->assertTrue($this->fixture->matches(self::createContext(null), new PropertyNode(1, [])));
     }
 
     /** @dataProvider visibilityProvider */
-    public function testCreateWithVisibility(int $input, string $expectedVisibility) : void
+    public function testCreateWithVisibility(int $input, string $expectedVisibility): void
     {
         $constantStub = $this->buildPropertyMock($input);
 
@@ -68,7 +68,7 @@ final class PropertyTest extends TestCase
     }
 
     /** @return array<string|int[]> */
-    public function visibilityProvider() : array
+    public function visibilityProvider(): array
     {
         return [
             [
@@ -86,7 +86,7 @@ final class PropertyTest extends TestCase
         ];
     }
 
-    public function testCreateWithDocBlock() : void
+    public function testCreateWithDocBlock(): void
     {
         $doc = new Doc('text');
         $docBlock = new DocBlockDescriptor('text');
@@ -102,7 +102,7 @@ final class PropertyTest extends TestCase
         $this->assertSame($docBlock, $property->getDocBlock());
     }
 
-    private function buildPropertyMock(int $modifier) : PropertyNode
+    private function buildPropertyMock(int $modifier): PropertyNode
     {
         $property        = new PropertyProperty('property', new String_('MyDefault'));
         $property->fqsen = new Fqsen('\myClass::$property');
@@ -110,7 +110,7 @@ final class PropertyTest extends TestCase
         return new PropertyNode($modifier | ClassNode::MODIFIER_STATIC, [$property]);
     }
 
-    private function assertProperty(PropertyDescriptor $property, string $visibility) : void
+    private function assertProperty(PropertyDescriptor $property, string $visibility): void
     {
         $this->assertInstanceOf(PropertyDescriptor::class, $property);
         $this->assertEquals('\myClass::$property', (string) $property->getFqsen());
@@ -119,7 +119,7 @@ final class PropertyTest extends TestCase
         $this->assertEquals($visibility, (string) $property->getVisibility());
     }
 
-    private function performCreate(PropertyNode $property) : ClassElement
+    private function performCreate(PropertyNode $property): ClassElement
     {
         $factory = new ProjectFactoryStrategies([]);
         $class = new ClassElement(new Fqsen('\myClass'));

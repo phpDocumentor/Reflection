@@ -48,7 +48,7 @@ final class ProjectFactoryStrategies implements StrategyContainer
      *
      * @throws OutOfBoundsException When no matching strategy was found.
      */
-    public function findMatching(ContextStack $context, $object) : ProjectFactoryStrategy
+    public function findMatching(ContextStack $context, $object): ProjectFactoryStrategy
     {
         foreach (clone $this->strategies as $strategy) {
             if ($strategy->matches($context, $object)) {
@@ -67,7 +67,7 @@ final class ProjectFactoryStrategies implements StrategyContainer
     /**
      * Add a strategy to this container.
      */
-    public function addStrategy(ProjectFactoryStrategy $strategy, int $priority = self::DEFAULT_PRIORITY) : void
+    public function addStrategy(ProjectFactoryStrategy $strategy, int $priority = self::DEFAULT_PRIORITY): void
     {
         $this->strategies->insert($strategy, $priority);
     }
