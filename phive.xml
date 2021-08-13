@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phive xmlns="https://phar.io/phive">
-  <phar name="phpunit" version="^9.2" installed="9.4.2" location="./tools/phpunit" copy="true"/>
+  <phar name="phpunit" version="^9.5" installed="9.5.8" location="./tools/phpunit" copy="true"/>
   <phar name="phpbench" version="^0.16.9" installed="0.16.9" location="./tools/phpbench" copy="true"/>
   <phar name="scrutinizer-ci/ocular" version="^1.6.0" installed="1.6.0" location="./tools/ocular" copy="true" force-accept-unsigned="true"/>
 </phive>
