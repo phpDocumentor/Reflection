@@ -13,20 +13,25 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
+use InvalidArgumentException;
 use phpDocumentor\Reflection\Type as TypeElement;
 use phpDocumentor\Reflection\TypeResolver;
 use phpDocumentor\Reflection\Types\Context;
+use PhpParser\Node\ComplexType;
 use PhpParser\Node\Identifier;
+use PhpParser\Node\IntersectionType;
 use PhpParser\Node\Name;
 use PhpParser\Node\NullableType;
 use PhpParser\Node\UnionType;
 
+use function get_class;
 use function implode;
+use function sprintf;
 
 final class Type
 {
     /**
-     * @param Identifier|Name|NullableType|UnionType|null $type
+     * @param Identifier|Name|ComplexType|null $type
      */
     public function fromPhpParser($type, ?Context $context = null): ?TypeElement
     {
@@ -41,6 +46,14 @@ final class Type
 
         if ($type instanceof UnionType) {
             return $typeResolver->resolve(implode('|', $type->types), $context);
+        }
+
+        if ($type instanceof IntersectionType) {
+            return $typeResolver->resolve(implode('&', $type->types), $context);
+        }
+
+        if ($type instanceof ComplexType) {
+            throw new InvalidArgumentException(sprintf('Unsupported complex type %s', get_class($type)));
         }
 
         return $typeResolver->resolve($type->toString(), $context);

@@ -24,6 +24,7 @@ use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Name;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Expression;
+use PhpParser\Node\VariadicPlaceholder;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
 use RuntimeException;
 
@@ -92,6 +93,11 @@ final class Define extends AbstractFactory
         }
 
         [$name, $value] = $expression->args;
+
+        //We cannot calculate the name of a variadic consuming define.
+        if ($name instanceof VariadicPlaceholder || $value instanceof VariadicPlaceholder) {
+            return;
+        }
 
         $file = $context->peek();
         assert($file instanceof FileElement);

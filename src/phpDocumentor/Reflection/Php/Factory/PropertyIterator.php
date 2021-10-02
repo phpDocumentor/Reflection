@@ -16,12 +16,11 @@ namespace phpDocumentor\Reflection\Php\Factory;
 use Iterator;
 use phpDocumentor\Reflection\Fqsen;
 use PhpParser\Comment\Doc;
+use PhpParser\Node\ComplexType;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
-use PhpParser\Node\NullableType;
 use PhpParser\Node\Stmt\Property as PropertyNode;
-use PhpParser\Node\UnionType;
 
 /**
  * This class acts like a combination of a PropertyNode and PropertyProperty to
@@ -86,7 +85,7 @@ final class PropertyIterator implements Iterator
     /**
      * Gets the type of the property.
      *
-     * @return Identifier|Name|NullableType|UnionType|null
+     * @return Identifier|Name|ComplexType|null
      */
     public function getType()
     {

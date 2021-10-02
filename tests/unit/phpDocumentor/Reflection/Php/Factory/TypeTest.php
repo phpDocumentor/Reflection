@@ -16,9 +16,11 @@ namespace phpDocumentor\Reflection\Php\Factory;
 use phpDocumentor\Reflection\Types\Compound;
 use phpDocumentor\Reflection\Types\Float_;
 use phpDocumentor\Reflection\Types\Integer;
+use phpDocumentor\Reflection\Types\Intersection;
 use phpDocumentor\Reflection\Types\Nullable;
 use phpDocumentor\Reflection\Types\String_;
 use PhpParser\Node\Identifier;
+use PhpParser\Node\IntersectionType;
 use PhpParser\Node\Name;
 use PhpParser\Node\NullableType;
 use PhpParser\Node\UnionType;
@@ -96,5 +98,19 @@ final class TypeTest extends PhpUnitTestCase
         $result = $factory->fromPhpParser($given);
 
         $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @covers ::fromPhpParser
+     */
+    public function testReturnsInterseptionType(): void
+    {
+        $factory = new Type();
+        $given = new IntersectionType(['integer', new Name('string')]);
+        $expected = new Intersection([new Integer(), new String_()]);
+
+        $result = $factory->fromPhpParser($given);
+
+        self::assertEquals($expected, $result);
     }
 }
