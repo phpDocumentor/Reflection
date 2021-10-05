@@ -20,6 +20,8 @@ use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\Enum_;
+use PhpParser\Node\Stmt\EnumCase;
 use PhpParser\Node\Stmt\Function_;
 use PhpParser\Node\Stmt\Namespace_;
 use PhpParser\Node\Stmt\PropertyProperty;
@@ -174,5 +176,19 @@ class ElementNameResolverTest extends TestCase
         $this->fixture->enterNode($const);
 
         $this->assertEquals('\\MY_CLASS', (string) $const->fqsen);
+    }
+
+    /**
+     * @covers ::enterNode
+     */
+    public function testWithEnumWithCase(): void
+    {
+        $enum = new Enum_('myEnum');
+        $this->fixture->enterNode($enum);
+
+        $case = new EnumCase('VALUE1');
+        $this->fixture->enterNode($case);
+
+        $this->assertEquals('\myEnum::VALUE1', (string) $case->fqsen);
     }
 }

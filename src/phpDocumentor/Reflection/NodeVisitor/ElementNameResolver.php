@@ -19,6 +19,8 @@ use PhpParser\Node\Const_;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\Enum_;
+use PhpParser\Node\Stmt\EnumCase;
 use PhpParser\Node\Stmt\Function_;
 use PhpParser\Node\Stmt\Interface_;
 use PhpParser\Node\Stmt\Namespace_;
@@ -58,6 +60,8 @@ final class ElementNameResolver extends NodeVisitorAbstract
         switch (get_class($node)) {
             case Namespace_::class:
             case Class_::class:
+            case Enum_::class:
+            case EnumCase::class:
             case ClassMethod::class:
             case Trait_::class:
             case PropertyProperty::class:
@@ -98,6 +102,7 @@ final class ElementNameResolver extends NodeVisitorAbstract
             case Class_::class:
             case Trait_::class:
             case Interface_::class:
+            case Enum_::class:
                 if (empty($node->name)) {
                     return NodeTraverser::DONT_TRAVERSE_CHILDREN;
                 }
@@ -126,6 +131,10 @@ final class ElementNameResolver extends NodeVisitorAbstract
                 break;
             case PropertyProperty::class:
                 $this->parts->push('::$' . $node->name);
+                $node->fqsen = new Fqsen($this->buildName());
+                break;
+            case EnumCase::class:
+                $this->parts->push('::' . $node->name);
                 $node->fqsen = new Fqsen($this->buildName());
                 break;
         }

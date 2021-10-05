@@ -128,6 +128,20 @@ final class FileTest extends TestCase
     }
 
     /**
+     * @covers ::getEnums
+     * @covers ::addEnum
+     */
+    public function testAddAndGetEnums(): void
+    {
+        $this->assertEmpty($this->fixture->getEnums());
+
+        $enum = new Enum_(new Fqsen('\MySpace\MyEnum'));
+        $this->fixture->addEnum($enum);
+
+        $this->assertEquals(['\MySpace\MyEnum' => $enum], $this->fixture->getEnums());
+    }
+
+    /**
      * @covers ::getDocBlock
      */
     public function testGetDocBlock(): void
