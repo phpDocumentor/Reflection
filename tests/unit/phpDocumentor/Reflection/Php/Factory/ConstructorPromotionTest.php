@@ -97,9 +97,10 @@ final class ConstructorPromotionTest extends TestCase
      * @covers ::buildPropertyVisibilty
      * @covers ::doCreate
      * @covers ::promoteParameterToProperty
+     * @covers ::readOnly
      * @dataProvider visibilityProvider
      */
-    public function testCreateWithProperty(int $flags, string $visibility): void
+    public function testCreateWithProperty(int $flags, string $visibility, bool $readOnly = false): void
     {
         $methodNode         = new ClassMethod('__construct');
         $methodNode->params = [
@@ -139,6 +140,7 @@ final class ConstructorPromotionTest extends TestCase
         self::assertSame($docBlock, $property->getDocBlock());
         self::assertSame('myType', $property->getDefault());
         self::assertEquals('\MyClass::$myArgument', $property->getFqsen());
+        self::assertSame($readOnly, $property->isReadOnly());
     }
 
     /** @return mixed[][] */
@@ -156,6 +158,11 @@ final class ConstructorPromotionTest extends TestCase
             [
                 ClassNode::MODIFIER_PRIVATE,
                 Visibility::PRIVATE_,
+            ],
+            [
+                ClassNode::MODIFIER_PRIVATE | ClassNode::MODIFIER_READONLY,
+                Visibility::PRIVATE_,
+                true,
             ],
         ];
     }

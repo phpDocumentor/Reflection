@@ -75,6 +75,14 @@ final class PropertyIterator implements Iterator
     }
 
     /**
+     * returns true when the current property is readonly.
+     */
+    public function isReadOnly(): bool
+    {
+        return $this->property->isReadOnly();
+    }
+
+    /**
      * Gets line the node started in.
      */
     public function getLine(): int

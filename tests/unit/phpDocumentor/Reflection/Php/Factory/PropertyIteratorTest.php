@@ -68,6 +68,7 @@ class PropertyIteratorTest extends MockeryTestCase
      * @covers ::isProtected
      * @covers ::isPrivate
      * @covers ::isStatic
+     * @covers ::isReadOnly
      * @covers ::getLine
      */
     public function testProxyMethods(): void
@@ -77,11 +78,13 @@ class PropertyIteratorTest extends MockeryTestCase
         $propertyMock->shouldReceive('isProtected')->once()->andReturn(true);
         $propertyMock->shouldReceive('isPrivate')->once()->andReturn(true);
         $propertyMock->shouldReceive('isStatic')->once()->andReturn(true);
+        $propertyMock->shouldReceive('isReadOnly')->once()->andReturn(true);
         $propertyMock->shouldReceive('getLine')->once()->andReturn(10);
 
         $fixture = new PropertyIterator($propertyMock);
 
         $this->assertTrue($fixture->isStatic());
+        $this->assertTrue($fixture->isReadOnly());
         $this->assertTrue($fixture->isPrivate());
         $this->assertTrue($fixture->isProtected());
         $this->assertTrue($fixture->isPublic());

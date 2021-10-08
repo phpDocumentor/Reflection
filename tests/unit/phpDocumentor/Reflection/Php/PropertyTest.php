@@ -76,6 +76,31 @@ final class PropertyTest extends TestCase
     /**
      * @uses \phpDocumentor\Reflection\Php\Visibility
      *
+     * @covers ::isReadOnly
+     * @covers ::__construct
+     */
+    public function testGettingWhetherPropertyIsReadOnly(): void
+    {
+        $property = new Property($this->fqsen, $this->visibility, $this->docBlock, null);
+        $this->assertFalse($property->isReadOnly());
+
+        $property = new Property(
+            $this->fqsen,
+            $this->visibility,
+            $this->docBlock,
+            null,
+            true,
+            null,
+            null,
+            true
+        );
+
+        $this->assertTrue($property->isReadOnly());
+    }
+
+    /**
+     * @uses \phpDocumentor\Reflection\Php\Visibility
+     *
      * @covers ::getVisibility
      * @covers ::__construct
      */
