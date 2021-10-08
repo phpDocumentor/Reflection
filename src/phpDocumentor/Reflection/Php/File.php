@@ -59,6 +59,9 @@ final class File
     /** @var Trait_[] */
     private $traits = [];
 
+    /** @var Enum_[] */
+    private $enums = [];
+
     /**
      * Initializes a new file descriptor with the given hash of its contents.
      *
@@ -210,6 +213,21 @@ final class File
     public function addTrait(Trait_ $trait): void
     {
         $this->traits[(string) $trait->getFqsen()] = $trait;
+    }
+
+    public function addEnum(Enum_ $enum): void
+    {
+        $this->enums[(string) $enum->getFqsen()] = $enum;
+    }
+
+    /**
+     * Returns a list of enum descriptors contained in this file.
+     *
+     * @return Enum_[]
+     */
+    public function getEnums(): array
+    {
+        return $this->enums;
     }
 
     /**

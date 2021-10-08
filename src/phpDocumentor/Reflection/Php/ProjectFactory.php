@@ -60,6 +60,8 @@ final class ProjectFactory implements ProjectFactoryInterface
                 new \phpDocumentor\Reflection\Php\Factory\Namespace_(),
                 new Factory\Argument(new PrettyPrinter()),
                 new Factory\Class_($docblockFactory),
+                new Factory\Enum_($docblockFactory),
+                new Factory\EnumCase($docblockFactory, new PrettyPrinter()),
                 new Factory\Define($docblockFactory, new PrettyPrinter()),
                 new Factory\GlobalConstant($docblockFactory, new PrettyPrinter()),
                 new Factory\ClassConstant($docblockFactory, new PrettyPrinter()),
