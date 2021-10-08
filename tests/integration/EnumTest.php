@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace integration;
 
 use phpDocumentor\Reflection\File\LocalFile;
+use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\Enum_;
 use phpDocumentor\Reflection\Php\Project;
 use phpDocumentor\Reflection\Php\ProjectFactory;
+use phpDocumentor\Reflection\Types\Object_;
 use PHPUnit\Framework\TestCase;
 use phpDocumentor\Reflection\Types\String_;
 
@@ -15,6 +17,8 @@ final class EnumTest extends TestCase
 {
     const FILE = __DIR__ . '/data/Enums/base.php';
     const BACKED_ENUM = __DIR__ . '/data/Enums/backedEnum.php';
+    const ENUM_CONSUMER = __DIR__ . '/data/Enums/EnumConsumer.php';
+
     /** @var ProjectFactory */
     private $fixture;
 
@@ -29,6 +33,7 @@ final class EnumTest extends TestCase
             [
                 new LocalFile(self::FILE),
                 new LocalFile(self::BACKED_ENUM),
+                new LocalFile(self::ENUM_CONSUMER),
             ]
         );
     }
@@ -58,5 +63,46 @@ final class EnumTest extends TestCase
 
         self::assertSame("'this is value1'", $enum->getCases()['\MyNamespace\MyBackedEnum::VALUE1']->getValue());
         self::assertSame("'this is value2'", $enum->getCases()['\MyNamespace\MyBackedEnum::VALUE2']->getValue());
+    }
+
+    public function testEnumSupportInProperty(): void
+    {
+        $file = $this->project->getFiles()[self::ENUM_CONSUMER];
+
+        $class = $file->getClasses()['\MyNamespace\EnumConsumer'];
+
+        self::assertEquals(
+            '\MyNamespace\MyEnum::VALUE1',
+            $class->getProperties()['\MyNamespace\EnumConsumer::$myEnum']->getDefault()
+        );
+
+        self::assertEquals(
+            new Object_(new Fqsen('\MyNamespace\MyEnum')),
+            $class->getProperties()['\MyNamespace\EnumConsumer::$myEnum']->getType()
+        );
+    }
+
+    public function testEnumSupportInMethod(): void
+    {
+        $file = $this->project->getFiles()[self::ENUM_CONSUMER];
+
+        $class = $file->getClasses()['\MyNamespace\EnumConsumer'];
+        $method = $class->getMethods()['\MyNamespace\EnumConsumer::consume()'];
+
+        self::assertEquals(
+            new Object_(new Fqsen('\MyNamespace\MyEnum')),
+            $method->getReturnType()
+        );
+
+        self::assertEquals(
+            new Object_(new Fqsen('\MyNamespace\MyEnum')),
+            $method->getArguments()[0]->getType()
+        );
+
+        //This should be fixed in #219
+//        self::assertEquals(
+//            '\MyNamespace\MyEnum::VALUE1',
+//            $method->getArguments()[0]->getDefault()
+//        );
     }
 }
