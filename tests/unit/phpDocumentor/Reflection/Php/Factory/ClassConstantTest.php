@@ -60,7 +60,7 @@ final class ClassConstantTest extends TestCase
     }
 
     /** @dataProvider visibilityProvider */
-    public function testCreateWithVisibility(int $input, string $expectedVisibility): void
+    public function testCreateWithVisibility(int $input, string $expectedVisibility, bool $isFinal = false): void
     {
         $constantStub = $this->buildConstantIteratorStub($input);
 
@@ -68,6 +68,7 @@ final class ClassConstantTest extends TestCase
 
         $constant = current($class->getConstants());
         $this->assertConstant($constant, $expectedVisibility);
+        $this->assertSame($isFinal, $constant->isFinal());
     }
 
     /** @return array<string|int[]> */
@@ -85,6 +86,11 @@ final class ClassConstantTest extends TestCase
             [
                 ClassNode::MODIFIER_PRIVATE,
                 'private',
+            ],
+            [
+                ClassNode::MODIFIER_PRIVATE | ClassNode::MODIFIER_FINAL,
+                'private',
+                true,
             ],
         ];
     }

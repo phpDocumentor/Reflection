@@ -38,6 +38,9 @@ final class Constant implements Element
     /** @var Visibility */
     private $visibility;
 
+    /** @var bool */
+    private $final;
+
     /**
      * Initializes the object.
      */
@@ -46,13 +49,15 @@ final class Constant implements Element
         ?DocBlock $docBlock = null,
         ?string $value = null,
         ?Location $location = null,
-        ?Visibility $visibility = null
+        ?Visibility $visibility = null,
+        bool $final = false
     ) {
         $this->fqsen = $fqsen;
         $this->docBlock = $docBlock;
         $this->value = $value;
         $this->location = $location ?: new Location(-1);
         $this->visibility = $visibility ?: new Visibility(Visibility::PUBLIC_);
+        $this->final = $final;
     }
 
     /**
@@ -95,5 +100,10 @@ final class Constant implements Element
     public function getVisibility(): Visibility
     {
         return $this->visibility;
+    }
+
+    public function isFinal(): bool
+    {
+        return $this->final;
     }
 }

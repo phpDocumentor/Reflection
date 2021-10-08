@@ -34,13 +34,14 @@ final class ClassConstantIteratorTest extends MockeryTestCase
      * @covers ::valid()
      * @covers ::rewind()
      * @covers ::getName()
+     * @covers ::getValue()
      * @covers ::getFqsen()
      */
     public function testIterateProps(): void
     {
-        $const1 = new Const_('\Space\MyClass::MY_CONST1', new Variable('a'));
+        $const1 = new Const_('\Space\MyClass::MY_CONST1', new Variable('1'));
         $const1->fqsen = new Fqsen((string) $const1->name);
-        $const2 = new Const_('\Space\MyClass::MY_CONST2', new Variable('b'));
+        $const2 = new Const_('\Space\MyClass::MY_CONST2', new Variable('2'));
         $const2->fqsen = new Fqsen((string) $const2->name);
 
         $classConstantNode = new ClassConst([$const1, $const2]);
@@ -49,7 +50,7 @@ final class ClassConstantIteratorTest extends MockeryTestCase
         foreach (new ClassConstantIterator($classConstantNode) as $constant) {
             $this->assertEquals('\Space\MyClass::MY_CONST' . $i, $constant->getName());
             $this->assertEquals('\Space\MyClass::MY_CONST' . $i, (string) $constant->getFqsen());
-
+            $this->assertEquals($i, $constant->getValue()->name);
             ++$i;
         }
     }

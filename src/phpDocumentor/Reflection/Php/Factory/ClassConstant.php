@@ -78,7 +78,8 @@ final class ClassConstant extends AbstractFactory
                 $this->createDocBlock($const->getDocComment(), $context->getTypeContext()),
                 $const->getValue() !== null ? $this->valueConverter->prettyPrintExpr($const->getValue()) : null,
                 new Location($const->getLine()),
-                $this->buildVisibility($const)
+                $this->buildVisibility($const),
+                $const->isFinal()
             ));
         }
     }

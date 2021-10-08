@@ -61,6 +61,15 @@ final class ConstantTest extends TestCase
     }
 
     /**
+     * @covers ::isFinal
+     * @covers ::__construct
+     */
+    public function testIsFinal(): void
+    {
+        $this->assertFalse($this->fixture->isFinal());
+    }
+
+    /**
      * @covers ::getFqsen
      * @covers ::getName
      */

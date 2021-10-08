@@ -109,6 +109,11 @@ final class ClassConstantIterator implements Iterator
         return $this->classConstants->consts[$this->index]->value;
     }
 
+    public function isFinal(): bool
+    {
+        return $this->classConstants->isFinal();
+    }
+
     /**
      * @link http://php.net/manual/en/iterator.current.php
      */
