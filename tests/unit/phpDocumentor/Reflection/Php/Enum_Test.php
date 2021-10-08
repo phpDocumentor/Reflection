@@ -50,7 +50,7 @@ final class Enum_Test extends TestCase
         $this->fqsen = new Fqsen('\Enum');
         $this->docBlock = new DocBlock('');
 
-        $this->fixture = new Enum_($this->fqsen, $this->docBlock);
+        $this->fixture = new Enum_($this->fqsen, null, $this->docBlock);
     }
 
     /**
@@ -59,6 +59,14 @@ final class Enum_Test extends TestCase
     public function testGettingName(): void
     {
         $this->assertSame($this->fqsen->getName(), $this->fixture->getName());
+    }
+
+    /**
+     * @covers ::getBackedType
+     */
+    public function testGetBackedWithOutType(): void
+    {
+        $this->assertNull($this->fixture->getBackedType());
     }
 
     /**
@@ -75,18 +83,6 @@ final class Enum_Test extends TestCase
     public function testGettingDocBlock(): void
     {
         $this->assertSame($this->docBlock, $this->fixture->getDocBlock());
-    }
-
-    /**
-     * @covers ::getParent
-     */
-    public function testGettingParent(): void
-    {
-        $class = new Enum_($this->fqsen, $this->docBlock);
-        $this->assertNull($class->getParent());
-
-        $class = new Enum_($this->fqsen, $this->docBlock, $this->parent);
-        $this->assertSame($this->parent, $class->getParent());
     }
 
     /**
@@ -165,7 +161,7 @@ final class Enum_Test extends TestCase
      */
     public function testLineAndColumnNumberIsReturnedWhenALocationIsProvided(): void
     {
-        $fixture = new Enum_($this->fqsen, $this->docBlock, null, new Location(100, 20));
+        $fixture = new Enum_($this->fqsen, null, $this->docBlock, new Location(100, 20));
 
         $this->assertSame(100, $fixture->getLocation()->getLineNumber());
         $this->assertSame(20, $fixture->getLocation()->getColumnNumber());

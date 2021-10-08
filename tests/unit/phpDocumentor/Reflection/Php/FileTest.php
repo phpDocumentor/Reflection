@@ -135,7 +135,7 @@ final class FileTest extends TestCase
     {
         $this->assertEmpty($this->fixture->getEnums());
 
-        $enum = new Enum_(new Fqsen('\MySpace\MyEnum'));
+        $enum = new Enum_(new Fqsen('\MySpace\MyEnum'), null);
         $this->fixture->addEnum($enum);
 
         $this->assertEquals(['\MySpace\MyEnum' => $enum], $this->fixture->getEnums());

@@ -21,12 +21,14 @@ use phpDocumentor\Reflection\Php\EnumCase as EnumCaseElement;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategies;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use PhpParser\Node\Stmt\EnumCase as EnumCaseNode;
+use PhpParser\PrettyPrinter\Standard;
 use Prophecy\Prophecy\ObjectProphecy;
 use stdClass;
 
 /**
  * @coversDefaultClass \phpDocumentor\Reflection\Php\Factory\EnumCase
  * @covers \phpDocumentor\Reflection\Php\Factory\AbstractFactory
+ * @covers ::__construct
  * @covers ::<protected>
  * @covers ::<private>
  */
@@ -38,7 +40,7 @@ final class EnumCaseTest extends TestCase
     protected function setUp(): void
     {
         $this->docblockFactory = $this->prophesize(DocBlockFactoryInterface::class);
-        $this->fixture = new EnumCase($this->docblockFactory->reveal());
+        $this->fixture = new EnumCase($this->docblockFactory->reveal(), new Standard());
     }
 
     /**
@@ -82,7 +84,7 @@ final class EnumCaseTest extends TestCase
     private function performCreate(EnumCaseNode $enumCase): EnumElement
     {
         $factory = new ProjectFactoryStrategies([]);
-        $enum = new EnumElement(new Fqsen('\myEnum'));
+        $enum = new EnumElement(new Fqsen('\myEnum'), null);
         $this->fixture->create(self::createContext(null)->push($enum), $enumCase, $factory);
 
         return $enum;

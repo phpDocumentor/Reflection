@@ -19,11 +19,15 @@ final class EnumCase implements Element
     /** @var Location|null */
     private $location;
 
-    public function __construct(Fqsen $fqsen, ?DocBlock $docBlock, ?Location $location = null)
+    /** @var string|null */
+    private $value;
+
+    public function __construct(Fqsen $fqsen, ?DocBlock $docBlock, ?Location $location = null, ?string $value = null)
     {
         $this->fqsen    = $fqsen;
         $this->docBlock = $docBlock;
         $this->location = $location;
+        $this->value = $value;
     }
 
     public function getFqsen(): Fqsen
@@ -44,5 +48,10 @@ final class EnumCase implements Element
     public function getLocation(): ?Location
     {
         return $this->location;
+    }
+
+    public function getValue(): ?string
+    {
+        return $this->value;
     }
 }

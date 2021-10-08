@@ -68,4 +68,12 @@ final class EnumCaseTest extends TestCase
     {
         $this->assertSame($this->docBlock, $this->fixture->getDocBlock());
     }
+
+    /**
+     * @covers ::getValue
+     */
+    public function testGetValue(): void
+    {
+        $this->assertNull($this->fixture->getValue());
+    }
 }

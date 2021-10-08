@@ -35,8 +35,8 @@ final class Enum_ extends AbstractFactory
 
         $enum = new \phpDocumentor\Reflection\Php\Enum_(
             $object->fqsen,
+            (new Type())->fromPhpParser($object->scalarType),
             $docBlock,
-            $object->extends ? new Fqsen('\\' . $object->extends) : null,
             new Location($object->getLine())
         );
 

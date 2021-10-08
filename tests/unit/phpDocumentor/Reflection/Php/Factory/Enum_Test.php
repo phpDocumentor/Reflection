@@ -22,7 +22,9 @@ use phpDocumentor\Reflection\Php\File;
 use phpDocumentor\Reflection\Php\Method as MethodElement;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
+use phpDocumentor\Reflection\Types\String_;
 use PhpParser\Comment\Doc;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_ as ClassNode;
 use PhpParser\Node\Stmt\ClassMethod;
@@ -82,24 +84,23 @@ final class Enum_Test extends TestCase
 
         self::assertInstanceOf(EnumElement::class, $result);
         self::assertEquals('\Space\MyEnum', (string) $result->getFqsen());
-        self::assertNull($result->getParent());
     }
 
     /**
      * @covers ::create
      */
-    public function testClassWithParent(): void
+    public function testBackedEnumTypeIsSet(): void
     {
         $containerMock = m::mock(StrategyContainer::class);
         $enumMock     = $this->buildEnumMock();
         $enumMock->shouldReceive('getDocComment')->andReturnNull();
-        $enumMock->extends = 'Space\MyParent';
+        $enumMock->scalarType = new Identifier('string');
 
         $result = $this->performCreate($enumMock, $containerMock);
 
         self::assertInstanceOf(EnumElement::class, $result);
         self::assertEquals('\Space\MyEnum', (string) $result->getFqsen());
-        self::assertEquals('\Space\MyParent', (string) $result->getParent());
+        self::assertEquals(new String_(), $result->getBackedType());
     }
 
     /**

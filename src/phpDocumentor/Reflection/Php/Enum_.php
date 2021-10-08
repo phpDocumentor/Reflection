@@ -17,6 +17,7 @@ use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
+use phpDocumentor\Reflection\Type;
 
 final class Enum_ implements Element
 {
@@ -25,9 +26,6 @@ final class Enum_ implements Element
 
     /** @var DocBlock|null */
     private $docBlock;
-
-    /** @var Fqsen|null */
-    private $parent;
 
     /** @var Location|null */
     private $location;
@@ -44,16 +42,23 @@ final class Enum_ implements Element
     /** @var array<string, Fqsen> */
     private $usedTraits = [];
 
-    public function __construct(Fqsen $fqsen, ?DocBlock $docBlock = null, ?Fqsen $parent = null, ?Location $location = null)
-    {
+    /** @var Type|null */
+    private $backedType;
+
+    public function __construct(
+        Fqsen $fqsen,
+        ?Type $backedType,
+        ?DocBlock $docBlock = null,
+        ?Location $location = null
+    ) {
         if ($location === null) {
             $location = new Location(-1);
         }
 
         $this->fqsen    = $fqsen;
         $this->docBlock = $docBlock;
-        $this->parent   = $parent;
         $this->location = $location;
+        $this->backedType = $backedType;
     }
 
     public function getFqsen(): Fqsen
@@ -69,11 +74,6 @@ final class Enum_ implements Element
     public function getDocBlock(): ?DocBlock
     {
         return $this->docBlock;
-    }
-
-    public function getParent(): ?Fqsen
-    {
-        return $this->parent;
     }
 
     public function getLocation(): ?Location
@@ -144,5 +144,10 @@ final class Enum_ implements Element
     public function addUsedTrait(Fqsen $fqsen): void
     {
         $this->usedTraits[(string) $fqsen] = $fqsen;
+    }
+
+    public function getBackedType(): ?Type
+    {
+        return $this->backedType;
     }
 }
