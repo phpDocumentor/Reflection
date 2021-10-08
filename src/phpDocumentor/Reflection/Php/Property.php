@@ -48,6 +48,9 @@ final class Property implements Element
     /** @var Type|null */
     private $type;
 
+    /** @var bool */
+    private $readOnly;
+
     /**
      * @param Visibility|null $visibility when null is provided a default 'public' is set.
      */
@@ -58,7 +61,8 @@ final class Property implements Element
         ?string $default = null,
         bool $static = false,
         ?Location $location = null,
-        ?Type $type = null
+        ?Type $type = null,
+        bool $readOnly = false
     ) {
         $this->fqsen = $fqsen;
         $this->visibility = $visibility ?: new Visibility('public');
@@ -67,6 +71,7 @@ final class Property implements Element
         $this->static = $static;
         $this->location = $location ?: new Location(-1);
         $this->type = $type;
+        $this->readOnly = $readOnly;
     }
 
     /**
@@ -143,5 +148,10 @@ final class Property implements Element
     public function getType(): ?Type
     {
         return $this->type;
+    }
+
+    public function isReadOnly(): bool
+    {
+        return $this->readOnly;
     }
 }

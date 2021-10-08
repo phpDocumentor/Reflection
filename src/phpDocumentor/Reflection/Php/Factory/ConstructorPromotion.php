@@ -77,7 +77,8 @@ class ConstructorPromotion extends AbstractFactory
             $param->default !== null ? $this->valueConverter->prettyPrintExpr($param->default) : null,
             false,
             new Location($param->getLine()),
-            (new Type())->fromPhpParser($param->type)
+            (new Type())->fromPhpParser($param->type),
+            $this->readOnly($param->flags)
         );
 
         $methodContainer->addProperty($property);
@@ -94,5 +95,10 @@ class ConstructorPromotion extends AbstractFactory
         }
 
         return new Visibility(Visibility::PUBLIC_);
+    }
+
+    private function readOnly(int $flags): bool
+    {
+        return (bool) ($flags & Class_::MODIFIER_READONLY) === true;
     }
 }

@@ -88,7 +88,8 @@ final class Property extends AbstractFactory implements ProjectFactoryStrategy
                     $default,
                     $stmt->isStatic(),
                     new Location($stmt->getLine()),
-                    (new Type())->fromPhpParser($stmt->getType())
+                    (new Type())->fromPhpParser($stmt->getType()),
+                    $stmt->isReadonly()
                 )
             );
         }
