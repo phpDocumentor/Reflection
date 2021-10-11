@@ -21,8 +21,11 @@ use phpDocumentor\Reflection\Php\Function_ as FunctionDescriptor;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use PhpParser\Comment\Doc;
+use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Name;
 use PhpParser\Node\Param;
+use PhpParser\Node\Stmt\Expression;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use stdClass;
@@ -147,5 +150,31 @@ final class Function_Test extends TestCase
 
         $this->assertEquals('\SomeSpace::function()', (string) $function->getFqsen());
         $this->assertSame($docBlock, $function->getDocBlock());
+    }
+
+    /**
+     * @covers ::create
+     */
+    public function testIteratesStatements(): void
+    {
+        $doc = new Doc('Text');
+        $functionMock = $this->prophesize(\PhpParser\Node\Stmt\Function_::class);
+        $functionMock->fqsen = new Fqsen('\SomeSpace::function()');
+        $functionMock->params = [];
+        $functionMock->getDocComment()->willReturn(null);
+        $functionMock->getLine()->willReturn(1);
+        $functionMock->getReturnType()->willReturn(null);
+        $functionMock->stmts = [new Expression(new FuncCall(new Name('hook')))];
+
+        $strategyMock = $this->prophesize(ProjectFactoryStrategy::class);
+
+        $containerMock = $this->prophesize(StrategyContainer::class);
+        $containerMock->findMatching(
+            Argument::type(ContextStack::class),
+            Argument::type(Expression::class)
+        )->willReturn($strategyMock->reveal())->shouldBeCalledOnce();
+
+        $file = new File('hash', 'path');
+        $this->fixture->create(self::createContext(null)->push($file), $functionMock->reveal(), $containerMock->reveal());
     }
 }

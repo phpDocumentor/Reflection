@@ -16,6 +16,7 @@ namespace phpDocumentor\Reflection\Php;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
+use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -29,6 +30,8 @@ use PHPUnit\Framework\TestCase;
  */
 final class ConstantTest extends TestCase
 {
+    use MetadataContainerTest;
+
     /** @var Constant $fixture */
     protected $fixture;
 
@@ -49,6 +52,11 @@ final class ConstantTest extends TestCase
         $this->fqsen = new Fqsen('\MySpace\CONSTANT');
         $this->docBlock = new DocBlock('');
         $this->fixture = new Constant($this->fqsen, $this->docBlock, $this->value);
+    }
+
+    private function getFixture(): MetaDataContainerInterface
+    {
+        return $this->fixture;
     }
 
     /**

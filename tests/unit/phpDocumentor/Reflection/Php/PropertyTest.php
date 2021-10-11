@@ -16,6 +16,7 @@ namespace phpDocumentor\Reflection\Php;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
+use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInterface;
 use phpDocumentor\Reflection\Types\Integer;
 use PHPUnit\Framework\TestCase;
 
@@ -28,6 +29,8 @@ use PHPUnit\Framework\TestCase;
  */
 final class PropertyTest extends TestCase
 {
+    use MetadataContainerTest;
+
     /** @var Fqsen */
     private $fqsen;
 
@@ -37,11 +40,20 @@ final class PropertyTest extends TestCase
     /** @var DocBlock */
     private $docBlock;
 
+    /** @var Property */
+    private $fixture;
+
     protected function setUp(): void
     {
         $this->fqsen = new Fqsen('\My\Class::$property');
         $this->visibility = new Visibility('private');
         $this->docBlock = new DocBlock('');
+        $this->fixture = new Property($this->fqsen);
+    }
+
+    private function getFixture(): MetaDataContainerInterface
+    {
+        return $this->fixture;
     }
 
     /**

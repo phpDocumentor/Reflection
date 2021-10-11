@@ -17,12 +17,15 @@ use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
+use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInterface;
 
 /**
  * Descriptor representing a Trait.
  */
-final class Trait_ implements Element
+final class Trait_ implements Element, MetaDataContainerInterface
 {
+    use MetadataContainer;
+
     /** @var Fqsen Full Qualified Structural Element Name */
     private $fqsen;
 

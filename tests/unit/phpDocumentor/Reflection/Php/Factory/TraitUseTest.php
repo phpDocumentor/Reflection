@@ -16,6 +16,7 @@ use PhpParser\Node\Stmt\TraitUse as TraitUseNode;
 
 /**
  * @coversDefaultClass \phpDocumentor\Reflection\Php\Factory\TraitUse
+ * @covers \phpDocumentor\Reflection\Php\Factory\AbstractFactory
  */
 final class TraitUseTest extends TestCase
 {

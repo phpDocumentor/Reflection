@@ -17,6 +17,7 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
+use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInterface;
 
 /**
  * @coversDefaultClass \phpDocumentor\Reflection\Php\Trait_
@@ -25,6 +26,8 @@ use phpDocumentor\Reflection\Location;
  */
 final class Trait_Test extends MockeryTestCase
 {
+    use MetadataContainerTest;
+
     /** @var Trait_ $fixture */
     protected $fixture;
 
@@ -42,6 +45,11 @@ final class Trait_Test extends MockeryTestCase
         $this->fqsen = new Fqsen('\MyTrait');
         $this->docBlock = new DocBlock('');
         $this->fixture = new Trait_($this->fqsen, $this->docBlock);
+    }
+
+    private function getFixture(): MetaDataContainerInterface
+    {
+        return $this->fixture;
     }
 
     /**

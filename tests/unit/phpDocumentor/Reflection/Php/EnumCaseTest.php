@@ -15,6 +15,8 @@ namespace phpDocumentor\Reflection\Php;
 
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\Location;
+use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -25,6 +27,8 @@ use PHPUnit\Framework\TestCase;
  */
 final class EnumCaseTest extends TestCase
 {
+    use MetadataContainerTest;
+
     /** @var EnumCase */
     private $fixture;
 
@@ -43,6 +47,11 @@ final class EnumCaseTest extends TestCase
         $this->docBlock = new DocBlock('');
 
         $this->fixture = new EnumCase($this->fqsen, $this->docBlock);
+    }
+
+    private function getFixture(): MetaDataContainerInterface
+    {
+        return $this->fixture;
     }
 
     /**
@@ -75,5 +84,13 @@ final class EnumCaseTest extends TestCase
     public function testGetValue(): void
     {
         $this->assertNull($this->fixture->getValue());
+    }
+
+    /**
+     * @covers ::getLocation
+     */
+    public function testGetLocationReturnsDefault(): void
+    {
+        self::assertEquals(new Location(-1), $this->fixture->getLocation());
     }
 }

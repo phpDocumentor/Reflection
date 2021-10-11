@@ -32,6 +32,10 @@ test:
 	docker run -it --rm -v${CURDIR}:/github/workspace phpdoc/phpunit-ga
 	docker run -it --rm -v${CURDIR}:/data -w /data php:7.2 -f ./tests/coverage-checker.php 94
 
+.PHONY: benchmark
+benchmark:
+	docker run -it --rm -v${CURDIR}:/opt/project -w /opt/project php:7.4-cli tools/phpbench run
+
 .PHONY: pre-commit-test
 pre-commit-test: test phpcs phpstan
 

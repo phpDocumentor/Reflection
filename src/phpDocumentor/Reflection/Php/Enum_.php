@@ -17,17 +17,20 @@ use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
+use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInterface;
 use phpDocumentor\Reflection\Type;
 
-final class Enum_ implements Element
+final class Enum_ implements Element, MetaDataContainerInterface
 {
+    use MetadataContainer;
+
     /** @var Fqsen Full Qualified Structural Element Name */
     private $fqsen;
 
     /** @var DocBlock|null */
     private $docBlock;
 
-    /** @var Location|null */
+    /** @var Location */
     private $location;
 
     /** @var EnumCase[] */
@@ -76,7 +79,7 @@ final class Enum_ implements Element
         return $this->docBlock;
     }
 
-    public function getLocation(): ?Location
+    public function getLocation(): Location
     {
         return $this->location;
     }

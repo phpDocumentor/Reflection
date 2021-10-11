@@ -17,6 +17,7 @@ use InvalidArgumentException;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
+use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -32,6 +33,8 @@ use PHPUnit\Framework\TestCase;
  */
 final class Interface_Test extends TestCase
 {
+    use MetadataContainerTest;
+
     /** @var Interface_ $fixture */
     private $fixture;
 
@@ -57,6 +60,11 @@ final class Interface_Test extends TestCase
         $this->fqsen    = new Fqsen('\MySpace\MyInterface');
         $this->docBlock = new DocBlock('');
         $this->fixture  = new Interface_($this->fqsen, $this->exampleParents, $this->docBlock);
+    }
+
+    private function getFixture(): MetaDataContainerInterface
+    {
+        return $this->fixture;
     }
 
     /**

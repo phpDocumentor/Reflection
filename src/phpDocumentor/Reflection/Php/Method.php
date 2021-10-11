@@ -17,14 +17,17 @@ use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
+use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInterface;
 use phpDocumentor\Reflection\Type;
 use phpDocumentor\Reflection\Types\Mixed_;
 
 /**
  * Descriptor representing a Method in a Class, Interface or Trait.
  */
-final class Method implements Element
+final class Method implements Element, MetaDataContainerInterface
 {
+    use MetadataContainer;
+
     /** @var DocBlock|null documentation of this method. */
     private $docBlock = null;
 

@@ -3,6 +3,7 @@
 namespace phpDocumentor\Reflection;
 
 use phpDocumentor\Reflection\File\LocalFile;
+use phpDocumentor\Reflection\Php\Factory\Method;
 
 /**
  * @BeforeMethods({"init"})

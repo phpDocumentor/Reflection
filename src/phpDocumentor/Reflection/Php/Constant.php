@@ -17,12 +17,15 @@ use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
+use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInterface;
 
 /**
  * Descriptor representing a constant
  */
-final class Constant implements Element
+final class Constant implements Element, MetaDataContainerInterface
 {
+    use MetadataContainer;
+
     /** @var Fqsen */
     private $fqsen;
 

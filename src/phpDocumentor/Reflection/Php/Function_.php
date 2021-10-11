@@ -17,6 +17,7 @@ use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
+use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInterface;
 use phpDocumentor\Reflection\Type;
 use phpDocumentor\Reflection\Types\Mixed_;
 
@@ -24,9 +25,11 @@ use phpDocumentor\Reflection\Types\Mixed_;
  * Descriptor representing a function
  */
 // @codingStandardsIgnoreStart
-final class Function_ implements Element
+final class Function_ implements Element, MetaDataContainerInterface
 // // @codingStandardsIgnoreEnd
 {
+    use MetadataContainer;
+
     /** @var Fqsen Full Qualified Structural Element Name */
     private $fqsen;
 

@@ -23,9 +23,12 @@ use phpDocumentor\Reflection\Php\Method as MethodDescriptor;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use PhpParser\Comment\Doc;
+use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Name;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\Expression;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use stdClass;
@@ -184,6 +187,7 @@ class MethodTest extends TestCase
         $methodMock = m::mock(ClassMethod::class);
         $methodMock->name = 'function';
         $methodMock->fqsen = new Fqsen('\SomeSpace\Class::function()');
+        $methodMock->params = [];
 
         $methodMock->shouldReceive('isStatic')->once()->andReturn(true);
         $methodMock->shouldReceive('isFinal')->once()->andReturn(true);
@@ -191,5 +195,28 @@ class MethodTest extends TestCase
         $methodMock->shouldReceive('getLine')->once()->andReturn(1);
 
         return $methodMock;
+    }
+
+    /**
+     * @covers ::create
+     */
+    public function testIteratesStatements(): void
+    {
+        $method1 = $this->buildClassMethodMock();
+        $method1->shouldReceive('isPrivate')->once()->andReturn(true);
+        $method1->shouldReceive('getDocComment')->andReturn(null);
+        $method1->shouldReceive('getReturnType')->once()->andReturn(null);
+        $method1->stmts = [new Expression(new FuncCall(new Name('hook')))];
+
+        $strategyMock = $this->prophesize(ProjectFactoryStrategy::class);
+
+        $containerMock = $this->prophesize(StrategyContainer::class);
+        $containerMock->findMatching(
+            Argument::type(ContextStack::class),
+            Argument::type(Expression::class)
+        )->willReturn($strategyMock->reveal())->shouldBeCalledOnce();
+
+        $class = new ClassElement(new Fqsen('\\MyClass'));
+        $this->fixture->create(self::createContext(null)->push($class), $method1, $containerMock->reveal());
     }
 }

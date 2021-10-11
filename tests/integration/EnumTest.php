@@ -13,6 +13,9 @@ use phpDocumentor\Reflection\Types\Object_;
 use PHPUnit\Framework\TestCase;
 use phpDocumentor\Reflection\Types\String_;
 
+/**
+ * @coversNothing
+ */
 final class EnumTest extends TestCase
 {
     const FILE = __DIR__ . '/data/Enums/base.php';

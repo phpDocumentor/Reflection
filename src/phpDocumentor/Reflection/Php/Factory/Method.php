@@ -24,6 +24,8 @@ use phpDocumentor\Reflection\Php\Visibility;
 use PhpParser\Node\Stmt\ClassMethod;
 use Webmozart\Assert\Assert;
 
+use function is_array;
+
 /**
  * Strategy to create MethodDescriptor and arguments when applicable.
  */
@@ -67,10 +69,19 @@ final class Method extends AbstractFactory implements ProjectFactoryStrategy
         );
         $methodContainer->addMethod($method);
 
+        $thisContext = $context->push($method);
         foreach ($object->params as $param) {
-            $thisContext = $context->push($method);
             $strategy = $strategies->findMatching($thisContext, $param);
             $strategy->create($thisContext, $param, $strategies);
+        }
+
+        if (!is_array($object->stmts)) {
+            return;
+        }
+
+        foreach ($object->stmts as $stmt) {
+            $strategy = $strategies->findMatching($thisContext, $stmt);
+            $strategy->create($thisContext, $stmt, $strategies);
         }
     }
 

@@ -8,9 +8,12 @@ use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
+use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInterface;
 
-final class EnumCase implements Element
+final class EnumCase implements Element, MetaDataContainerInterface
 {
+    use MetadataContainer;
+
     /** @var Fqsen */
     private $fqsen;
 
@@ -24,6 +27,10 @@ final class EnumCase implements Element
 
     public function __construct(Fqsen $fqsen, ?DocBlock $docBlock, ?Location $location = null, ?string $value = null)
     {
+        if ($location === null) {
+            $location = new Location(-1);
+        }
+
         $this->fqsen    = $fqsen;
         $this->docBlock = $docBlock;
         $this->location = $location;
@@ -45,7 +52,7 @@ final class EnumCase implements Element
         return $this->docBlock;
     }
 
-    public function getLocation(): ?Location
+    public function getLocation(): Location
     {
         return $this->location;
     }

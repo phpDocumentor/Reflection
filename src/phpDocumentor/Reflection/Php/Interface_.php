@@ -17,13 +17,16 @@ use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
+use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInterface;
 use Webmozart\Assert\Assert;
 
 /**
  * Descriptor representing an Interface.
  */
-final class Interface_ implements Element
+final class Interface_ implements Element, MetaDataContainerInterface
 {
+    use MetadataContainer;
+
     /** @var Fqsen Full Qualified Structural Element Name */
     private $fqsen;
 

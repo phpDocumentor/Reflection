@@ -16,6 +16,7 @@ namespace phpDocumentor\Reflection\Php;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
+use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -31,6 +32,8 @@ use PHPUnit\Framework\TestCase;
  */
 final class Class_Test extends TestCase
 {
+    use MetadataContainerTest;
+
     /** @var Class_ */
     private $fixture;
 
@@ -53,6 +56,11 @@ final class Class_Test extends TestCase
         $this->docBlock = new DocBlock('');
 
         $this->fixture = new Class_($this->fqsen, $this->docBlock);
+    }
+
+    private function getFixture(): MetaDataContainerInterface
+    {
+        return $this->fixture;
     }
 
     /**

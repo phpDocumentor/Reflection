@@ -16,6 +16,7 @@ namespace phpDocumentor\Reflection\Php;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
+use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInterface;
 use phpDocumentor\Reflection\Types\Mixed_;
 use phpDocumentor\Reflection\Types\String_;
 use PHPUnit\Framework\TestCase;
@@ -29,6 +30,8 @@ use PHPUnit\Framework\TestCase;
  */
 final class MethodTest extends TestCase
 {
+    use MetadataContainerTest;
+
     /** @var Fqsen */
     private $fqsen;
 
@@ -38,11 +41,20 @@ final class MethodTest extends TestCase
     /** @var DocBlock */
     private $docblock;
 
+    /** @var Method */
+    private $fixture;
+
     protected function setUp(): void
     {
         $this->fqsen = new Fqsen('\My\Space::MyMethod()');
         $this->visibility = new Visibility('private');
         $this->docblock = new DocBlock('');
+        $this->fixture = new Method($this->fqsen);
+    }
+
+    private function getFixture(): MetaDataContainerInterface
+    {
+        return $this->fixture;
     }
 
     /**

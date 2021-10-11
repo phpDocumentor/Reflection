@@ -15,6 +15,7 @@ namespace phpDocumentor\Reflection\Php;
 
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -31,6 +32,8 @@ use PHPUnit\Framework\TestCase;
  */
 final class FileTest extends TestCase
 {
+    use MetadataContainerTest;
+
     public const EXAMPLE_HASH = 'a-hash-string';
 
     public const EXAMPLE_NAME = 'a-path-string';
@@ -53,6 +56,11 @@ final class FileTest extends TestCase
         $this->docBlock = new DocBlock('');
 
         $this->fixture = new File(self::EXAMPLE_HASH, self::EXAMPLE_PATH, self::EXAMPLE_SOURCE, $this->docBlock);
+    }
+
+    private function getFixture(): MetaDataContainerInterface
+    {
+        return $this->fixture;
     }
 
     /**

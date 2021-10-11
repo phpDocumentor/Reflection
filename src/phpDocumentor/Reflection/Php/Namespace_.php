@@ -15,14 +15,17 @@ namespace phpDocumentor\Reflection\Php;
 
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInterface;
 
 /**
  * Represents a namespace and its children for a project.
  */
 // @codingStandardsIgnoreStart
-final class Namespace_ implements Element
+final class Namespace_ implements Element, MetaDataContainerInterface
 // codingStandardsIgnoreEnd
 {
+    use MetadataContainer;
+
     /**
      * @var Fqsen Full Qualified Structural Element Name
      */

@@ -15,14 +15,17 @@ namespace phpDocumentor\Reflection\Php;
 
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInterface;
 
 use function basename;
 
 /**
  * Represents a file in the project.
  */
-final class File
+final class File implements MetaDataContainerInterface
 {
+    use MetadataContainer;
+
     /** @var DocBlock|null */
     private $docBlock = null;
 

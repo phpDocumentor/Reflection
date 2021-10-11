@@ -87,6 +87,13 @@ final class ProjectFactory implements ProjectFactoryInterface
         );
     }
 
+    public function addStrategy(
+        ProjectFactoryStrategy $strategy,
+        int $priority = ProjectFactoryStrategies::DEFAULT_PRIORITY
+    ): void {
+        $this->strategies->addStrategy($strategy);
+    }
+
     /**
      * Creates a project from the set of files.
      *

@@ -16,6 +16,7 @@ namespace phpDocumentor\Reflection\Php;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
+use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -29,6 +30,8 @@ use PHPUnit\Framework\TestCase;
  */
 final class Enum_Test extends TestCase
 {
+    use MetadataContainerTest;
+
     /** @var Enum_ */
     private $fixture;
 
@@ -51,6 +54,11 @@ final class Enum_Test extends TestCase
         $this->docBlock = new DocBlock('');
 
         $this->fixture = new Enum_($this->fqsen, null, $this->docBlock);
+    }
+
+    private function getFixture(): MetaDataContainerInterface
+    {
+        return $this->fixture;
     }
 
     /**

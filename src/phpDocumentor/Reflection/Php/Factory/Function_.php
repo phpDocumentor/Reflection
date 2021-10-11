@@ -21,6 +21,8 @@ use phpDocumentor\Reflection\Php\StrategyContainer;
 use PhpParser\Node\Stmt\Function_ as FunctionNode;
 use Webmozart\Assert\Assert;
 
+use function is_array;
+
 /**
  * Strategy to convert Function_ to FunctionDescriptor
  *
@@ -57,10 +59,19 @@ final class Function_ extends AbstractFactory implements ProjectFactoryStrategy
 
         $file->addFunction($function);
 
+        $thisContext = $context->push($function);
         foreach ($object->params as $param) {
-            $thisContext = $context->push($function);
             $strategy = $strategies->findMatching($thisContext, $param);
             $strategy->create($thisContext, $param, $strategies);
+        }
+
+        if (!is_array($object->stmts)) {
+            return;
+        }
+
+        foreach ($object->stmts as $stmt) {
+            $strategy = $strategies->findMatching($thisContext, $stmt);
+            $strategy->create($thisContext, $stmt, $strategies);
         }
     }
 }
