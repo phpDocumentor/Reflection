@@ -175,6 +175,10 @@ final class Function_Test extends TestCase
         )->willReturn($strategyMock->reveal())->shouldBeCalledOnce();
 
         $file = new File('hash', 'path');
-        $this->fixture->create(self::createContext(null)->push($file), $functionMock->reveal(), $containerMock->reveal());
+        $this->fixture->create(
+            self::createContext(null)->push($file),
+            $functionMock->reveal(),
+            $containerMock->reveal()
+        );
     }
 }

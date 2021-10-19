@@ -19,7 +19,8 @@ final class EnumCase implements Element, MetaDataContainerInterface
 
     /** @var DocBlock|null */
     private $docBlock;
-    /** @var Location|null */
+
+    /** @var Location */
     private $location;
 
     /** @var string|null */

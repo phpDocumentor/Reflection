@@ -26,7 +26,7 @@ trait MetadataContainer
     private $metadata = [];
 
     /**
-     * @throws Exception When metadata key already exists
+     * @throws Exception When metadata key already exists.
      */
     public function addMetadata(Metadata $metadata): void
     {
@@ -37,6 +37,7 @@ trait MetadataContainer
         $this->metadata[$metadata->key()] = $metadata;
     }
 
+    /** @return Metadata[] */
     public function getMetadata(): array
     {
         return $this->metadata;
