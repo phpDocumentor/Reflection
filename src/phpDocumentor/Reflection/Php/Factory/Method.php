@@ -15,6 +15,7 @@ namespace phpDocumentor\Reflection\Php\Factory;
 
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Class_;
+use phpDocumentor\Reflection\Php\Enum_;
 use phpDocumentor\Reflection\Php\Interface_;
 use phpDocumentor\Reflection\Php\Method as MethodDescriptor;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
@@ -54,6 +55,7 @@ final class Method extends AbstractFactory implements ProjectFactoryStrategy
                 Class_::class,
                 Interface_::class,
                 Trait_::class,
+                Enum_::class,
             ]
         );
 
