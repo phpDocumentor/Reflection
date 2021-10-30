@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace phpDocumentor\Reflection\Php;
 
 use phpDocumentor\Reflection\Exception;
+use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInterface;
 
 trait MetadataContainerTest
 {
@@ -34,5 +35,5 @@ trait MetadataContainerTest
         $this->getFixture()->addMetadata($stub);
     }
 
-    abstract public function getFixture(): MetadataContainer;
+    abstract public function getFixture(): MetaDataContainerInterface;
 }
