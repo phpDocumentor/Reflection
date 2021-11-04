@@ -27,6 +27,7 @@ use PhpParser\Node\Stmt;
 final class Property implements Element, MetaDataContainerInterface
 {
     use MetadataContainer;
+    use NodeTrait;
 
     /** @var Fqsen */
     private $fqsen;
