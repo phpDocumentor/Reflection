@@ -82,7 +82,6 @@ final class Property extends AbstractFactory implements ProjectFactoryStrategy
         foreach ($iterator as $stmt) {
             $propertyContainer->addProperty(
                 new PropertyDescriptor(
-                    $stmt,
                     $stmt->getFqsen(),
                     $this->buildVisibility($stmt),
                     $this->createDocBlock($stmt->getDocComment(), $context->getTypeContext()),
