@@ -28,9 +28,7 @@ use PhpParser\Node\Stmt;
 final class Method implements Element, MetaDataContainerInterface
 {
     use MetadataContainer;
-
-    /** @var Stmt */
-    protected $node;
+    use NodeTrait;
 
     /** @var DocBlock|null documentation of this method. */
     private $docBlock = null;
@@ -97,16 +95,6 @@ final class Method implements Element, MetaDataContainerInterface
         $this->final      = $final;
         $this->location   = $location;
         $this->returnType = $returnType;
-    }
-
-    /**
-     * Returns the current PHP-Parser node that holds more detailed information
-     * about the reflected object. e.g. position in the file and further attributes.
-     * @return Stmt
-     */
-    public function getNode(): Stmt
-    {
-        return $this->node;
     }
 
     /**

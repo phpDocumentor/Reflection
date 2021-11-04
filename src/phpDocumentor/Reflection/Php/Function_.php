@@ -30,9 +30,7 @@ final class Function_ implements Element, MetaDataContainerInterface
 // // @codingStandardsIgnoreEnd
 {
     use MetadataContainer;
-
-    /** @var Stmt */
-    protected $node;
+    use NodeTrait;
 
     /** @var Fqsen Full Qualified Structural Element Name */
     private $fqsen;
@@ -73,16 +71,6 @@ final class Function_ implements Element, MetaDataContainerInterface
         $this->docBlock   = $docBlock;
         $this->location   = $location;
         $this->returnType = $returnType;
-    }
-
-    /**
-     * Returns the current PHP-Parser node that holds more detailed information
-     * about the reflected object. e.g. position in the file and further attributes.
-     * @return Stmt
-     */
-    public function getNode(): Stmt
-    {
-        return $this->node;
     }
 
     /**
