@@ -60,6 +60,7 @@ final class Method extends AbstractFactory implements ProjectFactoryStrategy
         );
 
         $method = new MethodDescriptor(
+            $object,
             $object->fqsen,
             $this->buildVisibility($object),
             $this->createDocBlock($object->getDocComment(), $context->getTypeContext()),

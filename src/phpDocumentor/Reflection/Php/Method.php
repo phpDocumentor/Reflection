@@ -20,6 +20,7 @@ use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInterface;
 use phpDocumentor\Reflection\Type;
 use phpDocumentor\Reflection\Types\Mixed_;
+use PhpParser\Node\Stmt;
 
 /**
  * Descriptor representing a Method in a Class, Interface or Trait.
@@ -27,6 +28,9 @@ use phpDocumentor\Reflection\Types\Mixed_;
 final class Method implements Element, MetaDataContainerInterface
 {
     use MetadataContainer;
+
+    /** @var Stmt */
+    protected $node;
 
     /** @var DocBlock|null documentation of this method. */
     private $docBlock = null;
@@ -61,6 +65,7 @@ final class Method implements Element, MetaDataContainerInterface
      * @param Visibility|null $visibility when null is provided a default 'public' is set.
      */
     public function __construct(
+        Stmt $node,
         Fqsen $fqsen,
         ?Visibility $visibility = null,
         ?DocBlock $docBlock = null,
@@ -70,6 +75,7 @@ final class Method implements Element, MetaDataContainerInterface
         ?Location $location = null,
         ?Type $returnType = null
     ) {
+        $this->node       = $node;
         $this->fqsen      = $fqsen;
         $this->visibility = $visibility;
         $this->docBlock   = $docBlock;
@@ -91,6 +97,16 @@ final class Method implements Element, MetaDataContainerInterface
         $this->final      = $final;
         $this->location   = $location;
         $this->returnType = $returnType;
+    }
+
+    /**
+     * Returns the current PHP-Parser node that holds more detailed information
+     * about the reflected object. e.g. position in the file and further attributes.
+     * @return Stmt
+     */
+    public function getNode(): Stmt
+    {
+        return $this->node;
     }
 
     /**

@@ -20,6 +20,7 @@ use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInterface;
 use phpDocumentor\Reflection\Type;
 use phpDocumentor\Reflection\Types\Mixed_;
+use PhpParser\Node\Stmt;
 
 /**
  * Descriptor representing a function
@@ -29,6 +30,9 @@ final class Function_ implements Element, MetaDataContainerInterface
 // // @codingStandardsIgnoreEnd
 {
     use MetadataContainer;
+
+    /** @var Stmt */
+    protected $node;
 
     /** @var Fqsen Full Qualified Structural Element Name */
     private $fqsen;
@@ -49,11 +53,14 @@ final class Function_ implements Element, MetaDataContainerInterface
      * Initializes the object.
      */
     public function __construct(
+        Stmt $node,
         Fqsen $fqsen,
         ?DocBlock $docBlock = null,
         ?Location $location = null,
         ?Type $returnType = null
     ) {
+        $this->node = $node;
+
         if ($location === null) {
             $location = new Location(-1);
         }
@@ -66,6 +73,16 @@ final class Function_ implements Element, MetaDataContainerInterface
         $this->docBlock   = $docBlock;
         $this->location   = $location;
         $this->returnType = $returnType;
+    }
+
+    /**
+     * Returns the current PHP-Parser node that holds more detailed information
+     * about the reflected object. e.g. position in the file and further attributes.
+     * @return Stmt
+     */
+    public function getNode(): Stmt
+    {
+        return $this->node;
     }
 
     /**
