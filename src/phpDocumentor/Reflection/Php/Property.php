@@ -19,7 +19,6 @@ use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInterface;
 use phpDocumentor\Reflection\Type;
-use PhpParser\Node\Stmt;
 
 /**
  * Descriptor representing a property.
@@ -27,7 +26,6 @@ use PhpParser\Node\Stmt;
 final class Property implements Element, MetaDataContainerInterface
 {
     use MetadataContainer;
-    use NodeTrait;
 
     /** @var Fqsen */
     private $fqsen;
@@ -60,7 +58,6 @@ final class Property implements Element, MetaDataContainerInterface
      * @param Visibility|null $visibility when null is provided a default 'public' is set.
      */
     public function __construct(
-        Stmt $node,
         Fqsen $fqsen,
         ?Visibility $visibility = null,
         ?DocBlock $docBlock = null,
@@ -70,7 +67,6 @@ final class Property implements Element, MetaDataContainerInterface
         ?Type $type = null,
         bool $readOnly = false
     ) {
-        $this->node = $node;
         $this->fqsen = $fqsen;
         $this->visibility = $visibility ?: new Visibility('public');
         $this->docBlock = $docBlock;
