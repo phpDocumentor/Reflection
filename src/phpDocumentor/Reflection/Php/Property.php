@@ -26,6 +26,7 @@ use phpDocumentor\Reflection\Type;
 final class Property implements Element, MetaDataContainerInterface
 {
     use MetadataContainer;
+    use NodeTrait;
 
     /** @var Fqsen */
     private $fqsen;
@@ -62,6 +63,7 @@ final class Property implements Element, MetaDataContainerInterface
         ?Visibility $visibility = null,
         ?DocBlock $docBlock = null,
         ?string $default = null,
+        ?string $defaultNode = null,
         bool $static = false,
         ?Location $location = null,
         ?Type $type = null,
@@ -71,6 +73,7 @@ final class Property implements Element, MetaDataContainerInterface
         $this->visibility = $visibility ?: new Visibility('public');
         $this->docBlock = $docBlock;
         $this->default = $default;
+        $this->defaultNode = $defaultNode;
         $this->static = $static;
         $this->location = $location ?: new Location(-1);
         $this->type = $type;
