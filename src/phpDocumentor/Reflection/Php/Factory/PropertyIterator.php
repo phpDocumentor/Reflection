@@ -15,7 +15,6 @@ namespace phpDocumentor\Reflection\Php\Factory;
 
 use Iterator;
 use phpDocumentor\Reflection\Fqsen;
-use phpDocumentor\Reflection\Php\NodeTrait;
 use PhpParser\Comment\Doc;
 use PhpParser\Node\ComplexType;
 use PhpParser\Node\Expr;
@@ -29,8 +28,6 @@ use PhpParser\Node\Stmt\Property as PropertyNode;
  */
 final class PropertyIterator implements Iterator
 {
-    use NodeTrait;
-
     /** @var PropertyNode */
     private $property;
 
@@ -43,8 +40,6 @@ final class PropertyIterator implements Iterator
     public function __construct(PropertyNode $property)
     {
         $this->property = $property;
-
-        $this->node = $this->property;
     }
 
     /**
