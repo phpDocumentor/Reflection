@@ -19,6 +19,7 @@ use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInterface;
 use phpDocumentor\Reflection\Type;
+use PhpParser\Node\Expr;
 
 /**
  * Descriptor representing a property.
@@ -63,7 +64,7 @@ final class Property implements Element, MetaDataContainerInterface
         ?Visibility $visibility = null,
         ?DocBlock $docBlock = null,
         ?string $default = null,
-        ?string $defaultNode = null,
+        ?Expr $defaultNode = null,
         bool $static = false,
         ?Location $location = null,
         ?Type $type = null,
