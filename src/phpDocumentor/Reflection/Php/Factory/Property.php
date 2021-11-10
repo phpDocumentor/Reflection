@@ -76,7 +76,7 @@ final class Property extends AbstractFactory implements ProjectFactoryStrategy
         $default = null;
         $iterator = new PropertyIterator($object);
         if ($iterator->getDefault() !== null) {
-            $default = $this->valueConverter->prettyPrintExpr($iterator->getDefault());
+            $default = $iterator->getDefault();
         }
 
         foreach ($iterator as $stmt) {
