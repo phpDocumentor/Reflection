@@ -74,11 +74,9 @@ final class Property extends AbstractFactory implements ProjectFactoryStrategy
         );
 
         $default = null;
-        $defaultNode = null;
         $iterator = new PropertyIterator($object);
         if ($iterator->getDefault() !== null) {
             $default = $this->valueConverter->prettyPrintExpr($iterator->getDefault());
-            $defaultNode = $iterator->getDefault();
         }
 
         foreach ($iterator as $stmt) {
@@ -88,7 +86,7 @@ final class Property extends AbstractFactory implements ProjectFactoryStrategy
                     $this->buildVisibility($stmt),
                     $this->createDocBlock($stmt->getDocComment(), $context->getTypeContext()),
                     $default,
-                    $defaultNode,
+                    $iterator->getDefault(),
                     $stmt->isStatic(),
                     new Location($stmt->getLine()),
                     (new Type())->fromPhpParser($stmt->getType()),

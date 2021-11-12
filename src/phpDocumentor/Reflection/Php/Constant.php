@@ -18,6 +18,7 @@ use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInterface;
+use PhpParser\Node\Expr;
 
 /**
  * Descriptor representing a constant
@@ -25,6 +26,7 @@ use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInte
 final class Constant implements Element, MetaDataContainerInterface
 {
     use MetadataContainer;
+    use NodeTrait;
 
     /** @var Fqsen */
     private $fqsen;
@@ -51,6 +53,7 @@ final class Constant implements Element, MetaDataContainerInterface
         Fqsen $fqsen,
         ?DocBlock $docBlock = null,
         ?string $value = null,
+        ?Expr $defaultNode = null,
         ?Location $location = null,
         ?Visibility $visibility = null,
         bool $final = false
@@ -58,6 +61,7 @@ final class Constant implements Element, MetaDataContainerInterface
         $this->fqsen = $fqsen;
         $this->docBlock = $docBlock;
         $this->value = $value;
+        $this->defaultNode = $defaultNode;
         $this->location = $location ?: new Location(-1);
         $this->visibility = $visibility ?: new Visibility(Visibility::PUBLIC_);
         $this->final = $final;
