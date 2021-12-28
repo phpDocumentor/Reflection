@@ -52,7 +52,8 @@ final class Class_ extends AbstractFactory implements ProjectFactoryStrategy
             $object->extends ? new Fqsen('\\' . $object->extends) : null,
             $object->isAbstract(),
             $object->isFinal(),
-            new Location($object->getLine())
+            new Location($object->getLine()),
+            new Location($object->getEndLine())
         );
 
         if (isset($object->implements)) {

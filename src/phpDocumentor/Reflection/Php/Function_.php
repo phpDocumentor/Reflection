@@ -42,6 +42,9 @@ final class Function_ implements Element, MetaDataContainerInterface
     /** @var Location */
     private $location;
 
+    /** @var Location */
+    private $endLocation;
+
     /** @var Type */
     private $returnType;
 
@@ -52,20 +55,26 @@ final class Function_ implements Element, MetaDataContainerInterface
         Fqsen $fqsen,
         ?DocBlock $docBlock = null,
         ?Location $location = null,
+        ?Location $endLocation = null,
         ?Type $returnType = null
     ) {
         if ($location === null) {
             $location = new Location(-1);
         }
 
+        if ($endLocation === null) {
+            $endLocation = new Location(-1);
+        }
+
         if ($returnType === null) {
             $returnType = new Mixed_();
         }
 
-        $this->fqsen      = $fqsen;
-        $this->docBlock   = $docBlock;
-        $this->location   = $location;
-        $this->returnType = $returnType;
+        $this->fqsen         = $fqsen;
+        $this->docBlock      = $docBlock;
+        $this->location      = $location;
+        $this->endLocation   = $endLocation;
+        $this->returnType    = $returnType;
     }
 
     /**
@@ -113,6 +122,11 @@ final class Function_ implements Element, MetaDataContainerInterface
     public function getLocation(): Location
     {
         return $this->location;
+    }
+
+    public function getEndLocation(): Location
+    {
+        return $this->endLocation;
     }
 
     public function getReturnType(): Type

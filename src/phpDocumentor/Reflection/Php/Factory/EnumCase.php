@@ -42,6 +42,7 @@ final class EnumCase extends AbstractFactory
             $object->fqsen,
             $docBlock,
             new Location($object->getLine()),
+            new Location($object->getEndLine()),
             $object->expr !== null ? $this->prettyPrinter->prettyPrintExpr($object->expr) : null
         ));
     }

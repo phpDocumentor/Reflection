@@ -37,7 +37,8 @@ final class Enum_ extends AbstractFactory
             $object->fqsen,
             (new Type())->fromPhpParser($object->scalarType),
             $docBlock,
-            new Location($object->getLine())
+            new Location($object->getLine()),
+            new Location($object->getEndLine())
         );
 
         if (isset($object->implements)) {

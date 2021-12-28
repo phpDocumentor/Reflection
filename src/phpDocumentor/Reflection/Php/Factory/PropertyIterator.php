@@ -91,6 +91,14 @@ final class PropertyIterator implements Iterator
     }
 
     /**
+     * Gets line the node started in.
+     */
+    public function getEndLine(): int
+    {
+        return $this->property->getEndLine();
+    }
+
+    /**
      * Gets the type of the property.
      *
      * @return Identifier|Name|ComplexType|null

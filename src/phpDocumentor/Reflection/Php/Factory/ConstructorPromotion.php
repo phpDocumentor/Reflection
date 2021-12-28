@@ -77,6 +77,7 @@ class ConstructorPromotion extends AbstractFactory
             $param->default !== null ? $this->valueConverter->prettyPrintExpr($param->default) : null,
             false,
             new Location($param->getLine()),
+            new Location($param->getEndLine()),
             (new Type())->fromPhpParser($param->type),
             $this->readOnly($param->flags)
         );

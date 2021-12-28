@@ -47,15 +47,24 @@ final class Trait_ implements Element, MetaDataContainerInterface
     /**
      * Initializes the all properties
      */
-    public function __construct(Fqsen $fqsen, ?DocBlock $docBlock = null, ?Location $location = null)
-    {
+    public function __construct(
+        Fqsen $fqsen,
+        ?DocBlock $docBlock = null,
+        ?Location $location = null,
+        ?Location $endLocation = null
+    ) {
         if ($location === null) {
             $location = new Location(-1);
+        }
+
+        if ($endLocation === null) {
+            $endLocation = new Location(-1);
         }
 
         $this->fqsen    = $fqsen;
         $this->docBlock = $docBlock;
         $this->location = $location;
+        $this->endLocation = $endLocation;
     }
 
     /**
@@ -136,5 +145,10 @@ final class Trait_ implements Element, MetaDataContainerInterface
     public function getLocation(): Location
     {
         return $this->location;
+    }
+
+    public function getEndLocation(): Location
+    {
+        return $this->endLocation;
     }
 }

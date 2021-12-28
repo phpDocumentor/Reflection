@@ -52,6 +52,9 @@ final class Method implements Element, MetaDataContainerInterface
     /** @var Location */
     private $location;
 
+    /** @var Location */
+    private $endLocation;
+
     /** @var Type */
     private $returnType;
 
@@ -68,6 +71,7 @@ final class Method implements Element, MetaDataContainerInterface
         bool $static = false,
         bool $final = false,
         ?Location $location = null,
+        ?Location $endLocation = null,
         ?Type $returnType = null
     ) {
         $this->fqsen      = $fqsen;
@@ -82,15 +86,20 @@ final class Method implements Element, MetaDataContainerInterface
             $location = new Location(-1);
         }
 
+        if ($endLocation === null) {
+            $endLocation = new Location(-1);
+        }
+
         if ($returnType === null) {
             $returnType = new Mixed_();
         }
 
-        $this->abstract   = $abstract;
-        $this->static     = $static;
-        $this->final      = $final;
-        $this->location   = $location;
-        $this->returnType = $returnType;
+        $this->abstract    = $abstract;
+        $this->static      = $static;
+        $this->final       = $final;
+        $this->location    = $location;
+        $this->endLocation = $endLocation;
+        $this->returnType  = $returnType;
     }
 
     /**
@@ -172,6 +181,11 @@ final class Method implements Element, MetaDataContainerInterface
     public function getLocation(): Location
     {
         return $this->location;
+    }
+
+    public function getEndLocation(): Location
+    {
+        return $this->endLocation;
     }
 
     /**

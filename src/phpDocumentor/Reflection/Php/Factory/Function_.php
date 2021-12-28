@@ -54,6 +54,7 @@ final class Function_ extends AbstractFactory implements ProjectFactoryStrategy
             $object->fqsen,
             $this->createDocBlock($object->getDocComment(), $context->getTypeContext()),
             new Location($object->getLine()),
+            new Location($object->getEndLine()),
             (new Type())->fromPhpParser($object->getReturnType())
         );
 

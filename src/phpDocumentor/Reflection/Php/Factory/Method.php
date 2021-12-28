@@ -67,6 +67,7 @@ final class Method extends AbstractFactory implements ProjectFactoryStrategy
             $object->isStatic(),
             $object->isFinal(),
             new Location($object->getLine()),
+            new Location($object->getEndLine()),
             (new Type())->fromPhpParser($object->getReturnType())
         );
         $methodContainer->addMethod($method);
