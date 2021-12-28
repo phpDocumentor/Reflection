@@ -72,7 +72,7 @@ final class Method implements Element, MetaDataContainerInterface
         bool $final = false,
         ?Location $location = null,
         ?Type $returnType = null,
-        bool $hasReturnByReference = null
+        bool $hasReturnByReference = false
     ) {
         $this->fqsen      = $fqsen;
         $this->visibility = $visibility;

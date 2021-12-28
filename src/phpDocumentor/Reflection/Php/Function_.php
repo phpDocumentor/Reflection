@@ -56,7 +56,7 @@ final class Function_ implements Element, MetaDataContainerInterface
         ?DocBlock $docBlock = null,
         ?Location $location = null,
         ?Type $returnType = null,
-        bool $hasReturnByReference = null
+        bool $hasReturnByReference = false
     ) {
         if ($location === null) {
             $location = new Location(-1);
