@@ -86,7 +86,6 @@ final class Property extends AbstractFactory implements ProjectFactoryStrategy
                     $this->buildVisibility($stmt),
                     $this->createDocBlock($stmt->getDocComment(), $context->getTypeContext()),
                     $default,
-                    $iterator->getDefault(),
                     $stmt->isStatic(),
                     new Location($stmt->getLine()),
                     (new Type())->fromPhpParser($stmt->getType()),
