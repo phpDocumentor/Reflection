@@ -18,7 +18,6 @@ use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInterface;
-use PhpParser\Node\Expr;
 
 /**
  * Descriptor representing a constant
@@ -26,7 +25,6 @@ use PhpParser\Node\Expr;
 final class Constant implements Element, MetaDataContainerInterface
 {
     use MetadataContainer;
-    use NodeTrait;
 
     /** @var Fqsen */
     private $fqsen;

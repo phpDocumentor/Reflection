@@ -19,7 +19,6 @@ use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInterface;
 use phpDocumentor\Reflection\Type;
-use PhpParser\Node\Expr;
 
 /**
  * Descriptor representing a property.
@@ -27,7 +26,6 @@ use PhpParser\Node\Expr;
 final class Property implements Element, MetaDataContainerInterface
 {
     use MetadataContainer;
-    use NodeTrait;
 
     /** @var Fqsen */
     private $fqsen;
