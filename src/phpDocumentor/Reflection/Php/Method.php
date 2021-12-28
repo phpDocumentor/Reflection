@@ -55,6 +55,9 @@ final class Method implements Element, MetaDataContainerInterface
     /** @var Type */
     private $returnType;
 
+    /** @var bool */
+    private $hasReturnByReference;
+
     /**
      * Initializes the all properties.
      *
@@ -68,7 +71,8 @@ final class Method implements Element, MetaDataContainerInterface
         bool $static = false,
         bool $final = false,
         ?Location $location = null,
-        ?Type $returnType = null
+        ?Type $returnType = null,
+        bool $hasReturnByReference = null
     ) {
         $this->fqsen      = $fqsen;
         $this->visibility = $visibility;
@@ -86,11 +90,12 @@ final class Method implements Element, MetaDataContainerInterface
             $returnType = new Mixed_();
         }
 
-        $this->abstract   = $abstract;
-        $this->static     = $static;
-        $this->final      = $final;
-        $this->location   = $location;
-        $this->returnType = $returnType;
+        $this->abstract             = $abstract;
+        $this->static               = $static;
+        $this->final                = $final;
+        $this->location             = $location;
+        $this->returnType           = $returnType;
+        $this->hasReturnByReference = $hasReturnByReference;
     }
 
     /**
@@ -184,5 +189,10 @@ final class Method implements Element, MetaDataContainerInterface
     public function getReturnType(): Type
     {
         return $this->returnType;
+    }
+
+    public function getHasReturnByReference(): bool
+    {
+        return $this->hasReturnByReference;
     }
 }

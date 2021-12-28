@@ -45,6 +45,9 @@ final class Function_ implements Element, MetaDataContainerInterface
     /** @var Type */
     private $returnType;
 
+    /** @var bool */
+    private $hasReturnByReference;
+
     /**
      * Initializes the object.
      */
@@ -52,7 +55,8 @@ final class Function_ implements Element, MetaDataContainerInterface
         Fqsen $fqsen,
         ?DocBlock $docBlock = null,
         ?Location $location = null,
-        ?Type $returnType = null
+        ?Type $returnType = null,
+        bool $hasReturnByReference = null
     ) {
         if ($location === null) {
             $location = new Location(-1);
@@ -62,10 +66,11 @@ final class Function_ implements Element, MetaDataContainerInterface
             $returnType = new Mixed_();
         }
 
-        $this->fqsen      = $fqsen;
-        $this->docBlock   = $docBlock;
-        $this->location   = $location;
-        $this->returnType = $returnType;
+        $this->fqsen                = $fqsen;
+        $this->docBlock             = $docBlock;
+        $this->location             = $location;
+        $this->returnType           = $returnType;
+        $this->hasReturnByReference = $hasReturnByReference;
     }
 
     /**
@@ -118,5 +123,10 @@ final class Function_ implements Element, MetaDataContainerInterface
     public function getReturnType(): Type
     {
         return $this->returnType;
+    }
+
+    public function getHasReturnByReference(): bool
+    {
+        return $this->hasReturnByReference;
     }
 }
