@@ -113,6 +113,7 @@ final class Function_Test extends TestCase
             $this->fqsen,
             null,
             null,
+            null,
             $returnType
         );
 

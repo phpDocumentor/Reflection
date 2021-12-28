@@ -173,6 +173,7 @@ final class MethodTest extends TestCase
             false,
             false,
             null,
+            null,
             $returnType
         );
 

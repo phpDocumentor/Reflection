@@ -74,7 +74,8 @@ final class EnumCaseTest extends TestCase
                 '\Space\MyEnum::VALUE' => new EnumCaseElement(
                     new Fqsen('\Space\MyEnum::VALUE'),
                     null,
-                    new Location(1)
+                    new Location(1),
+                    new Location(2)
                 ),
             ],
             $result->getCases()

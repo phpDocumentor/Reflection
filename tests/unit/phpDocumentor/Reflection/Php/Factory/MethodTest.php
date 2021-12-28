@@ -193,6 +193,7 @@ class MethodTest extends TestCase
         $methodMock->shouldReceive('isFinal')->once()->andReturn(true);
         $methodMock->shouldReceive('isAbstract')->once()->andReturn(true);
         $methodMock->shouldReceive('getLine')->once()->andReturn(1);
+        $methodMock->shouldReceive('getEndLine')->once()->andReturn(2);
 
         return $methodMock;
     }

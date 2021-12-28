@@ -104,6 +104,7 @@ final class PropertyTest extends TestCase
             true,
             null,
             null,
+            null,
             true
         );
 
@@ -205,6 +206,7 @@ final class PropertyTest extends TestCase
             null,
             null,
             false,
+            null,
             null,
             $type
         );
