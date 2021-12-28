@@ -4,15 +4,11 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php;
 
-use PhpParser\Node\Expr;
 use PhpParser\Node\Stmt;
 
 trait NodeTrait {
     /** @var Stmt|null */
     protected $node;
-
-    /** @var Expr|null */
-    protected $defaultNode;
 
     /**
      * Returns the current PHP-Parser node that holds more detailed information
@@ -22,13 +18,5 @@ trait NodeTrait {
     public function getNode(): ?Stmt
     {
         return $this->node;
-    }
-
-    /**
-     * @return Expr|null
-     */
-    public function getDefaultNode(): ?Expr
-    {
-        return $this->defaultNode;
     }
 }
