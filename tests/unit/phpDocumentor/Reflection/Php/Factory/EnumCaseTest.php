@@ -95,6 +95,7 @@ final class EnumCaseTest extends TestCase
         $enumMock        = $this->prophesize(EnumCaseNode::class);
         $enumMock->fqsen = new Fqsen('\Space\MyEnum::VALUE');
         $enumMock->getLine()->willReturn(1);
+        $enumMock->getEndLine()->willReturn(2);
 
         return $enumMock;
     }

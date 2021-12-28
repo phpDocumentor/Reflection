@@ -192,6 +192,7 @@ final class Class_Test extends TestCase
         $classMock->shouldReceive('isFinal')->andReturn(true);
         $classMock->shouldReceive('isAbstract')->andReturn(true);
         $classMock->shouldReceive('getLine')->andReturn(1);
+        $classMock->shouldReceive('getEndLine')->andReturn(2);
 
         return $classMock;
     }

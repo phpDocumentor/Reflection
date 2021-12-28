@@ -140,6 +140,7 @@ class Interface_Test extends TestCase
         $interfaceMock->fqsen   = new Fqsen('\Space\MyInterface');
         $interfaceMock->extends = [];
         $interfaceMock->shouldReceive('getLine')->andReturn(1);
+        $interfaceMock->shouldReceive('getEndLine')->andReturn(2);
 
         return $interfaceMock;
     }
