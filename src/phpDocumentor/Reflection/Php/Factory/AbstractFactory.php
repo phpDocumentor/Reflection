@@ -77,4 +77,6 @@ abstract class AbstractFactory implements ProjectFactoryStrategy
 
         return $this->docBlockFactory->create($docBlock->getText(), $context);
     }
+
+    protected function processAttributes()
 }
