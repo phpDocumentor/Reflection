@@ -196,9 +196,6 @@ final class Class_Test extends TestCase
         $this->assertTrue($class->isFinal());
     }
 
-    /**
-     * @inheritdoc
-     */
     public function testLineAndColumnNumberIsReturnedWhenALocationIsProvided(): void
     {
         $fixture = new Class_(

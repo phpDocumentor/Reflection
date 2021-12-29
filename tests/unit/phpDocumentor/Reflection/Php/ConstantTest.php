@@ -101,9 +101,6 @@ final class ConstantTest extends TestCase
         $this->assertEquals(new Visibility(Visibility::PUBLIC_), $this->fixture->getVisibility());
     }
 
-    /**
-     * @inheritdoc
-     */
     public function testLineAndColumnNumberIsReturnedWhenALocationIsProvided(): void
     {
         $fixture = new Constant($this->fqsen, $this->docBlock, null, new Location(100, 20), new Location(101, 20));

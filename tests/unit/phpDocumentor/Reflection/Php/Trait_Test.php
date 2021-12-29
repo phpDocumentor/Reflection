@@ -119,9 +119,6 @@ final class Trait_Test extends TestCase
         $this->assertSame($this->docBlock, $this->fixture->getDocBlock());
     }
 
-    /**
-     * @inheritdoc
-     */
     public function testLineAndColumnNumberIsReturnedWhenALocationIsProvided(): void
     {
         $fixture = new Trait_($this->fqsen, $this->docBlock, new Location(100, 20), new Location(101, 20));

@@ -196,9 +196,6 @@ final class MethodTest extends TestCase
         $this->assertSame(true, $method->getHasReturnByReference());
     }
 
-    /**
-     * @inheritdoc
-     */
     public function testLineAndColumnNumberIsReturnedWhenALocationIsProvided(): void
     {
         $fixture = new Method(

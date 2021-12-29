@@ -130,9 +130,6 @@ final class Function_Test extends TestCase
         $this->assertSame(true, $function->getHasReturnByReference());
     }
 
-    /**
-     * @inheritdoc
-     */
     public function testLineAndColumnNumberIsReturnedWhenALocationIsProvided(): void
     {
         $fixture = new Function_($this->fqsen, $this->docBlock, new Location(100, 20), new Location(101, 20));

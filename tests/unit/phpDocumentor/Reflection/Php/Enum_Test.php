@@ -151,9 +151,6 @@ final class Enum_Test extends TestCase
         $this->assertSame(['\MyEnum::VALUE' => $case], $this->fixture->getCases());
     }
 
-    /**
-     * @inheritdoc
-     */
     public function testLineAndColumnNumberIsReturnedWhenALocationIsProvided(): void
     {
         $fixture = new Enum_($this->fqsen, null, $this->docBlock, new Location(100, 20), new Location(101, 20));

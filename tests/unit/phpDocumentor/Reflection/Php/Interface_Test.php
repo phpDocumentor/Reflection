@@ -127,9 +127,6 @@ final class Interface_Test extends TestCase
         $this->assertSame($this->exampleParents, $this->fixture->getParents());
     }
 
-    /**
-     * @inheritdoc
-     */
     public function testLineAndColumnNumberIsReturnedWhenALocationIsProvided(): void
     {
         $fixture = new Interface_($this->fqsen, [], $this->docBlock, new Location(100, 20), new Location(101, 20));
