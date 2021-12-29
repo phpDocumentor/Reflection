@@ -23,18 +23,31 @@ final class EnumCase implements Element, MetaDataContainerInterface
     /** @var Location */
     private $location;
 
+    /** @var Location */
+    private $endLocation;
+
     /** @var string|null */
     private $value;
 
-    public function __construct(Fqsen $fqsen, ?DocBlock $docBlock, ?Location $location = null, ?string $value = null)
-    {
+    public function __construct(
+        Fqsen $fqsen,
+        ?DocBlock $docBlock,
+        ?Location $location = null,
+        ?Location $endLocation = null,
+        ?string $value = null
+    ) {
         if ($location === null) {
             $location = new Location(-1);
+        }
+
+        if ($endLocation === null) {
+            $endLocation = new Location(-1);
         }
 
         $this->fqsen    = $fqsen;
         $this->docBlock = $docBlock;
         $this->location = $location;
+        $this->endLocation = $endLocation;
         $this->value = $value;
     }
 
@@ -56,6 +69,11 @@ final class EnumCase implements Element, MetaDataContainerInterface
     public function getLocation(): Location
     {
         return $this->location;
+    }
+
+    public function getEndLocation(): Location
+    {
+        return $this->endLocation;
     }
 
     public function getValue(): ?string

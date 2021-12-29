@@ -74,7 +74,8 @@ final class EnumCaseTest extends TestCase
                 '\Space\MyEnum::VALUE' => new EnumCaseElement(
                     new Fqsen('\Space\MyEnum::VALUE'),
                     null,
-                    new Location(1)
+                    new Location(1),
+                    new Location(2)
                 ),
             ],
             $result->getCases()
@@ -95,6 +96,7 @@ final class EnumCaseTest extends TestCase
         $enumMock        = $this->prophesize(EnumCaseNode::class);
         $enumMock->fqsen = new Fqsen('\Space\MyEnum::VALUE');
         $enumMock->getLine()->willReturn(1);
+        $enumMock->getEndLine()->willReturn(2);
 
         return $enumMock;
     }

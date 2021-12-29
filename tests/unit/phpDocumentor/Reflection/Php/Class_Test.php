@@ -17,7 +17,6 @@ use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInterface;
-use PHPUnit\Framework\TestCase;
 
 /**
  * @uses \phpDocumentor\Reflection\Php\Property
@@ -29,13 +28,12 @@ use PHPUnit\Framework\TestCase;
  * @covers ::__construct
  * @covers ::<private>
  * @covers ::<protected>
+ *
+ * @property Class_ $fixture
  */
 final class Class_Test extends TestCase
 {
     use MetadataContainerTest;
-
-    /** @var Class_ */
-    private $fixture;
 
     /** @var Fqsen */
     private $parent;
@@ -198,25 +196,17 @@ final class Class_Test extends TestCase
         $this->assertTrue($class->isFinal());
     }
 
-    /**
-     * @covers ::getLocation
-     */
-    public function testLineNumberIsMinusOneWhenNoneIsProvided(): void
-    {
-        $this->assertSame(-1, $this->fixture->getLocation()->getLineNumber());
-        $this->assertSame(0, $this->fixture->getLocation()->getColumnNumber());
-    }
-
-    /**
-     * @uses \phpDocumentor\Reflection\Location
-     *
-     * @covers ::getLocation
-     */
     public function testLineAndColumnNumberIsReturnedWhenALocationIsProvided(): void
     {
-        $fixture = new Class_($this->fqsen, $this->docBlock, null, false, false, new Location(100, 20));
-
-        $this->assertSame(100, $fixture->getLocation()->getLineNumber());
-        $this->assertSame(20, $fixture->getLocation()->getColumnNumber());
+        $fixture = new Class_(
+            $this->fqsen,
+            $this->docBlock,
+            null,
+            false,
+            false,
+            new Location(100, 20),
+            new Location(101, 20)
+        );
+        $this->assertLineAndColumnNumberIsReturnedWhenALocationIsProvided($fixture);
     }
 }

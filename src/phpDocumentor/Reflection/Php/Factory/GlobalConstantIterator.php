@@ -46,6 +46,16 @@ final class GlobalConstantIterator implements Iterator
     }
 
     /**
+     * Gets line the node ended in.
+     *
+     * @return int Line
+     */
+    public function getEndLine(): int
+    {
+        return $this->constant->getEndLine();
+    }
+
+    /**
      * Returns the name of the current constant.
      */
     public function getName(): string

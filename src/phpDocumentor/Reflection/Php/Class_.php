@@ -61,6 +61,9 @@ final class Class_ implements Element, MetaDataContainerInterface
     /** @var Location */
     private $location;
 
+    /** @var Location */
+    private $endLocation;
+
     /**
      * Initializes a number of properties with the given values. Others are initialized by definition.
      */
@@ -70,18 +73,24 @@ final class Class_ implements Element, MetaDataContainerInterface
         ?Fqsen $parent = null,
         bool $abstract = false,
         bool $final = false,
-        ?Location $location = null
+        ?Location $location = null,
+        ?Location $endLocation = null
     ) {
         if ($location === null) {
             $location = new Location(-1);
         }
 
-        $this->fqsen    = $fqsen;
-        $this->parent   = $parent;
-        $this->docBlock = $docBlock;
-        $this->abstract = $abstract;
-        $this->final    = $final;
-        $this->location = $location;
+        if ($endLocation === null) {
+            $endLocation = new Location(-1);
+        }
+
+        $this->fqsen       = $fqsen;
+        $this->parent      = $parent;
+        $this->docBlock    = $docBlock;
+        $this->abstract    = $abstract;
+        $this->final       = $final;
+        $this->location    = $location;
+        $this->endLocation = $endLocation;
     }
 
     /**
@@ -222,5 +231,10 @@ final class Class_ implements Element, MetaDataContainerInterface
     public function getLocation(): Location
     {
         return $this->location;
+    }
+
+    public function getEndLocation(): Location
+    {
+        return $this->endLocation;
     }
 }

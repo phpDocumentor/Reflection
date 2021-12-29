@@ -19,7 +19,6 @@ use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInterface;
 use phpDocumentor\Reflection\Types\Mixed_;
 use phpDocumentor\Reflection\Types\String_;
-use PHPUnit\Framework\TestCase;
 
 /**
  * @uses \phpDocumentor\Reflection\Php\Argument
@@ -29,13 +28,12 @@ use PHPUnit\Framework\TestCase;
  * @coversDefaultClass \phpDocumentor\Reflection\Php\Function_
  * @covers ::__construct
  * @covers ::<private>
+ *
+ * @property Function_ $fixture
  */
 final class Function_Test extends TestCase
 {
     use MetadataContainerTest;
-
-    /** @var Function_ $fixture */
-    private $fixture;
 
     /** @var Fqsen */
     private $fqsen;
@@ -99,8 +97,8 @@ final class Function_Test extends TestCase
      */
     public function testGetDefaultReturnType(): void
     {
-        $method = new Function_($this->fqsen);
-        $this->assertEquals(new Mixed_(), $method->getReturnType());
+        $function = new Function_($this->fqsen);
+        $this->assertEquals(new Mixed_(), $function->getReturnType());
     }
 
     /**
@@ -109,35 +107,32 @@ final class Function_Test extends TestCase
     public function testGetReturnTypeFromConstructor(): void
     {
         $returnType = new String_();
-        $method = new Function_(
-            $this->fqsen,
-            null,
-            null,
-            $returnType
-        );
+        $function = new Function_($this->fqsen, null, null, null, $returnType);
 
-        $this->assertSame($returnType, $method->getReturnType());
+        $this->assertSame($returnType, $function->getReturnType());
     }
 
     /**
-     * @covers ::getLocation
+     * @covers ::getHasReturnByReference
      */
-    public function testLineNumberIsMinusOneWhenNoneIsProvided(): void
+    public function testGetHasReturnByReference(): void
     {
-        $this->assertSame(-1, $this->fixture->getLocation()->getLineNumber());
-        $this->assertSame(0, $this->fixture->getLocation()->getColumnNumber());
+        $function = new Function_($this->fqsen);
+        $this->assertSame(false, $function->getHasReturnByReference());
     }
 
     /**
-     * @uses \phpDocumentor\Reflection\Location
-     *
-     * @covers ::getLocation
+     * @covers ::getHasReturnByReference
      */
+    public function testGetHasReturnByReferenceFromConstructor(): void
+    {
+        $function = new Function_($this->fqsen, null, null, null, null, true);
+        $this->assertSame(true, $function->getHasReturnByReference());
+    }
+
     public function testLineAndColumnNumberIsReturnedWhenALocationIsProvided(): void
     {
-        $fixture = new Function_($this->fqsen, $this->docBlock, new Location(100, 20));
-
-        $this->assertSame(100, $fixture->getLocation()->getLineNumber());
-        $this->assertSame(20, $fixture->getLocation()->getColumnNumber());
+        $fixture = new Function_($this->fqsen, $this->docBlock, new Location(100, 20), new Location(101, 20));
+        $this->assertLineAndColumnNumberIsReturnedWhenALocationIsProvided($fixture);
     }
 }

@@ -106,7 +106,8 @@ final class Define extends AbstractFactory
             $this->determineFqsen($name),
             $this->createDocBlock($object->getDocComment(), $context->getTypeContext()),
             $this->determineValue($value),
-            new Location($object->getLine())
+            new Location($object->getLine()),
+            new Location($object->getEndLine())
         );
 
         $file->addConstant($constant);

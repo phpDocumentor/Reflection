@@ -48,6 +48,9 @@ final class Property implements Element, MetaDataContainerInterface
     /** @var Location */
     private $location;
 
+    /** @var Location */
+    private $endLocation;
+
     /** @var Type|null */
     private $type;
 
@@ -64,6 +67,7 @@ final class Property implements Element, MetaDataContainerInterface
         ?string $default = null,
         bool $static = false,
         ?Location $location = null,
+        ?Location $endLocation = null,
         ?Type $type = null,
         bool $readOnly = false
     ) {
@@ -73,6 +77,7 @@ final class Property implements Element, MetaDataContainerInterface
         $this->default = $default;
         $this->static = $static;
         $this->location = $location ?: new Location(-1);
+        $this->endLocation = $endLocation ?: new Location(-1);
         $this->type = $type;
         $this->readOnly = $readOnly;
     }
@@ -146,6 +151,11 @@ final class Property implements Element, MetaDataContainerInterface
     public function getLocation(): Location
     {
         return $this->location;
+    }
+
+    public function getEndLocation(): Location
+    {
+        return $this->endLocation;
     }
 
     public function getType(): ?Type

@@ -53,7 +53,13 @@ final class Interface_ extends AbstractFactory implements ProjectFactoryStrategy
             $parents['\\' . (string) $extend] = new Fqsen('\\' . (string) $extend);
         }
 
-        $interface = new InterfaceElement($object->fqsen, $parents, $docBlock, new Location($object->getLine()));
+        $interface = new InterfaceElement(
+            $object->fqsen,
+            $parents,
+            $docBlock,
+            new Location($object->getLine()),
+            new Location($object->getEndLine())
+        );
         $file = $context->peek();
         Assert::isInstanceOf($file, FileElement::class);
         $file->addInterface($interface);

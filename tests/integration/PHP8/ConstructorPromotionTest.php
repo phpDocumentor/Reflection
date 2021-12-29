@@ -86,7 +86,8 @@ class ConstructorPromotionTest extends TestCase
             false,
             false,
             false,
-            new Location(16)
+            new Location(16),
+            new Location(27)
         );
         return $constructor;
     }
@@ -107,6 +108,7 @@ class ConstructorPromotionTest extends TestCase
             null,
             false,
             new Location(24),
+            new Location(24),
             new String_()
         );
         return $name;
@@ -121,6 +123,7 @@ class ConstructorPromotionTest extends TestCase
             '\'test@example.com\'',
             false,
             new Location(25),
+            new Location(25),
             new String_()
         );
         return $email;
@@ -134,6 +137,7 @@ class ConstructorPromotionTest extends TestCase
             null,
             null,
             false,
+            new Location(26),
             new Location(26),
             new Object_(new Fqsen('\\' . \DateTimeImmutable::class))
         );

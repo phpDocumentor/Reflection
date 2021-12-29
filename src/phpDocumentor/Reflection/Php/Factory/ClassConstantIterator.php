@@ -50,6 +50,16 @@ final class ClassConstantIterator implements Iterator
     }
 
     /**
+     * Gets line the node ended in.
+     *
+     * @return int Line
+     */
+    public function getEndLine(): int
+    {
+        return $this->classConstants->getEndLine();
+    }
+
+    /**
      * Returns the name of the current constant.
      */
     public function getName(): string

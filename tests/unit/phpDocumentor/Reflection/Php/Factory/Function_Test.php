@@ -76,6 +76,7 @@ final class Function_Test extends TestCase
         $functionMock->params = [];
         $functionMock->getDocComment()->willReturn(null);
         $functionMock->getLine()->willReturn(1);
+        $functionMock->getEndLine()->willReturn(2);
         $functionMock->getReturnType()->willReturn(null);
 
         $containerMock = $this->prophesize(StrategyContainer::class);
@@ -99,6 +100,7 @@ final class Function_Test extends TestCase
         $functionMock->params = [$param1];
         $functionMock->getDocComment()->willReturn(null);
         $functionMock->getLine()->willReturn(1);
+        $functionMock->getEndLine()->willReturn(2);
         $functionMock->getReturnType()->willReturn(null);
 
         $argumentStrategy = $this->prophesize(ProjectFactoryStrategy::class);
@@ -137,6 +139,7 @@ final class Function_Test extends TestCase
         $functionMock->params = [];
         $functionMock->getDocComment()->willReturn($doc);
         $functionMock->getLine()->willReturn(1);
+        $functionMock->getEndLine()->willReturn(2);
         $functionMock->getReturnType()->willReturn(null);
 
         $docBlock = new DocBlockDescriptor('');
@@ -163,6 +166,7 @@ final class Function_Test extends TestCase
         $functionMock->params = [];
         $functionMock->getDocComment()->willReturn(null);
         $functionMock->getLine()->willReturn(1);
+        $functionMock->getEndLine()->willReturn(2);
         $functionMock->getReturnType()->willReturn(null);
         $functionMock->stmts = [new Expression(new FuncCall(new Name('hook')))];
 

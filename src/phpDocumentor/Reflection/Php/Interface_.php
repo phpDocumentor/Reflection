@@ -45,6 +45,9 @@ final class Interface_ implements Element, MetaDataContainerInterface
     /** @var Location */
     private $location;
 
+    /** @var Location */
+    private $endLocation;
+
     /**
      * Initializes the object.
      *
@@ -54,14 +57,16 @@ final class Interface_ implements Element, MetaDataContainerInterface
         Fqsen $fqsen,
         array $parents = [],
         ?DocBlock $docBlock = null,
-        ?Location $location = null
+        ?Location $location = null,
+        ?Location $endLocation = null
     ) {
         Assert::allIsInstanceOf($parents, Fqsen::class);
 
-        $this->fqsen    = $fqsen;
-        $this->docBlock = $docBlock;
-        $this->parents  = $parents;
-        $this->location = $location ?: $location = new Location(-1);
+        $this->fqsen       = $fqsen;
+        $this->docBlock    = $docBlock;
+        $this->parents     = $parents;
+        $this->location    = $location ?: new Location(-1);
+        $this->endLocation = $endLocation ?: new Location(-1);
     }
 
     /**
@@ -137,5 +142,10 @@ final class Interface_ implements Element, MetaDataContainerInterface
     public function getLocation(): Location
     {
         return $this->location;
+    }
+
+    public function getEndLocation(): Location
+    {
+        return $this->endLocation;
     }
 }

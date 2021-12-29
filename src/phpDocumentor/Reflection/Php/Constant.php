@@ -38,6 +38,9 @@ final class Constant implements Element, MetaDataContainerInterface
     /** @var Location */
     private $location;
 
+    /** @var Location */
+    private $endLocation;
+
     /** @var Visibility */
     private $visibility;
 
@@ -52,6 +55,7 @@ final class Constant implements Element, MetaDataContainerInterface
         ?DocBlock $docBlock = null,
         ?string $value = null,
         ?Location $location = null,
+        ?Location $endLocation = null,
         ?Visibility $visibility = null,
         bool $final = false
     ) {
@@ -59,6 +63,7 @@ final class Constant implements Element, MetaDataContainerInterface
         $this->docBlock = $docBlock;
         $this->value = $value;
         $this->location = $location ?: new Location(-1);
+        $this->endLocation = $endLocation ?: new Location(-1);
         $this->visibility = $visibility ?: new Visibility(Visibility::PUBLIC_);
         $this->final = $final;
     }
@@ -98,6 +103,11 @@ final class Constant implements Element, MetaDataContainerInterface
     public function getLocation(): Location
     {
         return $this->location;
+    }
+
+    public function getEndLocation(): Location
+    {
+        return $this->endLocation;
     }
 
     public function getVisibility(): Visibility

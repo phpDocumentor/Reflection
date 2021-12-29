@@ -186,6 +186,7 @@ final class Enum_Test extends TestCase
         $enumMock        = m::mock(EnumNode::class);
         $enumMock->fqsen = new Fqsen('\Space\MyEnum');
         $enumMock->shouldReceive('getLine')->andReturn(1);
+        $enumMock->shouldReceive('getEndLine')->andReturn(2);
 
         return $enumMock;
     }
