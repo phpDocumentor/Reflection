@@ -44,6 +44,9 @@ final class Trait_ implements Element, MetaDataContainerInterface
     /** @var Location */
     private $location;
 
+    /** @var Location */
+    private $endLocation;
+
     /**
      * Initializes the all properties
      */
