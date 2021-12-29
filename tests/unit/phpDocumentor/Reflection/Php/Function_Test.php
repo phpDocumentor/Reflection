@@ -97,8 +97,8 @@ final class Function_Test extends TestCase
      */
     public function testGetDefaultReturnType(): void
     {
-        $method = new Function_($this->fqsen);
-        $this->assertEquals(new Mixed_(), $method->getReturnType());
+        $function = new Function_($this->fqsen);
+        $this->assertEquals(new Mixed_(), $function->getReturnType());
     }
 
     /**
@@ -107,15 +107,27 @@ final class Function_Test extends TestCase
     public function testGetReturnTypeFromConstructor(): void
     {
         $returnType = new String_();
-        $method = new Function_(
-            $this->fqsen,
-            null,
-            null,
-            null,
-            $returnType
-        );
+        $function = new Function_($this->fqsen, null, null, null, $returnType);
 
-        $this->assertSame($returnType, $method->getReturnType());
+        $this->assertSame($returnType, $function->getReturnType());
+    }
+
+    /**
+     * @covers ::getHasReturnByReference
+     */
+    public function testGetHasReturnByReference(): void
+    {
+        $function = new Function_($this->fqsen);
+        $this->assertSame(false, $function->getHasReturnByReference());
+    }
+
+    /**
+     * @covers ::getHasReturnByReference
+     */
+    public function testGetHasReturnByReferenceFromConstructor(): void
+    {
+        $function = new Function_($this->fqsen, null, null, null, null, true);
+        $this->assertSame(true, $function->getHasReturnByReference());
     }
 
     /**

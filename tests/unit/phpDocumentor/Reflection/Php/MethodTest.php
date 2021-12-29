@@ -179,6 +179,24 @@ final class MethodTest extends TestCase
     }
 
     /**
+     * @covers ::getHasReturnByReference
+     */
+    public function testGetHasReturnByReference(): void
+    {
+        $method = new Method($this->fqsen);
+        $this->assertSame(false, $method->getHasReturnByReference());
+    }
+
+    /**
+     * @covers ::getHasReturnByReference
+     */
+    public function testGetHasReturnByReferenceFromConstructor(): void
+    {
+        $method = new Method($this->fqsen, null, null, false, false, false, null, null, null, true);
+        $this->assertSame(true, $method->getHasReturnByReference());
+    }
+
+    /**
      * @inheritdoc
      */
     public function testLineAndColumnNumberIsReturnedWhenALocationIsProvided(): void
