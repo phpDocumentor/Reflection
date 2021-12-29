@@ -25,7 +25,6 @@ use phpDocumentor\Reflection\Types\Integer;
  * @coversDefaultClass \phpDocumentor\Reflection\Php\Property
  * @covers ::__construct
  * @covers ::<private>
- *
  * @property Property $fixture
  */
 final class PropertyTest extends TestCase

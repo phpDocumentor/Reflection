@@ -22,7 +22,6 @@ use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInte
  * @coversDefaultClass \phpDocumentor\Reflection\Php\Trait_
  * @covers ::__construct
  * @covers ::<private>
- *
  * @property Trait_ $fixture
  */
 final class Trait_Test extends TestCase
