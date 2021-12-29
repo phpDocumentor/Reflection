@@ -17,7 +17,6 @@ use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInterface;
-use PHPUnit\Framework\TestCase;
 
 /**
  * @uses \phpDocumentor\Reflection\Php\Method
@@ -27,13 +26,12 @@ use PHPUnit\Framework\TestCase;
  * @covers ::__construct
  * @covers ::<private>
  * @covers ::<protected>
+ *
+ * @property Enum_ $fixture
  */
 final class Enum_Test extends TestCase
 {
     use MetadataContainerTest;
-
-    /** @var Enum_ */
-    private $fixture;
 
     /** @var Fqsen */
     private $parent;
@@ -154,24 +152,11 @@ final class Enum_Test extends TestCase
     }
 
     /**
-     * @covers ::getLocation
-     */
-    public function testLineNumberIsMinusOneWhenNoneIsProvided(): void
-    {
-        $this->assertSame(-1, $this->fixture->getLocation()->getLineNumber());
-        $this->assertSame(0, $this->fixture->getLocation()->getColumnNumber());
-    }
-
-    /**
-     * @uses \phpDocumentor\Reflection\Location
-     *
-     * @covers ::getLocation
+     * @inheritdoc
      */
     public function testLineAndColumnNumberIsReturnedWhenALocationIsProvided(): void
     {
-        $fixture = new Enum_($this->fqsen, null, $this->docBlock, new Location(100, 20));
-
-        $this->assertSame(100, $fixture->getLocation()->getLineNumber());
-        $this->assertSame(20, $fixture->getLocation()->getColumnNumber());
+        $fixture = new Enum_($this->fqsen, null, $this->docBlock, new Location(100, 20), new Location(101, 20));
+        $this->_testLineAndColumnNumberIsReturnedWhenALocationIsProvided($fixture);
     }
 }
