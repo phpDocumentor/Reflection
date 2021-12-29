@@ -56,7 +56,7 @@ final class Function_ extends AbstractFactory implements ProjectFactoryStrategy
             new Location($object->getLine()),
             new Location($object->getEndLine()),
             (new Type())->fromPhpParser($object->getReturnType()),
-            $object->byRef
+            $object->byRef || false
         );
 
         $file->addFunction($function);
