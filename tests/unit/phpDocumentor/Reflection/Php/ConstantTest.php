@@ -104,6 +104,6 @@ final class ConstantTest extends TestCase
     public function testLineAndColumnNumberIsReturnedWhenALocationIsProvided(): void
     {
         $fixture = new Constant($this->fqsen, $this->docBlock, null, new Location(100, 20), new Location(101, 20));
-        $this->_testLineAndColumnNumberIsReturnedWhenALocationIsProvided($fixture);
+        $this->assertLineAndColumnNumberIsReturnedWhenALocationIsProvided($fixture);
     }
 }

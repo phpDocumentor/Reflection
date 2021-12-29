@@ -46,13 +46,12 @@ abstract class TestCase extends BaseTestCase
      */
     public function testLineAndColumnNumberIsReturnedWhenALocationIsProvided(): void
     {
-
     }
 
     /**
      * @param Element|MetaDataContainerInterface $fixture
      */
-    protected function _testLineAndColumnNumberIsReturnedWhenALocationIsProvided($fixture): void
+    protected function assertLineAndColumnNumberIsReturnedWhenALocationIsProvided($fixture): void
     {
         $this->assertSame(100, $fixture->getLocation()->getLineNumber());
         $this->assertSame(20, $fixture->getLocation()->getColumnNumber());

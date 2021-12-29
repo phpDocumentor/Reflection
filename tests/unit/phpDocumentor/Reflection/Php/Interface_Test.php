@@ -130,7 +130,7 @@ final class Interface_Test extends TestCase
     public function testLineAndColumnNumberIsReturnedWhenALocationIsProvided(): void
     {
         $fixture = new Interface_($this->fqsen, [], $this->docBlock, new Location(100, 20), new Location(101, 20));
-        $this->_testLineAndColumnNumberIsReturnedWhenALocationIsProvided($fixture);
+        $this->assertLineAndColumnNumberIsReturnedWhenALocationIsProvided($fixture);
     }
 
     /**

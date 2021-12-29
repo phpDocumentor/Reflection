@@ -208,6 +208,6 @@ final class MethodTest extends TestCase
             new Location(100, 20),
             new Location(101, 20)
         );
-        $this->_testLineAndColumnNumberIsReturnedWhenALocationIsProvided($fixture);
+        $this->assertLineAndColumnNumberIsReturnedWhenALocationIsProvided($fixture);
     }
 }

@@ -154,6 +154,6 @@ final class Enum_Test extends TestCase
     public function testLineAndColumnNumberIsReturnedWhenALocationIsProvided(): void
     {
         $fixture = new Enum_($this->fqsen, null, $this->docBlock, new Location(100, 20), new Location(101, 20));
-        $this->_testLineAndColumnNumberIsReturnedWhenALocationIsProvided($fixture);
+        $this->assertLineAndColumnNumberIsReturnedWhenALocationIsProvided($fixture);
     }
 }

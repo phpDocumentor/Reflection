@@ -165,7 +165,7 @@ final class PropertyTest extends TestCase
     public function testLineAndColumnNumberIsReturnedWhenALocationIsProvided(): void
     {
         $fixture = new Property($this->fqsen, null, null, null, false, new Location(100, 20), new Location(101, 20));
-        $this->_testLineAndColumnNumberIsReturnedWhenALocationIsProvided($fixture);
+        $this->assertLineAndColumnNumberIsReturnedWhenALocationIsProvided($fixture);
     }
 
     /**
