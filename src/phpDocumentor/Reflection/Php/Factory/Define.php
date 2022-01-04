@@ -99,7 +99,7 @@ final class Define extends AbstractFactory
             return;
         }
 
-        $file = $context->peek();
+        $file = $context->search(FileElement::class);
         assert($file instanceof FileElement);
 
         $constant = new ConstantElement(

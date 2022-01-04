@@ -10,6 +10,7 @@ use phpDocumentor\Reflection\Php\File as FileElement;
 use phpDocumentor\Reflection\Php\Project;
 use phpDocumentor\Reflection\Types\Context as TypeContext;
 
+use function array_reverse;
 use function end;
 
 final class ContextStack
@@ -72,5 +73,27 @@ final class ContextStack
         }
 
         return $element;
+    }
+
+    /**
+     * Returns the first element of type.
+     *
+     * Will reverse search the stack for an element matching $type. Will return null when the element type is not
+     * in the current stack.
+     *
+     * @param class-string $type
+     *
+     * @return Element|FileElement|null
+     */
+    public function search(string $type)
+    {
+        $reverseElements = array_reverse($this->elements);
+        foreach ($reverseElements as $element) {
+            if ($element instanceof $type) {
+                return $element;
+            }
+        }
+
+        return null;
     }
 }

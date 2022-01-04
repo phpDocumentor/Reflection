@@ -7,6 +7,7 @@ namespace phpDocumentor\Reflection\Php\Factory;
 use OutOfBoundsException;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\Class_ as ClassElement;
+use phpDocumentor\Reflection\Php\Method;
 use phpDocumentor\Reflection\Php\Project;
 use phpDocumentor\Reflection\Types\Context;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
@@ -88,5 +89,34 @@ final class ContextStackTest extends PHPUnitTestCase
         self::assertSame($class, $context->peek());
         self::assertSame($project, $context->getProject());
         self::assertSame($typeContext, $context->getTypeContext());
+    }
+
+    /**
+     * @covers ::__construct
+     * @covers ::search
+     */
+    public function testSearchEmptyStackResultsInNull(): void
+    {
+        $project = new Project('myProject');
+        $context = new ContextStack($project);
+
+        self::assertNull($context->search(ClassElement::class));
+    }
+
+    /**
+     * @covers ::__construct
+     * @covers ::search
+     */
+    public function testSearchStackForExistingElementTypeWillReturnTheFirstHit(): void
+    {
+        $class = new ClassElement(new Fqsen('\MyClass'));
+        $project = new Project('myProject');
+        $context = new ContextStack($project);
+        $context = $context
+            ->push(new ClassElement(new Fqsen('\OtherClass')))
+            ->push($class)
+            ->push(new Method(new Fqsen('\MyClass::method()')));
+
+        self::assertSame($class, $context->search(ClassElement::class));
     }
 }
