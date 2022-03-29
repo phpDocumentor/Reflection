@@ -33,9 +33,9 @@ use PhpParser\Node\Stmt\InlineHTML;
 use PhpParser\Node\Stmt\Interface_ as InterfaceNode;
 use PhpParser\Node\Stmt\Trait_ as TraitNode;
 
+use function array_merge;
 use function get_class;
 use function in_array;
-use function is_array;
 
 /**
  * Strategy to create File element from the provided filename.
@@ -144,19 +144,22 @@ final class File extends AbstractFactory
         array $nodes = []
     ): ?DocBlockInstance {
         $node = null;
+        $comments = [];
         foreach ($nodes as $n) {
             if (!in_array(get_class($n), self::SKIPPED_NODE_TYPES)) {
                 $node = $n;
                 break;
             }
+
+            $comments = array_merge($comments, $n->getAttribute('comments', []));
         }
 
         if (!$node instanceof Node) {
             return null;
         }
 
-        $comments = $node->getAttribute('comments');
-        if (!is_array($comments) || empty($comments)) {
+        $comments = array_merge($comments, $node->getAttribute('comments', []));
+        if (empty($comments)) {
             return null;
         }
 

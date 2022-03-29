@@ -43,6 +43,8 @@ final class FileDocblockTest extends TestCase
             [ __DIR__ . '/data/GlobalFiles/empty.php' ],
             [ __DIR__ . '/data/GlobalFiles/empty_with_declare.php' ],
             [ __DIR__ . '/data/GlobalFiles/empty_shebang.php' ],
+            [ __DIR__ . '/data/GlobalFiles/psr12.php' ],
+            [ __DIR__ . '/data/GlobalFiles/docblock_followed_by_html.php' ],
         ];
     }
 
