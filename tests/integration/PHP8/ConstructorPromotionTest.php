@@ -86,8 +86,8 @@ class ConstructorPromotionTest extends TestCase
             false,
             false,
             false,
-            new Location(16),
-            new Location(27)
+            new Location(16, 218),
+            new Location(27, 522)
         );
         return $constructor;
     }
