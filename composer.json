@@ -21,11 +21,11 @@
     "require": {
         "php": ">=7.2",
         "nikic/php-parser": "^4.13",
-        "phpdocumentor/reflection-common": "^2.0",
+        "phpdocumentor/reflection-common": "^2.1",
         "phpdocumentor/reflection-docblock": "^5",
-        "phpdocumentor/type-resolver": "^1.0",
+        "phpdocumentor/type-resolver": "^1.2",
         "psr/log": "~1.0",
-        "webmozart/assert": "^1.0"
+        "webmozart/assert": "^1.7"
     },
     "require-dev": {
         "mikey179/vfsstream": "~1.2",
