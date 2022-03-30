@@ -64,7 +64,7 @@ class NodesFactory
     public static function createInstance(int $kind = ParserFactory::PREFER_PHP7): self
     {
         $lexer = new Emulative(['usedAttributes' => [
-            'startLine', 'endLine', 'startFilePos', 'endFilePos'
+            'comments', 'startLine', 'endLine', 'startFilePos', 'endFilePos'
         ]]);
         $parser = (new ParserFactory())->create($kind, $lexer);
         $traverser = new NodeTraverser();

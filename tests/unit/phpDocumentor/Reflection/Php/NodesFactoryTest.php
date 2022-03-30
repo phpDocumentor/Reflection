@@ -66,7 +66,7 @@ final class NodesFactoryTest extends TestCase
     private function givenTheExpectedDefaultNodesFactory(): NodesFactory
     {
         $lexer = new Emulative(['usedAttributes' => [
-            'startLine', 'endLine', 'startFilePos', 'endFilePos'
+            'comments', 'startLine', 'endLine', 'startFilePos', 'endFilePos'
         ]]);
         $parser = (new ParserFactory())->create(ParserFactory::PREFER_PHP7, $lexer);
         $traverser = new NodeTraverser();
