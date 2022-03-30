@@ -20,11 +20,11 @@
     },
     "require": {
         "php": ">=7.2",
-        "psr/log": "~1.0",
-        "nikic/php-parser": "^4.0",
-        "phpdocumentor/reflection-docblock": "^5",
+        "nikic/php-parser": "^4.13",
         "phpdocumentor/reflection-common": "^2.0",
+        "phpdocumentor/reflection-docblock": "^5",
         "phpdocumentor/type-resolver": "^1.0",
+        "psr/log": "~1.0",
         "webmozart/assert": "^1.0"
     },
     "require-dev": {
