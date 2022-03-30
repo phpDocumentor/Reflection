@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace phpDocumentor\Reflection\Php;
 
 use phpDocumentor\Reflection\NodeVisitor\ElementNameResolver;
+use PhpParser\Lexer\Emulative;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeTraverserInterface;
 use PhpParser\NodeVisitor\NameResolver;
@@ -64,7 +65,10 @@ final class NodesFactoryTest extends TestCase
 
     private function givenTheExpectedDefaultNodesFactory(): NodesFactory
     {
-        $parser = (new ParserFactory())->create(ParserFactory::PREFER_PHP7);
+        $lexer = new Emulative(['usedAttributes' => [
+            'startLine', 'endLine', 'startFilePos', 'endFilePos'
+        ]]);
+        $parser = (new ParserFactory())->create(ParserFactory::PREFER_PHP7, $lexer);
         $traverser = new NodeTraverser();
         $traverser->addVisitor(new NameResolver());
         $traverser->addVisitor(new ElementNameResolver());

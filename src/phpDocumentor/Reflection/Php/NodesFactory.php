@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace phpDocumentor\Reflection\Php;
 
 use phpDocumentor\Reflection\NodeVisitor\ElementNameResolver;
+use PhpParser\Lexer\Emulative;
 use PhpParser\Node;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeTraverserInterface;
@@ -62,7 +63,10 @@ class NodesFactory
      */
     public static function createInstance(int $kind = ParserFactory::PREFER_PHP7): self
     {
-        $parser = (new ParserFactory())->create($kind);
+        $lexer = new Emulative(['usedAttributes' => [
+            'startLine', 'endLine', 'startFilePos', 'endFilePos'
+        ]]);
+        $parser = (new ParserFactory())->create($kind, $lexer);
         $traverser = new NodeTraverser();
         $traverser->addVisitor(new NameResolver());
         $traverser->addVisitor(new ElementNameResolver());
