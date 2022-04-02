@@ -20,7 +20,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
 use Webmozart\Assert\Assert;
 
-class ConstructorPromotion extends AbstractFactory
+final class ConstructorPromotion extends AbstractFactory
 {
     /** @var PrettyPrinter */
     private $valueConverter;
