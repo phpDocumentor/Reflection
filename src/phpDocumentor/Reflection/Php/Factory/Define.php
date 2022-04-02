@@ -19,14 +19,15 @@ use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Constant as ConstantElement;
 use phpDocumentor\Reflection\Php\File as FileElement;
 use phpDocumentor\Reflection\Php\StrategyContainer;
+use phpDocumentor\Reflection\Php\ValueEvaluator\ConstantEvaluator;
+use PhpParser\ConstExprEvaluationException;
 use PhpParser\Node\Arg;
+use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Name;
-use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Expression;
 use PhpParser\Node\VariadicPlaceholder;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
-use RuntimeException;
 
 use function assert;
 use function sprintf;
@@ -43,13 +44,20 @@ final class Define extends AbstractFactory
     /** @var PrettyPrinter */
     private $valueConverter;
 
+    /** @var ConstantEvaluator */
+    private $constantEvaluator;
+
     /**
      * Initializes the object.
      */
-    public function __construct(DocBlockFactoryInterface $docBlockFactory, PrettyPrinter $prettyPrinter)
-    {
+    public function __construct(
+        DocBlockFactoryInterface $docBlockFactory,
+        PrettyPrinter $prettyPrinter,
+        ?ConstantEvaluator $constantEvaluator = null
+    ) {
         parent::__construct($docBlockFactory);
         $this->valueConverter = $prettyPrinter;
+        $this->constantEvaluator = $constantEvaluator ?? new ConstantEvaluator();
     }
 
     public function matches(ContextStack $context, object $object): bool
@@ -85,12 +93,7 @@ final class Define extends AbstractFactory
         StrategyContainer $strategies
     ): void {
         $expression = $object->expr;
-        if (!$expression instanceof FuncCall) {
-            throw new RuntimeException(
-                'Provided expression is not a function call; this should not happen because the `create` method'
-                . ' checks the given object again using `matches`'
-            );
-        }
+        assert($expression instanceof FuncCall);
 
         [$name, $value] = $expression->args;
 
@@ -102,8 +105,13 @@ final class Define extends AbstractFactory
         $file = $context->search(FileElement::class);
         assert($file instanceof FileElement);
 
+        $fqsen = $this->determineFqsen($name, $context);
+        if ($fqsen === null) {
+            return;
+        }
+
         $constant = new ConstantElement(
-            $this->determineFqsen($name),
+            $fqsen,
             $this->createDocBlock($object->getDocComment(), $context->getTypeContext()),
             $this->determineValue($value),
             new Location($object->getLine()),
@@ -122,15 +130,27 @@ final class Define extends AbstractFactory
         return $this->valueConverter->prettyPrintExpr($value->value);
     }
 
-    private function determineFqsen(Arg $name): Fqsen
+    private function determineFqsen(Arg $name, ContextStack $context): ?Fqsen
     {
-        $nameString = $name->value;
-        assert($nameString instanceof String_);
+        return $this->fqsenFromExpression($name->value, $context);
+    }
 
-        if (strpos($nameString->value, '\\') === false) {
-            return new Fqsen(sprintf('\\%s', $nameString->value));
+    private function fqsenFromExpression(Expr $nameString, ContextStack $context): ?Fqsen
+    {
+        try {
+            return $this->fqsenFromString($this->constantEvaluator->evaluate($nameString, $context));
+        } catch (ConstExprEvaluationException $e) {
+            //Ignore any errors as we cannot evaluate all expressions
+            return null;
+        }
+    }
+
+    private function fqsenFromString(string $nameString): Fqsen
+    {
+        if (strpos($nameString, '\\') === false) {
+            return new Fqsen(sprintf('\\%s', $nameString));
         }
 
-        return new Fqsen(sprintf('%s', $nameString->value));
+        return new Fqsen(sprintf('%s', $nameString));
     }
 }
