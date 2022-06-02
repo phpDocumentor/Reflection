@@ -24,7 +24,6 @@
         "phpdocumentor/reflection-common": "^2.1",
         "phpdocumentor/reflection-docblock": "^5",
         "phpdocumentor/type-resolver": "^1.2",
-        "psr/log": "~1.0",
         "webmozart/assert": "^1.7"
     },
     "require-dev": {
