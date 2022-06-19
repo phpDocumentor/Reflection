@@ -37,7 +37,7 @@ are however several advantages to using this library:
 In order to inspect a codebase you need to tell composer to include the `phpdocumentor/reflection` package. This
 can easily be done using the following command in your command line terminal:
 
-    composer require "phpdocumentor/reflection: ~4.0"
+    composer require phpdocumentor/reflection:~5.0
 
 After the installation is complete no further configuration is necessary and you can immediately start using it.
 
