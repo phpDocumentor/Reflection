@@ -91,7 +91,7 @@ final class ProjectFactory implements ProjectFactoryInterface
         ProjectFactoryStrategy $strategy,
         int $priority = ProjectFactoryStrategies::DEFAULT_PRIORITY
     ): void {
-        $this->strategies->addStrategy($strategy);
+        $this->strategies->addStrategy($strategy, $priority);
     }
 
     /**
