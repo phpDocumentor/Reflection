@@ -107,6 +107,21 @@ final class Enum_Test extends TestCase
     }
 
     /**
+     * @covers ::addConstant
+     * @covers ::getConstants
+     */
+    public function testAddAndGettingConstants(): void
+    {
+        $this->assertEmpty($this->fixture->getConstants());
+
+        $constant = new Constant(new Fqsen('\MyClass::MYCONST'));
+
+        $this->fixture->addConstant($constant);
+
+        $this->assertSame(['\MyClass::MYCONST' => $constant], $this->fixture->getConstants());
+    }
+
+    /**
      * @covers ::addMethod
      * @covers ::getMethods
      */

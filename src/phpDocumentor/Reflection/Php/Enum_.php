@@ -42,6 +42,9 @@ final class Enum_ implements Element, MetaDataContainerInterface
     /** @var array<string, Fqsen> */
     private $implements = [];
 
+    /** @var Constant[] References to constants defined in this enum. */
+    private $constants = [];
+
     /** @var array<string, Method> */
     private $methods = [];
 
@@ -125,6 +128,24 @@ final class Enum_ implements Element, MetaDataContainerInterface
     public function addInterface(Fqsen $interface): void
     {
         $this->implements[(string) $interface] = $interface;
+    }
+
+    /**
+     * Returns the constants of this enum.
+     *
+     * @return Constant[]
+     */
+    public function getConstants(): array
+    {
+        return $this->constants;
+    }
+
+    /**
+     * Add Constant to this enum.
+     */
+    public function addConstant(Constant $constant): void
+    {
+        $this->constants[(string) $constant->getFqsen()] = $constant;
     }
 
     /**
