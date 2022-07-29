@@ -1,0 +1,45 @@
+# https://docs.github.com/en/actions
+
+name: "Integrate"
+
+on: # yamllint disable-line rule:truthy
+  push:
+    branches:
+      - 5.x
+  pull_request:
+  # Allow manually triggering the workflow.
+  workflow_dispatch:
+
+jobs:
+  code-coverage:
+    name: "Code Coverage"
+    uses: "phpDocumentor/.github/.github/workflows/code-coverage.yml@v0.1.0"
+
+  coding-standards:
+    name: "Coding Standards"
+    uses: "phpDocumentor/.github/.github/workflows/coding-standards.yml@v0.1.0"
+
+  dependency-analysis:
+    name: "Dependency analysis"
+    uses: "phpDocumentor/.github/.github/workflows/dependency-analysis.yml@v0.1.0"
+
+  lint-root:
+    name: "Lint root"
+    uses: "phpDocumentor/.github/.github/workflows/lint.yml@main"
+    with:
+      composer-options: "--no-check-publish --ansi"
+
+  static-analysis:
+    name: "Static analysis"
+    uses: "phpDocumentor/.github/.github/workflows/static-analysis.yml@v0.1.0"
+
+  unit-tests:
+    name: "Unit test"
+    uses: "phpDocumentor/.github/.github/workflows/continues-integration.yml@v0.1.0"
+
+  funtional-tests:
+    name: "Functional test"
+    uses: "phpDocumentor/.github/.github/workflows/continues-integration.yml@v0.1.0"
+    needs: "unit-tests"
+    with:
+      test-suite: "functional"

@@ -1,8 +1,7 @@
-includes:
-    - /composer/vendor/phpstan/phpstan-webmozart-assert/extension.neon
-    - /composer/vendor/phpstan/phpstan-php-parser/extension.neon
-
 parameters:
+    paths:
+      - src
+
     checkGenericClassInNonGenericObjectType: false
     level: max
     ignoreErrors:
@@ -29,11 +28,6 @@ parameters:
         # src/phpDocumentor/Reflection/Php/Factory/Trait_.php
         - '#Access to an undefined property PhpParser\\Node\\Stmt\\Trait_::\$fqsen\.#'
         #
-        #
-        # this is a mismatch inside php-parser, not reflection
-        - '#Parameter \#1 \$nodes of method PhpParser\\NodeTraverser::traverse\(\) expects array\<PhpParser\\Node>, array\<PhpParser\\Node\\Stmt\>\|null given\.#'
-        #
-        #
         # there is one test case that prevents changing PropertyIterator::getDefault() to just return Expr (this is set in PhpParser)
         # src/phpDocumentor/Reflection/Php/Factory/Property.php
         - '#Parameter \#1 \$node of method PhpParser\\PrettyPrinterAbstract::prettyPrintExpr\(\) expects PhpParser\\Node\\Expr, PhpParser\\Node\\Expr\|string given\.#'
@@ -41,4 +35,5 @@ parameters:
         # Type hint in php-parser is incorrect.
         - '#Cannot cast PhpParser\\Node\\Expr\|string to string.#'
 
-        - '#Call to an undefined method phpDocumentor\\Reflection\\Element\|phpDocumentor\\Reflection\\Php\\File::add.*\(\)#'
+        - '#Parameter \#2 \$object of method phpDocumentor\\Reflection\\Php\\ProjectFactoryStrategy::matches\(\) expects object, mixed given.#'
+        - '#Method phpDocumentor\\Reflection\\Php\\ValueEvaluator\\ConstantEvaluator::evaluate\(\) should return string but returns mixed.#'
