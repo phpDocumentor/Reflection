@@ -5,10 +5,10 @@ name: "Integrate"
 on: # yamllint disable-line rule:truthy
   push:
     branches:
-      - 5.x
-  pull_request:
+      - "5.x"
+  pull_request: null
   # Allow manually triggering the workflow.
-  workflow_dispatch:
+  workflow_dispatch: null
 
 jobs:
   code-coverage:
@@ -37,9 +37,9 @@ jobs:
     name: "Unit test"
     uses: "phpDocumentor/.github/.github/workflows/continues-integration.yml@v0.1.0"
 
-  funtional-tests:
-    name: "Functional test"
+  integration-tests:
+    name: "Integration test"
     uses: "phpDocumentor/.github/.github/workflows/continues-integration.yml@v0.1.0"
     needs: "unit-tests"
     with:
-      test-suite: "functional"
+      test-suite: "integration"
