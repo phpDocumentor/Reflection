@@ -27,25 +27,22 @@ final class Trait_ implements Element, MetaDataContainerInterface
     use MetadataContainer;
 
     /** @var Fqsen Full Qualified Structural Element Name */
-    private $fqsen;
+    private Fqsen $fqsen;
 
-    /** @var DocBlock|null */
-    private $docBlock;
+    private ?DocBlock $docBlock;
 
     /** @var Property[] $properties */
-    private $properties = [];
+    private array $properties = [];
 
     /** @var Method[] $methods */
-    private $methods = [];
+    private array $methods = [];
 
     /** @var Fqsen[] $usedTraits References to traits consumed by this trait */
-    private $usedTraits = [];
+    private array $usedTraits = [];
 
-    /** @var Location */
-    private $location;
+    private Location $location;
 
-    /** @var Location */
-    private $endLocation;
+    private Location $endLocation;
 
     /**
      * Initializes the all properties

@@ -7,8 +7,8 @@ namespace phpDocumentor\Reflection\Php\ValueEvaluator;
 use phpDocumentor\Reflection\Php\Factory\ContextStack;
 use PhpParser\ConstExprEvaluationException;
 use PhpParser\ConstExprEvaluator;
-use PhpParser\Node;
 use PhpParser\Node\Expr;
+use PhpParser\Node\Scalar\MagicConst\Namespace_;
 
 use function sprintf;
 
@@ -21,9 +21,7 @@ final class ConstantEvaluator
     public function evaluate(Expr $expr, ContextStack $contextStack): string
     {
         // @codeCoverageIgnoreStart
-        $evaluator = new ConstExprEvaluator(function (Expr $expr) use ($contextStack) {
-            return $this->evaluateFallback($expr, $contextStack);
-        });
+        $evaluator = new ConstExprEvaluator(fn (Expr $expr): string => $this->evaluateFallback($expr, $contextStack));
 
         return $evaluator->evaluateSilently($expr);
         // @codeCoverageIgnoreEnd
@@ -39,7 +37,7 @@ final class ConstantEvaluator
             );
         }
 
-        if ($expr instanceof Node\Scalar\MagicConst\Namespace_) {
+        if ($expr instanceof Namespace_) {
             return $typeContext->getNamespace();
         }
 

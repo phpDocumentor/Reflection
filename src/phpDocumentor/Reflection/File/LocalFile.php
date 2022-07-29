@@ -28,10 +28,8 @@ final class LocalFile implements File
 {
     /**
      * Path to the file.
-     *
-     * @var string
      */
-    private $path;
+    private string $path;
 
     public function __construct(string $path)
     {
@@ -59,7 +57,7 @@ final class LocalFile implements File
     }
 
     /**
-     * Returns an relative path to the file.
+     * Returns a relative path to the file.
      */
     public function path(): string
     {

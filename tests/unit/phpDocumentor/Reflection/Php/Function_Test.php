@@ -35,11 +35,9 @@ final class Function_Test extends TestCase
 {
     use MetadataContainerTest;
 
-    /** @var Fqsen */
-    private $fqsen;
+    private Fqsen $fqsen;
 
-    /** @var DocBlock */
-    private $docBlock;
+    private DocBlock $docBlock;
 
     /**
      * Creates a new (empty) fixture object.

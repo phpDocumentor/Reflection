@@ -17,8 +17,22 @@ use phpDocumentor\Reflection\DocBlockFactory;
 use phpDocumentor\Reflection\Exception;
 use phpDocumentor\Reflection\File as SourceFile;
 use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\Php\Factory\Argument;
+use phpDocumentor\Reflection\Php\Factory\Class_;
+use phpDocumentor\Reflection\Php\Factory\ClassConstant;
+use phpDocumentor\Reflection\Php\Factory\ConstructorPromotion;
 use phpDocumentor\Reflection\Php\Factory\ContextStack;
+use phpDocumentor\Reflection\Php\Factory\Define;
+use phpDocumentor\Reflection\Php\Factory\Enum_;
+use phpDocumentor\Reflection\Php\Factory\EnumCase;
+use phpDocumentor\Reflection\Php\Factory\Function_;
+use phpDocumentor\Reflection\Php\Factory\GlobalConstant;
+use phpDocumentor\Reflection\Php\Factory\IfStatement;
+use phpDocumentor\Reflection\Php\Factory\Interface_;
+use phpDocumentor\Reflection\Php\Factory\Method;
 use phpDocumentor\Reflection\Php\Factory\Noop;
+use phpDocumentor\Reflection\Php\Factory\Property;
+use phpDocumentor\Reflection\Php\Factory\Trait_;
 use phpDocumentor\Reflection\Php\Factory\TraitUse;
 use phpDocumentor\Reflection\Project as ProjectInterface;
 use phpDocumentor\Reflection\ProjectFactory as ProjectFactoryInterface;
@@ -33,8 +47,7 @@ use const PHP_INT_MAX;
  */
 final class ProjectFactory implements ProjectFactoryInterface
 {
-    /** @var ProjectFactoryStrategies */
-    private $strategies;
+    private ProjectFactoryStrategies $strategies;
 
     /**
      * Initializes the factory with a number of strategies.
@@ -53,31 +66,31 @@ final class ProjectFactory implements ProjectFactoryInterface
     {
         $docblockFactory = DocBlockFactory::createInstance();
 
-        $methodStrategy =  new Factory\Method($docblockFactory);
+        $methodStrategy =  new Method($docblockFactory);
 
         $strategies = new ProjectFactoryStrategies(
             [
                 new \phpDocumentor\Reflection\Php\Factory\Namespace_(),
-                new Factory\Argument(new PrettyPrinter()),
-                new Factory\Class_($docblockFactory),
-                new Factory\Enum_($docblockFactory),
-                new Factory\EnumCase($docblockFactory, new PrettyPrinter()),
-                new Factory\Define($docblockFactory, new PrettyPrinter()),
-                new Factory\GlobalConstant($docblockFactory, new PrettyPrinter()),
-                new Factory\ClassConstant($docblockFactory, new PrettyPrinter()),
+                new Argument(new PrettyPrinter()),
+                new Class_($docblockFactory),
+                new Enum_($docblockFactory),
+                new EnumCase($docblockFactory, new PrettyPrinter()),
+                new Define($docblockFactory, new PrettyPrinter()),
+                new GlobalConstant($docblockFactory, new PrettyPrinter()),
+                new ClassConstant($docblockFactory, new PrettyPrinter()),
                 new Factory\File($docblockFactory, NodesFactory::createInstance()),
-                new Factory\Function_($docblockFactory),
-                new Factory\Interface_($docblockFactory),
+                new Function_($docblockFactory),
+                new Interface_($docblockFactory),
                 $methodStrategy,
-                new Factory\Property($docblockFactory, new PrettyPrinter()),
-                new Factory\Trait_($docblockFactory),
-                new Factory\IfStatement(),
+                new Property($docblockFactory, new PrettyPrinter()),
+                new Trait_($docblockFactory),
+                new IfStatement(),
                 new TraitUse(),
             ]
         );
 
         $strategies->addStrategy(
-            new Factory\ConstructorPromotion($methodStrategy, $docblockFactory, new PrettyPrinter()),
+            new ConstructorPromotion($methodStrategy, $docblockFactory, new PrettyPrinter()),
             1100
         );
         $strategies->addStrategy(new Noop(), -PHP_INT_MAX);

@@ -26,6 +26,7 @@ use PhpParser\Comment\Doc;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Trait_ as TraitNode;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use stdClass;
 
@@ -44,8 +45,9 @@ use function current;
  */
 final class Trait_Test extends TestCase
 {
-    /** @var ObjectProphecy */
-    private $docBlockFactory;
+    use ProphecyTrait;
+
+    private ObjectProphecy $docBlockFactory;
 
     protected function setUp(): void
     {
@@ -133,6 +135,7 @@ final class Trait_Test extends TestCase
     {
         $mock = m::mock(TraitNode::class);
         $mock->fqsen = new Fqsen('\Space\MyTrait');
+        $mock->stmts = [];
         $mock->shouldReceive('getLine')->andReturn(1);
         $mock->shouldReceive('getEndLine')->andReturn(2);
 

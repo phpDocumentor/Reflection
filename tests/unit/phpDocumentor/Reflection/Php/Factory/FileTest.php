@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
+use InvalidArgumentException;
 use Mockery as m;
 use phpDocumentor\Reflection\DocBlock as DocBlockDescriptor;
 use phpDocumentor\Reflection\DocBlockFactoryInterface;
@@ -30,6 +31,7 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_ as ClassNode;
 use PhpParser\Node\Stmt\Namespace_ as NamespaceNode;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use stdClass;
 
@@ -59,11 +61,11 @@ use function file_get_contents;
  */
 final class FileTest extends TestCase
 {
-    /** @var ObjectProphecy */
-    private $nodesFactoryMock;
+    use ProphecyTrait;
 
-    /** @var ObjectProphecy */
-    private $docBlockFactory;
+    private ObjectProphecy $nodesFactoryMock;
+
+    private ObjectProphecy $docBlockFactory;
 
     protected function setUp(): void
     {
@@ -106,7 +108,7 @@ final class FileTest extends TestCase
 
     public function testMiddlewareIsChecked(): void
     {
-        $this->expectException('InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         new File($this->docBlockFactory->reveal(), $this->nodesFactoryMock->reveal(), [new stdClass()]);
     }
 

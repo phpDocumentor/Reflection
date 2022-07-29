@@ -29,14 +29,11 @@ final class EnumCaseTest extends TestCase
 {
     use MetadataContainerTest;
 
-    /** @var EnumCase */
-    private $fixture;
+    private EnumCase $fixture;
 
-    /** @var Fqsen */
-    private $fqsen;
+    private Fqsen $fqsen;
 
-    /** @var DocBlock */
-    private $docBlock;
+    private DocBlock $docBlock;
 
     /**
      * Creates a new (emoty) fixture object.

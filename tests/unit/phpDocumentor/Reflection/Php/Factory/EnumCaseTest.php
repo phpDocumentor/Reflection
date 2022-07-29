@@ -22,6 +22,7 @@ use phpDocumentor\Reflection\Php\ProjectFactoryStrategies;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use PhpParser\Node\Stmt\EnumCase as EnumCaseNode;
 use PhpParser\PrettyPrinter\Standard;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use stdClass;
 
@@ -34,8 +35,9 @@ use stdClass;
  */
 final class EnumCaseTest extends TestCase
 {
-    /** @var ObjectProphecy */
-    private $docblockFactory;
+    use ProphecyTrait;
+
+    private ObjectProphecy $docblockFactory;
 
     protected function setUp(): void
     {
@@ -66,7 +68,7 @@ final class EnumCaseTest extends TestCase
         $enumMock = $this->buildEnumCaseMock();
         $enumMock->getDocComment()->willReturn(null);
 
-        $result = $this->performCreate($enumMock->reveal(), $containerMock);
+        $result = $this->performCreate($enumMock->reveal());
 
         self::assertInstanceOf(EnumElement::class, $result);
         self::assertEquals(

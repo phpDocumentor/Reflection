@@ -8,8 +8,7 @@ use phpDocumentor\Reflection\Metadata\Metadata;
 
 final class MetadataStub implements Metadata
 {
-    /** @var string */
-    private $key;
+    private string $key;
 
     public function __construct(string $key)
     {

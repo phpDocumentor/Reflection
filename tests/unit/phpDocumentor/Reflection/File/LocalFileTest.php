@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\File;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 use function md5_file;
@@ -46,7 +47,7 @@ class LocalFileTest extends TestCase
      */
     public function testNotExistingFileThrowsException(): void
     {
-        $this->expectException('InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         new LocalFile('aa');
     }
 

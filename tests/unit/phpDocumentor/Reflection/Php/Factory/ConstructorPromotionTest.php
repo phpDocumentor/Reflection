@@ -23,6 +23,7 @@ use PhpParser\Node\Stmt\Class_ as ClassNode;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\PrettyPrinter\Standard;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use stdClass;
 
@@ -33,10 +34,10 @@ use function current;
  */
 final class ConstructorPromotionTest extends TestCase
 {
-    /** @var ObjectProphecy */
-    private $strategy;
-    /** @var ObjectProphecy */
-    private $docblockFactory;
+    use ProphecyTrait;
+
+    private ObjectProphecy $strategy;
+    private ObjectProphecy $docblockFactory;
 
     protected function setUp(): void
     {

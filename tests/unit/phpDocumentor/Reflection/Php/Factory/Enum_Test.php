@@ -30,6 +30,7 @@ use PhpParser\Node\Stmt\Class_ as ClassNode;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Enum_ as EnumNode;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use stdClass;
 
@@ -48,8 +49,9 @@ use function current;
  */
 final class Enum_Test extends TestCase
 {
-    /** @var ObjectProphecy */
-    private $docblockFactory;
+    use ProphecyTrait;
+
+    private ObjectProphecy $docblockFactory;
 
     protected function setUp(): void
     {
@@ -185,6 +187,8 @@ final class Enum_Test extends TestCase
     {
         $enumMock        = m::mock(EnumNode::class);
         $enumMock->fqsen = new Fqsen('\Space\MyEnum');
+        $enumMock->implements = [];
+        $enumMock->stmts = [];
         $enumMock->shouldReceive('getLine')->andReturn(1);
         $enumMock->shouldReceive('getEndLine')->andReturn(2);
 

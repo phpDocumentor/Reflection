@@ -26,26 +26,19 @@ final class Constant implements Element, MetaDataContainerInterface
 {
     use MetadataContainer;
 
-    /** @var Fqsen */
-    private $fqsen;
+    private Fqsen $fqsen;
 
-    /** @var DocBlock|null */
-    private $docBlock;
+    private ?DocBlock $docBlock;
 
-    /** @var string|null $value */
-    private $value;
+    private ?string $value;
 
-    /** @var Location */
-    private $location;
+    private Location $location;
 
-    /** @var Location */
-    private $endLocation;
+    private Location $endLocation;
 
-    /** @var Visibility */
-    private $visibility;
+    private Visibility $visibility;
 
-    /** @var bool */
-    private $final;
+    private bool $final;
 
     /**
      * Initializes the object.

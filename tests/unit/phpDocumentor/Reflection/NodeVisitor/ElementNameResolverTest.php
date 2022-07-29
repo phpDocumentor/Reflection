@@ -36,8 +36,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ElementNameResolverTest extends TestCase
 {
-    /** @var ElementNameResolver */
-    private $fixture;
+    private ElementNameResolver $fixture;
 
     protected function setUp(): void
     {

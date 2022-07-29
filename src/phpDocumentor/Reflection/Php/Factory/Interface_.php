@@ -64,10 +64,6 @@ final class Interface_ extends AbstractFactory implements ProjectFactoryStrategy
         Assert::isInstanceOf($file, FileElement::class);
         $file->addInterface($interface);
 
-        if (!isset($object->stmts)) {
-            return;
-        }
-
         foreach ($object->stmts as $stmt) {
             $thisContext = $context->push($interface);
             $strategy = $strategies->findMatching($thisContext, $stmt);

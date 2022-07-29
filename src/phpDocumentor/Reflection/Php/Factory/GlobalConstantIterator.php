@@ -21,11 +21,10 @@ use PhpParser\Node\Stmt\Const_;
 
 final class GlobalConstantIterator implements Iterator
 {
-    /** @var Const_ */
-    private $constant;
+    private Const_ $constant;
 
     /** @var int index of the current constant to use */
-    private $index = 0;
+    private int $index = 0;
 
     /**
      * Initializes the class with source data.

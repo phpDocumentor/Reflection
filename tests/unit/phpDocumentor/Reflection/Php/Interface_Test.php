@@ -36,14 +36,12 @@ final class Interface_Test extends TestCase
 {
     use MetadataContainerTest;
 
-    /** @var Fqsen */
-    private $fqsen;
+    private Fqsen $fqsen;
 
-    /** @var DocBlock */
-    private $docBlock;
+    private DocBlock $docBlock;
 
     /** @var Fqsen[] */
-    private $exampleParents;
+    private array $exampleParents;
 
     /**
      * Creates a new (empty) fixture object.

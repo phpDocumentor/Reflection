@@ -14,20 +14,15 @@ final class EnumCase implements Element, MetaDataContainerInterface
 {
     use MetadataContainer;
 
-    /** @var Fqsen */
-    private $fqsen;
+    private Fqsen $fqsen;
 
-    /** @var DocBlock|null */
-    private $docBlock;
+    private ?DocBlock $docBlock;
 
-    /** @var Location */
-    private $location;
+    private Location $location;
 
-    /** @var Location */
-    private $endLocation;
+    private Location $endLocation;
 
-    /** @var string|null */
-    private $value;
+    private ?string $value;
 
     public function __construct(
         Fqsen $fqsen,

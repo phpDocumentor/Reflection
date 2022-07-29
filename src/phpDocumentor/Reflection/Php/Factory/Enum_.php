@@ -41,21 +41,15 @@ final class Enum_ extends AbstractFactory
             new Location($object->getEndLine())
         );
 
-        if (isset($object->implements)) {
-            foreach ($object->implements as $interfaceClassName) {
-                $enum->addInterface(
-                    new Fqsen('\\' . $interfaceClassName->toString())
-                );
-            }
+        foreach ($object->implements as $interfaceClassName) {
+            $enum->addInterface(
+                new Fqsen('\\' . $interfaceClassName->toString())
+            );
         }
 
         $file = $context->peek();
         assert($file instanceof FileElement);
         $file->addEnum($enum);
-
-        if (!isset($object->stmts)) {
-            return;
-        }
 
         foreach ($object->stmts as $stmt) {
             $thisContext = $context->push($enum);

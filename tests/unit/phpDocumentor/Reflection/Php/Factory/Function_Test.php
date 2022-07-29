@@ -27,6 +27,7 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\Expression;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use stdClass;
 
@@ -45,8 +46,9 @@ use function current;
  */
 final class Function_Test extends TestCase
 {
-    /** @var ObjectProphecy */
-    private $docBlockFactory;
+    use ProphecyTrait;
+
+    private ObjectProphecy $docBlockFactory;
 
     protected function setUp(): void
     {
@@ -107,9 +109,7 @@ final class Function_Test extends TestCase
         $containerMock = $this->prophesize(StrategyContainer::class);
         $containerMock->findMatching(Argument::type(ContextStack::class), $param1)->willReturn($argumentStrategy);
         $argumentStrategy->create(
-            Argument::that(function ($agument) {
-                return $agument->peek() instanceof FunctionDescriptor;
-            }),
+            Argument::that(fn ($agument): bool => $agument->peek() instanceof FunctionDescriptor),
             $param1,
             $containerMock->reveal()
         )->shouldBeCalled();

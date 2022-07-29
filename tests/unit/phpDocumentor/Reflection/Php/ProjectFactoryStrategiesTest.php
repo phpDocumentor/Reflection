@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php;
 
+use OutOfBoundsException;
 use phpDocumentor\Reflection\Php\Factory\ContextStack;
 use phpDocumentor\Reflection\Php\Factory\DummyFactoryStrategy;
 use phpDocumentor\Reflection\Types\Context;
@@ -58,7 +59,7 @@ class ProjectFactoryStrategiesTest extends TestCase
      */
     public function testCreateThrowsExceptionWhenStrategyNotFound(): void
     {
-        $this->expectException('OutOfBoundsException');
+        $this->expectException(OutOfBoundsException::class);
         $container = new ProjectFactoryStrategies([]);
         $container->findMatching(
             new ContextStack(new Project('name'), new Context('global')),

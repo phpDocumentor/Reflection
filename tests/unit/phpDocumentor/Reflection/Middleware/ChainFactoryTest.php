@@ -36,7 +36,7 @@ final class ChainFactoryTest extends TestCase
 
         $chain = ChainFactory::createExecutionChain(
             [$middleware1, $middleware2],
-            static function () {
+            static function (): stdClass {
                 $result = new stdClass();
                 $result->counter = 'a';
 
@@ -61,17 +61,14 @@ final class ChainFactoryTest extends TestCase
 
         ChainFactory::createExecutionChain(
             [$middleware],
-            static function () {
-                return new stdClass();
-            }
+            static fn (): stdClass => new stdClass()
         );
     }
 
     private function givenAMiddleware(string $exampleValue): Middleware
     {
         return new class ($exampleValue) implements Middleware {
-            /** @var string */
-            private $exampleAddedValue;
+            private string $exampleAddedValue;
 
             public function __construct(string $exampleAddedValue)
             {

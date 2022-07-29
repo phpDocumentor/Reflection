@@ -33,14 +33,11 @@ final class MethodTest extends TestCase
 {
     use MetadataContainerTest;
 
-    /** @var Fqsen */
-    private $fqsen;
+    private Fqsen $fqsen;
 
-    /** @var Visibility */
-    private $visibility;
+    private Visibility $visibility;
 
-    /** @var DocBlock */
-    private $docblock;
+    private DocBlock $docblock;
 
     protected function setUp(): void
     {

@@ -27,6 +27,7 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Expression;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use stdClass;
 
@@ -42,8 +43,9 @@ use function current;
  */
 final class DefineTest extends TestCase
 {
-    /** @var ObjectProphecy */
-    private $docBlockFactory;
+    use ProphecyTrait;
+
+    private ObjectProphecy $docBlockFactory;
 
     protected function setUp(): void
     {

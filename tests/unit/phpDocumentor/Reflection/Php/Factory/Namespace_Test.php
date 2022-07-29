@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
+use InvalidArgumentException;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\Class_ as ClassElement;
 use phpDocumentor\Reflection\Php\File;
@@ -13,6 +14,7 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_ as ClassNode;
 use PhpParser\Node\Stmt\Namespace_ as NamespaceNode;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use stdClass;
 
 use function current;
@@ -22,6 +24,8 @@ use function current;
  */
 final class Namespace_Test extends TestCase
 {
+    use ProphecyTrait;
+
     protected function setUp(): void
     {
         $this->fixture = new Namespace_();
@@ -44,7 +48,7 @@ final class Namespace_Test extends TestCase
      */
     public function testCreateThrowsException(): void
     {
-        $this->expectException('InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->fixture->create(
             self::createContext(null),
             new stdClass(),

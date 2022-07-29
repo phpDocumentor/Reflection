@@ -39,7 +39,7 @@ final class Visibility
     public const PRIVATE_ = 'private';
 
     /** @var string value can be public, protected or private */
-    private $visibility;
+    private string $visibility;
 
     /**
      * Initializes the object.

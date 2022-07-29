@@ -27,6 +27,7 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_ as ClassNode;
 use PhpParser\Node\Stmt\ClassMethod;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use stdClass;
 
@@ -49,8 +50,9 @@ use function current;
  */
 final class Class_Test extends TestCase
 {
-    /** @var ObjectProphecy */
-    private $docblockFactory;
+    use ProphecyTrait;
+
+    private ObjectProphecy $docblockFactory;
 
     protected function setUp(): void
     {
@@ -189,6 +191,8 @@ final class Class_Test extends TestCase
     {
         $classMock        = m::mock(ClassNode::class);
         $classMock->fqsen = new Fqsen('\Space\MyClass');
+        $classMock->implements = [];
+        $classMock->stmts = [];
         $classMock->shouldReceive('isFinal')->andReturn(true);
         $classMock->shouldReceive('isAbstract')->andReturn(true);
         $classMock->shouldReceive('getLine')->andReturn(1);

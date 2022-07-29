@@ -28,11 +28,10 @@ use PhpParser\Node\Stmt\Property as PropertyNode;
  */
 final class PropertyIterator implements Iterator
 {
-    /** @var PropertyNode */
-    private $property;
+    private PropertyNode $property;
 
     /** @var int index of the current propertyProperty to use */
-    private $index = 0;
+    private int $index = 0;
 
     /**
      * Instantiates this iterator with the propertyNode to iterate.

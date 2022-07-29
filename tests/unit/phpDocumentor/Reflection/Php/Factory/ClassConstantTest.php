@@ -25,6 +25,7 @@ use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Class_ as ClassNode;
 use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use stdClass;
 
@@ -41,8 +42,9 @@ use function current;
  */
 final class ClassConstantTest extends TestCase
 {
-    /** @var ObjectProphecy */
-    private $docBlockFactory;
+    use ProphecyTrait;
+
+    private ObjectProphecy $docBlockFactory;
 
     protected function setUp(): void
     {

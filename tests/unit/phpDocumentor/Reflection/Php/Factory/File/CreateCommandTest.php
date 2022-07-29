@@ -28,14 +28,11 @@ use PHPUnit\Framework\TestCase;
  */
 class CreateCommandTest extends TestCase
 {
-    /** @var CreateCommand */
-    private $fixture;
+    private CreateCommand $fixture;
 
-    /** @var LocalFile */
-    private $file;
+    private LocalFile $file;
 
-    /** @var ProjectFactoryStrategies */
-    private $strategies;
+    private ProjectFactoryStrategies $strategies;
 
     protected function setUp(): void
     {

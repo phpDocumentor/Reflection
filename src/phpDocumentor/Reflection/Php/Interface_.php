@@ -28,25 +28,22 @@ final class Interface_ implements Element, MetaDataContainerInterface
     use MetadataContainer;
 
     /** @var Fqsen Full Qualified Structural Element Name */
-    private $fqsen;
+    private Fqsen $fqsen;
 
-    /** @var DocBlock|null */
-    private $docBlock;
+    private ?DocBlock $docBlock;
 
     /** @var Constant[] */
-    private $constants = [];
+    private array $constants = [];
 
     /** @var Method[] */
-    private $methods = [];
+    private array $methods = [];
 
     /** @var Fqsen[] */
-    private $parents = [];
+    private array $parents = [];
 
-    /** @var Location */
-    private $location;
+    private Location $location;
 
-    /** @var Location */
-    private $endLocation;
+    private Location $endLocation;
 
     /**
      * Initializes the object.

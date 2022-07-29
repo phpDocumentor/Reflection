@@ -30,8 +30,7 @@ use Webmozart\Assert\Assert;
  */
 final class GlobalConstant extends AbstractFactory
 {
-    /** @var PrettyPrinter */
-    private $valueConverter;
+    private PrettyPrinter $valueConverter;
 
     /**
      * Initializes the object.

@@ -29,40 +29,37 @@ final class Class_ implements Element, MetaDataContainerInterface
     use MetadataContainer;
 
     /** @var Fqsen Full Qualified Structural Element Name */
-    private $fqsen;
+    private Fqsen $fqsen;
 
-    /** @var DocBlock|null */
-    private $docBlock = null;
+    private ?DocBlock $docBlock = null;
 
     /** @var bool Whether this is an abstract class. */
-    private $abstract = false;
+    private bool $abstract = false;
 
     /** @var bool Whether this class is marked as final and can't be subclassed. */
-    private $final = false;
+    private bool $final = false;
 
     /** @var Fqsen|null The class this class is extending. */
-    private $parent = null;
+    private ?Fqsen $parent = null;
 
     /** @var Fqsen[] References to interfaces that are implemented by this class. */
-    private $implements = [];
+    private array $implements = [];
 
     /** @var Constant[] References to constants defined in this class. */
-    private $constants = [];
+    private array $constants = [];
 
     /** @var Property[] References to properties defined in this class. */
-    private $properties = [];
+    private array $properties = [];
 
     /** @var Method[] References to methods defined in this class. */
-    private $methods = [];
+    private array $methods = [];
 
     /** @var Fqsen[] References to traits consumed by this class */
-    private $usedTraits = [];
+    private array $usedTraits = [];
 
-    /** @var Location */
-    private $location;
+    private Location $location;
 
-    /** @var Location */
-    private $endLocation;
+    private Location $endLocation;
 
     /**
      * Initializes a number of properties with the given values. Others are initialized by definition.

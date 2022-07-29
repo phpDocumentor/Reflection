@@ -29,32 +29,32 @@ final class Namespace_ implements Element, MetaDataContainerInterface
     /**
      * @var Fqsen Full Qualified Structural Element Name
      */
-    private $fqsen;
+    private Fqsen $fqsen;
 
     /**
      * @var Fqsen[] fqsen of all functions in this namespace
      */
-    private $functions = [];
+    private array $functions = [];
 
     /**
      * @var Fqsen[] fqsen of all constants in this namespace
      */
-    private $constants = [];
+    private array $constants = [];
 
     /**
      * @var Fqsen[] fqsen of all classes in this namespace
      */
-    private $classes = [];
+    private array $classes = [];
 
     /**
      * @var Fqsen[] fqsen of all interfaces in this namespace
      */
-    private $interfaces = [];
+    private array $interfaces = [];
 
     /**
      * @var Fqsen[] fqsen of all traits in this namespace
      */
-    private $traits = [];
+    private array $traits = [];
 
     /**
      * Initializes the namespace.

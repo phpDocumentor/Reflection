@@ -39,9 +39,7 @@ final class ChainFactory
                 );
             }
 
-            $lastCallable = static function ($command) use ($middleware, $lastCallable) {
-                return $middleware->execute($command, $lastCallable);
-            };
+            $lastCallable = static fn ($command): object => $middleware->execute($command, $lastCallable);
         }
 
         return $lastCallable;

@@ -21,6 +21,7 @@ use PhpParser\NodeTraverserInterface;
 use PhpParser\NodeVisitor\NameResolver;
 use PhpParser\Parser;
 use PhpParser\ParserFactory;
+use Webmozart\Assert\Assert;
 
 /**
  * Factory to create a array of nodes from a provided file.
@@ -31,21 +32,17 @@ class NodesFactory
 {
     /**
      * Parser used to parse the code to nodes.
-     *
-     * @var Parser
      */
-    private $parser;
+    private Parser $parser;
 
     /**
      * Containing a number of visitors to do some post processing steps on nodes.
-     *
-     * @var NodeTraverser
      */
-    private $traverser;
+    private NodeTraverserInterface $traverser;
 
     /**
      * @param Parser $parser used to parse the code
-     * @param NodeTraverser $traverser used to do some post processing on the nodes
+     * @param NodeTraverserInterface $traverser used to do some post processing on the nodes
      */
     final public function __construct(Parser $parser, NodeTraverserInterface $traverser)
     {
@@ -89,6 +86,9 @@ class NodesFactory
      */
     public function create(string $code): array
     {
-        return $this->traverser->traverse($this->parser->parse($code));
+        $nodes = $this->parser->parse($code);
+        Assert::isArray($nodes);
+
+        return $this->traverser->traverse($nodes);
     }
 }
