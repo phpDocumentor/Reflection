@@ -26,7 +26,7 @@ final class ProjectFactoryStrategies implements StrategyContainer
 {
     public const DEFAULT_PRIORITY = 1000;
 
-    /** @var SplPriorityQueue<ProjectFactoryStrategy> */
+    /** @var SplPriorityQueue<int, ProjectFactoryStrategy> */
     private $strategies;
 
     /**

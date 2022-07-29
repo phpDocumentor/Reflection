@@ -26,44 +26,39 @@ final class File implements MetaDataContainerInterface
 {
     use MetadataContainer;
 
-    /** @var DocBlock|null */
-    private $docBlock = null;
+    private ?DocBlock $docBlock = null;
 
-    /** @var string */
-    private $hash;
+    private string $hash;
 
-    /** @var string */
-    private $name = null;
+    private string $name;
 
-    /** @var string */
-    private $path = null;
+    private string $path;
 
-    /** @var string */
-    private $source = null;
+    private string $source;
 
     /** @var Fqsen[] */
-    private $namespaces = [];
+    private array $namespaces = [];
 
     /** @var string[] */
-    private $includes = [];
+    private array $includes = [];
 
     /** @var Function_[] */
-    private $functions = [];
+    private array $functions = [];
 
     /** @var Constant[] */
-    private $constants = [];
+    private array $constants = [];
 
     /** @var Class_[] */
-    private $classes = [];
+    private array $classes = [];
 
     /** @var Interface_[] */
-    private $interfaces = [];
+    private array $interfaces = [];
 
     /** @var Trait_[] */
-    private $traits = [];
+    private array $traits = [];
 
     /** @var Enum_[] */
-    private $enums = [];
+    private array $enums = [];
 
     /**
      * Initializes a new file descriptor with the given hash of its contents.

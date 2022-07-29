@@ -50,10 +50,6 @@ final class Trait_ extends AbstractFactory implements ProjectFactoryStrategy
         Assert::isInstanceOf($file, FileElement::class);
         $file->addTrait($trait);
 
-        if (!isset($object->stmts)) {
-            return;
-        }
-
         foreach ($object->stmts as $stmt) {
             $thisContext = $context->push($trait);
             $strategy = $strategies->findMatching($thisContext, $stmt);

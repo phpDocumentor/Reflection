@@ -22,10 +22,8 @@ use Webmozart\Assert\Assert;
 
 final class ConstructorPromotion extends AbstractFactory
 {
-    /** @var PrettyPrinter */
-    private $valueConverter;
-    /** @var ProjectFactoryStrategy */
-    private $methodStrategy;
+    private PrettyPrinter $valueConverter;
+    private ProjectFactoryStrategy $methodStrategy;
 
     public function __construct(
         ProjectFactoryStrategy $methodStrategy,

@@ -14,11 +14,13 @@ declare(strict_types=1);
 namespace phpDocumentor\Reflection\Php;
 
 use Mockery\Adapter\Phpunit\MockeryTestCase;
+use OutOfBoundsException;
 use phpDocumentor\Reflection\Exception;
 use phpDocumentor\Reflection\File\LocalFile;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\Factory\ContextStack;
 use Prophecy\Argument as ProphesizeArgument;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 use function array_keys;
 use function assert;
@@ -44,6 +46,8 @@ use function md5;
  */
 final class ProjectFactoryTest extends MockeryTestCase
 {
+    use ProphecyTrait;
+
     /**
      * Tests whether a factory can be instantiated using recommended factories.
      *
@@ -128,7 +132,7 @@ final class ProjectFactoryTest extends MockeryTestCase
      */
     public function testCreateThrowsExceptionWhenStrategyNotFound(): void
     {
-        $this->expectException('OutOfBoundsException');
+        $this->expectException(OutOfBoundsException::class);
         $projectFactory = new ProjectFactory([]);
         $projectFactory->create('MyProject', ['aa']);
     }

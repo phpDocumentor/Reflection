@@ -30,6 +30,7 @@ use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Expression;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use stdClass;
 
@@ -49,8 +50,9 @@ use function current;
  */
 class MethodTest extends TestCase
 {
-    /** @var ObjectProphecy */
-    private $docBlockFactory;
+    use ProphecyTrait;
+
+    private ObjectProphecy $docBlockFactory;
 
     protected function setUp(): void
     {
@@ -135,9 +137,7 @@ class MethodTest extends TestCase
         )->willReturn($argumentStrategy);
 
         $argumentStrategy->create(
-            Argument::that(static function ($agument) {
-                return $agument->peek() instanceof MethodDescriptor;
-            }),
+            Argument::that(static fn ($agument): bool => $agument->peek() instanceof MethodDescriptor),
             $param1,
             $containerMock->reveal()
         )->shouldBeCalled();

@@ -29,37 +29,30 @@ final class Method implements Element, MetaDataContainerInterface
     use MetadataContainer;
 
     /** @var DocBlock|null documentation of this method. */
-    private $docBlock = null;
+    private ?DocBlock $docBlock = null;
 
     /** @var Fqsen Full Qualified Structural Element Name */
-    private $fqsen;
+    private Fqsen $fqsen;
 
-    /** @var bool */
-    private $abstract = false;
+    private bool $abstract = false;
 
-    /** @var bool */
-    private $final = false;
+    private bool $final = false;
 
-    /** @var bool */
-    private $static = false;
+    private bool $static = false;
 
     /** @var Visibility|null visibility of this method */
-    private $visibility = null;
+    private ?Visibility $visibility = null;
 
     /** @var Argument[] */
-    private $arguments = [];
+    private array $arguments = [];
 
-    /** @var Location */
-    private $location;
+    private Location $location;
 
-    /** @var Location */
-    private $endLocation;
+    private Location $endLocation;
 
-    /** @var Type */
-    private $returnType;
+    private Type $returnType;
 
-    /** @var bool */
-    private $hasReturnByReference;
+    private bool $hasReturnByReference;
 
     /**
      * Initializes the all properties.

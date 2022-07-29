@@ -33,8 +33,7 @@ use Webmozart\Assert\Assert;
  */
 final class Property extends AbstractFactory implements ProjectFactoryStrategy
 {
-    /** @var PrettyPrinter */
-    private $valueConverter;
+    private PrettyPrinter $valueConverter;
 
     /**
      * Initializes the object.

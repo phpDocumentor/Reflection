@@ -35,8 +35,12 @@ use function rtrim;
 
 final class ElementNameResolver extends NodeVisitorAbstract
 {
-    /** @var SplDoublyLinkedList */
-    private $parts = null;
+    private SplDoublyLinkedList $parts;
+
+    public function __construct()
+    {
+        $this->resetState('\\');
+    }
 
     /**
      * Resets the object to a known state before start processing.

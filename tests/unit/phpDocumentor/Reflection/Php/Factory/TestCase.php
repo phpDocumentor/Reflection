@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
+use InvalidArgumentException;
 use Mockery as m;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use phpDocumentor\Reflection\Php\Project;
@@ -42,7 +43,7 @@ abstract class TestCase extends MockeryTestCase
      */
     public function testCreateThrowsException(): void
     {
-        $this->expectException('InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->fixture->create(self::createContext(null), new stdClass(), m::mock(StrategyContainer::class));
     }
 }

@@ -29,8 +29,7 @@ use function sprintf;
 
 abstract class AbstractFactory implements ProjectFactoryStrategy
 {
-    /** @var DocBlockFactoryInterface */
-    private $docBlockFactory;
+    private DocBlockFactoryInterface $docBlockFactory;
 
     public function __construct(DocBlockFactoryInterface $docBlockFactory)
     {

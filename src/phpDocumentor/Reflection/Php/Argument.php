@@ -22,19 +22,19 @@ use phpDocumentor\Reflection\Types\Mixed_;
 final class Argument
 {
     /** @var string name of the Argument */
-    private $name;
+    private string $name;
 
     /** @var Type a normalized type that should be in this Argument */
-    private $type;
+    private Type $type;
 
     /** @var string|null the default value for an argument or null if none is provided */
-    private $default;
+    private ?string $default;
 
     /** @var bool whether the argument passes the parameter by reference instead of by value */
-    private $byReference;
+    private bool $byReference;
 
     /** @var bool Determines if this Argument represents a variadic argument */
-    private $isVariadic;
+    private bool $isVariadic;
 
     /**
      * Initializes the object.

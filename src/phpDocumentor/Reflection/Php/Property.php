@@ -27,35 +27,26 @@ final class Property implements Element, MetaDataContainerInterface
 {
     use MetadataContainer;
 
-    /** @var Fqsen */
-    private $fqsen;
+    private Fqsen $fqsen;
 
-    /** @var DocBlock|null */
-    private $docBlock;
+    private ?DocBlock $docBlock;
 
     /** @var string[] $types */
-    private $types = [];
+    private array $types = [];
 
-    /** @var string|null $default */
-    private $default = null;
+    private ?string $default = null;
 
-    /** @var bool $static */
-    private $static = false;
+    private bool $static = false;
 
-    /** @var Visibility|null $visibility */
-    private $visibility = null;
+    private ?Visibility $visibility = null;
 
-    /** @var Location */
-    private $location;
+    private Location $location;
 
-    /** @var Location */
-    private $endLocation;
+    private Location $endLocation;
 
-    /** @var Type|null */
-    private $type;
+    private ?Type $type;
 
-    /** @var bool */
-    private $readOnly;
+    private bool $readOnly;
 
     /**
      * @param Visibility|null $visibility when null is provided a default 'public' is set.

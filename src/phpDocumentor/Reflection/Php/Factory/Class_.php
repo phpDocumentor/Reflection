@@ -56,21 +56,15 @@ final class Class_ extends AbstractFactory implements ProjectFactoryStrategy
             new Location($object->getEndLine())
         );
 
-        if (isset($object->implements)) {
-            foreach ($object->implements as $interfaceClassName) {
-                $classElement->addInterface(
-                    new Fqsen('\\' . $interfaceClassName->toString())
-                );
-            }
+        foreach ($object->implements as $interfaceClassName) {
+            $classElement->addInterface(
+                new Fqsen('\\' . $interfaceClassName->toString())
+            );
         }
 
         $file = $context->peek();
         assert($file instanceof FileElement);
         $file->addClass($classElement);
-
-        if (!isset($object->stmts)) {
-            return;
-        }
 
         foreach ($object->stmts as $stmt) {
             $thisContext = $context->push($classElement);

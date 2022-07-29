@@ -26,6 +26,7 @@ use PhpParser\Comment\Doc;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Interface_ as InterfaceNode;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use stdClass;
 
@@ -46,8 +47,9 @@ use function current;
  */
 class Interface_Test extends TestCase
 {
-    /** @var ObjectProphecy */
-    private $docBlockFactory;
+    use ProphecyTrait;
+
+    private ObjectProphecy $docBlockFactory;
 
     protected function setUp(): void
     {
@@ -139,6 +141,7 @@ class Interface_Test extends TestCase
         $interfaceMock          = m::mock(InterfaceNode::class);
         $interfaceMock->fqsen   = new Fqsen('\Space\MyInterface');
         $interfaceMock->extends = [];
+        $interfaceMock->stmts = [];
         $interfaceMock->shouldReceive('getLine')->andReturn(1);
         $interfaceMock->shouldReceive('getEndLine')->andReturn(2);
 

@@ -24,14 +24,11 @@ use phpDocumentor\Reflection\Php\StrategyContainer;
  */
 final class CreateCommand implements Command
 {
-    /** @var File */
-    private $file;
+    private File $file;
 
-    /** @var StrategyContainer */
-    private $strategies;
+    private StrategyContainer $strategies;
 
-    /** @var ContextStack */
-    private $context;
+    private ContextStack $context;
 
     /**
      * Initializes this command.

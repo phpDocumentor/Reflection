@@ -21,6 +21,7 @@ use PhpParser\NodeVisitor\NameResolver;
 use PhpParser\Parser;
 use PhpParser\ParserFactory;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 /**
  * @coversDefaultClass \phpDocumentor\Reflection\Php\NodesFactory
@@ -29,6 +30,8 @@ use PHPUnit\Framework\TestCase;
  */
 final class NodesFactoryTest extends TestCase
 {
+    use ProphecyTrait;
+
     /**
      * Tests that an instance of the NodesFactory can be made using its static factory method.
      *

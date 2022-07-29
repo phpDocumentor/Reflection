@@ -25,11 +25,10 @@ use PhpParser\Node\Stmt\ClassConst;
  */
 final class ClassConstantIterator implements Iterator
 {
-    /** @var ClassConst */
-    private $classConstants;
+    private ClassConst $classConstants;
 
     /** @var int index of the current ClassConst to use */
-    private $index = 0;
+    private int $index = 0;
 
     /**
      * Initializes the class with source data.

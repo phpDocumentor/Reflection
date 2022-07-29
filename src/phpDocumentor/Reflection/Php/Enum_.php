@@ -25,34 +25,30 @@ final class Enum_ implements Element, MetaDataContainerInterface
     use MetadataContainer;
 
     /** @var Fqsen Full Qualified Structural Element Name */
-    private $fqsen;
+    private Fqsen $fqsen;
 
-    /** @var DocBlock|null */
-    private $docBlock;
+    private ?DocBlock $docBlock;
 
-    /** @var Location */
-    private $location;
+    private Location $location;
 
-    /** @var Location */
-    private $endLocation;
+    private Location $endLocation;
 
     /** @var EnumCase[] */
-    private $cases = [];
+    private array $cases = [];
 
     /** @var array<string, Fqsen> */
-    private $implements = [];
+    private array $implements = [];
 
     /** @var Constant[] References to constants defined in this enum. */
-    private $constants = [];
+    private array $constants = [];
 
     /** @var array<string, Method> */
-    private $methods = [];
+    private array $methods = [];
 
     /** @var array<string, Fqsen> */
-    private $usedTraits = [];
+    private array $usedTraits = [];
 
-    /** @var Type|null */
-    private $backedType;
+    private ?Type $backedType;
 
     public function __construct(
         Fqsen $fqsen,

@@ -27,8 +27,7 @@ class ProjectTest extends TestCase
 {
     public const EXAMPLE_NAME = 'Initial name';
 
-    /** @var Project */
-    private $fixture;
+    private Project $fixture;
 
     /**
      * Initializes the fixture object.

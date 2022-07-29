@@ -48,8 +48,7 @@ final class File extends AbstractFactory
         InlineHTML::class,
     ];
 
-    /** @var NodesFactory */
-    private $nodesFactory;
+    private NodesFactory $nodesFactory;
 
     /** @var callable */
     private $middlewareChain;
@@ -67,9 +66,7 @@ final class File extends AbstractFactory
         $this->nodesFactory = $nodesFactory;
         parent::__construct($docBlockFactory);
 
-        $lastCallable = function ($command) {
-            return $this->createFile($command);
-        };
+        $lastCallable = fn ($command): FileElement => $this->createFile($command);
 
         $this->middlewareChain = ChainFactory::createExecutionChain($middleware, $lastCallable);
     }
@@ -151,14 +148,14 @@ final class File extends AbstractFactory
                 break;
             }
 
-            $comments = array_merge($comments, $n->getAttribute('comments', []));
+            $comments = array_merge($comments, $n->getComments());
         }
 
         if (!$node instanceof Node) {
             return null;
         }
 
-        $comments = array_merge($comments, $node->getAttribute('comments', []));
+        $comments = array_merge($comments, $node->getComments());
         if (empty($comments)) {
             return null;
         }

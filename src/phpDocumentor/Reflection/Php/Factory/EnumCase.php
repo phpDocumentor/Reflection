@@ -16,8 +16,7 @@ use function assert;
 
 final class EnumCase extends AbstractFactory
 {
-    /** @var PrettyPrinter */
-    private $prettyPrinter;
+    private PrettyPrinter $prettyPrinter;
 
     public function __construct(DocBlockFactoryInterface $docBlockFactory, PrettyPrinter $prettyPrinter)
     {

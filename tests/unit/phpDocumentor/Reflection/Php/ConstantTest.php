@@ -33,14 +33,11 @@ final class ConstantTest extends TestCase
 {
     use MetadataContainerTest;
 
-    /** @var Fqsen */
-    private $fqsen;
+    private Fqsen $fqsen;
 
-    /** @var DocBlock */
-    private $docBlock;
+    private DocBlock $docBlock;
 
-    /** @var string */
-    private $value = 'Value';
+    private string $value = 'Value';
 
     /**
      * Creates a new (empty) fixture object.

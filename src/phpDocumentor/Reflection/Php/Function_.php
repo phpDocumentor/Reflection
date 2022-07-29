@@ -31,25 +31,20 @@ final class Function_ implements Element, MetaDataContainerInterface
     use MetadataContainer;
 
     /** @var Fqsen Full Qualified Structural Element Name */
-    private $fqsen;
+    private Fqsen $fqsen;
 
     /** @var Argument[] */
-    private $arguments = [];
+    private array $arguments = [];
 
-    /** @var DocBlock|null */
-    private $docBlock;
+    private ?DocBlock $docBlock;
 
-    /** @var Location */
-    private $location;
+    private Location $location;
 
-    /** @var Location */
-    private $endLocation;
+    private Location $endLocation;
 
-    /** @var Type */
-    private $returnType;
+    private Type $returnType;
 
-    /** @var bool */
-    private $hasReturnByReference;
+    private bool $hasReturnByReference;
 
     /**
      * Initializes the object.

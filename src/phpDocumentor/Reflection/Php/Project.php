@@ -21,17 +21,15 @@ use phpDocumentor\Reflection\Project as ProjectInterface;
  */
 final class Project implements ProjectInterface
 {
-    /** @var string */
-    private $name = '';
+    private string $name = '';
 
-    /** @var Namespace_|null */
-    private $rootNamespace;
+    private ?Namespace_ $rootNamespace;
 
     /** @var File[] */
-    private $files = [];
+    private array $files = [];
 
     /** @var Namespace_[] */
-    private $namespaces = [];
+    private array $namespaces = [];
 
     /**
      * Initializes this descriptor.

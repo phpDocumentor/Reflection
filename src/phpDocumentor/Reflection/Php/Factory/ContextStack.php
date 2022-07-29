@@ -16,12 +16,10 @@ use function end;
 final class ContextStack
 {
     /** @var (Element|FileElement)[] */
-    private $elements = [];
+    private array $elements = [];
 
-    /** @var TypeContext|null */
-    private $typeContext;
-    /** @var Project */
-    private $project;
+    private ?TypeContext $typeContext;
+    private Project $project;
 
     public function __construct(Project $project, ?TypeContext $typeContext = null)
     {

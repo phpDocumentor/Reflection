@@ -33,8 +33,7 @@ use Webmozart\Assert\Assert;
  */
 final class ClassConstant extends AbstractFactory
 {
-    /** @var PrettyPrinter */
-    private $valueConverter;
+    private PrettyPrinter $valueConverter;
 
     public function __construct(DocBlockFactoryInterface $blockFactory, PrettyPrinter $prettyPrinter)
     {

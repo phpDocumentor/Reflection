@@ -54,13 +54,11 @@ class NamespaceNodeToContext
     private function classAlikeUses(Namespace_ $namespace): array
     {
         return array_filter(
-            $namespace->stmts ?? [],
-            static function (Node $node): bool {
-                return (
-                        $node instanceof Use_
-                        || $node instanceof GroupUse
-                    ) && in_array($node->type, [Use_::TYPE_UNKNOWN, Use_::TYPE_NORMAL], true);
-            }
+            $namespace->stmts,
+            static fn (Node $node): bool => (
+                    $node instanceof Use_
+                    || $node instanceof GroupUse
+                ) && in_array($node->type, [Use_::TYPE_UNKNOWN, Use_::TYPE_NORMAL], true)
         );
     }
 }

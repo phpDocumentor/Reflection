@@ -41,11 +41,9 @@ use function strpos;
  */
 final class Define extends AbstractFactory
 {
-    /** @var PrettyPrinter */
-    private $valueConverter;
+    private PrettyPrinter $valueConverter;
 
-    /** @var ConstantEvaluator */
-    private $constantEvaluator;
+    private ConstantEvaluator $constantEvaluator;
 
     /**
      * Initializes the object.

@@ -31,8 +31,7 @@ use Webmozart\Assert\Assert;
  */
 final class Argument extends AbstractFactory implements ProjectFactoryStrategy
 {
-    /** @var PrettyPrinter */
-    private $valueConverter;
+    private PrettyPrinter $valueConverter;
 
     /**
      * Initializes the object.
