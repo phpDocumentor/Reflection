@@ -17,6 +17,7 @@ use phpDocumentor\Reflection\DocBlockFactoryInterface;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Class_;
 use phpDocumentor\Reflection\Php\Constant as ConstantElement;
+use phpDocumentor\Reflection\Php\Enum_;
 use phpDocumentor\Reflection\Php\Interface_;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Php\Visibility;
@@ -66,6 +67,7 @@ final class ClassConstant extends AbstractFactory
             $constantContainer,
             [
                 Class_::class,
+                Enum_::class,
                 Interface_::class,
             ]
         );

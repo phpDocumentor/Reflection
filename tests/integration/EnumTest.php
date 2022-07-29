@@ -20,6 +20,7 @@ final class EnumTest extends TestCase
 {
     const FILE = __DIR__ . '/data/Enums/base.php';
     const BACKED_ENUM = __DIR__ . '/data/Enums/backedEnum.php';
+    const ENUM_WITH_CONSTANT = __DIR__ . '/data/Enums/enumWithConstant.php';
     const ENUM_CONSUMER = __DIR__ . '/data/Enums/EnumConsumer.php';
 
     /** @var ProjectFactory */
@@ -36,6 +37,7 @@ final class EnumTest extends TestCase
             [
                 new LocalFile(self::FILE),
                 new LocalFile(self::BACKED_ENUM),
+                new LocalFile(self::ENUM_WITH_CONSTANT),
                 new LocalFile(self::ENUM_CONSUMER),
             ]
         );
@@ -51,6 +53,17 @@ final class EnumTest extends TestCase
         self::assertNull($enum->getBackedType());
         self::assertArrayHasKey('\MyNamespace\MyEnum::VALUE1', $enum->getCases());
         self::assertArrayHasKey('\MyNamespace\MyEnum::VALUE2', $enum->getCases());
+    }
+
+    public function testEnumWithConstant(): void
+    {
+        $file = $this->project->getFiles()[self::ENUM_WITH_CONSTANT];
+
+        $enum = $file->getEnums()['\MyNamespace\MyEnumWithConstant'];
+        self::assertInstanceOf(Enum_::class, $enum);
+        self::assertCount(1, $enum->getConstants());
+        self::assertArrayHasKey('\MyNamespace\MyEnumWithConstant::MYCONST', $enum->getConstants());
+        self::assertSame("'MyConstValue'", $enum->getConstants()['\MyNamespace\MyEnumWithConstant::MYCONST']->getValue());
     }
 
     public function testBackedEnum(): void
