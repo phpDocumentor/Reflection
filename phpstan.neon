@@ -6,7 +6,7 @@ parameters:
     level: max
     ignoreErrors:
 
-        - '#Method phpDocumentor\\Reflection\\File\\LocalFile::\md5\(\) should return string but returns string\|false\.#'
+        - '#Method phpDocumentor\\Reflection\\File\\LocalFile::md5\(\) should return string but returns string\|false\.#'
         - '#Else branch is unreachable because ternary operator condition is always true\.#'
         #
         # all these $fqsen errors indicate the need for a decorator class around PhpParser\Node to hold the public $fqsen that Reflection is giving it)
