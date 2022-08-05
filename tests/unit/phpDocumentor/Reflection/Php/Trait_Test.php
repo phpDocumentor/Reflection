@@ -109,6 +109,21 @@ final class Trait_Test extends TestCase
     }
 
     /**
+     * @covers ::getConstants
+     * @covers ::addConstant
+     */
+    public function testAddAndGettingConstants(): void
+    {
+        $this->assertEmpty($this->fixture->getConstants());
+
+        $constant = new Constant(new Fqsen('\MyClass::MY_CONSTANT'));
+
+        $this->fixture->addConstant($constant);
+
+        $this->assertSame(['\MyClass::MY_CONSTANT' => $constant], $this->fixture->getConstants());
+    }
+
+    /**
      * @covers ::getDocBlock
      */
     public function testGetDocblock(): void

@@ -68,6 +68,7 @@ final class ClassConstant extends AbstractFactory
                 Class_::class,
                 Enum_::class,
                 Interface_::class,
+                Trait_::class,
             ]
         );
 
