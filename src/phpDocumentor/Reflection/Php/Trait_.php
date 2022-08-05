@@ -44,6 +44,9 @@ final class Trait_ implements Element, MetaDataContainerInterface
 
     private Location $endLocation;
 
+    /** @var Constant[] */
+    private array $constants = [];
+
     /**
      * Initializes the all properties
      */
@@ -150,5 +153,23 @@ final class Trait_ implements Element, MetaDataContainerInterface
     public function getEndLocation(): Location
     {
         return $this->endLocation;
+    }
+
+    /**
+     * Returns the constants of this class.
+     *
+     * @return Constant[]
+     */
+    public function getConstants(): array
+    {
+        return $this->constants;
+    }
+
+    /**
+     * Add Constant to this class.
+     */
+    public function addConstant(Constant $constant): void
+    {
+        $this->constants[(string) $constant->getFqsen()] = $constant;
     }
 }
