@@ -193,6 +193,27 @@ final class Class_Test extends TestCase
         $this->assertTrue($class->isFinal());
     }
 
+    /**
+     * @covers ::isFinal
+     */
+    public function testGettingWhetherClassIsReadOnly(): void
+    {
+        $class = new Class_($this->fqsen, $this->docBlock);
+        $this->assertFalse($class->isReadOnly());
+
+        $class = new Class_(
+            $this->fqsen,
+            $this->docBlock,
+            null,
+            false,
+            false,
+            null,
+            null,
+            true
+        );
+        $this->assertTrue($class->isReadOnly());
+    }
+
     public function testLineAndColumnNumberIsReturnedWhenALocationIsProvided(): void
     {
         $fixture = new Class_(
