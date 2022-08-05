@@ -33,6 +33,8 @@ final class Class_ implements Element, MetaDataContainerInterface
 
     private ?DocBlock $docBlock = null;
 
+    private bool $readOnly = false;
+
     /** @var bool Whether this is an abstract class. */
     private bool $abstract = false;
 
@@ -71,7 +73,8 @@ final class Class_ implements Element, MetaDataContainerInterface
         bool $abstract = false,
         bool $final = false,
         ?Location $location = null,
-        ?Location $endLocation = null
+        ?Location $endLocation = null,
+        bool $readOnly = false
     ) {
         if ($location === null) {
             $location = new Location(-1);
@@ -88,6 +91,7 @@ final class Class_ implements Element, MetaDataContainerInterface
         $this->final       = $final;
         $this->location    = $location;
         $this->endLocation = $endLocation;
+        $this->readOnly = $readOnly;
     }
 
     /**
@@ -104,6 +108,14 @@ final class Class_ implements Element, MetaDataContainerInterface
     public function isAbstract(): bool
     {
         return $this->abstract;
+    }
+
+    /**
+     * Returns true when this class is read-only. Otherwise returns false.
+     */
+    public function isReadOnly(): bool
+    {
+        return $this->readOnly;
     }
 
     /**

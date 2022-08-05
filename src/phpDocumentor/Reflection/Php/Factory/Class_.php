@@ -53,7 +53,8 @@ final class Class_ extends AbstractFactory implements ProjectFactoryStrategy
             $object->isAbstract(),
             $object->isFinal(),
             new Location($object->getLine()),
-            new Location($object->getEndLine())
+            new Location($object->getEndLine()),
+            $object->isReadonly()
         );
 
         foreach ($object->implements as $interfaceClassName) {
