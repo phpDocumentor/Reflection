@@ -185,8 +185,8 @@ final class Enum_Test extends TestCase
      */
     private function buildEnumMock()
     {
-        $enumMock        = m::mock(EnumNode::class);
-        $enumMock->fqsen = new Fqsen('\Space\MyEnum');
+        $enumMock = m::mock(EnumNode::class);
+        $enumMock->shouldReceive('getAttribute')->andReturn(new Fqsen('\Space\MyEnum'));
         $enumMock->implements = [];
         $enumMock->stmts = [];
         $enumMock->shouldReceive('getLine')->andReturn(1);

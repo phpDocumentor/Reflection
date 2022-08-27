@@ -38,7 +38,7 @@ final class EnumCase extends AbstractFactory
         $enum = $context->peek();
         assert($enum instanceof EnumElement);
         $enum->addCase(new EnumCaseElement(
-            $object->fqsen,
+            $object->getAttribute('fqsen'),
             $docBlock,
             new Location($object->getLine()),
             new Location($object->getEndLine()),

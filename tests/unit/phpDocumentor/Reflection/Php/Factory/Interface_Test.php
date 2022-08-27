@@ -139,9 +139,9 @@ class Interface_Test extends TestCase
     private function buildClassMock()
     {
         $interfaceMock          = m::mock(InterfaceNode::class);
-        $interfaceMock->fqsen   = new Fqsen('\Space\MyInterface');
         $interfaceMock->extends = [];
         $interfaceMock->stmts = [];
+        $interfaceMock->shouldReceive('getAttribute')->andReturn(new Fqsen('\Space\MyInterface'));
         $interfaceMock->shouldReceive('getLine')->andReturn(1);
         $interfaceMock->shouldReceive('getEndLine')->andReturn(2);
 

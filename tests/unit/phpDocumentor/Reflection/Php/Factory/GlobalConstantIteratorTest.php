@@ -38,9 +38,9 @@ final class GlobalConstantIteratorTest extends m\Adapter\Phpunit\MockeryTestCase
     public function testIterateProps(): void
     {
         $const1 = new Const_('\Space\MY_CONST1', new Variable('a'));
-        $const1->fqsen = new Fqsen((string) $const1->name);
+        $const1->setAttribute('fqsen', new Fqsen((string) $const1->name));
         $const2 = new Const_('\Space\MY_CONST2', new Variable('b'));
-        $const2->fqsen = new Fqsen((string) $const2->name);
+        $const2->setAttribute('fqsen', new Fqsen((string) $const2->name));
 
         $globalConstantNode = new ConstStatement([$const1, $const2]);
 

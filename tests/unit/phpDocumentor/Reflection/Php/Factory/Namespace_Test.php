@@ -66,7 +66,7 @@ final class Namespace_Test extends TestCase
         $strategyMock      = $this->prophesize(ProjectFactoryStrategy::class);
         $containerMock     = $this->prophesize(StrategyContainer::class);
         $namespace         = new NamespaceNode(new Name('MyNamespace'));
-        $namespace->fqsen = new Fqsen('\MyNamespace');
+        $namespace->setAttribute('fqsen', new Fqsen('\MyNamespace'));
         $namespace->stmts = [$class];
 
         $strategyMock->create(Argument::type(ContextStack::class), $class, $containerMock)
@@ -87,6 +87,6 @@ final class Namespace_Test extends TestCase
 
         $this->assertInstanceOf(ClassElement::class, $class);
         $this->assertEquals('\MyClass', (string) $class->getFqsen());
-        $this->assertSame($namespace->fqsen, $fqsen);
+        $this->assertEquals(new Fqsen('\MyNamespace'), $fqsen);
     }
 }

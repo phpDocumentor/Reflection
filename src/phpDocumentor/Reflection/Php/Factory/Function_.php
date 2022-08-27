@@ -51,7 +51,7 @@ final class Function_ extends AbstractFactory implements ProjectFactoryStrategy
         Assert::isInstanceOf($file, FileElement::class);
 
         $function = new FunctionDescriptor(
-            $object->fqsen,
+            $object->getAttribute('fqsen'),
             $this->createDocBlock($object->getDocComment(), $context->getTypeContext()),
             new Location($object->getLine()),
             new Location($object->getEndLine()),

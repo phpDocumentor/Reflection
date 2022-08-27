@@ -78,7 +78,7 @@ final class GlobalConstantTest extends TestCase
         $docBlock = new DocBlockDescriptor('');
 
         $const = new Const_('\Space\MyClass\MY_CONST1', new String_('a'), ['comments' => [$doc]]);
-        $const->fqsen = new Fqsen((string) $const->name);
+        $const->setAttribute('fqsen', new Fqsen((string) $const->name));
 
         $constantStub = new ConstStatement([$const]);
         $containerMock = m::mock(StrategyContainer::class);
@@ -95,7 +95,7 @@ final class GlobalConstantTest extends TestCase
     private function buildConstantIteratorStub(): ConstStatement
     {
         $const = new Const_('\Space\MyClass\MY_CONST1', new String_('a'));
-        $const->fqsen = new Fqsen((string) $const->name);
+        $const->setAttribute('fqsen', new Fqsen((string) $const->name));
 
         return new ConstStatement([$const]);
     }

@@ -34,7 +34,7 @@ final class Enum_ extends AbstractFactory
         $docBlock = $this->createDocBlock($object->getDocComment(), $context->getTypeContext());
 
         $enum = new \phpDocumentor\Reflection\Php\Enum_(
-            $object->fqsen,
+            $object->getAttribute('fqsen'),
             (new Type())->fromPhpParser($object->scalarType),
             $docBlock,
             new Location($object->getLine()),

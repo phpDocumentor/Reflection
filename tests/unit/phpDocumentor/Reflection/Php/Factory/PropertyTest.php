@@ -96,7 +96,7 @@ final class PropertyTest extends TestCase
         $this->docBlockFactory->create('text', null)->willReturn($docBlock);
 
         $property = new PropertyProperty('property', new String_('MyDefault'), ['comments' => [$doc]]);
-        $property->fqsen = new Fqsen('\myClass::$property');
+        $property->setAttribute('fqsen', new Fqsen('\myClass::$property'));
         $node = new PropertyNode(ClassNode::MODIFIER_PRIVATE | ClassNode::MODIFIER_STATIC, [$property]);
         $class = $this->performCreate($node);
         $property = current($class->getProperties());
@@ -107,8 +107,8 @@ final class PropertyTest extends TestCase
 
     private function buildPropertyMock(int $modifier): PropertyNode
     {
-        $property        = new PropertyProperty('property', new String_('MyDefault'));
-        $property->fqsen = new Fqsen('\myClass::$property');
+        $property = new PropertyProperty('property', new String_('MyDefault'));
+        $property->setAttribute('fqsen', new Fqsen('\myClass::$property'));
 
         return new PropertyNode($modifier | ClassNode::MODIFIER_STATIC, [$property]);
     }

@@ -145,7 +145,7 @@ final class PropertyIterator implements Iterator
      */
     public function getFqsen(): Fqsen
     {
-        return $this->property->props[$this->index]->fqsen;
+        return $this->property->props[$this->index]->getAttribute('fqsen');
     }
 
     /**

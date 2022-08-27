@@ -74,7 +74,7 @@ final class Function_Test extends TestCase
     public function testCreateWithoutParameters(): void
     {
         $functionMock = $this->prophesize(\PhpParser\Node\Stmt\Function_::class);
-        $functionMock->fqsen = new Fqsen('\SomeSpace::function()');
+        $functionMock->getAttribute('fqsen')->willReturn(new Fqsen('\SomeSpace::function()'));
         $functionMock->params = [];
         $functionMock->getDocComment()->willReturn(null);
         $functionMock->getLine()->willReturn(1);
@@ -98,7 +98,7 @@ final class Function_Test extends TestCase
     {
         $param1 = new Param(new Variable('param1'));
         $functionMock = $this->prophesize(\PhpParser\Node\Stmt\Function_::class);
-        $functionMock->fqsen = new Fqsen('\SomeSpace::function()');
+        $functionMock->getAttribute('fqsen')->willReturn(new Fqsen('\SomeSpace::function()'));
         $functionMock->params = [$param1];
         $functionMock->getDocComment()->willReturn(null);
         $functionMock->getLine()->willReturn(1);
@@ -135,7 +135,7 @@ final class Function_Test extends TestCase
     {
         $doc = new Doc('Text');
         $functionMock = $this->prophesize(\PhpParser\Node\Stmt\Function_::class);
-        $functionMock->fqsen = new Fqsen('\SomeSpace::function()');
+        $functionMock->getAttribute('fqsen')->willReturn(new Fqsen('\SomeSpace::function()'));
         $functionMock->params = [];
         $functionMock->getDocComment()->willReturn($doc);
         $functionMock->getLine()->willReturn(1);
@@ -162,7 +162,7 @@ final class Function_Test extends TestCase
     {
         $doc = new Doc('Text');
         $functionMock = $this->prophesize(\PhpParser\Node\Stmt\Function_::class);
-        $functionMock->fqsen = new Fqsen('\SomeSpace::function()');
+        $functionMock->getAttribute('fqsen')->willReturn(new Fqsen('\SomeSpace::function()'));
         $functionMock->params = [];
         $functionMock->getDocComment()->willReturn(null);
         $functionMock->getLine()->willReturn(1);

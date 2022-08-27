@@ -186,7 +186,7 @@ class MethodTest extends TestCase
     {
         $methodMock = m::mock(ClassMethod::class);
         $methodMock->name = 'function';
-        $methodMock->fqsen = new Fqsen('\SomeSpace\Class::function()');
+        $methodMock->shouldReceive('getAttribute')->andReturn(new Fqsen('\SomeSpace\Class::function()'));
         $methodMock->params = [];
 
         $methodMock->shouldReceive('isStatic')->once()->andReturn(true);

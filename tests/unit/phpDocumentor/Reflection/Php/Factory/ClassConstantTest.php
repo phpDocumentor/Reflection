@@ -104,7 +104,7 @@ final class ClassConstantTest extends TestCase
         $this->docBlockFactory->create('text', null)->willReturn($docBlock);
 
         $const = new Const_('\Space\MyClass::MY_CONST1', new String_('a'), ['comments' => [$doc]]);
-        $const->fqsen = new Fqsen((string) $const->name);
+        $const->setAttribute('fqsen', new Fqsen((string) $const->name));
         $constantStub = new ClassConst([$const], ClassNode::MODIFIER_PUBLIC);
 
         $class = $this->performCreate($constantStub);
@@ -117,7 +117,7 @@ final class ClassConstantTest extends TestCase
     private function buildConstantIteratorStub(int $modifier = ClassNode::MODIFIER_PUBLIC): ClassConst
     {
         $const = new Const_('\Space\MyClass::MY_CONST1', new String_('a'));
-        $const->fqsen = new Fqsen((string) $const->name);
+        $const->setAttribute('fqsen', new Fqsen((string) $const->name));
 
         return new ClassConst([$const], $modifier);
     }

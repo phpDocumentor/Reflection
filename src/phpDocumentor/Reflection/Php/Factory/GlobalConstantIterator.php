@@ -67,7 +67,7 @@ final class GlobalConstantIterator implements Iterator
      */
     public function getFqsen(): Fqsen
     {
-        return $this->constant->consts[$this->index]->fqsen;
+        return $this->constant->consts[$this->index]->getAttribute('fqsen');
     }
 
     /**

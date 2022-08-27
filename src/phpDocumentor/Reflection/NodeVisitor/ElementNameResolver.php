@@ -101,7 +101,7 @@ final class ElementNameResolver extends NodeVisitorAbstract
                 }
 
                 $this->resetState('\\' . $node->name . '\\');
-                $node->fqsen = new Fqsen($this->buildName());
+                $this->setFqsen($node);
                 break;
             case Class_::class:
             case Trait_::class:
@@ -112,17 +112,17 @@ final class ElementNameResolver extends NodeVisitorAbstract
                 }
 
                 $this->parts->push((string) $node->name);
-                $node->fqsen = new Fqsen($this->buildName());
+                $this->setFqsen($node);
                 break;
             case Function_::class:
                 $this->parts->push($node->name . '()');
-                $node->fqsen = new Fqsen($this->buildName());
+                $this->setFqsen($node);
 
                 return NodeTraverser::DONT_TRAVERSE_CHILDREN;
 
             case ClassMethod::class:
                 $this->parts->push('::' . $node->name . '()');
-                $node->fqsen = new Fqsen($this->buildName());
+                $this->setFqsen($node);
 
                 return NodeTraverser::DONT_TRAVERSE_CHILDREN;
 
@@ -131,15 +131,15 @@ final class ElementNameResolver extends NodeVisitorAbstract
                 break;
             case Const_::class:
                 $this->parts->push($node->name);
-                $node->fqsen = new Fqsen($this->buildName());
+                $this->setFqsen($node);
                 break;
             case PropertyProperty::class:
                 $this->parts->push('::$' . $node->name);
-                $node->fqsen = new Fqsen($this->buildName());
+                $this->setFqsen($node);
                 break;
             case EnumCase::class:
                 $this->parts->push('::' . $node->name);
-                $node->fqsen = new Fqsen($this->buildName());
+                $this->setFqsen($node);
                 break;
         }
 
@@ -166,5 +166,12 @@ final class ElementNameResolver extends NodeVisitorAbstract
         }
 
         return rtrim((string) $name, '\\');
+    }
+
+    private function setFqsen(Node $node): void
+    {
+        $fqsen = new Fqsen($this->buildName());
+        $node->fqsen = $fqsen;
+        $node->setAttribute('fqsen', $fqsen);
     }
 }

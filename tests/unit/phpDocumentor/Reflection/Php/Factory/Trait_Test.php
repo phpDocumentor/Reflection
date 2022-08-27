@@ -134,7 +134,7 @@ final class Trait_Test extends TestCase
     private function buildTraitMock()
     {
         $mock = m::mock(TraitNode::class);
-        $mock->fqsen = new Fqsen('\Space\MyTrait');
+        $mock->shouldReceive('getAttribute')->andReturn(new Fqsen('\Space\MyTrait'));
         $mock->stmts = [];
         $mock->shouldReceive('getLine')->andReturn(1);
         $mock->shouldReceive('getEndLine')->andReturn(2);

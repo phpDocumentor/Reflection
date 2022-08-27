@@ -71,7 +71,7 @@ final class ClassConstantIterator implements Iterator
      */
     public function getFqsen(): Fqsen
     {
-        return $this->classConstants->consts[$this->index]->fqsen;
+        return $this->classConstants->consts[$this->index]->getAttribute('fqsen');
     }
 
     /**

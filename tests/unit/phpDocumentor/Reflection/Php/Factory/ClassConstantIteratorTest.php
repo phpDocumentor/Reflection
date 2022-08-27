@@ -40,9 +40,9 @@ final class ClassConstantIteratorTest extends MockeryTestCase
     public function testIterateProps(): void
     {
         $const1 = new Const_('\Space\MyClass::MY_CONST1', new Variable('1'));
-        $const1->fqsen = new Fqsen((string) $const1->name);
+        $const1->setAttribute('fqsen', new Fqsen((string) $const1->name));
         $const2 = new Const_('\Space\MyClass::MY_CONST2', new Variable('2'));
-        $const2->fqsen = new Fqsen((string) $const2->name);
+        $const2->setAttribute('fqsen', new Fqsen((string) $const2->name));
 
         $classConstantNode = new ClassConst([$const1, $const2]);
 

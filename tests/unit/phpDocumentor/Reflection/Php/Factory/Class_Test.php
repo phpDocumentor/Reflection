@@ -189,8 +189,8 @@ final class Class_Test extends TestCase
      */
     private function buildClassMock()
     {
-        $classMock        = m::mock(ClassNode::class);
-        $classMock->fqsen = new Fqsen('\Space\MyClass');
+        $classMock = m::mock(ClassNode::class);
+        $classMock->shouldReceive('getAttribute')->andReturn(new Fqsen('\Space\MyClass'));
         $classMock->implements = [];
         $classMock->stmts = [];
         $classMock->shouldReceive('isFinal')->andReturn(true);

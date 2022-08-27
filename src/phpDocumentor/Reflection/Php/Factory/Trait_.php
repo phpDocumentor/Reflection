@@ -40,7 +40,7 @@ final class Trait_ extends AbstractFactory implements ProjectFactoryStrategy
     protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies): void
     {
         $trait = new TraitElement(
-            $object->fqsen,
+            $object->getAttribute('fqsen'),
             $this->createDocBlock($object->getDocComment(), $context->getTypeContext()),
             new Location($object->getLine()),
             new Location($object->getEndLine())

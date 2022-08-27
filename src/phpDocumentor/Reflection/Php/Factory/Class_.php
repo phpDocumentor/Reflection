@@ -47,7 +47,7 @@ final class Class_ extends AbstractFactory implements ProjectFactoryStrategy
         $docBlock = $this->createDocBlock($object->getDocComment(), $context->getTypeContext());
 
         $classElement = new ClassElement(
-            $object->fqsen,
+            $object->getAttribute('fqsen'),
             $docBlock,
             $object->extends ? new Fqsen('\\' . $object->extends) : null,
             $object->isAbstract(),

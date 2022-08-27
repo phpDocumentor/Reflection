@@ -140,14 +140,14 @@ final class FileTest extends TestCase
     {
         $docBlockNode = new DocBlockNode('Text');
         $namespaceNode = new NamespaceNode(new Name('mySpace'));
-        $namespaceNode->fqsen = new Fqsen('\mySpace');
+        $namespaceNode->getAttribute('fsqen', new Fqsen('\mySpace'));
         $namespaceNode->setAttribute('comments', [$docBlockNode]);
 
         $classNode = new ClassNode('myClass');
         $classNode->setAttribute('comments', [$docBlockNode, new DocBlockNode('')]);
 
         $namespaceNode2 = new NamespaceNode(new Name('mySpace'));
-        $namespaceNode2->fqsen = new Fqsen('\mySpace');
+        $namespaceNode2->getAttribute('fsqen', new Fqsen('\mySpace'));
         $namespaceNode2->setAttribute('comments', [new CommentNode('@codingStandardsIgnoreStart'), $docBlockNode]);
 
         return [

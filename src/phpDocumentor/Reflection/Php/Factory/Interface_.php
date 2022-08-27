@@ -54,7 +54,7 @@ final class Interface_ extends AbstractFactory implements ProjectFactoryStrategy
         }
 
         $interface = new InterfaceElement(
-            $object->fqsen,
+            $object->getAttribute('fqsen'),
             $parents,
             $docBlock,
             new Location($object->getLine()),

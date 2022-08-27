@@ -12,21 +12,10 @@ parameters:
         # all these $fqsen errors indicate the need for a decorator class around PhpParser\Node to hold the public $fqsen that Reflection is giving it)
         #
         # src/phpDocumentor/Reflection/NodeVisitor/ElementNameResolver.php
-        - '#Access to an undefined property PhpParser\\Node\\Stmt\\Class_\|PhpParser\\Node\\Stmt\\Enum_\|PhpParser\\Node\\Stmt\\Interface_\|PhpParser\\Node\\Stmt\\Trait_::\$fqsen#'
-        - '#Access to an undefined property PhpParser\\Node\\Stmt\\Namespace_::\$fqsen\.#'
-        - '#Access to an undefined property PhpParser\\Node\\Stmt\\Enum_::\$fqsen\.#'
-        - '#Access to an undefined property PhpParser\\Node\\Stmt\\EnumCase::\$fqsen\.#'
-        - '#Access to an undefined property PhpParser\\Node\\Stmt\\Interface_::\$fqsen\.#'
-        - '#Access to an undefined property PhpParser\\Node\\Stmt\\Function_::\$fqsen\.#'
-        - '#Access to an undefined property PhpParser\\Node\\Stmt\\ClassMethod::\$fqsen\.#'
-        - '#Access to an undefined property PhpParser\\Node\\Const_::\$fqsen\.#'
-        - '#Access to an undefined property PhpParser\\Node\\Stmt\\PropertyProperty::\$fqsen\.#'
-        #
-        # src/phpDocumentor/Reflection/Php/Factory/Class_.php
-        - '#Access to an undefined property PhpParser\\Node\\Stmt\\Class_::\$fqsen\.#'
-        #
-        # src/phpDocumentor/Reflection/Php/Factory/Trait_.php
-        - '#Access to an undefined property PhpParser\\Node\\Stmt\\Trait_::\$fqsen\.#'
+        - '#Access to an undefined property PhpParser\\Node::\$fqsen\.#'
+        - '#Method phpDocumentor\\Reflection\\Php\\Factory\\(.*)::getFqsen\(\) should return phpDocumentor\\Reflection\\Fqsen but returns mixed\.#'
+        - '#Parameter \#1 \$fqsen of class phpDocumentor\\Reflection\\Php\\(.*) constructor expects phpDocumentor\\Reflection\\Fqsen, mixed given\.#'
+        - '#Parameter \#1 \$fqsen of method phpDocumentor\\Reflection\\Php\\File::addNamespace\(\) expects phpDocumentor\\Reflection\\Fqsen, mixed given\.#'
         #
         # there is one test case that prevents changing PropertyIterator::getDefault() to just return Expr (this is set in PhpParser)
         # src/phpDocumentor/Reflection/Php/Factory/Property.php

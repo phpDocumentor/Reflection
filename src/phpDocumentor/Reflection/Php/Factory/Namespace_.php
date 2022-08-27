@@ -42,7 +42,7 @@ class Namespace_ implements ProjectFactoryStrategy
 
         $file = $context->peek();
         Assert::isInstanceOf($file, FileElement::class);
-        $file->addNamespace($object->fqsen ?? new Fqsen('\\'));
+        $file->addNamespace($object->getAttribute('fqsen') ?? new Fqsen('\\'));
         $typeContext = (new NamespaceNodeToContext())($object);
         foreach ($object->stmts as $stmt) {
             $strategy = $strategies->findMatching($context, $stmt);
