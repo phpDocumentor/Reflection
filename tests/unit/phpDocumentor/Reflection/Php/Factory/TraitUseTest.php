@@ -8,6 +8,7 @@ use InvalidArgumentException;
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\Class_ as Class_Element;
+use phpDocumentor\Reflection\Php\Enum_ as Enum_Element;
 use phpDocumentor\Reflection\Php\Interface_;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategies;
 use phpDocumentor\Reflection\Php\Trait_ as Trait_Element;
@@ -26,6 +27,7 @@ final class TraitUseTest extends TestCase
         return [
             [new Class_Element(new Fqsen('\MyClass'))],
             [new Trait_Element(new Fqsen('\MyTrait'))],
+            [new Enum_Element(new Fqsen('\MyEnum'), null)],
         ];
     }
 
