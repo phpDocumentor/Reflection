@@ -7,6 +7,7 @@ namespace phpDocumentor\Reflection\Php\Factory;
 use InvalidArgumentException;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\Class_;
+use phpDocumentor\Reflection\Php\Enum_;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Php\Trait_;
@@ -31,8 +32,12 @@ final class TraitUse implements ProjectFactoryStrategy
 
         $class = $context->peek();
 
-        if ($class instanceof Class_ === false && $class instanceof Trait_ === false) {
-            throw new InvalidArgumentException('Traits can only be used in class or trait');
+        if (
+            $class instanceof Class_ === false
+            && $class instanceof Trait_ === false
+            && $class instanceof Enum_ === false
+        ) {
+            throw new InvalidArgumentException('Traits can only be used in classes, enums or other traits');
         }
 
         foreach ($object->traits as $trait) {
