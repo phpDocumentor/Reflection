@@ -30,6 +30,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 use stdClass;
 
 use function current;
+use function next;
 
 /**
  * @uses \phpDocumentor\Reflection\Php\Factory\PropertyIterator
@@ -105,6 +106,27 @@ final class PropertyTest extends TestCase
         $this->assertSame($docBlock, $property->getDocBlock());
     }
 
+    public function testCreateMultipleInOneStatement(): void
+    {
+        $property1 = new PropertyProperty('property1', new String_('MyDefault1'));
+        $property1->setAttribute('fqsen', new Fqsen('\myClass::$property1'));
+        $property2 = new PropertyProperty('property2', new String_('MyDefault2'));
+        $property2->setAttribute('fqsen', new Fqsen('\myClass::$property2'));
+        $node = new PropertyNode(
+            ClassNode::MODIFIER_PRIVATE | ClassNode::MODIFIER_STATIC,
+            [$property1, $property2]
+        );
+
+        $class = $this->performCreate($node);
+        $properties = $class->getProperties();
+        $property1 = current($properties);
+        next($properties);
+        $property2 = current($properties);
+
+        $this->assertProperty($property1, 'private', 'property1', '\'MyDefault1\'');
+        $this->assertProperty($property2, 'private', 'property2', '\'MyDefault2\'');
+    }
+
     private function buildPropertyMock(int $modifier): PropertyNode
     {
         $property = new PropertyProperty('property', new String_('MyDefault'));
@@ -113,12 +135,16 @@ final class PropertyTest extends TestCase
         return new PropertyNode($modifier | ClassNode::MODIFIER_STATIC, [$property]);
     }
 
-    private function assertProperty(PropertyDescriptor $property, string $visibility): void
-    {
+    private function assertProperty(
+        PropertyDescriptor $property,
+        string $visibility,
+        string $name = 'property',
+        ?string $default = '\'MyDefault\''
+    ): void {
         $this->assertInstanceOf(PropertyDescriptor::class, $property);
-        $this->assertEquals('\myClass::$property', (string) $property->getFqsen());
+        $this->assertEquals('\myClass::$' . $name, (string) $property->getFqsen());
         $this->assertTrue($property->isStatic());
-        $this->assertEquals('\'MyDefault\'', $property->getDefault());
+        $this->assertEquals($default, $property->getDefault());
         $this->assertEquals($visibility, (string) $property->getVisibility());
     }
 

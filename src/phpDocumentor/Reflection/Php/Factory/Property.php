@@ -72,13 +72,13 @@ final class Property extends AbstractFactory implements ProjectFactoryStrategy
             ]
         );
 
-        $default = null;
         $iterator = new PropertyIterator($object);
-        if ($iterator->getDefault() !== null) {
-            $default = $this->valueConverter->prettyPrintExpr($iterator->getDefault());
-        }
-
         foreach ($iterator as $stmt) {
+            $default = null;
+            if ($iterator->getDefault() !== null) {
+                $default = $this->valueConverter->prettyPrintExpr($iterator->getDefault());
+            }
+
             $propertyContainer->addProperty(
                 new PropertyDescriptor(
                     $stmt->getFqsen(),
