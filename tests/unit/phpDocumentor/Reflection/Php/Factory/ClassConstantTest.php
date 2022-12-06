@@ -15,10 +15,15 @@ namespace phpDocumentor\Reflection\Php\Factory;
 
 use phpDocumentor\Reflection\DocBlock as DocBlockDescriptor;
 use phpDocumentor\Reflection\DocBlockFactoryInterface;
+use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\Class_ as ClassElement;
 use phpDocumentor\Reflection\Php\Constant as ConstantDescriptor;
+use phpDocumentor\Reflection\Php\Enum_ as EnumElement;
+use phpDocumentor\Reflection\Php\Interface_ as InterfaceElement;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategies;
+use phpDocumentor\Reflection\Php\Trait_ as TraitElement;
+use phpDocumentor\Reflection\Types\Null_;
 use PhpParser\Comment\Doc;
 use PhpParser\Node\Const_;
 use PhpParser\Node\Scalar\String_;
@@ -97,6 +102,42 @@ final class ClassConstantTest extends TestCase
         ];
     }
 
+    public function testCreateForInterface(): void
+    {
+        $interface = new InterfaceElement(new Fqsen('\myInterface'));
+        $const = new Const_('\Space\MyInterface::MY_CONST1', new String_('a'));
+        $const->setAttribute('fqsen', new Fqsen((string) $const->name));
+        $constantStub = new ClassConst([$const], ClassNode::MODIFIER_PUBLIC);
+
+        $result = $this->performCreateWith($constantStub, $interface);
+
+        self::assertInstanceOf(ConstantDescriptor::class, current($result->getConstants()));
+    }
+
+    public function testCreateForTrait(): void
+    {
+        $trait = new TraitElement(new Fqsen('\myTrait'));
+        $const = new Const_('\Space\MyTrait::MY_CONST1', new String_('a'));
+        $const->setAttribute('fqsen', new Fqsen((string) $const->name));
+        $constantStub = new ClassConst([$const], ClassNode::MODIFIER_PUBLIC);
+
+        $result = $this->performCreateWith($constantStub, $trait);
+
+        self::assertInstanceOf(ConstantDescriptor::class, current($result->getConstants()));
+    }
+
+    public function testCreateForEnum(): void
+    {
+        $enum = new EnumElement(new Fqsen('\myEnum'), new Null_());
+        $const = new Const_('\Space\MyEnum::MY_CONST1', new String_('a'));
+        $const->setAttribute('fqsen', new Fqsen((string) $const->name));
+        $constantStub = new ClassConst([$const], ClassNode::MODIFIER_PUBLIC);
+
+        $result = $this->performCreateWith($constantStub, $enum);
+
+        self::assertInstanceOf(ConstantDescriptor::class, current($result->getConstants()));
+    }
+
     public function testCreateWithDocBlock(): void
     {
         $doc = new Doc('text');
@@ -132,10 +173,17 @@ final class ClassConstantTest extends TestCase
 
     private function performCreate(ClassConst $constantStub): ClassElement
     {
-        $factory = new ProjectFactoryStrategies([]);
         $class = new ClassElement(new Fqsen('\myClass'));
-        $this->fixture->create(self::createContext(null)->push($class), $constantStub, $factory);
+        $this->performCreateWith($constantStub, $class);
 
         return $class;
+    }
+
+    private function performCreateWith(ClassConst $constantStub, Element $parent): Element
+    {
+        $factory = new ProjectFactoryStrategies([]);
+        $this->fixture->create(self::createContext(null)->push($parent), $constantStub, $factory);
+
+        return $parent;
     }
 }

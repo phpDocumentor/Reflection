@@ -20,6 +20,7 @@ use phpDocumentor\Reflection\Php\Constant as ConstantElement;
 use phpDocumentor\Reflection\Php\Enum_;
 use phpDocumentor\Reflection\Php\Interface_;
 use phpDocumentor\Reflection\Php\StrategyContainer;
+use phpDocumentor\Reflection\Php\Trait_;
 use phpDocumentor\Reflection\Php\Visibility;
 use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
