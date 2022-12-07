@@ -23,9 +23,12 @@ use PhpParser\Node\IntersectionType;
 use PhpParser\Node\Name;
 use PhpParser\Node\NullableType;
 use PhpParser\Node\UnionType;
+use PhpParser\NodeAbstract;
 
+use function array_map;
 use function get_class;
 use function implode;
+use function is_string;
 use function sprintf;
 
 final class Type
@@ -39,23 +42,49 @@ final class Type
             return null;
         }
 
-        $typeResolver = new TypeResolver();
+        return (new TypeResolver())
+            ->resolve($this->convertPhpParserTypeToString($type), $context);
+    }
+
+    /**
+     * @param NodeAbstract|string $type
+     */
+    private function convertPhpParserTypeToString($type): string
+    {
+        if (is_string($type)) {
+            return $type;
+        }
+
+        if ($type instanceof Identifier) {
+            return $type->toString();
+        }
+
+        if ($type instanceof Name) {
+            return $type->toString();
+        }
+
         if ($type instanceof NullableType) {
-            return $typeResolver->resolve('?' . $type->type, $context);
+            return '?' . $this->convertPhpParserTypeToString($type->type);
         }
 
         if ($type instanceof UnionType) {
-            return $typeResolver->resolve(implode('|', $type->types), $context);
+            $typesAsStrings = array_map(
+                fn ($typeObject): string => $this->convertPhpParserTypeToString($typeObject),
+                $type->types
+            );
+
+            return implode('|', $typesAsStrings);
         }
 
         if ($type instanceof IntersectionType) {
-            return $typeResolver->resolve(implode('&', $type->types), $context);
+            $typesAsStrings = array_map(
+                fn ($typeObject): string => $this->convertPhpParserTypeToString($typeObject),
+                $type->types
+            );
+
+            return implode('&', $typesAsStrings);
         }
 
-        if ($type instanceof ComplexType) {
-            throw new InvalidArgumentException(sprintf('Unsupported complex type %s', get_class($type)));
-        }
-
-        return $typeResolver->resolve($type->toString(), $context);
+        throw new InvalidArgumentException(sprintf('Unsupported complex type %s', get_class($type)));
     }
 }

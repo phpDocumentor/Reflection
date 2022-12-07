@@ -25,6 +25,8 @@ use PhpParser\Node\Stmt\Property as PropertyNode;
 /**
  * This class acts like a combination of a PropertyNode and PropertyProperty to
  * be able to create property descriptors using a normal strategy.
+ *
+ * @implements Iterator<int, PropertyIterator>
  */
 final class PropertyIterator implements Iterator
 {

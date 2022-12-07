@@ -78,7 +78,7 @@ final class TypeTest extends PhpUnitTestCase
     public function testReturnsUnion(): void
     {
         $factory = new Type();
-        $given = new UnionType(['integer', 'string']);
+        $given = new UnionType([new Identifier('integer'), new Identifier('string')]);
         $expected = new Compound([new Integer(), new String_()]);
 
         $result = $factory->fromPhpParser($given);

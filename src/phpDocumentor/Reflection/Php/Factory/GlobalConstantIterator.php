@@ -19,6 +19,9 @@ use PhpParser\Comment\Doc;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Stmt\Const_;
 
+/**
+ * @implements Iterator<int, GlobalConstantIterator>
+ */
 final class GlobalConstantIterator implements Iterator
 {
     private Const_ $constant;
