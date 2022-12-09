@@ -30,7 +30,10 @@ final class Constant implements Element, MetaDataContainerInterface
 
     private ?DocBlock $docBlock;
 
-    private ?string $value;
+    /**
+     * @var string|Expression|null
+     */
+    private $value;
 
     private Location $location;
 
@@ -46,7 +49,7 @@ final class Constant implements Element, MetaDataContainerInterface
     public function __construct(
         Fqsen $fqsen,
         ?DocBlock $docBlock = null,
-        ?string $value = null,
+        $value = null,
         ?Location $location = null,
         ?Location $endLocation = null,
         ?Visibility $visibility = null,
@@ -54,18 +57,39 @@ final class Constant implements Element, MetaDataContainerInterface
     ) {
         $this->fqsen = $fqsen;
         $this->docBlock = $docBlock;
-        $this->value = $value;
         $this->location = $location ?: new Location(-1);
         $this->endLocation = $endLocation ?: new Location(-1);
         $this->visibility = $visibility ?: new Visibility(Visibility::PUBLIC_);
         $this->final = $final;
+
+        if (is_string($value)) {
+            trigger_error(
+                'Constant values should be of type Expression, support for strings will be '
+                . 'removed in 6.x',
+                E_USER_DEPRECATED
+            );
+            $value = new Expression($value, []);
+        }
+        $this->value = $value;
+
     }
 
     /**
-     * Returns the value of this constant.
+     * Returns the expression value for this constant.
+     *
+     * @return Expression|string|null
      */
-    public function getValue(): ?string
+    public function getValue(bool $asString = true)
     {
+        if ($asString) {
+            trigger_error(
+                'The expression value will become of type Expression by default',
+                E_USER_DEPRECATED
+            );
+
+            return (string) $this->value;
+        }
+
         return $this->value;
     }
 

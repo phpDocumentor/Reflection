@@ -16,6 +16,8 @@ namespace phpDocumentor\Reflection\Php\Factory;
 use phpDocumentor\Reflection\DocBlockFactoryInterface;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Class_;
+use phpDocumentor\Reflection\Php\Expression;
+use phpDocumentor\Reflection\Php\Expression\ExpressionPrinter;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\Property as PropertyDescriptor;
 use phpDocumentor\Reflection\Php\StrategyContainer;
@@ -74,9 +76,9 @@ final class Property extends AbstractFactory implements ProjectFactoryStrategy
 
         $iterator = new PropertyIterator($object);
         foreach ($iterator as $stmt) {
-            $default = null;
-            if ($iterator->getDefault() !== null) {
-                $default = $this->valueConverter->prettyPrintExpr($iterator->getDefault());
+            $default = $object->default !== null ? $this->valueConverter->prettyPrintExpr($object->default) : null;
+            if ($this->valueConverter instanceof ExpressionPrinter) {
+                $default = new Expression($default, $this->valueConverter->getParts());
             }
 
             $propertyContainer->addProperty(

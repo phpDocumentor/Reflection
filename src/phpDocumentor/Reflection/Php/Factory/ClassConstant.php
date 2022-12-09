@@ -18,6 +18,8 @@ use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Class_;
 use phpDocumentor\Reflection\Php\Constant as ConstantElement;
 use phpDocumentor\Reflection\Php\Enum_;
+use phpDocumentor\Reflection\Php\Expression;
+use phpDocumentor\Reflection\Php\Expression\ExpressionPrinter;
 use phpDocumentor\Reflection\Php\Interface_;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Php\Trait_;
@@ -79,13 +81,26 @@ final class ClassConstant extends AbstractFactory
             $constantContainer->addConstant(new ConstantElement(
                 $const->getFqsen(),
                 $this->createDocBlock($const->getDocComment(), $context->getTypeContext()),
-                $const->getValue() !== null ? $this->valueConverter->prettyPrintExpr($const->getValue()) : null,
+                $this->determineValue($const),
                 new Location($const->getLine()),
                 new Location($const->getEndLine()),
                 $this->buildVisibility($const),
                 $const->isFinal()
             ));
         }
+    }
+
+    private function determineValue(ClassConstantIterator $value): ?Expression
+    {
+        $expression = $value->getValue() !== null ? $this->valueConverter->prettyPrintExpr($value->getValue()) : null;
+        if ($this->valueConverter instanceof ExpressionPrinter) {
+            $expression = new Expression($expression, $this->valueConverter->getParts());
+        }
+        if (is_string($expression)) {
+            $expression = new Expression($expression, []);
+        }
+
+        return $expression;
     }
 
     /**

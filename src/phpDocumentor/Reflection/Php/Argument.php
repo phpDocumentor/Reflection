@@ -27,8 +27,8 @@ final class Argument
     /** @var Type a normalized type that should be in this Argument */
     private Type $type;
 
-    /** @var string|null the default value for an argument or null if none is provided */
-    private ?string $default;
+    /** @var Expression|null the default value for an argument or null if none is provided */
+    private ?Expression $default;
 
     /** @var bool whether the argument passes the parameter by reference instead of by value */
     private bool $byReference;
@@ -38,21 +38,32 @@ final class Argument
 
     /**
      * Initializes the object.
+     *
+     * @param string|Expression|null $default
      */
     public function __construct(
         string $name,
         ?Type $type = null,
-        ?string $default = null,
+        $default = null,
         bool $byReference = false,
         bool $isVariadic = false
     ) {
         $this->name = $name;
-        $this->default = $default;
         $this->byReference = $byReference;
         $this->isVariadic = $isVariadic;
         if ($type === null) {
             $type = new Mixed_();
         }
+
+        if (is_string($default)) {
+            trigger_error(
+                'Default values for arguments should be of type Expression, support for strings will be '
+                . 'removed in 6.x',
+                E_USER_DEPRECATED
+            );
+            $default = new Expression($default, []);
+        }
+        $this->default = $default;
 
         $this->type = $type;
     }
@@ -70,8 +81,20 @@ final class Argument
         return $this->type;
     }
 
-    public function getDefault(): ?string
+    /**
+     * @return Expression|string|null
+     */
+    public function getDefault(bool $asString = true)
     {
+        if ($asString) {
+            trigger_error(
+                'The Default value will become of type Expression by default',
+                E_USER_DEPRECATED
+            );
+
+            return (string) $this->default;
+        }
+
         return $this->default;
     }
 
