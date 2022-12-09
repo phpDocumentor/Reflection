@@ -18,6 +18,7 @@ use phpDocumentor\Reflection\DocBlockFactory;
 use phpDocumentor\Reflection\Exception;
 use phpDocumentor\Reflection\File as SourceFile;
 use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\Php\Expression\ExpressionPrinter;
 use phpDocumentor\Reflection\Php\Factory\Class_;
 use phpDocumentor\Reflection\Php\Factory\ClassConstant;
 use phpDocumentor\Reflection\Php\Factory\ConstructorPromotion;
@@ -67,6 +68,7 @@ final class ProjectFactory implements ProjectFactoryInterface
     public static function createInstance(): self
     {
         $docblockFactory = DocBlockFactory::createInstance();
+        $expressionPrinter = new ExpressionPrinter();
 
         $attributeReducer = new Attribute();
         $parameterReducer = new Parameter(new PrettyPrinter());
@@ -86,7 +88,7 @@ final class ProjectFactory implements ProjectFactoryInterface
                 new Function_($docblockFactory, [$attributeReducer, $parameterReducer]),
                 new Interface_($docblockFactory, [$attributeReducer]),
                 $methodStrategy,
-                new Property($docblockFactory, new PrettyPrinter(), [$attributeReducer, $parameterReducer]),
+                new Property($docblockFactory, $expressionPrinter, [$attributeReducer, $parameterReducer]),
                 new Trait_($docblockFactory, [$attributeReducer]),
 
                 new IfStatement(),
@@ -95,7 +97,7 @@ final class ProjectFactory implements ProjectFactoryInterface
         );
 
         $strategies->addStrategy(
-            new ConstructorPromotion($methodStrategy, $docblockFactory, new PrettyPrinter(), [$attributeReducer, $parameterReducer]),
+            new ConstructorPromotion($methodStrategy, $docblockFactory, $expressionPrinter, [$attributeReducer, $parameterReducer]),
             1100,
         );
         $strategies->addStrategy(new Noop(), -PHP_INT_MAX);

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace integration\PHP8;
 
+use DateTimeImmutable;
+use DateTimeImmutable;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlock\Tags\Param;
 use phpDocumentor\Reflection\DocBlock\Tags\Var_;
@@ -16,6 +18,7 @@ use phpDocumentor\Reflection\Php\ProjectFactory;
 use phpDocumentor\Reflection\Php\Project;
 use phpDocumentor\Reflection\Php\Property;
 use phpDocumentor\Reflection\Php\Visibility;
+use phpDocumentor\Reflection\Types\Array_;
 use phpDocumentor\Reflection\Types\Context;
 use phpDocumentor\Reflection\Types\Object_;
 use phpDocumentor\Reflection\Types\String_;
@@ -52,22 +55,26 @@ class ConstructorPromotionTest extends TestCase
         $constructor = $this->expectedContructorMethod();
         $constructor->addArgument(new Argument('name', new String_(), "'default name'"));
         $constructor->addArgument(new Argument('email', new Object_(new Fqsen('\\PHP8\\Email'))));
-        $constructor->addArgument(new Argument('birth_date', new Object_(new Fqsen('\\' . \DateTimeImmutable::class))));
+        $constructor->addArgument(new Argument('birth_date', new Object_(new Fqsen('\\' . DateTimeImmutable::class))));
+        $constructor->addArgument(new Argument('created_at', new Object_(new Fqsen('\\' . DateTimeImmutable::class))));
+        $constructor->addArgument(new Argument('uses_constants', new Array_()));
 
         self::assertEquals($constructor, $class->getMethods()['\PHP8\ConstructorPromotion::__construct()']);
         self::assertEquals(
             [
                 '\PHP8\ConstructorPromotion::$name' => $this->expectedNameProperty(),
                 '\PHP8\ConstructorPromotion::$email' => $this->expectedEmailProperty(),
-                '\PHP8\ConstructorPromotion::$birth_date' => $this->expectedBirthDateProperty()
+                '\PHP8\ConstructorPromotion::$birth_date' => $this->expectedBirthDateProperty(),
+                '\PHP8\ConstructorPromotion::$created_at' => $this->expectedCreatedAtProperty(),
+                '\PHP8\ConstructorPromotion::$uses_constants' => $this->expectedUsesConstantsProperty(),
             ],
             $class->getProperties()
         );
     }
 
-    private function expectedContructorMethod(): Method
+    private function expectedConstructorMethod(): Method
     {
-        $constructor = new Method(
+        return new Method(
             new Fqsen('\PHP8\ConstructorPromotion::__construct()'),
             new Visibility(Visibility::PUBLIC_),
             new DocBlock(
@@ -86,10 +93,9 @@ class ConstructorPromotionTest extends TestCase
             false,
             false,
             false,
-            new Location(16, 218),
-            new Location(27, 517)
+            new Location(18, 218),
+            new Location(31, 522)
         );
-        return $constructor;
     }
 
     private function expectedNameProperty(): Property
@@ -137,10 +143,38 @@ class ConstructorPromotionTest extends TestCase
             null,
             null,
             false,
-            new Location(26, 471),
-            new Location(26, 507),
-            new Object_(new Fqsen('\\' . \DateTimeImmutable::class))
+            new Location(26),
+            new Location(26),
+            new Object_(new Fqsen('\\' . DateTimeImmutable::class))
         );
         return $birthDate;
+    }
+
+    private function expectedCreatedAtProperty(): Property
+    {
+        return new Property(
+            new Fqsen('\PHP8\ConstructorPromotion::$created_at'),
+            new Visibility(Visibility::PRIVATE_),
+            null,
+            null,
+            false,
+            new Location(26),
+            new Location(26),
+            new Object_(new Fqsen('\\' . DateTimeImmutable::class))
+        );
+    }
+
+    private function expectedUsesConstantsProperty(): Property
+    {
+        return new Property(
+            new Fqsen('\PHP8\ConstructorPromotion::$uses_constants'),
+            new Visibility(Visibility::PRIVATE_),
+            null,
+            null,
+            false,
+            new Location(26),
+            new Location(26),
+            new Array_()
+        );
     }
 }

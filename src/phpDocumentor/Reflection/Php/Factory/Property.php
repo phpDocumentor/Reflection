@@ -18,6 +18,9 @@ use phpDocumentor\Reflection\DocBlockFactoryInterface;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Class_;
 use phpDocumentor\Reflection\Php\Factory\Reducer\Reducer;
+use phpDocumentor\Reflection\Php\Expression;
+use phpDocumentor\Reflection\Php\Expression\ExpressionPrinter;
+use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\Property as PropertyDescriptor;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Php\Trait_;
@@ -74,6 +77,11 @@ final class Property extends AbstractFactory
 
         $iterator = new PropertyIterator($object);
         foreach ($iterator as $stmt) {
+            $default = $object->default !== null ? $this->valueConverter->prettyPrintExpr($object->default) : null;
+            if ($this->valueConverter instanceof ExpressionPrinter) {
+                $default = new Expression($default, $this->valueConverter->getParts());
+            }
+
             $property = PropertyBuilder::create(
                 $this->valueConverter,
                 $this->docBlockFactory,
@@ -84,7 +92,7 @@ final class Property extends AbstractFactory
                 ->visibility($stmt)
                 ->type($stmt->getType())
                 ->docblock($stmt->getDocComment())
-                ->default($iterator->getDefault())
+                ->default($default)
                 ->static($stmt->isStatic())
                 ->startLocation(new Location($stmt->getLine()))
                 ->endLocation(new Location($stmt->getEndLine()))

@@ -10,6 +10,8 @@ use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Enum_ as EnumElement;
 use phpDocumentor\Reflection\Php\EnumCase as EnumCaseElement;
 use phpDocumentor\Reflection\Php\Factory\Reducer\Reducer;
+use phpDocumentor\Reflection\Php\Expression;
+use phpDocumentor\Reflection\Php\Expression\ExpressionPrinter;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use PhpParser\Node\Stmt\EnumCase as EnumCaseNode;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
@@ -41,12 +43,17 @@ final class EnumCase extends AbstractFactory
         $enum = $context->peek();
         assert($enum instanceof EnumElement);
 
+        $value = $object->expr !== null ? $this->prettyPrinter->prettyPrintExpr($object->expr) : null;
+        if ($this->prettyPrinter instanceof ExpressionPrinter) {
+            $value = new Expression($value, $this->prettyPrinter->getParts());
+        }
+
         $case = new EnumCaseElement(
             $object->getAttribute('fqsen'),
             $docBlock,
             new Location($object->getLine()),
             new Location($object->getEndLine()),
-            $object->expr !== null ? $this->prettyPrinter->prettyPrintExpr($object->expr) : null,
+            $value,
         );
 
         $enum->addCase($case);

@@ -17,6 +17,8 @@ use Override;
 use phpDocumentor\Reflection\DocBlockFactoryInterface;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Constant as ConstantElement;
+use phpDocumentor\Reflection\Php\Expression;
+use phpDocumentor\Reflection\Php\Expression\ExpressionPrinter;
 use phpDocumentor\Reflection\Php\File as FileElement;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use PhpParser\Node\Stmt\Const_;
@@ -70,7 +72,7 @@ final class GlobalConstant extends AbstractFactory
                 new ConstantElement(
                     $const->getFqsen(),
                     $this->createDocBlock($const->getDocComment(), $context->getTypeContext()),
-                    $const->getValue() !== null ? $this->valueConverter->prettyPrintExpr($const->getValue()) : null,
+                    $this->determineValue($const),
                     new Location($const->getLine()),
                     new Location($const->getEndLine()),
                 ),
@@ -78,5 +80,18 @@ final class GlobalConstant extends AbstractFactory
         }
 
         return null;
+    }
+
+    private function determineValue(GlobalConstantIterator $value): ?Expression
+    {
+        $expression = $value->getValue() !== null ? $this->valueConverter->prettyPrintExpr($value->getValue()) : null;
+        if ($this->valueConverter instanceof ExpressionPrinter) {
+            $expression = new Expression($expression, $this->valueConverter->getParts());
+        }
+        if (is_string($expression)) {
+            $expression = new Expression($expression, []);
+        }
+
+        return $expression;
     }
 }

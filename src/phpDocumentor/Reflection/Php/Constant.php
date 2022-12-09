@@ -42,7 +42,7 @@ final class Constant implements Element, MetaDataContainerInterface, AttributeCo
     public function __construct(
         private readonly Fqsen $fqsen,
         private readonly DocBlock|null $docBlock = null,
-        private readonly string|null $value = null,
+        private Expression|string|null $value = null,
         Location|null $location = null,
         Location|null $endLocation = null,
         Visibility|null $visibility = null,
@@ -51,13 +51,31 @@ final class Constant implements Element, MetaDataContainerInterface, AttributeCo
         $this->location = $location ?: new Location(-1);
         $this->endLocation = $endLocation ?: new Location(-1);
         $this->visibility = $visibility ?: new Visibility(Visibility::PUBLIC_);
+
+        if (is_string($this->value)) {
+            trigger_error(
+                'Constant values should be of type Expression, support for strings will be '
+                . 'removed in 6.x',
+                E_USER_DEPRECATED
+            );
+            $this->value = new Expression($this->value, []);
+        }
     }
 
     /**
-     * Returns the value of this constant.
+     * Returns the expression value for this constant.
      */
-    public function getValue(): string|null
+    public function getValue(bool $asString = true): Expression|string|null
     {
+        if ($asString) {
+            trigger_error(
+                'The expression value will become of type Expression by default',
+                E_USER_DEPRECATED
+            );
+
+            return (string) $this->value;
+        }
+
         return $this->value;
     }
 
