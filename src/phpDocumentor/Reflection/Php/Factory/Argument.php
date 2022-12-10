@@ -75,19 +75,27 @@ final class Argument extends AbstractFactory implements ProjectFactoryStrategy
             ]
         );
 
-        $default = $object->default !== null ? $this->valueConverter->prettyPrintExpr($object->default) : null;
-        if ($this->valueConverter instanceof ExpressionPrinter) {
-            $default = new Expression($default, $this->valueConverter->getParts());
-        }
-
         $method->addArgument(
             new ArgumentDescriptor(
                 (string) $object->var->name,
                 (new Type())->fromPhpParser($object->type),
-                $default,
+                $this->determineDefault($object),
                 $object->byRef,
                 $object->variadic
             )
         );
+    }
+
+    private function determineDefault(Param $value): ?Expression
+    {
+        $expression = $value->default !== null ? $this->valueConverter->prettyPrintExpr($value->default) : null;
+        if ($this->valueConverter instanceof ExpressionPrinter) {
+            $expression = new Expression($expression, $this->valueConverter->getParts());
+        }
+        if (is_string($expression)) {
+            $expression = new Expression($expression, []);
+        }
+
+        return $expression;
     }
 }

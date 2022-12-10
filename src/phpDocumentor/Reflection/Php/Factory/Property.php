@@ -76,17 +76,12 @@ final class Property extends AbstractFactory implements ProjectFactoryStrategy
 
         $iterator = new PropertyIterator($object);
         foreach ($iterator as $stmt) {
-            $default = $object->default !== null ? $this->valueConverter->prettyPrintExpr($object->default) : null;
-            if ($this->valueConverter instanceof ExpressionPrinter) {
-                $default = new Expression($default, $this->valueConverter->getParts());
-            }
-
             $propertyContainer->addProperty(
                 new PropertyDescriptor(
                     $stmt->getFqsen(),
                     $this->buildVisibility($stmt),
                     $this->createDocBlock($stmt->getDocComment(), $context->getTypeContext()),
-                    $default,
+                    $this->determineDefault($stmt),
                     $stmt->isStatic(),
                     new Location($stmt->getLine()),
                     new Location($stmt->getEndLine()),
@@ -95,6 +90,21 @@ final class Property extends AbstractFactory implements ProjectFactoryStrategy
                 )
             );
         }
+    }
+
+    private function determineDefault(PropertyIterator $value): ?Expression
+    {
+        $expression = $value->getDefault() !== null
+            ? $this->valueConverter->prettyPrintExpr($value->getDefault())
+            : null;
+        if ($this->valueConverter instanceof ExpressionPrinter) {
+            $expression = new Expression($expression, $this->valueConverter->getParts());
+        }
+        if (is_string($expression)) {
+            $expression = new Expression($expression, []);
+        }
+
+        return $expression;
     }
 
     /**

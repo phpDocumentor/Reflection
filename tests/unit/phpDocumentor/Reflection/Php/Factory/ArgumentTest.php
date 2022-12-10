@@ -16,6 +16,7 @@ namespace phpDocumentor\Reflection\Php\Factory;
 use Mockery as m;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\Argument as ArgumentDescriptor;
+use phpDocumentor\Reflection\Php\Expression\ExpressionPrinter;
 use phpDocumentor\Reflection\Php\Method as MethodElement;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategies;
 use PhpParser\Node\Expr\Variable;
@@ -40,7 +41,7 @@ class ArgumentTest extends TestCase
 {
     protected function setUp(): void
     {
-        $this->fixture = new Argument(new PrettyPrinter());
+        $this->fixture = new Argument(new ExpressionPrinter());
     }
 
     /**

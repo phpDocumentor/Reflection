@@ -81,6 +81,10 @@ final class Constant implements Element, MetaDataContainerInterface
      */
     public function getValue(bool $asString = true)
     {
+        if ($this->value === null) {
+            return null;
+        }
+
         if ($asString) {
             trigger_error(
                 'The expression value will become of type Expression by default',

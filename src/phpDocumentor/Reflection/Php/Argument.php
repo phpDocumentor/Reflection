@@ -86,6 +86,10 @@ final class Argument
      */
     public function getDefault(bool $asString = true)
     {
+        if ($this->default === null) {
+            return null;
+        }
+
         if ($asString) {
             trigger_error(
                 'The Default value will become of type Expression by default',
