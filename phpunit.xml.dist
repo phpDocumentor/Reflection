@@ -21,6 +21,9 @@
       <directory>./tests/integration</directory>
     </testsuite>
   </testsuites>
+  <php>
+    <ini name="error_reporting" value="E_ALL &amp; ~E_USER_DEPRECATED" />
+  </php>
   <filter>
     <whitelist>
       <directory suffix=".php">./src/</directory>
@@ -35,8 +38,8 @@
   </logging>
   <listeners>
     <listener
-            class="Mockery\Adapter\Phpunit\TestListener"
-            file="vendor/mockery/mockery/library/Mockery/Adapter/Phpunit/TestListener.php"
+        class="Mockery\Adapter\Phpunit\TestListener"
+        file="vendor/mockery/mockery/library/Mockery/Adapter/Phpunit/TestListener.php"
     />
   </listeners>
 </phpunit>
