@@ -27,6 +27,8 @@ use PhpParser\Node\Stmt\Property as PropertyNode;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
 use Webmozart\Assert\Assert;
 
+use function is_string;
+
 /**
  * Strategy to convert PropertyIterator to PropertyDescriptor
  *
@@ -100,6 +102,7 @@ final class Property extends AbstractFactory implements ProjectFactoryStrategy
         if ($this->valueConverter instanceof ExpressionPrinter) {
             $expression = new Expression($expression, $this->valueConverter->getParts());
         }
+
         if (is_string($expression)) {
             $expression = new Expression($expression, []);
         }

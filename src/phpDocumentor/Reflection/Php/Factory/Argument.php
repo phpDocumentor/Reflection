@@ -25,6 +25,8 @@ use PhpParser\Node\Param;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
 use Webmozart\Assert\Assert;
 
+use function is_string;
+
 /**
  * Strategy to convert Param to Argument
  *
@@ -92,6 +94,7 @@ final class Argument extends AbstractFactory implements ProjectFactoryStrategy
         if ($this->valueConverter instanceof ExpressionPrinter) {
             $expression = new Expression($expression, $this->valueConverter->getParts());
         }
+
         if (is_string($expression)) {
             $expression = new Expression($expression, []);
         }

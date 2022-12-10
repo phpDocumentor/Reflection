@@ -8,11 +8,11 @@ use phpDocumentor\Reflection\Fqsen;
 use PhpParser\Node\Name;
 use PhpParser\PrettyPrinter\Standard;
 
+use function md5;
+
 final class ExpressionPrinter extends Standard
 {
-    /**
-     * @var array<Fqsen>
-     */
+    /** @var array<Fqsen> */
     private array $parts = [];
 
     protected function resetState(): void

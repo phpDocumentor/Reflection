@@ -7,6 +7,10 @@ namespace phpDocumentor\Reflection\Php;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Type;
 
+use function array_keys;
+use function array_map;
+use function str_replace;
+
 final class Expression
 {
     private string $expression;
@@ -33,7 +37,7 @@ final class Expression
     public function __toString(): string
     {
         $valuesAsStrings = array_map(
-            static fn(object $part): string => (string)$part,
+            static fn (object $part): string => (string) $part,
             $this->parts
         );
 

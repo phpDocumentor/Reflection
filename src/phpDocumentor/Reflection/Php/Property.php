@@ -20,6 +20,11 @@ use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInterface;
 use phpDocumentor\Reflection\Type;
 
+use function is_string;
+use function trigger_error;
+
+use const E_USER_DEPRECATED;
+
 /**
  * Descriptor representing a property.
  */
@@ -80,6 +85,7 @@ final class Property implements Element, MetaDataContainerInterface
             );
             $default = new Expression($default, []);
         }
+
         $this->default = $default;
     }
 

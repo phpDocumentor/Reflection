@@ -38,7 +38,6 @@ use phpDocumentor\Reflection\Php\Factory\Trait_;
 use phpDocumentor\Reflection\Php\Factory\TraitUse;
 use phpDocumentor\Reflection\Project as ProjectInterface;
 use phpDocumentor\Reflection\ProjectFactory as ProjectFactoryInterface;
-use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
 
 use function is_array;
 

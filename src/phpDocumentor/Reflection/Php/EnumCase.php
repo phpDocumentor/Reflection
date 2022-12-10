@@ -10,6 +10,11 @@ use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInterface;
 
+use function is_string;
+use function trigger_error;
+
+use const E_USER_DEPRECATED;
+
 final class EnumCase implements Element, MetaDataContainerInterface
 {
     use MetadataContainer;
@@ -55,6 +60,7 @@ final class EnumCase implements Element, MetaDataContainerInterface
             );
             $value = new Expression($value, []);
         }
+
         $this->value = $value;
     }
 

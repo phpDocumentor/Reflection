@@ -28,6 +28,8 @@ use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
 use Webmozart\Assert\Assert;
 
+use function is_string;
+
 /**
  * Strategy to convert ClassConstantIterator to ConstantElement
  *
@@ -96,6 +98,7 @@ final class ClassConstant extends AbstractFactory
         if ($this->valueConverter instanceof ExpressionPrinter) {
             $expression = new Expression($expression, $this->valueConverter->getParts());
         }
+
         if (is_string($expression)) {
             $expression = new Expression($expression, []);
         }

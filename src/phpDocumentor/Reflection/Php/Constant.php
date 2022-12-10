@@ -19,6 +19,11 @@ use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInterface;
 
+use function is_string;
+use function trigger_error;
+
+use const E_USER_DEPRECATED;
+
 /**
  * Descriptor representing a constant
  */
@@ -30,9 +35,7 @@ final class Constant implements Element, MetaDataContainerInterface
 
     private ?DocBlock $docBlock;
 
-    /**
-     * @var string|Expression|null
-     */
+    /** @var string|Expression|null */
     private $value;
 
     private Location $location;
@@ -70,8 +73,8 @@ final class Constant implements Element, MetaDataContainerInterface
             );
             $value = new Expression($value, []);
         }
-        $this->value = $value;
 
+        $this->value = $value;
     }
 
     /**

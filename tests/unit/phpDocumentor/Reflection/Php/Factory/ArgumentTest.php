@@ -22,7 +22,6 @@ use phpDocumentor\Reflection\Php\ProjectFactoryStrategies;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Param;
 use PhpParser\Node\Scalar\String_;
-use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
 use stdClass;
 
 /**
