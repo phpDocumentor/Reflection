@@ -27,6 +27,8 @@ use PhpParser\Node\Stmt\Property as PropertyNode;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
 use Webmozart\Assert\Assert;
 
+use function is_string;
+
 /**
  * Strategy to convert PropertyIterator to PropertyDescriptor
  *

@@ -25,6 +25,8 @@ use PhpParser\Node\Stmt\Const_;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
 use Webmozart\Assert\Assert;
 
+use function is_string;
+
 /**
  * Strategy to convert GlobalConstantIterator to ConstantElement
  *
@@ -88,6 +90,7 @@ final class GlobalConstant extends AbstractFactory
         if ($this->valueConverter instanceof ExpressionPrinter) {
             $expression = new Expression($expression, $this->valueConverter->getParts());
         }
+
         if (is_string($expression)) {
             $expression = new Expression($expression, []);
         }

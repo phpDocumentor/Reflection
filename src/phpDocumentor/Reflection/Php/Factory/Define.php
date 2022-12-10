@@ -33,6 +33,7 @@ use PhpParser\Node\VariadicPlaceholder;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
 
 use function assert;
+use function is_string;
 use function sprintf;
 use function str_starts_with;
 
@@ -130,6 +131,7 @@ final class Define extends AbstractFactory
         if ($this->valueConverter instanceof ExpressionPrinter) {
             $expression = new ValueExpression($expression, $this->valueConverter->getParts());
         }
+
         if (is_string($expression)) {
             $expression = new ValueExpression($expression, []);
         }

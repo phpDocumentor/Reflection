@@ -16,6 +16,11 @@ namespace phpDocumentor\Reflection\Php;
 use phpDocumentor\Reflection\Type;
 use phpDocumentor\Reflection\Types\Mixed_;
 
+use function is_string;
+use function trigger_error;
+
+use const E_USER_DEPRECATED;
+
 /**
  * Descriptor representing a single Argument of a method or function.
  *
