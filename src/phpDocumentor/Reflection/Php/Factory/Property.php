@@ -20,7 +20,6 @@ use phpDocumentor\Reflection\Php\Class_;
 use phpDocumentor\Reflection\Php\Factory\Reducer\Reducer;
 use phpDocumentor\Reflection\Php\Expression;
 use phpDocumentor\Reflection\Php\Expression\ExpressionPrinter;
-use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\Property as PropertyDescriptor;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Php\Trait_;
@@ -77,11 +76,6 @@ final class Property extends AbstractFactory
 
         $iterator = new PropertyIterator($object);
         foreach ($iterator as $stmt) {
-            $default = $object->default !== null ? $this->valueConverter->prettyPrintExpr($object->default) : null;
-            if ($this->valueConverter instanceof ExpressionPrinter) {
-                $default = new Expression($default, $this->valueConverter->getParts());
-            }
-
             $property = PropertyBuilder::create(
                 $this->valueConverter,
                 $this->docBlockFactory,
@@ -92,7 +86,7 @@ final class Property extends AbstractFactory
                 ->visibility($stmt)
                 ->type($stmt->getType())
                 ->docblock($stmt->getDocComment())
-                ->default($default)
+                ->default($this->determineDefault($stmt))
                 ->static($stmt->isStatic())
                 ->startLocation(new Location($stmt->getLine()))
                 ->endLocation(new Location($stmt->getEndLine()))
@@ -109,8 +103,24 @@ final class Property extends AbstractFactory
             }
 
             $propertyContainer->addProperty($property);
+
+        }
+    }
+
+    private function determineDefault(PropertyIterator $value): Expression|null
+    {
+        $expression = $value->getDefault() !== null
+            ? $this->valueConverter->prettyPrintExpr($value->getDefault())
+            : null;
+
+        if ($this->valueConverter instanceof ExpressionPrinter) {
+            $expression = new Expression($expression, $this->valueConverter->getParts());
         }
 
-        return null;
+        if (is_string($expression)) {
+            $expression = new Expression($expression, []);
+        }
+
+        return $expression;
     }
 }

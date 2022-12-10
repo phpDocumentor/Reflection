@@ -76,6 +76,10 @@ final class Property implements Element, MetaDataContainerInterface, AttributeCo
      */
     public function getDefault(bool $asString = true): Expression|string|null
     {
+        if ($this->default === null) {
+            return null;
+        }
+
         if ($asString) {
             trigger_error(
                 'The Default value will become of type Expression by default',
