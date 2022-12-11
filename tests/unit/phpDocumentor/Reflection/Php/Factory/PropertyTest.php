@@ -41,8 +41,6 @@ use function next;
  *
  * @covers \phpDocumentor\Reflection\Php\Factory\Property
  * @covers \phpDocumentor\Reflection\Php\Factory\AbstractFactory
- *
- * @extends TestCase<Property>
  */
 final class PropertyTest extends TestCase
 {

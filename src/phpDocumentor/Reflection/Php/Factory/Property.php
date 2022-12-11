@@ -99,6 +99,10 @@ final class Property extends AbstractFactory implements ProjectFactoryStrategy
         $expression = $value->getDefault() !== null
             ? $this->valueConverter->prettyPrintExpr($value->getDefault())
             : null;
+        if ($expression === null) {
+            return null;
+        }
+
         if ($this->valueConverter instanceof ExpressionPrinter) {
             $expression = new Expression($expression, $this->valueConverter->getParts());
         }

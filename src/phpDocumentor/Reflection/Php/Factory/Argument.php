@@ -91,6 +91,10 @@ final class Argument extends AbstractFactory implements ProjectFactoryStrategy
     private function determineDefault(Param $value): ?Expression
     {
         $expression = $value->default !== null ? $this->valueConverter->prettyPrintExpr($value->default) : null;
+        if ($expression === null) {
+            return null;
+        }
+
         if ($this->valueConverter instanceof ExpressionPrinter) {
             $expression = new Expression($expression, $this->valueConverter->getParts());
         }

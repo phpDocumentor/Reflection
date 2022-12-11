@@ -85,6 +85,10 @@ final class GlobalConstant extends AbstractFactory
     private function determineValue(GlobalConstantIterator $value): ?Expression
     {
         $expression = $value->getValue() !== null ? $this->valueConverter->prettyPrintExpr($value->getValue()) : null;
+        if ($expression === null) {
+            return null;
+        }
+
         if ($this->valueConverter instanceof ExpressionPrinter) {
             $expression = new Expression($expression, $this->valueConverter->getParts());
         }

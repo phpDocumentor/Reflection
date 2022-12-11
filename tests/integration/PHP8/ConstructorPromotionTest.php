@@ -12,6 +12,7 @@ use phpDocumentor\Reflection\File\LocalFile;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Argument;
+use phpDocumentor\Reflection\Php\Expression;
 use phpDocumentor\Reflection\Php\Method;
 use phpDocumentor\Reflection\Php\ProjectFactory;
 use phpDocumentor\Reflection\Php\Project;
@@ -28,12 +29,10 @@ use PHPUnit\Framework\TestCase;
  */
 class ConstructorPromotionTest extends TestCase
 {
-    const FILE = __DIR__ . '/../data/PHP8/ConstructorPromotion.php';
-    /** @var ProjectFactory */
-    private $fixture;
+    private const FILE = __DIR__ . '/../data/PHP8/ConstructorPromotion.php';
 
-    /** @var Project */
-    private $project;
+    private ProjectFactory $fixture;
+    private Project $project;
 
     protected function setUp() : void
     {
@@ -55,8 +54,6 @@ class ConstructorPromotionTest extends TestCase
         $constructor->addArgument(new Argument('name', new String_()));
         $constructor->addArgument(new Argument('email', new String_(), '\'test@example.com\''));
         $constructor->addArgument(new Argument('birth_date', new Object_(new Fqsen('\\' . DateTimeImmutable::class))));
-        $constructor->addArgument(new Argument('created_at', new Object_(new Fqsen('\\' . DateTimeImmutable::class))));
-        $constructor->addArgument(new Argument('uses_constants', new Array_()));
 
         self::assertEquals($constructor, $class->getMethods()['\PHP8\ConstructorPromotion::__construct()']);
         self::assertEquals(
@@ -64,8 +61,6 @@ class ConstructorPromotionTest extends TestCase
                 '\PHP8\ConstructorPromotion::$name' => $this->expectedNameProperty(),
                 '\PHP8\ConstructorPromotion::$email' => $this->expectedEmailProperty(),
                 '\PHP8\ConstructorPromotion::$birth_date' => $this->expectedBirthDateProperty(),
-                '\PHP8\ConstructorPromotion::$created_at' => $this->expectedCreatedAtProperty(),
-                '\PHP8\ConstructorPromotion::$uses_constants' => $this->expectedUsesConstantsProperty(),
             ],
             $class->getProperties()
         );
@@ -92,14 +87,14 @@ class ConstructorPromotionTest extends TestCase
             false,
             false,
             false,
-            new Location(18, 218),
-            new Location(31, 522)
+            new Location(18, 264),
+            new Location(29, 568)
         );
     }
 
     private function expectedNameProperty(): Property
     {
-        $name = new Property(
+        return new Property(
             new Fqsen('\PHP8\ConstructorPromotion::$name'),
             new Visibility(Visibility::PUBLIC_),
             new DocBlock(
@@ -112,68 +107,37 @@ class ConstructorPromotionTest extends TestCase
             ),
             null,
             false,
-            new Location(24),
-            new Location(24),
+            new Location(26),
+            new Location(26),
             new String_()
         );
-        return $name;
     }
 
     private function expectedEmailProperty(): Property
     {
-        $email = new Property(
+        return new Property(
             new Fqsen('\PHP8\ConstructorPromotion::$email'),
             new Visibility(Visibility::PROTECTED_),
             null,
             '\'test@example.com\'',
             false,
-            new Location(25),
-            new Location(25),
+            new Location(27),
+            new Location(27),
             new String_()
         );
-        return $email;
     }
 
     private function expectedBirthDateProperty(): Property
     {
-        $birthDate = new Property(
+        return new Property(
             new Fqsen('\PHP8\ConstructorPromotion::$birth_date'),
             new Visibility(Visibility::PRIVATE_),
             null,
             null,
             false,
-            new Location(26),
-            new Location(26),
+            new Location(28),
+            new Location(28),
             new Object_(new Fqsen('\\' . DateTimeImmutable::class))
-        );
-        return $birthDate;
-    }
-
-    private function expectedCreatedAtProperty(): Property
-    {
-        return new Property(
-            new Fqsen('\PHP8\ConstructorPromotion::$created_at'),
-            new Visibility(Visibility::PRIVATE_),
-            null,
-            null,
-            false,
-            new Location(26),
-            new Location(26),
-            new Object_(new Fqsen('\\' . DateTimeImmutable::class))
-        );
-    }
-
-    private function expectedUsesConstantsProperty(): Property
-    {
-        return new Property(
-            new Fqsen('\PHP8\ConstructorPromotion::$uses_constants'),
-            new Visibility(Visibility::PRIVATE_),
-            null,
-            null,
-            false,
-            new Location(26),
-            new Location(26),
-            new Array_()
         );
     }
 }
