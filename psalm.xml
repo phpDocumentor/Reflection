@@ -9,6 +9,11 @@
     <projectFiles>
         <directory name="src" />
         <ignoreFiles>
+            <!--
+            ExpressionPrinter inherits all kinds of errors from PHP-Parser that I cannot fix, until a solution is found
+            we ignore this
+            -->
+            <file name="src/phpDocumentor/Reflection/Php/Expression/ExpressionPrinter.php"/>
             <directory name="vendor" />
         </ignoreFiles>
     </projectFiles>

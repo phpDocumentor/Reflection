@@ -24,3 +24,37 @@ $isString as being false, it will return an Expression object; which, when cast 
 
 This will allow consumers to be able to extract types and links to elements from expressions. This allows consumers to,
 for example, interpret the default value for a constructor promoted properties when it directly instantiates an object.
+
+Creating expressions
+--------------------
+
+.. hint::
+
+   The description below is only for internal usage and to understand how expressions work, this library deals with
+   this by default.
+
+In this library, we use the ExpressionPrinter to convert a PHP-Parser node -or expression- into an expression
+like this::
+
+     $printer = new ExpressionPrinter();
+     $expressionTemplate = $printer->prettyPrintExpr($phpParserNode);
+     $expression = new Expression($expressionTemplate, $printer->getParts());
+
+In the example above we assume that there is a PHP-Parser node representing an expression; this node is passed to the
+ExpressionPrinter -which is an adapted PrettyPrinter from PHP-Parser- which will render the expression as a readable
+template string containing placeholders, and a list of parts that can slot into the placeholders.
+
+Consuming expressions
+---------------------
+
+When using this library, you can consume these expression objects either by
+
+1. Directly casting them to a string - this will replace all placeholders with the stringified version of the parts
+2. Use the render function - this will do the same as the previous methods but you can specify one or more overrides
+   for the placeholders in the expression
+
+The second method can be used to create your own string values from the given parts and render, for example, links in
+these locations.
+
+Another way to use these expressions is to interpret the parts array, and through that way know which elements and
+types are referred to in that expression.

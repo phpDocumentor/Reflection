@@ -109,13 +109,9 @@ final class ClassConstant extends AbstractFactory
         return null;
     }
 
-    private function determineValue(ClassConstantIterator $value): null|Expression
+    private function determineValue(ClassConstantIterator $value): Expression|null
     {
-        $expression = $value->getValue() !== null ? $this->valueConverter->prettyPrintExpr($value->getValue()) : null;
-        if ($expression === null) {
-            return null;
-        }
-
+        $expression = $this->valueConverter->prettyPrintExpr($value->getValue());
         if ($this->valueConverter instanceof ExpressionPrinter) {
             $expression = new Expression($expression, $this->valueConverter->getParts());
         }

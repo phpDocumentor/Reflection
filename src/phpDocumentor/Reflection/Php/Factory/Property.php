@@ -111,10 +111,8 @@ final class Property extends AbstractFactory
 
     private function determineDefault(PropertyIterator $value): Expression|null
     {
-        $expression = $value->getDefault() !== null
-            ? $this->valueConverter->prettyPrintExpr($value->getDefault())
-            : null;
-
+        $default = $value->getDefault();
+        $expression = $default !== null ? $this->valueConverter->prettyPrintExpr($default) : null;
         if ($expression === null) {
             return null;
         }
