@@ -128,11 +128,7 @@ final class Define extends AbstractFactory
             return null;
         }
 
-        $expression = $value->value !== null ? $this->valueConverter->prettyPrintExpr($value->value) : null;
-        if ($expression === null) {
-            return null;
-        }
-
+        $expression = $this->valueConverter->prettyPrintExpr($value->value);
         if ($this->valueConverter instanceof ExpressionPrinter) {
             $expression = new ValueExpression($expression, $this->valueConverter->getParts());
         }

@@ -8,7 +8,6 @@ use phpDocumentor\Reflection\DocBlockFactoryInterface;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Enum_ as EnumElement;
 use phpDocumentor\Reflection\Php\EnumCase as EnumCaseElement;
-use phpDocumentor\Reflection\Php\Expression;
 use phpDocumentor\Reflection\Php\Expression as ValueExpression;
 use phpDocumentor\Reflection\Php\Expression\ExpressionPrinter;
 use phpDocumentor\Reflection\Php\StrategyContainer;

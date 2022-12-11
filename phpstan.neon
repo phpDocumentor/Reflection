@@ -17,10 +17,6 @@ parameters:
         - '#Parameter \#1 \$fqsen of class phpDocumentor\\Reflection\\Php\\(.*) constructor expects phpDocumentor\\Reflection\\Fqsen, mixed given\.#'
         - '#Parameter \#1 \$fqsen of method phpDocumentor\\Reflection\\Php\\File::addNamespace\(\) expects phpDocumentor\\Reflection\\Fqsen, mixed given\.#'
         #
-        # there is one test case that prevents changing PropertyIterator::getDefault() to just return Expr (this is set in PhpParser)
-        # src/phpDocumentor/Reflection/Php/Factory/Property.php
-        - '#Parameter \#1 \$node of method PhpParser\\PrettyPrinterAbstract::prettyPrintExpr\(\) expects PhpParser\\Node\\Expr, PhpParser\\Node\\Expr\|string given\.#'
-        #
         # Type hint in php-parser is incorrect.
         - '#Cannot cast PhpParser\\Node\\Expr\|string to string.#'
 

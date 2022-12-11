@@ -48,6 +48,8 @@ final class Constant implements Element, MetaDataContainerInterface
 
     /**
      * Initializes the object.
+     *
+     * @param Expression|string|null $value
      */
     public function __construct(
         Fqsen $fqsen,

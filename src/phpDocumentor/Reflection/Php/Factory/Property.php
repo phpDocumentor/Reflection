@@ -96,9 +96,8 @@ final class Property extends AbstractFactory implements ProjectFactoryStrategy
 
     private function determineDefault(PropertyIterator $value): ?Expression
     {
-        $expression = $value->getDefault() !== null
-            ? $this->valueConverter->prettyPrintExpr($value->getDefault())
-            : null;
+        $default = $value->getDefault();
+        $expression = $default !== null ? $this->valueConverter->prettyPrintExpr($default) : null;
         if ($expression === null) {
             return null;
         }
