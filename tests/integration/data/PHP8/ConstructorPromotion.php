@@ -26,7 +26,5 @@ class ConstructorPromotion
         public string $name = 'default name',
         protected Email $email,
         private DateTimeImmutable $birth_date,
-        private DateTimeImmutable $created_at = new DateTimeImmutable('now'),
-        private array $uses_constants = [self::DEFAULT_VALUE],
     ) {}
 }

@@ -18,6 +18,9 @@ final class Expression
     /** @var array<string, Fqsen|Type> */
     private array $parts;
 
+    /**
+     * @param array<string, Fqsen|Type> $parts
+     */
     public function __construct(string $expression, array $parts)
     {
         $this->expression = $expression;
@@ -29,6 +32,9 @@ final class Expression
         return $this->expression;
     }
 
+    /**
+     * @return array<string, Fqsen|Type>
+     */
     public function getParts(): array
     {
         return $this->parts;
