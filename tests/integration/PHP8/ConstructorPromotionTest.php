@@ -45,7 +45,7 @@ class ConstructorPromotionTest extends TestCase
         );
     }
 
-    public function testPropertiesAreCreated() : void
+    public function testArgumentsAreReadCorrectly() : void
     {
         $file = $this->project->getFiles()[self::FILE];
         $class = $file->getClasses()['\\PHP8\\ConstructorPromotion'];
@@ -54,13 +54,45 @@ class ConstructorPromotionTest extends TestCase
         $constructor->addArgument(new Argument('name', new String_()));
         $constructor->addArgument(new Argument('email', new String_(), '\'test@example.com\''));
         $constructor->addArgument(new Argument('birth_date', new Object_(new Fqsen('\\' . DateTimeImmutable::class))));
+        $constructor->addArgument(
+            new Argument(
+                'created_at',
+                new Object_(new Fqsen('\\' . DateTimeImmutable::class)),
+                new Expression(
+                    'new {{ PHPDOC6ffacd918e2f70478d2fd33dcb58c4d4 }}(\'now\')',
+                    [
+                        '{{ PHPDOC6ffacd918e2f70478d2fd33dcb58c4d4 }}' => new Fqsen('\\DateTimeImmutable')
+                    ]
+                )
+            )
+        );
+        $constructor->addArgument(
+            new Argument(
+                'uses_constants',
+                new Array_(),
+                new Expression(
+                    '[{{ PHPDOC590f53e8699817c6fa498cc11a4cbe63 }}]',
+                    [
+                        '{{ PHPDOC590f53e8699817c6fa498cc11a4cbe63 }}' => new Fqsen('\PHP8\ConstructorPromotion::DEFAULT_VALUE')
+                    ]
+                )
+            )
+        );
 
         self::assertEquals($constructor, $class->getMethods()['\PHP8\ConstructorPromotion::__construct()']);
+    }
+
+    public function testPropertiesAreCreated() : void
+    {
+        $file = $this->project->getFiles()[self::FILE];
+        $class = $file->getClasses()['\\PHP8\\ConstructorPromotion'];
+
         self::assertEquals(
             [
                 '\PHP8\ConstructorPromotion::$name' => $this->expectedNameProperty(),
                 '\PHP8\ConstructorPromotion::$email' => $this->expectedEmailProperty(),
                 '\PHP8\ConstructorPromotion::$birth_date' => $this->expectedBirthDateProperty(),
+                '\PHP8\ConstructorPromotion::$created_at' => $this->expectedCreatedAtProperty(),
             ],
             $class->getProperties()
         );
@@ -88,7 +120,7 @@ class ConstructorPromotionTest extends TestCase
             false,
             false,
             new Location(18, 264),
-            new Location(29, 568)
+            new Location(31, 709)
         );
     }
 
@@ -137,6 +169,25 @@ class ConstructorPromotionTest extends TestCase
             false,
             new Location(28),
             new Location(28),
+            new Object_(new Fqsen('\\' . DateTimeImmutable::class))
+        );
+    }
+
+    private function expectedCreatedAtProperty(): Property
+    {
+        return new Property(
+            new Fqsen('\PHP8\ConstructorPromotion::$created_at'),
+            new Visibility(Visibility::PRIVATE_),
+            null,
+            new Expression(
+                'new {{ PHPDOC6ffacd918e2f70478d2fd33dcb58c4d4 }}(\'now\')',
+                [
+                    '{{ PHPDOC6ffacd918e2f70478d2fd33dcb58c4d4 }}' => new Fqsen('\\DateTimeImmutable')
+                ]
+            ),
+            false,
+            new Location(29),
+            new Location(29),
             new Object_(new Fqsen('\\' . DateTimeImmutable::class))
         );
     }
