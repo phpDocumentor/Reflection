@@ -32,14 +32,18 @@ final class EnumCaseTest extends TestCase
     private DocBlock $docBlock;
 
     /**
-     * Creates a new (emoty) fixture object.
+     * Creates a new (empty) fixture object.
      */
     protected function setUp(): void
     {
         $this->fqsen    = new Fqsen('\Enum::VALUE');
         $this->docBlock = new DocBlock('');
 
-        $this->fixture = new EnumCase($this->fqsen, $this->docBlock);
+        // needed for MetaDataContainer testing
+        $this->fixture = new EnumCase(
+            $this->fqsen,
+            $this->docBlock,
+        );
     }
 
     private function getFixture(): MetaDataContainerInterface
@@ -49,26 +53,141 @@ final class EnumCaseTest extends TestCase
 
     public function testGettingName(): void
     {
-        $this->assertSame($this->fqsen->getName(), $this->fixture->getName());
+        $fixture = new EnumCase(
+            $this->fqsen,
+            $this->docBlock,
+        );
+
+        $this->assertSame($this->fqsen->getName(), $fixture->getName());
     }
 
     public function testGettingFqsen(): void
     {
-        $this->assertSame($this->fqsen, $this->fixture->getFqsen());
+        $fixture = new EnumCase(
+            $this->fqsen,
+            $this->docBlock,
+        );
+
+        $this->assertSame($this->fqsen, $fixture->getFqsen());
     }
 
     public function testGettingDocBlock(): void
     {
-        $this->assertSame($this->docBlock, $this->fixture->getDocBlock());
+        $fixture = new EnumCase(
+            $this->fqsen,
+            $this->docBlock,
+        );
+
+        $this->assertSame($this->docBlock, $fixture->getDocBlock());
     }
 
-    public function testGetValue(): void
+    /**
+     * @covers ::getValue
+     */
+    public function testValueCanBeOmitted(): void
     {
-        $this->assertNull($this->fixture->getValue());
+        $fixture = new EnumCase(
+            $this->fqsen,
+            $this->docBlock,
+        );
+
+        $this->assertNull($fixture->getValue());
     }
 
-    public function testGetLocationReturnsDefault(): void
+    /**
+     * @uses Expression
+     *
+     * @covers ::getValue
+     */
+    public function testValueCanBeProvidedAsAnExpression(): void
     {
-        self::assertEquals(new Location(-1), $this->fixture->getLocation());
+        $expression = new Expression('Enum case expression');
+        $fixture = new EnumCase(
+            $this->fqsen,
+            $this->docBlock,
+            null,
+            null,
+            $expression,
+        );
+
+        $this->assertSame($expression, $fixture->getValue(false));
+    }
+
+    /**
+     * @uses Expression
+     *
+     * @covers ::getValue
+     */
+    public function testValueCanBeReturnedAsString(): void
+    {
+        $expression = new Expression('Enum case expression');
+        $fixture = new EnumCase(
+            $this->fqsen,
+            $this->docBlock,
+            null,
+            null,
+            $expression,
+        );
+
+        $this->assertSame('Enum case expression', $fixture->getValue(true));
+    }
+
+    /**
+     * @covers ::getLocation
+     */
+    public function testGetLocationReturnsProvidedValue(): void
+    {
+        $location = new Location(15, 10);
+        $fixture = new EnumCase(
+            $this->fqsen,
+            $this->docBlock,
+            $location,
+        );
+
+        self::assertSame($location, $fixture->getLocation());
+    }
+
+    /**
+     * @uses Location
+     *
+     * @covers ::getLocation
+     */
+    public function testGetLocationReturnsUnknownByDefault(): void
+    {
+        $fixture = new EnumCase(
+            $this->fqsen,
+            $this->docBlock,
+        );
+
+        self::assertEquals(new Location(-1), $fixture->getLocation());
+    }
+
+    /**
+     * @covers ::getEndLocation
+     */
+    public function testGetEndLocationReturnsProvidedValue(): void
+    {
+        $location = new Location(11, 23);
+        $fixture = new EnumCase(
+            $this->fqsen,
+            $this->docBlock,
+            null,
+            $location,
+        );
+
+        self::assertSame($location, $fixture->getEndLocation());
+    }
+
+    /**
+     * @covers ::getEndLocation
+     */
+    public function testGetEndLocationReturnsUnknownByDefault(): void
+    {
+        $fixture = new EnumCase(
+            $this->fqsen,
+            $this->docBlock,
+        );
+
+        self::assertEquals(new Location(-1), $fixture->getEndLocation());
     }
 }
