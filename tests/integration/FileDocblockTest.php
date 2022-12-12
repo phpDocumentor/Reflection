@@ -11,6 +11,8 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Integration tests to check the correct working of processing a namespace into a project.
+ *
+ * @coversNothing
  */
 #[CoversNothing]
 final class FileDocblockTest extends TestCase
