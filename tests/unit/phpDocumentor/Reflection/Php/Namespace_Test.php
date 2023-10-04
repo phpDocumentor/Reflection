@@ -29,8 +29,7 @@ class Namespace_Test extends TestCase
 {
     use MetadataContainerTest;
 
-    /** @var Namespace_ $fixture */
-    protected $fixture;
+    protected Namespace_ $fixture;
 
     private Fqsen $fqsen;
 

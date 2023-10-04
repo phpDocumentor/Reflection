@@ -23,7 +23,7 @@ use function sprintf;
 trait MetadataContainer
 {
     /** @var Metadata[] */
-    private $metadata = [];
+    private array $metadata = [];
 
     /**
      * @throws Exception When metadata key already exists.

@@ -27,8 +27,7 @@ use stdClass;
  */
 abstract class TestCase extends MockeryTestCase
 {
-    /** @var ProjectFactoryStrategy */
-    protected $fixture;
+    protected ProjectFactoryStrategy $fixture;
 
     public static function createContext(?Context $typeContext = null): ContextStack
     {
