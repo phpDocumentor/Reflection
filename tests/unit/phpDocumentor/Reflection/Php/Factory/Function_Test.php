@@ -63,7 +63,7 @@ final class Function_Test extends TestCase
     {
         $this->assertFalse($this->fixture->matches(self::createContext(null), new stdClass()));
         $this->assertTrue($this->fixture->matches(
-            self::createContext(null),
+            self::createContext(null)->push(new File('hash', 'path')),
             $this->prophesize(\PhpParser\Node\Stmt\Function_::class)->reveal()
         ));
     }

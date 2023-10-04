@@ -33,7 +33,7 @@ final class Function_ extends AbstractFactory implements ProjectFactoryStrategy
 {
     public function matches(ContextStack $context, object $object): bool
     {
-        return $object instanceof FunctionNode;
+        return $object instanceof FunctionNode && $context->peek() instanceof FileElement;
     }
 
     /**
