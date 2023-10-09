@@ -31,7 +31,6 @@ use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
 
 use function assert;
 use function sprintf;
-use function strpos;
 
 /**
  * Strategy to convert `define` expressions to ConstantElement
@@ -145,7 +144,7 @@ final class Define extends AbstractFactory
 
     private function fqsenFromString(string $nameString): Fqsen
     {
-        if (strpos($nameString, '\\') === false) {
+        if (str_starts_with($nameString, '\\') === false) {
             return new Fqsen(sprintf('\\%s', $nameString));
         }
 
