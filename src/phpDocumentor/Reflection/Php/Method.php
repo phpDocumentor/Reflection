@@ -168,8 +168,6 @@ final class Method implements Element, MetaDataContainerInterface
 
     /**
      * Returns the DocBlock of this method if available.
-     *
-     * @returns null|DocBlock
      */
     public function getDocBlock(): ?DocBlock
     {
