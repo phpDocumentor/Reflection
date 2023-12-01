@@ -17,6 +17,8 @@ use phpDocumentor\Reflection\DocBlockFactoryInterface;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Constant as ConstantElement;
+use phpDocumentor\Reflection\Php\Expression as ValueExpression;
+use phpDocumentor\Reflection\Php\Expression\ExpressionPrinter;
 use phpDocumentor\Reflection\Php\File as FileElement;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Php\ValueEvaluator\ConstantEvaluator;
@@ -30,6 +32,7 @@ use PhpParser\Node\VariadicPlaceholder;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
 
 use function assert;
+use function is_string;
 use function sprintf;
 
 /**
@@ -118,13 +121,22 @@ final class Define extends AbstractFactory
         $file->addConstant($constant);
     }
 
-    private function determineValue(?Arg $value): ?string
+    private function determineValue(?Arg $value): ?ValueExpression
     {
         if ($value === null) {
             return null;
         }
 
-        return $this->valueConverter->prettyPrintExpr($value->value);
+        $expression = $this->valueConverter->prettyPrintExpr($value->value);
+        if ($this->valueConverter instanceof ExpressionPrinter) {
+            $expression = new ValueExpression($expression, $this->valueConverter->getParts());
+        }
+
+        if (is_string($expression)) {
+            $expression = new ValueExpression($expression, []);
+        }
+
+        return $expression;
     }
 
     private function determineFqsen(Arg $name, ContextStack $context): ?Fqsen

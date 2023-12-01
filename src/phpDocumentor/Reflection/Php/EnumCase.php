@@ -10,6 +10,11 @@ use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInterface;
 
+use function is_string;
+use function trigger_error;
+
+use const E_USER_DEPRECATED;
+
 final class EnumCase implements Element, MetaDataContainerInterface
 {
     use MetadataContainer;
@@ -22,14 +27,18 @@ final class EnumCase implements Element, MetaDataContainerInterface
 
     private Location $endLocation;
 
-    private ?string $value;
+    /** @var Expression|string|null */
+    private $value;
 
+    /**
+     * @param Expression|string|null $value
+     */
     public function __construct(
         Fqsen $fqsen,
         ?DocBlock $docBlock,
         ?Location $location = null,
         ?Location $endLocation = null,
-        ?string $value = null
+        $value = null
     ) {
         if ($location === null) {
             $location = new Location(-1);
@@ -43,6 +52,15 @@ final class EnumCase implements Element, MetaDataContainerInterface
         $this->docBlock = $docBlock;
         $this->location = $location;
         $this->endLocation = $endLocation;
+        if (is_string($value)) {
+            trigger_error(
+                'Expression values for enum cases should be of type Expression, support for strings will be '
+                . 'removed in 6.x',
+                E_USER_DEPRECATED
+            );
+            $value = new Expression($value, []);
+        }
+
         $this->value = $value;
     }
 
@@ -71,8 +89,26 @@ final class EnumCase implements Element, MetaDataContainerInterface
         return $this->endLocation;
     }
 
-    public function getValue(): ?string
+    /**
+     * Returns the value for this enum case.
+     *
+     * @return Expression|string|null
+     */
+    public function getValue(bool $asString = true)
     {
+        if ($this->value === null) {
+            return null;
+        }
+
+        if ($asString) {
+            trigger_error(
+                'The enum case value will become of type Expression by default',
+                E_USER_DEPRECATED
+            );
+
+            return (string) $this->value;
+        }
+
         return $this->value;
     }
 }

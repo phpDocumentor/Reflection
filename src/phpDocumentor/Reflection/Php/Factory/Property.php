@@ -16,6 +16,8 @@ namespace phpDocumentor\Reflection\Php\Factory;
 use phpDocumentor\Reflection\DocBlockFactoryInterface;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Class_;
+use phpDocumentor\Reflection\Php\Expression;
+use phpDocumentor\Reflection\Php\Expression\ExpressionPrinter;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\Property as PropertyDescriptor;
 use phpDocumentor\Reflection\Php\StrategyContainer;
@@ -24,6 +26,8 @@ use phpDocumentor\Reflection\Php\Visibility;
 use PhpParser\Node\Stmt\Property as PropertyNode;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
 use Webmozart\Assert\Assert;
+
+use function is_string;
 
 /**
  * Strategy to convert PropertyIterator to PropertyDescriptor
@@ -74,17 +78,12 @@ final class Property extends AbstractFactory implements ProjectFactoryStrategy
 
         $iterator = new PropertyIterator($object);
         foreach ($iterator as $stmt) {
-            $default = null;
-            if ($iterator->getDefault() !== null) {
-                $default = $this->valueConverter->prettyPrintExpr($iterator->getDefault());
-            }
-
             $propertyContainer->addProperty(
                 new PropertyDescriptor(
                     $stmt->getFqsen(),
                     $this->buildVisibility($stmt),
                     $this->createDocBlock($stmt->getDocComment(), $context->getTypeContext()),
-                    $default,
+                    $this->determineDefault($stmt),
                     $stmt->isStatic(),
                     new Location($stmt->getLine()),
                     new Location($stmt->getEndLine()),
@@ -93,6 +92,25 @@ final class Property extends AbstractFactory implements ProjectFactoryStrategy
                 )
             );
         }
+    }
+
+    private function determineDefault(PropertyIterator $value): ?Expression
+    {
+        $default = $value->getDefault();
+        $expression = $default !== null ? $this->valueConverter->prettyPrintExpr($default) : null;
+        if ($expression === null) {
+            return null;
+        }
+
+        if ($this->valueConverter instanceof ExpressionPrinter) {
+            $expression = new Expression($expression, $this->valueConverter->getParts());
+        }
+
+        if (is_string($expression)) {
+            $expression = new Expression($expression, []);
+        }
+
+        return $expression;
     }
 
     /**

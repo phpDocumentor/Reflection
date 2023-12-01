@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use phpDocumentor\Reflection\Php\Argument as ArgumentDescriptor;
+use phpDocumentor\Reflection\Php\Expression;
+use phpDocumentor\Reflection\Php\Expression\ExpressionPrinter;
 use phpDocumentor\Reflection\Php\Function_;
 use phpDocumentor\Reflection\Php\Method;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
@@ -22,6 +24,8 @@ use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Param;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
 use Webmozart\Assert\Assert;
+
+use function is_string;
 
 /**
  * Strategy to convert Param to Argument
@@ -77,10 +81,28 @@ final class Argument extends AbstractFactory implements ProjectFactoryStrategy
             new ArgumentDescriptor(
                 (string) $object->var->name,
                 (new Type())->fromPhpParser($object->type),
-                $object->default !== null ? $this->valueConverter->prettyPrintExpr($object->default) : null,
+                $this->determineDefault($object),
                 $object->byRef,
                 $object->variadic
             )
         );
+    }
+
+    private function determineDefault(Param $value): ?Expression
+    {
+        $expression = $value->default !== null ? $this->valueConverter->prettyPrintExpr($value->default) : null;
+        if ($expression === null) {
+            return null;
+        }
+
+        if ($this->valueConverter instanceof ExpressionPrinter) {
+            $expression = new Expression($expression, $this->valueConverter->getParts());
+        }
+
+        if (is_string($expression)) {
+            $expression = new Expression($expression, []);
+        }
+
+        return $expression;
     }
 }

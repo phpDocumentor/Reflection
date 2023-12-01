@@ -9,6 +9,8 @@ use phpDocumentor\Reflection\DocBlockFactoryInterface;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Class_ as ClassElement;
+use phpDocumentor\Reflection\Php\Expression;
+use phpDocumentor\Reflection\Php\Expression\ExpressionPrinter;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\Property;
 use phpDocumentor\Reflection\Php\StrategyContainer;
@@ -19,6 +21,8 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
 use Webmozart\Assert\Assert;
+
+use function is_string;
 
 final class ConstructorPromotion extends AbstractFactory
 {
@@ -72,7 +76,7 @@ final class ConstructorPromotion extends AbstractFactory
             new Fqsen($methodContainer->getFqsen() . '::$' . (string) $param->var->name),
             $this->buildPropertyVisibilty($param->flags),
             $this->createDocBlock($param->getDocComment(), $context->getTypeContext()),
-            $param->default !== null ? $this->valueConverter->prettyPrintExpr($param->default) : null,
+            $this->determineDefault($param),
             false,
             new Location($param->getLine()),
             new Location($param->getEndLine()),
@@ -81,6 +85,24 @@ final class ConstructorPromotion extends AbstractFactory
         );
 
         $methodContainer->addProperty($property);
+    }
+
+    private function determineDefault(Param $value): ?Expression
+    {
+        $expression = $value->default !== null ? $this->valueConverter->prettyPrintExpr($value->default) : null;
+        if ($expression === null) {
+            return null;
+        }
+
+        if ($this->valueConverter instanceof ExpressionPrinter) {
+            $expression = new Expression($expression, $this->valueConverter->getParts());
+        }
+
+        if (is_string($expression)) {
+            $expression = new Expression($expression, []);
+        }
+
+        return $expression;
     }
 
     private function buildPropertyVisibilty(int $flags): Visibility

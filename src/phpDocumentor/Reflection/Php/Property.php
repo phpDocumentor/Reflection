@@ -20,6 +20,11 @@ use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInterface;
 use phpDocumentor\Reflection\Type;
 
+use function is_string;
+use function trigger_error;
+
+use const E_USER_DEPRECATED;
+
 /**
  * Descriptor representing a property.
  */
@@ -34,7 +39,7 @@ final class Property implements Element, MetaDataContainerInterface
     /** @var string[] $types */
     private array $types = [];
 
-    private ?string $default = null;
+    private ?Expression $default = null;
 
     private bool $static = false;
 
@@ -50,12 +55,13 @@ final class Property implements Element, MetaDataContainerInterface
 
     /**
      * @param Visibility|null $visibility when null is provided a default 'public' is set.
+     * @param string|Expression|null $default
      */
     public function __construct(
         Fqsen $fqsen,
         ?Visibility $visibility = null,
         ?DocBlock $docBlock = null,
-        ?string $default = null,
+        $default = null,
         bool $static = false,
         ?Location $location = null,
         ?Location $endLocation = null,
@@ -65,19 +71,44 @@ final class Property implements Element, MetaDataContainerInterface
         $this->fqsen = $fqsen;
         $this->visibility = $visibility ?: new Visibility('public');
         $this->docBlock = $docBlock;
-        $this->default = $default;
         $this->static = $static;
         $this->location = $location ?: new Location(-1);
         $this->endLocation = $endLocation ?: new Location(-1);
         $this->type = $type;
         $this->readOnly = $readOnly;
+
+        if (is_string($default)) {
+            trigger_error(
+                'Default values for properties should be of type Expression, support for strings will be '
+                . 'removed in 6.x',
+                E_USER_DEPRECATED
+            );
+            $default = new Expression($default, []);
+        }
+
+        $this->default = $default;
     }
 
     /**
-     * returns the default value of this property.
+     * Returns the default value for this property.
+     *
+     * @return Expression|string|null
      */
-    public function getDefault(): ?string
+    public function getDefault(bool $asString = true)
     {
+        if ($this->default === null) {
+            return null;
+        }
+
+        if ($asString) {
+            trigger_error(
+                'The Default value will become of type Expression by default',
+                E_USER_DEPRECATED
+            );
+
+            return (string) $this->default;
+        }
+
         return $this->default;
     }
 

@@ -2,6 +2,5 @@ Reflection
 ==========
 
 .. toctree::
-   :hidden:
-
+   expressions
    meta-data

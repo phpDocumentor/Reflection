@@ -33,11 +33,11 @@ use function current;
 use function next;
 
 /**
- * @uses \phpDocumentor\Reflection\Php\Factory\PropertyIterator
- * @uses \phpDocumentor\Reflection\Php\Property
+ * @uses PropertyIterator
+ * @uses PropertyDescriptor
  * @uses \phpDocumentor\Reflection\Php\Visibility
- * @uses \phpDocumentor\Reflection\Php\ProjectFactoryStrategies
- * @uses \phpDocumentor\Reflection\Php\Factory\Type
+ * @uses ProjectFactoryStrategies
+ * @uses Type
  *
  * @covers \phpDocumentor\Reflection\Php\Factory\Property
  * @covers \phpDocumentor\Reflection\Php\Factory\AbstractFactory
@@ -63,9 +63,9 @@ final class PropertyTest extends TestCase
     /** @dataProvider visibilityProvider */
     public function testCreateWithVisibility(int $input, string $expectedVisibility): void
     {
-        $constantStub = $this->buildPropertyMock($input);
+        $propertyStub = $this->buildPropertyMock($input);
 
-        $class = $this->performCreate($constantStub);
+        $class = $this->performCreate($propertyStub);
 
         $property = current($class->getProperties());
         $this->assertProperty($property, $expectedVisibility);

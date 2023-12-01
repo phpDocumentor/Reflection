@@ -16,6 +16,7 @@ namespace phpDocumentor\Reflection\Php\Factory;
 use Mockery as m;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use PhpParser\Comment\Doc;
+use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Property as PropertyNode;
 use PhpParser\Node\Stmt\PropertyProperty;
 
@@ -98,12 +99,12 @@ class PropertyIteratorTest extends MockeryTestCase
     public function testGetDefault(): void
     {
         $prop = m::mock(PropertyProperty::class);
-        $prop->default = 'myDefault';
+        $prop->default = new String_('myDefault');
         $property = new PropertyNode(1, [$prop]);
 
         $fixture = new PropertyIterator($property);
 
-        $this->assertEquals('myDefault', $fixture->getDefault());
+        $this->assertEquals(new String_('myDefault'), $fixture->getDefault());
     }
 
     /**

@@ -16,11 +16,15 @@ namespace phpDocumentor\Reflection\Php\Factory;
 use phpDocumentor\Reflection\DocBlockFactoryInterface;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Constant as ConstantElement;
+use phpDocumentor\Reflection\Php\Expression;
+use phpDocumentor\Reflection\Php\Expression\ExpressionPrinter;
 use phpDocumentor\Reflection\Php\File as FileElement;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use PhpParser\Node\Stmt\Const_;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
 use Webmozart\Assert\Assert;
+
+use function is_string;
 
 /**
  * Strategy to convert GlobalConstantIterator to ConstantElement
@@ -70,11 +74,25 @@ final class GlobalConstant extends AbstractFactory
                 new ConstantElement(
                     $const->getFqsen(),
                     $this->createDocBlock($const->getDocComment(), $context->getTypeContext()),
-                    $const->getValue() !== null ? $this->valueConverter->prettyPrintExpr($const->getValue()) : null,
+                    $this->determineValue($const),
                     new Location($const->getLine()),
                     new Location($const->getEndLine())
                 )
             );
         }
+    }
+
+    private function determineValue(GlobalConstantIterator $value): Expression
+    {
+        $expression = $this->valueConverter->prettyPrintExpr($value->getValue());
+        if ($this->valueConverter instanceof ExpressionPrinter) {
+            $expression = new Expression($expression, $this->valueConverter->getParts());
+        }
+
+        if (is_string($expression)) {
+            $expression = new Expression($expression, []);
+        }
+
+        return $expression;
     }
 }

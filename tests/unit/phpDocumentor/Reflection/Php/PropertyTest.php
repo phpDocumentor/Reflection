@@ -60,8 +60,8 @@ final class PropertyTest extends TestCase
     {
         $property = new Property($this->fqsen);
 
-        $this->assertSame($this->fqsen, $property->getFqsen());
-        $this->assertEquals($this->fqsen->getName(), $property->getName());
+        self::assertSame($this->fqsen, $property->getFqsen());
+        self::assertEquals($this->fqsen->getName(), $property->getName());
     }
 
     /**
@@ -73,10 +73,10 @@ final class PropertyTest extends TestCase
     public function testGettingWhetherPropertyIsStatic(): void
     {
         $property = new Property($this->fqsen, $this->visibility, $this->docBlock, null, false);
-        $this->assertFalse($property->isStatic());
+        self::assertFalse($property->isStatic());
 
         $property = new Property($this->fqsen, $this->visibility, $this->docBlock, null, true);
-        $this->assertTrue($property->isStatic());
+        self::assertTrue($property->isStatic());
     }
 
     /**
@@ -88,7 +88,7 @@ final class PropertyTest extends TestCase
     public function testGettingWhetherPropertyIsReadOnly(): void
     {
         $property = new Property($this->fqsen, $this->visibility, $this->docBlock, null);
-        $this->assertFalse($property->isReadOnly());
+        self::assertFalse($property->isReadOnly());
 
         $property = new Property(
             $this->fqsen,
@@ -102,7 +102,7 @@ final class PropertyTest extends TestCase
             true
         );
 
-        $this->assertTrue($property->isReadOnly());
+        self::assertTrue($property->isReadOnly());
     }
 
     /**
@@ -115,7 +115,7 @@ final class PropertyTest extends TestCase
     {
         $property = new Property($this->fqsen, $this->visibility, $this->docBlock, null, true);
 
-        $this->assertSame($this->visibility, $property->getVisibility());
+        self::assertSame($this->visibility, $property->getVisibility());
     }
 
     /**
@@ -127,10 +127,10 @@ final class PropertyTest extends TestCase
     public function testSetAndGetTypes(): void
     {
         $property = new Property($this->fqsen, $this->visibility, $this->docBlock, null, true);
-        $this->assertEquals([], $property->getTypes());
+        self::assertEquals([], $property->getTypes());
 
         $property->addType('a');
-        $this->assertEquals(['a'], $property->getTypes());
+        self::assertEquals(['a'], $property->getTypes());
     }
 
     /**
@@ -141,10 +141,12 @@ final class PropertyTest extends TestCase
     public function testGetDefault(): void
     {
         $property = new Property($this->fqsen, $this->visibility, $this->docBlock, null, false);
-        $this->assertNull($property->getDefault());
+        self::assertNull($property->getDefault());
 
-        $property = new Property($this->fqsen, $this->visibility, $this->docBlock, 'a', true);
-        $this->assertEquals('a', $property->getDefault());
+        $expression = new Expression('a');
+        $property = new Property($this->fqsen, $this->visibility, $this->docBlock, $expression, true);
+        self::assertSame('a', $property->getDefault());
+        self::assertSame($expression, $property->getDefault(false));
     }
 
     /**
@@ -155,7 +157,7 @@ final class PropertyTest extends TestCase
     public function testGetDocBlock(): void
     {
         $property = new Property($this->fqsen, $this->visibility, $this->docBlock, null, false);
-        $this->assertSame($this->docBlock, $property->getDocBlock());
+        self::assertSame($this->docBlock, $property->getDocBlock());
     }
 
     public function testLineAndColumnNumberIsReturnedWhenALocationIsProvided(): void
@@ -184,9 +186,9 @@ final class PropertyTest extends TestCase
             $type
         );
 
-        $this->assertSame($type, $fixture->getType());
+        self::assertSame($type, $fixture->getType());
 
         $fixture = new Property($this->fqsen);
-        $this->assertNull($fixture->getType());
+        self::assertNull($fixture->getType());
     }
 }
