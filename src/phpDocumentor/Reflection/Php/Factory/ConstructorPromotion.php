@@ -49,7 +49,7 @@ final class ConstructorPromotion extends AbstractFactory
     /**
      * @param ClassMethod $object
      */
-    protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies): void
+    protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies): ?object
     {
         $this->methodStrategy->create($context, $object, $strategies);
 
@@ -60,6 +60,8 @@ final class ConstructorPromotion extends AbstractFactory
 
             $this->promoteParameterToProperty($context, $param);
         }
+
+        return $context->peek();
     }
 
     private function promoteParameterToProperty(ContextStack $context, Param $param): void

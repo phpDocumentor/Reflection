@@ -29,7 +29,7 @@ use Webmozart\Assert\Assert;
  * @see ArgumentDescriptor
  * @see \PhpParser\Node\Arg
  */
-final class Argument extends AbstractFactory implements ProjectFactoryStrategy
+final class Argument implements ProjectFactoryStrategy
 {
     private PrettyPrinter $valueConverter;
 
@@ -56,7 +56,7 @@ final class Argument extends AbstractFactory implements ProjectFactoryStrategy
      * @param Param $object object to convert to an Element
      * @param StrategyContainer $strategies used to convert nested objects.
      */
-    protected function doCreate(
+    public function create(
         ContextStack $context,
         object $object,
         StrategyContainer $strategies

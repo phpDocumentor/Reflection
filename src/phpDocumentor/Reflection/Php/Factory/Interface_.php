@@ -46,7 +46,7 @@ final class Interface_ extends AbstractFactory implements ProjectFactoryStrategy
         ContextStack $context,
         object $object,
         StrategyContainer $strategies
-    ): void {
+    ): ?object {
         $docBlock = $this->createDocBlock($object->getDocComment(), $context->getTypeContext());
         $parents  = [];
         foreach ($object->extends as $extend) {
@@ -69,5 +69,7 @@ final class Interface_ extends AbstractFactory implements ProjectFactoryStrategy
             $strategy = $strategies->findMatching($thisContext, $stmt);
             $strategy->create($thisContext, $stmt, $strategies);
         }
+
+        return $interface;
     }
 }

@@ -62,7 +62,7 @@ final class Property extends AbstractFactory implements ProjectFactoryStrategy
         ContextStack $context,
         object $object,
         StrategyContainer $strategies
-    ): void {
+    ): ?object {
         $propertyContainer = $context->peek();
         Assert::isInstanceOfAny(
             $propertyContainer,
@@ -93,6 +93,8 @@ final class Property extends AbstractFactory implements ProjectFactoryStrategy
                 )
             );
         }
+
+        return null;
     }
 
     /**

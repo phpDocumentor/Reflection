@@ -86,17 +86,19 @@ final class File extends AbstractFactory
      * @param FileSystemFile $object path to the file to convert to an File object.
      * @param StrategyContainer $strategies used to convert nested objects.
      */
-    protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies): void
+    protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies): ?object
     {
         $command = new CreateCommand($context, $object, $strategies);
         $middlewareChain = $this->middlewareChain;
 
         $file = $middlewareChain($command);
         if ($file === null) {
-            return;
+            return null;
         }
 
         $context->getProject()->addFile($file);
+
+        return $file;
     }
 
     private function createFile(CreateCommand $command): FileElement

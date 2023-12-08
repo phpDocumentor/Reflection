@@ -32,17 +32,22 @@ final class EnumCase extends AbstractFactory
     /**
      * @param EnumCaseNode $object
      */
-    protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies): void
+    protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies): ?object
     {
         $docBlock = $this->createDocBlock($object->getDocComment(), $context->getTypeContext());
         $enum = $context->peek();
         assert($enum instanceof EnumElement);
-        $enum->addCase(new EnumCaseElement(
+
+        $case = new EnumCaseElement(
             $object->getAttribute('fqsen'),
             $docBlock,
             new Location($object->getLine()),
             new Location($object->getEndLine()),
             $object->expr !== null ? $this->prettyPrinter->prettyPrintExpr($object->expr) : null
-        ));
+        );
+
+        $enum->addCase($case);
+
+        return $case;
     }
 }

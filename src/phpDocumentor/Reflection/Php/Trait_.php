@@ -22,9 +22,10 @@ use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInte
 /**
  * Descriptor representing a Trait.
  */
-final class Trait_ implements Element, MetaDataContainerInterface
+final class Trait_ implements Element, MetaDataContainerInterface, AttributeContainer
 {
     use MetadataContainer;
+    use HasAttributes;
 
     /** @var Fqsen Full Qualified Structural Element Name */
     private Fqsen $fqsen;

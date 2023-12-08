@@ -23,10 +23,11 @@ use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInte
  * Descriptor representing a Class.
  */
 // @codingStandardsIgnoreStart
-final class Class_ implements Element, MetaDataContainerInterface
+final class Class_ implements Element, MetaDataContainerInterface, AttributeContainer
 // @codingStandardsIgnoreEnd
 {
     use MetadataContainer;
+    use HasAttributes;
 
     /** @var Fqsen Full Qualified Structural Element Name */
     private Fqsen $fqsen;

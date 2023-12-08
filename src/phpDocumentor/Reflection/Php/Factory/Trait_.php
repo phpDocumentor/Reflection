@@ -15,13 +15,12 @@ namespace phpDocumentor\Reflection\Php\Factory;
 
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\File as FileElement;
-use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Php\Trait_ as TraitElement;
 use PhpParser\Node\Stmt\Trait_ as TraitNode;
 use Webmozart\Assert\Assert;
 
-final class Trait_ extends AbstractFactory implements ProjectFactoryStrategy
+final class Trait_ extends AbstractFactory
 {
     public function matches(ContextStack $context, object $object): bool
     {
@@ -37,7 +36,7 @@ final class Trait_ extends AbstractFactory implements ProjectFactoryStrategy
      * @param ContextStack $context used to convert nested objects.
      * @param TraitNode $object
      */
-    protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies): void
+    protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies): ?object
     {
         $trait = new TraitElement(
             $object->getAttribute('fqsen'),
@@ -55,5 +54,7 @@ final class Trait_ extends AbstractFactory implements ProjectFactoryStrategy
             $strategy = $strategies->findMatching($thisContext, $stmt);
             $strategy->create($thisContext, $stmt, $strategies);
         }
+
+        return $trait;
     }
 }
