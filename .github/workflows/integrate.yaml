@@ -17,7 +17,25 @@ jobs:
 
   coding-standards:
     name: "Coding Standards"
-    uses: "phpDocumentor/.github/.github/workflows/coding-standards.yml@v0.5.0"
+    runs-on: "ubuntu-22.04"
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v4"
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          coverage: "none"
+          php-version: "8.2"
+          tools: "cs2pr"
+
+      - name: "Install dependencies with Composer"
+        uses: "ramsey/composer-install@v2"
+        with:
+          dependency-versions: "locked"
+
+      - name: "Run PHP_CodeSniffer"
+        run: "vendor/bin/phpcs -q --no-colors --report=checkstyle | cs2pr"
 
   dependency-analysis:
     name: "Dependency analysis"
