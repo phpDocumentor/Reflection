@@ -17,7 +17,6 @@ use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Class_ as ClassElement;
 use phpDocumentor\Reflection\Php\File as FileElement;
-use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use PhpParser\Node\Stmt\Class_ as ClassNode;
 
@@ -26,7 +25,7 @@ use function assert;
 /**
  * Strategy to create a ClassElement including all sub elements.
  */
-final class Class_ extends AbstractFactory implements ProjectFactoryStrategy
+final class Class_ extends AbstractFactory
 {
     public function matches(ContextStack $context, object $object): bool
     {
@@ -42,7 +41,7 @@ final class Class_ extends AbstractFactory implements ProjectFactoryStrategy
      * @param ContextStack $context of the created object
      * @param ClassNode $object
      */
-    protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies): void
+    protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies): ?object
     {
         $docBlock = $this->createDocBlock($object->getDocComment(), $context->getTypeContext());
 
@@ -72,5 +71,7 @@ final class Class_ extends AbstractFactory implements ProjectFactoryStrategy
             $strategy = $strategies->findMatching($thisContext, $stmt);
             $strategy->create($thisContext, $stmt, $strategies);
         }
+
+        return $classElement;
     }
 }

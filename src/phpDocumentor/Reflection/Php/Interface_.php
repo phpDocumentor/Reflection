@@ -23,9 +23,10 @@ use Webmozart\Assert\Assert;
 /**
  * Descriptor representing an Interface.
  */
-final class Interface_ implements Element, MetaDataContainerInterface
+final class Interface_ implements Element, MetaDataContainerInterface, AttributeContainer
 {
     use MetadataContainer;
+    use HasAttributes;
 
     /** @var Fqsen Full Qualified Structural Element Name */
     private Fqsen $fqsen;

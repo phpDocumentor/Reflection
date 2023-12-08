@@ -23,9 +23,10 @@ use phpDocumentor\Reflection\Type;
 /**
  * Descriptor representing a property.
  */
-final class Property implements Element, MetaDataContainerInterface
+final class Property implements Element, MetaDataContainerInterface, AttributeContainer
 {
     use MetadataContainer;
+    use HasAttributes;
 
     private Fqsen $fqsen;
 

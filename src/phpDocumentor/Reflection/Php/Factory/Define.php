@@ -88,7 +88,7 @@ final class Define extends AbstractFactory
         ContextStack $context,
         object $object,
         StrategyContainer $strategies
-    ): void {
+    ): ?object {
         $expression = $object->expr;
         assert($expression instanceof FuncCall);
 
@@ -96,7 +96,7 @@ final class Define extends AbstractFactory
 
         //We cannot calculate the name of a variadic consuming define.
         if ($name instanceof VariadicPlaceholder || $value instanceof VariadicPlaceholder) {
-            return;
+            return null;
         }
 
         $file = $context->search(FileElement::class);
@@ -104,7 +104,7 @@ final class Define extends AbstractFactory
 
         $fqsen = $this->determineFqsen($name, $context);
         if ($fqsen === null) {
-            return;
+            return null;
         }
 
         $constant = new ConstantElement(
@@ -116,6 +116,8 @@ final class Define extends AbstractFactory
         );
 
         $file->addConstant($constant);
+
+        return $constant;
     }
 
     private function determineValue(?Arg $value): ?string

@@ -11,6 +11,8 @@
 
 namespace Luigi;
 
+#[\Food("Pizza")]
+#[\Food(country: "Italy", originDate: Pizza::class)]
 class Pizza extends \Pizza
 {
     const

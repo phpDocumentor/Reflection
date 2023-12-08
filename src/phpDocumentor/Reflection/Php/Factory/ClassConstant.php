@@ -61,7 +61,7 @@ final class ClassConstant extends AbstractFactory
         ContextStack $context,
         object $object,
         StrategyContainer $strategies
-    ): void {
+    ): ?object {
         $constantContainer = $context->peek();
         Assert::isInstanceOfAny(
             $constantContainer,
@@ -86,6 +86,8 @@ final class ClassConstant extends AbstractFactory
                 $const->isFinal()
             ));
         }
+
+        return null;
     }
 
     /**

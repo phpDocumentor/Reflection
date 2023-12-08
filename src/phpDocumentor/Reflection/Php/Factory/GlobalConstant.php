@@ -60,7 +60,7 @@ final class GlobalConstant extends AbstractFactory
         ContextStack $context,
         object $object,
         StrategyContainer $strategies
-    ): void {
+    ): ?object {
         $constants = new GlobalConstantIterator($object);
         $file = $context->peek();
         Assert::isInstanceOf($file, FileElement::class);
@@ -76,5 +76,7 @@ final class GlobalConstant extends AbstractFactory
                 )
             );
         }
+
+        return null;
     }
 }

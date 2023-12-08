@@ -29,7 +29,7 @@ final class Enum_ extends AbstractFactory
     }
 
     /** @param EnumNode $object */
-    protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies): void
+    protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies): ?object
     {
         $docBlock = $this->createDocBlock($object->getDocComment(), $context->getTypeContext());
 
@@ -56,5 +56,7 @@ final class Enum_ extends AbstractFactory
             $strategy = $strategies->findMatching($thisContext, $stmt);
             $strategy->create($thisContext, $stmt, $strategies);
         }
+
+        return $enum;
     }
 }

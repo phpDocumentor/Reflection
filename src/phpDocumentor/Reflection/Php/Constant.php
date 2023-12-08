@@ -22,9 +22,10 @@ use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInte
 /**
  * Descriptor representing a constant
  */
-final class Constant implements Element, MetaDataContainerInterface
+final class Constant implements Element, MetaDataContainerInterface, AttributeContainer
 {
     use MetadataContainer;
+    use HasAttributes;
 
     private Fqsen $fqsen;
 

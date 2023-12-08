@@ -24,9 +24,10 @@ use phpDocumentor\Reflection\Types\Mixed_;
 /**
  * Descriptor representing a Method in a Class, Interface or Trait.
  */
-final class Method implements Element, MetaDataContainerInterface
+final class Method implements Element, MetaDataContainerInterface, AttributeContainer
 {
     use MetadataContainer;
+    use HasAttributes;
 
     /** @var DocBlock|null documentation of this method. */
     private ?DocBlock $docBlock = null;
@@ -168,8 +169,6 @@ final class Method implements Element, MetaDataContainerInterface
 
     /**
      * Returns the DocBlock of this method if available.
-     *
-     * @returns null|DocBlock
      */
     public function getDocBlock(): ?DocBlock
     {

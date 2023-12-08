@@ -18,7 +18,6 @@ use phpDocumentor\Reflection\Php\Class_;
 use phpDocumentor\Reflection\Php\Enum_;
 use phpDocumentor\Reflection\Php\Interface_;
 use phpDocumentor\Reflection\Php\Method as MethodDescriptor;
-use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Php\Trait_;
 use phpDocumentor\Reflection\Php\Visibility;
@@ -30,7 +29,7 @@ use function is_array;
 /**
  * Strategy to create MethodDescriptor and arguments when applicable.
  */
-final class Method extends AbstractFactory implements ProjectFactoryStrategy
+final class Method extends AbstractFactory
 {
     public function matches(ContextStack $context, object $object): bool
     {
@@ -47,7 +46,7 @@ final class Method extends AbstractFactory implements ProjectFactoryStrategy
         ContextStack $context,
         object $object,
         StrategyContainer $strategies
-    ): void {
+    ): ?object {
         $methodContainer = $context->peek();
         Assert::isInstanceOfAny(
             $methodContainer,
@@ -80,13 +79,15 @@ final class Method extends AbstractFactory implements ProjectFactoryStrategy
         }
 
         if (!is_array($object->stmts)) {
-            return;
+            return null;
         }
 
         foreach ($object->stmts as $stmt) {
             $strategy = $strategies->findMatching($thisContext, $stmt);
             $strategy->create($thisContext, $stmt, $strategies);
         }
+
+        return $method;
     }
 
     /**

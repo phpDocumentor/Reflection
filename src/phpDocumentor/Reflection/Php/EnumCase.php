@@ -10,9 +10,10 @@ use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInterface;
 
-final class EnumCase implements Element, MetaDataContainerInterface
+final class EnumCase implements Element, MetaDataContainerInterface, AttributeContainer
 {
     use MetadataContainer;
+    use HasAttributes;
 
     private Fqsen $fqsen;
 

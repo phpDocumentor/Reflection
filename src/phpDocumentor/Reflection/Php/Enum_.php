@@ -20,9 +20,10 @@ use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInterface;
 use phpDocumentor\Reflection\Type;
 
-final class Enum_ implements Element, MetaDataContainerInterface
+final class Enum_ implements Element, MetaDataContainerInterface, AttributeContainer
 {
     use MetadataContainer;
+    use HasAttributes;
 
     /** @var Fqsen Full Qualified Structural Element Name */
     private Fqsen $fqsen;

@@ -25,10 +25,11 @@ use phpDocumentor\Reflection\Types\Mixed_;
  * Descriptor representing a function
  */
 // @codingStandardsIgnoreStart
-final class Function_ implements Element, MetaDataContainerInterface
+final class Function_ implements Element, MetaDataContainerInterface, AttributeContainer
 // // @codingStandardsIgnoreEnd
 {
     use MetadataContainer;
+    use HasAttributes;
 
     /** @var Fqsen Full Qualified Structural Element Name */
     private Fqsen $fqsen;

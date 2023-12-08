@@ -46,7 +46,7 @@ final class Function_ extends AbstractFactory implements ProjectFactoryStrategy
         ContextStack $context,
         object $object,
         StrategyContainer $strategies
-    ): void {
+    ): ?object {
         $file = $context->peek();
         Assert::isInstanceOf($file, FileElement::class);
 
@@ -68,12 +68,14 @@ final class Function_ extends AbstractFactory implements ProjectFactoryStrategy
         }
 
         if (!is_array($object->stmts)) {
-            return;
+            return null;
         }
 
         foreach ($object->stmts as $stmt) {
             $strategy = $strategies->findMatching($thisContext, $stmt);
             $strategy->create($thisContext, $stmt, $strategies);
         }
+
+        return $function;
     }
 }

@@ -16,6 +16,7 @@ namespace phpDocumentor\Reflection\Php\Factory;
 use InvalidArgumentException;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlockFactoryInterface;
+use phpDocumentor\Reflection\Php\Factory\Reducer\Reducer;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Types\Context;
@@ -31,9 +32,14 @@ abstract class AbstractFactory implements ProjectFactoryStrategy
 {
     private DocBlockFactoryInterface $docBlockFactory;
 
-    public function __construct(DocBlockFactoryInterface $docBlockFactory)
+    /** @var iterable<Reducer> */
+    private iterable $reducers;
+
+    /** @param iterable<Reducer> $recuders */
+    public function __construct(DocBlockFactoryInterface $docBlockFactory, iterable $recuders = [])
     {
         $this->docBlockFactory = $docBlockFactory;
+        $this->reducers = $recuders;
     }
 
     /**
@@ -55,7 +61,10 @@ abstract class AbstractFactory implements ProjectFactoryStrategy
             );
         }
 
-        $this->doCreate($context, $object, $strategies);
+        $element = $this->doCreate($context, $object, $strategies);
+        foreach ($this->reducers as $reducer) {
+            $element = $reducer->reduce($context, $object, $strategies, $element);
+        }
     }
 
     /**
@@ -66,7 +75,7 @@ abstract class AbstractFactory implements ProjectFactoryStrategy
      *
      * @param NodeAbstract|object $object object to convert to an Element
      */
-    abstract protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies): void;
+    abstract protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies): ?object;
 
     protected function createDocBlock(?Doc $docBlock = null, ?Context $context = null): ?DocBlock
     {
