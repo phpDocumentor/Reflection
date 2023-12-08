@@ -114,7 +114,7 @@ final class PropertyTest extends TestCase
         $property2->setAttribute('fqsen', new Fqsen('\myClass::$property2'));
         $node = new PropertyNode(
             ClassNode::MODIFIER_PRIVATE | ClassNode::MODIFIER_STATIC,
-            [$property1, $property2]
+            [$property1, $property2],
         );
 
         $class = $this->performCreate($node);
@@ -139,7 +139,7 @@ final class PropertyTest extends TestCase
         PropertyDescriptor $property,
         string $visibility,
         string $name = 'property',
-        ?string $default = '\'MyDefault\''
+        string|null $default = '\'MyDefault\'',
     ): void {
         $this->assertInstanceOf(PropertyDescriptor::class, $property);
         $this->assertEquals('\myClass::$' . $name, (string) $property->getFqsen());

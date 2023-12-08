@@ -30,17 +30,14 @@ use PhpParser\Node\Stmt\Property as PropertyNode;
  */
 final class PropertyIterator implements Iterator
 {
-    private PropertyNode $property;
-
     /** @var int index of the current propertyProperty to use */
     private int $index = 0;
 
     /**
      * Instantiates this iterator with the propertyNode to iterate.
      */
-    public function __construct(PropertyNode $property)
+    public function __construct(private readonly PropertyNode $property)
     {
-        $this->property = $property;
     }
 
     /**
@@ -101,10 +98,8 @@ final class PropertyIterator implements Iterator
 
     /**
      * Gets the type of the property.
-     *
-     * @return Identifier|Name|ComplexType|null
      */
-    public function getType()
+    public function getType(): Identifier|Name|ComplexType|null
     {
         return $this->property->type;
     }
@@ -114,7 +109,7 @@ final class PropertyIterator implements Iterator
      *
      * The doc comment has to be the last comment associated with the node.
      */
-    public function getDocComment(): ?Doc
+    public function getDocComment(): Doc|null
     {
         $docComment = $this->property->props[$this->index]->getDocComment();
         if ($docComment === null) {
@@ -134,10 +129,8 @@ final class PropertyIterator implements Iterator
 
     /**
      * returns the default value of the current property.
-     *
-     * @return string|Expr|null
      */
-    public function getDefault()
+    public function getDefault(): string|Expr|null
     {
         return $this->property->props[$this->index]->default;
     }
@@ -150,41 +143,31 @@ final class PropertyIterator implements Iterator
         return $this->property->props[$this->index]->getAttribute('fqsen');
     }
 
-    /**
-     * @link http://php.net/manual/en/iterator.current.php
-     */
+    /** @link http://php.net/manual/en/iterator.current.php */
     public function current(): self
     {
         return $this;
     }
 
-    /**
-     * @link http://php.net/manual/en/iterator.next.php
-     */
+    /** @link http://php.net/manual/en/iterator.next.php */
     public function next(): void
     {
         ++$this->index;
     }
 
-    /**
-     * @link http://php.net/manual/en/iterator.key.php
-     */
-    public function key(): ?int
+    /** @link http://php.net/manual/en/iterator.key.php */
+    public function key(): int|null
     {
         return $this->index;
     }
 
-    /**
-     * @link http://php.net/manual/en/iterator.valid.php
-     */
+    /** @link http://php.net/manual/en/iterator.valid.php */
     public function valid(): bool
     {
         return isset($this->property->props[$this->index]);
     }
 
-    /**
-     * @link http://php.net/manual/en/iterator.rewind.php
-     */
+    /** @link http://php.net/manual/en/iterator.rewind.php */
     public function rewind(): void
     {
         $this->index = 0;

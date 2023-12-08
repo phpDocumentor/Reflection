@@ -21,35 +21,23 @@ use phpDocumentor\Reflection\Types\Mixed_;
  */
 final class Argument
 {
-    /** @var string name of the Argument */
-    private string $name;
-
     /** @var Type a normalized type that should be in this Argument */
-    private Type $type;
-
-    /** @var string|null the default value for an argument or null if none is provided */
-    private ?string $default;
-
-    /** @var bool whether the argument passes the parameter by reference instead of by value */
-    private bool $byReference;
-
-    /** @var bool Determines if this Argument represents a variadic argument */
-    private bool $isVariadic;
+    private readonly Type $type;
 
     /**
      * Initializes the object.
      */
     public function __construct(
-        string $name,
-        ?Type $type = null,
-        ?string $default = null,
-        bool $byReference = false,
-        bool $isVariadic = false
+        /** @var string name of the Argument */
+        private readonly string $name,
+        Type|null $type = null,
+        /** @var string|null the default value for an argument or null if none is provided */
+        private readonly string|null $default = null,
+        /** @var bool whether the argument passes the parameter by reference instead of by value */
+        private readonly bool $byReference = false,
+        /** @var bool Determines if this Argument represents a variadic argument */
+        private readonly bool $isVariadic = false,
     ) {
-        $this->name = $name;
-        $this->default = $default;
-        $this->byReference = $byReference;
-        $this->isVariadic = $isVariadic;
         if ($type === null) {
             $type = new Mixed_();
         }
@@ -65,12 +53,12 @@ final class Argument
         return $this->name;
     }
 
-    public function getType(): ?Type
+    public function getType(): Type|null
     {
         return $this->type;
     }
 
-    public function getDefault(): ?string
+    public function getDefault(): string|null
     {
         return $this->default;
     }

@@ -51,41 +51,31 @@ final class EnumCaseTest extends TestCase
         return $this->fixture;
     }
 
-    /**
-     * @covers ::getName
-     */
+    /** @covers ::getName */
     public function testGettingName(): void
     {
         $this->assertSame($this->fqsen->getName(), $this->fixture->getName());
     }
 
-    /**
-     * @covers ::getFqsen
-     */
+    /** @covers ::getFqsen */
     public function testGettingFqsen(): void
     {
         $this->assertSame($this->fqsen, $this->fixture->getFqsen());
     }
 
-    /**
-     * @covers ::getDocBlock
-     */
+    /** @covers ::getDocBlock */
     public function testGettingDocBlock(): void
     {
         $this->assertSame($this->docBlock, $this->fixture->getDocBlock());
     }
 
-    /**
-     * @covers ::getValue
-     */
+    /** @covers ::getValue */
     public function testGetValue(): void
     {
         $this->assertNull($this->fixture->getValue());
     }
 
-    /**
-     * @covers ::getLocation
-     */
+    /** @covers ::getLocation */
     public function testGetLocationReturnsDefault(): void
     {
         self::assertEquals(new Location(-1), $this->fixture->getLocation());

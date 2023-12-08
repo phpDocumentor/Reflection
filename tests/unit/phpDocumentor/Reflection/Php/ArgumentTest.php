@@ -27,9 +27,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class ArgumentTest extends TestCase
 {
-    /**
-     * @covers ::getType
-     */
+    /** @covers ::getType */
     public function testGetTypes(): void
     {
         $argument = new Argument('myArgument', null, 'myDefaultValue', true, true);
@@ -40,23 +38,19 @@ final class ArgumentTest extends TestCase
             new String_(),
             'myDefaultValue',
             true,
-            true
+            true,
         );
         $this->assertEquals(new String_(), $argument->getType());
     }
 
-    /**
-     * @covers ::getName
-     */
+    /** @covers ::getName */
     public function testGetName(): void
     {
         $argument = new Argument('myArgument', null, 'myDefault', true, true);
         $this->assertEquals('myArgument', $argument->getName());
     }
 
-    /**
-     * @covers ::getDefault
-     */
+    /** @covers ::getDefault */
     public function testGetDefault(): void
     {
         $argument = new Argument('myArgument', null, 'myDefaultValue', true, true);
@@ -66,9 +60,7 @@ final class ArgumentTest extends TestCase
         $this->assertNull($argument->getDefault());
     }
 
-    /**
-     * @covers ::isByReference
-     */
+    /** @covers ::isByReference */
     public function testGetWhetherArgumentIsPassedByReference(): void
     {
         $argument = new Argument('myArgument', null, 'myDefaultValue', true, true);
@@ -78,9 +70,7 @@ final class ArgumentTest extends TestCase
         $this->assertFalse($argument->isByReference());
     }
 
-    /**
-     * @covers ::isVariadic
-     */
+    /** @covers ::isVariadic */
     public function testGetWhetherArgumentisVariadic(): void
     {
         $argument = new Argument('myArgument', null, 'myDefaultValue', true, true);

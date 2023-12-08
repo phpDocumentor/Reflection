@@ -45,23 +45,19 @@ final class EnumCaseTest extends TestCase
         $this->fixture = new EnumCase($this->docblockFactory->reveal(), new Standard());
     }
 
-    /**
-     * @covers ::matches
-     */
+    /** @covers ::matches */
     public function testMatches(): void
     {
         self::assertFalse($this->fixture->matches(self::createContext(null), new stdClass()));
         self::assertTrue(
             $this->fixture->matches(
                 self::createContext(null),
-                $this->prophesize(EnumCaseNode::class)->reveal()
-            )
+                $this->prophesize(EnumCaseNode::class)->reveal(),
+            ),
         );
     }
 
-    /**
-     * @covers ::create
-     */
+    /** @covers ::create */
     public function testSimpleCreate(): void
     {
         $containerMock = $this->prophesize(StrategyContainer::class)->reveal();
@@ -77,10 +73,10 @@ final class EnumCaseTest extends TestCase
                     new Fqsen('\Space\MyEnum::VALUE'),
                     null,
                     new Location(1),
-                    new Location(2)
+                    new Location(2),
                 ),
             ],
-            $result->getCases()
+            $result->getCases(),
         );
     }
 

@@ -12,9 +12,7 @@ use PhpParser\Node\Scalar\MagicConst\Namespace_;
 
 use function sprintf;
 
-/**
- * @internal
- */
+/** @internal */
 final class ConstantEvaluator
 {
     /** @throws ConstExprEvaluationException */
@@ -33,7 +31,7 @@ final class ConstantEvaluator
         $typeContext = $contextStack->getTypeContext();
         if ($typeContext === null) {
             throw new ConstExprEvaluationException(
-                sprintf('Expression of type %s cannot be evaluated', $expr->getType())
+                sprintf('Expression of type %s cannot be evaluated', $expr->getType()),
             );
         }
 
@@ -42,7 +40,7 @@ final class ConstantEvaluator
         }
 
         throw new ConstExprEvaluationException(
-            sprintf('Expression of type %s cannot be evaluated', $expr->getType())
+            sprintf('Expression of type %s cannot be evaluated', $expr->getType()),
         );
     }
 }

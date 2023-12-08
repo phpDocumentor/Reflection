@@ -106,9 +106,7 @@ class PropertyIteratorTest extends MockeryTestCase
         $this->assertEquals('myDefault', $fixture->getDefault());
     }
 
-    /**
-     * @covers ::getDocComment
-     */
+    /** @covers ::getDocComment */
     public function testGetDocCommentPropFirst(): void
     {
         $prop = m::mock(PropertyProperty::class);
@@ -123,9 +121,7 @@ class PropertyIteratorTest extends MockeryTestCase
         $this->assertEquals('test', $fixture->getDocComment()->getText());
     }
 
-    /**
-     * @covers ::getDocComment
-     */
+    /** @covers ::getDocComment */
     public function testGetDocComment(): void
     {
         $prop = m::mock(PropertyProperty::class);

@@ -32,9 +32,7 @@ use PhpUnit\Framework\TestCase as PhpUnitTestCase;
  */
 final class TypeTest extends PhpUnitTestCase
 {
-    /**
-     * @covers ::fromPhpParser
-     */
+    /** @covers ::fromPhpParser */
     public function testReturnsNullWhenNoTypeIsPassed(): void
     {
         $factory = new Type();
@@ -44,9 +42,7 @@ final class TypeTest extends PhpUnitTestCase
         $this->assertNull($result);
     }
 
-    /**
-     * @covers ::fromPhpParser
-     */
+    /** @covers ::fromPhpParser */
     public function testReturnsReflectedType(): void
     {
         $factory = new Type();
@@ -58,9 +54,7 @@ final class TypeTest extends PhpUnitTestCase
         $this->assertEquals($expected, $result);
     }
 
-    /**
-     * @covers ::fromPhpParser
-     */
+    /** @covers ::fromPhpParser */
     public function testReturnsNullableTypeWhenPassedAPhpParserNullable(): void
     {
         $factory = new Type();
@@ -72,9 +66,7 @@ final class TypeTest extends PhpUnitTestCase
         $this->assertEquals($expected, $result);
     }
 
-    /**
-     * @covers ::fromPhpParser
-     */
+    /** @covers ::fromPhpParser */
     public function testReturnsUnion(): void
     {
         $factory = new Type();
@@ -86,9 +78,7 @@ final class TypeTest extends PhpUnitTestCase
         $this->assertEquals($expected, $result);
     }
 
-    /**
-     * @covers ::fromPhpParser
-     */
+    /** @covers ::fromPhpParser */
     public function testReturnsUnionGivenVariousTypes(): void
     {
         $factory = new Type();
@@ -100,9 +90,7 @@ final class TypeTest extends PhpUnitTestCase
         $this->assertEquals($expected, $result);
     }
 
-    /**
-     * @covers ::fromPhpParser
-     */
+    /** @covers ::fromPhpParser */
     public function testReturnsInterseptionType(): void
     {
         $factory = new Type();

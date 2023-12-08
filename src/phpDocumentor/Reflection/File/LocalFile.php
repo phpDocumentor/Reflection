@@ -29,7 +29,7 @@ final class LocalFile implements File
     /**
      * Path to the file.
      */
-    private string $path;
+    private readonly string $path;
 
     public function __construct(string $path)
     {

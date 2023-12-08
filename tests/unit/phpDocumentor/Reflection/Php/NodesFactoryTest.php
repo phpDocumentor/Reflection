@@ -48,9 +48,7 @@ final class NodesFactoryTest extends TestCase
         $this->assertEquals($this->givenTheExpectedDefaultNodesFactory(), $factory);
     }
 
-    /**
-     * @covers ::create
-     */
+    /** @covers ::create */
     public function testThatCodeGetsConvertedIntoNodes(): void
     {
         $parser = $this->prophesize(Parser::class);

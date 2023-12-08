@@ -60,23 +60,19 @@ final class Class_Test extends TestCase
         $this->fixture = new Class_($this->docblockFactory->reveal());
     }
 
-    /**
-     * @covers ::matches
-     */
+    /** @covers ::matches */
     public function testMatches(): void
     {
         $this->assertFalse($this->fixture->matches(self::createContext(null), new stdClass()));
         $this->assertTrue(
             $this->fixture->matches(
                 self::createContext(null),
-                $this->prophesize(ClassNode::class)->reveal()
-            )
+                $this->prophesize(ClassNode::class)->reveal(),
+            ),
         );
     }
 
-    /**
-     * @covers ::create
-     */
+    /** @covers ::create */
     public function testSimpleCreate(): void
     {
         $containerMock = m::mock(StrategyContainer::class);
@@ -92,9 +88,7 @@ final class Class_Test extends TestCase
         $this->assertTrue($class->isAbstract());
     }
 
-    /**
-     * @covers ::create
-     */
+    /** @covers ::create */
     public function testClassWithParent(): void
     {
         $containerMock = m::mock(StrategyContainer::class);
@@ -109,9 +103,7 @@ final class Class_Test extends TestCase
         $this->assertEquals('\Space\MyParent', (string) $class->getParent());
     }
 
-    /**
-     * @covers ::create
-     */
+    /** @covers ::create */
     public function testClassImplementingInterface(): void
     {
         $containerMock = m::mock(StrategyContainer::class);
@@ -129,13 +121,11 @@ final class Class_Test extends TestCase
 
         $this->assertEquals(
             ['\MyInterface' => new Fqsen('\MyInterface')],
-            $class->getInterfaces()
+            $class->getInterfaces(),
         );
     }
 
-    /**
-     * @covers ::create
-     */
+    /** @covers ::create */
     public function testIteratesStatements(): void
     {
         $method1           = new ClassMethod('MyClass::method1');
@@ -154,7 +144,7 @@ final class Class_Test extends TestCase
 
         $containerMock->findMatching(
             Argument::type(ContextStack::class),
-            $method1
+            $method1,
         )->willReturn($strategyMock->reveal());
 
         $class = $this->performCreate($classMock, $containerMock->reveal());
@@ -163,13 +153,11 @@ final class Class_Test extends TestCase
         $this->assertEquals('\Space\MyClass', (string) $class->getFqsen());
         $this->assertEquals(
             ['\MyClass::method1' => $method1Descriptor],
-            $class->getMethods()
+            $class->getMethods(),
         );
     }
 
-    /**
-     * @covers ::create
-     */
+    /** @covers ::create */
     public function testCreateWithDocBlock(): void
     {
         $doc       = new Doc('Text');
@@ -184,10 +172,7 @@ final class Class_Test extends TestCase
         $this->assertSame($docBlock, $class->getDocBlock());
     }
 
-    /**
-     * @return m\MockInterface|ClassNode
-     */
-    private function buildClassMock()
+    private function buildClassMock(): m\MockInterface|ClassNode
     {
         $classMock = m::mock(ClassNode::class);
         $classMock->shouldReceive('getAttribute')->andReturn(new Fqsen('\Space\MyClass'));

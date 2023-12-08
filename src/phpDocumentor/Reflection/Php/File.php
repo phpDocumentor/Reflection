@@ -26,15 +26,7 @@ final class File implements MetaDataContainerInterface
 {
     use MetadataContainer;
 
-    private ?DocBlock $docBlock = null;
-
-    private string $hash;
-
-    private string $name;
-
-    private string $path;
-
-    private string $source;
+    private readonly string $name;
 
     /** @var Fqsen[] */
     private array $namespaces = [];
@@ -65,13 +57,9 @@ final class File implements MetaDataContainerInterface
      *
      * @param string $hash An MD5 hash of the contents if this file.
      */
-    public function __construct(string $hash, string $path, string $source = '', ?DocBlock $docBlock = null)
+    public function __construct(private readonly string $hash, private readonly string $path, private readonly string $source = '', private readonly DocBlock|null $docBlock = null)
     {
-        $this->hash     = $hash;
-        $this->path     = $path;
-        $this->name     = basename($path);
-        $this->source   = $source;
-        $this->docBlock = $docBlock;
+        $this->name = basename($path);
     }
 
     /**
@@ -239,7 +227,7 @@ final class File implements MetaDataContainerInterface
     /**
      * Returns the DocBlock of the element if available
      */
-    public function getDocBlock(): ?DocBlock
+    public function getDocBlock(): DocBlock|null
     {
         return $this->docBlock;
     }

@@ -10,19 +10,18 @@ use phpDocumentor\Reflection\Php\AttributeContainer;
 use phpDocumentor\Reflection\Php\CallArgument;
 use phpDocumentor\Reflection\Php\Factory\ContextStack;
 use phpDocumentor\Reflection\Php\StrategyContainer;
-use PhpParser\Node;
 use PhpParser\Node\Arg;
+use PhpParser\Node\AttributeGroup;
 use PhpParser\PrettyPrinter\Standard;
 
 use function array_map;
 use function assert;
-use function get_class;
 use function property_exists;
 use function sprintf;
 
 final class Attribute implements Reducer
 {
-    private Standard $printer;
+    private readonly Standard $printer;
 
     public function __construct()
     {
@@ -33,8 +32,8 @@ final class Attribute implements Reducer
         ContextStack $context,
         object $object,
         StrategyContainer $strategies,
-        ?object $carry
-    ): ?object {
+        object|null $carry,
+    ): object|null {
         if ($carry === null) {
             return null;
         }
@@ -44,17 +43,17 @@ final class Attribute implements Reducer
         }
 
         if ($carry instanceof AttributeContainer === false) {
-            throw new InvalidArgumentException(sprintf('Attribute can not be added on %s', get_class($carry)));
+            throw new InvalidArgumentException(sprintf('Attribute can not be added on %s', $carry::class));
         }
 
         foreach ($object->attrGroups as $attrGroup) {
-            assert($attrGroup instanceof Node\AttributeGroup);
+            assert($attrGroup instanceof AttributeGroup);
             foreach ($attrGroup->attrs as $attr) {
                 $carry->addAttribute(
                     new \phpDocumentor\Reflection\Php\Attribute(
                         new Fqsen('\\' . $attr->name->toString()),
-                        array_map([$this, 'buildCallArgument'], $attr->args),
-                    )
+                        array_map($this->buildCallArgument(...), $attr->args),
+                    ),
                 );
             }
         }
@@ -66,7 +65,7 @@ final class Attribute implements Reducer
     {
         return new CallArgument(
             $this->printer->prettyPrintExpr($arg->value),
-            $arg->name !== null ? $arg->name->toString() : null,
+            $arg->name?->toString(),
         );
     }
 }

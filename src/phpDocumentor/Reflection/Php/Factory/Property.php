@@ -16,7 +16,6 @@ namespace phpDocumentor\Reflection\Php\Factory;
 use phpDocumentor\Reflection\DocBlockFactoryInterface;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Class_;
-use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\Property as PropertyDescriptor;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Php\Trait_;
@@ -31,16 +30,13 @@ use Webmozart\Assert\Assert;
  * @see PropertyDescriptor
  * @see PropertyIterator
  */
-final class Property extends AbstractFactory implements ProjectFactoryStrategy
+final class Property extends AbstractFactory
 {
-    private PrettyPrinter $valueConverter;
-
     /**
      * Initializes the object.
      */
-    public function __construct(DocBlockFactoryInterface $docBlockFactory, PrettyPrinter $prettyPrinter)
+    public function __construct(DocBlockFactoryInterface $docBlockFactory, private readonly PrettyPrinter $valueConverter)
     {
-        $this->valueConverter = $prettyPrinter;
         parent::__construct($docBlockFactory);
     }
 
@@ -61,15 +57,15 @@ final class Property extends AbstractFactory implements ProjectFactoryStrategy
     protected function doCreate(
         ContextStack $context,
         object $object,
-        StrategyContainer $strategies
-    ): ?object {
+        StrategyContainer $strategies,
+    ): object|null {
         $propertyContainer = $context->peek();
         Assert::isInstanceOfAny(
             $propertyContainer,
             [
                 Class_::class,
                 Trait_::class,
-            ]
+            ],
         );
 
         $iterator = new PropertyIterator($object);
@@ -89,8 +85,8 @@ final class Property extends AbstractFactory implements ProjectFactoryStrategy
                     new Location($stmt->getLine()),
                     new Location($stmt->getEndLine()),
                     (new Type())->fromPhpParser($stmt->getType()),
-                    $stmt->isReadonly()
-                )
+                    $stmt->isReadonly(),
+                ),
             );
         }
 

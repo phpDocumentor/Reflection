@@ -22,17 +22,12 @@ use Webmozart\Assert\Assert;
 
 final class ConstructorPromotion extends AbstractFactory
 {
-    private PrettyPrinter $valueConverter;
-    private ProjectFactoryStrategy $methodStrategy;
-
     public function __construct(
-        ProjectFactoryStrategy $methodStrategy,
+        private readonly ProjectFactoryStrategy $methodStrategy,
         DocBlockFactoryInterface $docBlockFactory,
-        PrettyPrinter $prettyPrinter
+        private readonly PrettyPrinter $valueConverter,
     ) {
         parent::__construct($docBlockFactory);
-        $this->valueConverter = $prettyPrinter;
-        $this->methodStrategy = $methodStrategy;
     }
 
     public function matches(ContextStack $context, object $object): bool
@@ -41,15 +36,13 @@ final class ConstructorPromotion extends AbstractFactory
             return $context->peek() instanceof ClassElement &&
                 $object instanceof ClassMethod &&
                 (string) ($object->name) === '__construct';
-        } catch (OutOfBoundsException $e) {
+        } catch (OutOfBoundsException) {
             return false;
         }
     }
 
-    /**
-     * @param ClassMethod $object
-     */
-    protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies): ?object
+    /** @param ClassMethod $object */
+    protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies): object|null
     {
         $this->methodStrategy->create($context, $object, $strategies);
 
@@ -79,7 +72,7 @@ final class ConstructorPromotion extends AbstractFactory
             new Location($param->getLine()),
             new Location($param->getEndLine()),
             (new Type())->fromPhpParser($param->type),
-            $this->readOnly($param->flags)
+            $this->readOnly($param->flags),
         );
 
         $methodContainer->addProperty($property);

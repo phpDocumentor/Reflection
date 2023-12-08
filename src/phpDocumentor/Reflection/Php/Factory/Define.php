@@ -31,6 +31,7 @@ use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
 
 use function assert;
 use function sprintf;
+use function str_starts_with;
 
 /**
  * Strategy to convert `define` expressions to ConstantElement
@@ -40,21 +41,15 @@ use function sprintf;
  */
 final class Define extends AbstractFactory
 {
-    private PrettyPrinter $valueConverter;
-
-    private ConstantEvaluator $constantEvaluator;
-
     /**
      * Initializes the object.
      */
     public function __construct(
         DocBlockFactoryInterface $docBlockFactory,
-        PrettyPrinter $prettyPrinter,
-        ?ConstantEvaluator $constantEvaluator = null
+        private readonly PrettyPrinter $valueConverter,
+        private readonly ConstantEvaluator $constantEvaluator = new ConstantEvaluator(),
     ) {
         parent::__construct($docBlockFactory);
-        $this->valueConverter = $prettyPrinter;
-        $this->constantEvaluator = $constantEvaluator ?? new ConstantEvaluator();
     }
 
     public function matches(ContextStack $context, object $object): bool
@@ -87,8 +82,8 @@ final class Define extends AbstractFactory
     protected function doCreate(
         ContextStack $context,
         object $object,
-        StrategyContainer $strategies
-    ): ?object {
+        StrategyContainer $strategies,
+    ): object|null {
         $expression = $object->expr;
         assert($expression instanceof FuncCall);
 
@@ -112,7 +107,7 @@ final class Define extends AbstractFactory
             $this->createDocBlock($object->getDocComment(), $context->getTypeContext()),
             $this->determineValue($value),
             new Location($object->getLine()),
-            new Location($object->getEndLine())
+            new Location($object->getEndLine()),
         );
 
         $file->addConstant($constant);
@@ -120,7 +115,7 @@ final class Define extends AbstractFactory
         return $constant;
     }
 
-    private function determineValue(?Arg $value): ?string
+    private function determineValue(Arg|null $value): string|null
     {
         if ($value === null) {
             return null;
@@ -129,16 +124,16 @@ final class Define extends AbstractFactory
         return $this->valueConverter->prettyPrintExpr($value->value);
     }
 
-    private function determineFqsen(Arg $name, ContextStack $context): ?Fqsen
+    private function determineFqsen(Arg $name, ContextStack $context): Fqsen|null
     {
         return $this->fqsenFromExpression($name->value, $context);
     }
 
-    private function fqsenFromExpression(Expr $nameString, ContextStack $context): ?Fqsen
+    private function fqsenFromExpression(Expr $nameString, ContextStack $context): Fqsen|null
     {
         try {
             return $this->fqsenFromString($this->constantEvaluator->evaluate($nameString, $context));
-        } catch (ConstExprEvaluationException $e) {
+        } catch (ConstExprEvaluationException) {
             //Ignore any errors as we cannot evaluate all expressions
             return null;
         }

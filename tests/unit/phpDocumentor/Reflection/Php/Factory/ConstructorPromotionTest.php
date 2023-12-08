@@ -29,9 +29,7 @@ use stdClass;
 
 use function current;
 
-/**
- * @coversDefaultClass \phpDocumentor\Reflection\Php\Factory\ConstructorPromotion
- */
+/** @coversDefaultClass \phpDocumentor\Reflection\Php\Factory\ConstructorPromotion */
 final class ConstructorPromotionTest extends TestCase
 {
     use ProphecyTrait;
@@ -49,7 +47,7 @@ final class ConstructorPromotionTest extends TestCase
         $this->fixture = new ConstructorPromotion(
             $this->strategy->reveal(),
             $this->docblockFactory->reveal(),
-            $printer->reveal()
+            $printer->reveal(),
         );
     }
 
@@ -63,9 +61,7 @@ final class ConstructorPromotionTest extends TestCase
         self::assertEquals($expected, $this->fixture->matches($context, $object));
     }
 
-    /**
-     * @return mixed[][]
-     */
+    /** @return mixed[][] */
     public function objectProvider(): array
     {
         $context = new ContextStack(new Project('test'));
@@ -116,7 +112,7 @@ final class ConstructorPromotionTest extends TestCase
                         new Doc('text'),
                     ],
                 ],
-                $flags
+                $flags,
             ),
         ];
 
@@ -131,7 +127,7 @@ final class ConstructorPromotionTest extends TestCase
         $this->fixture->create(
             $context,
             $methodNode,
-            $this->prophesize(StrategyContainer::class)->reveal()
+            $this->prophesize(StrategyContainer::class)->reveal(),
         );
 
         $property = current($class->getProperties());

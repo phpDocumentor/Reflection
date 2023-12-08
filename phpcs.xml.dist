@@ -9,18 +9,41 @@
 
     <!-- Set the minimum PHP version for PHPCompatibility.
          This should be kept in sync with the requirements in the composer.json file. -->
-    <config name="testVersion" value="7.4-"/>
+    <config name="testVersion" value="8.1-"/>
 
-    <rule ref="phpDocumentor">
-        <exclude name="SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint" />
-        <exclude name="SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingReturnTypeHint" />
+    <arg value="nps"/>
+
+    <rule ref="Doctrine">
+        <exclude name="Generic.Formatting.MultipleStatementAlignment.NotSame"/>
+        <exclude name="SlevomatCodingStandard.Classes.SuperfluousAbstractClassNaming.SuperfluousPrefix"/>
+        <exclude name="SlevomatCodingStandard.Classes.SuperfluousExceptionNaming.SuperfluousSuffix"/>
+        <exclude name="SlevomatCodingStandard.Classes.SuperfluousInterfaceNaming.SuperfluousSuffix"/>
+
+        <exclude name="Squiz.Commenting.FunctionComment"/>
     </rule>
 
-    <rule ref="SlevomatCodingStandard.Classes.SuperfluousAbstractClassNaming.SuperfluousPrefix">
-        <exclude-pattern>*/src/*/Abstract*\.php</exclude-pattern>
+    <rule ref="Generic.Formatting.SpaceAfterNot">
+        <properties>
+            <property name="spacing" value="0"/>
+        </properties>
+    </rule>
+
+    <rule ref="SlevomatCodingStandard.Commenting.InlineDocCommentDeclaration.NoAssignment">
+        <exclude-pattern>packages/guides/src/Setup/QuickStart.php</exclude-pattern>
+    </rule>
+
+    <rule ref="SlevomatCodingStandard.Numbers.RequireNumericLiteralSeparator">
+        <properties>
+            <property name="minDigitsBeforeDecimalPoint" value="5"/>
+        </properties>
     </rule>
 
     <rule ref="SlevomatCodingStandard.Functions.StaticClosure.ClosureNotStatic">
         <exclude-pattern>*/tests/unit/*</exclude-pattern>
+    </rule>
+
+    <rule ref="Squiz.Classes.ValidClassName.NotCamelCaps">
+        <exclude-pattern>*/tests/unit/*</exclude-pattern>
+        <exclude-pattern>*/src/phpDocumentor/Reflection/Php/*</exclude-pattern>
     </rule>
 </ruleset>

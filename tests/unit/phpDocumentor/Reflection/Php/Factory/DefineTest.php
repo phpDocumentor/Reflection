@@ -114,9 +114,9 @@ final class DefineTest extends TestCase
                 [
                     new Arg(new String_('MY_CONST1')),
                     new Arg(new String_('a')),
-                ]
+                ],
             ),
-            ['comments' => [$doc]]
+            ['comments' => [$doc]],
         );
         $typeContext = new Context('Space\\MyClass');
 
@@ -140,8 +140,8 @@ final class DefineTest extends TestCase
                 [
                     new Arg(new String_($namespace ?  $namespace . '\\MY_CONST1' : 'MY_CONST1')),
                     new Arg(new String_('a')),
-                ]
-            )
+                ],
+            ),
         );
     }
 

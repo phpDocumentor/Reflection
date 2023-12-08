@@ -34,11 +34,8 @@ use Webmozart\Assert\Assert;
  */
 final class ClassConstant extends AbstractFactory
 {
-    private PrettyPrinter $valueConverter;
-
-    public function __construct(DocBlockFactoryInterface $blockFactory, PrettyPrinter $prettyPrinter)
+    public function __construct(DocBlockFactoryInterface $blockFactory, private readonly PrettyPrinter $valueConverter)
     {
-        $this->valueConverter = $prettyPrinter;
         parent::__construct($blockFactory);
     }
 
@@ -60,8 +57,8 @@ final class ClassConstant extends AbstractFactory
     protected function doCreate(
         ContextStack $context,
         object $object,
-        StrategyContainer $strategies
-    ): ?object {
+        StrategyContainer $strategies,
+    ): object|null {
         $constantContainer = $context->peek();
         Assert::isInstanceOfAny(
             $constantContainer,
@@ -70,7 +67,7 @@ final class ClassConstant extends AbstractFactory
                 Enum_::class,
                 Interface_::class,
                 Trait_::class,
-            ]
+            ],
         );
 
         $constants = new ClassConstantIterator($object);
@@ -83,7 +80,7 @@ final class ClassConstant extends AbstractFactory
                 new Location($const->getLine()),
                 new Location($const->getEndLine()),
                 $this->buildVisibility($const),
-                $const->isFinal()
+                $const->isFinal(),
             ));
         }
 

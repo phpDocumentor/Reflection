@@ -23,23 +23,14 @@ use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Comment\Doc;
 use PhpParser\NodeAbstract;
 
-use function get_class;
-use function gettype;
-use function is_object;
+use function get_debug_type;
 use function sprintf;
 
 abstract class AbstractFactory implements ProjectFactoryStrategy
 {
-    private DocBlockFactoryInterface $docBlockFactory;
-
-    /** @var iterable<Reducer> */
-    private iterable $reducers;
-
-    /** @param iterable<Reducer> $recuders */
-    public function __construct(DocBlockFactoryInterface $docBlockFactory, iterable $recuders = [])
+    /** @param iterable<Reducer> $reducers */
+    public function __construct(private readonly DocBlockFactoryInterface $docBlockFactory, private readonly iterable $reducers = [])
     {
-        $this->docBlockFactory = $docBlockFactory;
-        $this->reducers = $recuders;
     }
 
     /**
@@ -56,8 +47,8 @@ abstract class AbstractFactory implements ProjectFactoryStrategy
                 sprintf(
                     '%s cannot handle objects with the type %s',
                     self::class,
-                    is_object($object) ? get_class($object) : gettype($object)
-                )
+                    get_debug_type($object),
+                ),
             );
         }
 
@@ -75,9 +66,9 @@ abstract class AbstractFactory implements ProjectFactoryStrategy
      *
      * @param NodeAbstract|object $object object to convert to an Element
      */
-    abstract protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies): ?object;
+    abstract protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies): object|null;
 
-    protected function createDocBlock(?Doc $docBlock = null, ?Context $context = null): ?DocBlock
+    protected function createDocBlock(Doc|null $docBlock = null, Context|null $context = null): DocBlock|null
     {
         if ($docBlock === null) {
             return null;

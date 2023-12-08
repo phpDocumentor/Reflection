@@ -4,32 +4,32 @@ help: ## Displays this list of targets with descriptions
 
 .PHONY: code-style
 code-style:
-	docker run -it --rm -v${PWD}:/opt/project -w /opt/project phpdoc/phpcs-ga:latest -d memory_limit=1024M -s
+	docker run -it --rm -v${PWD}:/opt/project -w /opt/project php:8.1-cli vendor/bin/phpcs
 
 .PHONY: fix-code-style
 fix-code-style:
-	docker run -it --rm -v${PWD}:/opt/project -w /opt/project phpdoc/phpcs-ga:latest phpcbf
+	docker run -it --rm -v${PWD}:/opt/project -w /opt/project php:8.1-cli vendor/bin/phpcbf
 
 .PHONY: static-code-analysis
 static-code-analysis: vendor ## Runs a static code analysis with phpstan/phpstan and vimeo/psalm
-	docker run -it --rm -v${PWD}:/opt/project -w /opt/project php:7.4 vendor/bin/phpstan --configuration=phpstan.neon
-	docker run -it --rm -v${PWD}:/opt/project -w /opt/project php:7.4 vendor/bin/psalm
+	docker run -it --rm -v${PWD}:/opt/project -w /opt/project php:8.1-cli vendor/bin/phpstan --configuration=phpstan.neon
+	docker run -it --rm -v${PWD}:/opt/project -w /opt/project php:8.1-cli vendor/bin/psalm
 
 .PHONY: test
 test: test-unit test-functional ## Runs all test suites with phpunit/phpunit
-	docker run -it --rm -v${PWD}:/opt/project -w /opt/project php:7.4 vendor/bin/phpunit
+	docker run -it --rm -v${PWD}:/opt/project -w /opt/project php:8.1-cli vendor/bin/phpunit
 
 .PHONY: test-unit
 test-unit: ## Runs unit tests with phpunit/phpunit
-	docker run -it --rm -v${PWD}:/opt/project -w /opt/project php:7.4 vendor/bin/phpunit --testsuite=unit
+	docker run -it --rm -v${PWD}:/opt/project -w /opt/project php:8.1-cli vendor/bin/phpunit --testsuite=unit
 
 .PHONY: test-functional
 test-functional: ## Runs unit tests with phpunit/phpunit
-	docker run -it --rm -v${PWD}:/opt/project -w /opt/project php:7.4 vendor/bin/phpunit --testsuite=functional
+	docker run -it --rm -v${PWD}:/opt/project -w /opt/project php:8.1-cli vendor/bin/phpunit --testsuite=functional
 
 .PHONY: dependency-analysis
 dependency-analysis: vendor ## Runs a dependency analysis with maglnet/composer-require-checker
-	docker run -it --rm -v${PWD}:/opt/project -w /opt/project php:7.4 .phive/composer-require-checker check --config-file=/opt/project/composer-require-checker.json
+	docker run -it --rm -v${PWD}:/opt/project -w /opt/project php:8.1-cli .phive/composer-require-checker check --config-file=/opt/project/composer-require-checker.json
 
 vendor: composer.json composer.lock
 	composer validate --no-check-publish
@@ -37,11 +37,11 @@ vendor: composer.json composer.lock
 
 .PHONY: benchmark
 benchmark:
-	docker run -it --rm -v${CURDIR}:/opt/project -w /opt/project php:7.4-cli tools/phpbench run
+	docker run -it --rm -v${CURDIR}:/opt/project -w /opt/project php:8.1-cli tools/phpbench run
 
 .PHONY: rector
 rector: ## Refactor code using rector
-	docker run -it --rm -v${PWD}:/opt/project -w /opt/project php:7.4 vendor/bin/rector process
+	docker run -it --rm -v${PWD}:/opt/project -w /opt/project php:8.1-cli vendor/bin/rector process
 
 .PHONY: pre-commit-test
 pre-commit-test: fix-code-style test code-style static-code-analysis

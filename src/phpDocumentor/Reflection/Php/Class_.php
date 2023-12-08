@@ -29,22 +29,6 @@ final class Class_ implements Element, MetaDataContainerInterface, AttributeCont
     use MetadataContainer;
     use HasAttributes;
 
-    /** @var Fqsen Full Qualified Structural Element Name */
-    private Fqsen $fqsen;
-
-    private ?DocBlock $docBlock = null;
-
-    private bool $readOnly = false;
-
-    /** @var bool Whether this is an abstract class. */
-    private bool $abstract = false;
-
-    /** @var bool Whether this class is marked as final and can't be subclassed. */
-    private bool $final = false;
-
-    /** @var Fqsen|null The class this class is extending. */
-    private ?Fqsen $parent = null;
-
     /** @var Fqsen[] References to interfaces that are implemented by this class. */
     private array $implements = [];
 
@@ -60,22 +44,26 @@ final class Class_ implements Element, MetaDataContainerInterface, AttributeCont
     /** @var Fqsen[] References to traits consumed by this class */
     private array $usedTraits = [];
 
-    private Location $location;
+    private readonly Location $location;
 
-    private Location $endLocation;
+    private readonly Location $endLocation;
 
     /**
      * Initializes a number of properties with the given values. Others are initialized by definition.
      */
     public function __construct(
-        Fqsen $fqsen,
-        ?DocBlock $docBlock = null,
-        ?Fqsen $parent = null,
-        bool $abstract = false,
-        bool $final = false,
-        ?Location $location = null,
-        ?Location $endLocation = null,
-        bool $readOnly = false
+        /** @var Fqsen Full Qualified Structural Element Name */
+        private readonly Fqsen $fqsen,
+        private readonly DocBlock|null $docBlock = null,
+        /** @var Fqsen|null The class this class is extending. */
+        private readonly Fqsen|null $parent = null,
+        /** @var bool Whether this is an abstract class. */
+        private readonly bool $abstract = false,
+        /** @var bool Whether this class is marked as final and can't be subclassed. */
+        private readonly bool $final = false,
+        Location|null $location = null,
+        Location|null $endLocation = null,
+        private readonly bool $readOnly = false,
     ) {
         if ($location === null) {
             $location = new Location(-1);
@@ -85,14 +73,8 @@ final class Class_ implements Element, MetaDataContainerInterface, AttributeCont
             $endLocation = new Location(-1);
         }
 
-        $this->fqsen       = $fqsen;
-        $this->parent      = $parent;
-        $this->docBlock    = $docBlock;
-        $this->abstract    = $abstract;
-        $this->final       = $final;
         $this->location    = $location;
         $this->endLocation = $endLocation;
-        $this->readOnly = $readOnly;
     }
 
     /**
@@ -122,7 +104,7 @@ final class Class_ implements Element, MetaDataContainerInterface, AttributeCont
     /**
      * Returns the superclass this class is extending if available.
      */
-    public function getParent(): ?Fqsen
+    public function getParent(): Fqsen|null
     {
         return $this->parent;
     }
@@ -233,7 +215,7 @@ final class Class_ implements Element, MetaDataContainerInterface, AttributeCont
         return $this->fqsen->getName();
     }
 
-    public function getDocBlock(): ?DocBlock
+    public function getDocBlock(): DocBlock|null
     {
         return $this->docBlock;
     }

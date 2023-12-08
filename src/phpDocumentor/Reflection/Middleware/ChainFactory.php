@@ -16,16 +16,12 @@ namespace phpDocumentor\Reflection\Middleware;
 use InvalidArgumentException;
 
 use function array_pop;
-use function get_class;
-use function gettype;
-use function is_object;
+use function get_debug_type;
 use function sprintf;
 
 final class ChainFactory
 {
-    /**
-     * @param Middleware[] $middlewareList
-     */
+    /** @param Middleware[] $middlewareList */
     public static function createExecutionChain(array $middlewareList, callable $lastCallable): callable
     {
         while ($middleware = array_pop($middlewareList)) {
@@ -34,8 +30,8 @@ final class ChainFactory
                     sprintf(
                         'Middleware must be an instance of %s but %s was given',
                         Middleware::class,
-                        is_object($middleware) ? get_class($middleware) : gettype($middleware)
-                    )
+                        get_debug_type($middleware),
+                    ),
                 );
             }
 

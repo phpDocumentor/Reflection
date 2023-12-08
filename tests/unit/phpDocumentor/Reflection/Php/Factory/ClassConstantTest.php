@@ -56,7 +56,7 @@ final class ClassConstantTest extends TestCase
         $this->docBlockFactory = $this->prophesize(DocBlockFactoryInterface::class);
         $this->fixture = new ClassConstant(
             $this->docBlockFactory->reveal(),
-            new PrettyPrinter()
+            new PrettyPrinter(),
         );
     }
 

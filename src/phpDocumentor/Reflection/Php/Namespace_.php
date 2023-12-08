@@ -27,11 +27,6 @@ final class Namespace_ implements Element, MetaDataContainerInterface
     use MetadataContainer;
 
     /**
-     * @var Fqsen Full Qualified Structural Element Name
-     */
-    private Fqsen $fqsen;
-
-    /**
      * @var Fqsen[] fqsen of all functions in this namespace
      */
     private array $functions = [];
@@ -59,9 +54,13 @@ final class Namespace_ implements Element, MetaDataContainerInterface
     /**
      * Initializes the namespace.
      */
-    public function __construct(Fqsen $fqsen)
+    public function __construct(
+        /**
+         * @var Fqsen Full Qualified Structural Element Name
+         */
+        private readonly Fqsen $fqsen
+    )
     {
-        $this->fqsen = $fqsen;
     }
 
     /**

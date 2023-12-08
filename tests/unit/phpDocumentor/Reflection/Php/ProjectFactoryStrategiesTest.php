@@ -29,9 +29,7 @@ use stdClass;
  */
 class ProjectFactoryStrategiesTest extends TestCase
 {
-    /**
-     * @covers ::addStrategy
-     */
+    /** @covers ::addStrategy */
     public function testStrategiesAreChecked(): void
     {
         new ProjectFactoryStrategies([new DummyFactoryStrategy()]);
@@ -48,22 +46,20 @@ class ProjectFactoryStrategiesTest extends TestCase
         $container = new ProjectFactoryStrategies([$strategy]);
         $actual    = $container->findMatching(
             new ContextStack(new Project('name'), new Context('global')),
-            new stdClass()
+            new stdClass(),
         );
 
         $this->assertSame($strategy, $actual);
     }
 
-    /**
-     * @covers ::findMatching
-     */
+    /** @covers ::findMatching */
     public function testCreateThrowsExceptionWhenStrategyNotFound(): void
     {
         $this->expectException(OutOfBoundsException::class);
         $container = new ProjectFactoryStrategies([]);
         $container->findMatching(
             new ContextStack(new Project('name'), new Context('global')),
-            new stdClass()
+            new stdClass(),
         );
     }
 }

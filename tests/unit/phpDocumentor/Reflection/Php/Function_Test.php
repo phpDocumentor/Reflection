@@ -54,9 +54,7 @@ final class Function_Test extends TestCase
         return $this->fixture;
     }
 
-    /**
-     * @covers ::getName
-     */
+    /** @covers ::getName */
     public function testGetName(): void
     {
         $this->assertEquals('MyFunction', $this->fixture->getName());
@@ -74,34 +72,26 @@ final class Function_Test extends TestCase
         $this->assertEquals([$argument], $this->fixture->getArguments());
     }
 
-    /**
-     * @covers ::getFqsen
-     */
+    /** @covers ::getFqsen */
     public function testGetFqsen(): void
     {
         $this->assertSame($this->fqsen, $this->fixture->getFqsen());
     }
 
-    /**
-     * @covers ::getDocBlock
-     */
+    /** @covers ::getDocBlock */
     public function testGetDocblock(): void
     {
         $this->assertSame($this->docBlock, $this->fixture->getDocBlock());
     }
 
-    /**
-     * @covers ::getReturnType
-     */
+    /** @covers ::getReturnType */
     public function testGetDefaultReturnType(): void
     {
         $function = new Function_($this->fqsen);
         $this->assertEquals(new Mixed_(), $function->getReturnType());
     }
 
-    /**
-     * @covers ::getReturnType
-     */
+    /** @covers ::getReturnType */
     public function testGetReturnTypeFromConstructor(): void
     {
         $returnType = new String_();
@@ -110,18 +100,14 @@ final class Function_Test extends TestCase
         $this->assertSame($returnType, $function->getReturnType());
     }
 
-    /**
-     * @covers ::getHasReturnByReference
-     */
+    /** @covers ::getHasReturnByReference */
     public function testGetHasReturnByReference(): void
     {
         $function = new Function_($this->fqsen);
         $this->assertSame(false, $function->getHasReturnByReference());
     }
 
-    /**
-     * @covers ::getHasReturnByReference
-     */
+    /** @covers ::getHasReturnByReference */
     public function testGetHasReturnByReferenceFromConstructor(): void
     {
         $function = new Function_($this->fqsen, null, null, null, null, true);

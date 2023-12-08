@@ -12,9 +12,7 @@ use PhpParser\Node\Expr\ShellExec;
 use PhpParser\Node\Scalar\MagicConst\Namespace_;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @coversDefaultClass \phpDocumentor\Reflection\Php\ValueEvaluator\ConstantEvaluator
- */
+/** @coversDefaultClass \phpDocumentor\Reflection\Php\ValueEvaluator\ConstantEvaluator */
 final class ConstantEvaluatorTest extends TestCase
 {
     /** @covers ::evaluate */

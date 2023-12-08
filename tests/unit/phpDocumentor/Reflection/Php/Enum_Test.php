@@ -56,33 +56,25 @@ final class Enum_Test extends TestCase
         return $this->fixture;
     }
 
-    /**
-     * @covers ::getName
-     */
+    /** @covers ::getName */
     public function testGettingName(): void
     {
         $this->assertSame($this->fqsen->getName(), $this->fixture->getName());
     }
 
-    /**
-     * @covers ::getBackedType
-     */
+    /** @covers ::getBackedType */
     public function testGetBackedWithOutType(): void
     {
         $this->assertNull($this->fixture->getBackedType());
     }
 
-    /**
-     * @covers ::getFqsen
-     */
+    /** @covers ::getFqsen */
     public function testGettingFqsen(): void
     {
         $this->assertSame($this->fqsen, $this->fixture->getFqsen());
     }
 
-    /**
-     * @covers ::getDocBlock
-     */
+    /** @covers ::getDocBlock */
     public function testGettingDocBlock(): void
     {
         $this->assertSame($this->docBlock, $this->fixture->getDocBlock());

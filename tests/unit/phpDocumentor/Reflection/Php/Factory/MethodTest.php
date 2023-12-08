@@ -60,18 +60,14 @@ class MethodTest extends TestCase
         $this->fixture = new Method($this->docBlockFactory->reveal());
     }
 
-    /**
-     * @covers ::matches
-     */
+    /** @covers ::matches */
     public function testMatches(): void
     {
         $this->assertFalse($this->fixture->matches(self::createContext(null), new stdClass()));
         $this->assertTrue($this->fixture->matches(self::createContext(null), m::mock(ClassMethod::class)));
     }
 
-    /**
-     * @covers ::create
-     */
+    /** @covers ::create */
     public function testCreateWithoutParameters(): void
     {
         $classMethodMock = $this->buildClassMethodMock();
@@ -93,9 +89,7 @@ class MethodTest extends TestCase
         $this->assertEquals('public', (string) $method->getVisibility());
     }
 
-    /**
-     * @covers ::create
-     */
+    /** @covers ::create */
     public function testCreateProtectedMethod(): void
     {
         $classMethodMock = $this->buildClassMethodMock();
@@ -117,9 +111,7 @@ class MethodTest extends TestCase
         $this->assertEquals('protected', (string) $method->getVisibility());
     }
 
-    /**
-     * @covers ::create
-     */
+    /** @covers ::create */
     public function testCreateWithParameters(): void
     {
         $param1 = new Param(new Variable('param1'));
@@ -133,13 +125,13 @@ class MethodTest extends TestCase
         $containerMock = $this->prophesize(StrategyContainer::class);
         $containerMock->findMatching(
             Argument::type(ContextStack::class),
-            $param1
+            $param1,
         )->willReturn($argumentStrategy);
 
         $argumentStrategy->create(
             Argument::that(static fn ($agument): bool => $agument->peek() instanceof MethodDescriptor),
             $param1,
-            $containerMock->reveal()
+            $containerMock->reveal(),
         )->shouldBeCalled();
 
         $class = new ClassElement(new Fqsen('\\MyClass'));
@@ -154,9 +146,7 @@ class MethodTest extends TestCase
         $this->assertEquals('private', (string) $method->getVisibility());
     }
 
-    /**
-     * @covers ::create
-     */
+    /** @covers ::create */
     public function testCreateWithDocBlock(): void
     {
         $doc = new Doc('Text');
@@ -179,9 +169,7 @@ class MethodTest extends TestCase
         $this->assertSame($docBlock, $method->getDocBlock());
     }
 
-    /**
-     * @return MockInterface|ClassMethod
-     */
+    /** @return MockInterface|ClassMethod */
     private function buildClassMethodMock(): MockInterface
     {
         $methodMock = m::mock(ClassMethod::class);
@@ -200,9 +188,7 @@ class MethodTest extends TestCase
         return $methodMock;
     }
 
-    /**
-     * @covers ::create
-     */
+    /** @covers ::create */
     public function testIteratesStatements(): void
     {
         $method1 = $this->buildClassMethodMock();
@@ -216,7 +202,7 @@ class MethodTest extends TestCase
         $containerMock = $this->prophesize(StrategyContainer::class);
         $containerMock->findMatching(
             Argument::type(ContextStack::class),
-            Argument::type(Expression::class)
+            Argument::type(Expression::class),
         )->willReturn($strategyMock->reveal())->shouldBeCalledOnce();
 
         $class = new ClassElement(new Fqsen('\\MyClass'));

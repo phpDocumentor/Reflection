@@ -13,9 +13,7 @@ use phpDocumentor\Reflection\Types\NamespaceNodeToContext;
 use PhpParser\Node\Stmt\Namespace_ as NamespaceNode;
 use Webmozart\Assert\Assert;
 
-use function get_class;
-use function gettype;
-use function is_object;
+use function get_debug_type;
 use function sprintf;
 
 class Namespace_ implements ProjectFactoryStrategy
@@ -25,9 +23,7 @@ class Namespace_ implements ProjectFactoryStrategy
         return $object instanceof NamespaceNode;
     }
 
-    /**
-     * @param NamespaceNode $object
-     */
+    /** @param NamespaceNode $object */
     public function create(ContextStack $context, object $object, StrategyContainer $strategies): void
     {
         if (!$this->matches($context, $object)) {
@@ -35,8 +31,8 @@ class Namespace_ implements ProjectFactoryStrategy
                 sprintf(
                     '%s cannot handle objects with the type %s',
                     self::class,
-                    is_object($object) ? get_class($object) : gettype($object)
-                )
+                    get_debug_type($object),
+                ),
             );
         }
 

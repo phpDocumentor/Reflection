@@ -27,11 +27,6 @@ final class Trait_ implements Element, MetaDataContainerInterface, AttributeCont
     use MetadataContainer;
     use HasAttributes;
 
-    /** @var Fqsen Full Qualified Structural Element Name */
-    private Fqsen $fqsen;
-
-    private ?DocBlock $docBlock;
-
     /** @var Property[] $properties */
     private array $properties = [];
 
@@ -41,9 +36,9 @@ final class Trait_ implements Element, MetaDataContainerInterface, AttributeCont
     /** @var Fqsen[] $usedTraits References to traits consumed by this trait */
     private array $usedTraits = [];
 
-    private Location $location;
+    private readonly Location $location;
 
-    private Location $endLocation;
+    private readonly Location $endLocation;
 
     /** @var Constant[] */
     private array $constants = [];
@@ -52,10 +47,11 @@ final class Trait_ implements Element, MetaDataContainerInterface, AttributeCont
      * Initializes the all properties
      */
     public function __construct(
-        Fqsen $fqsen,
-        ?DocBlock $docBlock = null,
-        ?Location $location = null,
-        ?Location $endLocation = null
+        /** @var Fqsen Full Qualified Structural Element Name */
+        private readonly Fqsen $fqsen,
+        private readonly DocBlock|null $docBlock = null,
+        Location|null $location = null,
+        Location|null $endLocation = null,
     ) {
         if ($location === null) {
             $location = new Location(-1);
@@ -65,8 +61,6 @@ final class Trait_ implements Element, MetaDataContainerInterface, AttributeCont
             $endLocation = new Location(-1);
         }
 
-        $this->fqsen    = $fqsen;
-        $this->docBlock = $docBlock;
         $this->location = $location;
         $this->endLocation = $endLocation;
     }
@@ -123,7 +117,7 @@ final class Trait_ implements Element, MetaDataContainerInterface, AttributeCont
         return $this->fqsen->getName();
     }
 
-    public function getDocBlock(): ?DocBlock
+    public function getDocBlock(): DocBlock|null
     {
         return $this->docBlock;
     }

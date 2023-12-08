@@ -147,41 +147,31 @@ final class FileTest extends TestCase
         $this->assertEquals(['\MySpace\MyEnum' => $enum], $this->fixture->getEnums());
     }
 
-    /**
-     * @covers ::getDocBlock
-     */
+    /** @covers ::getDocBlock */
     public function testGetDocBlock(): void
     {
         $this->assertSame($this->docBlock, $this->fixture->getDocBlock());
     }
 
-    /**
-     * @covers ::getHash
-     */
+    /** @covers ::getHash */
     public function testGetHash(): void
     {
         $this->assertSame(self::EXAMPLE_HASH, $this->fixture->getHash());
     }
 
-    /**
-     * @covers ::getName
-     */
+    /** @covers ::getName */
     public function testGetName(): void
     {
         $this->assertSame(self::EXAMPLE_NAME, $this->fixture->getName());
     }
 
-    /**
-     * @covers ::getPath
-     */
+    /** @covers ::getPath */
     public function testSetAndGetPath(): void
     {
         $this->assertSame(self::EXAMPLE_PATH, $this->fixture->getPath());
     }
 
-    /**
-     * @covers ::getSource
-     */
+    /** @covers ::getSource */
     public function testSetAndGetSource(): void
     {
         $this->assertSame(self::EXAMPLE_SOURCE, $this->fixture->getSource());

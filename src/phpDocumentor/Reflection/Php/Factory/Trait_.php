@@ -36,13 +36,13 @@ final class Trait_ extends AbstractFactory
      * @param ContextStack $context used to convert nested objects.
      * @param TraitNode $object
      */
-    protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies): ?object
+    protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies): object|null
     {
         $trait = new TraitElement(
             $object->getAttribute('fqsen'),
             $this->createDocBlock($object->getDocComment(), $context->getTypeContext()),
             new Location($object->getLine()),
-            new Location($object->getEndLine())
+            new Location($object->getEndLine()),
         );
 
         $file = $context->peek();

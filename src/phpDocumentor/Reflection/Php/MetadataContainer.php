@@ -25,9 +25,7 @@ trait MetadataContainer
     /** @var Metadata[] */
     private array $metadata = [];
 
-    /**
-     * @throws Exception When metadata key already exists.
-     */
+    /** @throws Exception When metadata key already exists. */
     public function addMetadata(Metadata $metadata): void
     {
         if (array_key_exists($metadata->key(), $this->metadata)) {

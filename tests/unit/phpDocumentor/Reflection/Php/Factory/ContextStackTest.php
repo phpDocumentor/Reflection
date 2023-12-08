@@ -12,9 +12,7 @@ use phpDocumentor\Reflection\Php\Project;
 use phpDocumentor\Reflection\Types\Context;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
-/**
- * @coversDefaultClass \phpDocumentor\Reflection\Php\Factory\ContextStack
- */
+/** @coversDefaultClass \phpDocumentor\Reflection\Php\Factory\ContextStack */
 final class ContextStackTest extends PHPUnitTestCase
 {
     /**

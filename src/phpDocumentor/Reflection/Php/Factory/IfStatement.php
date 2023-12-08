@@ -16,9 +16,7 @@ class IfStatement implements ProjectFactoryStrategy
         return $object instanceof If_;
     }
 
-    /**
-     * @param If_ $object
-     */
+    /** @param If_ $object */
     public function create(ContextStack $context, object $object, StrategyContainer $strategies): void
     {
         foreach ($object->stmts as $stmt) {

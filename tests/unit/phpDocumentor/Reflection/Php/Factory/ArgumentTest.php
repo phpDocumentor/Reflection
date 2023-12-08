@@ -43,18 +43,14 @@ class ArgumentTest extends TestCase
         $this->fixture = new Argument(new PrettyPrinter());
     }
 
-    /**
-     * @covers ::matches
-     */
+    /** @covers ::matches */
     public function testMatches(): void
     {
         $this->assertFalse($this->fixture->matches(self::createContext(null), new stdClass()));
         $this->assertTrue($this->fixture->matches(self::createContext(null), m::mock(Param::class)));
     }
 
-    /**
-     * @covers ::create
-     */
+    /** @covers ::create */
     public function testCreate(): void
     {
         $factory = new ProjectFactoryStrategies([]);
@@ -65,7 +61,7 @@ class ArgumentTest extends TestCase
             new String_('MyDefault'),
             null,
             true,
-            true
+            true,
         );
 
         $this->fixture->create(self::createContext(null)->push($method), $argMock, $factory);

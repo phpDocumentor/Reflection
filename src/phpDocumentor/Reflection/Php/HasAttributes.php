@@ -14,9 +14,7 @@ trait HasAttributes
         $this->attributes[] = $attribute;
     }
 
-    /**
-     * @return Attribute[]
-     */
+    /** @return Attribute[] */
     public function getAttributes(): array
     {
         return $this->attributes;

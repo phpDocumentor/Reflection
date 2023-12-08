@@ -45,8 +45,8 @@ final class Function_ extends AbstractFactory implements ProjectFactoryStrategy
     protected function doCreate(
         ContextStack $context,
         object $object,
-        StrategyContainer $strategies
-    ): ?object {
+        StrategyContainer $strategies,
+    ): object|null {
         $file = $context->peek();
         Assert::isInstanceOf($file, FileElement::class);
 
@@ -56,7 +56,7 @@ final class Function_ extends AbstractFactory implements ProjectFactoryStrategy
             new Location($object->getLine()),
             new Location($object->getEndLine()),
             (new Type())->fromPhpParser($object->getReturnType()),
-            $object->byRef ?: false
+            $object->byRef ?: false,
         );
 
         $file->addFunction($function);

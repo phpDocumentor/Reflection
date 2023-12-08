@@ -31,14 +31,11 @@ use Webmozart\Assert\Assert;
  */
 final class Argument implements ProjectFactoryStrategy
 {
-    private PrettyPrinter $valueConverter;
-
     /**
      * Initializes the object.
      */
-    public function __construct(PrettyPrinter $prettyPrinter)
+    public function __construct(private readonly PrettyPrinter $valueConverter)
     {
-        $this->valueConverter = $prettyPrinter;
     }
 
     public function matches(ContextStack $context, object $object): bool
@@ -59,7 +56,7 @@ final class Argument implements ProjectFactoryStrategy
     public function create(
         ContextStack $context,
         object $object,
-        StrategyContainer $strategies
+        StrategyContainer $strategies,
     ): void {
         Assert::isInstanceOf($object, Param::class);
         Assert::isInstanceOf($object->var, Variable::class);
@@ -70,7 +67,7 @@ final class Argument implements ProjectFactoryStrategy
             [
                 Method::class,
                 Function_::class,
-            ]
+            ],
         );
 
         $method->addArgument(
@@ -79,8 +76,8 @@ final class Argument implements ProjectFactoryStrategy
                 (new Type())->fromPhpParser($object->type),
                 $object->default !== null ? $this->valueConverter->prettyPrintExpr($object->default) : null,
                 $object->byRef,
-                $object->variadic
-            )
+                $object->variadic,
+            ),
         );
     }
 }

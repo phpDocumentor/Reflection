@@ -63,25 +63,19 @@ final class Interface_Test extends TestCase
         return $this->fixture;
     }
 
-    /**
-     * @covers ::getName
-     */
+    /** @covers ::getName */
     public function testGetName(): void
     {
         $this->assertSame($this->fqsen->getName(), $this->fixture->getName());
     }
 
-    /**
-     * @covers ::getFqsen
-     */
+    /** @covers ::getFqsen */
     public function testGetFqsen(): void
     {
         $this->assertSame($this->fqsen, $this->fixture->getFqsen());
     }
 
-    /**
-     * @covers ::getDocBlock
-     */
+    /** @covers ::getDocBlock */
     public function testGetDocblock(): void
     {
         $this->assertSame($this->docBlock, $this->fixture->getDocBlock());
@@ -117,9 +111,7 @@ final class Interface_Test extends TestCase
         $this->assertEquals(['\MySpace\MyInterface::myMethod()' => $method], $this->fixture->getMethods());
     }
 
-    /**
-     * @covers ::getParents
-     */
+    /** @covers ::getParents */
     public function testReturningTheParentsOfThisInterface(): void
     {
         $this->assertSame($this->exampleParents, $this->fixture->getParents());
@@ -131,9 +123,7 @@ final class Interface_Test extends TestCase
         $this->assertLineAndColumnNumberIsReturnedWhenALocationIsProvided($fixture);
     }
 
-    /**
-     * @covers ::__construct
-     */
+    /** @covers ::__construct */
     public function testArrayWithParentsMustBeFqsenObjects(): void
     {
         $this->expectException(InvalidArgumentException::class);
