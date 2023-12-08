@@ -36,16 +36,14 @@ final class TraitUseTest extends TestCase
         $this->fixture = new TraitUse();
     }
 
-    /**
-     * @covers ::matches
-     */
+    /** @covers ::matches */
     public function testMatchesOnlyTraitUseNode(): void
     {
         self::assertTrue(
             $this->fixture->matches(
                 self::createContext(),
-                $this->givenTraitUse()
-            )
+                $this->givenTraitUse(),
+            ),
         );
     }
 

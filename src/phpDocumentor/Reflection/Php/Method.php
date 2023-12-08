@@ -29,31 +29,14 @@ final class Method implements Element, MetaDataContainerInterface, AttributeCont
     use MetadataContainer;
     use HasAttributes;
 
-    /** @var DocBlock|null documentation of this method. */
-    private ?DocBlock $docBlock = null;
-
-    /** @var Fqsen Full Qualified Structural Element Name */
-    private Fqsen $fqsen;
-
-    private bool $abstract = false;
-
-    private bool $final = false;
-
-    private bool $static = false;
-
-    /** @var Visibility|null visibility of this method */
-    private ?Visibility $visibility = null;
-
     /** @var Argument[] */
     private array $arguments = [];
 
-    private Location $location;
+    private readonly Location $location;
 
-    private Location $endLocation;
+    private readonly Location $endLocation;
 
-    private Type $returnType;
-
-    private bool $hasReturnByReference;
+    private readonly Type $returnType;
 
     /**
      * Initializes the all properties.
@@ -61,21 +44,19 @@ final class Method implements Element, MetaDataContainerInterface, AttributeCont
      * @param Visibility|null $visibility when null is provided a default 'public' is set.
      */
     public function __construct(
-        Fqsen $fqsen,
-        ?Visibility $visibility = null,
-        ?DocBlock $docBlock = null,
-        bool $abstract = false,
-        bool $static = false,
-        bool $final = false,
-        ?Location $location = null,
-        ?Location $endLocation = null,
-        ?Type $returnType = null,
-        bool $hasReturnByReference = false
+        /** @var Fqsen Full Qualified Structural Element Name */
+        private readonly Fqsen $fqsen,
+        private Visibility|null $visibility = null,
+        /** @var DocBlock|null documentation of this method. */
+        private readonly DocBlock|null $docBlock = null,
+        private readonly bool $abstract = false,
+        private readonly bool $static = false,
+        private readonly bool $final = false,
+        Location|null $location = null,
+        Location|null $endLocation = null,
+        Type|null $returnType = null,
+        private readonly bool $hasReturnByReference = false,
     ) {
-        $this->fqsen      = $fqsen;
-        $this->visibility = $visibility;
-        $this->docBlock   = $docBlock;
-
         if ($this->visibility === null) {
             $this->visibility = new Visibility('public');
         }
@@ -92,13 +73,9 @@ final class Method implements Element, MetaDataContainerInterface, AttributeCont
             $returnType = new Mixed_();
         }
 
-        $this->abstract             = $abstract;
-        $this->static               = $static;
-        $this->final                = $final;
         $this->location             = $location;
         $this->endLocation          = $endLocation;
         $this->returnType           = $returnType;
-        $this->hasReturnByReference = $hasReturnByReference;
     }
 
     /**
@@ -128,7 +105,7 @@ final class Method implements Element, MetaDataContainerInterface, AttributeCont
     /**
      * Returns the Visibility of this method.
      */
-    public function getVisibility(): ?Visibility
+    public function getVisibility(): Visibility|null
     {
         return $this->visibility;
     }
@@ -170,7 +147,7 @@ final class Method implements Element, MetaDataContainerInterface, AttributeCont
     /**
      * Returns the DocBlock of this method if available.
      */
-    public function getDocBlock(): ?DocBlock
+    public function getDocBlock(): DocBlock|null
     {
         return $this->docBlock;
     }

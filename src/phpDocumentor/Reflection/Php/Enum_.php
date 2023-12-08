@@ -25,14 +25,9 @@ final class Enum_ implements Element, MetaDataContainerInterface, AttributeConta
     use MetadataContainer;
     use HasAttributes;
 
-    /** @var Fqsen Full Qualified Structural Element Name */
-    private Fqsen $fqsen;
+    private readonly Location $location;
 
-    private ?DocBlock $docBlock;
-
-    private Location $location;
-
-    private Location $endLocation;
+    private readonly Location $endLocation;
 
     /** @var EnumCase[] */
     private array $cases = [];
@@ -49,14 +44,13 @@ final class Enum_ implements Element, MetaDataContainerInterface, AttributeConta
     /** @var array<string, Fqsen> */
     private array $usedTraits = [];
 
-    private ?Type $backedType;
-
     public function __construct(
-        Fqsen $fqsen,
-        ?Type $backedType,
-        ?DocBlock $docBlock = null,
-        ?Location $location = null,
-        ?Location $endLocation = null
+        /** @var Fqsen Full Qualified Structural Element Name */
+        private readonly Fqsen $fqsen,
+        private readonly Type|null $backedType,
+        private readonly DocBlock|null $docBlock = null,
+        Location|null $location = null,
+        Location|null $endLocation = null,
     ) {
         if ($location === null) {
             $location = new Location(-1);
@@ -66,11 +60,8 @@ final class Enum_ implements Element, MetaDataContainerInterface, AttributeConta
             $endLocation = new Location(-1);
         }
 
-        $this->fqsen       = $fqsen;
-        $this->docBlock    = $docBlock;
         $this->location    = $location;
         $this->endLocation = $endLocation;
-        $this->backedType  = $backedType;
     }
 
     public function getFqsen(): Fqsen
@@ -83,7 +74,7 @@ final class Enum_ implements Element, MetaDataContainerInterface, AttributeConta
         return $this->fqsen->getName();
     }
 
-    public function getDocBlock(): ?DocBlock
+    public function getDocBlock(): DocBlock|null
     {
         return $this->docBlock;
     }
@@ -181,7 +172,7 @@ final class Enum_ implements Element, MetaDataContainerInterface, AttributeConta
         $this->usedTraits[(string) $fqsen] = $fqsen;
     }
 
-    public function getBackedType(): ?Type
+    public function getBackedType(): Type|null
     {
         return $this->backedType;
     }

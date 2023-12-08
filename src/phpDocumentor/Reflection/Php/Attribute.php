@@ -9,16 +9,9 @@ use phpDocumentor\Reflection\Fqsen;
 
 final class Attribute implements Element
 {
-    private Fqsen $fqsen;
-
-    /** @var CallArgument[] */
-    private array $arguments;
-
     /** @param CallArgument[] $arguments */
-    public function __construct(Fqsen $fqsen, array $arguments)
+    public function __construct(private readonly Fqsen $fqsen, private readonly array $arguments)
     {
-        $this->fqsen = $fqsen;
-        $this->arguments = $arguments;
     }
 
     public function getFqsen(): Fqsen

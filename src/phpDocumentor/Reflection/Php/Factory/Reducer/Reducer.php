@@ -13,6 +13,6 @@ interface Reducer
         ContextStack $context,
         object $object,
         StrategyContainer $strategies,
-        ?object $carry
-    ): ?object;
+        object|null $carry,
+    ): object|null;
 }

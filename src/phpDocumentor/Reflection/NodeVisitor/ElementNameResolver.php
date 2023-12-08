@@ -30,7 +30,6 @@ use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitorAbstract;
 use SplDoublyLinkedList;
 
-use function get_class;
 use function rtrim;
 
 final class ElementNameResolver extends NodeVisitorAbstract
@@ -61,7 +60,7 @@ final class ElementNameResolver extends NodeVisitorAbstract
      */
     public function leaveNode(Node $node)
     {
-        switch (get_class($node)) {
+        switch ($node::class) {
             case Namespace_::class:
             case Class_::class:
             case Enum_::class:
@@ -92,9 +91,9 @@ final class ElementNameResolver extends NodeVisitorAbstract
      *       that should clear up the PHPSTAN errors about
      *       "access to an undefined property ::$fqsen".
      */
-    public function enterNode(Node $node): ?int
+    public function enterNode(Node $node): int|null
     {
-        switch (get_class($node)) {
+        switch ($node::class) {
             case Namespace_::class:
                 if ($node->name === null) {
                     break;
@@ -149,7 +148,7 @@ final class ElementNameResolver extends NodeVisitorAbstract
     /**
      * Resets the state of the object to an empty state.
      */
-    private function resetState(?string $namespace = null): void
+    private function resetState(string|null $namespace = null): void
     {
         $this->parts = new SplDoublyLinkedList();
         $this->parts->push($namespace);

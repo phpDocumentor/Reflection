@@ -31,32 +31,26 @@ final class Function_ implements Element, MetaDataContainerInterface, AttributeC
     use MetadataContainer;
     use HasAttributes;
 
-    /** @var Fqsen Full Qualified Structural Element Name */
-    private Fqsen $fqsen;
-
     /** @var Argument[] */
     private array $arguments = [];
 
-    private ?DocBlock $docBlock;
+    private readonly Location $location;
 
-    private Location $location;
+    private readonly Location $endLocation;
 
-    private Location $endLocation;
-
-    private Type $returnType;
-
-    private bool $hasReturnByReference;
+    private readonly Type $returnType;
 
     /**
      * Initializes the object.
      */
     public function __construct(
-        Fqsen $fqsen,
-        ?DocBlock $docBlock = null,
-        ?Location $location = null,
-        ?Location $endLocation = null,
-        ?Type $returnType = null,
-        bool $hasReturnByReference = false
+        /** @var Fqsen Full Qualified Structural Element Name */
+        private readonly Fqsen $fqsen,
+        private readonly DocBlock|null $docBlock = null,
+        Location|null $location = null,
+        Location|null $endLocation = null,
+        Type|null $returnType = null,
+        private readonly bool $hasReturnByReference = false,
     ) {
         if ($location === null) {
             $location = new Location(-1);
@@ -70,12 +64,9 @@ final class Function_ implements Element, MetaDataContainerInterface, AttributeC
             $returnType = new Mixed_();
         }
 
-        $this->fqsen                = $fqsen;
-        $this->docBlock             = $docBlock;
         $this->location             = $location;
         $this->endLocation          = $endLocation;
         $this->returnType           = $returnType;
-        $this->hasReturnByReference = $hasReturnByReference;
     }
 
     /**
@@ -115,7 +106,7 @@ final class Function_ implements Element, MetaDataContainerInterface, AttributeC
     /**
      * Returns the DocBlock of the element if available
      */
-    public function getDocBlock(): ?DocBlock
+    public function getDocBlock(): DocBlock|null
     {
         return $this->docBlock;
     }

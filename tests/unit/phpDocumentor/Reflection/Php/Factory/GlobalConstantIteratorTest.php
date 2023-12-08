@@ -82,9 +82,7 @@ final class GlobalConstantIteratorTest extends m\Adapter\Phpunit\MockeryTestCase
         $this->assertEquals(10, $fixture->getLine());
     }
 
-    /**
-     * @covers ::getDocComment
-     */
+    /** @covers ::getDocComment */
     public function testGetDocCommentPropFirst(): void
     {
         $const = m::mock(Const_::class);
@@ -99,9 +97,7 @@ final class GlobalConstantIteratorTest extends m\Adapter\Phpunit\MockeryTestCase
         $this->assertEquals('test', $fixture->getDocComment()->getText());
     }
 
-    /**
-     * @covers ::getDocComment
-     */
+    /** @covers ::getDocComment */
     public function testGetDocComment(): void
     {
         $const = m::mock(Const_::class);

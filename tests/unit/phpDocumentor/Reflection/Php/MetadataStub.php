@@ -8,11 +8,8 @@ use phpDocumentor\Reflection\Metadata\Metadata;
 
 final class MetadataStub implements Metadata
 {
-    private string $key;
-
-    public function __construct(string $key)
+    public function __construct(private readonly string $key)
     {
-        $this->key = $key;
     }
 
     public function key(): string

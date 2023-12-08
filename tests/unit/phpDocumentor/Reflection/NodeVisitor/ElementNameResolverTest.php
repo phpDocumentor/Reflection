@@ -44,9 +44,7 @@ class ElementNameResolverTest extends TestCase
         $this->fixture->beforeTraverse([]);
     }
 
-    /**
-     * @covers ::enterNode
-     */
+    /** @covers ::enterNode */
     public function testFunctionWithoutNamespace(): void
     {
         $function = new Function_('myFunction');
@@ -55,9 +53,7 @@ class ElementNameResolverTest extends TestCase
         $this->assertEquals('\myFunction()', (string) $function->fqsen);
     }
 
-    /**
-     * @covers ::enterNode
-     */
+    /** @covers ::enterNode */
     public function testWithClass(): void
     {
         $class = new Class_('myClass');
@@ -66,9 +62,7 @@ class ElementNameResolverTest extends TestCase
         $this->assertEquals('\myClass', (string) $class->fqsen);
     }
 
-    /**
-     * @covers ::enterNode
-     */
+    /** @covers ::enterNode */
     public function testWithClassMethod(): void
     {
         $class = new Class_('myClass');
@@ -80,9 +74,7 @@ class ElementNameResolverTest extends TestCase
         $this->assertEquals('\myClass::method()', (string) $method->fqsen);
     }
 
-    /**
-     * @covers ::enterNode
-     */
+    /** @covers ::enterNode */
     public function testWithClassProperty(): void
     {
         $class = new Class_('myClass');
@@ -105,7 +97,7 @@ class ElementNameResolverTest extends TestCase
         $class = new Class_(null);
         $this->assertEquals(
             NodeTraverser::DONT_TRAVERSE_CHILDREN,
-            $this->fixture->enterNode($class)
+            $this->fixture->enterNode($class),
         );
     }
 
@@ -133,9 +125,7 @@ class ElementNameResolverTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /**
-     * @covers ::enterNode
-     */
+    /** @covers ::enterNode */
     public function testClassConstant(): void
     {
         $const      = new Const_('MY_CLASS', new String_('value'));
@@ -149,9 +139,7 @@ class ElementNameResolverTest extends TestCase
         $this->assertEquals('\\myClass::MY_CLASS', (string) $const->fqsen);
     }
 
-    /**
-     * @covers ::enterNode
-     */
+    /** @covers ::enterNode */
     public function testNamespacedConstant(): void
     {
         $const     = new Const_('MY_CLASS', new String_('value'));
@@ -163,9 +151,7 @@ class ElementNameResolverTest extends TestCase
         $this->assertEquals('\\name\\MY_CLASS', (string) $const->fqsen);
     }
 
-    /**
-     * @covers ::enterNode
-     */
+    /** @covers ::enterNode */
     public function testNoNameNamespace(): void
     {
         $const     = new Const_('MY_CLASS', new String_('value'));
@@ -177,9 +163,7 @@ class ElementNameResolverTest extends TestCase
         $this->assertEquals('\\MY_CLASS', (string) $const->fqsen);
     }
 
-    /**
-     * @covers ::enterNode
-     */
+    /** @covers ::enterNode */
     public function testWithEnumWithCase(): void
     {
         $enum = new Enum_('myEnum');

@@ -22,8 +22,7 @@ use PHPUnit\Framework\TestCase as BaseTestCase;
  */
 abstract class TestCase extends BaseTestCase
 {
-    /** @var Element|MetaDataContainerInterface */
-    protected $fixture;
+    protected Element|MetaDataContainerInterface $fixture;
 
     /**
      * @covers ::getLocation
@@ -48,10 +47,7 @@ abstract class TestCase extends BaseTestCase
     {
     }
 
-    /**
-     * @param Element|MetaDataContainerInterface $fixture
-     */
-    protected function assertLineAndColumnNumberIsReturnedWhenALocationIsProvided($fixture): void
+    protected function assertLineAndColumnNumberIsReturnedWhenALocationIsProvided(Element|MetaDataContainerInterface $fixture): void
     {
         $this->assertSame(100, $fixture->getLocation()->getLineNumber());
         $this->assertSame(20, $fixture->getLocation()->getColumnNumber());

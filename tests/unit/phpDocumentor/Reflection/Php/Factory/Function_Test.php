@@ -56,21 +56,17 @@ final class Function_Test extends TestCase
         $this->fixture = new Function_($this->docBlockFactory->reveal());
     }
 
-    /**
-     * @covers ::matches
-     */
+    /** @covers ::matches */
     public function testMatches(): void
     {
         $this->assertFalse($this->fixture->matches(self::createContext(null), new stdClass()));
         $this->assertTrue($this->fixture->matches(
             self::createContext(null)->push(new File('hash', 'path')),
-            $this->prophesize(\PhpParser\Node\Stmt\Function_::class)->reveal()
+            $this->prophesize(\PhpParser\Node\Stmt\Function_::class)->reveal(),
         ));
     }
 
-    /**
-     * @covers ::create
-     */
+    /** @covers ::create */
     public function testCreateWithoutParameters(): void
     {
         $functionMock = $this->prophesize(\PhpParser\Node\Stmt\Function_::class);
@@ -91,9 +87,7 @@ final class Function_Test extends TestCase
         $this->assertEquals('\SomeSpace::function()', (string) $function->getFqsen());
     }
 
-    /**
-     * @covers ::create
-     */
+    /** @covers ::create */
     public function testCreateWithParameters(): void
     {
         $param1 = new Param(new Variable('param1'));
@@ -111,7 +105,7 @@ final class Function_Test extends TestCase
         $argumentStrategy->create(
             Argument::that(fn ($agument): bool => $agument->peek() instanceof FunctionDescriptor),
             $param1,
-            $containerMock->reveal()
+            $containerMock->reveal(),
         )->shouldBeCalled();
 
         $file = new File('hash', 'path');
@@ -119,7 +113,7 @@ final class Function_Test extends TestCase
         $this->fixture->create(
             self::createContext(null)->push($file),
             $functionMock->reveal(),
-            $containerMock->reveal()
+            $containerMock->reveal(),
         );
 
         $function = current($file->getFunctions());
@@ -128,9 +122,7 @@ final class Function_Test extends TestCase
         $this->assertEquals('\SomeSpace::function()', (string) $function->getFqsen());
     }
 
-    /**
-     * @covers ::create
-     */
+    /** @covers ::create */
     public function testCreateWithDocBlock(): void
     {
         $doc = new Doc('Text');
@@ -155,9 +147,7 @@ final class Function_Test extends TestCase
         $this->assertSame($docBlock, $function->getDocBlock());
     }
 
-    /**
-     * @covers ::create
-     */
+    /** @covers ::create */
     public function testIteratesStatements(): void
     {
         $doc = new Doc('Text');
@@ -175,14 +165,14 @@ final class Function_Test extends TestCase
         $containerMock = $this->prophesize(StrategyContainer::class);
         $containerMock->findMatching(
             Argument::type(ContextStack::class),
-            Argument::type(Expression::class)
+            Argument::type(Expression::class),
         )->willReturn($strategyMock->reveal())->shouldBeCalledOnce();
 
         $file = new File('hash', 'path');
         $this->fixture->create(
             self::createContext(null)->push($file),
             $functionMock->reveal(),
-            $containerMock->reveal()
+            $containerMock->reveal(),
         );
     }
 }

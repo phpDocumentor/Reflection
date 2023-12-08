@@ -25,7 +25,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ProjectTest extends TestCase
 {
-    public const EXAMPLE_NAME = 'Initial name';
+    final public const EXAMPLE_NAME = 'Initial name';
 
     private Project $fixture;
 

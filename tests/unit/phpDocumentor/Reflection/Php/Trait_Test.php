@@ -123,9 +123,7 @@ final class Trait_Test extends TestCase
         $this->assertSame(['\MyClass::MY_CONSTANT' => $constant], $this->fixture->getConstants());
     }
 
-    /**
-     * @covers ::getDocBlock
-     */
+    /** @covers ::getDocBlock */
     public function testGetDocblock(): void
     {
         $this->assertSame($this->docBlock, $this->fixture->getDocBlock());

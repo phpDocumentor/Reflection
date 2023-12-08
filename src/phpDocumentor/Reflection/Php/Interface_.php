@@ -28,23 +28,15 @@ final class Interface_ implements Element, MetaDataContainerInterface, Attribute
     use MetadataContainer;
     use HasAttributes;
 
-    /** @var Fqsen Full Qualified Structural Element Name */
-    private Fqsen $fqsen;
-
-    private ?DocBlock $docBlock;
-
     /** @var Constant[] */
     private array $constants = [];
 
     /** @var Method[] */
     private array $methods = [];
 
-    /** @var Fqsen[] */
-    private array $parents = [];
+    private readonly Location $location;
 
-    private Location $location;
-
-    private Location $endLocation;
+    private readonly Location $endLocation;
 
     /**
      * Initializes the object.
@@ -52,17 +44,14 @@ final class Interface_ implements Element, MetaDataContainerInterface, Attribute
      * @param Fqsen[] $parents
      */
     public function __construct(
-        Fqsen $fqsen,
-        array $parents = [],
-        ?DocBlock $docBlock = null,
-        ?Location $location = null,
-        ?Location $endLocation = null
+        /** @var Fqsen Full Qualified Structural Element Name */
+        private readonly Fqsen $fqsen,
+        private array $parents = [],
+        private readonly DocBlock|null $docBlock = null,
+        Location|null $location = null,
+        Location|null $endLocation = null,
     ) {
         Assert::allIsInstanceOf($parents, Fqsen::class);
-
-        $this->fqsen       = $fqsen;
-        $this->docBlock    = $docBlock;
-        $this->parents     = $parents;
         $this->location    = $location ?: new Location(-1);
         $this->endLocation = $endLocation ?: new Location(-1);
     }
@@ -122,7 +111,7 @@ final class Interface_ implements Element, MetaDataContainerInterface, Attribute
     /**
      * Returns the DocBlock of this interface if available.
      */
-    public function getDocBlock(): ?DocBlock
+    public function getDocBlock(): DocBlock|null
     {
         return $this->docBlock;
     }

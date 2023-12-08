@@ -30,14 +30,11 @@ use Webmozart\Assert\Assert;
  */
 final class GlobalConstant extends AbstractFactory
 {
-    private PrettyPrinter $valueConverter;
-
     /**
      * Initializes the object.
      */
-    public function __construct(DocBlockFactoryInterface $docBlockFactory, PrettyPrinter $prettyPrinter)
+    public function __construct(DocBlockFactoryInterface $docBlockFactory, private readonly PrettyPrinter $valueConverter)
     {
-        $this->valueConverter = $prettyPrinter;
         parent::__construct($docBlockFactory);
     }
 
@@ -59,8 +56,8 @@ final class GlobalConstant extends AbstractFactory
     protected function doCreate(
         ContextStack $context,
         object $object,
-        StrategyContainer $strategies
-    ): ?object {
+        StrategyContainer $strategies,
+    ): object|null {
         $constants = new GlobalConstantIterator($object);
         $file = $context->peek();
         Assert::isInstanceOf($file, FileElement::class);
@@ -72,8 +69,8 @@ final class GlobalConstant extends AbstractFactory
                     $this->createDocBlock($const->getDocComment(), $context->getTypeContext()),
                     $const->getValue() !== null ? $this->valueConverter->prettyPrintExpr($const->getValue()) : null,
                     new Location($const->getLine()),
-                    new Location($const->getEndLine())
-                )
+                    new Location($const->getEndLine()),
+                ),
             );
         }
 

@@ -41,7 +41,7 @@ final class Class_ extends AbstractFactory
      * @param ContextStack $context of the created object
      * @param ClassNode $object
      */
-    protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies): ?object
+    protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies): object|null
     {
         $docBlock = $this->createDocBlock($object->getDocComment(), $context->getTypeContext());
 
@@ -53,12 +53,12 @@ final class Class_ extends AbstractFactory
             $object->isFinal(),
             new Location($object->getLine()),
             new Location($object->getEndLine()),
-            $object->isReadonly()
+            $object->isReadonly(),
         );
 
         foreach ($object->implements as $interfaceClassName) {
             $classElement->addInterface(
-                new Fqsen('\\' . $interfaceClassName->toString())
+                new Fqsen('\\' . $interfaceClassName->toString()),
             );
         }
 

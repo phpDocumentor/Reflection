@@ -24,20 +24,11 @@ use phpDocumentor\Reflection\Php\StrategyContainer;
  */
 final class CreateCommand implements Command
 {
-    private File $file;
-
-    private StrategyContainer $strategies;
-
-    private ContextStack $context;
-
     /**
      * Initializes this command.
      */
-    public function __construct(ContextStack $context, File $file, StrategyContainer $strategies)
+    public function __construct(private readonly ContextStack $context, private readonly File $file, private readonly StrategyContainer $strategies)
     {
-        $this->file       = $file;
-        $this->strategies = $strategies;
-        $this->context = $context;
     }
 
     /**

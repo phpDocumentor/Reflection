@@ -31,23 +31,11 @@ use Webmozart\Assert\Assert;
 class NodesFactory
 {
     /**
-     * Parser used to parse the code to nodes.
-     */
-    private Parser $parser;
-
-    /**
-     * Containing a number of visitors to do some post processing steps on nodes.
-     */
-    private NodeTraverserInterface $traverser;
-
-    /**
      * @param Parser $parser used to parse the code
      * @param NodeTraverserInterface $traverser used to do some post processing on the nodes
      */
-    final public function __construct(Parser $parser, NodeTraverserInterface $traverser)
+    final public function __construct(private readonly Parser $parser, private readonly NodeTraverserInterface $traverser)
     {
-        $this->parser = $parser;
-        $this->traverser = $traverser;
     }
 
     /**

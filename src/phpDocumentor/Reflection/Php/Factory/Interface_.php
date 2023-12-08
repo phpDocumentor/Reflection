@@ -45,8 +45,8 @@ final class Interface_ extends AbstractFactory implements ProjectFactoryStrategy
     protected function doCreate(
         ContextStack $context,
         object $object,
-        StrategyContainer $strategies
-    ): ?object {
+        StrategyContainer $strategies,
+    ): object|null {
         $docBlock = $this->createDocBlock($object->getDocComment(), $context->getTypeContext());
         $parents  = [];
         foreach ($object->extends as $extend) {
@@ -58,7 +58,7 @@ final class Interface_ extends AbstractFactory implements ProjectFactoryStrategy
             $parents,
             $docBlock,
             new Location($object->getLine()),
-            new Location($object->getEndLine())
+            new Location($object->getEndLine()),
         );
         $file = $context->peek();
         Assert::isInstanceOf($file, FileElement::class);

@@ -41,21 +41,17 @@ class CreateCommandTest extends TestCase
         $this->fixture    = new CreateCommand(
             new ContextStack(new Project('test')),
             $this->file,
-            $this->strategies
+            $this->strategies,
         );
     }
 
-    /**
-     * @covers ::getFile
-     */
+    /** @covers ::getFile */
     public function testGetFile(): void
     {
         $this->assertSame($this->file, $this->fixture->getFile());
     }
 
-    /**
-     * @covers ::getStrategies
-     */
+    /** @covers ::getStrategies */
     public function testGetStrategies(): void
     {
         $this->assertSame($this->strategies, $this->fixture->getStrategies());

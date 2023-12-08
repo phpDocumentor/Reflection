@@ -48,14 +48,14 @@ use const PHP_INT_MAX;
  */
 final class ProjectFactory implements ProjectFactoryInterface
 {
-    private ProjectFactoryStrategies $strategies;
+    private readonly ProjectFactoryStrategies $strategies;
 
     /**
      * Initializes the factory with a number of strategies.
      *
      * @param ProjectFactoryStrategy[]|ProjectFactoryStrategies $strategies
      */
-    public function __construct($strategies)
+    public function __construct(array|ProjectFactoryStrategies $strategies)
     {
         $this->strategies = is_array($strategies) ? new ProjectFactoryStrategies($strategies) : $strategies;
     }
@@ -88,23 +88,23 @@ final class ProjectFactory implements ProjectFactoryInterface
 
                 new IfStatement(),
                 new TraitUse(),
-            ]
+            ],
         );
 
         $strategies->addStrategy(
             new ConstructorPromotion($methodStrategy, $docblockFactory, new PrettyPrinter()),
-            1100
+            1100,
         );
         $strategies->addStrategy(new Noop(), -PHP_INT_MAX);
 
         return new static(
-            $strategies
+            $strategies,
         );
     }
 
     public function addStrategy(
         ProjectFactoryStrategy $strategy,
-        int $priority = ProjectFactoryStrategies::DEFAULT_PRIORITY
+        int $priority = ProjectFactoryStrategies::DEFAULT_PRIORITY,
     ): void {
         $this->strategies->addStrategy($strategy, $priority);
     }

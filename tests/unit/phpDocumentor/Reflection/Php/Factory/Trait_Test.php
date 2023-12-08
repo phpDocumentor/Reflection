@@ -99,7 +99,7 @@ final class Trait_Test extends TestCase
 
         $containerMock->findMatching(
             Argument::type(ContextStack::class),
-            $method1
+            $method1,
         )->willReturn($strategyMock->reveal());
 
         $trait = $this->performCreate($classMock, $containerMock->reveal());
@@ -107,13 +107,11 @@ final class Trait_Test extends TestCase
         $this->assertEquals('\Space\MyTrait', (string) $trait->getFqsen());
         $this->assertEquals(
             ['\Space\MyTrait::method1' => $method1Descriptor],
-            $trait->getMethods()
+            $trait->getMethods(),
         );
     }
 
-    /**
-     * @covers ::create
-     */
+    /** @covers ::create */
     public function testCreateWithDocBlock(): void
     {
         $doc       = new Doc('Text');
@@ -128,10 +126,7 @@ final class Trait_Test extends TestCase
         $this->assertSame($docBlock, $trait->getDocBlock());
     }
 
-    /**
-     * @return m\MockInterface|TraitNode
-     */
-    private function buildTraitMock()
+    private function buildTraitMock(): m\MockInterface|TraitNode
     {
         $mock = m::mock(TraitNode::class);
         $mock->shouldReceive('getAttribute')->andReturn(new Fqsen('\Space\MyTrait'));

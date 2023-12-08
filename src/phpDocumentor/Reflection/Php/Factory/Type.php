@@ -26,17 +26,13 @@ use PhpParser\Node\UnionType;
 use PhpParser\NodeAbstract;
 
 use function array_map;
-use function get_class;
 use function implode;
 use function is_string;
 use function sprintf;
 
 final class Type
 {
-    /**
-     * @param Identifier|Name|ComplexType|null $type
-     */
-    public function fromPhpParser($type, ?Context $context = null): ?TypeElement
+    public function fromPhpParser(Identifier|Name|ComplexType|null $type, Context|null $context = null): TypeElement|null
     {
         if ($type === null) {
             return null;
@@ -46,10 +42,7 @@ final class Type
             ->resolve($this->convertPhpParserTypeToString($type), $context);
     }
 
-    /**
-     * @param NodeAbstract|string $type
-     */
-    private function convertPhpParserTypeToString($type): string
+    private function convertPhpParserTypeToString(NodeAbstract|string $type): string
     {
         if (is_string($type)) {
             return $type;
@@ -70,7 +63,7 @@ final class Type
         if ($type instanceof UnionType) {
             $typesAsStrings = array_map(
                 fn ($typeObject): string => $this->convertPhpParserTypeToString($typeObject),
-                $type->types
+                $type->types,
             );
 
             return implode('|', $typesAsStrings);
@@ -79,12 +72,12 @@ final class Type
         if ($type instanceof IntersectionType) {
             $typesAsStrings = array_map(
                 fn ($typeObject): string => $this->convertPhpParserTypeToString($typeObject),
-                $type->types
+                $type->types,
             );
 
             return implode('&', $typesAsStrings);
         }
 
-        throw new InvalidArgumentException(sprintf('Unsupported complex type %s', get_class($type)));
+        throw new InvalidArgumentException(sprintf('Unsupported complex type %s', $type::class));
     }
 }

@@ -24,9 +24,7 @@ interface StrategyContainer
     /**
      * Find the ProjectFactoryStrategy that matches $object.
      *
-     * @param mixed $object
-     *
      * @throws Exception When no matching strategy was found.
      */
-    public function findMatching(ContextStack $context, $object): ProjectFactoryStrategy;
+    public function findMatching(ContextStack $context, mixed $object): ProjectFactoryStrategy;
 }

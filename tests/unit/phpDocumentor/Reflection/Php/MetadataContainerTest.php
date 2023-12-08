@@ -22,9 +22,7 @@ trait MetadataContainerTest
         self::assertSame(['stub' => $stub], $this->getFixture()->getMetadata());
     }
 
-    /**
-     * @covers ::addMetadata
-     */
+    /** @covers ::addMetadata */
     public function testSetMetaDataWithExistingKeyThrows(): void
     {
         self::expectException(Exception::class);

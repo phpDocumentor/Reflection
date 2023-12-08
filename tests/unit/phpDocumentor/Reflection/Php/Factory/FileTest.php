@@ -74,18 +74,14 @@ final class FileTest extends TestCase
         $this->fixture = new File($this->docBlockFactory->reveal(), $this->nodesFactoryMock->reveal());
     }
 
-    /**
-     * @covers ::matches
-     */
+    /** @covers ::matches */
     public function testMatches(): void
     {
         $this->assertFalse($this->fixture->matches(self::createContext(null), new stdClass()));
         $this->assertTrue($this->fixture->matches(self::createContext(null), m::mock(SourceFile::class)));
     }
 
-    /**
-     * @covers ::create
-     */
+    /** @covers ::create */
     public function testMiddlewareIsExecuted(): void
     {
         $file = new FileElement('aa', __FILE__);
@@ -95,7 +91,7 @@ final class FileTest extends TestCase
         $fixture = new File(
             $this->docBlockFactory->reveal(),
             $this->nodesFactoryMock->reveal(),
-            [$middleware->reveal()]
+            [$middleware->reveal()],
         );
         $context = self::createContext();
         $containerMock = $this->prophesize(StrategyContainer::class);
@@ -123,7 +119,7 @@ final class FileTest extends TestCase
 
         $strategies = $this->prophesize(StrategyContainer::class);
         $strategies->findMatching(Argument::type(ContextStack::class), $node)->willReturn(
-            $this->prophesize(ProjectFactoryStrategy::class)->reveal()
+            $this->prophesize(ProjectFactoryStrategy::class)->reveal(),
         );
 
         $context = self::createContext();

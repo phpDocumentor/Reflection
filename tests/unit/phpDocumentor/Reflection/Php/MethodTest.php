@@ -64,9 +64,7 @@ final class MethodTest extends TestCase
         $this->assertEquals($this->fqsen->getName(), $method->getName());
     }
 
-    /**
-     * @covers ::getDocblock
-     */
+    /** @covers ::getDocblock */
     public function testGetDocBlock(): void
     {
         $method = new Method($this->fqsen, $this->visibility, $this->docblock);
@@ -91,9 +89,7 @@ final class MethodTest extends TestCase
         $this->assertEquals([$argument], $method->getArguments());
     }
 
-    /**
-     * @covers ::isAbstract
-     */
+    /** @covers ::isAbstract */
     public function testGettingWhetherMethodIsAbstract(): void
     {
         $method = new Method($this->fqsen, $this->visibility, $this->docblock, false);
@@ -103,9 +99,7 @@ final class MethodTest extends TestCase
         $this->assertTrue($method->isAbstract());
     }
 
-    /**
-     * @covers ::isFinal
-     */
+    /** @covers ::isFinal */
     public function testGettingWhetherMethodIsFinal(): void
     {
         $method = new Method($this->fqsen, $this->visibility, $this->docblock, false, false, false);
@@ -115,9 +109,7 @@ final class MethodTest extends TestCase
         $this->assertTrue($method->isFinal());
     }
 
-    /**
-     * @covers ::isStatic
-     */
+    /** @covers ::isStatic */
     public function testGettingWhetherMethodIsStatic(): void
     {
         $method = new Method($this->fqsen, $this->visibility, $this->docblock, false, false, false);
@@ -127,36 +119,28 @@ final class MethodTest extends TestCase
         $this->assertTrue($method->isStatic());
     }
 
-    /**
-     * @covers ::getVisibility
-     */
+    /** @covers ::getVisibility */
     public function testGettingVisibility(): void
     {
         $method = new Method($this->fqsen, $this->visibility, $this->docblock, false, false, false);
         $this->assertSame($this->visibility, $method->getVisibility());
     }
 
-    /**
-     * @covers ::getVisibility
-     */
+    /** @covers ::getVisibility */
     public function testGetDefaultVisibility(): void
     {
         $method = new Method($this->fqsen);
         $this->assertEquals(new Visibility('public'), $method->getVisibility());
     }
 
-    /**
-     * @covers ::getReturnType
-     */
+    /** @covers ::getReturnType */
     public function testGetDefaultReturnType(): void
     {
         $method = new Method($this->fqsen);
         $this->assertEquals(new Mixed_(), $method->getReturnType());
     }
 
-    /**
-     * @covers ::getReturnType
-     */
+    /** @covers ::getReturnType */
     public function testGetReturnTypeFromConstructor(): void
     {
         $returnType = new String_();
@@ -169,24 +153,20 @@ final class MethodTest extends TestCase
             false,
             null,
             null,
-            $returnType
+            $returnType,
         );
 
         $this->assertSame($returnType, $method->getReturnType());
     }
 
-    /**
-     * @covers ::getHasReturnByReference
-     */
+    /** @covers ::getHasReturnByReference */
     public function testGetHasReturnByReference(): void
     {
         $method = new Method($this->fqsen);
         $this->assertSame(false, $method->getHasReturnByReference());
     }
 
-    /**
-     * @covers ::getHasReturnByReference
-     */
+    /** @covers ::getHasReturnByReference */
     public function testGetHasReturnByReferenceFromConstructor(): void
     {
         $method = new Method($this->fqsen, null, null, false, false, false, null, null, null, true);
@@ -203,7 +183,7 @@ final class MethodTest extends TestCase
             false,
             false,
             new Location(100, 20),
-            new Location(101, 20)
+            new Location(101, 20),
         );
         $this->assertLineAndColumnNumberIsReturnedWhenALocationIsProvided($fixture);
     }

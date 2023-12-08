@@ -28,56 +28,36 @@ final class Property implements Element, MetaDataContainerInterface, AttributeCo
     use MetadataContainer;
     use HasAttributes;
 
-    private Fqsen $fqsen;
-
-    private ?DocBlock $docBlock;
-
     /** @var string[] $types */
     private array $types = [];
 
-    private ?string $default = null;
+    private Visibility|null $visibility = null;
 
-    private bool $static = false;
+    private readonly Location $location;
 
-    private ?Visibility $visibility = null;
+    private readonly Location $endLocation;
 
-    private Location $location;
-
-    private Location $endLocation;
-
-    private ?Type $type;
-
-    private bool $readOnly;
-
-    /**
-     * @param Visibility|null $visibility when null is provided a default 'public' is set.
-     */
+    /** @param Visibility|null $visibility when null is provided a default 'public' is set. */
     public function __construct(
-        Fqsen $fqsen,
-        ?Visibility $visibility = null,
-        ?DocBlock $docBlock = null,
-        ?string $default = null,
-        bool $static = false,
-        ?Location $location = null,
-        ?Location $endLocation = null,
-        ?Type $type = null,
-        bool $readOnly = false
+        private readonly Fqsen $fqsen,
+        Visibility|null $visibility = null,
+        private readonly DocBlock|null $docBlock = null,
+        private readonly string|null $default = null,
+        private readonly bool $static = false,
+        Location|null $location = null,
+        Location|null $endLocation = null,
+        private readonly Type|null $type = null,
+        private readonly bool $readOnly = false,
     ) {
-        $this->fqsen = $fqsen;
         $this->visibility = $visibility ?: new Visibility('public');
-        $this->docBlock = $docBlock;
-        $this->default = $default;
-        $this->static = $static;
         $this->location = $location ?: new Location(-1);
         $this->endLocation = $endLocation ?: new Location(-1);
-        $this->type = $type;
-        $this->readOnly = $readOnly;
     }
 
     /**
      * returns the default value of this property.
      */
-    public function getDefault(): ?string
+    public function getDefault(): string|null
     {
         return $this->default;
     }
@@ -111,7 +91,7 @@ final class Property implements Element, MetaDataContainerInterface, AttributeCo
     /**
      * Return visibility of the property.
      */
-    public function getVisibility(): ?Visibility
+    public function getVisibility(): Visibility|null
     {
         return $this->visibility;
     }
@@ -135,7 +115,7 @@ final class Property implements Element, MetaDataContainerInterface, AttributeCo
     /**
      * Returns the DocBlock of this property.
      */
-    public function getDocBlock(): ?DocBlock
+    public function getDocBlock(): DocBlock|null
     {
         return $this->docBlock;
     }
@@ -150,7 +130,7 @@ final class Property implements Element, MetaDataContainerInterface, AttributeCo
         return $this->endLocation;
     }
 
-    public function getType(): ?Type
+    public function getType(): Type|null
     {
         return $this->type;
     }

@@ -82,17 +82,13 @@ final class ConstantTest extends TestCase
         $this->assertSame($this->fqsen->getName(), $this->fixture->getName());
     }
 
-    /**
-     * @covers ::getDocBlock
-     */
+    /** @covers ::getDocBlock */
     public function testGetDocblock(): void
     {
         $this->assertSame($this->docBlock, $this->fixture->getDocBlock());
     }
 
-    /**
-     * @covers ::getVisibility
-     */
+    /** @covers ::getVisibility */
     public function testGetVisibility(): void
     {
         $this->assertEquals(new Visibility(Visibility::PUBLIC_), $this->fixture->getVisibility());

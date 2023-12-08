@@ -17,7 +17,7 @@ use function in_array;
 
 class NamespaceNodeToContext
 {
-    public function __invoke(?Namespace_ $namespace): Context
+    public function __invoke(Namespace_|null $namespace): Context
     {
         if (!$namespace) {
             return new Context('');
@@ -25,32 +25,26 @@ class NamespaceNodeToContext
 
         return new Context(
             $namespace->name ? $namespace->name->toString() : '',
-            $this->aliasesToFullyQualifiedNames($namespace)
+            $this->aliasesToFullyQualifiedNames($namespace),
         );
     }
 
-    /**
-     * @return string[] indexed by alias
-     */
+    /** @return string[] indexed by alias */
     private function aliasesToFullyQualifiedNames(Namespace_ $namespace): array
     {
         // flatten(flatten(map(stuff)))
-        return array_merge([], ...array_merge([], ...array_map(static function ($use): array {
-            return array_map(static function (UseUse $useUse) use ($use): array {
-                if ($use instanceof GroupUse) {
-                    return [
-                        (string) $useUse->getAlias() => $use->prefix->toString() . '\\' . $useUse->name->toString(),
-                    ];
-                }
+        return array_merge([], ...array_merge([], ...array_map(static fn ($use): array => array_map(static function (UseUse $useUse) use ($use): array {
+            if ($use instanceof GroupUse) {
+                return [
+                    (string) $useUse->getAlias() => $use->prefix->toString() . '\\' . $useUse->name->toString(),
+                ];
+            }
 
-                return [(string) $useUse->getAlias() => $useUse->name->toString()];
-            }, $use->uses);
-        }, $this->classAlikeUses($namespace))));
+            return [(string) $useUse->getAlias() => $useUse->name->toString()];
+        }, $use->uses), $this->classAlikeUses($namespace))));
     }
 
-    /**
-     * @return Use_[]|GroupUse[]
-     */
+    /** @return Use_[]|GroupUse[] */
     private function classAlikeUses(Namespace_ $namespace): array
     {
         return array_filter(

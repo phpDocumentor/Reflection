@@ -58,33 +58,25 @@ final class Class_Test extends TestCase
         return $this->fixture;
     }
 
-    /**
-     * @covers ::getName
-     */
+    /** @covers ::getName */
     public function testGettingName(): void
     {
         $this->assertSame($this->fqsen->getName(), $this->fixture->getName());
     }
 
-    /**
-     * @covers ::getFqsen
-     */
+    /** @covers ::getFqsen */
     public function testGettingFqsen(): void
     {
         $this->assertSame($this->fqsen, $this->fixture->getFqsen());
     }
 
-    /**
-     * @covers ::getDocBlock
-     */
+    /** @covers ::getDocBlock */
     public function testGettingDocBlock(): void
     {
         $this->assertSame($this->docBlock, $this->fixture->getDocBlock());
     }
 
-    /**
-     * @covers ::getParent
-     */
+    /** @covers ::getParent */
     public function testGettingParent(): void
     {
         $class = new Class_($this->fqsen, $this->docBlock);
@@ -169,9 +161,7 @@ final class Class_Test extends TestCase
         $this->assertSame(['\MyTrait' => $trait], $this->fixture->getUsedTraits());
     }
 
-    /**
-     * @covers ::isAbstract
-     */
+    /** @covers ::isAbstract */
     public function testGettingWhetherClassIsAbstract(): void
     {
         $class = new Class_($this->fqsen, $this->docBlock);
@@ -181,9 +171,7 @@ final class Class_Test extends TestCase
         $this->assertTrue($class->isAbstract());
     }
 
-    /**
-     * @covers ::isFinal
-     */
+    /** @covers ::isFinal */
     public function testGettingWhetherClassIsFinal(): void
     {
         $class = new Class_($this->fqsen, $this->docBlock);
@@ -193,9 +181,7 @@ final class Class_Test extends TestCase
         $this->assertTrue($class->isFinal());
     }
 
-    /**
-     * @covers ::isFinal
-     */
+    /** @covers ::isFinal */
     public function testGettingWhetherClassIsReadOnly(): void
     {
         $class = new Class_($this->fqsen, $this->docBlock);
@@ -209,7 +195,7 @@ final class Class_Test extends TestCase
             false,
             null,
             null,
-            true
+            true,
         );
         $this->assertTrue($class->isReadOnly());
     }
@@ -223,7 +209,7 @@ final class Class_Test extends TestCase
             false,
             false,
             new Location(100, 20),
-            new Location(101, 20)
+            new Location(101, 20),
         );
         $this->assertLineAndColumnNumberIsReturnedWhenALocationIsProvided($fixture);
     }

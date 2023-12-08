@@ -99,7 +99,7 @@ final class PropertyTest extends TestCase
             null,
             null,
             null,
-            true
+            true,
         );
 
         $this->assertTrue($property->isReadOnly());
@@ -181,7 +181,7 @@ final class PropertyTest extends TestCase
             false,
             null,
             null,
-            $type
+            $type,
         );
 
         $this->assertSame($type, $fixture->getType());

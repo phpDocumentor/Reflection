@@ -45,8 +45,8 @@ final class Method extends AbstractFactory
     protected function doCreate(
         ContextStack $context,
         object $object,
-        StrategyContainer $strategies
-    ): ?object {
+        StrategyContainer $strategies,
+    ): object|null {
         $methodContainer = $context->peek();
         Assert::isInstanceOfAny(
             $methodContainer,
@@ -55,7 +55,7 @@ final class Method extends AbstractFactory
                 Interface_::class,
                 Trait_::class,
                 Enum_::class,
-            ]
+            ],
         );
 
         $method = new MethodDescriptor(
@@ -68,7 +68,7 @@ final class Method extends AbstractFactory
             new Location($object->getLine(), $object->getStartFilePos()),
             new Location($object->getEndLine(), $object->getEndFilePos()),
             (new Type())->fromPhpParser($object->getReturnType()),
-            $object->byRef ?: false
+            $object->byRef ?: false,
         );
         $methodContainer->addMethod($method);
 

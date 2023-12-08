@@ -6,16 +6,8 @@ namespace phpDocumentor\Reflection\Php;
 
 final class CallArgument
 {
-    private string $value;
-
-    private ?string $name;
-
-    public function __construct(
-        string $value,
-        ?string $name = null
-    ) {
-        $this->value = $value;
-        $this->name = $name;
+    public function __construct(private readonly string $value, private readonly string|null $name = null)
+    {
     }
 
     public function getValue(): string
@@ -23,7 +15,7 @@ final class CallArgument
         return $this->value;
     }
 
-    public function getName(): ?string
+    public function getName(): string|null
     {
         return $this->name;
     }

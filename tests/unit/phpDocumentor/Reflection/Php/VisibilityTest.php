@@ -35,9 +35,7 @@ class VisibilityTest extends TestCase
         $this->assertEquals($expected, (string) $visibility);
     }
 
-    /**
-     * @return string[][]
-     */
+    /** @return string[][] */
     public function visibilityProvider(): array
     {
         return [
@@ -48,9 +46,7 @@ class VisibilityTest extends TestCase
         ];
     }
 
-    /**
-     * @covers ::__construct
-     */
+    /** @covers ::__construct */
     public function testVisibilityChecksInput(): void
     {
         $this->expectException(InvalidArgumentException::class);

@@ -15,22 +15,16 @@ final class EnumCase implements Element, MetaDataContainerInterface, AttributeCo
     use MetadataContainer;
     use HasAttributes;
 
-    private Fqsen $fqsen;
+    private readonly Location $location;
 
-    private ?DocBlock $docBlock;
-
-    private Location $location;
-
-    private Location $endLocation;
-
-    private ?string $value;
+    private readonly Location $endLocation;
 
     public function __construct(
-        Fqsen $fqsen,
-        ?DocBlock $docBlock,
-        ?Location $location = null,
-        ?Location $endLocation = null,
-        ?string $value = null
+        private readonly Fqsen $fqsen,
+        private readonly DocBlock|null $docBlock,
+        Location|null $location = null,
+        Location|null $endLocation = null,
+        private readonly string|null $value = null,
     ) {
         if ($location === null) {
             $location = new Location(-1);
@@ -40,11 +34,8 @@ final class EnumCase implements Element, MetaDataContainerInterface, AttributeCo
             $endLocation = new Location(-1);
         }
 
-        $this->fqsen    = $fqsen;
-        $this->docBlock = $docBlock;
         $this->location = $location;
         $this->endLocation = $endLocation;
-        $this->value = $value;
     }
 
     public function getFqsen(): Fqsen
@@ -57,7 +48,7 @@ final class EnumCase implements Element, MetaDataContainerInterface, AttributeCo
         return $this->fqsen->getName();
     }
 
-    public function getDocBlock(): ?DocBlock
+    public function getDocBlock(): DocBlock|null
     {
         return $this->docBlock;
     }
@@ -72,7 +63,7 @@ final class EnumCase implements Element, MetaDataContainerInterface, AttributeCo
         return $this->endLocation;
     }
 
-    public function getValue(): ?string
+    public function getValue(): string|null
     {
         return $this->value;
     }

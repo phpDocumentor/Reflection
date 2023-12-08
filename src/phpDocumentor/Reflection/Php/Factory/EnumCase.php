@@ -16,12 +16,9 @@ use function assert;
 
 final class EnumCase extends AbstractFactory
 {
-    private PrettyPrinter $prettyPrinter;
-
-    public function __construct(DocBlockFactoryInterface $docBlockFactory, PrettyPrinter $prettyPrinter)
+    public function __construct(DocBlockFactoryInterface $docBlockFactory, private readonly PrettyPrinter $prettyPrinter)
     {
         parent::__construct($docBlockFactory);
-        $this->prettyPrinter = $prettyPrinter;
     }
 
     public function matches(ContextStack $context, object $object): bool
@@ -29,10 +26,8 @@ final class EnumCase extends AbstractFactory
         return $object instanceof EnumCaseNode;
     }
 
-    /**
-     * @param EnumCaseNode $object
-     */
-    protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies): ?object
+    /** @param EnumCaseNode $object */
+    protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies): object|null
     {
         $docBlock = $this->createDocBlock($object->getDocComment(), $context->getTypeContext());
         $enum = $context->peek();
@@ -43,7 +38,7 @@ final class EnumCase extends AbstractFactory
             $docBlock,
             new Location($object->getLine()),
             new Location($object->getEndLine()),
-            $object->expr !== null ? $this->prettyPrinter->prettyPrintExpr($object->expr) : null
+            $object->expr !== null ? $this->prettyPrinter->prettyPrintExpr($object->expr) : null,
         );
 
         $enum->addCase($case);
