@@ -159,12 +159,12 @@ final class ElementNameResolver extends NodeVisitorAbstract
      */
     private function buildName(): string
     {
-        $name = null;
+        $name = '';
         foreach ($this->parts as $part) {
             $name .= $part;
         }
 
-        return rtrim((string) $name, '\\');
+        return rtrim($name, '\\');
     }
 
     private function setFqsen(Node $node): void

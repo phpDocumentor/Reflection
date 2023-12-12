@@ -24,9 +24,7 @@ use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use PhpParser\Comment\Doc;
 use PhpParser\Node\Expr\FuncCall;
-use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Name;
-use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Expression;
 use Prophecy\Argument;
@@ -109,41 +107,6 @@ class MethodTest extends TestCase
         $this->assertInstanceOf(MethodDescriptor::class, $method);
         $this->assertEquals('\SomeSpace\Class::function()', (string) $method->getFqsen());
         $this->assertEquals('protected', (string) $method->getVisibility());
-    }
-
-    /** @covers ::create */
-    public function testCreateWithParameters(): void
-    {
-        $param1 = new Param(new Variable('param1'));
-        $classMethodMock = $this->buildClassMethodMock();
-        $classMethodMock->params = [$param1];
-        $classMethodMock->shouldReceive('isPrivate')->once()->andReturn(true);
-        $classMethodMock->shouldReceive('getDocComment')->once()->andReturnNull();
-        $classMethodMock->shouldReceive('getReturnType')->once()->andReturn(null);
-
-        $argumentStrategy = $this->prophesize(ProjectFactoryStrategy::class);
-        $containerMock = $this->prophesize(StrategyContainer::class);
-        $containerMock->findMatching(
-            Argument::type(ContextStack::class),
-            $param1,
-        )->willReturn($argumentStrategy);
-
-        $argumentStrategy->create(
-            Argument::that(static fn ($agument): bool => $agument->peek() instanceof MethodDescriptor),
-            $param1,
-            $containerMock->reveal(),
-        )->shouldBeCalled();
-
-        $class = new ClassElement(new Fqsen('\\MyClass'));
-        $this->fixture->create(self::createContext(null)->push($class), $classMethodMock, $containerMock->reveal());
-
-        $method = current($class->getMethods());
-        $this->assertInstanceOf(MethodDescriptor::class, $method);
-        $this->assertEquals('\SomeSpace\Class::function()', (string) $method->getFqsen());
-        $this->assertTrue($method->isAbstract());
-        $this->assertTrue($method->isFinal());
-        $this->assertTrue($method->isStatic());
-        $this->assertEquals('private', (string) $method->getVisibility());
     }
 
     /** @covers ::create */

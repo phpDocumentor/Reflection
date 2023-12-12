@@ -17,7 +17,6 @@ use phpDocumentor\Reflection\DocBlockFactory;
 use phpDocumentor\Reflection\Exception;
 use phpDocumentor\Reflection\File as SourceFile;
 use phpDocumentor\Reflection\Fqsen;
-use phpDocumentor\Reflection\Php\Factory\Argument;
 use phpDocumentor\Reflection\Php\Factory\Class_;
 use phpDocumentor\Reflection\Php\Factory\ClassConstant;
 use phpDocumentor\Reflection\Php\Factory\ConstructorPromotion;
@@ -33,6 +32,7 @@ use phpDocumentor\Reflection\Php\Factory\Method;
 use phpDocumentor\Reflection\Php\Factory\Noop;
 use phpDocumentor\Reflection\Php\Factory\Property;
 use phpDocumentor\Reflection\Php\Factory\Reducer\Attribute;
+use phpDocumentor\Reflection\Php\Factory\Reducer\Parameter;
 use phpDocumentor\Reflection\Php\Factory\Trait_;
 use phpDocumentor\Reflection\Php\Factory\TraitUse;
 use phpDocumentor\Reflection\Project as ProjectInterface;
@@ -67,20 +67,22 @@ final class ProjectFactory implements ProjectFactoryInterface
     {
         $docblockFactory = DocBlockFactory::createInstance();
 
-        $methodStrategy =  new Method($docblockFactory);
+        $attributeReducer = new Attribute();
+        $parameterReducer = new Parameter(new PrettyPrinter());
+
+        $methodStrategy =  new Method($docblockFactory, [$attributeReducer, $parameterReducer]);
 
         $strategies = new ProjectFactoryStrategies(
             [
                 new \phpDocumentor\Reflection\Php\Factory\Namespace_(),
-                new Argument(new PrettyPrinter()),
-                new Class_($docblockFactory, [new Attribute()]),
-                new Enum_($docblockFactory),
+                new Class_($docblockFactory, [$attributeReducer]),
+                new Enum_($docblockFactory, [$attributeReducer]),
                 new EnumCase($docblockFactory, new PrettyPrinter()),
                 new Define($docblockFactory, new PrettyPrinter()),
                 new GlobalConstant($docblockFactory, new PrettyPrinter()),
                 new ClassConstant($docblockFactory, new PrettyPrinter()),
                 new Factory\File($docblockFactory, NodesFactory::createInstance()),
-                new Function_($docblockFactory),
+                new Function_($docblockFactory, [$attributeReducer, $parameterReducer]),
                 new Interface_($docblockFactory),
                 $methodStrategy,
                 new Property($docblockFactory, new PrettyPrinter()),
@@ -97,9 +99,7 @@ final class ProjectFactory implements ProjectFactoryInterface
         );
         $strategies->addStrategy(new Noop(), -PHP_INT_MAX);
 
-        return new static(
-            $strategies,
-        );
+        return new self($strategies);
     }
 
     public function addStrategy(

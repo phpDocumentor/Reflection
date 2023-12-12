@@ -22,9 +22,7 @@ use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use PhpParser\Comment\Doc;
 use PhpParser\Node\Expr\FuncCall;
-use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Name;
-use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\Expression;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -84,41 +82,6 @@ final class Function_Test extends TestCase
 
         $function = current($file->getFunctions());
         $this->assertInstanceOf(FunctionDescriptor::class, $function);
-        $this->assertEquals('\SomeSpace::function()', (string) $function->getFqsen());
-    }
-
-    /** @covers ::create */
-    public function testCreateWithParameters(): void
-    {
-        $param1 = new Param(new Variable('param1'));
-        $functionMock = $this->prophesize(\PhpParser\Node\Stmt\Function_::class);
-        $functionMock->getAttribute('fqsen')->willReturn(new Fqsen('\SomeSpace::function()'));
-        $functionMock->params = [$param1];
-        $functionMock->getDocComment()->willReturn(null);
-        $functionMock->getLine()->willReturn(1);
-        $functionMock->getEndLine()->willReturn(2);
-        $functionMock->getReturnType()->willReturn(null);
-
-        $argumentStrategy = $this->prophesize(ProjectFactoryStrategy::class);
-        $containerMock = $this->prophesize(StrategyContainer::class);
-        $containerMock->findMatching(Argument::type(ContextStack::class), $param1)->willReturn($argumentStrategy);
-        $argumentStrategy->create(
-            Argument::that(fn ($agument): bool => $agument->peek() instanceof FunctionDescriptor),
-            $param1,
-            $containerMock->reveal(),
-        )->shouldBeCalled();
-
-        $file = new File('hash', 'path');
-
-        $this->fixture->create(
-            self::createContext(null)->push($file),
-            $functionMock->reveal(),
-            $containerMock->reveal(),
-        );
-
-        $function = current($file->getFunctions());
-
-        self::assertInstanceOf(FunctionDescriptor::class, $function);
         $this->assertEquals('\SomeSpace::function()', (string) $function->getFqsen());
     }
 
