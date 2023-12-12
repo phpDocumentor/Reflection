@@ -61,16 +61,11 @@ final class Function_ extends AbstractFactory implements ProjectFactoryStrategy
 
         $file->addFunction($function);
 
-        $thisContext = $context->push($function);
-        foreach ($object->params as $param) {
-            $strategy = $strategies->findMatching($thisContext, $param);
-            $strategy->create($thisContext, $param, $strategies);
-        }
-
         if (!is_array($object->stmts)) {
-            return null;
+            return $function;
         }
 
+        $thisContext = $context->push($function);
         foreach ($object->stmts as $stmt) {
             $strategy = $strategies->findMatching($thisContext, $stmt);
             $strategy->create($thisContext, $stmt, $strategies);

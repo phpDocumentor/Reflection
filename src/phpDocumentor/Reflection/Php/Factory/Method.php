@@ -72,16 +72,11 @@ final class Method extends AbstractFactory
         );
         $methodContainer->addMethod($method);
 
-        $thisContext = $context->push($method);
-        foreach ($object->params as $param) {
-            $strategy = $strategies->findMatching($thisContext, $param);
-            $strategy->create($thisContext, $param, $strategies);
-        }
-
         if (!is_array($object->stmts)) {
-            return null;
+            return $method;
         }
 
+        $thisContext = $context->push($method);
         foreach ($object->stmts as $stmt) {
             $strategy = $strategies->findMatching($thisContext, $stmt);
             $strategy->create($thisContext, $stmt, $strategies);
