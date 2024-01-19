@@ -50,7 +50,7 @@ class ElementNameResolverTest extends TestCase
         $function = new Function_('myFunction');
         $this->fixture->enterNode($function);
 
-        $this->assertEquals('\myFunction()', (string) $function->fqsen);
+        $this->assertEquals('\myFunction()', (string) $function->getAttribute('fqsen'));
     }
 
     /** @covers ::enterNode */
@@ -59,7 +59,7 @@ class ElementNameResolverTest extends TestCase
         $class = new Class_('myClass');
         $this->fixture->enterNode($class);
 
-        $this->assertEquals('\myClass', (string) $class->fqsen);
+        $this->assertEquals('\myClass', (string) $class->getAttribute('fqsen'));
     }
 
     /** @covers ::enterNode */
@@ -71,7 +71,7 @@ class ElementNameResolverTest extends TestCase
         $method = new ClassMethod('method');
         $this->fixture->enterNode($method);
 
-        $this->assertEquals('\myClass::method()', (string) $method->fqsen);
+        $this->assertEquals('\myClass::method()', (string) $method->getAttribute('fqsen'));
     }
 
     /** @covers ::enterNode */
@@ -83,7 +83,7 @@ class ElementNameResolverTest extends TestCase
         $method = new PropertyProperty('name');
         $this->fixture->enterNode($method);
 
-        $this->assertEquals('\myClass::$name', (string) $method->fqsen);
+        $this->assertEquals('\myClass::$name', (string) $method->getAttribute('fqsen'));
     }
 
     /**
@@ -136,7 +136,7 @@ class ElementNameResolverTest extends TestCase
         $this->fixture->enterNode($classConst);
         $this->fixture->enterNode($const);
 
-        $this->assertEquals('\\myClass::MY_CLASS', (string) $const->fqsen);
+        $this->assertEquals('\\myClass::MY_CLASS', (string) $const->getAttribute('fqsen'));
     }
 
     /** @covers ::enterNode */
@@ -148,7 +148,7 @@ class ElementNameResolverTest extends TestCase
         $this->fixture->enterNode($namespace);
         $this->fixture->enterNode($const);
 
-        $this->assertEquals('\\name\\MY_CLASS', (string) $const->fqsen);
+        $this->assertEquals('\\name\\MY_CLASS', (string) $const->getAttribute('fqsen'));
     }
 
     /** @covers ::enterNode */
@@ -160,7 +160,7 @@ class ElementNameResolverTest extends TestCase
         $this->fixture->enterNode($namespace);
         $this->fixture->enterNode($const);
 
-        $this->assertEquals('\\MY_CLASS', (string) $const->fqsen);
+        $this->assertEquals('\\MY_CLASS', (string) $const->getAttribute('fqsen'));
     }
 
     /** @covers ::enterNode */
@@ -172,6 +172,6 @@ class ElementNameResolverTest extends TestCase
         $case = new EnumCase('VALUE1');
         $this->fixture->enterNode($case);
 
-        $this->assertEquals('\myEnum::VALUE1', (string) $case->fqsen);
+        $this->assertEquals('\myEnum::VALUE1', (string) $case->getAttribute('fqsen'));
     }
 }

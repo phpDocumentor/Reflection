@@ -170,7 +170,6 @@ final class ElementNameResolver extends NodeVisitorAbstract
     private function setFqsen(Node $node): void
     {
         $fqsen = new Fqsen($this->buildName());
-        $node->fqsen = $fqsen;
         $node->setAttribute('fqsen', $fqsen);
     }
 }
