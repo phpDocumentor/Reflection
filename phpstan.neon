@@ -12,7 +12,6 @@ parameters:
         # all these $fqsen errors indicate the need for a decorator class around PhpParser\Node to hold the public $fqsen that Reflection is giving it)
         #
         # src/phpDocumentor/Reflection/NodeVisitor/ElementNameResolver.php
-        - '#Access to an undefined property PhpParser\\Node::\$fqsen\.#'
         - '#Method phpDocumentor\\Reflection\\Php\\Factory\\(.*)::getFqsen\(\) should return phpDocumentor\\Reflection\\Fqsen but returns mixed\.#'
         - '#Parameter \#1 \$fqsen of class phpDocumentor\\Reflection\\Php\\(.*) constructor expects phpDocumentor\\Reflection\\Fqsen, mixed given\.#'
         - '#Parameter \#1 \$fqsen of method phpDocumentor\\Reflection\\Php\\File::addNamespace\(\) expects phpDocumentor\\Reflection\\Fqsen, mixed given\.#'
