@@ -20,7 +20,7 @@
     },
     "require": {
         "php": "8.1.*|8.2.*|8.3.*",
-        "nikic/php-parser": "~4.14",
+        "nikic/php-parser": "~4.14|^5.0",
         "phpdocumentor/reflection-common": "^2.1",
         "phpdocumentor/reflection-docblock": "^5",
         "phpdocumentor/type-resolver": "^1.2",
