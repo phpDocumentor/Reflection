@@ -1745,16 +1745,16 @@
         },
         {
             "name": "psalm/phar",
-            "version": "6.1.0",
+            "version": "6.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/psalm/phar.git",
-                "reference": "65011fc1453292b88c79dd09549d8d04c4e06c75"
+                "reference": "42f1b116a4011f454275fa59e455de5b5aae3349"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/psalm/phar/zipball/65011fc1453292b88c79dd09549d8d04c4e06c75",
-                "reference": "65011fc1453292b88c79dd09549d8d04c4e06c75",
+                "url": "https://api.github.com/repos/psalm/phar/zipball/42f1b116a4011f454275fa59e455de5b5aae3349",
+                "reference": "42f1b116a4011f454275fa59e455de5b5aae3349",
                 "shasum": ""
             },
             "require": {
@@ -1774,9 +1774,9 @@
             "description": "Composer-based Psalm Phar",
             "support": {
                 "issues": "https://github.com/psalm/phar/issues",
-                "source": "https://github.com/psalm/phar/tree/6.1.0"
+                "source": "https://github.com/psalm/phar/tree/6.2.0"
             },
-            "time": "2025-01-30T19:46:07+00:00"
+            "time": "2025-02-03T11:08:06+00:00"
         },
         {
             "name": "rector/rector",
