@@ -12,9 +12,11 @@
     "autoload-dev": {
         "psr-4": {
             "phpDocumentor\\": [
-                "tests/integration/",
                 "tests/unit/phpDocumentor",
                 "tests/bench/"
+            ],
+            "phpDocumentor\\Reflection\\": [
+                "tests/integration"
             ]
         }
     },
@@ -30,6 +32,7 @@
     "require-dev": {
         "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
         "doctrine/coding-standard": "^13.0",
+        "eliashaeussler/phpunit-attributes": "^1.7",
         "mikey179/vfsstream": "~1.2",
         "mockery/mockery": "~1.6.0",
         "phpspec/prophecy-phpunit": "^2.0",

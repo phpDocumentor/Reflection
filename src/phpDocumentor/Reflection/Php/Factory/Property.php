@@ -15,6 +15,7 @@ namespace phpDocumentor\Reflection\Php\Factory;
 
 use phpDocumentor\Reflection\DocBlockFactoryInterface;
 use phpDocumentor\Reflection\Location;
+use phpDocumentor\Reflection\Php\AsyncVisibility;
 use phpDocumentor\Reflection\Php\Class_;
 use phpDocumentor\Reflection\Php\Factory\Reducer\Reducer;
 use phpDocumentor\Reflection\Php\Property as PropertyDescriptor;
@@ -108,11 +109,39 @@ final class Property extends AbstractFactory
      */
     private function buildVisibility(PropertyIterator $node): Visibility
     {
+        if ($node->isAsync() === false) {
+            return $this->buildReadVisibility($node);
+        }
+
+        $readVisibility = $this->buildReadVisibility($node);
+        $writeVisibility = $this->buildWriteVisibility($node);
+
+        return new AsyncVisibility(
+            $readVisibility,
+            $writeVisibility,
+        );
+    }
+
+    private function buildReadVisibility(PropertyIterator $node): Visibility
+    {
         if ($node->isPrivate()) {
             return new Visibility(Visibility::PRIVATE_);
         }
 
         if ($node->isProtected()) {
+            return new Visibility(Visibility::PROTECTED_);
+        }
+
+        return new Visibility(Visibility::PUBLIC_);
+    }
+
+    private function buildWriteVisibility(PropertyIterator $node): Visibility
+    {
+        if ($node->isPrivateSet()) {
+            return new Visibility(Visibility::PRIVATE_);
+        }
+
+        if ($node->isProtectedSet()) {
             return new Visibility(Visibility::PROTECTED_);
         }
 

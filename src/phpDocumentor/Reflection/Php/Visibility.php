@@ -22,7 +22,7 @@ use function strtolower;
 /**
  * Value object for visibility values of classes, properties, ect.
  */
-final class Visibility implements Stringable
+class Visibility implements Stringable
 {
     /**
      * constant for protected visibility
