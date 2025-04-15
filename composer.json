@@ -5,6 +5,9 @@
     "homepage": "http://www.phpdoc.org",
     "license": "MIT",
     "autoload": {
+        "files": [
+            "src/php-parser/Modifiers.php"
+        ],
         "psr-4": {
             "phpDocumentor\\": "src/phpDocumentor"
         }

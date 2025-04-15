@@ -53,7 +53,7 @@ final class ChainFactoryTest extends TestCase
 
         ChainFactory::createExecutionChain(
             [$middleware],
-            static fn (): stdClass => new stdClass()
+            static fn (): stdClass => new stdClass(),
         );
     }
 
