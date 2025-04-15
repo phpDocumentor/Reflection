@@ -34,6 +34,7 @@ use function rtrim;
 
 final class ElementNameResolver extends NodeVisitorAbstract
 {
+    /** @var SplDoublyLinkedList<Node\Identifier|string|null> */
     private SplDoublyLinkedList $parts;
 
     public function __construct()

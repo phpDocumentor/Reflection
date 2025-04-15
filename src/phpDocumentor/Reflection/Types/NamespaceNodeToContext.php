@@ -58,7 +58,7 @@ class NamespaceNodeToContext
             static fn (Node $node): bool => (
                     $node instanceof Use_
                     || $node instanceof GroupUse
-                ) && in_array($node->type, [Use_::TYPE_UNKNOWN, Use_::TYPE_NORMAL], true)
+                ) && in_array($node->type, [Use_::TYPE_UNKNOWN, Use_::TYPE_NORMAL], true),
         );
     }
 }

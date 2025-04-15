@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class MetadataTest extends TestCase
 {
-    const FILE = __DIR__ . '/Reflection/Metadata/example.php';
+    const FILE = __DIR__ . '/Metadata/example.php';
 
     public function testCustomMetadata(): void
     {

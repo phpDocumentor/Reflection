@@ -2,7 +2,6 @@ parameters:
     paths:
       - src
 
-    checkGenericClassInNonGenericObjectType: false
     level: max
     ignoreErrors:
 

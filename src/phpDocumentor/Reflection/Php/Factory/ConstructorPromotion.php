@@ -8,15 +8,16 @@ use OutOfBoundsException;
 use phpDocumentor\Reflection\DocBlockFactoryInterface;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
+use phpDocumentor\Reflection\Php\AsyncVisibility;
 use phpDocumentor\Reflection\Php\Class_ as ClassElement;
 use phpDocumentor\Reflection\Php\Factory\Reducer\Reducer;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\Property;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Php\Visibility;
+use PhpParser\Modifiers;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Param;
-use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
 use Webmozart\Assert\Assert;
@@ -91,11 +92,36 @@ final class ConstructorPromotion extends AbstractFactory
 
     private function buildPropertyVisibilty(int $flags): Visibility
     {
-        if ((bool) ($flags & Class_::MODIFIER_PRIVATE) === true) {
+        if ((bool) ($flags & Modifiers::VISIBILITY_SET_MASK) !== false) {
+            return new AsyncVisibility(
+                $this->buildReadVisibility($flags),
+                $this->buildWriteVisibility($flags),
+            );
+        }
+
+        return $this->buildReadVisibility($flags);
+    }
+
+    private function buildReadVisibility(int $flags): Visibility
+    {
+        if ((bool) ($flags & Modifiers::PRIVATE) === true) {
             return new Visibility(Visibility::PRIVATE_);
         }
 
-        if ((bool) ($flags & Class_::MODIFIER_PROTECTED) === true) {
+        if ((bool) ($flags & Modifiers::PROTECTED) === true) {
+            return new Visibility(Visibility::PROTECTED_);
+        }
+
+        return new Visibility(Visibility::PUBLIC_);
+    }
+
+    private function buildWriteVisibility(int $flags): Visibility
+    {
+        if ((bool) ($flags & Modifiers::PRIVATE_SET) === true) {
+            return new Visibility(Visibility::PRIVATE_);
+        }
+
+        if ((bool) ($flags & Modifiers::PROTECTED_SET) === true) {
             return new Visibility(Visibility::PROTECTED_);
         }
 
@@ -104,6 +130,6 @@ final class ConstructorPromotion extends AbstractFactory
 
     private function readOnly(int $flags): bool
     {
-        return (bool) ($flags & Class_::MODIFIER_READONLY) === true;
+        return (bool) ($flags & Modifiers::READONLY) === true;
     }
 }

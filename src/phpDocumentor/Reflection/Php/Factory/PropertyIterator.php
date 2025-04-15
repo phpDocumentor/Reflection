@@ -22,6 +22,8 @@ use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Property as PropertyNode;
 
+use function method_exists;
+
 /**
  * This class acts like a combination of a PropertyNode and PropertyProperty to
  * be able to create property descriptors using a normal strategy.
@@ -49,6 +51,20 @@ final class PropertyIterator implements Iterator
     }
 
     /**
+     * Returns async accessor value for current property.
+     *
+     * This method will return the same value as {@see self::isPublic()} when your phpparser version is < 5.2
+     */
+    public function isPublicSet(): bool
+    {
+        if ($this->isAsync() === false) {
+            return $this->isPublic();
+        }
+
+        return $this->property->isPublic();
+    }
+
+    /**
      * returns true when the current property is protected.
      */
     public function isProtected(): bool
@@ -57,11 +73,53 @@ final class PropertyIterator implements Iterator
     }
 
     /**
+     * Returns async accessor value for current property.
+     *
+     * This method will return the same value as {@see self::isProtected()} when your phpparser version is < 5.2
+     */
+    public function isProtectedSet(): bool
+    {
+        if ($this->isAsync() === false) {
+            return $this->isProtected();
+        }
+
+        return $this->property->isProtectedSet();
+    }
+
+    /**
      * returns true when the current property is private.
      */
     public function isPrivate(): bool
     {
         return $this->property->isPrivate();
+    }
+
+    /**
+     * Returns async accessor value for current property.
+     *
+     * This method will return the same value as {@see self::isPrivate()} when your phpparser version is < 5.2
+     */
+    public function isPrivateSet(): bool
+    {
+        if ($this->isAsync() === false) {
+            return $this->isPrivate();
+        }
+
+        return $this->property->isPrivateSet();
+    }
+
+    /**
+     * Returns true when current property has async accessors.
+     *
+     * This method will always return false when your phpparser version is < 5.2
+     */
+    public function isAsync(): bool
+    {
+        if (method_exists($this->property, 'isPrivateSet') === false) {
+            return false;
+        }
+
+        return $this->property->isPublicSet() || $this->property->isProtected() || $this->property->isPrivateSet();
     }
 
     /**
