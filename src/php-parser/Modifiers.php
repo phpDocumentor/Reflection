@@ -8,7 +8,7 @@ use Composer\InstalledVersions;
 
 use function strpos;
 
-if (strpos(InstalledVersions::getVersion('nikic/php-parser'), '4') === 0) {
+if (strpos(InstalledVersions::getVersion('nikic/php-parser') ?? '', '4') === 0) {
     /**
      * Modifiers used (as a bit mask) by various flags subnodes, for example on classes, functions,
      * properties and constants.
