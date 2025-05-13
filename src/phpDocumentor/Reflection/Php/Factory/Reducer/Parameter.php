@@ -9,6 +9,7 @@ use phpDocumentor\Reflection\Php\Factory\ContextStack;
 use phpDocumentor\Reflection\Php\Factory\Type;
 use phpDocumentor\Reflection\Php\Function_;
 use phpDocumentor\Reflection\Php\Method;
+use phpDocumentor\Reflection\Php\PropertyHook;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\FunctionLike;
@@ -33,7 +34,7 @@ class Parameter implements Reducer
             return $carry;
         }
 
-        if ($carry instanceof Method === false && $carry instanceof Function_ === false) {
+        if ($carry instanceof Method === false && $carry instanceof Function_ === false && $carry instanceof PropertyHook === false) {
             return null;
         }
 

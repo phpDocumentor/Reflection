@@ -66,16 +66,20 @@ final class ConstructorPromotion extends AbstractFactory
 
         $property = PropertyBuilder::create(
             $this->valueConverter,
+            $this->docBlockFactory,
+            $strategies,
+            $this->reducers,
         )->fqsen(new Fqsen($methodContainer->getFqsen() . '::$' . (string) $param->var->name))
             ->visibility($param)
             ->type($param->type)
-            ->docblock($this->createDocBlock($param->getDocComment(), $context->getTypeContext()))
+            ->docblock($param->getDocComment())
             ->default($param->default)
             ->readOnly($this->readOnly($param->flags))
             ->static(false)
             ->startLocation(new Location($param->getLine(), $param->getStartFilePos()))
             ->endLocation(new Location($param->getEndLine(), $param->getEndFilePos()))
-            ->build();
+            ->hooks($param->hooks ?? [])
+            ->build($context);
 
         foreach ($this->reducers as $reducer) {
             $property = $reducer->reduce($context, $param, $strategies, $property);

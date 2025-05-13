@@ -73,17 +73,21 @@ final class Property extends AbstractFactory
         foreach ($iterator as $stmt) {
             $property = PropertyBuilder::create(
                 $this->valueConverter,
+                $this->docBlockFactory,
+                $strategies,
+                $this->reducers,
             )
                 ->fqsen($stmt->getFqsen())
                 ->visibility($stmt)
                 ->type($stmt->getType())
-                ->docblock($this->createDocBlock($stmt->getDocComment(), $context->getTypeContext()))
+                ->docblock($stmt->getDocComment())
                 ->default($iterator->getDefault())
                 ->static($stmt->isStatic())
                 ->startLocation(new Location($stmt->getLine()))
                 ->endLocation(new Location($stmt->getEndLine()))
                 ->readOnly($stmt->isReadonly())
-                ->build();
+                ->hooks($stmt->getHooks())
+                ->build($context);
 
             foreach ($this->reducers as $reducer) {
                 $property = $reducer->reduce($context, $object, $strategies, $property);

@@ -85,7 +85,7 @@ final class ProjectFactory implements ProjectFactoryInterface
                 new Function_($docblockFactory, [$attributeReducer, $parameterReducer]),
                 new Interface_($docblockFactory, [$attributeReducer]),
                 $methodStrategy,
-                new Property($docblockFactory, new PrettyPrinter(), [$attributeReducer]),
+                new Property($docblockFactory, new PrettyPrinter(), [$attributeReducer, $parameterReducer]),
                 new Trait_($docblockFactory, [$attributeReducer]),
 
                 new IfStatement(),
@@ -94,7 +94,7 @@ final class ProjectFactory implements ProjectFactoryInterface
         );
 
         $strategies->addStrategy(
-            new ConstructorPromotion($methodStrategy, $docblockFactory, new PrettyPrinter(), [$attributeReducer]),
+            new ConstructorPromotion($methodStrategy, $docblockFactory, new PrettyPrinter(), [$attributeReducer, $parameterReducer]),
             1100,
         );
         $strategies->addStrategy(new Noop(), -PHP_INT_MAX);
