@@ -12,8 +12,8 @@ fix-code-style:
 
 .PHONY: static-code-analysis
 static-code-analysis: vendor ## Runs a static code analysis with phpstan/phpstan and vimeo/psalm
-	docker run -it --rm -v${PWD}:/opt/project -w /opt/project php:8.1-cli vendor/bin/phpstan --configuration=phpstan.neon
-	docker run -it --rm -v${PWD}:/opt/project -w /opt/project php:8.1-cli vendor/bin/psalm.phar
+	docker run -it --rm -v${PWD}:/opt/project -w /opt/project php:8.2-cli vendor/bin/phpstan --configuration=phpstan.neon
+	docker run -it --rm -v${PWD}:/opt/project -w /opt/project php:8.2-cli vendor/bin/psalm.phar
 
 .PHONY: test
 test: test-unit test-functional ## Runs all test suites with phpunit/phpunit
@@ -25,7 +25,7 @@ test-unit: ## Runs unit tests with phpunit/phpunit
 
 .PHONY: test-functional
 test-functional: ## Runs unit tests with phpunit/phpunit
-	docker run -it --rm -v${PWD}:/opt/project -w /opt/project php:8.1-cli vendor/bin/phpunit --testsuite=functional
+	docker run -it --rm -v${PWD}:/opt/project -w /opt/project php:8.1-cli vendor/bin/phpunit --testsuite=integration
 
 .PHONY: dependency-analysis
 dependency-analysis: vendor ## Runs a dependency analysis with maglnet/composer-require-checker

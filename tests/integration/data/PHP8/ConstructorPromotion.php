@@ -21,8 +21,8 @@ class ConstructorPromotion
          *
          * @var string $name property description
          */
-        public string $name,
-        protected string $email = 'test@example.com',
+        public string $name = 'default name',
+        protected Email $email,
         private DateTimeImmutable $birth_date,
     ) {}
 }

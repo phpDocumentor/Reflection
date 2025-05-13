@@ -119,7 +119,7 @@ final class PropertyIterator implements Iterator
             return false;
         }
 
-        return $this->property->isPublicSet() || $this->property->isProtected() || $this->property->isPrivateSet();
+        return $this->property->isPublicSet() || $this->property->isProtectedSet() || $this->property->isPrivateSet();
     }
 
     /**
