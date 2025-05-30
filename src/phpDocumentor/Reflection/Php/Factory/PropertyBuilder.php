@@ -7,7 +7,7 @@ namespace phpDocumentor\Reflection\Php\Factory;
 use phpDocumentor\Reflection\DocBlockFactoryInterface;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
-use phpDocumentor\Reflection\Php\AsyncVisibility;
+use phpDocumentor\Reflection\Php\AsymmetricVisibility;
 use phpDocumentor\Reflection\Php\Factory\Reducer\Reducer;
 use phpDocumentor\Reflection\Php\Property as PropertyElement;
 use phpDocumentor\Reflection\Php\PropertyHook;
@@ -159,11 +159,11 @@ final class PropertyBuilder
     }
 
     /**
-     * Returns true when current property has async accessors.
+     * Returns true when current property has asymmetric accessors.
      *
      * This method will always return false when your phpparser version is < 5.2
      */
-    private function isAsync(Param|PropertyIterator $node): bool
+    private function isAsymmetric(Param|PropertyIterator $node): bool
     {
         if (method_exists($node, 'isPrivateSet') === false) {
             return false;
@@ -174,7 +174,7 @@ final class PropertyBuilder
 
     private function buildVisibility(Param|PropertyIterator $node): Visibility
     {
-        if ($this->isAsync($node) === false) {
+        if ($this->isAsymmetric($node) === false) {
             return $this->buildReadVisibility($node);
         }
 
@@ -185,7 +185,7 @@ final class PropertyBuilder
             return $readVisibility;
         }
 
-        return new AsyncVisibility(
+        return new AsymmetricVisibility(
             $readVisibility,
             $writeVisibility,
         );
@@ -266,7 +266,7 @@ final class PropertyBuilder
 
     private function buildHookVisibility(string $hookName, Visibility $propertyVisibility): Visibility
     {
-        if ($propertyVisibility instanceof AsyncVisibility === false) {
+        if ($propertyVisibility instanceof AsymmetricVisibility === false) {
             return $propertyVisibility;
         }
 

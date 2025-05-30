@@ -9,7 +9,7 @@ use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\File\LocalFile;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Argument;
-use phpDocumentor\Reflection\Php\AsyncVisibility;
+use phpDocumentor\Reflection\Php\AsymmetricVisibility;
 use phpDocumentor\Reflection\Php\Attribute;
 use phpDocumentor\Reflection\Php\ProjectFactory;
 use phpDocumentor\Reflection\Php\PropertyHook;
@@ -24,7 +24,7 @@ use PHPUnit\Framework\TestCase;
 #[CoversNothing]
 final class PropertyHookTest extends TestCase
 {
-    public function testPropertyHookWithDocblocks()
+    public function testPropertyHookWithDocblocks(): void
     {
         $file = __DIR__ . '/data/PHP84/PropertyHook.php';
         $projectFactory = ProjectFactory::createInstance();
@@ -56,9 +56,9 @@ final class PropertyHookTest extends TestCase
         $this->assertSame('Not sure this works, but it gets', $hooks[0]->getDocBlock()->getSummary());
     }
 
-    public function testPropertyHookAsync()
+    public function testPropertyHookAsymmetric(): void
     {
-        $file = __DIR__ . '/data/PHP84/PropertyHookAsync.php';
+        $file = __DIR__ . '/data/PHP84/PropertyHookAsymmetric.php';
         $projectFactory = ProjectFactory::createInstance();
         $project = $projectFactory->create('My project', [new LocalFile($file)]);
 
@@ -67,7 +67,7 @@ final class PropertyHookTest extends TestCase
 
 
         $this->assertEquals(
-            new AsyncVisibility(
+            new AsymmetricVisibility(
                 new Visibility(Visibility::PUBLIC_),
                 new Visibility(Visibility::PRIVATE_)
             ),

@@ -54,13 +54,13 @@ final class PropertyIterator implements Iterator
     }
 
     /**
-     * Returns async accessor value for current property.
+     * Returns asymmetric accessor value for current property.
      *
      * This method will return the same value as {@see self::isPublic()} when your phpparser version is < 5.2
      */
     public function isPublicSet(): bool
     {
-        if ($this->isAsync() === false) {
+        if ($this->isAsymmetric() === false) {
             return $this->isPublic();
         }
 
@@ -76,13 +76,13 @@ final class PropertyIterator implements Iterator
     }
 
     /**
-     * Returns async accessor value for current property.
+     * Returns asymetric accessor value for current property.
      *
      * This method will return the same value as {@see self::isProtected()} when your phpparser version is < 5.2
      */
     public function isProtectedSet(): bool
     {
-        if ($this->isAsync() === false) {
+        if ($this->isAsymmetric() === false) {
             return $this->isProtected();
         }
 
@@ -98,13 +98,13 @@ final class PropertyIterator implements Iterator
     }
 
     /**
-     * Returns async accessor value for current property.
+     * Returns asymetric accessor value for current property.
      *
      * This method will return the same value as {@see self::isPrivate()} when your phpparser version is < 5.2
      */
     public function isPrivateSet(): bool
     {
-        if ($this->isAsync() === false) {
+        if ($this->isAsymmetric() === false) {
             return $this->isPrivate();
         }
 
@@ -112,11 +112,11 @@ final class PropertyIterator implements Iterator
     }
 
     /**
-     * Returns true when current property has async accessors.
+     * Returns true when current property has asymetric accessors.
      *
      * This method will always return false when your phpparser version is < 5.2
      */
-    public function isAsync(): bool
+    public function isAsymmetric(): bool
     {
         if (method_exists($this->property, 'isPrivateSet') === false) {
             return false;
