@@ -8,17 +8,13 @@ class PropertyHook
 
     /** @var string this is my property */
     #[Property(new DateTimeImmutable())]
-    public string $example = 'default value' {
-        /** Not sure this works, but it gets */
-        #[Getter(new DateTimeImmutable())]
+    public private(set) string $example = 'default value' {
         get {
             if ($this->modified) {
                 return $this->foo . ' (modified)';
             }
             return $this->foo;
         }
-        /** Not sure this works, but it sets */
-        #[Setter(new DateTimeImmutable())]
         set(string|int $value) {
             $this->foo = strtolower($value);
             $this->modified = true;

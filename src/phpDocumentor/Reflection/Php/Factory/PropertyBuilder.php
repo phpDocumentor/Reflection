@@ -58,9 +58,7 @@ final class PropertyBuilder
         $this->visibility = new Visibility(Visibility::PUBLIC_);
     }
 
-    /**
-     * @param iterable<Reducer> $reducers
-     */
+    /** @param iterable<Reducer> $reducers */
     public static function create(
         PrettyPrinter $valueConverter,
         DocBlockFactoryInterface $docBlockFactory,
@@ -154,7 +152,7 @@ final class PropertyBuilder
             (new Type())->fromPhpParser($this->type),
             $this->readOnly,
             array_filter(array_map(
-                fn (PropertyHookNode $hook) => $this->buildHook($hook, $context),
+                fn (PropertyHookNode $hook) => $this->buildHook($hook, $context, $this->visibility),
                 $this->hooks,
             )),
         );
@@ -182,6 +180,10 @@ final class PropertyBuilder
 
         $readVisibility = $this->buildReadVisibility($node);
         $writeVisibility = $this->buildWriteVisibility($node);
+
+        if ((string) $writeVisibility === (string) $readVisibility) {
+            return $readVisibility;
+        }
 
         return new AsyncVisibility(
             $readVisibility,
@@ -232,17 +234,17 @@ final class PropertyBuilder
         return new Visibility(Visibility::PUBLIC_);
     }
 
-    private function buildHook(PropertyHookNode $hook, ContextStack $context): PropertyHook|null
+    private function buildHook(PropertyHookNode $hook, ContextStack $context, Visibility $propertyVisibility): PropertyHook|null
     {
         $doc = $hook->getDocComment();
 
         $result = new PropertyHook(
             $hook->name->toString(),
-            $this->buildVisibilityFromFlags($hook->flags),
+            $this->buildHookVisibility($hook->name->toString(), $propertyVisibility),
             $doc !== null ? $this->docBlockFactory->create($doc->getText(), $context->getTypeContext()) : null,
             $hook->isFinal(),
-            new Location($hook->getStartLine(), $hook->getStartFilePos()),
-            new Location($hook->getEndLine(), $hook->getEndFilePos()),
+            new Location($hook->getStartLine()),
+            new Location($hook->getEndLine()),
         );
 
         foreach ($this->reducers as $reducer) {
@@ -260,5 +262,18 @@ final class PropertyBuilder
         }
 
         return $result;
+    }
+
+    private function buildHookVisibility(string $hookName, Visibility $propertyVisibility): Visibility
+    {
+        if ($propertyVisibility instanceof AsyncVisibility === false) {
+            return $propertyVisibility;
+        }
+
+        return match ($hookName) {
+            'get' => $propertyVisibility->getReadVisibility(),
+            'set' => $propertyVisibility->getWriteVisibility(),
+            default => $propertyVisibility,
+        };
     }
 }

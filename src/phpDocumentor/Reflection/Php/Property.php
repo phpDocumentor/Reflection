@@ -143,4 +143,10 @@ final class Property implements Element, MetaDataContainerInterface, AttributeCo
     {
         return $this->readOnly;
     }
+
+    /** @return PropertyHook[] */
+    public function getHooks(): array
+    {
+        return $this->hooks;
+    }
 }
