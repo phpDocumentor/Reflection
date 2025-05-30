@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace phpDocumentor\Reflection\Php;
 
 /** @api */
-final class AsyncVisibility extends Visibility
+final class AsymmetricVisibility extends Visibility
 {
     public function __construct(
         private Visibility $readVisibility,

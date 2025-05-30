@@ -11,41 +11,42 @@ use PHPUnit\Framework\TestCase;
 
 /** @coversNothing */
 #[RequiresPackage('nikic/php-parser', '>= 5.2')]
-final class AsyncAccessorTest extends TestCase
+final class AsymmetricAccessorTest extends TestCase
 {
-    public function testAsyncAccessor(): void
+    public function testAsymmetricAccessor(): void
     {
-        $file = __DIR__ . '/data/PHP84/AsyncAccessor.php';
+        $file = __DIR__ . '/data/PHP84/AsymmetricAccessor.php';
         $projectFactory = ProjectFactory::createInstance();
         $project = $projectFactory->create('My project', [new LocalFile($file)]);
 
-        $class = $project->getFiles()[$file]->getClasses()['\AsyncAccessor'];
+        $class = $project->getFiles()[$file]->getClasses()['\AsymmetricAccessor'];
 
         self::assertEquals(
             'public',
-            $class->getProperties()['\AsyncAccessor::$pizza']->getVisibility()->getReadVisibility(),
+            $class->getProperties()['\AsymmetricAccessor::$pizza']->getVisibility()->getReadVisibility(),
         );
         self::assertEquals(
             'private',
-            $class->getProperties()['\AsyncAccessor::$pizza']->getVisibility()->getWriteVisibility(),
+            $class->getProperties()['\AsymmetricAccessor::$pizza']->getVisibility()->getWriteVisibility(),
         );
     }
 
     public function testAsyncPropertyPromotion(): void
     {
-        $file = __DIR__ . '/data/PHP84/AsyncPropertyPromotion.php';
+        $file = __DIR__ . '/data/PHP84/AsymmetricPropertyPromotion.php';
         $projectFactory = ProjectFactory::createInstance();
         $project = $projectFactory->create('My project', [new LocalFile($file)]);
 
-        $class = $project->getFiles()[$file]->getClasses()['\AsyncPropertyPromotion'];
+
+        $class = $project->getFiles()[$file]->getClasses()['\AsymmetricPropertyPromotion'];
 
         self::assertEquals(
             'public',
-            $class->getProperties()['\AsyncPropertyPromotion::$pizza']->getVisibility()->getReadVisibility(),
+            $class->getProperties()['\AsymmetricPropertyPromotion::$pizza']->getVisibility()->getReadVisibility(),
         );
         self::assertEquals(
             'protected',
-            $class->getProperties()['\AsyncPropertyPromotion::$pizza']->getVisibility()->getWriteVisibility(),
+            $class->getProperties()['\AsymmetricPropertyPromotion::$pizza']->getVisibility()->getWriteVisibility(),
         );
     }
 }
