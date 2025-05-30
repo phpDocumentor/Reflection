@@ -11,9 +11,9 @@ fix-code-style:
 	docker run -it --rm -v${PWD}:/opt/project -w /opt/project php:8.1-cli vendor/bin/phpcbf
 
 .PHONY: static-code-analysis
-static-code-analysis: vendor ## Runs a static code analysis with phpstan/phpstan and vimeo/psalm
+static-code-analysis: #vendor ## Runs a static code analysis with phpstan/phpstan and vimeo/psalm
 	docker run -it --rm -v${PWD}:/opt/project -w /opt/project php:8.2-cli vendor/bin/phpstan --configuration=phpstan.neon
-	docker run -it --rm -v${PWD}:/opt/project -w /opt/project php:8.2-cli vendor/bin/psalm.phar
+	docker run -it --rm -v${PWD}:/opt/project -w /opt/project php:8.2-cli vendor/bin/psalm.phar --show-info=true --threads=4
 
 .PHONY: test
 test: test-unit test-functional ## Runs all test suites with phpunit/phpunit
@@ -45,3 +45,7 @@ rector: ## Refactor code using rector
 
 .PHONY: pre-commit-test
 pre-commit-test: fix-code-style test code-style static-code-analysis
+
+.PHONY: docs
+docs: ## Generate documentation
+	docker run -it --rm -v${PWD}:/opt/project -w /opt/project phpdoc/phpdoc:3-unstable
