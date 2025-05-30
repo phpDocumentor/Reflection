@@ -1,163 +1,236 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.26.0@6998fabb2bf528b65777bf9941920888d23c03ac">
+<files psalm-version="6.8.2@720ed6b578ac24f9543c65c3d4cecea0ff348ccd">
+  <file src="src/phpDocumentor/Reflection/File/LocalFile.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[md5_file($this->path)]]></code>
+    </FalsableReturnStatement>
+    <InvalidFalsableReturnType>
+      <code><![CDATA[string]]></code>
+    </InvalidFalsableReturnType>
+    <UnusedClass>
+      <code><![CDATA[LocalFile]]></code>
+    </UnusedClass>
+  </file>
+  <file src="src/phpDocumentor/Reflection/Metadata/MetaDataContainer.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[addMetadata]]></code>
+      <code><![CDATA[getMetadata]]></code>
+    </PossiblyUnusedMethod>
+  </file>
   <file src="src/phpDocumentor/Reflection/Middleware/ChainFactory.php">
-    <DocblockTypeContradiction occurrences="1">
-      <code>gettype($middleware)</code>
-    </DocblockTypeContradiction>
-    <MissingClosureParamType occurrences="1">
-      <code>$command</code>
+    <MissingClosureParamType>
+      <code><![CDATA[$command]]></code>
     </MissingClosureParamType>
-    <MixedArgument occurrences="1">
-      <code>$command</code>
+    <MixedArgument>
+      <code><![CDATA[$command]]></code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="1">
-      <code>$lastCallable</code>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$lastCallable]]></code>
     </MixedArgumentTypeCoercion>
-    <RedundantConditionGivenDocblockType occurrences="1">
-      <code>is_object($middleware)</code>
-    </RedundantConditionGivenDocblockType>
   </file>
   <file src="src/phpDocumentor/Reflection/NodeVisitor/ElementNameResolver.php">
-    <NoInterfaceProperties occurrences="1">
-      <code>$node-&gt;fqsen</code>
-    </NoInterfaceProperties>
-    <MixedAssignment occurrences="1">
-      <code>$part</code>
-    </MixedAssignment>
-    <MixedOperand occurrences="1">
-      <code>$part</code>
-    </MixedOperand>
+    <ImplicitToStringCast>
+      <code><![CDATA[$node->name]]></code>
+      <code><![CDATA[$node->name]]></code>
+      <code><![CDATA[$node->name]]></code>
+      <code><![CDATA[$node->name]]></code>
+      <code><![CDATA[$node->name]]></code>
+      <code><![CDATA[$part]]></code>
+    </ImplicitToStringCast>
+    <MixedPropertyTypeCoercion>
+      <code><![CDATA[new SplDoublyLinkedList()]]></code>
+    </MixedPropertyTypeCoercion>
+    <PossiblyNullOperand>
+      <code><![CDATA[$part]]></code>
+    </PossiblyNullOperand>
   </file>
-  <file src="src/phpDocumentor/Reflection/Php/Factory/AbstractFactory.php">
-    <RedundantCondition occurrences="1">
-      <code>is_object($object)</code>
-    </RedundantCondition>
-    <TypeDoesNotContainType occurrences="1">
-      <code>gettype($object)</code>
-    </TypeDoesNotContainType>
-  </file>
-  <file src="src/phpDocumentor/Reflection/Php/Factory/Argument.php">
-    <PossiblyInvalidCast occurrences="1">
-      <code>$object-&gt;var-&gt;name</code>
-    </PossiblyInvalidCast>
-    <RedundantConditionGivenDocblockType occurrences="1">
-      <code>isInstanceOf</code>
-    </RedundantConditionGivenDocblockType>
-    <UndefinedMethod occurrences="1">
-      <code>addArgument</code>
-    </UndefinedMethod>
+  <file src="src/phpDocumentor/Reflection/Php/AttributeContainer.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[getAttributes]]></code>
+    </PossiblyUnusedMethod>
   </file>
   <file src="src/phpDocumentor/Reflection/Php/Factory/ClassConstant.php">
-    <PossiblyUndefinedMethod occurrences="1">
-      <code>addConstant</code>
+    <PossiblyUndefinedMethod>
+      <code><![CDATA[addConstant]]></code>
     </PossiblyUndefinedMethod>
-    <RedundantCondition occurrences="1">
-      <code>$const-&gt;getValue() !== null</code>
+    <RedundantCondition>
+      <code><![CDATA[$const->getValue() !== null]]></code>
     </RedundantCondition>
   </file>
   <file src="src/phpDocumentor/Reflection/Php/Factory/ClassConstantIterator.php">
-    <MixedInferredReturnType occurrences="1">
-      <code>Fqsen</code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="1"/>
+    <MixedReturnStatement>
+      <code><![CDATA[$this->classConstants->consts[$this->index]->getAttribute('fqsen')]]></code>
+    </MixedReturnStatement>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[getName]]></code>
+      <code><![CDATA[isPublic]]></code>
+    </PossiblyUnusedMethod>
   </file>
   <file src="src/phpDocumentor/Reflection/Php/Factory/Class_.php">
-    <MixedArgument occurrences="1"/>
+    <ImplicitToStringCast>
+      <code><![CDATA[$object->extends]]></code>
+    </ImplicitToStringCast>
+    <MixedArgument>
+      <code><![CDATA[$object->getAttribute('fqsen')]]></code>
+    </MixedArgument>
   </file>
   <file src="src/phpDocumentor/Reflection/Php/Factory/ConstructorPromotion.php">
-    <PossiblyInvalidCast occurrences="1">
-      <code>$param-&gt;var-&gt;name</code>
+    <ImplicitToStringCast>
+      <code><![CDATA[$methodContainer->getFqsen()]]></code>
+    </ImplicitToStringCast>
+    <PossiblyInvalidCast>
+      <code><![CDATA[$param->var->name]]></code>
     </PossiblyInvalidCast>
+    <RedundantCondition>
+      <code><![CDATA[$param->hooks]]></code>
+    </RedundantCondition>
+    <TypeDoesNotContainType>
+      <code><![CDATA[[]]]></code>
+    </TypeDoesNotContainType>
   </file>
   <file src="src/phpDocumentor/Reflection/Php/Factory/EnumCase.php">
-    <MixedArgument occurrences="1"/>
+    <MixedArgument>
+      <code><![CDATA[$object->getAttribute('fqsen')]]></code>
+    </MixedArgument>
   </file>
   <file src="src/phpDocumentor/Reflection/Php/Factory/Enum_.php">
-    <MixedArgument occurrences="1"/>
+    <MixedArgument>
+      <code><![CDATA[$object->getAttribute('fqsen')]]></code>
+    </MixedArgument>
   </file>
   <file src="src/phpDocumentor/Reflection/Php/Factory/File.php">
-    <MissingClosureParamType occurrences="1">
-      <code>$command</code>
+    <MissingClosureParamType>
+      <code><![CDATA[$command]]></code>
     </MissingClosureParamType>
-    <MixedArgument occurrences="2">
-      <code>$command</code>
-      <code>$file</code>
+    <MixedArgument>
+      <code><![CDATA[$command]]></code>
+      <code><![CDATA[$file]]></code>
     </MixedArgument>
-    <MixedAssignment occurrences="1">
-      <code>$file</code>
+    <MixedAssignment>
+      <code><![CDATA[$file]]></code>
     </MixedAssignment>
   </file>
   <file src="src/phpDocumentor/Reflection/Php/Factory/Function_.php">
-    <DocblockTypeContradiction occurrences="1">
-      <code>is_array($object-&gt;stmts)</code>
-    </DocblockTypeContradiction>
-    <MixedArgument occurrences="1"/>
+    <MixedArgument>
+      <code><![CDATA[$object->getAttribute('fqsen')]]></code>
+    </MixedArgument>
   </file>
   <file src="src/phpDocumentor/Reflection/Php/Factory/GlobalConstant.php">
-    <RedundantCondition occurrences="1">
-      <code>$const-&gt;getValue() !== null</code>
+    <RedundantCondition>
+      <code><![CDATA[$const->getValue() !== null]]></code>
     </RedundantCondition>
   </file>
   <file src="src/phpDocumentor/Reflection/Php/Factory/GlobalConstantIterator.php">
-    <MixedInferredReturnType occurrences="1">
-      <code>Fqsen</code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="1"/>
+    <MixedReturnStatement>
+      <code><![CDATA[$this->constant->consts[$this->index]->getAttribute('fqsen')]]></code>
+    </MixedReturnStatement>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[getName]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/phpDocumentor/Reflection/Php/Factory/IfStatement.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[IfStatement]]></code>
+    </ClassMustBeFinal>
   </file>
   <file src="src/phpDocumentor/Reflection/Php/Factory/Interface_.php">
-    <MixedArgument occurrences="1"/>
+    <MixedArgument>
+      <code><![CDATA[$object->getAttribute('fqsen')]]></code>
+    </MixedArgument>
   </file>
   <file src="src/phpDocumentor/Reflection/Php/Factory/Method.php">
-    <MixedArgument occurrences="1"/>
-    <UndefinedMethod occurrences="1">
-      <code>addMethod</code>
+    <MixedArgument>
+      <code><![CDATA[$object->getAttribute('fqsen')]]></code>
+    </MixedArgument>
+    <UndefinedMethod>
+      <code><![CDATA[addMethod]]></code>
     </UndefinedMethod>
   </file>
   <file src="src/phpDocumentor/Reflection/Php/Factory/Namespace_.php">
-    <DocblockTypeContradiction occurrences="1">
-      <code>gettype($object)</code>
-    </DocblockTypeContradiction>
-    <MixedArgument occurrences="1"/>
-    <RedundantConditionGivenDocblockType occurrences="1">
-      <code>is_object($object)</code>
-    </RedundantConditionGivenDocblockType>
+    <ClassMustBeFinal>
+      <code><![CDATA[Namespace_]]></code>
+    </ClassMustBeFinal>
+    <MixedArgument>
+      <code><![CDATA[$object->getAttribute('fqsen') ?? new Fqsen('\\')]]></code>
+    </MixedArgument>
+  </file>
+  <file src="src/phpDocumentor/Reflection/Php/Factory/Noop.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[Noop]]></code>
+    </ClassMustBeFinal>
   </file>
   <file src="src/phpDocumentor/Reflection/Php/Factory/Property.php">
-    <PossiblyInvalidArgument occurrences="1">
-      <code>$iterator-&gt;getDefault()</code>
-    </PossiblyInvalidArgument>
-    <UndefinedMethod occurrences="1">
-      <code>addProperty</code>
+    <UndefinedMethod>
+      <code><![CDATA[addProperty]]></code>
     </UndefinedMethod>
   </file>
+  <file src="src/phpDocumentor/Reflection/Php/Factory/PropertyBuilder.php">
+    <PropertyNotSetInConstructor>
+      <code><![CDATA[$endLocation]]></code>
+      <code><![CDATA[$fqsen]]></code>
+      <code><![CDATA[$startLocation]]></code>
+      <code><![CDATA[$type]]></code>
+    </PropertyNotSetInConstructor>
+  </file>
   <file src="src/phpDocumentor/Reflection/Php/Factory/PropertyIterator.php">
-    <MixedInferredReturnType occurrences="1">
-      <code>Fqsen</code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="1"/>
+    <MixedReturnStatement>
+      <code><![CDATA[$this->property->props[$this->index]->getAttribute('fqsen')]]></code>
+    </MixedReturnStatement>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[getName]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/phpDocumentor/Reflection/Php/Factory/Reducer/Parameter.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[Parameter]]></code>
+    </ClassMustBeFinal>
   </file>
   <file src="src/phpDocumentor/Reflection/Php/Factory/Trait_.php">
-    <MixedArgument occurrences="1"/>
+    <MixedArgument>
+      <code><![CDATA[$object->getAttribute('fqsen')]]></code>
+    </MixedArgument>
+  </file>
+  <file src="src/phpDocumentor/Reflection/Php/NodesFactory.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[NodesFactory]]></code>
+    </ClassMustBeFinal>
+    <PossiblyUnusedParam>
+      <code><![CDATA[$kind]]></code>
+    </PossiblyUnusedParam>
+  </file>
+  <file src="src/phpDocumentor/Reflection/Php/ProjectFactory.php">
+    <ImplicitToStringCast>
+      <code><![CDATA[$namespace->getFqsen()]]></code>
+      <code><![CDATA[$namespace->getFqsen()]]></code>
+      <code><![CDATA[$namespace->getFqsen()]]></code>
+      <code><![CDATA[$namespace->getFqsen()]]></code>
+      <code><![CDATA[$namespace->getFqsen()]]></code>
+      <code><![CDATA[$namespace->getFqsen()]]></code>
+    </ImplicitToStringCast>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[addStrategy]]></code>
+      <code><![CDATA[createInstance]]></code>
+    </PossiblyUnusedMethod>
   </file>
   <file src="src/phpDocumentor/Reflection/Php/ProjectFactoryStrategies.php">
-    <MixedArgument occurrences="1">
-      <code>$object</code>
+    <MixedArgument>
+      <code><![CDATA[$object]]></code>
     </MixedArgument>
-    <MixedPropertyTypeCoercion occurrences="1">
-      <code>new SplPriorityQueue()</code>
+    <MixedPropertyTypeCoercion>
+      <code><![CDATA[new SplPriorityQueue()]]></code>
     </MixedPropertyTypeCoercion>
   </file>
   <file src="src/phpDocumentor/Reflection/Php/ValueEvaluator/ConstantEvaluator.php">
-    <MixedInferredReturnType occurrences="1">
-      <code>string</code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="1">
-      <code>$evaluator-&gt;evaluateSilently($expr)</code>
+    <MixedReturnStatement>
+      <code><![CDATA[$evaluator->evaluateSilently($expr)]]></code>
     </MixedReturnStatement>
   </file>
   <file src="src/phpDocumentor/Reflection/Types/NamespaceNodeToContext.php">
-    <MixedArgumentTypeCoercion occurrences="1">
-      <code>$this-&gt;aliasesToFullyQualifiedNames($namespace)</code>
+    <ClassMustBeFinal>
+      <code><![CDATA[NamespaceNodeToContext]]></code>
+    </ClassMustBeFinal>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$this->aliasesToFullyQualifiedNames($namespace)]]></code>
     </MixedArgumentTypeCoercion>
   </file>
 </files>

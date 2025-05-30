@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace phpDocumentor\Reflection\File;
 
 use InvalidArgumentException;
+use Override;
 use phpDocumentor\Reflection\File;
 
 use function file_exists;
@@ -43,6 +44,7 @@ final class LocalFile implements File
     /**
      * Returns the content of the file as a string.
      */
+    #[Override]
     public function getContents(): string
     {
         return (string) file_get_contents($this->path);
@@ -51,6 +53,7 @@ final class LocalFile implements File
     /**
      * Returns md5 hash of the file.
      */
+    #[Override]
     public function md5(): string
     {
         return md5_file($this->path);
@@ -59,6 +62,7 @@ final class LocalFile implements File
     /**
      * Returns a relative path to the file.
      */
+    #[Override]
     public function path(): string
     {
         return $this->path;

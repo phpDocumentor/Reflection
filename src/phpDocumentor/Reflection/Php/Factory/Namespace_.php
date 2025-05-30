@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use InvalidArgumentException;
+use Override;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\File as FileElement;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
@@ -18,12 +19,14 @@ use function sprintf;
 
 class Namespace_ implements ProjectFactoryStrategy
 {
+    #[Override]
     public function matches(ContextStack $context, object $object): bool
     {
         return $object instanceof NamespaceNode;
     }
 
     /** @param NamespaceNode $object */
+    #[Override]
     public function create(ContextStack $context, object $object, StrategyContainer $strategies): void
     {
         if (!$this->matches($context, $object)) {

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use InvalidArgumentException;
+use Override;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\Class_;
 use phpDocumentor\Reflection\Php\Enum_;
@@ -15,6 +16,7 @@ use PhpParser\Node\Stmt\TraitUse as TraitUseNode;
 
 final class TraitUse implements ProjectFactoryStrategy
 {
+    #[Override]
     public function matches(ContextStack $context, object $object): bool
     {
         return $object instanceof TraitUseNode;
@@ -24,6 +26,7 @@ final class TraitUse implements ProjectFactoryStrategy
      * @param ContextStack $context of the created object
      * @param TraitUseNode $object
      */
+    #[Override]
     public function create(ContextStack $context, object $object, StrategyContainer $strategies): void
     {
         if ($this->matches($context, $object) === false) {

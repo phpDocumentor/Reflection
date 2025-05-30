@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\NodeVisitor;
 
+use Override;
 use phpDocumentor\Reflection\Fqsen;
 use PhpParser\Node;
 use PhpParser\Node\Const_;
@@ -47,6 +48,7 @@ final class ElementNameResolver extends NodeVisitorAbstract
      *
      * @inheritDoc
      */
+    #[Override]
     public function beforeTraverse(array $nodes)
     {
         $this->resetState('\\');
@@ -59,6 +61,7 @@ final class ElementNameResolver extends NodeVisitorAbstract
      *
      * @inheritDoc
      */
+    #[Override]
     public function leaveNode(Node $node)
     {
         switch ($node::class) {
@@ -87,6 +90,7 @@ final class ElementNameResolver extends NodeVisitorAbstract
     /**
      * Adds fqsen property to a node when applicable.
      */
+    #[Override]
     public function enterNode(Node $node): int|null
     {
         switch ($node::class) {

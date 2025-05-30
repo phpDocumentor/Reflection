@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use OutOfBoundsException;
+use Override;
 use phpDocumentor\Reflection\DocBlockFactoryInterface;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
@@ -31,6 +32,7 @@ final class ConstructorPromotion extends AbstractFactory
         parent::__construct($docBlockFactory, $reducers);
     }
 
+    #[Override]
     public function matches(ContextStack $context, object $object): bool
     {
         try {
@@ -43,6 +45,7 @@ final class ConstructorPromotion extends AbstractFactory
     }
 
     /** @param ClassMethod $object */
+    #[Override]
     protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies): object|null
     {
         $this->methodStrategy->create($context, $object, $strategies);

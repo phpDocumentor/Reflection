@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
+use Override;
 use phpDocumentor\Reflection\DocBlockFactoryInterface;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
@@ -52,6 +53,7 @@ final class Define extends AbstractFactory
         parent::__construct($docBlockFactory);
     }
 
+    #[Override]
     public function matches(ContextStack $context, object $object): bool
     {
         if (!$object instanceof Expression) {
@@ -79,6 +81,7 @@ final class Define extends AbstractFactory
      * @param Expression $object object to convert to an Element
      * @param StrategyContainer $strategies used to convert nested objects.
      */
+    #[Override]
     protected function doCreate(
         ContextStack $context,
         object $object,

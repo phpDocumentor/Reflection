@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php;
 
+use Override;
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
 
+/** @api */
 final class Attribute implements Element
 {
     /** @param CallArgument[] $arguments */
@@ -14,6 +16,7 @@ final class Attribute implements Element
     {
     }
 
+    #[Override]
     public function getFqsen(): Fqsen
     {
         return $this->fqsen;
@@ -25,6 +28,7 @@ final class Attribute implements Element
         return $this->arguments;
     }
 
+    #[Override]
     public function getName(): string
     {
         return $this->fqsen->getName();

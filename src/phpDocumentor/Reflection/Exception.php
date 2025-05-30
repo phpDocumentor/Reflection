@@ -17,6 +17,8 @@ namespace phpDocumentor\Reflection;
  * An exception specifically originating from the Reflection component.
  *
  * @link    http://phpdoc.org
+ *
+ * @api
  */
 class Exception extends \Exception
 {

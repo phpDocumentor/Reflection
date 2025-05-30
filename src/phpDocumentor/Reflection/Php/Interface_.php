@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php;
 
+use Override;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
@@ -22,6 +23,8 @@ use Webmozart\Assert\Assert;
 
 /**
  * Descriptor representing an Interface.
+ *
+ * @api
  */
 final class Interface_ implements Element, MetaDataContainerInterface, AttributeContainer
 {
@@ -95,6 +98,7 @@ final class Interface_ implements Element, MetaDataContainerInterface, Attribute
     /**
      * Returns the Fqsen of the element.
      */
+    #[Override]
     public function getFqsen(): Fqsen
     {
         return $this->fqsen;
@@ -103,6 +107,7 @@ final class Interface_ implements Element, MetaDataContainerInterface, Attribute
     /**
      * Returns the name of the element.
      */
+    #[Override]
     public function getName(): string
     {
         return $this->fqsen->getName();

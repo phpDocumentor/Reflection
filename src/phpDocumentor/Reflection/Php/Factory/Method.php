@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
+use Override;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Class_;
 use phpDocumentor\Reflection\Php\Enum_;
@@ -31,6 +32,7 @@ use function is_array;
  */
 final class Method extends AbstractFactory
 {
+    #[Override]
     public function matches(ContextStack $context, object $object): bool
     {
         return $object instanceof ClassMethod;
@@ -42,6 +44,7 @@ final class Method extends AbstractFactory
      * @param ClassMethod $object object to convert to an MethodDescriptor
      * @param ContextStack $context of the created object
      */
+    #[Override]
     protected function doCreate(
         ContextStack $context,
         object $object,

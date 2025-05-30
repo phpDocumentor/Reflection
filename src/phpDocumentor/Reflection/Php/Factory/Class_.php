@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
+use Override;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Class_ as ClassElement;
@@ -27,6 +28,7 @@ use function assert;
  */
 final class Class_ extends AbstractFactory
 {
+    #[Override]
     public function matches(ContextStack $context, object $object): bool
     {
         return $object instanceof ClassNode;
@@ -41,6 +43,7 @@ final class Class_ extends AbstractFactory
      * @param ContextStack $context of the created object
      * @param ClassNode $object
      */
+    #[Override]
     protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies): object|null
     {
         $docBlock = $this->createDocBlock($object->getDocComment(), $context->getTypeContext());

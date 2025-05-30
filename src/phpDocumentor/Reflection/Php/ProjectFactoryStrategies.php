@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace phpDocumentor\Reflection\Php;
 
 use OutOfBoundsException;
+use Override;
 use phpDocumentor\Reflection\Php\Factory\ContextStack;
 use SplPriorityQueue;
 
@@ -45,6 +46,7 @@ final class ProjectFactoryStrategies implements StrategyContainer
      *
      * @throws OutOfBoundsException When no matching strategy was found.
      */
+    #[Override]
     public function findMatching(ContextStack $context, mixed $object): ProjectFactoryStrategy
     {
         foreach (clone $this->strategies as $strategy) {

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
+use Override;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\File as FileElement;
 use phpDocumentor\Reflection\Php\Function_ as FunctionDescriptor;
@@ -29,6 +30,7 @@ use Webmozart\Assert\Assert;
  */
 final class Function_ extends AbstractFactory implements ProjectFactoryStrategy
 {
+    #[Override]
     public function matches(ContextStack $context, object $object): bool
     {
         return $object instanceof FunctionNode && $context->peek() instanceof FileElement;
@@ -40,6 +42,7 @@ final class Function_ extends AbstractFactory implements ProjectFactoryStrategy
      * @param ContextStack $context of the created object
      * @param FunctionNode $object
      */
+    #[Override]
     protected function doCreate(
         ContextStack $context,
         object $object,

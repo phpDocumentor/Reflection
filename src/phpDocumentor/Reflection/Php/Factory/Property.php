@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
+use Override;
 use phpDocumentor\Reflection\DocBlockFactoryInterface;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Class_;
@@ -41,6 +42,7 @@ final class Property extends AbstractFactory
         parent::__construct($docBlockFactory, $reducers);
     }
 
+    #[Override]
     public function matches(ContextStack $context, object $object): bool
     {
         return $object instanceof PropertyNode;
@@ -55,6 +57,7 @@ final class Property extends AbstractFactory
      * @param ContextStack $context used to convert nested objects.
      * @param PropertyNode $object
      */
+    #[Override]
     protected function doCreate(
         ContextStack $context,
         object $object,

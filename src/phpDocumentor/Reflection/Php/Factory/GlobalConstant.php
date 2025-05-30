@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
+use Override;
 use phpDocumentor\Reflection\DocBlockFactoryInterface;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Constant as ConstantElement;
@@ -38,6 +39,7 @@ final class GlobalConstant extends AbstractFactory
         parent::__construct($docBlockFactory);
     }
 
+    #[Override]
     public function matches(ContextStack $context, object $object): bool
     {
         return $object instanceof Const_;
@@ -53,6 +55,7 @@ final class GlobalConstant extends AbstractFactory
      * @param Const_ $object object to convert to an Element
      * @param StrategyContainer $strategies used to convert nested objects.
      */
+    #[Override]
     protected function doCreate(
         ContextStack $context,
         object $object,

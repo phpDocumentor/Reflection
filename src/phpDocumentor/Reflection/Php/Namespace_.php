@@ -19,6 +19,8 @@ use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInte
 
 /**
  * Represents a namespace and its children for a project.
+ *
+ * @api
  */
 // @codingStandardsIgnoreStart
 final class Namespace_ implements Element, MetaDataContainerInterface
@@ -156,6 +158,7 @@ final class Namespace_ implements Element, MetaDataContainerInterface
     /**
      * Returns the Fqsen of the element.
      */
+    #[\Override]
     public function getFqsen(): Fqsen
     {
         return $this->fqsen;
@@ -164,6 +167,7 @@ final class Namespace_ implements Element, MetaDataContainerInterface
     /**
      * Returns the name of the element.
      */
+    #[\Override]
     public function getName(): string
     {
         return $this->fqsen->getName();

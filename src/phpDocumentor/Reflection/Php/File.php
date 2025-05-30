@@ -21,6 +21,8 @@ use function basename;
 
 /**
  * Represents a file in the project.
+ *
+ * @api
  */
 final class File implements MetaDataContainerInterface
 {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
+use Override;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use PhpParser\Node\Stmt\Else_;
@@ -11,12 +12,14 @@ use PhpParser\Node\Stmt\If_;
 
 class IfStatement implements ProjectFactoryStrategy
 {
+    #[Override]
     public function matches(ContextStack $context, object $object): bool
     {
         return $object instanceof If_;
     }
 
     /** @param If_ $object */
+    #[Override]
     public function create(ContextStack $context, object $object, StrategyContainer $strategies): void
     {
         foreach ($object->stmts as $stmt) {

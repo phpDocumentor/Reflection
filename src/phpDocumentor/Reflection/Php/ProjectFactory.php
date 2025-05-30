@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php;
 
+use Override;
 use phpDocumentor\Reflection\DocBlockFactory;
 use phpDocumentor\Reflection\Exception;
 use phpDocumentor\Reflection\File as SourceFile;
@@ -116,6 +117,7 @@ final class ProjectFactory implements ProjectFactoryInterface
      *
      * @throws Exception When no matching strategy was found.
      */
+    #[Override]
     public function create(string $name, array $files): ProjectInterface
     {
         $contextStack = new ContextStack(new Project($name), null);

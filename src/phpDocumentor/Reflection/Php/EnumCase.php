@@ -4,12 +4,18 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php;
 
+use Override;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInterface;
 
+/**
+ * Represents a case in an Enum.
+ *
+ * @api
+ */
 final class EnumCase implements Element, MetaDataContainerInterface, AttributeContainer
 {
     use MetadataContainer;
@@ -38,11 +44,13 @@ final class EnumCase implements Element, MetaDataContainerInterface, AttributeCo
         $this->endLocation = $endLocation;
     }
 
+    #[Override]
     public function getFqsen(): Fqsen
     {
         return $this->fqsen;
     }
 
+    #[Override]
     public function getName(): string
     {
         return $this->fqsen->getName();

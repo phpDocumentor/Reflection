@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
+use Override;
 use phpDocumentor\Reflection\DocBlockFactoryInterface;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Enum_ as EnumElement;
@@ -26,12 +27,14 @@ final class EnumCase extends AbstractFactory
         parent::__construct($docBlockFactory, $reducers);
     }
 
+    #[Override]
     public function matches(ContextStack $context, object $object): bool
     {
         return $object instanceof EnumCaseNode;
     }
 
     /** @param EnumCaseNode $object */
+    #[Override]
     protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies): object|null
     {
         $docBlock = $this->createDocBlock($object->getDocComment(), $context->getTypeContext());

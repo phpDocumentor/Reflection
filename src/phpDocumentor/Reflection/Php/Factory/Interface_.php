@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
+use Override;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\File as FileElement;
@@ -27,6 +28,7 @@ use Webmozart\Assert\Assert;
  */
 final class Interface_ extends AbstractFactory implements ProjectFactoryStrategy
 {
+    #[Override]
     public function matches(ContextStack $context, object $object): bool
     {
         return $object instanceof InterfaceNode;
@@ -42,6 +44,7 @@ final class Interface_ extends AbstractFactory implements ProjectFactoryStrategy
      * @param InterfaceNode     $object     object to convert to an Element
      * @param StrategyContainer $strategies used to convert nested objects.
      */
+    #[Override]
     protected function doCreate(
         ContextStack $context,
         object $object,

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
+use Override;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\File as FileElement;
 use phpDocumentor\Reflection\Php\StrategyContainer;
@@ -22,6 +23,7 @@ use Webmozart\Assert\Assert;
 
 final class Trait_ extends AbstractFactory
 {
+    #[Override]
     public function matches(ContextStack $context, object $object): bool
     {
         return $object instanceof TraitNode;
@@ -36,6 +38,7 @@ final class Trait_ extends AbstractFactory
      * @param ContextStack $context used to convert nested objects.
      * @param TraitNode $object
      */
+    #[Override]
     protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies): object|null
     {
         $trait = new TraitElement(

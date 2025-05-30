@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace phpDocumentor\Reflection\Php\Factory\Reducer;
 
 use InvalidArgumentException;
+use Override;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\AttributeContainer;
 use phpDocumentor\Reflection\Php\CallArgument;
@@ -28,6 +29,7 @@ final class Attribute implements Reducer
         $this->printer = new Standard();
     }
 
+    #[Override]
     public function reduce(
         ContextStack $context,
         object $object,

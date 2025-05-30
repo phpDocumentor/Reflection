@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use Iterator;
+use Override;
 use phpDocumentor\Reflection\Fqsen;
 use PhpParser\Comment\Doc;
 use PhpParser\Node\Expr;
@@ -123,30 +124,35 @@ final class ClassConstantIterator implements Iterator
     }
 
     /** @link http://php.net/manual/en/iterator.current.php */
+    #[Override]
     public function current(): self
     {
         return $this;
     }
 
     /** @link http://php.net/manual/en/iterator.next.php */
+    #[Override]
     public function next(): void
     {
         ++$this->index;
     }
 
     /** @link http://php.net/manual/en/iterator.key.php */
+    #[Override]
     public function key(): int|null
     {
         return $this->index;
     }
 
     /** @link http://php.net/manual/en/iterator.valid.php */
+    #[Override]
     public function valid(): bool
     {
         return isset($this->classConstants->consts[$this->index]);
     }
 
     /** @link http://php.net/manual/en/iterator.rewind.php */
+    #[Override]
     public function rewind(): void
     {
         $this->index = 0;

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php;
 
+use Override;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
@@ -22,6 +23,8 @@ use phpDocumentor\Reflection\Type;
 
 /**
  * Descriptor representing a property.
+ *
+ * @api
  */
 final class Property implements Element, MetaDataContainerInterface, AttributeContainer
 {
@@ -103,6 +106,7 @@ final class Property implements Element, MetaDataContainerInterface, AttributeCo
     /**
      * Returns the Fqsen of the element.
      */
+    #[Override]
     public function getFqsen(): Fqsen
     {
         return $this->fqsen;
@@ -111,6 +115,7 @@ final class Property implements Element, MetaDataContainerInterface, AttributeCo
     /**
      * Returns the name of the element.
      */
+    #[Override]
     public function getName(): string
     {
         return $this->fqsen->getName();

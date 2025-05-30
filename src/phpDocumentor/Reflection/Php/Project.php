@@ -13,11 +13,14 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php;
 
+use Override;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Project as ProjectInterface;
 
 /**
  * Represents the entire project with its files, namespaces and indexes.
+ *
+ * @api
  */
 final class Project implements ProjectInterface
 {
@@ -45,6 +48,7 @@ final class Project implements ProjectInterface
     /**
      * Returns the name of this project.
      */
+    #[Override]
     public function getName(): string
     {
         return $this->name;

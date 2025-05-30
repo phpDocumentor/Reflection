@@ -8,6 +8,7 @@ use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInterface;
 
+/** @api */
 final class PropertyHook implements AttributeContainer, MetaDataContainerInterface
 {
     use MetadataContainer;

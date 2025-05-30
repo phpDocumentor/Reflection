@@ -18,6 +18,8 @@ use phpDocumentor\Reflection\Types\Mixed_;
 
 /**
  * Descriptor representing a single Argument of a method or function.
+ *
+ * @api
  */
 final class Argument
 {

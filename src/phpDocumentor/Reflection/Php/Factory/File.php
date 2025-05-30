@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php\Factory;
 
+use Override;
 use phpDocumentor\Reflection\DocBlock as DocBlockInstance;
 use phpDocumentor\Reflection\DocBlockFactoryInterface;
 use phpDocumentor\Reflection\File as FileSystemFile;
@@ -67,6 +68,7 @@ final class File extends AbstractFactory
         $this->middlewareChain = ChainFactory::createExecutionChain($middleware, $lastCallable);
     }
 
+    #[Override]
     public function matches(ContextStack $context, object $object): bool
     {
         return $object instanceof FileSystemFile;
@@ -82,6 +84,7 @@ final class File extends AbstractFactory
      * @param FileSystemFile $object path to the file to convert to an File object.
      * @param StrategyContainer $strategies used to convert nested objects.
      */
+    #[Override]
     protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies): object|null
     {
         $command = new CreateCommand($context, $object, $strategies);

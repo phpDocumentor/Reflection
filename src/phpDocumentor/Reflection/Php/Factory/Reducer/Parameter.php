@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php\Factory\Reducer;
 
+use Override;
 use phpDocumentor\Reflection\Php\Argument as ArgumentDescriptor;
 use phpDocumentor\Reflection\Php\Factory\ContextStack;
 use phpDocumentor\Reflection\Php\Factory\Type;
@@ -24,6 +25,7 @@ class Parameter implements Reducer
     {
     }
 
+    #[Override]
     public function reduce(
         ContextStack $context,
         object $object,
