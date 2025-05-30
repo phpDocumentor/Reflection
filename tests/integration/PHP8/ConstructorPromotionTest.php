@@ -50,8 +50,8 @@ class ConstructorPromotionTest extends TestCase
         $class = $file->getClasses()['\\PHP8\\ConstructorPromotion'];
 
         $constructor = $this->expectedContructorMethod();
-        $constructor->addArgument(new Argument('name', new String_()));
-        $constructor->addArgument(new Argument('email', new String_(), '\'test@example.com\''));
+        $constructor->addArgument(new Argument('name', new String_(), "'default name'"));
+        $constructor->addArgument(new Argument('email', new Object_(new Fqsen('\\PHP8\\Email'))));
         $constructor->addArgument(new Argument('birth_date', new Object_(new Fqsen('\\' . \DateTimeImmutable::class))));
 
         self::assertEquals($constructor, $class->getMethods()['\PHP8\ConstructorPromotion::__construct()']);
@@ -87,7 +87,7 @@ class ConstructorPromotionTest extends TestCase
             false,
             false,
             new Location(16, 218),
-            new Location(27, 522)
+            new Location(27, 517)
         );
         return $constructor;
     }
@@ -105,10 +105,10 @@ class ConstructorPromotionTest extends TestCase
                 ],
                 new Context('PHP8', ['DateTimeImmutable' => 'DateTimeImmutable'])
             ),
-            null,
+            "'default name'",
             false,
-            new Location(24),
-            new Location(24),
+            new Location(24, 393),
+            new Location(24, 428),
             new String_()
         );
         return $name;
@@ -120,11 +120,11 @@ class ConstructorPromotionTest extends TestCase
             new Fqsen('\PHP8\ConstructorPromotion::$email'),
             new Visibility(Visibility::PROTECTED_),
             null,
-            '\'test@example.com\'',
+            null,
             false,
-            new Location(25),
-            new Location(25),
-            new String_()
+            new Location(25, 439),
+            new Location(25, 460),
+            new Object_(new Fqsen('\\PHP8\\Email'))
         );
         return $email;
     }
@@ -137,8 +137,8 @@ class ConstructorPromotionTest extends TestCase
             null,
             null,
             false,
-            new Location(26),
-            new Location(26),
+            new Location(26, 471),
+            new Location(26, 507),
             new Object_(new Fqsen('\\' . \DateTimeImmutable::class))
         );
         return $birthDate;

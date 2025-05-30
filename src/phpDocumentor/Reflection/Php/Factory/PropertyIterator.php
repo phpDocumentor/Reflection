@@ -20,9 +20,11 @@ use PhpParser\Node\ComplexType;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
+use PhpParser\Node\PropertyHook;
 use PhpParser\Node\Stmt\Property as PropertyNode;
 
 use function method_exists;
+use function property_exists;
 
 /**
  * This class acts like a combination of a PropertyNode and PropertyProperty to
@@ -119,7 +121,7 @@ final class PropertyIterator implements Iterator
             return false;
         }
 
-        return $this->property->isPublicSet() || $this->property->isProtected() || $this->property->isPrivateSet();
+        return $this->property->isPublicSet() || $this->property->isProtectedSet() || $this->property->isPrivateSet();
     }
 
     /**
@@ -199,6 +201,16 @@ final class PropertyIterator implements Iterator
     public function getFqsen(): Fqsen
     {
         return $this->property->props[$this->index]->getAttribute('fqsen');
+    }
+
+    /** @return PropertyHook[] */
+    public function getHooks(): array
+    {
+        if (property_exists($this->property, 'hooks') === false) {
+            return [];
+        }
+
+        return $this->property->hooks;
     }
 
     /** @link http://php.net/manual/en/iterator.current.php */

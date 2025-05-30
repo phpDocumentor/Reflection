@@ -37,7 +37,10 @@ final class Property implements Element, MetaDataContainerInterface, AttributeCo
 
     private readonly Location $endLocation;
 
-    /** @param Visibility|null $visibility when null is provided a default 'public' is set. */
+    /**
+     * @param Visibility|null $visibility when null is provided a default 'public' is set.
+     * @param PropertyHook[] $hooks
+     */
     public function __construct(
         private readonly Fqsen $fqsen,
         Visibility|null $visibility = null,
@@ -48,6 +51,7 @@ final class Property implements Element, MetaDataContainerInterface, AttributeCo
         Location|null $endLocation = null,
         private readonly Type|null $type = null,
         private readonly bool $readOnly = false,
+        private readonly array $hooks = [],
     ) {
         $this->visibility = $visibility ?: new Visibility('public');
         $this->location = $location ?: new Location(-1);
@@ -138,5 +142,11 @@ final class Property implements Element, MetaDataContainerInterface, AttributeCo
     public function isReadOnly(): bool
     {
         return $this->readOnly;
+    }
+
+    /** @return PropertyHook[] */
+    public function getHooks(): array
+    {
+        return $this->hooks;
     }
 }

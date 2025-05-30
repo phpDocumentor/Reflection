@@ -8,13 +8,10 @@ use OutOfBoundsException;
 use phpDocumentor\Reflection\DocBlockFactoryInterface;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
-use phpDocumentor\Reflection\Php\AsyncVisibility;
 use phpDocumentor\Reflection\Php\Class_ as ClassElement;
 use phpDocumentor\Reflection\Php\Factory\Reducer\Reducer;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
-use phpDocumentor\Reflection\Php\Property;
 use phpDocumentor\Reflection\Php\StrategyContainer;
-use phpDocumentor\Reflection\Php\Visibility;
 use PhpParser\Modifiers;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Param;
@@ -67,17 +64,22 @@ final class ConstructorPromotion extends AbstractFactory
         Assert::isInstanceOf($methodContainer, ClassElement::class);
         Assert::isInstanceOf($param->var, Variable::class);
 
-        $property = new Property(
-            new Fqsen($methodContainer->getFqsen() . '::$' . (string) $param->var->name),
-            $this->buildPropertyVisibilty($param->flags),
-            $this->createDocBlock($param->getDocComment(), $context->getTypeContext()),
-            $param->default !== null ? $this->valueConverter->prettyPrintExpr($param->default) : null,
-            false,
-            new Location($param->getLine()),
-            new Location($param->getEndLine()),
-            (new Type())->fromPhpParser($param->type),
-            $this->readOnly($param->flags),
-        );
+        $property = PropertyBuilder::create(
+            $this->valueConverter,
+            $this->docBlockFactory,
+            $strategies,
+            $this->reducers,
+        )->fqsen(new Fqsen($methodContainer->getFqsen() . '::$' . (string) $param->var->name))
+            ->visibility($param)
+            ->type($param->type)
+            ->docblock($param->getDocComment())
+            ->default($param->default)
+            ->readOnly($this->readOnly($param->flags))
+            ->static(false)
+            ->startLocation(new Location($param->getLine(), $param->getStartFilePos()))
+            ->endLocation(new Location($param->getEndLine(), $param->getEndFilePos()))
+            ->hooks($param->hooks ?? [])
+            ->build($context);
 
         foreach ($this->reducers as $reducer) {
             $property = $reducer->reduce($context, $param, $strategies, $property);
@@ -88,44 +90,6 @@ final class ConstructorPromotion extends AbstractFactory
         }
 
         $methodContainer->addProperty($property);
-    }
-
-    private function buildPropertyVisibilty(int $flags): Visibility
-    {
-        if ((bool) ($flags & Modifiers::VISIBILITY_SET_MASK) !== false) {
-            return new AsyncVisibility(
-                $this->buildReadVisibility($flags),
-                $this->buildWriteVisibility($flags),
-            );
-        }
-
-        return $this->buildReadVisibility($flags);
-    }
-
-    private function buildReadVisibility(int $flags): Visibility
-    {
-        if ((bool) ($flags & Modifiers::PRIVATE) === true) {
-            return new Visibility(Visibility::PRIVATE_);
-        }
-
-        if ((bool) ($flags & Modifiers::PROTECTED) === true) {
-            return new Visibility(Visibility::PROTECTED_);
-        }
-
-        return new Visibility(Visibility::PUBLIC_);
-    }
-
-    private function buildWriteVisibility(int $flags): Visibility
-    {
-        if ((bool) ($flags & Modifiers::PRIVATE_SET) === true) {
-            return new Visibility(Visibility::PRIVATE_);
-        }
-
-        if ((bool) ($flags & Modifiers::PROTECTED_SET) === true) {
-            return new Visibility(Visibility::PROTECTED_);
-        }
-
-        return new Visibility(Visibility::PUBLIC_);
     }
 
     private function readOnly(int $flags): bool

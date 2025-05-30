@@ -8,6 +8,7 @@ use OutOfBoundsException;
 use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Php\File as FileElement;
 use phpDocumentor\Reflection\Php\Project;
+use phpDocumentor\Reflection\Php\PropertyHook;
 use phpDocumentor\Reflection\Types\Context as TypeContext;
 
 use function array_reverse;
@@ -15,14 +16,14 @@ use function end;
 
 final class ContextStack
 {
-    /** @var (Element|FileElement)[] */
+    /** @var (Element|FileElement|PropertyHook)[] */
     private array $elements = [];
 
     public function __construct(private readonly Project $project, private readonly TypeContext|null $typeContext = null)
     {
     }
 
-    /** @param (Element|FileElement)[] $elements */
+    /** @param (Element|FileElement|PropertyHook)[] $elements */
     private static function createFromSelf(Project $project, TypeContext|null $typeContext, array $elements): self
     {
         $self = new self($project, $typeContext);
@@ -31,7 +32,7 @@ final class ContextStack
         return $self;
     }
 
-    public function push(Element|FileElement $element): self
+    public function push(Element|FileElement|PropertyHook $element): self
     {
         $elements = $this->elements;
         $elements[] = $element;
@@ -54,7 +55,7 @@ final class ContextStack
         return $this->project;
     }
 
-    public function peek(): Element|FileElement
+    public function peek(): Element|FileElement|PropertyHook
     {
         $element = end($this->elements);
         if ($element === false) {
@@ -72,7 +73,7 @@ final class ContextStack
      *
      * @param class-string $type
      */
-    public function search(string $type): Element|FileElement|null
+    public function search(string $type): Element|FileElement|PropertyHook|null
     {
         $reverseElements = array_reverse($this->elements);
         foreach ($reverseElements as $element) {
