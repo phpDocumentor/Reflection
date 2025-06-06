@@ -7,6 +7,7 @@ namespace phpDocumentor\Reflection\Php\Factory;
 use phpDocumentor\Reflection\DocBlockFactoryInterface;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
+use phpDocumentor\Reflection\NodeVisitor\FindingVisitor;
 use phpDocumentor\Reflection\Php\AsymmetricVisibility;
 use phpDocumentor\Reflection\Php\Factory\Reducer\Reducer;
 use phpDocumentor\Reflection\Php\Property as PropertyElement;
@@ -15,16 +16,21 @@ use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Php\Visibility;
 use PhpParser\Comment\Doc;
 use PhpParser\Modifiers;
+use PhpParser\Node;
 use PhpParser\Node\ComplexType;
 use PhpParser\Node\Expr;
+use PhpParser\Node\Expr\PropertyFetch;
+use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\Param;
 use PhpParser\Node\PropertyHook as PropertyHookNode;
+use PhpParser\NodeTraverser;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
 
 use function array_filter;
 use function array_map;
+use function count;
 use function method_exists;
 
 /**
@@ -141,6 +147,14 @@ final class PropertyBuilder
 
     public function build(ContextStack $context): PropertyElement
     {
+        $hooks = array_filter(array_map(
+            fn (PropertyHookNode $hook) => $this->buildHook($hook, $context, $this->visibility),
+            $this->hooks,
+        ));
+
+        // Check if this is a virtual property by examining all hooks
+        $isVirtual = $this->isVirtualProperty($this->hooks, $this->fqsen->getName());
+
         return new PropertyElement(
             $this->fqsen,
             $this->visibility,
@@ -151,10 +165,8 @@ final class PropertyBuilder
             $this->endLocation,
             (new Type())->fromPhpParser($this->type),
             $this->readOnly,
-            array_filter(array_map(
-                fn (PropertyHookNode $hook) => $this->buildHook($hook, $context, $this->visibility),
-                $this->hooks,
-            )),
+            $hooks,
+            $isVirtual,
         );
     }
 
@@ -264,6 +276,59 @@ final class PropertyBuilder
         return $result;
     }
 
+    /**
+     * Detects if a property is virtual by checking if any of its hooks reference the property itself.
+     *
+     * A virtual property is one where no defined hook references the property itself.
+     * For example, in the 'get' hook, it doesn't use $this->propertyName.
+     *
+     * @param PropertyHookNode[] $hooks The property hooks to check
+     * @param string $propertyName The name of the property
+     *
+     * @return bool True if the property is virtual, false otherwise
+     */
+    private function isVirtualProperty(array $hooks, string $propertyName): bool
+    {
+        if (empty($hooks)) {
+            return false;
+        }
+
+        foreach ($hooks as $hook) {
+            $stmts = $hook->getStmts();
+
+            if ($stmts === null || count($stmts) === 0) {
+                continue;
+            }
+
+            $finder = new FindingVisitor(
+                static function (Node $node) use ($propertyName) {
+                    // Check if the node is a property fetch that references the property
+                    return $node instanceof PropertyFetch && $node->name instanceof Identifier &&
+                        $node->name->toString() === $propertyName &&
+                        $node->var instanceof Variable &&
+                        $node->var->name === 'this';
+                },
+            );
+
+            $traverser = new NodeTraverser($finder);
+            $traverser->traverse($stmts);
+
+            if ($finder->getFoundNode() !== null) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Builds the hook visibility based on the hook name and property visibility.
+     *
+     * @param string $hookName The name of the hook ('get' or 'set')
+     * @param Visibility $propertyVisibility The visibility of the property
+     *
+     * @return Visibility The appropriate visibility for the hook
+     */
     private function buildHookVisibility(string $hookName, Visibility $propertyVisibility): Visibility
     {
         if ($propertyVisibility instanceof AsymmetricVisibility === false) {

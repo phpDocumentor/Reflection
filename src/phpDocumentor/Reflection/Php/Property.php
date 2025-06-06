@@ -55,6 +55,7 @@ final class Property implements Element, MetaDataContainerInterface, AttributeCo
         private readonly Type|null $type = null,
         private readonly bool $readOnly = false,
         private readonly array $hooks = [],
+        private readonly bool $virtual = false,
     ) {
         $this->visibility = $visibility ?: new Visibility('public');
         $this->location = $location ?: new Location(-1);
@@ -153,5 +154,15 @@ final class Property implements Element, MetaDataContainerInterface, AttributeCo
     public function getHooks(): array
     {
         return $this->hooks;
+    }
+
+    /**
+     * Returns true when this property is virtual (not explicitly backed).
+     *
+     * A virtual property is one where no defined hook references the property itself.
+     */
+    public function isVirtual(): bool
+    {
+        return $this->virtual;
     }
 }
