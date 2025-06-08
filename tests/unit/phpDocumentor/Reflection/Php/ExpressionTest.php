@@ -29,9 +29,7 @@ final class ExpressionTest extends TestCase
     private const EXAMPLE_FQSEN = '\\' . self::class;
     private const EXAMPLE_FQSEN_PLACEHOLDER = '{{ PHPDOC0450ed2a7bac1efcf0c13b6560767954 }}';
 
-    /**
-     * @covers ::generatePlaceholder
-     */
+    /** @covers ::generatePlaceholder */
     public function testGeneratingPlaceholder(): void
     {
         $placeholder = Expression::generatePlaceholder(self::EXAMPLE_FQSEN);
@@ -39,9 +37,7 @@ final class ExpressionTest extends TestCase
         self::assertSame(self::EXAMPLE_FQSEN_PLACEHOLDER, $placeholder);
     }
 
-    /**
-     * @covers ::generatePlaceholder
-     */
+    /** @covers ::generatePlaceholder */
     public function testGeneratingPlaceholderErrorsUponPassingAnEmptyName(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -49,9 +45,7 @@ final class ExpressionTest extends TestCase
         Expression::generatePlaceholder('');
     }
 
-    /**
-     * @covers ::__construct
-     */
+    /** @covers ::__construct */
     public function testExpressionTemplateCannotBeEmpty(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -59,9 +53,7 @@ final class ExpressionTest extends TestCase
         new Expression('', []);
     }
 
-    /**
-     * @covers ::__construct
-     */
+    /** @covers ::__construct */
     public function testPartsShouldContainFqsensOrTypes(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -99,9 +91,7 @@ final class ExpressionTest extends TestCase
         self::assertSame($parts, $result);
     }
 
-    /**
-     * @covers ::__toString
-     */
+    /** @covers ::__toString */
     public function testReplacePlaceholdersWhenCastingToString(): void
     {
         $expressionTemplate = sprintf('This is an %s expression', self::EXAMPLE_FQSEN_PLACEHOLDER);
@@ -113,9 +103,7 @@ final class ExpressionTest extends TestCase
         self::assertSame(sprintf('This is an %s expression', self::EXAMPLE_FQSEN), $result);
     }
 
-    /**
-     * @covers ::render
-     */
+    /** @covers ::render */
     public function testRenderingExpressionWithoutOverridesIsTheSameAsWhenCastingToString(): void
     {
         $expressionTemplate = sprintf('This is an %s expression', self::EXAMPLE_FQSEN_PLACEHOLDER);
@@ -127,9 +115,7 @@ final class ExpressionTest extends TestCase
         self::assertSame((string) $expression, $result);
     }
 
-    /**
-     * @covers ::render
-     */
+    /** @covers ::render */
     public function testOverridePartsWhenRenderingExpression(): void
     {
         $replacement = 'ExpressionTest';

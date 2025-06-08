@@ -49,6 +49,8 @@ use function str_replace;
  *     for the definition of expressions in PHP.
  * @link https://www.rfc-editor.org/rfc/rfc6570 for more information on URI Templates.
  * @see ExpressionPrinter how an expression coming from PHP-Parser is transformed into an expression.
+ *
+ * @api
  */
 final class Expression
 {
@@ -82,9 +84,7 @@ final class Expression
         return '{{ PHPDOC' . md5($name) . ' }}';
     }
 
-    /**
-     * @param array<string, Fqsen|Type> $parts
-     */
+    /** @param array<string, Fqsen|Type> $parts */
     public function __construct(string $expression, array $parts = [])
     {
         Assert::notEmpty($expression);

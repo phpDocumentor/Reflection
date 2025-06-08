@@ -17,6 +17,7 @@ use Override;
 use phpDocumentor\Reflection\Fqsen;
 use PhpParser\Node;
 use PhpParser\Node\Const_;
+use PhpParser\Node\PropertyItem;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassMethod;
@@ -72,6 +73,7 @@ final class ElementNameResolver extends NodeVisitorAbstract
             case ClassMethod::class:
             case Trait_::class:
             case PropertyProperty::class:
+            case PropertyItem::class:
             case Node\PropertyItem::class:
             case ClassConst::class:
             case Const_::class:

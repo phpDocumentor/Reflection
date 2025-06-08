@@ -19,9 +19,9 @@ use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Class_;
 use phpDocumentor\Reflection\Php\Constant as ConstantElement;
 use phpDocumentor\Reflection\Php\Enum_;
-use phpDocumentor\Reflection\Php\Factory\Reducer\Reducer;
 use phpDocumentor\Reflection\Php\Expression;
 use phpDocumentor\Reflection\Php\Expression\ExpressionPrinter;
+use phpDocumentor\Reflection\Php\Factory\Reducer\Reducer;
 use phpDocumentor\Reflection\Php\Interface_;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Php\Trait_;
@@ -109,7 +109,7 @@ final class ClassConstant extends AbstractFactory
         return null;
     }
 
-    private function determineValue(ClassConstantIterator $value): Expression|null
+    private function determineValue(ClassConstantIterator $value): Expression
     {
         $expression = $this->valueConverter->prettyPrintExpr($value->getValue());
         if ($this->valueConverter instanceof ExpressionPrinter) {

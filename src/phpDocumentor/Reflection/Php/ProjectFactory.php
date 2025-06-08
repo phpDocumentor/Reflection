@@ -70,7 +70,7 @@ final class ProjectFactory implements ProjectFactoryInterface
         $expressionPrinter = new ExpressionPrinter();
 
         $attributeReducer = new Attribute();
-        $parameterReducer = new Parameter(new PrettyPrinter());
+        $parameterReducer = new Parameter($expressionPrinter);
 
         $methodStrategy =  new Method($docblockFactory, [$attributeReducer, $parameterReducer]);
 
@@ -79,10 +79,10 @@ final class ProjectFactory implements ProjectFactoryInterface
                 new \phpDocumentor\Reflection\Php\Factory\Namespace_(),
                 new Class_($docblockFactory, [$attributeReducer]),
                 new Enum_($docblockFactory, [$attributeReducer]),
-                new EnumCase($docblockFactory, new PrettyPrinter(), [$attributeReducer]),
-                new Define($docblockFactory, new PrettyPrinter()),
-                new GlobalConstant($docblockFactory, new PrettyPrinter()),
-                new ClassConstant($docblockFactory, new PrettyPrinter(), [$attributeReducer]),
+                new EnumCase($docblockFactory, $expressionPrinter, [$attributeReducer]),
+                new Define($docblockFactory, $expressionPrinter),
+                new GlobalConstant($docblockFactory, $expressionPrinter),
+                new ClassConstant($docblockFactory, $expressionPrinter, [$attributeReducer]),
                 new Factory\File($docblockFactory, NodesFactory::createInstance()),
                 new Function_($docblockFactory, [$attributeReducer, $parameterReducer]),
                 new Interface_($docblockFactory, [$attributeReducer]),

@@ -18,16 +18,12 @@ use phpDocumentor\Reflection\DocBlockFactoryInterface;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Class_;
 use phpDocumentor\Reflection\Php\Factory\Reducer\Reducer;
-use phpDocumentor\Reflection\Php\Expression;
-use phpDocumentor\Reflection\Php\Expression\ExpressionPrinter;
 use phpDocumentor\Reflection\Php\Property as PropertyDescriptor;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Php\Trait_;
 use PhpParser\Node\Stmt\Property as PropertyNode;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
 use Webmozart\Assert\Assert;
-
-use function is_string;
 
 /**
  * Strategy to convert PropertyIterator to PropertyDescriptor
@@ -88,7 +84,7 @@ final class Property extends AbstractFactory
                 ->visibility($stmt)
                 ->type($stmt->getType())
                 ->docblock($stmt->getDocComment())
-                ->default($this->determineDefault($stmt))
+                ->default($stmt->getDefault())
                 ->static($stmt->isStatic())
                 ->startLocation(new Location($stmt->getLine()))
                 ->endLocation(new Location($stmt->getEndLine()))
@@ -105,26 +101,8 @@ final class Property extends AbstractFactory
             }
 
             $propertyContainer->addProperty($property);
-
-        }
-    }
-
-    private function determineDefault(PropertyIterator $value): Expression|null
-    {
-        $default = $value->getDefault();
-        $expression = $default !== null ? $this->valueConverter->prettyPrintExpr($default) : null;
-        if ($expression === null) {
-            return null;
         }
 
-        if ($this->valueConverter instanceof ExpressionPrinter) {
-            $expression = new Expression($expression, $this->valueConverter->getParts());
-        }
-
-        if (is_string($expression)) {
-            $expression = new Expression($expression, []);
-        }
-
-        return $expression;
+        return null;
     }
 }

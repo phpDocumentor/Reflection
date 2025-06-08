@@ -47,14 +47,16 @@ final class EnumCase implements Element, MetaDataContainerInterface, AttributeCo
 
         $this->location = $location;
         $this->endLocation = $endLocation;
-        if (is_string($this->value)) {
-            trigger_error(
-                'Expression values for enum cases should be of type Expression, support for strings will be '
-                . 'removed in 7.x',
-                E_USER_DEPRECATED
-            );
-            $this->value = new Expression($this->value, []);
+        if (!is_string($this->value)) {
+            return;
         }
+
+        trigger_error(
+            'Expression values for enum cases should be of type Expression, support for strings will be '
+            . 'removed in 7.x',
+            E_USER_DEPRECATED,
+        );
+        $this->value = new Expression($this->value, []);
     }
 
     #[Override]
@@ -96,7 +98,7 @@ final class EnumCase implements Element, MetaDataContainerInterface, AttributeCo
         if ($asString) {
             trigger_error(
                 'The enum case value will become of type Expression by default',
-                E_USER_DEPRECATED
+                E_USER_DEPRECATED,
             );
 
             return (string) $this->value;

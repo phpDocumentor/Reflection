@@ -9,9 +9,9 @@ use phpDocumentor\Reflection\DocBlockFactoryInterface;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Enum_ as EnumElement;
 use phpDocumentor\Reflection\Php\EnumCase as EnumCaseElement;
-use phpDocumentor\Reflection\Php\Factory\Reducer\Reducer;
 use phpDocumentor\Reflection\Php\Expression as ValueExpression;
 use phpDocumentor\Reflection\Php\Expression\ExpressionPrinter;
+use phpDocumentor\Reflection\Php\Factory\Reducer\Reducer;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use PhpParser\Node\Stmt\EnumCase as EnumCaseNode;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
@@ -44,13 +44,17 @@ final class EnumCase extends AbstractFactory
         $enum = $context->peek();
         assert($enum instanceof EnumElement);
 
-        $enum->addCase(new EnumCaseElement(
+        $case = new EnumCaseElement(
             $object->getAttribute('fqsen'),
             $docBlock,
             new Location($object->getLine()),
             new Location($object->getEndLine()),
             $this->determineValue($object),
-        ));
+        );
+
+        $enum->addCase($case);
+
+        return $case;
     }
 
     private function determineValue(EnumCaseNode $value): ValueExpression|null

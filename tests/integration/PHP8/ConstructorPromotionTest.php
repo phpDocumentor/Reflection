@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace integration\PHP8;
 
 use DateTimeImmutable;
-use DateTimeImmutable;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlock\Tags\Param;
 use phpDocumentor\Reflection\DocBlock\Tags\Var_;
@@ -15,8 +14,8 @@ use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Argument;
 use phpDocumentor\Reflection\Php\Expression;
 use phpDocumentor\Reflection\Php\Method;
-use phpDocumentor\Reflection\Php\ProjectFactory;
 use phpDocumentor\Reflection\Php\Project;
+use phpDocumentor\Reflection\Php\ProjectFactory;
 use phpDocumentor\Reflection\Php\Property;
 use phpDocumentor\Reflection\Php\Visibility;
 use phpDocumentor\Reflection\Types\Array_;
@@ -51,7 +50,7 @@ class ConstructorPromotionTest extends TestCase
         $file = $this->project->getFiles()[self::FILE];
         $class = $file->getClasses()['\\PHP8\\ConstructorPromotion'];
 
-        $constructor = $this->expectedContructorMethod();
+        $constructor = $this->expectedConstructorMethod();
         $constructor->addArgument(new Argument('name', new String_(), "'default name'"));
         $constructor->addArgument(new Argument('email', new Object_(new Fqsen('\\PHP8\\Email'))));
         $constructor->addArgument(new Argument('birth_date', new Object_(new Fqsen('\\' . DateTimeImmutable::class))));
@@ -72,12 +71,12 @@ class ConstructorPromotionTest extends TestCase
                 'uses_constants',
                 new Array_(),
                 new Expression(
-                    '[{{ PHPDOC590f53e8699817c6fa498cc11a4cbe63 }}]',
+                    '[{{ PHPDOC19b72d1f430d952a8dfe2384dd4e93dc }}]',
                     [
-                        '{{ PHPDOC590f53e8699817c6fa498cc11a4cbe63 }}' => new Fqsen('\PHP8\ConstructorPromotion::DEFAULT_VALUE')
-                    ]
-                )
-            )
+                        '{{ PHPDOC19b72d1f430d952a8dfe2384dd4e93dc }}' => new Fqsen('\PHP8\ConstructorPromotion::DEFAULT_VALUE'),
+                    ],
+                ),
+            ),
         );
 
         self::assertEquals($constructor, $class->getMethods()['\PHP8\ConstructorPromotion::__construct()']);
@@ -94,6 +93,7 @@ class ConstructorPromotionTest extends TestCase
                 '\PHP8\ConstructorPromotion::$email' => $this->expectedEmailProperty(),
                 '\PHP8\ConstructorPromotion::$birth_date' => $this->expectedBirthDateProperty(),
                 '\PHP8\ConstructorPromotion::$created_at' => $this->expectedCreatedAtProperty(),
+                '\PHP8\ConstructorPromotion::$uses_constants' => $this->expectedUsesConstantsProperty(),
             ],
             $class->getProperties()
         );
@@ -121,7 +121,7 @@ class ConstructorPromotionTest extends TestCase
             false,
             false,
             new Location(18, 264),
-            new Location(31, 709)
+            new Location(31, 704)
         );
     }
 
@@ -140,8 +140,8 @@ class ConstructorPromotionTest extends TestCase
             ),
             "'default name'",
             false,
-            new Location(26, 393),
-            new Location(26, 428),
+            new Location(26),
+            new Location(26),
             new String_()
         );
     }
@@ -152,11 +152,16 @@ class ConstructorPromotionTest extends TestCase
             new Fqsen('\PHP8\ConstructorPromotion::$email'),
             new Visibility(Visibility::PROTECTED_),
             null,
-            null,
+            new Expression(
+                'new {{PHPDOCce8ae9da5b7cd6c3df2929543a9af92d}}()',
+                [
+                    '{{ PHPDOCce8ae9da5b7cd6c3df2929543a9af92d }}' => new Fqsen('\\PHP8\\Email'),
+                ],
+            ),
             false,
-            new Location(27, 439),
-            new Location(27, 460),
-            new Object_(new Fqsen('\\PHP8\\Email'))
+            new Location(27),
+            new Location(27),
+            New Object_(new Fqsen('\\PHP8\\Email')),
         );
     }
 
@@ -183,13 +188,32 @@ class ConstructorPromotionTest extends TestCase
             new Expression(
                 'new {{ PHPDOC6ffacd918e2f70478d2fd33dcb58c4d4 }}(\'now\')',
                 [
-                    '{{ PHPDOC6ffacd918e2f70478d2fd33dcb58c4d4 }}' => new Fqsen('\\DateTimeImmutable')
-                ]
+                    '{{ PHPDOC6ffacd918e2f70478d2fd33dcb58c4d4 }}' => new Fqsen('\\DateTimeImmutable'),
+                ],
             ),
             false,
             new Location(29),
             new Location(29),
-            new Object_(new Fqsen('\\' . DateTimeImmutable::class))
+            new Object_(new Fqsen('\\' . DateTimeImmutable::class)),
+        );
+    }
+
+    private function expectedUsesConstantsProperty()
+    {
+        return new Property(
+            new Fqsen('\PHP8\ConstructorPromotion::$uses_constants'),
+            new Visibility(Visibility::PRIVATE_),
+            null,
+            new Expression(
+                '[{{ PHPDOC19b72d1f430d952a8dfe2384dd4e93dc }}]',
+                [
+                    '{{ PHPDOC19b72d1f430d952a8dfe2384dd4e93dc }}' => new Fqsen('\PHP8\ConstructorPromotion::DEFAULT_VALUE'),
+                ],
+            ),
+            false,
+            new Location(30),
+            new Location(30),
+            new Array_(),
         );
     }
 }

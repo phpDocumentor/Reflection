@@ -29,6 +29,10 @@
     </MixedArgumentTypeCoercion>
   </file>
   <file src="src/phpDocumentor/Reflection/NodeVisitor/ElementNameResolver.php">
+    <DeprecatedClass>
+      <code><![CDATA[PropertyProperty::class]]></code>
+      <code><![CDATA[PropertyProperty::class]]></code>
+    </DeprecatedClass>
     <ImplicitToStringCast>
       <code><![CDATA[$node->name]]></code>
       <code><![CDATA[$node->name]]></code>
@@ -53,9 +57,6 @@
     <PossiblyUndefinedMethod>
       <code><![CDATA[addConstant]]></code>
     </PossiblyUndefinedMethod>
-    <RedundantCondition>
-      <code><![CDATA[$const->getValue() !== null]]></code>
-    </RedundantCondition>
   </file>
   <file src="src/phpDocumentor/Reflection/Php/Factory/ClassConstantIterator.php">
     <MixedReturnStatement>
@@ -114,11 +115,6 @@
     <MixedArgument>
       <code><![CDATA[$object->getAttribute('fqsen')]]></code>
     </MixedArgument>
-  </file>
-  <file src="src/phpDocumentor/Reflection/Php/Factory/GlobalConstant.php">
-    <RedundantCondition>
-      <code><![CDATA[$const->getValue() !== null]]></code>
-    </RedundantCondition>
   </file>
   <file src="src/phpDocumentor/Reflection/Php/Factory/GlobalConstantIterator.php">
     <MixedReturnStatement>

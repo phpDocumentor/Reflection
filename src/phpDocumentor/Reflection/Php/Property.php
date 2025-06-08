@@ -66,14 +66,16 @@ final class Property implements Element, MetaDataContainerInterface, AttributeCo
         $this->location = $location ?: new Location(-1);
         $this->endLocation = $endLocation ?: new Location(-1);
 
-        if (is_string($this->default)) {
-            trigger_error(
-                'Default values for properties should be of type Expression, support for strings will be '
-                . 'removed in 7.x',
-                E_USER_DEPRECATED
-            );
-            $this->default = new Expression($this->default, []);
+        if (!is_string($this->default)) {
+            return;
         }
+
+        trigger_error(
+            'Default values for properties should be of type Expression, support for strings will be '
+            . 'removed in 7.x',
+            E_USER_DEPRECATED,
+        );
+        $this->default = new Expression($this->default, []);
     }
 
     /**
@@ -88,7 +90,7 @@ final class Property implements Element, MetaDataContainerInterface, AttributeCo
         if ($asString) {
             trigger_error(
                 'The Default value will become of type Expression by default',
-                E_USER_DEPRECATED
+                E_USER_DEPRECATED,
             );
 
             return (string) $this->default;

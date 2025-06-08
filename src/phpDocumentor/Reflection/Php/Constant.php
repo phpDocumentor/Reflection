@@ -43,8 +43,6 @@ final class Constant implements Element, MetaDataContainerInterface, AttributeCo
 
     /**
      * Initializes the object.
-     *
-     * @param Expression|string|null $value
      */
     public function __construct(
         private readonly Fqsen $fqsen,
@@ -59,14 +57,16 @@ final class Constant implements Element, MetaDataContainerInterface, AttributeCo
         $this->endLocation = $endLocation ?: new Location(-1);
         $this->visibility = $visibility ?: new Visibility(Visibility::PUBLIC_);
 
-        if (is_string($this->value)) {
-            trigger_error(
-                'Constant values should be of type Expression, support for strings will be '
-                . 'removed in 6.x',
-                E_USER_DEPRECATED
-            );
-            $this->value = new Expression($this->value, []);
+        if (!is_string($this->value)) {
+            return;
         }
+
+        trigger_error(
+            'Constant values should be of type Expression, support for strings will be '
+            . 'removed in 6.x',
+            E_USER_DEPRECATED,
+        );
+        $this->value = new Expression($this->value, []);
     }
 
     /**
@@ -81,7 +81,7 @@ final class Constant implements Element, MetaDataContainerInterface, AttributeCo
         if ($asString) {
             trigger_error(
                 'The expression value will become of type Expression by default',
-                E_USER_DEPRECATED
+                E_USER_DEPRECATED,
             );
 
             return (string) $this->value;

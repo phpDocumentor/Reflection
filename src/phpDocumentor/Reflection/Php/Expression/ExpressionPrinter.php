@@ -16,6 +16,7 @@ namespace phpDocumentor\Reflection\Php\Expression;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\Expression;
 use phpDocumentor\Reflection\Type;
+use PhpParser\Node\Expr;
 use PhpParser\Node\Name;
 use PhpParser\PrettyPrinter\Standard;
 
@@ -50,9 +51,20 @@ final class ExpressionPrinter extends Standard
         return $placeholder;
     }
 
-    /**
-     * @return array<string, Fqsen|Type>
-     */
+    // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
+    protected function pExpr_ClassConstFetch(Expr\ClassConstFetch $node): string
+    {
+        $renderedName = parent::pObjectProperty($node->name);
+        $className = $node->class instanceof Name ? parent::pName($node->class) : $this->p($node->class);
+        $placeholder = Expression::generatePlaceholder($renderedName);
+        $this->parts[$placeholder] = new Fqsen(
+            '\\' . $className . '::' . $renderedName,
+        );
+
+        return $placeholder;
+    }
+
+    /** @return array<string, Fqsen|Type> */
     public function getParts(): array
     {
         return $this->parts;

@@ -11,8 +11,6 @@ use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Class_ as ClassElement;
 use phpDocumentor\Reflection\Php\Factory\Reducer\Reducer;
-use phpDocumentor\Reflection\Php\Expression;
-use phpDocumentor\Reflection\Php\Expression\ExpressionPrinter;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use PhpParser\Modifiers;
@@ -21,8 +19,6 @@ use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
 use Webmozart\Assert\Assert;
-
-use function is_string;
 
 final class ConstructorPromotion extends AbstractFactory
 {
@@ -80,11 +76,11 @@ final class ConstructorPromotion extends AbstractFactory
             ->visibility($param)
             ->type($param->type)
             ->docblock($param->getDocComment())
-            ->default($this->determineDefault($param))
+            ->default($param->default)
             ->readOnly($this->readOnly($param->flags))
             ->static(false)
-            ->startLocation(new Location($param->getLine(), $param->getStartFilePos()))
-            ->endLocation(new Location($param->getEndLine(), $param->getEndFilePos()))
+            ->startLocation(new Location($param->getLine()))
+            ->endLocation(new Location($param->getEndLine()))
             ->hooks($param->hooks ?? [])
             ->build($context);
 
@@ -97,24 +93,6 @@ final class ConstructorPromotion extends AbstractFactory
         }
 
         $methodContainer->addProperty($property);
-    }
-
-    private function determineDefault(Param $value): Expression|null
-    {
-        $expression = $value->default !== null ? $this->valueConverter->prettyPrintExpr($value->default) : null;
-        if ($expression === null) {
-            return null;
-        }
-
-        if ($this->valueConverter instanceof ExpressionPrinter) {
-            $expression = new Expression($expression, $this->valueConverter->getParts());
-        }
-
-        if (is_string($expression)) {
-            $expression = new Expression($expression, []);
-        }
-
-        return $expression;
     }
 
     private function readOnly(int $flags): bool
