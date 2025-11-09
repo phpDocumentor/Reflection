@@ -16,6 +16,7 @@ use phpDocumentor\Reflection\Php\Property as PropertyElement;
 use phpDocumentor\Reflection\Php\PropertyHook;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Php\Visibility;
+use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Comment\Doc;
 use PhpParser\Modifiers;
 use PhpParser\Node;
@@ -163,7 +164,7 @@ final class PropertyBuilder
             $this->fqsen,
             $this->visibility,
             $this->docblock !== null ? $this->docBlockFactory->create($this->docblock->getText(), $context->getTypeContext()) : null,
-            $this->determineDefault(),
+            $this->determineDefault($context->getTypeContext()),
             $this->static,
             $this->startLocation,
             $this->endLocation,
@@ -346,9 +347,14 @@ final class PropertyBuilder
         };
     }
 
-    private function determineDefault(): Expression|null
+    private function determineDefault(Context|null $context): Expression|null
     {
-        $expression = $this->default !== null ? $this->valueConverter->prettyPrintExpr($this->default) : null;
+        if ($this->valueConverter instanceof ExpressionPrinter) {
+            $expression = $this->default !== null ? $this->valueConverter->prettyPrintExpr($this->default, $context) : null;
+        } else {
+            $expression = $this->default !== null ? $this->valueConverter->prettyPrintExpr($this->default) : null;
+        }
+
         if ($expression === null) {
             return null;
         }

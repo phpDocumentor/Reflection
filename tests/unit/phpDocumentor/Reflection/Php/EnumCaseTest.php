@@ -81,7 +81,6 @@ final class EnumCaseTest extends TestCase
         $this->assertSame($this->docBlock, $fixture->getDocBlock());
     }
 
-    /** @covers ::getValue */
     public function testValueCanBeOmitted(): void
     {
         $fixture = new EnumCase(
@@ -92,11 +91,6 @@ final class EnumCaseTest extends TestCase
         $this->assertNull($fixture->getValue());
     }
 
-    /**
-     * @uses Expression
-     *
-     * @covers ::getValue
-     */
     public function testValueCanBeProvidedAsAnExpression(): void
     {
         $expression = new Expression('Enum case expression');
@@ -111,11 +105,6 @@ final class EnumCaseTest extends TestCase
         $this->assertSame($expression, $fixture->getValue(false));
     }
 
-    /**
-     * @uses Expression
-     *
-     * @covers ::getValue
-     */
     public function testValueCanBeReturnedAsString(): void
     {
         $expression = new Expression('Enum case expression');
@@ -130,7 +119,6 @@ final class EnumCaseTest extends TestCase
         $this->assertSame('Enum case expression', $fixture->getValue(true));
     }
 
-    /** @covers ::getLocation */
     public function testGetLocationReturnsProvidedValue(): void
     {
         $location = new Location(15, 10);
@@ -143,11 +131,6 @@ final class EnumCaseTest extends TestCase
         self::assertSame($location, $fixture->getLocation());
     }
 
-    /**
-     * @uses Location
-     *
-     * @covers ::getLocation
-     */
     public function testGetLocationReturnsUnknownByDefault(): void
     {
         $fixture = new EnumCase(
@@ -158,7 +141,6 @@ final class EnumCaseTest extends TestCase
         self::assertEquals(new Location(-1), $fixture->getLocation());
     }
 
-    /** @covers ::getEndLocation */
     public function testGetEndLocationReturnsProvidedValue(): void
     {
         $location = new Location(11, 23);
@@ -172,7 +154,6 @@ final class EnumCaseTest extends TestCase
         self::assertSame($location, $fixture->getEndLocation());
     }
 
-    /** @covers ::getEndLocation */
     public function testGetEndLocationReturnsUnknownByDefault(): void
     {
         $fixture = new EnumCase(

@@ -14,6 +14,7 @@ use phpDocumentor\Reflection\Php\Function_;
 use phpDocumentor\Reflection\Php\Method;
 use phpDocumentor\Reflection\Php\PropertyHook;
 use phpDocumentor\Reflection\Php\StrategyContainer;
+use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\FunctionLike;
 use PhpParser\Node\Param;
@@ -50,7 +51,7 @@ class Parameter implements Reducer
                 new ArgumentDescriptor(
                     is_string($param->var->name) ? $param->var->name : $this->valueConverter->prettyPrintExpr($param->var->name),
                     (new Type())->fromPhpParser($param->type),
-                    $this->determineDefault($param),
+                    $this->determineDefault($param, $context->getTypeContext()),
                     $param->byRef,
                     $param->variadic,
                 ),
@@ -60,9 +61,14 @@ class Parameter implements Reducer
         return $carry;
     }
 
-    private function determineDefault(Param $value): Expression|null
+    private function determineDefault(Param $value, Context|null $context): Expression|null
     {
-        $expression = $value->default !== null ? $this->valueConverter->prettyPrintExpr($value->default) : null;
+        if ($this->valueConverter instanceof ExpressionPrinter) {
+            $expression = $value->default !== null ? $this->valueConverter->prettyPrintExpr($value->default, $context) : null;
+        } else {
+            $expression = $value->default !== null ? $this->valueConverter->prettyPrintExpr($value->default) : null;
+        }
+
         if ($expression === null) {
             return null;
         }
