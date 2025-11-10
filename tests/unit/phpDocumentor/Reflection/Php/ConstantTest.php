@@ -42,7 +42,7 @@ final class ConstantTest extends TestCase
     {
         $this->fqsen = new Fqsen('\MySpace\CONSTANT');
         $this->docBlock = new DocBlock('');
-        $this->fixture = new Constant($this->fqsen, $this->docBlock, $this->value);
+        $this->fixture = new Constant($this->fqsen, $this->docBlock, new Expression($this->value));
     }
 
     private function getFixture(): MetaDataContainerInterface
@@ -52,28 +52,28 @@ final class ConstantTest extends TestCase
 
     public function testGetValue(): void
     {
-        $this->assertSame($this->value, $this->fixture->getValue());
+        self::assertEquals(new Expression($this->value), $this->fixture->getValue());
     }
 
     public function testIsFinal(): void
     {
-        $this->assertFalse($this->fixture->isFinal());
+        self::assertFalse($this->fixture->isFinal());
     }
 
     public function testGetFqsen(): void
     {
-        $this->assertSame($this->fqsen, $this->fixture->getFqsen());
-        $this->assertSame($this->fqsen->getName(), $this->fixture->getName());
+        self::assertSame($this->fqsen, $this->fixture->getFqsen());
+        self::assertSame($this->fqsen->getName(), $this->fixture->getName());
     }
 
     public function testGetDocblock(): void
     {
-        $this->assertSame($this->docBlock, $this->fixture->getDocBlock());
+        self::assertSame($this->docBlock, $this->fixture->getDocBlock());
     }
 
     public function testGetVisibility(): void
     {
-        $this->assertEquals(new Visibility(Visibility::PUBLIC_), $this->fixture->getVisibility());
+        self::assertEquals(new Visibility(Visibility::PUBLIC_), $this->fixture->getVisibility());
     }
 
     public function testLineAndColumnNumberIsReturnedWhenALocationIsProvided(): void

@@ -16,6 +16,11 @@ namespace phpDocumentor\Reflection\Php;
 use phpDocumentor\Reflection\Type;
 use phpDocumentor\Reflection\Types\Mixed_;
 
+use function is_string;
+use function trigger_error;
+
+use const E_USER_DEPRECATED;
+
 /**
  * Descriptor representing a single Argument of a method or function.
  *
@@ -33,8 +38,8 @@ final class Argument
         /** @var string name of the Argument */
         private readonly string $name,
         Type|null $type = null,
-        /** @var string|null the default value for an argument or null if none is provided */
-        private readonly string|null $default = null,
+        /** @var Expression|string|null the default value for an argument or null if none is provided */
+        private Expression|string|null $default = null,
         /** @var bool whether the argument passes the parameter by reference instead of by value */
         private readonly bool $byReference = false,
         /** @var bool Determines if this Argument represents a variadic argument */
@@ -42,6 +47,15 @@ final class Argument
     ) {
         if ($type === null) {
             $type = new Mixed_();
+        }
+
+        if (is_string($this->default)) {
+            trigger_error(
+                'Default values for arguments should be of type Expression, support for strings will be '
+                . 'removed in 7.x',
+                E_USER_DEPRECATED,
+            );
+            $this->default = new Expression($this->default, []);
         }
 
         $this->type = $type;
@@ -60,8 +74,21 @@ final class Argument
         return $this->type;
     }
 
-    public function getDefault(): string|null
+    public function getDefault(bool $asString = true): Expression|string|null
     {
+        if ($this->default === null) {
+            return null;
+        }
+
+        if ($asString) {
+            trigger_error(
+                'The Default value will become of type Expression by default',
+                E_USER_DEPRECATED,
+            );
+
+            return (string) $this->default;
+        }
+
         return $this->default;
     }
 

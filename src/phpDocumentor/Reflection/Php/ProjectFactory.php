@@ -18,6 +18,7 @@ use phpDocumentor\Reflection\DocBlockFactory;
 use phpDocumentor\Reflection\Exception;
 use phpDocumentor\Reflection\File as SourceFile;
 use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\Php\Expression\ExpressionPrinter;
 use phpDocumentor\Reflection\Php\Factory\Class_;
 use phpDocumentor\Reflection\Php\Factory\ClassConstant;
 use phpDocumentor\Reflection\Php\Factory\ConstructorPromotion;
@@ -38,7 +39,6 @@ use phpDocumentor\Reflection\Php\Factory\Trait_;
 use phpDocumentor\Reflection\Php\Factory\TraitUse;
 use phpDocumentor\Reflection\Project as ProjectInterface;
 use phpDocumentor\Reflection\ProjectFactory as ProjectFactoryInterface;
-use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
 
 use function is_array;
 
@@ -67,9 +67,10 @@ final class ProjectFactory implements ProjectFactoryInterface
     public static function createInstance(): self
     {
         $docblockFactory = DocBlockFactory::createInstance();
+        $expressionPrinter = new ExpressionPrinter();
 
         $attributeReducer = new Attribute();
-        $parameterReducer = new Parameter(new PrettyPrinter());
+        $parameterReducer = new Parameter($expressionPrinter);
 
         $methodStrategy =  new Method($docblockFactory, [$attributeReducer, $parameterReducer]);
 
@@ -78,15 +79,15 @@ final class ProjectFactory implements ProjectFactoryInterface
                 new \phpDocumentor\Reflection\Php\Factory\Namespace_(),
                 new Class_($docblockFactory, [$attributeReducer]),
                 new Enum_($docblockFactory, [$attributeReducer]),
-                new EnumCase($docblockFactory, new PrettyPrinter(), [$attributeReducer]),
-                new Define($docblockFactory, new PrettyPrinter()),
-                new GlobalConstant($docblockFactory, new PrettyPrinter()),
-                new ClassConstant($docblockFactory, new PrettyPrinter(), [$attributeReducer]),
+                new EnumCase($docblockFactory, $expressionPrinter, [$attributeReducer]),
+                new Define($docblockFactory, $expressionPrinter),
+                new GlobalConstant($docblockFactory, $expressionPrinter),
+                new ClassConstant($docblockFactory, $expressionPrinter, [$attributeReducer]),
                 new Factory\File($docblockFactory, NodesFactory::createInstance()),
                 new Function_($docblockFactory, [$attributeReducer, $parameterReducer]),
                 new Interface_($docblockFactory, [$attributeReducer]),
                 $methodStrategy,
-                new Property($docblockFactory, new PrettyPrinter(), [$attributeReducer, $parameterReducer]),
+                new Property($docblockFactory, $expressionPrinter, [$attributeReducer, $parameterReducer]),
                 new Trait_($docblockFactory, [$attributeReducer]),
 
                 new IfStatement(),
@@ -95,7 +96,7 @@ final class ProjectFactory implements ProjectFactoryInterface
         );
 
         $strategies->addStrategy(
-            new ConstructorPromotion($methodStrategy, $docblockFactory, new PrettyPrinter(), [$attributeReducer, $parameterReducer]),
+            new ConstructorPromotion($methodStrategy, $docblockFactory, $expressionPrinter, [$attributeReducer, $parameterReducer]),
             1100,
         );
         $strategies->addStrategy(new Noop(), -PHP_INT_MAX);

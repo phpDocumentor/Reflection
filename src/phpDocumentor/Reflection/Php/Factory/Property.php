@@ -84,7 +84,7 @@ final class Property extends AbstractFactory
                 ->visibility($stmt)
                 ->type($stmt->getType())
                 ->docblock($stmt->getDocComment())
-                ->default($iterator->getDefault())
+                ->default($stmt->getDefault())
                 ->static($stmt->isStatic())
                 ->startLocation(new Location($stmt->getLine()))
                 ->endLocation(new Location($stmt->getEndLine()))

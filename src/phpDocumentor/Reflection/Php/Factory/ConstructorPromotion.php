@@ -79,8 +79,8 @@ final class ConstructorPromotion extends AbstractFactory
             ->default($param->default)
             ->readOnly($this->readOnly($param->flags))
             ->static(false)
-            ->startLocation(new Location($param->getLine(), $param->getStartFilePos()))
-            ->endLocation(new Location($param->getEndLine(), $param->getEndFilePos()))
+            ->startLocation(new Location($param->getLine()))
+            ->endLocation(new Location($param->getEndLine()))
             ->hooks($param->hooks ?? [])
             ->build($context);
 

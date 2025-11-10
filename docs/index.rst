@@ -25,4 +25,5 @@ are however several advantages to using this library:
 
    getting-started
    reflection-structure
+   expressions
    extending/index

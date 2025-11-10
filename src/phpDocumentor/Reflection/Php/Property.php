@@ -21,6 +21,11 @@ use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInterface;
 use phpDocumentor\Reflection\Type;
 
+use function is_string;
+use function trigger_error;
+
+use const E_USER_DEPRECATED;
+
 /**
  * Descriptor representing a property.
  *
@@ -48,7 +53,7 @@ final class Property implements Element, MetaDataContainerInterface, AttributeCo
         private readonly Fqsen $fqsen,
         Visibility|null $visibility = null,
         private readonly DocBlock|null $docBlock = null,
-        private readonly string|null $default = null,
+        private Expression|string|null $default = null,
         private readonly bool $static = false,
         Location|null $location = null,
         Location|null $endLocation = null,
@@ -60,13 +65,37 @@ final class Property implements Element, MetaDataContainerInterface, AttributeCo
         $this->visibility = $visibility ?: new Visibility('public');
         $this->location = $location ?: new Location(-1);
         $this->endLocation = $endLocation ?: new Location(-1);
+
+        if (!is_string($this->default)) {
+            return;
+        }
+
+        trigger_error(
+            'Default values for properties should be of type Expression, support for strings will be '
+            . 'removed in 7.x',
+            E_USER_DEPRECATED,
+        );
+        $this->default = new Expression($this->default, []);
     }
 
     /**
-     * returns the default value of this property.
+     * Returns the default value for this property.
      */
-    public function getDefault(): string|null
+    public function getDefault(bool $asString = true): Expression|string|null
     {
+        if ($this->default === null) {
+            return null;
+        }
+
+        if ($asString) {
+            trigger_error(
+                'The Default value will become of type Expression by default',
+                E_USER_DEPRECATED,
+            );
+
+            return (string) $this->default;
+        }
+
         return $this->default;
     }
 

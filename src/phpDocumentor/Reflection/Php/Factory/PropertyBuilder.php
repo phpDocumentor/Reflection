@@ -9,11 +9,14 @@ use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\NodeVisitor\FindingVisitor;
 use phpDocumentor\Reflection\Php\AsymmetricVisibility;
+use phpDocumentor\Reflection\Php\Expression;
+use phpDocumentor\Reflection\Php\Expression\ExpressionPrinter;
 use phpDocumentor\Reflection\Php\Factory\Reducer\Reducer;
 use phpDocumentor\Reflection\Php\Property as PropertyElement;
 use phpDocumentor\Reflection\Php\PropertyHook;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Php\Visibility;
+use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Comment\Doc;
 use PhpParser\Modifiers;
 use PhpParser\Node;
@@ -26,11 +29,13 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Param;
 use PhpParser\Node\PropertyHook as PropertyHookNode;
 use PhpParser\NodeTraverser;
-use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
+use PhpParser\PrettyPrinter;
+use PhpParser\PrettyPrinterAbstract;
 
 use function array_filter;
 use function array_map;
 use function count;
+use function is_string;
 use function method_exists;
 
 /**
@@ -56,7 +61,7 @@ final class PropertyBuilder
 
     /** @param iterable<Reducer> $reducers */
     private function __construct(
-        private PrettyPrinter $valueConverter,
+        private PrettyPrinter|PrettyPrinterAbstract $valueConverter,
         private DocBlockFactoryInterface $docBlockFactory,
         private StrategyContainer $strategies,
         private iterable $reducers,
@@ -66,7 +71,7 @@ final class PropertyBuilder
 
     /** @param iterable<Reducer> $reducers */
     public static function create(
-        PrettyPrinter $valueConverter,
+        PrettyPrinter|PrettyPrinterAbstract $valueConverter,
         DocBlockFactoryInterface $docBlockFactory,
         StrategyContainer $strategies,
         iterable $reducers,
@@ -159,7 +164,7 @@ final class PropertyBuilder
             $this->fqsen,
             $this->visibility,
             $this->docblock !== null ? $this->docBlockFactory->create($this->docblock->getText(), $context->getTypeContext()) : null,
-            $this->default !== null ? $this->valueConverter->prettyPrintExpr($this->default) : null,
+            $this->determineDefault($context->getTypeContext()),
             $this->static,
             $this->startLocation,
             $this->endLocation,
@@ -340,5 +345,28 @@ final class PropertyBuilder
             'set' => $propertyVisibility->getWriteVisibility(),
             default => $propertyVisibility,
         };
+    }
+
+    private function determineDefault(Context|null $context): Expression|null
+    {
+        if ($this->valueConverter instanceof ExpressionPrinter) {
+            $expression = $this->default !== null ? $this->valueConverter->prettyPrintExpr($this->default, $context) : null;
+        } else {
+            $expression = $this->default !== null ? $this->valueConverter->prettyPrintExpr($this->default) : null;
+        }
+
+        if ($expression === null) {
+            return null;
+        }
+
+        if ($this->valueConverter instanceof ExpressionPrinter) {
+            $expression = new Expression($expression, $this->valueConverter->getParts());
+        }
+
+        if (is_string($expression)) {
+            $expression = new Expression($expression, []);
+        }
+
+        return $expression;
     }
 }

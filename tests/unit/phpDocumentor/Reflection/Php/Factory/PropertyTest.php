@@ -63,9 +63,9 @@ final class PropertyTest extends TestCase
     #[DataProvider('visibilityProvider')]
     public function testCreateWithVisibility(int $input, string $expectedVisibility): void
     {
-        $constantStub = $this->buildPropertyMock($input);
+        $propertyStub = $this->buildPropertyMock($input);
 
-        $class = $this->performCreate($constantStub);
+        $class = $this->performCreate($propertyStub);
 
         $property = current($class->getProperties());
         $this->assertProperty($property, $expectedVisibility);
