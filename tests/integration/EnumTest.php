@@ -61,7 +61,7 @@ final class EnumTest extends TestCase
 
         $enum = $file->getEnums()['\MyNamespace\MyEnumWithConstant'];
         self::assertInstanceOf(Enum_::class, $enum);
-        self::assertCount(1, $enum->getConstants());
+        self::assertCount(2, $enum->getConstants());
         self::assertArrayHasKey('\MyNamespace\MyEnumWithConstant::MYCONST', $enum->getConstants());
         self::assertSame("'MyConstValue'", $enum->getConstants()['\MyNamespace\MyEnumWithConstant::MYCONST']->getValue());
     }
