@@ -87,7 +87,7 @@ final class Expression
     /** @param array<string, Fqsen|Type> $parts */
     public function __construct(string $expression, array $parts = [])
     {
-        Assert::notEmpty($expression);
+        Assert::stringNotEmpty($expression);
         Assert::allIsInstanceOfAny($parts, [Fqsen::class, Type::class]);
 
         $this->expression = $expression;

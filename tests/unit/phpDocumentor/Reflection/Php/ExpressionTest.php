@@ -13,9 +13,11 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php;
 
+use Generator;
 use InvalidArgumentException;
 use phpDocumentor\Reflection\Fqsen;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 use function sprintf;
@@ -109,5 +111,22 @@ final class ExpressionTest extends TestCase
         $result = $expression->render([self::EXAMPLE_FQSEN_PLACEHOLDER => $replacement]);
 
         self::assertSame(sprintf('This is an %s expression', $replacement), $result);
+    }
+
+    #[DataProvider('expressionValues')]
+    public function testExpressionTemplateCreation(string $expression): void
+    {
+        $actual = new Expression($expression, []);
+        self::assertSame($expression, $actual->getExpression());
+    }
+
+    /** @return Generator<string, array{expression: string} */
+    public static function expressionValues(): Generator
+    {
+        $values = ['0', 'null', 'false'];
+
+        foreach ($values as $value) {
+            yield $value => ['expression' => $value];
+        }
     }
 }
