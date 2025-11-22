@@ -20,6 +20,7 @@ use phpDocumentor\Reflection\Php\Class_;
 use phpDocumentor\Reflection\Php\Function_;
 use phpDocumentor\Reflection\Php\ProjectFactory;
 use phpDocumentor\Reflection\Types\Integer;
+use phpDocumentor\Reflection\Types\Null_;
 use phpDocumentor\Reflection\Types\Object_;
 use phpDocumentor\Reflection\Types\String_;
 
@@ -129,6 +130,19 @@ class ProjectCreationTest extends MockeryTestCase
             new Object_(new Fqsen('\\Luigi\\Pizza\Style')),
             $methods['\\Luigi\\Pizza::__construct()']->getArguments()[0]->getType()
         );
+
+        $sauceArgument = $methods['\\Luigi\\Pizza::__construct()']->getArguments()[1];
+        $this->assertEquals('sauce', $sauceArgument->getName());
+        $this->assertEquals(
+            new Php\Expression(
+                '{{ PHPDOC37a6259cc0c1dae299a7866489dff0bd }}',
+                [
+                    '{{ PHPDOC37a6259cc0c1dae299a7866489dff0bd }}' => new Null_(),
+                ],
+            ),
+            $sauceArgument->getDefault(false)
+        );
+
     }
 
     public function testDocblockOfMethodIsProcessed() : void

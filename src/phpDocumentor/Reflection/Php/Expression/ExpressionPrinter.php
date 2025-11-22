@@ -17,7 +17,9 @@ use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\FqsenResolver;
 use phpDocumentor\Reflection\Php\Expression;
 use phpDocumentor\Reflection\Type;
+use phpDocumentor\Reflection\TypeResolver;
 use phpDocumentor\Reflection\Types\Context;
+use phpDocumentor\Reflection\Types\Object_;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Name;
 use PhpParser\PrettyPrinter\Standard;
@@ -27,14 +29,16 @@ final class ExpressionPrinter extends Standard
     /** @var array<string, Fqsen|Type> */
     private array $parts = [];
     private Context|null $context = null;
-    private FqsenResolver $fqsenResolver;
+    private TypeResolver $typeResolver;
 
     /** {@inheritDoc} */
     public function __construct(array $options = [])
     {
         parent::__construct($options);
 
-        $this->fqsenResolver = new FqsenResolver();
+        $this->typeResolver = new TypeResolver(
+            new FqsenResolver(),
+        );
     }
 
     protected function resetState(): void
@@ -53,9 +57,14 @@ final class ExpressionPrinter extends Standard
 
     protected function pName(Name $node): string
     {
-        $renderedName = $this->fqsenResolver->resolve(parent::pName($node), $this->context);
+        $renderedName = $this->typeResolver->resolve(parent::pName($node), $this->context);
         $placeholder = Expression::generatePlaceholder((string) $renderedName);
-        $this->parts[$placeholder] = $renderedName;
+
+        if ($renderedName instanceof Object_ && $renderedName->getFqsen() !== null) {
+            $this->parts[$placeholder] = $renderedName->getFqsen();
+        } else {
+            $this->parts[$placeholder] = $renderedName;
+        }
 
         return $placeholder;
     }
