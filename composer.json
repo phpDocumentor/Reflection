@@ -29,7 +29,7 @@
         "nikic/php-parser": "~4.18 || ^5.0",
         "phpdocumentor/reflection-common": "^2.1",
         "phpdocumentor/reflection-docblock": "^5",
-        "phpdocumentor/type-resolver": "^1.2",
+        "phpdocumentor/type-resolver": "^1.4",
         "symfony/polyfill-php80": "^1.28",
         "webmozart/assert": "^1.7"
     },

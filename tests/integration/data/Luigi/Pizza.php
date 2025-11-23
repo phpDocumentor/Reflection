@@ -11,6 +11,9 @@
 
 namespace Luigi;
 
+use Luigi\Pizza\Sauce;
+use Luigi\Pizza\TomatoSauce;
+
 #[\Food("Pizza")]
 #[\Food(country: "Italy", originDate: Pizza::class)]
 class Pizza extends \Pizza
@@ -46,7 +49,7 @@ class Pizza extends \Pizza
         /** @var string $deliveryMethod Is the customer picking this pizza up or must it be delivered? */
         $deliveryMethod;
 
-    private function __construct(Pizza\Style $style)
+    private function __construct(Pizza\Style $style, Sauce|null $sauce = null)
     {
         $this->style = $style;
     }
