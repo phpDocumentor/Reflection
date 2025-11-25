@@ -63,6 +63,13 @@ final class ExpressionPrinterTest extends TestCase
                     '{{ PHPDOCe54b7c24dd0f847c3193039223751b3d }}' => new Fqsen('\MyClass::SOME_CONST'),
                 ],
             ],
+            'selfConstantDefault' => [
+                'code' => '<?php function foo(MyClass $arg = self::SOME_CONST) {}',
+                'expectedExpression' => '{{ PHPDOCe54b7c24dd0f847c3193039223751b3d }}',
+                'expectedParts' => [
+                    '{{ PHPDOCe54b7c24dd0f847c3193039223751b3d }}' => new Fqsen('\self::SOME_CONST'),
+                ],
+            ],
             'stringDefault' => [
                 'code' => '<?php function foo(string $arg = \'hello\') {}',
                 'expectedExpression' => "'hello'",

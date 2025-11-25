@@ -24,6 +24,8 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Name;
 use PhpParser\PrettyPrinter\Standard;
 
+use function ltrim;
+
 final class ExpressionPrinter extends Standard
 {
     /** @var array<string, Fqsen|Type> */
@@ -93,7 +95,7 @@ final class ExpressionPrinter extends Standard
 
         $placeholder = Expression::generatePlaceholder((string) $renderedName);
         $this->parts[$placeholder] = new Fqsen(
-            $className . '::' . $renderedName,
+            '\\' . ltrim((string) $className, '\\') . '::' . $renderedName,
         );
 
         return $placeholder;
