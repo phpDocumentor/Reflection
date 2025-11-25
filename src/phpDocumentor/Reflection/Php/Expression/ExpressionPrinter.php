@@ -83,10 +83,17 @@ final class ExpressionPrinter extends Standard
     protected function pExpr_ClassConstFetch(Expr\ClassConstFetch $node): string
     {
         $renderedName = parent::pObjectProperty($node->name);
-        $className = $node->class instanceof Name ? parent::pName($node->class) : $this->p($node->class);
+
+        if ($node->class instanceof Name) {
+            $className = parent::pName($node->class);
+            $className = $this->typeResolver->resolve($className, $this->context);
+        } else {
+            $className = $this->p($node->class);
+        }
+
         $placeholder = Expression::generatePlaceholder((string) $renderedName);
         $this->parts[$placeholder] = new Fqsen(
-            '\\' . $className . '::' . $renderedName,
+            $className . '::' . $renderedName,
         );
 
         return $placeholder;
