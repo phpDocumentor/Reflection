@@ -8,7 +8,7 @@ class PropertyHook
 
     /** @var string this is my property */
     #[Property(new DateTimeImmutable())]
-    public string $example = 'default value' {
+    public string $example {
         /** Not sure this works, but it gets */
         #[Getter(new DateTimeImmutable())]
         get {
