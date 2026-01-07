@@ -22,8 +22,8 @@
         "php": "^7.4|8.0.*|8.1.*|8.2.*|8.3.*",
         "nikic/php-parser": "~4.14",
         "phpdocumentor/reflection-common": "^2.1",
-        "phpdocumentor/reflection-docblock": "^5",
-        "phpdocumentor/type-resolver": "^1.2",
+        "phpdocumentor/reflection-docblock": "^5.0 || ^6.0",
+        "phpdocumentor/type-resolver": "^1.2 || ^2.0",
         "symfony/polyfill-php80": "^1.28",
         "webmozart/assert": "^1.7"
     },
