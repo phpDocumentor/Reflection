@@ -4,18 +4,9 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Types;
 
-use PhpParser\Node;
-use PhpParser\Node\Stmt\GroupUse;
 use PhpParser\Node\Stmt\Namespace_;
-use PhpParser\Node\Stmt\Use_;
-use PhpParser\Node\Stmt\UseUse;
 
-use function array_filter;
-use function array_map;
-use function array_merge;
-use function in_array;
-
-class NamespaceNodeToContext
+class NamespaceNodeToContext extends BaseToContext
 {
     public function __invoke(Namespace_|null $namespace): Context
     {
@@ -25,40 +16,7 @@ class NamespaceNodeToContext
 
         return new Context(
             $namespace->name ? $namespace->name->toString() : '',
-            $this->aliasesToFullyQualifiedNames($namespace),
-        );
-    }
-
-    /** @return string[] indexed by alias */
-    private function aliasesToFullyQualifiedNames(Namespace_ $namespace): array
-    {
-        // flatten(flatten(map(stuff)))
-        return array_merge([], ...array_merge([], ...array_map(
-            static fn ($use): array => array_map(
-                static function (Node\UseItem|UseUse $useUse) use ($use): array {
-                    if ($use instanceof GroupUse) {
-                    return [
-                        (string) $useUse->getAlias() => $use->prefix->toString() . '\\' . $useUse->name->toString(),
-                    ];
-                    }
-
-                return [(string) $useUse->getAlias() => $useUse->name->toString()];
-                },
-                $use->uses,
-            ),
-            $this->classAlikeUses($namespace),
-        )));
-    }
-
-    /** @return Use_[]|GroupUse[] */
-    private function classAlikeUses(Namespace_ $namespace): array
-    {
-        return array_filter(
-            $namespace->stmts,
-            static fn (Node $node): bool => (
-                    $node instanceof Use_
-                    || $node instanceof GroupUse
-                ) && in_array($node->type, [Use_::TYPE_UNKNOWN, Use_::TYPE_NORMAL], true),
+            self::flattenUsage(self::filterUsage($namespace->stmts)),
         );
     }
 }

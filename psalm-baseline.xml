@@ -225,8 +225,5 @@
     <ClassMustBeFinal>
       <code><![CDATA[NamespaceNodeToContext]]></code>
     </ClassMustBeFinal>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$this->aliasesToFullyQualifiedNames($namespace)]]></code>
-    </MixedArgumentTypeCoercion>
   </file>
 </files>
