@@ -86,7 +86,10 @@ final class ExpressionPrinter extends Standard
     {
         $renderedName = parent::pObjectProperty($node->name);
 
-        if ($node->class instanceof Name) {
+        if ($node->class instanceof Name\FullyQualified) {
+            $className = parent::pName_FullyQualified($node->class);
+            $className = $this->typeResolver->resolve($className, $this->context);
+        } elseif ($node->class instanceof Name) {
             $className = parent::pName($node->class);
             $className = $this->typeResolver->resolve($className, $this->context);
         } else {

@@ -106,7 +106,7 @@ final class FileTest extends TestCase
     public function testFileGetsCommentFromFirstNode(Node $node, DocBlockDescriptor $docblock): void
     {
         $this->nodesFactoryMock->create(file_get_contents(__FILE__))->willReturn([$node]);
-        $this->docBlockFactory->create('Text', null)->willReturn($docblock);
+        $this->docBlockFactory->create('Text', Argument::any())->willReturn($docblock);
 
         $strategies = $this->prophesize(StrategyContainer::class);
         $strategies->findMatching(Argument::type(ContextStack::class), $node)->willReturn(

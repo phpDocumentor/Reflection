@@ -24,6 +24,7 @@ use phpDocumentor\Reflection\Php\File as FileElement;
 use phpDocumentor\Reflection\Php\NodesFactory;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Types\Context;
+use phpDocumentor\Reflection\Types\FileToContext;
 use PhpParser\Comment\Doc;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_ as ClassNode;
@@ -106,7 +107,9 @@ final class File extends AbstractFactory
         $code = $file->getContents();
         $nodes = $this->nodesFactory->create($code);
 
-        $docBlock = $this->createFileDocBlock(null, $nodes);
+        $fileToContext = new FileToContext();
+        $typeContext = $fileToContext($nodes);
+        $docBlock = $this->createFileDocBlock($typeContext, $nodes);
 
         $result = new FileElement(
             $file->md5(),
@@ -115,7 +118,7 @@ final class File extends AbstractFactory
             $docBlock,
         );
 
-        $this->createElements($command->getContext()->push($result), $nodes, $command->getStrategies());
+        $this->createElements($command->getContext()->push($result)->withTypeContext($typeContext), $nodes, $command->getStrategies());
 
         return $result;
     }
