@@ -17,6 +17,7 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 use phpDocumentor\Reflection\DocBlock\Tags\Param;
 use phpDocumentor\Reflection\File\LocalFile;
 use phpDocumentor\Reflection\Php\Class_;
+use phpDocumentor\Reflection\Php\Expression;
 use phpDocumentor\Reflection\Php\Function_;
 use phpDocumentor\Reflection\Php\ProjectFactory;
 use phpDocumentor\Reflection\Types\Integer;
@@ -249,5 +250,37 @@ class ProjectCreationTest extends MockeryTestCase
         $interface = current($project->getFiles()[$fileName]->getInterfaces());
 
         $this->assertEquals(new String_(), $interface->getMethods()['\Packing::getName()']->getReturnType());
+    }
+
+    public function testFunctionContantDefaultIsResolved() : void
+    {
+        $fileName = __DIR__ . '/data/GlobalFiles/function_constant_default.php';
+        $project = $this->fixture->create(
+            'MyProject',
+            [new LocalFile($fileName)]
+        );
+
+        $this->assertArrayHasKey($fileName, $project->getFiles());
+        $functions = $project->getFiles()[$fileName]->getFunctions();
+
+        self::assertEquals(
+            new Expression(
+                '{{ PHPDOCa2f2ed4f8ebc2cbb4c21a29dc40ab61d }}',
+                [
+                    '{{ PHPDOCa2f2ed4f8ebc2cbb4c21a29dc40ab61d }}' => new Fqsen('\Acme\Plugin::class'),
+                ],
+            ),
+            $functions['\foo()']->getArguments()[0]->getDefault(false)
+        );
+
+        self::assertEquals(
+            new Expression(
+                '{{ PHPDOCa8cfde6331bd59eb2ac96f8911c4b666 }}',
+                [
+                    '{{ PHPDOCa8cfde6331bd59eb2ac96f8911c4b666 }}' => new Object_(),
+                ],
+            ),
+            $functions['\bar()']->getArguments()[0]->getDefault(false)
+        );
     }
 }
