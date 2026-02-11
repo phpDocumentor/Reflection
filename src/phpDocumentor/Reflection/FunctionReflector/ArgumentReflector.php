@@ -52,7 +52,9 @@ class ArgumentReflector extends BaseReflector
      */
     public function getType()
     {
-        $type = (string) $this->node->type;
+        $type = $this->node->type instanceof \PHPParser\Node\NullableType
+	        ? "?{$this->node->type->type}"
+	        : (string) $this->node->type;
 
         // in case of the callable of array keyword; do not prefix with a \
         if ($type == 'callable' || $type == 'array'

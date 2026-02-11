@@ -15,6 +15,8 @@ namespace phpDocumentor\Reflection;
 use PhpParser\Error;
 use PhpParser\NodeVisitor\NameResolver;
 use PhpParser\Parser;
+use PhpParser\ParserFactory;
+use PhpParser\PhpVersion;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitor;
 use PhpParser\NodeVisitorAbstract;
@@ -78,7 +80,7 @@ class Traverser
      */
     protected function createParser()
     {
-        return new Parser(new Lexer());
+        return (new ParserFactory)->createForVersion( PhpVersion::fromString( '7.4' ) );
     }
 
     /**

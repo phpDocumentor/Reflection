@@ -128,7 +128,7 @@ abstract class BaseReflector extends ReflectionAbstract
                 $doc_block = new DocBlock(
                     (string) $comment,
                     $this->context,
-                    new Location($comment->getLine())
+                    new Location($comment->getStartLine())
                 );
             } catch (Exception $e) {
                 $this->log($e->getMessage(), LogLevel::CRITICAL);
@@ -169,7 +169,7 @@ abstract class BaseReflector extends ReflectionAbstract
     {
         return isset($this->node->name)
             ? $this->node->name
-            : (string) $this->node;
+            : '';
     }
 
     /**
@@ -202,12 +202,7 @@ abstract class BaseReflector extends ReflectionAbstract
             return $this->context->getNamespace();
         }
 
-        $parts = $this->node->namespacedName->parts;
-        array_pop($parts);
-
-        $namespace = implode('\\', $parts);
-
-        return $namespace ? $namespace : 'global';
+		return $this->node->namespacedName ?? 'global';
     }
 
     /**
@@ -256,7 +251,7 @@ abstract class BaseReflector extends ReflectionAbstract
      */
     public function getLinenumber()
     {
-        return $this->node->getLine();
+        return $this->node->getStartLine();
     }
 
     /**

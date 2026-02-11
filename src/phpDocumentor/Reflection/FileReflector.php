@@ -243,7 +243,7 @@ class FileReflector extends ReflectionAbstract implements NodeVisitor
                     $docblock = new DocBlock(
                         (string) $comments[0],
                         null,
-                        new Location($comments[0]->getLine())
+                        new Location($comments[0]->getStartLine())
                     );
 
                     // the first DocBlock in a file documents the file if
@@ -489,13 +489,13 @@ class FileReflector extends ReflectionAbstract implements NodeVisitor
                 foreach ($node->uses as $use) {
                     $this->context->setNamespaceAlias(
                         $use->alias,
-                        implode('\\', $use->name->parts)
+                        $use->name
                     );
                 }
                 break;
             case 'PhpParser\Node\Stmt\Namespace_':
                 $this->context->setNamespace(
-                    isset($node->name) && ($node->name) ? implode('\\', $node->name->parts) : ''
+                    $node->name ?: ''
                 );
                 break;
             case 'PhpParser\Node\Stmt\Class_':

@@ -46,13 +46,13 @@ class PrettyPrinter extends Standard
      *
      * @return string
      */
-    public function pScalar_String(String_ $node)
+    public function pScalar_String(String_ $node): string
     {
         if (method_exists($this, 'pSafe')) {
             return $this->pSafe($node->getAttribute('originalValue'));
         }
         
-        return $this->pNoIndent($node->getAttribute('originalValue'));
+        return $node->getAttribute('originalValue') ?? '(unknown)';
     }
 
 }
