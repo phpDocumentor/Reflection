@@ -1,5 +1,5 @@
 {
-    "name": "dmsnell/reflection",
+    "name": "phpdocumentor/reflection",
     "description": "Reflection library to do Static Analysis for PHP Projects",
     "keywords": ["phpdoc", "phpDocumentor", "reflection", "static analysis"],
     "homepage": "http://www.phpdoc.org",
