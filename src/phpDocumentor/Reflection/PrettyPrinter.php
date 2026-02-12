@@ -13,7 +13,6 @@
 namespace phpDocumentor\Reflection;
 
 use PhpParser\Node\Scalar\String_;
-use PhpParser\PrettyPrinter\Standard;
 
 /**
  * Custom PrettyPrinter for phpDocumentor.
@@ -28,7 +27,7 @@ use PhpParser\PrettyPrinter\Standard;
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link    http://phpdoc.org
  */
-class PrettyPrinter extends Standard
+class PrettyPrinter extends \PHPParser\PrettyPrinter\Standard
 {
     /**
      * Converts the string into it's original representation without converting

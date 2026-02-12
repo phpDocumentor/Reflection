@@ -53,6 +53,22 @@ class IncludeReflector extends BaseReflector
 
     public function getShortName()
     {
+		if ( ! isset( $this->node->expr->value ) ) {
+			$name = [];
+			foreach ( $this->node->expr->getSubNodeNames() as $part ) {
+				$thing = $this->node->expr->{$part};
+
+				$name[] = ( is_object( $thing ) && method_exists( $thing, 'getName' ) )
+					? $thing->getName()
+					: ( ( is_array( $thing )
+							? array_key_exists( 'value', $thing )
+							: property_exists( $thing, 'value' )
+					)
+					? $thing->value
+					: '(unknown)' );
+			}
+			$name = implode( ' . ', $name );
+		}
         return (string) $this->node->expr->value;
     }
 }

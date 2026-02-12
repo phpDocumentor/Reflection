@@ -52,6 +52,10 @@ class ArgumentReflector extends BaseReflector
      */
     public function getType()
     {
+		if ( $this->node->type instanceof \PhpParser\Node\NullableType ) {
+			return "?{$this->node->type->type}";
+		}
+
         $type = (string) $this->node->type;
 
         // in case of the callable of array keyword; do not prefix with a \
