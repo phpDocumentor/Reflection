@@ -169,7 +169,7 @@ abstract class BaseReflector extends ReflectionAbstract
     {
         return isset($this->node->name)
             ? $this->node->name
-            : (string) $this->node;
+            : '(anonymous)';
     }
 
     /**
