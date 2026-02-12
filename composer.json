@@ -1,5 +1,5 @@
 {
-    "name": "phpdocumentor/reflection",
+    "name": "dmsnell/reflection",
     "description": "Reflection library to do Static Analysis for PHP Projects",
     "keywords": ["phpdoc", "phpDocumentor", "reflection", "static analysis"],
     "homepage": "http://www.phpdoc.org",
@@ -25,7 +25,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0.x-dev"
+            "dev-master": "1.0.x-dev",
+            "dev-wp": "v3.0.2-dmsnell"
         }
     }
 }
