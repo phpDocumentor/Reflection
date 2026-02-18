@@ -34,7 +34,7 @@ class ExportDocBlockTagEvent extends EventAbstract
      *
      * @return ExportDocBlockTagEvent
      */
-    public function setObject(Tag $object = null)
+    public function setObject(?Tag $object = null)
     {
         $this->object = $object;
 
@@ -46,7 +46,7 @@ class ExportDocBlockTagEvent extends EventAbstract
      *
      * @return ExportDocBlockTagEvent
      */
-    public function setXml(DOMNode $xml = null)
+    public function setXml(?DOMNode $xml = null)
     {
         $this->xml = $xml;
 

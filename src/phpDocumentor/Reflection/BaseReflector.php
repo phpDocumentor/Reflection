@@ -306,7 +306,7 @@ abstract class BaseReflector extends ReflectionAbstract
      * @return string
      */
     protected function getRepresentationOfValue(
-        \PhpParser\Node\Expr $value = null
+        ?\PhpParser\Node\Expr $value = null
     ) {
         if (null === $value) {
             return '';

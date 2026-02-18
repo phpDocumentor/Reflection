@@ -34,7 +34,7 @@ class BaseReflectorMock extends BaseReflector
      * @return string
      */
     public function getRepresentationOfValueMock(
-        Expr $value = null
+        ?Expr $value = null
     ) {
         return parent::getRepresentationOfValue($value);
     }
