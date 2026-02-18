@@ -15,7 +15,6 @@ namespace phpDocumentor\Reflection;
 use Exception;
 use InvalidArgumentException;
 use phpDocumentor\Event\Dispatcher;
-use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlock\Context;
 use phpDocumentor\Reflection\DocBlock\Location;
 use phpDocumentor\Reflection\Event\PostDocBlockExtractionEvent;
@@ -167,9 +166,19 @@ abstract class BaseReflector extends ReflectionAbstract
      */
     public function getShortName()
     {
-        return isset($this->node->name)
-            ? $this->node->name
-            : '(anonymous)';
+		if ( isset($this->node->name) ) {
+            return $this->node->name;
+		}
+
+		if (interface_exists('\Stringable') && $this->node instanceof \Stringable){
+            return (string) $this->node;
+		} elseif (method_exists( $this->node, '__toString')) {
+			return (string) $this->node;
+		}
+
+		if ($this->node instanceof \PhpParser\Node\Stmt\Class_ && $this->node->isAnonymous()) {
+			return 'class@anonymous';
+		}
     }
 
     /**
