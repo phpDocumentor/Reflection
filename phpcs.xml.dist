@@ -9,7 +9,7 @@
 
     <!-- Set the minimum PHP version for PHPCompatibility.
          This should be kept in sync with the requirements in the composer.json file. -->
-    <config name="testVersion" value="8.1-"/>
+    <config name="testVersion" value="8.2-"/>
 
     <arg value="nps"/>
 
