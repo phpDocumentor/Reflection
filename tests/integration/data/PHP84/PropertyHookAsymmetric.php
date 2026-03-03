@@ -8,7 +8,7 @@ class PropertyHook
 
     /** @var string this is my property */
     #[Property(new DateTimeImmutable())]
-    public private(set) string $example = 'default value' {
+    public private(set) string $example {
         get {
             if ($this->modified) {
                 return $this->foo . ' (modified)';
