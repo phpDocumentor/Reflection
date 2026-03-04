@@ -31,7 +31,7 @@
         "phpdocumentor/reflection-docblock": "^6.0",
         "phpdocumentor/type-resolver": "^2.0",
         "symfony/polyfill-php80": "^1.28",
-        "webmozart/assert": "^1.7"
+        "webmozart/assert": "^1.7 || ^2.1"
     },
     "require-dev": {
         "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
