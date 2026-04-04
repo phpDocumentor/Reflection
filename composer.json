@@ -30,7 +30,6 @@
         "phpdocumentor/reflection-common": "^2.1",
         "phpdocumentor/reflection-docblock": "^6.0",
         "phpdocumentor/type-resolver": "^2.0",
-        "symfony/polyfill-php80": "^1.28",
         "webmozart/assert": "^1.7 || ^2.1"
     },
     "require-dev": {
