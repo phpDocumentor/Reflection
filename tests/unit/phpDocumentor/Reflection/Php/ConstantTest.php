@@ -17,6 +17,7 @@ use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInterface;
+use phpDocumentor\Reflection\Types\String_;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 
@@ -74,6 +75,28 @@ final class ConstantTest extends TestCase
     public function testGetVisibility(): void
     {
         self::assertEquals(new Visibility(Visibility::PUBLIC_), $this->fixture->getVisibility());
+    }
+
+    public function testGetTypeReturnsNullByDefault(): void
+    {
+        self::assertNull($this->fixture->getType());
+    }
+
+    public function testGetTypeReturnsTypeWhenProvided(): void
+    {
+        $type = new String_();
+        $fixture = new Constant(
+            $this->fqsen,
+            $this->docBlock,
+            new Expression($this->value),
+            null,
+            null,
+            null,
+            false,
+            $type,
+        );
+
+        self::assertSame($type, $fixture->getType());
     }
 
     public function testLineAndColumnNumberIsReturnedWhenALocationIsProvided(): void

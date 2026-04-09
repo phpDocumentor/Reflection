@@ -93,6 +93,7 @@ final class ClassConstant extends AbstractFactory
                 new Location($const->getEndLine()),
                 $this->buildVisibility($const),
                 $const->isFinal(),
+                (new Type())->fromPhpParser($const->getType(), $context->getTypeContext()),
             );
 
             foreach ($this->reducers as $reducer) {

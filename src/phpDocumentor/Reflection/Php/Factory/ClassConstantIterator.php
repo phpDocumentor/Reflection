@@ -17,7 +17,10 @@ use Iterator;
 use Override;
 use phpDocumentor\Reflection\Fqsen;
 use PhpParser\Comment\Doc;
+use PhpParser\Node\ComplexType;
 use PhpParser\Node\Expr;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\ClassConst;
 
 /**
@@ -121,6 +124,14 @@ final class ClassConstantIterator implements Iterator
     public function isFinal(): bool
     {
         return $this->classConstants->isFinal();
+    }
+
+    /**
+     * Gets the type of the constant.
+     */
+    public function getType(): Identifier|Name|ComplexType|null
+    {
+        return $this->classConstants->type;
     }
 
     /** @link http://php.net/manual/en/iterator.current.php */
