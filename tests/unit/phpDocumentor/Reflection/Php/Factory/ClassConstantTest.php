@@ -24,8 +24,10 @@ use phpDocumentor\Reflection\Php\Interface_ as InterfaceElement;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategies;
 use phpDocumentor\Reflection\Php\Trait_ as TraitElement;
 use phpDocumentor\Reflection\Types\Null_;
+use phpDocumentor\Reflection\Types\String_ as StringType;
 use PhpParser\Comment\Doc;
 use PhpParser\Node\Const_;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Class_ as ClassNode;
 use PhpParser\Node\Stmt\ClassConst;
@@ -136,6 +138,29 @@ final class ClassConstantTest extends TestCase
         $result = $this->performCreateWith($constantStub, $enum);
 
         self::assertInstanceOf(ConstantDescriptor::class, current($result->getConstants()));
+    }
+
+    public function testCreateWithTypedConstant(): void
+    {
+        $const = new Const_('\Space\MyClass::MY_CONST1', new String_('a'));
+        $const->setAttribute('fqsen', new Fqsen((string) $const->name));
+        $constantStub = new ClassConst([$const], ClassNode::MODIFIER_PUBLIC, [], [], new Identifier('string'));
+
+        $class = $this->performCreate($constantStub);
+
+        $constant = current($class->getConstants());
+        $this->assertInstanceOf(ConstantDescriptor::class, $constant);
+        $this->assertEquals(new StringType(), $constant->getType());
+    }
+
+    public function testCreateWithUntypedConstantHasNullType(): void
+    {
+        $constantStub = $this->buildConstantIteratorStub();
+
+        $class = $this->performCreate($constantStub);
+
+        $constant = current($class->getConstants());
+        $this->assertNull($constant->getType());
     }
 
     public function testCreateWithDocBlock(): void
