@@ -18,6 +18,7 @@ use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInterface;
+use phpDocumentor\Reflection\Php\Property;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 
@@ -28,6 +29,7 @@ use PHPUnit\Framework\Attributes\UsesClass;
 #[UsesClass('\phpDocumentor\Reflection\Php\Method')]
 #[UsesClass('\phpDocumentor\Reflection\Php\Constant')]
 #[UsesClass('\phpDocumentor\Reflection\Php\Visibility')]
+#[UsesClass('\phpDocumentor\Reflection\Php\Property')]
 final class Interface_Test extends TestCase
 {
     use MetadataContainerTestHelper;
@@ -94,6 +96,17 @@ final class Interface_Test extends TestCase
         $this->fixture->addMethod($method);
 
         $this->assertEquals(['\MySpace\MyInterface::myMethod()' => $method], $this->fixture->getMethods());
+    }
+
+    public function testSettingAndGettingProperties(): void
+    {
+        $this->assertEquals([], $this->fixture->getProperties());
+
+        $property = new Property(new Fqsen('\MySpace\MyInterface::$myProperty'));
+
+        $this->fixture->addProperty($property);
+
+        $this->assertEquals(['\MySpace\MyInterface::$myProperty' => $property], $this->fixture->getProperties());
     }
 
     public function testReturningTheParentsOfThisInterface(): void

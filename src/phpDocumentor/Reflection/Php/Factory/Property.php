@@ -18,6 +18,7 @@ use phpDocumentor\Reflection\DocBlockFactoryInterface;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Class_;
 use phpDocumentor\Reflection\Php\Factory\Reducer\Reducer;
+use phpDocumentor\Reflection\Php\Interface_;
 use phpDocumentor\Reflection\Php\Property as PropertyDescriptor;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Php\Trait_;
@@ -69,6 +70,7 @@ final class Property extends AbstractFactory
             [
                 Class_::class,
                 Trait_::class,
+                Interface_::class,
             ],
         );
 

@@ -37,6 +37,9 @@ final class Interface_ implements Element, MetaDataContainerInterface, Attribute
     /** @var Method[] */
     private array $methods = [];
 
+    /** @var Property[] */
+    private array $properties = [];
+
     private readonly Location $location;
 
     private readonly Location $endLocation;
@@ -93,6 +96,24 @@ final class Interface_ implements Element, MetaDataContainerInterface, Attribute
     public function addMethod(Method $method): void
     {
         $this->methods[(string) $method->getFqsen()] = $method;
+    }
+
+    /**
+     * Returns the properties of this interface.
+     *
+     * @return Property[]
+     */
+    public function getProperties(): array
+    {
+        return $this->properties;
+    }
+
+    /**
+     * Add a property to this interface.
+     */
+    public function addProperty(Property $property): void
+    {
+        $this->properties[(string) $property->getFqsen()] = $property;
     }
 
     /**
