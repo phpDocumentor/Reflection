@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace integration;
 
+use EliasHaeussler\PHPUnitAttributes\Attribute\RequiresPackage;
 use phpDocumentor\Reflection\File\LocalFile;
 use phpDocumentor\Reflection\Php\ProjectFactory;
 use phpDocumentor\Reflection\Php\Visibility;
@@ -12,6 +13,7 @@ use phpDocumentor\Reflection\Types\String_;
 use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\TestCase;
 
+#[RequiresPackage('nikic/php-parser', '>= 5.2')]
 #[CoversNothing]
 final class InterfacePropertyTest extends TestCase
 {

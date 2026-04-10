@@ -18,7 +18,6 @@ use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInterface;
-use phpDocumentor\Reflection\Php\Property;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 
