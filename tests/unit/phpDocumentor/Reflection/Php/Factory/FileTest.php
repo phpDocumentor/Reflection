@@ -79,7 +79,7 @@ final class FileTest extends TestCase
     public function testMiddlewareIsExecuted(): void
     {
         $file = new FileElement('aa', __FILE__);
-        $this->nodesFactoryMock->create(file_get_contents(__FILE__))->willReturn([]);
+        $this->nodesFactoryMock->create(file_get_contents(__FILE__), Argument::any())->willReturn([]);
         $middleware = $this->prophesize(Middleware::class);
         $middleware->execute(Argument::any(), Argument::any())->shouldBeCalled()->willReturn($file);
         $fixture = new File(
@@ -105,7 +105,7 @@ final class FileTest extends TestCase
     #[DataProvider('nodeProvider')]
     public function testFileGetsCommentFromFirstNode(Node $node, DocBlockDescriptor $docblock): void
     {
-        $this->nodesFactoryMock->create(file_get_contents(__FILE__))->willReturn([$node]);
+        $this->nodesFactoryMock->create(file_get_contents(__FILE__), Argument::any())->willReturn([$node]);
         $this->docBlockFactory->create('Text', Argument::any())->willReturn($docblock);
 
         $strategies = $this->prophesize(StrategyContainer::class);
