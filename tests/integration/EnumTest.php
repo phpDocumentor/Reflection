@@ -115,10 +115,9 @@ final class EnumTest extends TestCase
             $method->getArguments()[0]->getType()
         );
 
-        //This should be fixed in #219
-//        self::assertEquals(
-//            '\MyNamespace\MyEnum::VALUE1',
-//            $method->getArguments()[0]->getDefault()
-//        );
+        self::assertEquals(
+            '\MyNamespace\MyEnum::VALUE1',
+            $method->getArguments()[0]->getDefault()
+        );
     }
 }

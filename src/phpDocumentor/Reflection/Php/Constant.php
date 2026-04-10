@@ -19,6 +19,7 @@ use phpDocumentor\Reflection\Element;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInterface;
+use phpDocumentor\Reflection\Type;
 
 use function is_string;
 use function trigger_error;
@@ -52,6 +53,7 @@ final class Constant implements Element, MetaDataContainerInterface, AttributeCo
         Location|null $endLocation = null,
         Visibility|null $visibility = null,
         private readonly bool $final = false,
+        private readonly Type|null $type = null,
     ) {
         $this->location = $location ?: new Location(-1);
         $this->endLocation = $endLocation ?: new Location(-1);
@@ -134,5 +136,10 @@ final class Constant implements Element, MetaDataContainerInterface, AttributeCo
     public function isFinal(): bool
     {
         return $this->final;
+    }
+
+    public function getType(): Type|null
+    {
+        return $this->type;
     }
 }
