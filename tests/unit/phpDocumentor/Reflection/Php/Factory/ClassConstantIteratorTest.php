@@ -19,6 +19,8 @@ use phpDocumentor\Reflection\Fqsen;
 use PhpParser\Comment\Doc;
 use PhpParser\Node\Const_;
 use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\ClassConst;
 use PHPUnit\Framework\Attributes\CoversClass;
 
@@ -76,6 +78,31 @@ final class ClassConstantIteratorTest extends MockeryTestCase
         $fixture = new ClassConstantIterator($classConstants);
 
         $this->assertEquals('test', $fixture->getDocComment()->getText());
+    }
+
+    public function testGetTypeReturnsNullWhenUntyped(): void
+    {
+        $const = new Const_('\Space\MyClass::MY_CONST1', new String_('a'));
+        $const->setAttribute('fqsen', new Fqsen((string) $const->name));
+
+        $classConstantNode = new ClassConst([$const]);
+
+        $fixture = new ClassConstantIterator($classConstantNode);
+
+        $this->assertNull($fixture->getType());
+    }
+
+    public function testGetTypeReturnsTypeWhenTyped(): void
+    {
+        $const = new Const_('\Space\MyClass::MY_CONST1', new String_('a'));
+        $const->setAttribute('fqsen', new Fqsen((string) $const->name));
+
+        $classConstantNode = new ClassConst([$const], 0, [], [], new Identifier('string'));
+
+        $fixture = new ClassConstantIterator($classConstantNode);
+
+        $this->assertInstanceOf(Identifier::class, $fixture->getType());
+        $this->assertEquals('string', $fixture->getType()->toString());
     }
 
     public function testGetDocComment(): void
