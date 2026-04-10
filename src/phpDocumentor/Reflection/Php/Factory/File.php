@@ -105,7 +105,7 @@ final class File extends AbstractFactory
     {
         $file = $command->getFile();
         $code = $file->getContents();
-        $nodes = $this->nodesFactory->create($code);
+        $nodes = $this->nodesFactory->create($code, $file->path());
 
         $fileToContext = new FileToContext();
         $typeContext = $fileToContext($nodes);
