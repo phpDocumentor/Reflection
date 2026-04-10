@@ -104,6 +104,13 @@ final class ExpressionPrinter extends Standard
         return $placeholder;
     }
 
+//    protected function pExpr_ConstFetch(Expr\ConstFetch $node): string
+//    {
+//        $className = parent::pName($node->name);
+//        $className = $this->typeResolver->resolve($className, $this->context);
+//        return 'trst';
+//    }
+
     /** @return array<string, Fqsen|Type> */
     public function getParts(): array
     {
