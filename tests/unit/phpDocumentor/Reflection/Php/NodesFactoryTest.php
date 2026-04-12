@@ -13,7 +13,9 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php;
 
+use phpDocumentor\Reflection\Exception;
 use phpDocumentor\Reflection\NodeVisitor\ElementNameResolver;
+use PhpParser\Error;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeTraverserInterface;
 use PhpParser\NodeVisitor\NameResolver;
@@ -55,6 +57,44 @@ final class NodesFactoryTest extends TestCase
         $result = $factory->create('this is my code');
 
         $this->assertSame(['traversed code'], $result);
+    }
+
+    public function testThatParseErrorIncludesFileAndLine(): void
+    {
+        $factory = NodesFactory::createInstance();
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Syntax error in /some/file.php on line 1:');
+
+        $factory->create('<?php class { }', '/some/file.php');
+    }
+
+    public function testThatParseErrorWithoutFilePathOnlyIncludesLine(): void
+    {
+        $factory = NodesFactory::createInstance();
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Syntax error on line 1:');
+
+        $factory->create('<?php class { }');
+    }
+
+    public function testThatParseErrorWrapsOriginalException(): void
+    {
+        $parser = $this->prophesize(Parser::class);
+        $parser->parse('bad code')->willThrow(new Error('Unexpected token', ['startLine' => 42]));
+
+        $nodeTraverser = $this->prophesize(NodeTraverserInterface::class);
+
+        $factory = new NodesFactory($parser->reveal(), $nodeTraverser->reveal());
+
+        try {
+            $factory->create('bad code', '/path/to/source.php');
+            $this->fail('Expected Exception was not thrown');
+        } catch (Exception $e) {
+            $this->assertSame('Syntax error in /path/to/source.php on line 42: Unexpected token', $e->getMessage());
+            $this->assertInstanceOf(Error::class, $e->getPrevious());
+        }
     }
 
     private function givenTheExpectedDefaultNodesFactory(): NodesFactory

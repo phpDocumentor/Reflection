@@ -13,7 +13,9 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Php;
 
+use phpDocumentor\Reflection\Exception;
 use phpDocumentor\Reflection\NodeVisitor\ElementNameResolver;
+use PhpParser\Error;
 use PhpParser\Node;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeTraverserInterface;
@@ -21,6 +23,8 @@ use PhpParser\NodeVisitor\NameResolver;
 use PhpParser\Parser;
 use PhpParser\ParserFactory;
 use Webmozart\Assert\Assert;
+
+use function sprintf;
 
 /**
  * Factory to create a array of nodes from a provided file.
@@ -59,12 +63,28 @@ class NodesFactory
      * Will convert the provided code to nodes.
      *
      * @param string $code code to process.
+     * @param string $filePath optional source file path for error context.
      *
      * @return Node[]
+     *
+     * @throws Exception when the provided code cannot be parsed.
      */
-    public function create(string $code): array
+    public function create(string $code, string $filePath = ''): array
     {
-        $nodes = $this->parser->parse($code);
+        try {
+            $nodes = $this->parser->parse($code);
+        } catch (Error $e) {
+            $line = $e->getStartLine();
+            $location = $filePath !== '' ? sprintf(' in %s', $filePath) : '';
+            $location .= $line > 0 ? sprintf(' on line %d', $line) : '';
+
+            throw new Exception(
+                sprintf('Syntax error%s: %s', $location, $e->getRawMessage()),
+                0,
+                $e,
+            );
+        }
+
         Assert::isArray($nodes);
 
         return $this->traverser->traverse($nodes);
