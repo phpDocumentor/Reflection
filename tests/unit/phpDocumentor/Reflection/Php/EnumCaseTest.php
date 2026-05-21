@@ -102,10 +102,10 @@ final class EnumCaseTest extends TestCase
             $expression,
         );
 
-        $this->assertSame($expression, $fixture->getValue(false));
+        $this->assertSame($expression, $fixture->getValue());
     }
 
-    public function testValueCanBeReturnedAsString(): void
+    public function testValueCanBeReturnedAsExpression(): void
     {
         $expression = new Expression('Enum case expression');
         $fixture = new EnumCase(
@@ -116,7 +116,7 @@ final class EnumCaseTest extends TestCase
             $expression,
         );
 
-        $this->assertSame('Enum case expression', $fixture->getValue(true));
+        $this->assertSame($expression, $fixture->getValue());
     }
 
     public function testGetLocationReturnsProvidedValue(): void

@@ -22,6 +22,7 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\ClassConst;
+use Webmozart\Assert\Assert;
 
 /**
  * This class acts like a combination of a ClassConst and Const_
@@ -74,7 +75,10 @@ final class ClassConstantIterator implements Iterator
      */
     public function getFqsen(): Fqsen
     {
-        return $this->classConstants->consts[$this->index]->getAttribute('fqsen');
+        $fqsen = $this->classConstants->consts[$this->index]->getAttribute('fqsen');
+        Assert::isInstanceOf($fqsen, Fqsen::class);
+
+        return $fqsen;
     }
 
     /**
@@ -150,7 +154,7 @@ final class ClassConstantIterator implements Iterator
 
     /** @link http://php.net/manual/en/iterator.key.php */
     #[Override]
-    public function key(): int|null
+    public function key(): int
     {
         return $this->index;
     }

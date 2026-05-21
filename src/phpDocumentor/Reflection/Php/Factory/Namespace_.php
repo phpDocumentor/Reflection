@@ -17,7 +17,7 @@ use Webmozart\Assert\Assert;
 use function get_debug_type;
 use function sprintf;
 
-class Namespace_ implements ProjectFactoryStrategy
+final class Namespace_ implements ProjectFactoryStrategy
 {
     #[Override]
     public function matches(ContextStack $context, object $object): bool
@@ -41,7 +41,8 @@ class Namespace_ implements ProjectFactoryStrategy
 
         $file = $context->peek();
         Assert::isInstanceOf($file, FileElement::class);
-        $file->addNamespace($object->getAttribute('fqsen') ?? new Fqsen('\\'));
+        $rawFqsen = $object->getAttribute('fqsen');
+        $file->addNamespace($rawFqsen instanceof Fqsen ? $rawFqsen : new Fqsen('\\'));
         $typeContext = (new NamespaceNodeToContext())($object);
         foreach ($object->stmts as $stmt) {
             $strategy = $strategies->findMatching($context, $stmt);

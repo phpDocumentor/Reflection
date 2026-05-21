@@ -18,7 +18,6 @@ use phpDocumentor\Reflection\Php\StrategyContainer;
 use phpDocumentor\Reflection\Php\Visibility;
 use phpDocumentor\Reflection\Types\Context;
 use PhpParser\Comment\Doc;
-use PhpParser\Modifiers;
 use PhpParser\Node;
 use PhpParser\Node\ComplexType;
 use PhpParser\Node\Expr;
@@ -36,7 +35,6 @@ use function array_filter;
 use function array_map;
 use function count;
 use function is_string;
-use function method_exists;
 
 /**
  * This class is responsible for building a property element from a PhpParser node.
@@ -182,10 +180,6 @@ final class PropertyBuilder
      */
     private function isAsymmetric(Param|PropertyIterator $node): bool
     {
-        if (method_exists($node, 'isPrivateSet') === false) {
-            return false;
-        }
-
         return $node->isPublicSet() || $node->isProtectedSet() || $node->isPrivateSet();
     }
 
@@ -210,28 +204,11 @@ final class PropertyBuilder
 
     private function buildReadVisibility(Param|PropertyIterator $node): Visibility
     {
-        if ($node instanceof Param && method_exists($node, 'isPublic') === false) {
-            return $this->buildVisibilityFromFlags($node->flags);
-        }
-
         if ($node->isPrivate()) {
             return new Visibility(Visibility::PRIVATE_);
         }
 
         if ($node->isProtected()) {
-            return new Visibility(Visibility::PROTECTED_);
-        }
-
-        return new Visibility(Visibility::PUBLIC_);
-    }
-
-    private function buildVisibilityFromFlags(int $flags): Visibility
-    {
-        if ((bool) ($flags & Modifiers::PRIVATE) === true) {
-            return new Visibility(Visibility::PRIVATE_);
-        }
-
-        if ((bool) ($flags & Modifiers::PROTECTED) === true) {
             return new Visibility(Visibility::PROTECTED_);
         }
 

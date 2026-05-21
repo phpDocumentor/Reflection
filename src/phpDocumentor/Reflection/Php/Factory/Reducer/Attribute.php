@@ -14,6 +14,7 @@ use phpDocumentor\Reflection\Php\StrategyContainer;
 use PhpParser\Node\Arg;
 use PhpParser\Node\AttributeGroup;
 use PhpParser\PrettyPrinter\Standard;
+use Webmozart\Assert\Assert;
 
 use function array_map;
 use function assert;
@@ -48,6 +49,7 @@ final class Attribute implements Reducer
             throw new InvalidArgumentException(sprintf('Attribute can not be added on %s', $carry::class));
         }
 
+        Assert::isArray($object->attrGroups);
         foreach ($object->attrGroups as $attrGroup) {
             assert($attrGroup instanceof AttributeGroup);
             foreach ($attrGroup->attrs as $attr) {

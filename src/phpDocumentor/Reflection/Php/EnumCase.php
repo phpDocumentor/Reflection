@@ -11,11 +11,6 @@ use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Metadata\MetaDataContainer as MetaDataContainerInterface;
 
-use function is_string;
-use function trigger_error;
-
-use const E_USER_DEPRECATED;
-
 /**
  * Represents a case in an Enum.
  *
@@ -35,7 +30,7 @@ final class EnumCase implements Element, MetaDataContainerInterface, AttributeCo
         private readonly DocBlock|null $docBlock,
         Location|null $location = null,
         Location|null $endLocation = null,
-        private Expression|string|null $value = null,
+        private Expression|null $value = null,
     ) {
         if ($location === null) {
             $location = new Location(-1);
@@ -47,16 +42,6 @@ final class EnumCase implements Element, MetaDataContainerInterface, AttributeCo
 
         $this->location = $location;
         $this->endLocation = $endLocation;
-        if (!is_string($this->value)) {
-            return;
-        }
-
-        trigger_error(
-            'Expression values for enum cases should be of type Expression, support for strings will be '
-            . 'removed in 7.x',
-            E_USER_DEPRECATED,
-        );
-        $this->value = new Expression($this->value, []);
     }
 
     #[Override]
@@ -89,21 +74,8 @@ final class EnumCase implements Element, MetaDataContainerInterface, AttributeCo
     /**
      * Returns the value for this enum case.
      */
-    public function getValue(bool $asString = true): Expression|string|null
+    public function getValue(): Expression|null
     {
-        if ($this->value === null) {
-            return null;
-        }
-
-        if ($asString) {
-            trigger_error(
-                'The enum case value will become of type Expression by default',
-                E_USER_DEPRECATED,
-            );
-
-            return (string) $this->value;
-        }
-
         return $this->value;
     }
 }

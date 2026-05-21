@@ -23,9 +23,7 @@ use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\PropertyHook;
 use PhpParser\Node\Stmt\Property as PropertyNode;
-
-use function method_exists;
-use function property_exists;
+use Webmozart\Assert\Assert;
 
 /**
  * This class acts like a combination of a PropertyNode and PropertyProperty to
@@ -118,10 +116,6 @@ final class PropertyIterator implements Iterator
      */
     public function isAsymmetric(): bool
     {
-        if (method_exists($this->property, 'isPrivateSet') === false) {
-            return false;
-        }
-
         return $this->property->isPublicSet() || $this->property->isProtectedSet() || $this->property->isPrivateSet();
     }
 
@@ -201,16 +195,15 @@ final class PropertyIterator implements Iterator
      */
     public function getFqsen(): Fqsen
     {
-        return $this->property->props[$this->index]->getAttribute('fqsen');
+        $fqsen = $this->property->props[$this->index]->getAttribute('fqsen');
+        Assert::isInstanceOf($fqsen, Fqsen::class);
+
+        return $fqsen;
     }
 
     /** @return PropertyHook[] */
     public function getHooks(): array
     {
-        if (property_exists($this->property, 'hooks') === false) {
-            return [];
-        }
-
         return $this->property->hooks;
     }
 
@@ -230,7 +223,7 @@ final class PropertyIterator implements Iterator
 
     /** @link http://php.net/manual/en/iterator.key.php */
     #[Override]
-    public function key(): int|null
+    public function key(): int
     {
         return $this->index;
     }

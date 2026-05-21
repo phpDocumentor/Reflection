@@ -20,6 +20,7 @@ use phpDocumentor\Reflection\Php\Class_ as ClassElement;
 use phpDocumentor\Reflection\Php\File as FileElement;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use PhpParser\Node\Stmt\Class_ as ClassNode;
+use Webmozart\Assert\Assert;
 
 use function assert;
 
@@ -44,12 +45,15 @@ final class Class_ extends AbstractFactory
      * @param ClassNode $object
      */
     #[Override]
-    protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies): object|null
+    protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies): object
     {
         $docBlock = $this->createDocBlock($object->getDocComment(), $context->getTypeContext());
 
+        $fqsen = $object->getAttribute('fqsen');
+        Assert::isInstanceOf($fqsen, Fqsen::class);
+
         $classElement = new ClassElement(
-            $object->getAttribute('fqsen'),
+            $fqsen,
             $docBlock,
             isset($object->extends) ? new Fqsen('\\' . $object->extends) : null,
             $object->isAbstract(),

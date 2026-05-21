@@ -17,6 +17,7 @@ use phpDocumentor\Reflection\DocBlock as DocBlockDescriptor;
 use phpDocumentor\Reflection\DocBlockFactoryInterface;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\Class_ as ClassElement;
+use phpDocumentor\Reflection\Php\Expression;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategies;
 use phpDocumentor\Reflection\Php\Property as PropertyDescriptor;
 use PhpParser\Comment\Doc;
@@ -123,8 +124,8 @@ final class PropertyTest extends TestCase
         next($properties);
         $property2 = current($properties);
 
-        $this->assertProperty($property1, 'private', 'property1', '\'MyDefault1\'');
-        $this->assertProperty($property2, 'private', 'property2', '\'MyDefault2\'');
+        $this->assertProperty($property1, 'private', 'property1', new Expression("'MyDefault1'"));
+        $this->assertProperty($property2, 'private', 'property2', new Expression("'MyDefault2'"));
     }
 
     private function buildPropertyMock(int $modifier): PropertyNode
@@ -139,7 +140,7 @@ final class PropertyTest extends TestCase
         PropertyDescriptor $property,
         string $visibility,
         string $name = 'property',
-        string|null $default = '\'MyDefault\'',
+        Expression|null $default = new Expression("'MyDefault'"),
     ): void {
         $this->assertInstanceOf(PropertyDescriptor::class, $property);
         $this->assertEquals('\myClass::$' . $name, (string) $property->getFqsen());

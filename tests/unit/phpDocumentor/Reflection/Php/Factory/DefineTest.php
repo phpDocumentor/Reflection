@@ -148,7 +148,7 @@ final class DefineTest extends TestCase
     {
         $this->assertInstanceOf(ConstantDescriptor::class, $constant);
         $this->assertEquals($namespace . '\\MY_CONST1', (string) $constant->getFqsen());
-        $this->assertEquals('\'a\'', $constant->getValue());
+        $this->assertEquals('\'a\'', (string) $constant->getValue());
         $this->assertEquals('public', (string) $constant->getVisibility());
     }
 }

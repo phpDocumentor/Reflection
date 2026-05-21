@@ -19,6 +19,7 @@ use phpDocumentor\Reflection\Fqsen;
 use PhpParser\Comment\Doc;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Stmt\Const_;
+use Webmozart\Assert\Assert;
 
 /** @implements Iterator<int, GlobalConstantIterator> */
 final class GlobalConstantIterator implements Iterator
@@ -66,7 +67,10 @@ final class GlobalConstantIterator implements Iterator
      */
     public function getFqsen(): Fqsen
     {
-        return $this->constant->consts[$this->index]->getAttribute('fqsen');
+        $fqsen = $this->constant->consts[$this->index]->getAttribute('fqsen');
+        Assert::isInstanceOf($fqsen, Fqsen::class);
+
+        return $fqsen;
     }
 
     /**
@@ -105,7 +109,7 @@ final class GlobalConstantIterator implements Iterator
 
     /** @link http://php.net/manual/en/iterator.key.php */
     #[Override]
-    public function key(): int|null
+    public function key(): int
     {
         return $this->index;
     }

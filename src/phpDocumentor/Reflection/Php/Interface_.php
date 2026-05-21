@@ -57,6 +57,7 @@ final class Interface_ implements Element, MetaDataContainerInterface, Attribute
         Location|null $location = null,
         Location|null $endLocation = null,
     ) {
+        // @phpstan-ignore staticMethod.alreadyNarrowedType (runtime guard for invalid callers despite @param annotation)
         Assert::allIsInstanceOf($parents, Fqsen::class);
         $this->location    = $location ?: new Location(-1);
         $this->endLocation = $endLocation ?: new Location(-1);

@@ -57,7 +57,7 @@ jobs:
     uses: "phpDocumentor/.github/.github/workflows/static-analysis.yml@main"
     with:
       php-version: "8.2"
-      php-extensions: "none, ctype, dom, json, mbstring, phar, simplexml, tokenizer, xml, xmlwriter, fileinfo, pcntl, posix"
+      php-extensions: "none, ctype, dom, json, mbstring, phar, simplexml, tokenizer, xml, xmlwriter, fileinfo, pcntl, posix, iconv"
 
   unit-tests:
     name: "Unit test"
