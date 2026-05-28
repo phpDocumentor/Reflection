@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\NodeVisitor;
 
+use InvalidArgumentException;
 use Override;
 use phpDocumentor\Reflection\Fqsen;
 use PhpParser\Node;
@@ -118,14 +119,13 @@ final class ElementNameResolver extends NodeVisitorAbstract
             case Function_::class:
                 $this->parts->push($node->name . '()');
                 $this->setFqsen($node);
-
-                return NodeTraverser::DONT_TRAVERSE_CHILDREN;
+                break;
 
             case ClassMethod::class:
                 $this->parts->push('::' . $node->name . '()');
                 $this->setFqsen($node);
 
-                return NodeTraverser::DONT_TRAVERSE_CHILDREN;
+                break;
 
             case ClassConst::class:
                 $this->parts->push('::');
@@ -172,7 +172,12 @@ final class ElementNameResolver extends NodeVisitorAbstract
 
     private function setFqsen(Node $node): void
     {
-        $fqsen = new Fqsen($this->buildName());
-        $node->setAttribute('fqsen', $fqsen);
+        try {
+            $fqsen = new Fqsen($this->buildName());
+            $node->setAttribute('fqsen', $fqsen);
+        } catch (InvalidArgumentException) {
+            // If the name is invalid, we do not set the fqsen attribute. This allows us to continue processing
+            // the rest of the nodes without interruption.
+        }
     }
 }
