@@ -75,7 +75,7 @@ class ProjectCreationTest extends MockeryTestCase
         );
         $constant = $project->getFiles()[$fileName]->getClasses()['\\Pizza']->getConstants()['\\Pizza::PACKAGING'];
 
-        $this->assertEquals('\'box\'', $constant->getValue());
+        $this->assertEquals('\'box\'', (string) $constant->getValue());
     }
 
     public function testTypedPropertiesReturnTheirType() : void
@@ -141,7 +141,7 @@ class ProjectCreationTest extends MockeryTestCase
                     '{{ PHPDOC37a6259cc0c1dae299a7866489dff0bd }}' => new Null_(),
                 ],
             ),
-            $sauceArgument->getDefault(false)
+            $sauceArgument->getDefault()
         );
 
     }
@@ -270,7 +270,7 @@ class ProjectCreationTest extends MockeryTestCase
                     '{{ PHPDOCa2f2ed4f8ebc2cbb4c21a29dc40ab61d }}' => new Fqsen('\Acme\Plugin::class'),
                 ],
             ),
-            $functions['\foo()']->getArguments()[0]->getDefault(false)
+            $functions['\foo()']->getArguments()[0]->getDefault()
         );
 
         self::assertEquals(
@@ -280,7 +280,7 @@ class ProjectCreationTest extends MockeryTestCase
                     '{{ PHPDOCa8cfde6331bd59eb2ac96f8911c4b666 }}' => new Object_(),
                 ],
             ),
-            $functions['\bar()']->getArguments()[0]->getDefault(false)
+            $functions['\bar()']->getArguments()[0]->getDefault()
         );
     }
 }

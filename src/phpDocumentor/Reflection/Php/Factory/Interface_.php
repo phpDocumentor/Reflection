@@ -49,15 +49,18 @@ final class Interface_ extends AbstractFactory implements ProjectFactoryStrategy
         ContextStack $context,
         object $object,
         StrategyContainer $strategies,
-    ): object|null {
+    ): object {
         $docBlock = $this->createDocBlock($object->getDocComment(), $context->getTypeContext());
         $parents  = [];
         foreach ($object->extends as $extend) {
             $parents['\\' . (string) $extend] = new Fqsen('\\' . (string) $extend);
         }
 
+        $fqsen = $object->getAttribute('fqsen');
+        Assert::isInstanceOf($fqsen, Fqsen::class);
+
         $interface = new InterfaceElement(
-            $object->getAttribute('fqsen'),
+            $fqsen,
             $parents,
             $docBlock,
             new Location($object->getLine()),

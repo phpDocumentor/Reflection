@@ -63,7 +63,7 @@ final class EnumTest extends TestCase
         self::assertInstanceOf(Enum_::class, $enum);
         self::assertCount(2, $enum->getConstants());
         self::assertArrayHasKey('\MyNamespace\MyEnumWithConstant::MYCONST', $enum->getConstants());
-        self::assertSame("'MyConstValue'", $enum->getConstants()['\MyNamespace\MyEnumWithConstant::MYCONST']->getValue());
+        self::assertSame("'MyConstValue'", (string) $enum->getConstants()['\MyNamespace\MyEnumWithConstant::MYCONST']->getValue());
     }
 
     public function testBackedEnum(): void
@@ -77,8 +77,8 @@ final class EnumTest extends TestCase
         self::assertArrayHasKey('\MyNamespace\MyBackedEnum::VALUE1', $enum->getCases());
         self::assertArrayHasKey('\MyNamespace\MyBackedEnum::VALUE2', $enum->getCases());
 
-        self::assertSame("'this is value1'", $enum->getCases()['\MyNamespace\MyBackedEnum::VALUE1']->getValue());
-        self::assertSame("'this is value2'", $enum->getCases()['\MyNamespace\MyBackedEnum::VALUE2']->getValue());
+        self::assertSame("'this is value1'", (string) $enum->getCases()['\MyNamespace\MyBackedEnum::VALUE1']->getValue());
+        self::assertSame("'this is value2'", (string) $enum->getCases()['\MyNamespace\MyBackedEnum::VALUE2']->getValue());
     }
 
     public function testEnumSupportInProperty(): void
@@ -89,7 +89,7 @@ final class EnumTest extends TestCase
 
         self::assertEquals(
             '\MyNamespace\MyEnum::VALUE1',
-            $class->getProperties()['\MyNamespace\EnumConsumer::$myEnum']->getDefault()
+            (string) $class->getProperties()['\MyNamespace\EnumConsumer::$myEnum']->getDefault()
         );
 
         self::assertEquals(
@@ -117,7 +117,7 @@ final class EnumTest extends TestCase
 
         self::assertEquals(
             '\MyNamespace\MyEnum::VALUE1',
-            $method->getArguments()[0]->getDefault()
+            (string) $method->getArguments()[0]->getDefault()
         );
     }
 }

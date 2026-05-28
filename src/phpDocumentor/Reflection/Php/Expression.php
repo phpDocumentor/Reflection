@@ -88,6 +88,7 @@ final class Expression
     public function __construct(string $expression, array $parts = [])
     {
         Assert::stringNotEmpty($expression);
+        // @phpstan-ignore staticMethod.alreadyNarrowedType (runtime guard for invalid callers despite @param annotation)
         Assert::allIsInstanceOfAny($parts, [Fqsen::class, Type::class]);
 
         $this->expression = $expression;

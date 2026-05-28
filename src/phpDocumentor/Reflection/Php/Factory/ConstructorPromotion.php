@@ -46,7 +46,7 @@ final class ConstructorPromotion extends AbstractFactory
 
     /** @param ClassMethod $object */
     #[Override]
-    protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies): object|null
+    protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies): object
     {
         $this->methodStrategy->create($context, $object, $strategies);
 
@@ -67,12 +67,15 @@ final class ConstructorPromotion extends AbstractFactory
         Assert::isInstanceOf($methodContainer, ClassElement::class);
         Assert::isInstanceOf($param->var, Variable::class);
 
+        $varName = $param->var->name;
+        Assert::string($varName);
+
         $property = PropertyBuilder::create(
             $this->valueConverter,
             $this->docBlockFactory,
             $strategies,
             $this->reducers,
-        )->fqsen(new Fqsen($methodContainer->getFqsen() . '::$' . (string) $param->var->name))
+        )->fqsen(new Fqsen($methodContainer->getFqsen() . '::$' . $varName))
             ->visibility($param)
             ->type($param->type)
             ->docblock($param->getDocComment())

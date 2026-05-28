@@ -51,7 +51,7 @@ class ConstructorPromotionTest extends TestCase
         $class = $file->getClasses()['\\PHP8\\ConstructorPromotion'];
 
         $constructor = $this->expectedConstructorMethod();
-        $constructor->addArgument(new Argument('name', new String_(), "'default name'"));
+        $constructor->addArgument(new Argument('name', new String_(), new Expression("'default name'")));
         $constructor->addArgument(
             new Argument(
                 'email',
@@ -149,7 +149,7 @@ class ConstructorPromotionTest extends TestCase
                 ],
                 new Context('PHP8', ['DateTimeImmutable' => 'DateTimeImmutable'])
             ),
-            "'default name'",
+            new Expression("'default name'"),
             false,
             new Location(26),
             new Location(26),

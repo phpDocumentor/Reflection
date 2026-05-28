@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use Override;
+use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\File as FileElement;
 use phpDocumentor\Reflection\Php\Function_ as FunctionDescriptor;
@@ -47,12 +48,15 @@ final class Function_ extends AbstractFactory implements ProjectFactoryStrategy
         ContextStack $context,
         object $object,
         StrategyContainer $strategies,
-    ): object|null {
+    ): object {
         $file = $context->peek();
         Assert::isInstanceOf($file, FileElement::class);
 
+        $fqsen = $object->getAttribute('fqsen');
+        Assert::isInstanceOf($fqsen, Fqsen::class);
+
         $function = new FunctionDescriptor(
-            $object->getAttribute('fqsen'),
+            $fqsen,
             $this->createDocBlock($object->getDocComment(), $context->getTypeContext()),
             new Location($object->getLine()),
             new Location($object->getEndLine()),

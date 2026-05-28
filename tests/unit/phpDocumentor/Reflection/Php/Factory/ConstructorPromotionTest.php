@@ -8,6 +8,7 @@ use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlockFactoryInterface;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Php\Class_ as ClassElement;
+use phpDocumentor\Reflection\Php\Expression;
 use phpDocumentor\Reflection\Php\Interface_ as InterfaceElement;
 use phpDocumentor\Reflection\Php\Project;
 use phpDocumentor\Reflection\Php\ProjectFactoryStrategy;
@@ -127,7 +128,7 @@ final class ConstructorPromotionTest extends TestCase
         self::assertInstanceOf(PropertyElement::class, $property);
         self::assertEquals($visibility, $property->getVisibility());
         self::assertSame($docBlock, $property->getDocBlock());
-        self::assertSame('myType', $property->getDefault());
+        self::assertEquals(new Expression('myType'), $property->getDefault());
         self::assertEquals('\MyClass::$myArgument', $property->getFqsen());
         self::assertSame($readOnly, $property->isReadOnly());
     }

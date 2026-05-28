@@ -19,6 +19,7 @@ use phpDocumentor\Reflection\Php\Factory\ContextStack;
 use SplPriorityQueue;
 
 use function get_debug_type;
+use function is_object;
 use function sprintf;
 
 final class ProjectFactoryStrategies implements StrategyContainer
@@ -49,9 +50,11 @@ final class ProjectFactoryStrategies implements StrategyContainer
     #[Override]
     public function findMatching(ContextStack $context, mixed $object): ProjectFactoryStrategy
     {
-        foreach (clone $this->strategies as $strategy) {
-            if ($strategy->matches($context, $object)) {
-                return $strategy;
+        if (is_object($object)) {
+            foreach (clone $this->strategies as $strategy) {
+                if ($strategy->matches($context, $object)) {
+                    return $strategy;
+                }
             }
         }
 

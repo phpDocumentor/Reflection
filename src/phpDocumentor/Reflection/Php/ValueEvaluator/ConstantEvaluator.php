@@ -9,6 +9,7 @@ use PhpParser\ConstExprEvaluationException;
 use PhpParser\ConstExprEvaluator;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Scalar\MagicConst\Namespace_;
+use Webmozart\Assert\Assert;
 
 use function sprintf;
 
@@ -21,7 +22,10 @@ final class ConstantEvaluator
         // @codeCoverageIgnoreStart
         $evaluator = new ConstExprEvaluator(fn (Expr $expr): string => $this->evaluateFallback($expr, $contextStack));
 
-        return $evaluator->evaluateSilently($expr);
+        $result = $evaluator->evaluateSilently($expr);
+        Assert::string($result);
+
+        return $result;
         // @codeCoverageIgnoreEnd
     }
 

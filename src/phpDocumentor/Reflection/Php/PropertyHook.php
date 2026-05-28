@@ -44,7 +44,7 @@ final class PropertyHook implements AttributeContainer, MetaDataContainerInterfa
     /**
      * Returns the Visibility of this hook.
      */
-    public function getVisibility(): Visibility|null
+    public function getVisibility(): Visibility
     {
         return $this->visibility;
     }

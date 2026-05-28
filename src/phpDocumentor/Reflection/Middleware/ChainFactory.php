@@ -25,6 +25,7 @@ final class ChainFactory
     public static function createExecutionChain(array $middlewareList, callable $lastCallable): callable
     {
         while ($middleware = array_pop($middlewareList)) {
+            // @phpstan-ignore instanceof.alwaysTrue (runtime guard for invalid callers despite @param Middleware[])
             if (!$middleware instanceof Middleware) {
                 throw new InvalidArgumentException(
                     sprintf(
@@ -35,7 +36,7 @@ final class ChainFactory
                 );
             }
 
-            $lastCallable = static fn ($command): object => $middleware->execute($command, $lastCallable);
+            $lastCallable = static fn (Command $command): object => $middleware->execute($command, $lastCallable);
         }
 
         return $lastCallable;

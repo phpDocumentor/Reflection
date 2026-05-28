@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use Override;
+use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\File as FileElement;
 use phpDocumentor\Reflection\Php\StrategyContainer;
@@ -39,10 +40,13 @@ final class Trait_ extends AbstractFactory
      * @param TraitNode $object
      */
     #[Override]
-    protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies): object|null
+    protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies): object
     {
+        $fqsen = $object->getAttribute('fqsen');
+        Assert::isInstanceOf($fqsen, Fqsen::class);
+
         $trait = new TraitElement(
-            $object->getAttribute('fqsen'),
+            $fqsen,
             $this->createDocBlock($object->getDocComment(), $context->getTypeContext()),
             new Location($object->getLine()),
             new Location($object->getEndLine()),

@@ -112,8 +112,7 @@ final class PropertyTest extends TestCase
 
         $expression = new Expression('a');
         $property = new Property($this->fqsen, $this->visibility, $this->docBlock, $expression, true);
-        self::assertSame('a', $property->getDefault());
-        self::assertSame($expression, $property->getDefault(false));
+        self::assertSame($expression, $property->getDefault());
     }
 
     public function testGetDocBlock(): void

@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="6.8.2@720ed6b578ac24f9543c65c3d4cecea0ff348ccd">
+<files psalm-version="6.16.1@f1f5de594dc76faf8784e02d3dc4716c91c6f6ac">
   <file src="src/phpDocumentor/Reflection/File/LocalFile.php">
-    <FalsableReturnStatement>
-      <code><![CDATA[md5_file($this->path)]]></code>
-    </FalsableReturnStatement>
-    <InvalidFalsableReturnType>
-      <code><![CDATA[string]]></code>
-    </InvalidFalsableReturnType>
     <UnusedClass>
       <code><![CDATA[LocalFile]]></code>
     </UnusedClass>
@@ -18,12 +12,6 @@
     </PossiblyUnusedMethod>
   </file>
   <file src="src/phpDocumentor/Reflection/Middleware/ChainFactory.php">
-    <MissingClosureParamType>
-      <code><![CDATA[$command]]></code>
-    </MissingClosureParamType>
-    <MixedArgument>
-      <code><![CDATA[$command]]></code>
-    </MixedArgument>
     <MixedArgumentTypeCoercion>
       <code><![CDATA[$lastCallable]]></code>
     </MixedArgumentTypeCoercion>
@@ -59,9 +47,6 @@
     </PossiblyUndefinedMethod>
   </file>
   <file src="src/phpDocumentor/Reflection/Php/Factory/ClassConstantIterator.php">
-    <MixedReturnStatement>
-      <code><![CDATA[$this->classConstants->consts[$this->index]->getAttribute('fqsen')]]></code>
-    </MixedReturnStatement>
     <PossiblyUnusedMethod>
       <code><![CDATA[getName]]></code>
       <code><![CDATA[isPublic]]></code>
@@ -71,17 +56,11 @@
     <ImplicitToStringCast>
       <code><![CDATA[$object->extends]]></code>
     </ImplicitToStringCast>
-    <MixedArgument>
-      <code><![CDATA[$object->getAttribute('fqsen')]]></code>
-    </MixedArgument>
   </file>
   <file src="src/phpDocumentor/Reflection/Php/Factory/ConstructorPromotion.php">
     <ImplicitToStringCast>
       <code><![CDATA[$methodContainer->getFqsen()]]></code>
     </ImplicitToStringCast>
-    <PossiblyInvalidCast>
-      <code><![CDATA[$param->var->name]]></code>
-    </PossiblyInvalidCast>
     <RedundantCondition>
       <code><![CDATA[$param->hooks]]></code>
     </RedundantCondition>
@@ -89,37 +68,7 @@
       <code><![CDATA[[]]]></code>
     </TypeDoesNotContainType>
   </file>
-  <file src="src/phpDocumentor/Reflection/Php/Factory/EnumCase.php">
-    <MixedArgument>
-      <code><![CDATA[$object->getAttribute('fqsen')]]></code>
-    </MixedArgument>
-  </file>
-  <file src="src/phpDocumentor/Reflection/Php/Factory/Enum_.php">
-    <MixedArgument>
-      <code><![CDATA[$object->getAttribute('fqsen')]]></code>
-    </MixedArgument>
-  </file>
-  <file src="src/phpDocumentor/Reflection/Php/Factory/File.php">
-    <MissingClosureParamType>
-      <code><![CDATA[$command]]></code>
-    </MissingClosureParamType>
-    <MixedArgument>
-      <code><![CDATA[$command]]></code>
-      <code><![CDATA[$file]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$file]]></code>
-    </MixedAssignment>
-  </file>
-  <file src="src/phpDocumentor/Reflection/Php/Factory/Function_.php">
-    <MixedArgument>
-      <code><![CDATA[$object->getAttribute('fqsen')]]></code>
-    </MixedArgument>
-  </file>
   <file src="src/phpDocumentor/Reflection/Php/Factory/GlobalConstantIterator.php">
-    <MixedReturnStatement>
-      <code><![CDATA[$this->constant->consts[$this->index]->getAttribute('fqsen')]]></code>
-    </MixedReturnStatement>
     <PossiblyUnusedMethod>
       <code><![CDATA[getName]]></code>
     </PossiblyUnusedMethod>
@@ -129,26 +78,15 @@
       <code><![CDATA[IfStatement]]></code>
     </ClassMustBeFinal>
   </file>
-  <file src="src/phpDocumentor/Reflection/Php/Factory/Interface_.php">
-    <MixedArgument>
-      <code><![CDATA[$object->getAttribute('fqsen')]]></code>
-    </MixedArgument>
-  </file>
   <file src="src/phpDocumentor/Reflection/Php/Factory/Method.php">
-    <MixedArgument>
-      <code><![CDATA[$object->getAttribute('fqsen')]]></code>
-    </MixedArgument>
     <UndefinedMethod>
       <code><![CDATA[addMethod]]></code>
     </UndefinedMethod>
   </file>
   <file src="src/phpDocumentor/Reflection/Php/Factory/Namespace_.php">
-    <ClassMustBeFinal>
-      <code><![CDATA[Namespace_]]></code>
-    </ClassMustBeFinal>
-    <MixedArgument>
-      <code><![CDATA[$object->getAttribute('fqsen') ?? new Fqsen('\\')]]></code>
-    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$rawFqsen]]></code>
+    </MixedAssignment>
   </file>
   <file src="src/phpDocumentor/Reflection/Php/Factory/Noop.php">
     <ClassMustBeFinal>
@@ -169,22 +107,19 @@
     </PropertyNotSetInConstructor>
   </file>
   <file src="src/phpDocumentor/Reflection/Php/Factory/PropertyIterator.php">
-    <MixedReturnStatement>
-      <code><![CDATA[$this->property->props[$this->index]->getAttribute('fqsen')]]></code>
-    </MixedReturnStatement>
     <PossiblyUnusedMethod>
       <code><![CDATA[getName]]></code>
     </PossiblyUnusedMethod>
+  </file>
+  <file src="src/phpDocumentor/Reflection/Php/Factory/Reducer/Attribute.php">
+    <RedundantCondition>
+      <code><![CDATA[assert($attrGroup instanceof AttributeGroup)]]></code>
+    </RedundantCondition>
   </file>
   <file src="src/phpDocumentor/Reflection/Php/Factory/Reducer/Parameter.php">
     <ClassMustBeFinal>
       <code><![CDATA[Parameter]]></code>
     </ClassMustBeFinal>
-  </file>
-  <file src="src/phpDocumentor/Reflection/Php/Factory/Trait_.php">
-    <MixedArgument>
-      <code><![CDATA[$object->getAttribute('fqsen')]]></code>
-    </MixedArgument>
   </file>
   <file src="src/phpDocumentor/Reflection/Php/NodesFactory.php">
     <ClassMustBeFinal>
@@ -209,17 +144,9 @@
     </PossiblyUnusedMethod>
   </file>
   <file src="src/phpDocumentor/Reflection/Php/ProjectFactoryStrategies.php">
-    <MixedArgument>
-      <code><![CDATA[$object]]></code>
-    </MixedArgument>
     <MixedPropertyTypeCoercion>
       <code><![CDATA[new SplPriorityQueue()]]></code>
     </MixedPropertyTypeCoercion>
-  </file>
-  <file src="src/phpDocumentor/Reflection/Php/ValueEvaluator/ConstantEvaluator.php">
-    <MixedReturnStatement>
-      <code><![CDATA[$evaluator->evaluateSilently($expr)]]></code>
-    </MixedReturnStatement>
   </file>
   <file src="src/phpDocumentor/Reflection/Types/NamespaceNodeToContext.php">
     <ClassMustBeFinal>

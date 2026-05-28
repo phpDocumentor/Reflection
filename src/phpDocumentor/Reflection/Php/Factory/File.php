@@ -34,6 +34,7 @@ use PhpParser\Node\Stmt\Function_ as FunctionNode;
 use PhpParser\Node\Stmt\InlineHTML;
 use PhpParser\Node\Stmt\Interface_ as InterfaceNode;
 use PhpParser\Node\Stmt\Trait_ as TraitNode;
+use Webmozart\Assert\Assert;
 
 use function array_merge;
 use function in_array;
@@ -64,7 +65,7 @@ final class File extends AbstractFactory
     ) {
         parent::__construct($docBlockFactory);
 
-        $lastCallable = fn ($command): FileElement => $this->createFile($command);
+        $lastCallable = fn (CreateCommand $command): FileElement => $this->createFile($command);
 
         $this->middlewareChain = ChainFactory::createExecutionChain($middleware, $lastCallable);
     }
@@ -96,6 +97,7 @@ final class File extends AbstractFactory
             return null;
         }
 
+        Assert::isInstanceOf($file, FileElement::class);
         $context->getProject()->addFile($file);
 
         return $file;

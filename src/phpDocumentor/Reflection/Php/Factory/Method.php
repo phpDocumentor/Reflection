@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace phpDocumentor\Reflection\Php\Factory;
 
 use Override;
+use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Class_;
 use phpDocumentor\Reflection\Php\Enum_;
@@ -49,7 +50,7 @@ final class Method extends AbstractFactory
         ContextStack $context,
         object $object,
         StrategyContainer $strategies,
-    ): object|null {
+    ): object {
         $methodContainer = $context->peek();
         Assert::isInstanceOfAny(
             $methodContainer,
@@ -61,8 +62,11 @@ final class Method extends AbstractFactory
             ],
         );
 
+        $fqsen = $object->getAttribute('fqsen');
+        Assert::isInstanceOf($fqsen, Fqsen::class);
+
         $method = new MethodDescriptor(
-            $object->getAttribute('fqsen'),
+            $fqsen,
             $this->buildVisibility($object),
             $this->createDocBlock($object->getDocComment(), $context->getTypeContext()),
             $object->isAbstract(),

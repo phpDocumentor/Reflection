@@ -6,6 +6,7 @@ namespace phpDocumentor\Reflection\Php\Factory;
 
 use Override;
 use phpDocumentor\Reflection\DocBlockFactoryInterface;
+use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\Enum_ as EnumElement;
 use phpDocumentor\Reflection\Php\EnumCase as EnumCaseElement;
@@ -15,6 +16,7 @@ use phpDocumentor\Reflection\Php\Factory\Reducer\Reducer;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use PhpParser\Node\Stmt\EnumCase as EnumCaseNode;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
+use Webmozart\Assert\Assert;
 
 use function assert;
 use function is_string;
@@ -38,14 +40,17 @@ final class EnumCase extends AbstractFactory
 
     /** @param EnumCaseNode $object */
     #[Override]
-    protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies): object|null
+    protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies): object
     {
         $docBlock = $this->createDocBlock($object->getDocComment(), $context->getTypeContext());
         $enum = $context->peek();
         assert($enum instanceof EnumElement);
 
+        $fqsen = $object->getAttribute('fqsen');
+        Assert::isInstanceOf($fqsen, Fqsen::class);
+
         $case = new EnumCaseElement(
-            $object->getAttribute('fqsen'),
+            $fqsen,
             $docBlock,
             new Location($object->getLine()),
             new Location($object->getEndLine()),

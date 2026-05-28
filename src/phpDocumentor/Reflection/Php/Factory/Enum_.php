@@ -19,6 +19,7 @@ use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Php\File as FileElement;
 use phpDocumentor\Reflection\Php\StrategyContainer;
 use PhpParser\Node\Stmt\Enum_ as EnumNode;
+use Webmozart\Assert\Assert;
 
 use function assert;
 
@@ -32,12 +33,15 @@ final class Enum_ extends AbstractFactory
 
     /** @param EnumNode $object */
     #[Override]
-    protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies): object|null
+    protected function doCreate(ContextStack $context, object $object, StrategyContainer $strategies): object
     {
         $docBlock = $this->createDocBlock($object->getDocComment(), $context->getTypeContext());
 
+        $fqsen = $object->getAttribute('fqsen');
+        Assert::isInstanceOf($fqsen, Fqsen::class);
+
         $enum = new \phpDocumentor\Reflection\Php\Enum_(
-            $object->getAttribute('fqsen'),
+            $fqsen,
             (new Type())->fromPhpParser($object->scalarType),
             $docBlock,
             new Location($object->getLine()),

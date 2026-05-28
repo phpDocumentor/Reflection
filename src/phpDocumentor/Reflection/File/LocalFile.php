@@ -16,6 +16,7 @@ namespace phpDocumentor\Reflection\File;
 use InvalidArgumentException;
 use Override;
 use phpDocumentor\Reflection\File;
+use Webmozart\Assert\Assert;
 
 use function file_exists;
 use function file_get_contents;
@@ -56,7 +57,10 @@ final class LocalFile implements File
     #[Override]
     public function md5(): string
     {
-        return md5_file($this->path);
+        $hash = md5_file($this->path);
+        Assert::string($hash);
+
+        return $hash;
     }
 
     /**
