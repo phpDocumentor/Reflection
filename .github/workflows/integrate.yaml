@@ -61,11 +61,11 @@ jobs:
 
   unit-tests:
     name: "Unit test"
-    uses: "phpDocumentor/.github/.github/workflows/continuous-integration.yml@v0.9"
+    uses: "phpDocumentor/.github/.github/workflows/continuous-integration.yml@v0.10"
 
   integration-tests:
     name: "Integration test"
-    uses: "phpDocumentor/.github/.github/workflows/continuous-integration.yml@v0.9"
+    uses: "phpDocumentor/.github/.github/workflows/continuous-integration.yml@v0.10"
     needs: "unit-tests"
     with:
       test-suite: "integration"
