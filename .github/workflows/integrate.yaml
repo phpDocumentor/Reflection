@@ -47,7 +47,7 @@ jobs:
 
   lint-root:
     name: "Lint root"
-    uses: "phpDocumentor/.github/.github/workflows/lint.yml@v0.9"
+    uses: "phpDocumentor/.github/.github/workflows/lint.yml@v0.10"
     with:
       php-version: "8.2"
       composer-options: "--no-check-publish --ansi"
